@@ -1,0 +1,16 @@
+android {
+    signingConfigs {
+        release {
+            keyAlias 'release'
+            keyPassword KEY_RELEASE_PASS
+            storeFile file(KEY_STORE_PATH)
+            storePassword KEY_STORE_PASS
+        }
+        debug {
+            keyAlias 'release'
+            keyPassword KEY_DEBUG_PASS
+            storeFile file(KEY_STORE_PATH)
+            storePassword KEY_STORE_PASS
+        }
+    }
+}

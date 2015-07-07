@@ -1,0 +1,23 @@
+android {
+    applicationVariants.all { variant ->
+        def buildName = variant.name;
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            def now = new Date()
+            def year = now.getAt(Calendar.YEAR);
+            def month = now.getAt(Calendar.MONTH);
+            def day = now.getAt(Calendar.DAY_OF_MONTH);
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                if (buildName == 'debug') {
+                    def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}-${year}${month}${day}.apk")
+                    output.outputFile = new File(outputFile.parent, fileName)
+                } else {
+                    def timemillis = Calendar.getInstance().getTimeInMillis();
+                    def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}-${year}${month}${day}-${timemillis}.apk")
+                    output.outputFile = new File(outputFile.parent, fileName)
+                }
+                println output.outputFile.toString();
+            }
+        }
+    }
+}

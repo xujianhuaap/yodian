@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+apply from: 'signing_config.gradle'
+apply from: 'apk.gradle'
+apply from: 'check.gradle'
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+    lintOptions {
+        abortOnError false
+    }
+    aaptOptions {
+        ignoreAssetsPattern "!.svn:!.git:!.ds_store:!*.scc:.*:<dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+    defaultConfig {
+        applicationId "maimeng.yodian.app.client.android"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //混淆
+            minifyEnabled true
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            //混淆
+            minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+dependencies {
+    compile(name:'hnet-release', ext:'aar')
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:design:22.2.0'
+    compile ('org.henjue.library:sharesdk:1.0.2_beta3') {
+        exclude module: 'hnet',group: 'org.henjue.library'
+    }
+}
