@@ -16,6 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".WebLauncher"
+            android:exported="true"
+            android:label="@string/title_activity_web_launcher" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="yodian" android:host="www.ketie.me" android:path="/launcher/yodian"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
