@@ -65,6 +65,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.zhy:percent-support-extends:1.0.1'
     compile 'org.henjue.library:hnet:1.0.0_beta2'
     compile ('org.henjue.library:sharesdk:1.0.2_beta3') {
