@@ -23,7 +23,7 @@ public class ErrorUtils {
             }else{
                 error.printStackTrace();
             }
-            Toast.makeText(context, "小可连接服务器出错了...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "连接服务器出错了...", Toast.LENGTH_SHORT).show();
         }else if(error.getKind()== HNetError.Kind.NETWORK){
             error.printStackTrace();
             Toast.makeText(context, "和服务器通讯失败...", Toast.LENGTH_SHORT).show();
@@ -33,7 +33,7 @@ public class ErrorUtils {
             }else{
                 error.printStackTrace();
             }
-            Toast.makeText(context, "小可不能处理服务器返回给我的数据....", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "不能处理服务器返回给我的数据....", Toast.LENGTH_SHORT).show();
         }else{
             if(!BuildConfig.DEBUG) {
                 CrashReport.postCatchedException(error);

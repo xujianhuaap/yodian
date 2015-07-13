@@ -2,32 +2,59 @@ package maimeng.yodian.app.client.android.view.auth;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
  * Created by android on 15-7-13.
  */
 public class AuthActivity extends AbstractActivity implements View.OnClickListener, Callback<AuthResponse> {
-    private View mBtnNext;
+    private View mBtnLogin;
     private AuthService service;
+    private EditText mMobile;
+    private WaitDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service=Network.getService(AuthService.class);
         setContentView(R.layout.activity_auth);
+        mMobile=(EditText)findViewById(R.id.mobile);
         setTitle("登录");
-        mBtnNext=findViewById(R.id.btn_next);
-        mBtnNext.setOnClickListener(this);
+        mBtnLogin =findViewById(R.id.btn_login);
+        findViewById(R.id.btn_getcode).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                service.getCode("18521524625",new ToastCallback(v.getContext()));
+            }
+        });
+        mBtnLogin.setOnClickListener(this);
+        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        findViewById(R.id.btn_clean).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMobile.setText("");
+            }
+        });
     }
 
     @Override
@@ -37,21 +64,28 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
 
     @Override
     public void start() {
-
+        dialog=WaitDialog.show(this,"登录中...");
     }
 
     @Override
-    public void success(AuthResponse authResponse, Response response) {
-        System.out.println(authResponse.getMsg());
+    public void success(AuthResponse res, Response response) {
+        if(res.isSuccess()){
+            UserAuth user = new UserAuth("", "", 0, res.getData().getToken(), res.getData().getUid(), res.getData().getNickname(), "");
+            user.write(this);
+            setResult(RESULT_OK);
+            finish();
+        }else{
+            Toast.makeText(this,res.getMsg(),Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void failure(HNetError hNetError) {
-            hNetError.printStackTrace();
+        ErrorUtils.checkError(this,hNetError);
     }
 
     @Override
     public void end() {
-
+        dialog.dismiss();
     }
 }

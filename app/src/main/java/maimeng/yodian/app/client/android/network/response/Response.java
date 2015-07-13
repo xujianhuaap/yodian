@@ -3,7 +3,9 @@ package maimeng.yodian.app.client.android.network.response;
 public class Response {
     private int code;
     private String msg;
-
+    public boolean isSuccess(){
+        return code==20000;
+    }
     public String getMsg() {
         return msg;
     }

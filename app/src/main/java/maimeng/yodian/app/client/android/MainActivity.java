@@ -3,10 +3,12 @@ package maimeng.yodian.app.client.android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.umeng.analytics.MobclickAgent;
 
+import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
 import maimeng.yodian.app.client.android.view.proxy.ActivityProxyController;
@@ -16,12 +18,16 @@ import maimeng.yodian.app.client.android.view.proxy.MainListProxy;
 
 public class MainActivity extends AbstractActivity  {
     private ActivityProxyController controller;
+    public static final int REQUEST_AUTH=0x1001;
+    private MainListProxy mListProxy;
+    private MainHomeProxy mHomeProxy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main, false);
-        final MainListProxy mListProxy = new MainListProxy(this, findViewById(R.id.list_root));
-        final MainHomeProxy mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
+        mListProxy = new MainListProxy(this, findViewById(R.id.list_root));
+        mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
         controller=new ActivityProxyController(mListProxy,mHomeProxy);
         final FloatingActionButton floatButton = (FloatingActionButton)findViewById(R.id.btn_float);
         floatButton.setOnClickListener(new View.OnClickListener() {
@@ -32,9 +38,25 @@ public class MainActivity extends AbstractActivity  {
                 controller.onFloatClick((FloatingActionButton) v);
             }
         });
-        mListProxy.init();
-        startActivity(new Intent(this, AuthActivity.class));
+        if(TextUtils.isEmpty(UserAuth.read(this).token)){
+            startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_AUTH);
+        }else {
+            mListProxy.init();
+        }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_AUTH){
+            if(resultCode==RESULT_OK){
+                mListProxy.init();
+            }else{
+                finish();
+            }
+        }
+    }
+
     @Override
     protected void onTitleChanged(CharSequence title, int color) {
         super.onTitleChanged(title, color);
