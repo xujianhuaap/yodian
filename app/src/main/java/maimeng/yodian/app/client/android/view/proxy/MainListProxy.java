@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android;
+package maimeng.yodian.app.client.android.view.proxy;
 
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
@@ -8,12 +8,14 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
-import android.widget.TextView;
+
+import maimeng.yodian.app.client.android.MainActivity;
+import maimeng.yodian.app.client.android.view.proxy.ActivityProxy;
 
 /**
  * Created by android on 15-7-13.
  */
-public class MainListProxy implements ActivityProxy{
+public class MainListProxy implements ActivityProxy {
     private final View mView;
     private final MainActivity mActivity;
     private boolean inited=false;

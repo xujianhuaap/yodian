@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android;
+package maimeng.yodian.app.client.android.view.proxy;
 
 import android.support.design.widget.FloatingActionButton;
 

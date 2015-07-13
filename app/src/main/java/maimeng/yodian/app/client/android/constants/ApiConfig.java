@@ -41,7 +41,7 @@ public class ApiConfig {
         }
     }
     public static class Api {
-        public static final String USER_AUTH = "/user/reglogin";//用户授权(登陆或注册)
+        public static final String USER_LOGIN = "/login/login";//手机号登录
 
 
     }

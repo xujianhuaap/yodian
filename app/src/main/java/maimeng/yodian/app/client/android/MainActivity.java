@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -7,6 +8,10 @@ import android.view.View;
 import com.umeng.analytics.MobclickAgent;
 
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.auth.AuthActivity;
+import maimeng.yodian.app.client.android.view.proxy.ActivityProxyController;
+import maimeng.yodian.app.client.android.view.proxy.MainHomeProxy;
+import maimeng.yodian.app.client.android.view.proxy.MainListProxy;
 
 
 public class MainActivity extends AbstractActivity  {
@@ -28,6 +33,7 @@ public class MainActivity extends AbstractActivity  {
             }
         });
         mListProxy.init();
+        startActivity(new Intent(this, AuthActivity.class));
     }
     @Override
     protected void onTitleChanged(CharSequence title, int color) {

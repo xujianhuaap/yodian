@@ -33,7 +33,7 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
          * 添加一些任何任何接口都必须有的参数
          */
         request.add("versionName", String.valueOf(YApplicaton.versionCode));
-        request.add("sign", "maimengkeji@4c6a32ac439d8a355215f9c956bdf72c");
+//        request.add("sign", "maimengkeji@4c6a32ac439d8a355215f9c956bdf72c");
         request.add("clientType",2);
         request.add("channelType", YApplicaton.channelId);
         if(mContext!=null){
@@ -45,11 +45,11 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
         }
 
 
-        String key = getKey(params);
-        if (key != null) {
-            params.put("key", key);
-        }
-        request.add("key", key);
+//        String key = getKey(params);
+//        if (key != null) {
+//            params.put("key", key);
+//        }
+//        request.add("key", key);
         LogUtil.i("RequestIntercept", new JSONObject(params).toString());
     }
 

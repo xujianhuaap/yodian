@@ -1,15 +1,17 @@
-package maimeng.yodian.app.client.android;
+package maimeng.yodian.app.client.android.view.proxy;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import maimeng.yodian.app.client.android.MainActivity;
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.MainHomeAdapter;
+import maimeng.yodian.app.client.android.view.proxy.ActivityProxy;
 
 /**
  * Created by android on 15-7-13.
