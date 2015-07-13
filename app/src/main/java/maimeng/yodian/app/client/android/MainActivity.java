@@ -13,17 +13,19 @@ public class MainActivity extends AbstractActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main, false);
-        MainListProxy mListProxy = new MainListProxy(this, findViewById(R.id.list_root));
-        MainHomeProxy mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
+        final MainListProxy mListProxy = new MainListProxy(this, findViewById(R.id.list_root));
+        final MainHomeProxy mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
         controller=new ActivityProxyController(mListProxy,mHomeProxy);
         final FloatingActionButton floatButton = (FloatingActionButton)findViewById(R.id.btn_float);
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mListProxy.isInited())mListProxy.init();
+                if(!mHomeProxy.isInited())mHomeProxy.init();
                 controller.onFloatClick((FloatingActionButton) v);
             }
         });
-        setTitle("优点精选");
+        mListProxy.init();
     }
     @Override
     protected void onTitleChanged(CharSequence title, int color) {

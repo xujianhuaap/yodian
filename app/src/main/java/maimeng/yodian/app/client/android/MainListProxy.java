@@ -1,6 +1,5 @@
 package maimeng.yodian.app.client.android;
 
-import android.animation.AnimatorSet;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -8,8 +7,6 @@ import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
@@ -19,17 +16,21 @@ import android.widget.TextView;
 public class MainListProxy implements ActivityProxy{
     private final View mView;
     private final MainActivity mActivity;
-    private final TextView mTitle;
-
+    private boolean inited=false;
     public MainListProxy(MainActivity activity, View view){
         this.mView=view;
         this.mActivity=activity;
-        this.mTitle=(TextView)view.findViewById(R.id.base_title);
+    }
+    public boolean isInited(){
+        return this.inited;
+    }
+    @Override
+    public void init() {
+        inited=true;
     }
 
     @Override
     public void onTitleChanged(CharSequence title, int color) {
-        if(mTitle!=null)mTitle.setText(title);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class MainListProxy implements ActivityProxy{
             @Override
             public void onAnimationEnd(Animation animation) {
                 button.setEnabled(true);
-                setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimary));
+//                setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimary));
             }
 
             @Override
@@ -62,6 +63,7 @@ public class MainListProxy implements ActivityProxy{
 
     @Override
     public void hide(final FloatingActionButton button) {
+        mActivity.setTitle("首页");
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         AnimationSet animationSet=new AnimationSet(true);
         animationSet.setDuration(300);
@@ -74,11 +76,8 @@ public class MainListProxy implements ActivityProxy{
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mActivity.setTitle("");
                 button.setEnabled(true);
-                if (android.os.Build.VERSION.SDK_INT >= 21) {
-                    setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimaryGreen));
-                }
+//                    setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimaryGreen));
             }
 
             @Override
