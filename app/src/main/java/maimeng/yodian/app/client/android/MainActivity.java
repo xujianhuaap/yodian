@@ -1,38 +1,34 @@
 package maimeng.yodian.app.client.android;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.design.widget.FloatingActionButton;
+import android.view.View;
+
+import maimeng.yodian.app.client.android.view.AbstractActivity;
 
 
-public class MainActivity extends ActionBarActivity {
-
+public class MainActivity extends AbstractActivity  {
+    private ActivityProxyController controller;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main, false);
+        MainListProxy mListProxy = new MainListProxy(this, findViewById(R.id.list_root));
+        MainHomeProxy mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
+        controller=new ActivityProxyController(mListProxy,mHomeProxy);
+        final FloatingActionButton floatButton = (FloatingActionButton)findViewById(R.id.btn_float);
+        floatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.onFloatClick((FloatingActionButton) v);
+            }
+        });
+        setTitle("优点精选");
     }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged(title, color);
+        controller.onTitleChanged(title,color);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

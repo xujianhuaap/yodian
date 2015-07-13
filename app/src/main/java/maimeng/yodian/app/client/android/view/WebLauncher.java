@@ -1,8 +1,7 @@
-package maimeng.yodian.app.client.android;
+package maimeng.yodian.app.client.android.view;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,8 +9,10 @@ import android.widget.TextView;
 
 import java.util.Set;
 
+import maimeng.yodian.app.client.android.R;
 
-public class WebLauncher extends ActionBarActivity {
+
+public class WebLauncher extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
