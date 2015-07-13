@@ -7,8 +7,9 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
-import maimeng.ketie.app.client.android.network2.response.ToastResponse;
-import maimeng.ketie.app.client.android.network2.utils.ErrorUtils;
+import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
+
 
 public class ToastCallback implements Callback<ToastResponse> {
     private final Context mContext;
@@ -27,7 +28,7 @@ public class ToastCallback implements Callback<ToastResponse> {
 
     @Override
     public void failure(HNetError hNetError) {
-        ErrorUtils.checkError(mContext,hNetError);
+        ErrorUtils.checkError(mContext, hNetError);
     }
 
     @Override

@@ -1,0 +1,79 @@
+android{
+    productFlavors {
+        home {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "home", CHANNEL_ID: 0,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi", CHANNEL_ID: 1,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        baidu {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu", CHANNEL_ID: 2,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.BaiduSplashActivity"]
+        }
+        _360 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360", CHANNEL_ID: 3,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        yingyongbao {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao", CHANNEL_ID: 4,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        google {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "google", CHANNEL_ID: 5,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        souhu {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "souhu", CHANNEL_ID: 6,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        sina {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sina", CHANNEL_ID: 7,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        Gfan {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Gfan", CHANNEL_ID: 8,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        appchina {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "appchina", CHANNEL_ID: 9,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        anzhi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhi", CHANNEL_ID: 10,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        anzhuo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhuo", CHANNEL_ID: 11,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        _91 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_91", CHANNEL_ID: 12,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia", CHANNEL_ID: 13,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        Nduo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Nduo", CHANNEL_ID: 14,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        mumayi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "mumayi", CHANNEL_ID: 15,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        lenovo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "lenovo", CHANNEL_ID: 16,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        samsung {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "samsung", CHANNEL_ID: 17,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        huawei {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "huawei", CHANNEL_ID: 18,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        _10010 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "10010", CHANNEL_ID: 19,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        _10000 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "10000", CHANNEL_ID: 20,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        amazon {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "amazon", CHANNEL_ID: 21,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        _163 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "163", CHANNEL_ID: 22,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+        meizu {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "meizu", CHANNEL_ID: 23,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+        }
+    }
+//    productFlavors.all {
+//        flavor -> flavor.manifestPlaceholders = [CHANNEL_ID: channel_id, UMENG_CHANNEL_VALUE: channel_name]
+//    }
+}

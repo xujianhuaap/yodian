@@ -10,11 +10,9 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
-
-import maimeng.ketie.app.client.android.KApplication;
-import maimeng.ketie.app.client.android.access.UserAuth;
-import maimeng.ketie.app.client.android.utils.LogUtil;
-import maimeng.ketie.app.client.android.utils.MD5Util;
+import maimeng.yodian.app.client.android.YApplicaton;
+import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.utils.MD5Util;
 
 /**
  * Created by android on 15-6-25.
@@ -34,16 +32,16 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
         /**
          * 添加一些任何任何接口都必须有的参数
          */
-        request.add("versionName", String.valueOf(KApplication.versionCode));
+        request.add("versionName", String.valueOf(YApplicaton.versionCode));
         request.add("sign", "maimengkeji@4c6a32ac439d8a355215f9c956bdf72c");
         request.add("clientType",2);
-        request.add("channelType", KApplication.channelId);
+        request.add("channelType", YApplicaton.channelId);
         if(mContext!=null){
-            UserAuth auth = UserAuth.read(mContext);
-            String token = auth.token;
-            if(auth!=null && !TextUtils.isEmpty(token) && !params.containsKey("token")){
-                request.add("token", token);
-            }
+//            UserAuth auth = UserAuth.read(mContext);
+//            String token = auth.token;
+//            if(auth!=null && !TextUtils.isEmpty(token) && !params.containsKey("token")){
+//                request.add("token", token);
+//            }
         }
 
 
@@ -52,7 +50,7 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
             params.put("key", key);
         }
         request.add("key", key);
-        LogUtil.i("RequestIntercept",new JSONObject(params).toString());
+        LogUtil.i("RequestIntercept", new JSONObject(params).toString());
     }
 
     private String getKey(Map<String, String> params) {

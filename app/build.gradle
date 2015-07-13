@@ -5,10 +5,10 @@ apply from: 'check.gradle'
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-    lintOptions {
-        abortOnError false
-        disable 'InvalidPackage'
-    }
+//    lintOptions {
+//        abortOnError false
+//        disable 'InvalidPackage'
+//    }
     aaptOptions {
         ignoreAssetsPattern "!.svn:!.git:!.ds_store:!*.scc:.*:<dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"
     }
@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
     defaultConfig {
-        applicationId "maimeng.yodian.app.client.android"
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1,LAUNCHER_ACTIVITY:"maimeng.yodian.app.client.android.MainActivity"]
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
@@ -50,13 +50,9 @@ android {
         }
     }
 }
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:gridlayout-v7:22.2.0'
     compile 'com.android.support:cardview-v7:22.2.0'

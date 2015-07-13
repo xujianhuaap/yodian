@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
+
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 
 
@@ -32,5 +34,14 @@ public class MainActivity extends AbstractActivity  {
         super.onTitleChanged(title, color);
         controller.onTitleChanged(title,color);
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 }

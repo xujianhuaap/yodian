@@ -24,9 +24,9 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 
-import maimeng.ketie.app.client.android.network2.Network;
-import maimeng.ketie.app.client.android.network2.response.TypeData;
-import maimeng.ketie.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.TypeData;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 
 
 public class GsonConverter implements Converter {
@@ -59,7 +59,7 @@ public class GsonConverter implements Converter {
             }
             String json = sb.toString();
             if(Network.getNet().getLogLevel()!= HNet.LogLevel.NONE){
-                LogUtil.i("GsonConverter",json);
+                LogUtil.i("GsonConverter", json);
             }
             return gson.fromJson(json, type);
         } catch (IOException | JsonParseException e) {

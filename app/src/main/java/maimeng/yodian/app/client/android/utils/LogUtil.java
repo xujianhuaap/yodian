@@ -3,7 +3,8 @@ package maimeng.yodian.app.client.android.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import maimeng.ketie.app.client.android.BuildConfig;
+import maimeng.yodian.app.client.android.BuildConfig;
+
 
 /**
  * 这个是日志打印工具类，在项目正式发布时，将isPrint设置为false则所有的日志不会打印在控制台

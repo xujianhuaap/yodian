@@ -23,8 +23,8 @@ public class ApiConfig {
     public static final String WEIBO_APP_KEY = "1947947813";
     public static final String QQ_APP_KEY = "1103508527";
 
+
     public static final String REDIRECT_URL = "http://sns.whalecloud.com/sina2/callback";
-    public static final String API_HEADIMG;
 
 
     public static final int SDK_VERSION= Build.VERSION.SDK_INT;
@@ -33,16 +33,13 @@ public class ApiConfig {
     static {
         if (BuildConfig.DEBUG) {
 
-            API_HOST = "http://test.maiquanshop.com/";
-            API_HEADIMG="http://mmckttest.oss-cn-hangzhou.aliyuncs.com/";
+            API_HOST = "http://skilltest.maiquanshop.com/";
 
 
         } else {
-            API_HOST = "http://api.maiquanshop.com/";
-            API_HEADIMG="http://image.maiquanshop.com/";
+            API_HOST = "http://skillapi.maiquanshop.com/";
         }
     }
-
     public static class Api {
         public static final String USER_AUTH = "/user/reglogin";//用户授权(登陆或注册)
 
