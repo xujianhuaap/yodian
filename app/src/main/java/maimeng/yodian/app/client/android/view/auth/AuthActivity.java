@@ -1,6 +1,8 @@
 package maimeng.yodian.app.client.android.view.auth;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,17 +33,12 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        service=Network.getService(AuthService.class);
+        service = Network.getService(AuthService.class);
         setContentView(R.layout.activity_auth);
-        mMobile=(EditText)findViewById(R.id.mobile);
+        mMobile = (EditText) findViewById(R.id.mobile);
         setTitle("登录");
-        mBtnLogin =findViewById(R.id.btn_login);
-        findViewById(R.id.btn_getcode).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                service.getCode("18521524625",new ToastCallback(v.getContext()));
-            }
-        });
+        mBtnLogin = findViewById(R.id.btn_login);
+        findViewById(R.id.btn_getcode).setOnClickListener(this);
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,29 +56,44 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        service.login("15884421212","123456","ahjfasdjfsahfkj",this);
+        Editable text = mMobile.getText();
+        if (text != null) {
+            if (v.getId() == R.id.btn_getcode) {
+                service.getCode(text.toString(), new ToastCallback(v.getContext()));
+            } else if (v.getId() == R.id.btn_login) {
+                Editable code = ((EditText) findViewById(R.id.code)).getText();
+                if(TextUtils.isEmpty(code)){
+                    Toast.makeText(this,R.string.code_input_empty_message,Toast.LENGTH_SHORT).show();
+                }else {
+                    service.login(text.toString(),code.toString(), "", this);
+                }
+            }
+        } else {
+            Toast.makeText(this,R.string.mobile_input_empty_message,Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
     public void start() {
-        dialog=WaitDialog.show(this,"登录中...");
+        dialog = WaitDialog.show(this, "登录中...");
     }
 
     @Override
     public void success(AuthResponse res, Response response) {
-        if(res.isSuccess()){
+        if (res.isSuccess()) {
             UserAuth user = new UserAuth("", "", 0, res.getData().getToken(), res.getData().getUid(), res.getData().getNickname(), "");
             user.write(this);
             setResult(RESULT_OK);
             finish();
-        }else{
-            Toast.makeText(this,res.getMsg(),Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, res.getMsg(), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void failure(HNetError hNetError) {
-        ErrorUtils.checkError(this,hNetError);
+        ErrorUtils.checkError(this, hNetError);
     }
 
     @Override

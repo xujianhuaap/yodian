@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by android on 15-7-13.
  */
 public class Auth {
-    @SerializedName("SN_JEY_API")
+    @SerializedName("SN_KEY_API")
     private String token;
     private String nickname;
     private int uid;

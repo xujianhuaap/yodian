@@ -69,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="#0000"
+                android:layout_toLeftOf="@+id/btn_getcode"
                 android:gravity="center_horizontal"
                 android:hint="输入验证码"
                 android:inputType="phone"
@@ -83,13 +84,13 @@
                 android:id="@+id/btn_getcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/code"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:background="?attr/colorPrimary"
                 android:padding="5dp"
+                android:layout_alignParentRight="true"
                 android:src="@drawable/ic_launcher"
                 android:text="获取验证码" />
         </RelativeLayout>
