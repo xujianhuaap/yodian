@@ -17,6 +17,7 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <LinearLayout
+                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -34,8 +35,7 @@
                     android:id="@+id/user_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="henjue" />
+                    android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
             <ImageView

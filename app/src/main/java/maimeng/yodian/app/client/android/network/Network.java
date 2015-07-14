@@ -48,7 +48,10 @@ public class Network {
     private Network(){
     }
     private HNet net;
+    private Picasso loader;
     public void init(Application app){
+        loader=Picasso.with(app);
+        loader.setLoggingEnabled(BuildConfig.LOG_DEBUG);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(TypeData.class, new GsonConverter.TypeDataAdapter());
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Date.class, new GsonConverter.DateAdapter());
@@ -83,7 +86,7 @@ public class Network {
     }
 
 
-    public static Bitmap image(final Context context,final String uri){
+    public Bitmap image(final Context context,final String uri){
         final CountDownLatch latch = new CountDownLatch(1);
         final Bitmap[] bitmaps = {null};
         new Thread(){
@@ -118,9 +121,7 @@ public class Network {
 
     }
     public static void image(Context context,String uri,int placeHolderDrawable,int errorDrawable,Target target){
-        Picasso with = Picasso.with(context);
-        with.setLoggingEnabled(BuildConfig.LOG_DEBUG);
-        RequestCreator load = with.load(uri);
+        RequestCreator load = getOne().loader.load(uri);
         if(placeHolderDrawable!=-1)load.placeholder(placeHolderDrawable);
         if(errorDrawable!=-1)load.error(errorDrawable);
         load.into(target);
@@ -136,12 +137,11 @@ public class Network {
         image(url,iv,placeHolderDrawable,-1);
     }
     public static void image(String url,ImageView iv,int placeHolderDrawable,int errorDrawable){
-        Picasso with = Picasso.with(iv.getContext());
-        with.setLoggingEnabled(BuildConfig.LOG_DEBUG);
-        RequestCreator load = with.load(url);
+        RequestCreator load = getOne().loader.load(url);
         if(placeHolderDrawable!=-1)load.placeholder(placeHolderDrawable);
         if(errorDrawable!=-1)load.error(errorDrawable);
-        load.into(new ImageTarget(iv));
+        //load.into(new ImageTarget(iv));
+        load.into(iv);
     }
     private static class ImageTarget implements Target {
         private final ImageView mImageView;
