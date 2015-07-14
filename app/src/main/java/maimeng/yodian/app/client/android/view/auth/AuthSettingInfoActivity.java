@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
@@ -40,6 +41,8 @@ import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.RoundImageView;
+import me.iwf.photopicker.PhotoPickerActivity;
+import me.iwf.photopicker.utils.PhotoPickerIntent;
 
 public class AuthSettingInfoActivity extends AppCompatActivity implements Target, View.OnClickListener {
     private static final String LOG_TAG = AuthSettingInfoActivity.class.getName();
@@ -98,9 +101,10 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
     }
 
     private void showPhotoZoom() {
-        Intent intent = new Intent(Intent.ACTION_PICK, null);
-        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
-        startActivityForResult(intent, REQUEST_PHOTOZOOM);
+        PhotoPickerIntent intentPhoto = new PhotoPickerIntent(AuthSettingInfoActivity.this);
+        intentPhoto.setPhotoCount(1);
+        intentPhoto.setShowCamera(false);
+        startActivityForResult(intentPhoto, REQUEST_PHOTOZOOM);
     }
 
     public void startPhotoZoom(Uri uri) {
@@ -169,7 +173,8 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
                     startPhotoZoom(Uri.fromFile(picture));
                     break;
                 case REQUEST_PHOTOZOOM:
-                    startPhotoZoom(data.getData());
+                    ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+                    startPhotoZoom(Uri.fromFile(new File(paths.get(0))));
                     break;
                 case REQUEST_PHOTORESOULT:
                     try {
