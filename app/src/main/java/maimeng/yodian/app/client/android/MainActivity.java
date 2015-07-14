@@ -22,6 +22,14 @@ public class MainActivity extends AbstractActivity  {
     private MainListProxy mListProxy;
     private MainHomeProxy mHomeProxy;
 
+    public MainListProxy getProxyList() {
+        return mListProxy;
+    }
+
+    public MainHomeProxy getProxyHome() {
+        return mHomeProxy;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +50,7 @@ public class MainActivity extends AbstractActivity  {
             startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_AUTH);
         }else {
             mListProxy.init();
+            mListProxy.hide(floatButton);
         }
     }
 

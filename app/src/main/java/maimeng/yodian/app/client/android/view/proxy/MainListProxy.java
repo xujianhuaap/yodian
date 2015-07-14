@@ -65,6 +65,7 @@ public class MainListProxy implements ActivityProxy {
 
     @Override
     public void hide(final FloatingActionButton button) {
+        if(!mActivity.getProxyHome().isInited())mActivity.getProxyHome().init();
         mActivity.setTitle("首页");
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         AnimationSet animationSet=new AnimationSet(true);
