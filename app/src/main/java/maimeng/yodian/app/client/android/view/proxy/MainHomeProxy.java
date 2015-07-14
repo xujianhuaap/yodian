@@ -5,7 +5,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -13,7 +13,6 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -30,8 +29,8 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
+import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 /**
  * Created by android on 15-7-13.
@@ -43,6 +42,8 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private final PtrFrameLayout mRefreshLayout;
     private final SkillService service;
     private final AppBarLayout appBar;
+    private final RoundImageView mUserAvatar;
+    private final TextView mUserNickname;
     private boolean inited=false;
     private final MainHomeAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
@@ -51,17 +52,20 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     public MainHomeProxy(MainActivity activity, View view){
         this.mView=(CoordinatorLayout)view;
         this.mActivity=activity;
-        appBar=(AppBarLayout)view.findViewById(R.id.appBarLayout);
-        appBar.addOnOffsetChangedListener(this);
         service=Network.getService(SkillService.class);
+        appBar=(AppBarLayout)view.findViewById(R.id.appBarLayout);
         mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
+        mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+        mUserAvatar=(RoundImageView)view.findViewById(R.id.user_avatar);
+        mUserNickname=(TextView)view.findViewById(R.id.user_nickname);
+        view.findViewById(R.id.user_nickname);
+        appBar.addOnOffsetChangedListener(this);
+        mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header=new StoreHouseHeader(activity);
         header.setPadding(0, (int) mActivity.getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
         header.initWithString("YoDian");
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
-        mRefreshLayout.setPtrHandler(this);
-        mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         LinearLayoutManager layout = new LinearLayoutManager(mActivity);
         mRecyclerView.setLayoutManager(layout);
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
@@ -85,11 +89,22 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
     @Override
     public void init() {
-        page=1;
-        user=UserAuth.read(this.mActivity);
         inited=true;
-        mRefreshLayout.autoRefresh();
+        user=UserAuth.read(this.mActivity);
+        initUsrInfo();
+        initSkillInfo();
 
+
+    }
+
+    private void initSkillInfo() {
+        page=1;
+        mRefreshLayout.autoRefresh();
+    }
+
+    private void initUsrInfo() {
+        mUserNickname.setText(user.nickname);
+        Network.image(user.img,mUserAvatar);
     }
 
     @Override

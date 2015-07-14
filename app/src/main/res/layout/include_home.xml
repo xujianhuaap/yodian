@@ -21,13 +21,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
+                <maimeng.yodian.app.client.android.widget.RoundImageView
+                    android:id="@+id/user_avatar"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    app:borderSize="2dp"
+                    app:insideColor="#ffffff"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/user_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

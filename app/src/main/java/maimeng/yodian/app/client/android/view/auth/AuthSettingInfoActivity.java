@@ -36,16 +36,14 @@ import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypeBitmap;
-import maimeng.yodian.app.client.android.network.common.StringCallback;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
-import maimeng.yodian.app.client.android.network.response.StringResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
-import maimeng.yodian.app.client.android.widget.XCRoundImageView;
+import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 public class AuthSettingInfoActivity extends AppCompatActivity implements Target, View.OnClickListener {
     private static final String LOG_TAG = AuthSettingInfoActivity.class.getName();
-    private XCRoundImageView mUserImg;
+    private RoundImageView mUserImg;
     private EditText mNickname;
     private Bitmap bitmap;
     private UserAuth user;
@@ -63,7 +61,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
         user = UserAuth.read(this);
         service=Network.getService(UserService.class);
         setContentView(R.layout.activity_auth_setting_info);
-        mUserImg = (XCRoundImageView) findViewById(R.id.img_avatar);
+        mUserImg = (RoundImageView) findViewById(R.id.img_avatar);
         findViewById(R.id.btn_album).setOnClickListener(this);
         findViewById(R.id.btn_camera).setOnClickListener(this);
         findViewById(R.id.btn_done).setOnClickListener(this);

@@ -26,7 +26,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_height="wrap_content" />
 
-            <maimeng.yodian.app.client.android.widget.XCRoundImageView
+            <maimeng.yodian.app.client.android.widget.RoundImageView
                 android:id="@+id/img_avatar"
                 android:src="@drawable/pic_default_avatar"
                 android:layout_width="@dimen/setup_wizard_avatar_size"
