@@ -76,7 +76,7 @@
                 android:layout_marginTop="5dp"
                 android:padding="5dp"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/ic_clear" />
 
         </com.zhy.android.percent.support.PercentRelativeLayout>
 

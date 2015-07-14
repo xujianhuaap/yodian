@@ -69,6 +69,7 @@ public class MainActivity extends AbstractActivity implements AlertDialog.Positi
     private void showDefault(){
         mListProxy.init();
 //      mListProxy.hide(floatButton);
+        mListProxy.show(floatButton);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

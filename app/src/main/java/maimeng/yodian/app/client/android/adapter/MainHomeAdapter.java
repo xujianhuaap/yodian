@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.adapter;
 import android.app.Fragment;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,21 +42,30 @@ public class MainHomeAdapter extends AbstractAdapter<Skill,MainHomeAdapter.ViewH
     public void onBindViewHolder(ViewHolder holder, int position) {
         Skill item = getItem(position);
         holder.mUserNickname.setText(item.getNickname());
+        holder.mSkillName.setText(item.getName());
+        holder.mPrice.setText(Html.fromHtml(holder.itemView.getResources().getString(R.string.lable_price,item.getPrice(),item.getUnit())));
         Network.image(item.getAvatar(), holder.mUserAvatar);
-        Network.image(item.getPic(),holder.mImg);
-        holder.mUserAvatar.bringToFront();
+        Network.image(item.getPic(), holder.mImg);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public final TextView mUserNickname;
+        public final TextView mSkillName;
+        public final TextView mPrice;
+        public final TextView mBtnEdit;
         public final RoundImageView mUserAvatar;
         public final ImageView mImg;
         public ViewHolder(View itemView) {
             super(itemView);
             this.mUserNickname=(TextView)itemView.findViewById(R.id.user_nickname);
+            this.mPrice=(TextView)itemView.findViewById(R.id.price);
+            this.mBtnEdit=(TextView)itemView.findViewById(R.id.btn_edit);
+            this.mSkillName=(TextView)itemView.findViewById(R.id.skill_name);
             this.mUserAvatar=(RoundImageView)itemView.findViewById(R.id.user_avatar);
             this.mImg=(ImageView)itemView.findViewById(R.id.img);
         }
     }
 }
+
+
 

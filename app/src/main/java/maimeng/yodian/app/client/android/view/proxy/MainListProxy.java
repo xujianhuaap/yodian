@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.proxy;
 
 import android.graphics.Color;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
@@ -11,26 +12,82 @@ import android.view.animation.TranslateAnimation;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
+
+import java.util.List;
+
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.MainActivity;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
+import maimeng.yodian.app.client.android.adapter.MainHomeAdapter;
+import maimeng.yodian.app.client.android.common.RecyclerViewItemAnimator;
+import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.SkillResponse;
+import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 
 /**
  * Created by android on 15-7-13.
  */
-public class MainListProxy implements ActivityProxy {
+public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<MainHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse> {
     private final View mView;
     private final MainActivity mActivity;
+    private final SkillService service;
+    private final PtrFrameLayout mRefreshLayout;
+    private final RecyclerView mRecyclerView;
     private boolean inited=false;
+    private UserAuth user;
+    private int page=1;
+    private final MainHomeAdapter adapter;
+    private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     public MainListProxy(MainActivity activity, View view){
         this.mView=view;
+        view.setVisibility(View.GONE);
         this.mActivity=activity;
+        service= Network.getService(SkillService.class);
+        mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
+        mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+//        mRecyclerView.setItemAnimator(new RecyclerViewItemAnimator());
+        mRefreshLayout.setPtrHandler(this);
+        StoreHouseHeader header=new StoreHouseHeader(activity);
+        header.setPadding(0, (int) mActivity.getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
+        header.initWithString("YoDian");
+        mRefreshLayout.addPtrUIHandler(header);
+        mRefreshLayout.setHeaderView(header);
+        LinearLayoutManager layout = new LinearLayoutManager(mActivity);
+        mRecyclerView.setLayoutManager(layout);
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
+            @Override
+            public void onLoadMore() {
+                page ++;
+                refresh();
+            }
+        };
+        mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+        adapter=new MainHomeAdapter(mActivity,this);
+        mRecyclerView.setAdapter(adapter);
     }
+    private void refresh() {
+        service.choose(page, this);
+    }
+
     public boolean isInited(){
         return this.inited;
     }
     @Override
     public void init() {
         inited=true;
+        page=1;
+        mRefreshLayout.autoRefresh();
     }
 
     @Override
@@ -44,7 +101,7 @@ public class MainListProxy implements ActivityProxy {
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         TranslateAnimation animation = new TranslateAnimation(type,0,type, 0,type,1f,type, 0);
         animation.setInterpolator(new AccelerateInterpolator());
-        animation.setDuration(300);
+        animation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -54,6 +111,7 @@ public class MainListProxy implements ActivityProxy {
             @Override
             public void onAnimationEnd(Animation animation) {
                 button.setEnabled(true);
+                mView.setVisibility(View.VISIBLE);
 //                setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimary));
             }
 
@@ -63,7 +121,7 @@ public class MainListProxy implements ActivityProxy {
             }
         });
         this.mView.startAnimation(animation);
-        this.mView.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -73,7 +131,7 @@ public class MainListProxy implements ActivityProxy {
         button.setImageResource(R.drawable.btn_bg);
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         AnimationSet animationSet=new AnimationSet(true);
-        animationSet.setDuration(300);
+        animationSet.setDuration(mActivity.getResources().getInteger(R.integer.duration));
         animationSet.setInterpolator(new AccelerateInterpolator());
         animationSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -84,6 +142,7 @@ public class MainListProxy implements ActivityProxy {
             @Override
             public void onAnimationEnd(Animation animation) {
                 button.setEnabled(true);
+                mView.setVisibility(View.GONE);
 //                    setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimaryGreen));
             }
 
@@ -99,29 +158,60 @@ public class MainListProxy implements ActivityProxy {
         button.getLocationOnScreen(xy);
         animationSet.addAnimation(animation);
         this.mView.startAnimation(animationSet);
-        this.mView.setVisibility(View.GONE);
+
     }
 
     @Override
     public boolean isShow() {
         return mView.getVisibility()==View.VISIBLE;
     }
-    private int colorBurn(int RGBValues) {
-        int alpha = RGBValues >> 24;
-        int red = RGBValues >> 16 & 0xFF;
-        int green = RGBValues >> 8 & 0xFF;
-        int blue = RGBValues & 0xFF;
-        red = (int) Math.floor(red * (1 - 0.1));
-        green = (int) Math.floor(green * (1 - 0.1));
-        blue = (int) Math.floor(blue * (1 - 0.1));
-        return Color.rgb(red, green, blue);
+
+    @Override
+    public void onItemClick(MainHomeAdapter.ViewHolder holder, int postion) {
+
     }
-    public void setStatusBarColor(int color){
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            Window window = mActivity.getWindow();
-            // 很明显，这两货是新API才有的。
-            window.setStatusBarColor(colorBurn(color));
-            window.setNavigationBarColor(colorBurn(color));
+
+    @Override
+    public void onClick(MainHomeAdapter.ViewHolder holder, View clickItem, int postion) {
+
+    }
+
+    @Override
+    public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View content, View header) {
+        // 默认实现，根据实际情况做改动
+        return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, content, header);
+    }
+
+    @Override
+    public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+        page=1;
+        refresh();
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void success(SkillResponse res, Response response) {
+        if(res.isSuccess()){
+            List<Skill> list = res.getData().getList();
+            adapter.reload(list,page!=1);
+            adapter.notifyDataSetChanged();
+        }else{
+            res.showMessage(mActivity);
         }
+
+    }
+
+    @Override
+    public void failure(HNetError hNetError) {
+        ErrorUtils.checkError(mActivity, hNetError);
+    }
+
+    @Override
+    public void end() {
+        mRefreshLayout.refreshComplete();
     }
 }

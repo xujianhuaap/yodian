@@ -5,6 +5,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -23,6 +25,7 @@ import maimeng.yodian.app.client.android.MainActivity;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.MainHomeAdapter;
+import maimeng.yodian.app.client.android.common.RecyclerViewItemAnimator;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -52,13 +55,14 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     public MainHomeProxy(MainActivity activity, View view){
         this.mView=(CoordinatorLayout)view;
         this.mActivity=activity;
+        view.setVisibility(View.GONE);
         service=Network.getService(SkillService.class);
         appBar=(AppBarLayout)view.findViewById(R.id.appBarLayout);
         mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+//        mRecyclerView.setItemAnimator(new RecyclerViewItemAnimator());
         mUserAvatar=(RoundImageView)view.findViewById(R.id.user_avatar);
         mUserNickname=(TextView)view.findViewById(R.id.user_nickname);
-        view.findViewById(R.id.user_nickname);
         appBar.addOnOffsetChangedListener(this);
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header=new StoreHouseHeader(activity);
@@ -113,11 +117,49 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void show(FloatingActionButton button) {
+        AlphaAnimation alphaAnimation=new AlphaAnimation(0f,1f);
+        alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        this.mView.startAnimation(alphaAnimation);
 
     }
 
     @Override
     public void hide(FloatingActionButton button) {
+        AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0f);
+        alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        this.mView.startAnimation(alphaAnimation);
 
     }
 
