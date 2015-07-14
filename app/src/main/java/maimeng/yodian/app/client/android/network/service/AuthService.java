@@ -5,6 +5,7 @@ import org.henjue.library.hnet.RequestFacade;
 import org.henjue.library.hnet.RequestFilter;
 import org.henjue.library.hnet.anntoation.Filter;
 import org.henjue.library.hnet.anntoation.FormUrlEncoded;
+import org.henjue.library.hnet.anntoation.Multipart;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
@@ -35,6 +36,11 @@ public interface AuthService {
      */
     @Post(ApiConfig.Api.AUTH_GETCODE)
     void getCode(@Param("mobile")String mobile,ToastCallback callback);
+
+
+
+
+
     class LoginFilter implements RequestFilter {
         @Override
         public void onComplite(RequestFacade requestFacade) {

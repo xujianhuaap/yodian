@@ -1,0 +1,39 @@
+package maimeng.yodian.app.client.android.network.common;
+
+import android.content.Context;
+import android.widget.Toast;
+
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
+
+import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.network.response.StringResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
+
+
+public class StringCallback implements Callback<StringResponse> {
+    private final Context mContext;
+    public StringCallback(Context context){
+        this.mContext=context;
+    }
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void success(StringResponse toastResponse, Response response) {
+        Toast.makeText(mContext, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void failure(HNetError hNetError) {
+        ErrorUtils.checkError(mContext, hNetError);
+    }
+
+    @Override
+    public void end() {
+
+    }
+}

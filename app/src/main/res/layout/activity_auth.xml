@@ -31,26 +31,27 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="#0000"
-                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/btn_clean"
                 android:gravity="center_horizontal"
-                android:hint="输入手机号"
-                android:textColorHint="#606060"
+                android:hint="@string/mobile_input_empty_message"
                 android:inputType="phone"
                 android:maxLength="11"
-                android:layout_toLeftOf="@+id/btn_clean"
+                android:textColorHint="#606060"
                 android:paddingLeft="2dp"
+                android:paddingRight="35dp"
                 android:singleLine="true"
                 android:textColor="#000" />
 
             <ImageView
-                android:id="@id/btn_clean"
+                android:id="@+id/btn_clean"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
                 android:src="@drawable/ic_launcher" />
         </RelativeLayout>
 
@@ -71,7 +72,7 @@
                 android:background="#0000"
                 android:layout_toLeftOf="@+id/btn_getcode"
                 android:gravity="center_horizontal"
-                android:hint="输入验证码"
+                android:hint="@string/input_valicode_hint"
                 android:inputType="phone"
                 android:maxLength="11"
                 android:textColorHint="#606060"
@@ -91,8 +92,7 @@
                 android:background="?attr/colorPrimary"
                 android:padding="5dp"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_launcher"
-                android:text="获取验证码" />
+                android:src="@drawable/ic_launcher" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -103,7 +103,7 @@
         android:layout_gravity="bottom|left"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="5dp"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/btn_back"
         app:backgroundTint="?attr/colorPrimaryDark"
         app:rippleColor="#d1101525" />
 
@@ -114,7 +114,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/btn_bg"
         app:backgroundTint="?attr/colorPrimaryDark"
         app:rippleColor="#d1101525" />
 </FrameLayout>

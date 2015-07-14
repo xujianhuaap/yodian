@@ -1,0 +1,106 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="?attr/colorPrimary"
+    android:layout_height="match_parent">
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/top_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_marginTopPercent="20%h"
+            android:gravity="center"
+            android:paddingBottom="30dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_camera"
+                android:src="@drawable/btn_camera"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content" />
+
+            <maimeng.yodian.app.client.android.widget.XCRoundImageView
+                android:id="@+id/img_avatar"
+                android:src="@drawable/pic_default_avatar"
+                android:layout_width="@dimen/setup_wizard_avatar_size"
+                android:layout_height="@dimen/setup_wizard_avatar_size"
+                android:scaleType="centerInside" />
+
+            <ImageView
+                android:id="@+id/btn_album"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/btn_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            app:layout_marginLeftPercent="5%h"
+            app:layout_marginRightPercent="5%h"
+            android:id="@+id/edit_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#ffffff">
+
+            <EditText
+                android:id="@+id/nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="#0000"
+                android:layout_toLeftOf="@+id/btn_clean"
+                android:gravity="center_horizontal"
+                android:hint="@string/input_nickname_hint"
+                android:maxLength="11"
+                android:textColorHint="#606060"
+                android:paddingLeft="2dp"
+                android:paddingRight="35dp"
+                android:singleLine="true"
+                android:textColor="#000" />
+
+            <ImageView
+                android:id="@+id/btn_clean"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_launcher" />
+
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/btn_back"
+        app:backgroundTint="?attr/colorPrimaryDark"
+        app:rippleColor="#d1101525" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/btn_bg"
+        app:backgroundTint="?attr/colorPrimaryDark"
+        app:rippleColor="#d1101525" />
+</FrameLayout>

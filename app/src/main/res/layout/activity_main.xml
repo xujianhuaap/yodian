@@ -13,6 +13,6 @@
         app:borderWidth="0dp"
         app:fabSize="normal"
         android:layout_gravity="right|bottom"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/btn_home_change"/>
 </FrameLayout>
 

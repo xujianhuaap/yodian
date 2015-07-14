@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,16 +12,21 @@ import com.umeng.analytics.MobclickAgent;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
+import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.view.proxy.MainHomeProxy;
 import maimeng.yodian.app.client.android.view.proxy.MainListProxy;
 
 
-public class MainActivity extends AbstractActivity  {
+public class MainActivity extends AbstractActivity implements AlertDialog.PositiveListener {
     private ActivityProxyController controller;
     public static final int REQUEST_AUTH=0x1001;
+    private static final int REQUEST_UPDATEINFO = 0x1002;
     private MainListProxy mListProxy;
     private MainHomeProxy mHomeProxy;
+    private UserAuth user;
+    private FloatingActionButton floatButton;
 
     public MainListProxy getProxyList() {
         return mListProxy;
@@ -37,7 +43,7 @@ public class MainActivity extends AbstractActivity  {
         mListProxy = new MainListProxy(this, findViewById(R.id.list_root));
         mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
         controller=new ActivityProxyController(mListProxy,mHomeProxy);
-        final FloatingActionButton floatButton = (FloatingActionButton)findViewById(R.id.btn_float);
+        floatButton = (FloatingActionButton)findViewById(R.id.btn_float);
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,11 +52,19 @@ public class MainActivity extends AbstractActivity  {
                 controller.onFloatClick((FloatingActionButton) v);
             }
         });
-        if(TextUtils.isEmpty(UserAuth.read(this).token)){
+        user = UserAuth.read(this);
+        if(TextUtils.isEmpty(user.token)){
             startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_AUTH);
         }else {
-            mListProxy.init();
-            mListProxy.hide(floatButton);
+            if(TextUtils.isEmpty(user.nickname)||TextUtils.isEmpty(user.img)){
+                AlertDialog dialog = AlertDialog.newInstance("资料补全", "你的资料不完整，请补全资料!");
+                dialog.setCancelable(false);
+                dialog.setPositiveListener(this);
+                dialog.show(getFragmentManager(), "dialog");
+            }else {
+                mListProxy.init();
+                mListProxy.hide(floatButton);
+            }
         }
     }
 
@@ -60,6 +74,18 @@ public class MainActivity extends AbstractActivity  {
         if(requestCode==REQUEST_AUTH){
             if(resultCode==RESULT_OK){
                 mListProxy.init();
+            }else{
+                finish();
+            }
+        }else if(requestCode==REQUEST_UPDATEINFO){
+            if(resultCode==RESULT_OK) {
+                user = UserAuth.read(this);
+                if (TextUtils.isEmpty(user.nickname) || TextUtils.isEmpty(user.img)) {
+                    finish();
+                } else {
+                    mListProxy.init();
+                    mListProxy.hide(floatButton);
+                }
             }else{
                 finish();
             }
@@ -80,5 +106,15 @@ public class MainActivity extends AbstractActivity  {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onPositiveClick(DialogInterface dialog) {
+            startActivityForResult(new Intent(this, AuthSettingInfoActivity.class),REQUEST_UPDATEINFO);
+    }
+
+    @Override
+    public String positiveText() {
+        return "是";
     }
 }
