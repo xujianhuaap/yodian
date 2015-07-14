@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.proxy;
 
-import android.support.design.widget.FloatingActionButton;
+
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by android on 15-7-13.
@@ -12,8 +13,10 @@ public class ActivityProxyController {
     public void onFloatClick(FloatingActionButton v) {
         if(mListProxy.isShow()){
             mListProxy.hide(v);
+            mHomeProxy.show(v);
         }else{
             mListProxy.show(v);
+            mHomeProxy.hide(v);
         }
     }
     public ActivityProxyController(MainListProxy mListProxy, MainHomeProxy mHomeProxy) {

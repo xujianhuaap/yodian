@@ -3,10 +3,10 @@ package maimeng.yodian.app.client.android;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
 
 import maimeng.yodian.app.client.android.common.UserAuth;
@@ -62,12 +62,14 @@ public class MainActivity extends AbstractActivity implements AlertDialog.Positi
                 dialog.setPositiveListener(this);
                 dialog.show(getFragmentManager(), "dialog");
             }else {
-                mListProxy.init();
-                mListProxy.hide(floatButton);
+                showDefault();
             }
         }
     }
-
+    private void showDefault(){
+        mListProxy.init();
+//      mListProxy.hide(floatButton);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -83,8 +85,7 @@ public class MainActivity extends AbstractActivity implements AlertDialog.Positi
                 if (TextUtils.isEmpty(user.nickname) || TextUtils.isEmpty(user.img)) {
                     finish();
                 } else {
-                    mListProxy.init();
-                    mListProxy.hide(floatButton);
+                    showDefault();
                 }
             }else{
                 finish();

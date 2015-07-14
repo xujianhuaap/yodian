@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.proxy;
 
-import android.support.design.widget.FloatingActionButton;
+
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by android on 15-7-13.

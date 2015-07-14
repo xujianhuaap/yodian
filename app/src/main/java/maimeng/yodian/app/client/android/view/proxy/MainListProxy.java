@@ -1,7 +1,7 @@
 package maimeng.yodian.app.client.android.view.proxy;
 
 import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
@@ -9,8 +9,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import maimeng.yodian.app.client.android.MainActivity;
-import maimeng.yodian.app.client.android.view.proxy.ActivityProxy;
+import maimeng.yodian.app.client.android.R;
 
 /**
  * Created by android on 15-7-13.
@@ -37,6 +39,7 @@ public class MainListProxy implements ActivityProxy {
 
     @Override
     public void show(final FloatingActionButton button) {
+        button.setImageResource(R.drawable.btn_home_change);
         mActivity.setTitle("优点精选");
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         TranslateAnimation animation = new TranslateAnimation(type,0,type, 0,type,1f,type, 0);
@@ -67,6 +70,7 @@ public class MainListProxy implements ActivityProxy {
     public void hide(final FloatingActionButton button) {
         if(!mActivity.getProxyHome().isInited())mActivity.getProxyHome().init();
         mActivity.setTitle("首页");
+        button.setImageResource(R.drawable.btn_bg);
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         AnimationSet animationSet=new AnimationSet(true);
         animationSet.setDuration(300);
