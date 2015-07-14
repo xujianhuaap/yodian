@@ -9,6 +9,16 @@ public class Auth {
     @SerializedName("SN_KEY_API")
     private String token;
     private String nickname;
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     private int uid;
 
     public String getToken() {
