@@ -1,5 +1,8 @@
 package maimeng.yodian.app.client.android.network.response;
 
+import android.content.Context;
+import android.widget.Toast;
+
 public class Response {
     private int code;
     private String msg;
@@ -20,5 +23,8 @@ public class Response {
 
     public void setCode(int code) {
         this.code = code;
+    }
+    public void showMessage(Context context){
+        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
     }
 }

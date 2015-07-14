@@ -1,3 +1,4 @@
 <resources>
     <dimen name="setup_wizard_avatar_size">100dp</dimen>
+    <dimen name="pull_refresh_paddingTop">20dp</dimen>
 </resources>

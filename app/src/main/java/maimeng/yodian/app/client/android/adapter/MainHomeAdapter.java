@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import maimeng.yodian.app.client.android.model.Skill;
+
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeAdapter extends AbstractAdapter<String,MainHomeAdapter.ViewHolder>{
+public class MainHomeAdapter extends AbstractAdapter<Skill,MainHomeAdapter.ViewHolder>{
     public MainHomeAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
     }
@@ -32,7 +34,7 @@ public class MainHomeAdapter extends AbstractAdapter<String,MainHomeAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tv.setText(getItem(position));
+        holder.tv.setText(getItem(position).getName());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

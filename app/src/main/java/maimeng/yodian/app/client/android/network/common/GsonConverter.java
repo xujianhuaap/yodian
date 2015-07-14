@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.util.Date;
 
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.TypeData;
@@ -135,6 +136,18 @@ public class GsonConverter implements Converter {
                     return new ObjectTypeData();
             }
             return gson.fromJson(json,typeOfT);
+        }
+    }
+    public static class DateAdapter implements JsonDeserializer<java.util.Date>,JsonSerializer<java.util.Date>{
+
+        @Override
+        public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return new java.util.Date(json.getAsJsonPrimitive().getAsLong());
+        }
+
+        @Override
+        public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.getTime());
         }
     }
     public static class  ObjectTypeData implements TypeData{

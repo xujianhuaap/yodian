@@ -16,6 +16,7 @@ import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.http.ClientStack;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
@@ -50,6 +51,7 @@ public class Network {
     public void init(Application app){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(TypeData.class, new GsonConverter.TypeDataAdapter());
+        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Date.class, new GsonConverter.DateAdapter());
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(String.class, new GsonConverter.StringAdapter());
         net=new HNet.Builder()
                 .setEndpoint(ApiConfig.API_HOST)
