@@ -5,7 +5,6 @@ import org.henjue.library.hnet.RequestFacade;
 import org.henjue.library.hnet.RequestFilter;
 import org.henjue.library.hnet.anntoation.Filter;
 import org.henjue.library.hnet.anntoation.FormUrlEncoded;
-import org.henjue.library.hnet.anntoation.Multipart;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
@@ -26,8 +25,20 @@ public interface AuthService {
      * @param callback
      */
     @Post(ApiConfig.Api.AUTH_LOGIN)
-    @Filter(LoginFilter.class)
+    @Filter(LoginPhoneFilter.class)
     void login(@Param("mobile")String mobile,@Param("code")String code,@Param("etoken")String pushtoken,Callback<AuthResponse> callback);
+
+    /**
+     * 第三方登录
+     * @param type 1新浪微博,2微信
+     * @param token 第三方token
+     * @param usid 第三方用户id
+     * @param pushtoken 推送token
+     * @param callback
+     */
+    @Post(ApiConfig.Api.AUTH_LOGIN)
+    @Filter(LoginThirdPartyFilter.class)
+    void thirdParty(@Param("type")int type,@Param("token")String token,@Param("usid")String usid,@Param("etoken")String pushtoken,Callback<AuthResponse> callback);
 
     /**
      * 获取短信验证码
@@ -40,8 +51,23 @@ public interface AuthService {
 
 
 
+    class LoginThirdPartyFilter implements RequestFilter {
+        @Override
+        public void onComplite(RequestFacade requestFacade) {
+            requestFacade.add("etype",2);
+        }
 
-    class LoginFilter implements RequestFilter {
+        @Override
+        public void onStart(RequestFacade requestFacade) {
+
+        }
+
+        @Override
+        public void onAdd(String s, Object o) {
+
+        }
+    }
+    class LoginPhoneFilter implements RequestFilter {
         @Override
         public void onComplite(RequestFacade requestFacade) {
             requestFacade.add("type",0);

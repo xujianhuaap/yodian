@@ -215,11 +215,12 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
 
     @Override
     public void onBitmapFailed(Drawable errorDrawable) {
+        System.out.println("onBitmapFailed");
     }
 
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+        System.out.println("onPrepareLoad");
     }
 
     @Override
