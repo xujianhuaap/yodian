@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.umeng.message.UmengRegistrar;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -66,7 +68,8 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
                 if(TextUtils.isEmpty(code)){
                     Toast.makeText(this,R.string.code_input_empty_message,Toast.LENGTH_SHORT).show();
                 }else {
-                    service.login(text.toString(),code.toString(), "", this);
+                    String device_token = UmengRegistrar.getRegistrationId(this);
+                    service.login(text.toString(),code.toString(),device_token, this);
                 }
             }
         } else {

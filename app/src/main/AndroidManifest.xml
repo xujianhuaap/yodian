@@ -7,7 +7,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_LOGS"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -46,7 +50,93 @@
                 <data android:scheme="yodian" android:host="www.ketie.me" android:path="/launcher/yodian"/>
             </intent-filter>
         </activity>
+
+        <!--umeng push start-->
+        <receiver
+            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
+            android:process=":push"
+            android:exported="false" >
+        </receiver>
+        <receiver
+            android:name="com.umeng.message.SystemReceiver"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.umeng.message.MessageReceiver"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.umeng.message.ElectionReceiver"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.ELECTION_RESULT_V4" />
+                <category android:name="umeng" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.umeng.message.RegistrationReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="maimeng.yodian.app.client.android.intent.action.COMMAND" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.umeng.message.UmengMessageBootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.umeng.message.UmengService"
+            android:label="PushService"
+            android:exported="true"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="maimeng.yodian.app.client.android.intent.action.START" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="maimeng.yodian.app.client.android.intent.action.COCKROACH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.PING_V4" />
+                <category android:name="umeng" />
+            </intent-filter>
+        </service>
+        <service android:name="com.umeng.message.UmengIntentService"
+            android:process=":push" />
+        <service
+            android:name="com.umeng.message.UmengMessageIntentReceiverService"
+            android:process=":push"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="org.android.agoo.client.MessageReceiverService" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.android.agoo.client.ElectionReceiverService" />
+            </intent-filter>
+        </service>
+        <!-- V1.3.0添加的service，负责下载通知的资源 -->
+        <service android:name="com.umeng.message.UmengDownloadResourceService" />
+        <service android:name=".service.UmengPushMessageService"/>
+        <!--umeng push end-->
+        <!---->
         <meta-data android:value="55a3c89567e58e19e2003146" android:name="UMENG_APPKEY"/>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="96b2203b2eb5a412f4173a170de0afc9" >
+        </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />

@@ -8,8 +8,10 @@ import android.view.View;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 
 import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.service.UmengPushMessageService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
@@ -39,6 +41,10 @@ public class MainActivity extends AbstractActivity implements AlertDialog.Positi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.setPushIntentServiceClass(UmengPushMessageService.class);
+        mPushAgent.enable();
+        mPushAgent.onAppStart();
         setContentView(R.layout.activity_main, false);
         mListProxy = new MainListProxy(this, findViewById(R.id.list_root));
         mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));

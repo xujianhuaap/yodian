@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.umeng.message.UmengRegistrar;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -93,6 +94,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     @Override
     public void init() {
         inited=true;
+        String device_token = UmengRegistrar.getRegistrationId(mActivity);
         user=UserAuth.read(this.mActivity);
         initUsrInfo();
         initSkillInfo();
