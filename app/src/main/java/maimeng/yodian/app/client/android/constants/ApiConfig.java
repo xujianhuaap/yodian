@@ -20,8 +20,8 @@ public class ApiConfig {
 
 
 
-    public static final String WEIBO_APP_KEY = "1947947813";
-    public static final String QQ_APP_KEY = "1103508527";
+    public static final String WEIBO_APP_KEY = "1846400889";
+    public static final String QQ_APP_KEY = "1104669989";
 
 
     public static final String REDIRECT_URL = "http://sns.whalecloud.com/sina2/callback";
