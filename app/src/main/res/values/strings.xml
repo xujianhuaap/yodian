@@ -16,5 +16,6 @@
     <string name="btn_back">返回</string>
     <string name="btn_exit">退出</string>
     <string name="btn_edit">编辑</string>
+    <string name="share_title">将该技能分享至：</string>
     <string name="lable_price"><![CDATA[￥<b>%1$s</b>/%2$s]]></string>
 </resources>

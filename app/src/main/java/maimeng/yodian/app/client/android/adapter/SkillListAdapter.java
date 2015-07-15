@@ -3,23 +3,17 @@ package maimeng.yodian.app.client.android.adapter;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import org.henjue.library.share.weibo.model.User;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.databinding.SkillListItemBinding;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.widget.RoundImageView;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 
 /**
@@ -53,18 +47,35 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final UserAuth user;
         private SwipeItemLayout swipeItemLayout;
+
+        public Skill getData() {
+            return data;
+        }
+
+        private Skill data;
+
+        public SkillListItemBinding getBinding() {
+            return binding;
+        }
+
         private final SkillListItemBinding binding;
         public ViewHolder(SkillListItemBinding binding) {
             super(binding.getRoot());
             swipeItemLayout=(SwipeItemLayout)itemView;
+            swipeItemLayout.setOnClickListener(this);
             this.binding=binding;
             binding.btnEdit.setOnClickListener(this);
+            binding.btnContect.setOnClickListener(this);
+            binding.btnShare.setOnClickListener(this);
             user=UserAuth.read(swipeItemLayout.getContext());
         }
         public void bind(Skill item){
+            this.data =item;
             if(item.getUid()==user.uid){
                 binding.btnEdit.setVisibility(View.VISIBLE);
+                binding.btnContect.setVisibility(View.GONE);
             }else{
+                binding.btnContect.setVisibility(View.VISIBLE);
                 binding.btnEdit.setVisibility(View.GONE);
             }
             binding.setSkill(item);
@@ -75,12 +86,16 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
 
         @Override
         public void onClick(View v) {
-            if(v==binding.btnEdit){
+            if(v==swipeItemLayout){
+                mViewHolderClickListener.onItemClick(this,getLayoutPosition());
+            }else if(v==binding.btnEdit){
                 if(swipeItemLayout.isClosed()){
                     swipeItemLayout.openWithAnim();
                 }else{
                     swipeItemLayout.closeWithAnim();
                 }
+            }else{
+                mViewHolderClickListener.onClick(this,v,getLayoutPosition());
             }
         }
     }

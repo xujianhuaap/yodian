@@ -16,7 +16,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name=".YApplicaton"
+        android:name=".YApplication"
         android:theme="@style/AppTheme" >
         <!--<activity-alias-->
             <!--android:name=".LauncherActivity"-->
@@ -37,9 +37,6 @@
         <activity android:name=".view.auth.AuthActivity"/>
         <activity android:name=".view.auth.AuthSettingInfoActivity"/>
         <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true" />
-        <activity
             android:name=".view.WebLauncher"
             android:exported="true"
             android:label="@string/title_activity_web_launcher" >
@@ -50,7 +47,6 @@
                 <data android:scheme="yodian" android:host="www.ketie.me" android:path="/launcher/yodian"/>
             </intent-filter>
         </activity>
-
         <!--umeng push start-->
         <receiver
             android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
@@ -131,6 +127,27 @@
         <service android:name="com.umeng.message.UmengDownloadResourceService" />
         <service android:name=".service.UmengPushMessageService"/>
         <!--umeng push end-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:screenOrientation="nosensor"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1104669989" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:screenOrientation="nosensor"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <!---->
         <meta-data android:value="55a3c89567e58e19e2003146" android:name="UMENG_APPKEY"/>
         <meta-data

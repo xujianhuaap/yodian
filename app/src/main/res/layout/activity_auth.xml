@@ -20,8 +20,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="@dimen/auth_input_marginStart"
+            android:layout_marginRight="@dimen/auth_input_marginEnd"
             android:background="#fff"
             android:orientation="horizontal">
 
@@ -37,20 +37,20 @@
                 android:inputType="phone"
                 android:maxLength="11"
                 android:textColorHint="#606060"
-                android:paddingLeft="2dp"
-                android:paddingRight="35dp"
+                android:paddingLeft="@dimen/auth_input_edit_paddingStart"
+                android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                 android:singleLine="true"
                 android:textColor="#000" />
 
             <ImageView
                 android:id="@+id/btn_clean"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/auth_input_clean_size"
+                android:layout_height="@dimen/auth_input_clean_size"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:padding="5dp"
+                android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
+                android:layout_marginRight="@dimen/auth_input_clean_marginRight"
+                android:layout_marginTop="@dimen/auth_input_clean_marginTop"
+                android:padding="@dimen/auth_input_clean_padding"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/ic_clear" />
         </RelativeLayout>
@@ -58,9 +58,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="@dimen/auth_input_marginStart"
+            android:layout_marginRight="@dimen/auth_input_marginEnd"
+            android:layout_marginTop="@dimen/auth_input_space_height"
             android:background="#fff"
             android:orientation="horizontal">
 
@@ -76,8 +76,8 @@
                 android:inputType="phone"
                 android:maxLength="11"
                 android:textColorHint="#606060"
-                android:paddingLeft="2dp"
-                android:paddingRight="35dp"
+                android:paddingLeft="@dimen/auth_input_edit_paddingStart"
+                android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                 android:singleLine="true"
                 android:textColor="#000" />
 
@@ -86,11 +86,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
+                android:layout_marginRight="@dimen/auth_input_clean_marginRight"
+                android:layout_marginTop="@dimen/auth_input_clean_marginTop"
+                android:padding="@dimen/auth_input_clean_padding"
                 android:background="?attr/colorPrimary"
-                android:padding="5dp"
                 android:layout_alignParentRight="true"
                 android:text="@string/get_valicode"/>
         </RelativeLayout>
@@ -98,7 +98,7 @@
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/btn_back"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/floating_btn_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
@@ -110,7 +110,7 @@
     </com.melnykov.fab.FloatingActionButton>
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/btn_login"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/floating_btn_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"

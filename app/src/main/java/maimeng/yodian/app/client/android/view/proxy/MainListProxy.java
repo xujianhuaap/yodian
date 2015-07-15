@@ -32,6 +32,7 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 
 /**
@@ -174,7 +175,10 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onClick(SkillListAdapter.ViewHolder holder, View clickItem, int postion) {
-
+        if(clickItem==holder.getBinding().btnShare){
+            Skill data = holder.getData();
+            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data.getId(), "http://www.baidu.com/", data.getPic(), data.getName(), data.getUid(), data.getNickname(), data.getPrice(), data.getUnit(), ""));
+        }
     }
 
     @Override

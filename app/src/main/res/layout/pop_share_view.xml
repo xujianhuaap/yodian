@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0000"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:weightSum="1">
+    <TextView
+        android:layout_width="match_parent"
+        android:text="@string/share_title"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="#fff"
+        android:layout_height="wrap_content" />
+    <GridLayout
+        android:layout_marginTop="@dimen/share_dialog_content_marginTop"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:layout_marginBottom="20dp"
+        android:rowCount="2">
+
+        <TextView
+            android:id="@+id/weixin"
+            android:padding="@dimen/dialog_share_item_padding"
+            android:drawableTop="@drawable/ic_share_weixin_friend"
+            android:gravity="center"
+            android:text="微信"
+            android:textColor="#fff"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/qqRoom"
+            android:drawableTop="@drawable/ic_share_qqroom"
+            android:gravity="center"
+            android:text="QQ空间"
+            android:textColor="#fff"
+            android:padding="@dimen/dialog_share_item_padding"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/fridens"
+            android:drawableTop="@drawable/ic_share_weixin_circle"
+            android:gravity="center"
+            android:text="朋友圈"
+            android:textColor="#fff"
+            android:padding="@dimen/dialog_share_item_padding"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/sina"
+            android:drawableTop="@drawable/ic_share_weibo"
+            android:gravity="center"
+            android:text="新浪"
+            android:padding="@dimen/dialog_share_item_padding"
+            android:textColor="#fff"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp" />
+
+
+        <!--<View-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--android:paddingRight="20dp"-->
+        <!--android:layout_columnSpan="4"-->
+        <!--android:background="#000" />-->
+
+
+        <FrameLayout
+            android:padding="@dimen/dialog_share_item_padding"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/report"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/ic_reportlogo"
+                android:gravity="center"
+                android:text="举报"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+        </FrameLayout>
+    </GridLayout>
+
+
+</LinearLayout>

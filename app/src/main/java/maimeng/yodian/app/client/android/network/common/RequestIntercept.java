@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
-import maimeng.yodian.app.client.android.YApplicaton;
+import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.utils.MD5Util;
@@ -33,10 +33,10 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
         /**
          * 添加一些任何任何接口都必须有的参数
          */
-        request.add("versionName", String.valueOf(YApplicaton.versionCode));
+        request.add("versionName", String.valueOf(YApplication.versionCode));
 //        request.add("sign", "maimengkeji@4c6a32ac439d8a355215f9c956bdf72c");
         request.add("clientType",2);
-        request.add("channelType", YApplicaton.channelId);
+        request.add("channelType", YApplication.channelId);
         if(mContext!=null){
             UserAuth auth = UserAuth.read(mContext);
             String token = auth.token;

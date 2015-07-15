@@ -3,6 +3,8 @@ package maimeng.yodian.app.client.android.model;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.BR;
@@ -11,7 +13,8 @@ import maimeng.yodian.app.client.android.BR;
  * Created by android on 15-7-14.
  */
 public class Skill extends BaseObservable{
-    private long sid;//技能id
+    @SerializedName("sid")
+    private long id;//技能id
     private long uid;//用户id
 
 
@@ -25,12 +28,12 @@ public class Skill extends BaseObservable{
     private String nickname;//用户昵称
     private String avatar;//用户头像数据
 
-    public long getSid() {
-        return sid;
+    public long getId() {
+        return id;
     }
 
-    public void setSid(long sid) {
-        this.sid = sid;
+    public void setId(long id) {
+        this.id = id;
     }
     @Bindable
     public String getName() {

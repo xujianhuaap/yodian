@@ -15,7 +15,7 @@ import maimeng.yodian.app.client.android.network.Network;
 /**
  * Created by android on 15-7-13.
  */
-public class YApplicaton extends Application {
+public class YApplication extends Application {
     public static int channelId=-1;
     public static String channelName;
     public static int versionCode;
