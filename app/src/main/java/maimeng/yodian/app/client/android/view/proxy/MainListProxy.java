@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.view.proxy;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -24,6 +25,7 @@ import maimeng.yodian.app.client.android.MainActivity;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
+import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -72,6 +74,8 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
         adapter=new SkillListAdapter(mActivity,this);
         mRecyclerView.setAdapter(adapter);
+        ItemTouchHelper swipeTouchHelper=new ItemTouchHelper(new DefaultItemTouchHelperCallback());
+        //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
     }
     private void refresh() {
         service.choose(page, this);

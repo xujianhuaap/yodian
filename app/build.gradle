@@ -4,7 +4,7 @@ apply from: 'signing_config.gradle'
 apply from: 'apk.gradle'
 apply from: 'check.gradle'
 android {
-    compileSdkVersion 22
+    compileSdkVersion 21
     buildToolsVersion "22.0.1"
 //    lintOptions {
 //        abortOnError false
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1,LAUNCHER_ACTIVITY:"maimeng.yodian.app.client.android.MainActivity"]
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
