@@ -1,11 +1,16 @@
 package maimeng.yodian.app.client.android.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import java.util.Date;
+
+import maimeng.yodian.app.client.android.BR;
 
 /**
  * Created by android on 15-7-14.
  */
-public class Skill {
+public class Skill extends BaseObservable{
     private long sid;//技能id
     private String name;//技能名称
     private String pic;//技能图片
@@ -24,13 +29,14 @@ public class Skill {
     public void setSid(long sid) {
         this.sid = sid;
     }
-
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
     public String getPic() {
@@ -40,13 +46,14 @@ public class Skill {
     public void setPic(String pic) {
         this.pic = pic;
     }
-
+    @Bindable
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+        notifyPropertyChanged(BR.content);
     }
 
     public String getPrice() {

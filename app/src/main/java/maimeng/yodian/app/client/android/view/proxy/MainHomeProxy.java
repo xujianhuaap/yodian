@@ -24,8 +24,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.MainActivity;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.MainHomeAdapter;
-import maimeng.yodian.app.client.android.common.RecyclerViewItemAnimator;
+import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -38,7 +37,7 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<MainHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse>, AppBarLayout.OnOffsetChangedListener {
+public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<SkillListAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse>, AppBarLayout.OnOffsetChangedListener {
     private final CoordinatorLayout mView;
     private final MainActivity mActivity;
     private final RecyclerView mRecyclerView;
@@ -48,7 +47,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private final RoundImageView mUserAvatar;
     private final TextView mUserNickname;
     private boolean inited=false;
-    private final MainHomeAdapter adapter;
+    private final SkillListAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private UserAuth user;
     private int page=1;
@@ -80,7 +79,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter=new MainHomeAdapter(mActivity,this);
+        adapter=new SkillListAdapter(mActivity,this);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -169,12 +168,12 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     @Override
-    public void onItemClick(MainHomeAdapter.ViewHolder holder, int postion) {
+    public void onItemClick(SkillListAdapter.ViewHolder holder, int postion) {
 
     }
 
     @Override
-    public void onClick(MainHomeAdapter.ViewHolder holder, View clickItem, int postion) {
+    public void onClick(SkillListAdapter.ViewHolder holder, View clickItem, int postion) {
 
     }
 

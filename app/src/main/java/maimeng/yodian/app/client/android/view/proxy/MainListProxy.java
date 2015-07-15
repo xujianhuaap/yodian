@@ -1,10 +1,8 @@
 package maimeng.yodian.app.client.android.view.proxy;
 
-import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -25,8 +23,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.MainActivity;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.MainHomeAdapter;
-import maimeng.yodian.app.client.android.common.RecyclerViewItemAnimator;
+import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -38,7 +35,7 @@ import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 /**
  * Created by android on 15-7-13.
  */
-public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<MainHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse> {
+public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<SkillListAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse> {
     private final View mView;
     private final MainActivity mActivity;
     private final SkillService service;
@@ -47,7 +44,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private boolean inited=false;
     private UserAuth user;
     private int page=1;
-    private final MainHomeAdapter adapter;
+    private final SkillListAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     public MainListProxy(MainActivity activity, View view){
         this.mView=view;
@@ -73,7 +70,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter=new MainHomeAdapter(mActivity,this);
+        adapter=new SkillListAdapter(mActivity,this);
         mRecyclerView.setAdapter(adapter);
     }
     private void refresh() {
@@ -167,12 +164,12 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     @Override
-    public void onItemClick(MainHomeAdapter.ViewHolder holder, int postion) {
+    public void onItemClick(SkillListAdapter.ViewHolder holder, int postion) {
 
     }
 
     @Override
-    public void onClick(MainHomeAdapter.ViewHolder holder, View clickItem, int postion) {
+    public void onClick(SkillListAdapter.ViewHolder holder, View clickItem, int postion) {
 
     }
 
