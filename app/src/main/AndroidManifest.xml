@@ -29,12 +29,15 @@
         <activity
             android:name="maimeng.yodian.app.client.android.MainActivity"
             android:label="@string/app_name" >
+
+        </activity>
+        <activity android:name=".view.auth.AuthActivity"/>
+        <activity android:name=".view.auth.AuthSeletorActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.auth.AuthActivity"/>
         <activity android:name=".view.auth.AuthSettingInfoActivity"/>
         <activity
             android:name=".view.WebLauncher"

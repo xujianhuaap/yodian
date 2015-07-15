@@ -12,6 +12,12 @@ public class WXEntryActivity extends WechatHandlerActivity {
     @Override
     public void onResp(BaseResp resp) {
         super.onResp(resp);
+        switch (resp.errCode){
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                break;
+            case BaseResp.ErrCode.ERR_UNSUPPORT:
+                break;
+        }
     }
 
     @Override
