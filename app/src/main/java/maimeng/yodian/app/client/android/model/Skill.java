@@ -12,6 +12,9 @@ import maimeng.yodian.app.client.android.BR;
  */
 public class Skill extends BaseObservable{
     private long sid;//技能id
+    private long uid;//用户id
+
+
     private String name;//技能名称
     private String pic;//技能图片
     private String content;//技能描述
@@ -54,6 +57,13 @@ public class Skill extends BaseObservable{
     public void setContent(String content) {
         this.content = content;
         notifyPropertyChanged(BR.content);
+    }
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 
     public String getPrice() {

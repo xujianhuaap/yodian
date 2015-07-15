@@ -1,80 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="skill"
-            type="maimeng.yodian.app.client.android.model.Skill"/>
+            type="maimeng.yodian.app.client.android.model.Skill" />
     </data>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    app:contentPadding="15dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-    <RelativeLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginLeft="55dp"
-            android:layout_marginTop="5dp"
-            android:id="@+id/user_nickname"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_width="wrap_content"
-            android:text="@{skill.nickname}"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_below="@+id/user_nickname"
-            android:id="@+id/img"
-            android:scaleType="fitXY"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <TextView
-            android:id="@+id/skill_name"
-            android:layout_width="match_parent"
-            android:singleLine="true"
-            android:padding="10dp"
-            android:text="@{skill.name}"
-            android:gravity="left|center_vertical"
-            android:textColor="#fff"
-            android:background="@color/float_colorRipple"
-            android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content" />
 
-    </RelativeLayout>
-        <RelativeLayout
+    <maimeng.yodian.app.client.android.widget.SwipeItemLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:showMode="becover"
+        app:enableSlide="false"
+        app:enableAlpha="false"
+        android:padding="10dp"
+        app:springDistance="20dp"
+        app:swipeDirection="left">
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_alignParentLeft="true"
-                android:id="@+id/price"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_centerVertical="true"
-                android:text="编辑"
-                android:background="@drawable/btn_edit"
-                android:layout_alignParentRight="true"
-                android:id="@+id/btn_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-    </LinearLayout>
-    <maimeng.yodian.app.client.android.widget.RoundImageView
-        android:id="@+id/user_avatar"
-        android:layout_width="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_height="40dp" />
-</FrameLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/user_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@{skill.nickname}"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/user_nickname"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/skill_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/float_colorRipple"
+                        android:gravity="left|center_vertical"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:text="@{skill.name}"
+                        android:textColor="#fff" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true" />
+
+                    <TextView
+                        android:id="@+id/btn_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/btn_edit"
+                        android:text="编辑" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <maimeng.yodian.app.client.android.widget.RoundImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp" />
+        </FrameLayout>
+            <include layout="@layout/swipe_item_menu"/>
+    </maimeng.yodian.app.client.android.widget.SwipeItemLayout>
+
 </layout>
