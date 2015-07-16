@@ -151,6 +151,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         title.append(params.targetNickname);
         title.append("】");
         title.append("正在出售Ta的时间技能:");
+        title.append(params.skillName);
         Bundle args = new Bundle();
         args.putLong("id", params.id);
         args.putLong("targetUid", params.targetUid);
@@ -217,7 +218,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @OnClick(R.id.qqRoom)
     public void qzone(final View v) {
         StringBuffer content=new StringBuffer();
-        content.append(skillName).append(price).append(unit);
+        content.append(content).append("\n").append(price).append("/").append(unit);
         IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.QQ);
         iShareManager.share(new MessageWebpage(title, content.toString(), redirect_url, img_url), QQShareManager.QZONE_SHARE_TYPE/*,this*/);
     }
@@ -229,7 +230,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @OnClick(R.id.sina)
     public void ShareToWeiBo(View view) {
         StringBuffer content=new StringBuffer();
-        content.append(title).append(skillName).append(price).append(unit).append("@优点APP");
+        content.append(title).append(price).append(unit).append("@优点APP");
         IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.WEIBO);
         iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, img_url), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
     }
@@ -241,7 +242,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
             return;
         }
             StringBuffer content=new StringBuffer();
-            content.append(skillName).append(price).append(unit);
+            content.append(content).append("\n").append(price).append("/").append(unit);
             IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIXIN);
             iShareManager.share(new MessageWebpage(title,content.toString(),redirect_url,img_url),v.getId() == R.id.weixin?WechatShareManager.WEIXIN_SHARE_TYPE_TALK:WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
     }

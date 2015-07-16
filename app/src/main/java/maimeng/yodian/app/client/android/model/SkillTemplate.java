@@ -3,7 +3,6 @@ package maimeng.yodian.app.client.android.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
-
 public class SkillTemplate {
     @SerializedName("tid")
     private long id;

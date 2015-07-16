@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -56,6 +59,8 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private UserAuth user;
     private int page=1;
+    private FloatingActionButton mFloatButton;
+
     public MainHomeProxy(MainTabActivity activity, View view){
         this.mView=(CoordinatorLayout)view;
         this.mActivity=activity;
@@ -139,6 +144,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void show(FloatingActionButton button) {
+        this.mFloatButton=button;
         AlphaAnimation alphaAnimation=new AlphaAnimation(0f,1f);
         alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -254,6 +260,9 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onClick(View v) {
-        mActivity.startActivityForResult(new Intent(mActivity, SkillTemplateActivity.class),ActivityProxyController.REQUEST_CREATE_SKILL);
+        Pair<View,String> top=Pair.create(v,"top");
+        Pair<View,String> floatbutton=Pair.create((View)mFloatButton,"floatbutton");
+        ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity,top,floatbutton);
+        ActivityCompat.startActivityForResult(mActivity,new Intent(mActivity, SkillTemplateActivity.class),ActivityProxyController.REQUEST_CREATE_SKILL,options.toBundle());
     }
 }
