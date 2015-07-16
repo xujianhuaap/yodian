@@ -67,6 +67,9 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
             binding.btnEdit.setOnClickListener(this);
             binding.btnContect.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);
+            binding.btnChangeState.setOnClickListener(this);
+            binding.btnDelete.setOnClickListener(this);
+            binding.btnUpdate.setOnClickListener(this);
             user=UserAuth.read(swipeItemLayout.getContext());
         }
         public void bind(Skill item){
@@ -82,7 +85,12 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
 
             binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(),item.getUnit())));
         }
-
+        public void closeWithAnim(){
+            if(swipeItemLayout.isClosed()){
+            }else{
+                swipeItemLayout.closeWithAnim();
+            }
+        }
         @Override
         public void onClick(View v) {
             if(v==swipeItemLayout){

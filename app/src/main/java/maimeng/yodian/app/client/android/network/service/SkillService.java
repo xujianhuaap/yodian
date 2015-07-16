@@ -48,5 +48,35 @@ public interface SkillService {
     @Post(ApiConfig.Api.SKILL_ADD)
     void add(@Param("name")String name,@Param("content")String content,@Param("pic")TypeBitmap pic,@Param("price")String price,@Param("unit")String unit,ToastCallback callback);
 
+    /**
+     * 修改技能
+     * @param sid
+     * @param name
+     * @param content
+     * @param pic
+     * @param price
+     * @param unit
+     * @param callback
+     */
+    @Multipart
+    @Post(ApiConfig.Api.SKILL_UPDATE)
+    void update(@Param("sid")long sid,@Param("name")String name,@Param("content")String content,@Param("pic")TypeBitmap pic,@Param("price")String price,@Param("unit")String unit,ToastCallback callback);
 
+
+    /**
+     *  删除技能
+     * @param sid
+     * @param callback
+     */
+    @Post(ApiConfig.Api.SKILL_DELETE)
+    void delete(@Param("sid")long sid,ToastCallback callback);
+
+    /**
+     * * 上架下架技能
+     * @param sid
+     * @param up 1上架，0下架
+     * @param callback
+     */
+    @Post(ApiConfig.Api.SKILL_UP)
+    void up(@Param("sid")long sid,@Param("up")int up,ToastCallback callback);
 }

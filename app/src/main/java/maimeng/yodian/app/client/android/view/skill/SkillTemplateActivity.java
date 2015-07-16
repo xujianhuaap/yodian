@@ -90,7 +90,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
 
     @Override
     public void onItemClick(SkillTemplateAdapter.ViewHolder holder, int postion) {
-        Intent intent=new Intent(this,CreateSkillActivity.class);
+        Intent intent=new Intent(this,CreateOrEditSkillActivity.class);
         if(holder.getItemViewType()==ViewEntry.VIEW_TYPE_ITEM){
             SkillTemplateAdapter.ItemViewHolder itemHolder = (SkillTemplateAdapter.ItemViewHolder) holder;
             SkillTemplate template = itemHolder.getTemplate();

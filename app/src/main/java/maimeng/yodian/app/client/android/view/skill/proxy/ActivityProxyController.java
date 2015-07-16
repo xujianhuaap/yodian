@@ -12,6 +12,7 @@ public class ActivityProxyController {
     private final MainListProxy mListProxy;
     private final MainHomeProxy mHomeProxy;
     public static final int REQUEST_CREATE_SKILL = 0x2403;//新建技能
+    public static final int REQUEST_EDIT_SKILL = 0x2404;//编辑技能
     public void onFloatClick(FloatingActionButton v) {
         if(mListProxy.isShow()){
             mListProxy.hide(v);

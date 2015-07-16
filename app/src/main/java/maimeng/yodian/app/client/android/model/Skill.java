@@ -2,6 +2,8 @@ package maimeng.yodian.app.client.android.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,7 +14,8 @@ import maimeng.yodian.app.client.android.BR;
 /**
  * Created by android on 15-7-14.
  */
-public class Skill extends BaseObservable{
+public class Skill extends BaseObservable implements Parcelable {
+
     @SerializedName("sid")
     private long id;//技能id
     private long uid;//用户id
@@ -84,7 +87,6 @@ public class Skill extends BaseObservable{
     public void setUnit(String unit) {
         this.unit = unit;
     }
-
     public int getStatus() {
         return status;
     }
@@ -115,5 +117,67 @@ public class Skill extends BaseObservable{
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeLong(this.uid);
+        dest.writeString(this.name);
+        dest.writeString(this.pic);
+        dest.writeString(this.content);
+        dest.writeString(this.price);
+        dest.writeString(this.unit);
+        dest.writeInt(this.status);
+        dest.writeLong(createtime != null ? createtime.getTime() : -1);
+        dest.writeString(this.nickname);
+        dest.writeString(this.avatar);
+    }
+
+    public Skill() {
+    }
+
+    protected Skill(Parcel in) {
+        this.id = in.readLong();
+        this.uid = in.readLong();
+        this.name = in.readString();
+        this.pic = in.readString();
+        this.content = in.readString();
+        this.price = in.readString();
+        this.unit = in.readString();
+        this.status = in.readInt();
+        long tmpCreatetime = in.readLong();
+        this.createtime = tmpCreatetime == -1 ? null : new Date(tmpCreatetime);
+        this.nickname = in.readString();
+        this.avatar = in.readString();
+    }
+
+    public static final Parcelable.Creator<Skill> CREATOR = new Parcelable.Creator<Skill>() {
+        public Skill createFromParcel(Parcel source) {
+            return new Skill(source);
+        }
+
+        public Skill[] newArray(int size) {
+            return new Skill[size];
+        }
+    };
+
+    public void update(Skill skill) {
+        this.uid=skill.uid;
+        this.name=skill.name;
+        this.pic=skill.pic;
+        this.content=skill.content;
+        this.price=skill.price;
+        this.unit=skill.unit;
+        this.status=skill.status;
+        this.createtime=skill.createtime;
+        this.nickname=skill.nickname;
+        this.avatar=skill.avatar;
+
     }
 }

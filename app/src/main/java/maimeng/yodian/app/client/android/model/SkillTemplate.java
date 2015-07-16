@@ -13,6 +13,14 @@ import maimeng.yodian.app.client.android.BR;
 
 public class SkillTemplate extends BaseObservable implements Parcelable {
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @SerializedName("tid")
     private long id;
     private String name;

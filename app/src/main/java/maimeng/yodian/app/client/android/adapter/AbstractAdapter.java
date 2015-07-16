@@ -21,6 +21,11 @@ public abstract class AbstractAdapter<IT, VH extends RecyclerView.ViewHolder> ex
         notifyItemRemoved(position);
     }
 
+    public void remove(int postion){
+        this.datas.remove(postion);
+        notifyItemRemoved(postion);
+    }
+
     /**
      * ViewHolder点击监听
      *

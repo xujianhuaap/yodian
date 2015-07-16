@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
+import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypeBitmap;
@@ -40,13 +41,13 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 /**
  *
  */
-public class CreateSkillActivity extends AppCompatActivity implements Target{
+public class CreateOrEditSkillActivity extends AppCompatActivity implements Target{
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
-
+    private boolean isEdit=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +58,19 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
             ViewCompat.setTransitionName(binding.skillPic, "img");
             ViewCompat.setTransitionName(binding.skillName, "title");
         }else{
-            mTemplate=new SkillTemplate();
+            mTemplate = new SkillTemplate();
+            if(getIntent().hasExtra("skill")){
+                Skill skill=getIntent().getParcelableExtra("skill");
+                mTemplate.setPic(skill.getPic());
+                mTemplate.setUnit(skill.getUnit());
+                mTemplate.setPrice(skill.getPrice());
+                mTemplate.setName(skill.getName());
+                mTemplate.setContent(skill.getContent());
+                mTemplate.setCreatetime(skill.getCreatetime());
+                mTemplate.setId(skill.getId());
+                mTemplate.setStatus(skill.getStatus());
+                isEdit=true;
+            }
         }
         Network.image(this, mTemplate.getPic(), this);
         binding.setTemplate(mTemplate);
@@ -81,7 +94,7 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(CreateSkillActivity.this);
+                ActivityCompat.finishAfterTransition(CreateOrEditSkillActivity.this);
             }
         });
         binding.btnDone.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +106,7 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
         binding.btnAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(CreateSkillActivity.this);
+                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(CreateOrEditSkillActivity.this);
                 intentPhoto.setPhotoCount(1);
                 intentPhoto.setShowCamera(false);
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
@@ -102,7 +115,7 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
         binding.btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(CreateSkillActivity.this);
+                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(CreateOrEditSkillActivity.this);
                 intentPhoto.setPhotoCount(1);
                 intentPhoto.setShowCamera(true);
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
@@ -154,7 +167,7 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
 
     private void doDone() {
         binding.invalidateAll();
-        SkillTemplate template = binding.getTemplate();
+        final SkillTemplate template = binding.getTemplate();
         if(TextUtils.isEmpty(template.getName())){
             binding.getTemplate();
             binding.skillName.setError(getText(R.string.create_not_empty_name));
@@ -176,16 +189,39 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
             Toast.makeText(this,R.string.create_not_empty_pic,Toast.LENGTH_SHORT).show();
             return;
         }
-        service.add(template.getName(), template.getContent(), new TypeBitmap(mBitmap), template.getPrice(), template.getUnit(), new ToastCallback(this){
-            @Override
-            public void success(ToastResponse res, Response response) {
-                super.success(res, response);
-                if(res.isSuccess()){
-                    setResult(RESULT_OK);
-                    finish();
-                }else if(res.isValidateAuth(CreateSkillActivity.this,REQUEST_AUTH));
-            }
-        });
+        if(isEdit){
+            service.update(template.getId(), template.getName(), template.getContent(), new TypeBitmap(mBitmap), template.getPrice(), template.getUnit(), new ToastCallback(this) {
+                @Override
+                public void success(ToastResponse res, Response response) {
+                    super.success(res, response);
+                    if (res.isSuccess()) {
+                        Skill skill=getIntent().getParcelableExtra("skill");
+                        skill.setPic(template.getPic());
+                        skill.setUnit(template.getUnit());
+                        skill.setPrice(template.getPrice());
+                        skill.setName(template.getName());
+                        skill.setContent(template.getContent());
+                        skill.setCreatetime(template.getCreatetime());
+                        skill.setStatus(template.getStatus());
+                        Intent data=new Intent();
+                        data.putExtra("skill",skill);
+                        setResult(RESULT_OK,data);
+                        finish();
+                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
+                }
+            });
+        }else {
+            service.add(template.getName(), template.getContent(), new TypeBitmap(mBitmap), template.getPrice(), template.getUnit(), new ToastCallback(this) {
+                @Override
+                public void success(ToastResponse res, Response response) {
+                    super.success(res, response);
+                    if (res.isSuccess()) {
+                        setResult(RESULT_OK);
+                        finish();
+                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
+                }
+            });
+        }
     }
 
     @Override

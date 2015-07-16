@@ -32,7 +32,7 @@
 
         </activity>
         <activity android:name=".view.auth.AuthActivity"/>
-        <activity android:name=".view.skill.CreateSkillActivity" android:theme="@style/AppThemeTransparent" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.skill.CreateOrEditSkillActivity" android:theme="@style/AppThemeTransparent" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".view.skill.SkillTemplateActivity" android:theme="@style/AppThemeTransparent"/>
         <activity android:name=".view.auth.AuthSeletorActivity">
             <intent-filter>

@@ -52,6 +52,9 @@ public class ApiConfig {
         public static final String SKILL_CHOICE="/choice/index";//精选技能列表
         public static final String SKILL_TEMPLATE="/skill/gettemplate";//技能模板列表
         public static final String SKILL_ADD="/skill/add";//添加技能
+        public static final String SKILL_UPDATE="/skill/edit";//修改技能
+        public static final String SKILL_DELETE="/skill/delete";//删除技能
+        public static final String SKILL_UP="/skill/up";//技能上架下架
 
 
     }

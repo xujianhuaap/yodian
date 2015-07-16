@@ -33,10 +33,13 @@ import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
+import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.RoundImageView;
@@ -60,6 +63,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private UserAuth user;
     private int page=1;
     private FloatingActionButton mFloatButton;
+    private int mEditPostion;
 
     public MainHomeProxy(MainTabActivity activity, View view){
         this.mView=(CoordinatorLayout)view;
@@ -111,6 +115,13 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
                 init();
             }else if(requestCode==REQUEST_AUTH){
                 init();
+            }else if(requestCode==ActivityProxyController.REQUEST_EDIT_SKILL){
+                Skill skill = data.getParcelableExtra("skill");
+                if(mEditPostion!= -1 && skill!=null) {
+                    adapter.getItem(mEditPostion).update(skill);
+                    adapter.notifyItemChanged(mEditPostion);
+                    mEditPostion = -1;
+                }
             }
         }
     }
@@ -202,10 +213,37 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     @Override
-    public void onClick(SkillListAdapter.ViewHolder holder, View clickItem, int postion) {
+    public void onClick(final SkillListAdapter.ViewHolder holder, View clickItem, final int postion) {
+        final Skill skill = holder.getData();
         if(clickItem==holder.getBinding().btnShare){
-            Skill data = holder.getData();
+            Skill data = skill;
             ShareDialog.show(mActivity,new ShareDialog.ShareParams(data.getId(),"http://www.baidu.com/",data.getPic(),data.getName(),data.getUid(),data.getNickname(),data.getPrice(),data.getUnit(),""));
+        }else if(clickItem==holder.getBinding().btnUpdate){
+            Intent intent=new Intent(mActivity,CreateOrEditSkillActivity.class);
+            intent.putExtra("skill", skill);
+            mActivity.startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
+            mEditPostion=postion;
+            holder.closeWithAnim();
+        }else if(clickItem==holder.getBinding().btnDelete){
+            service.delete(skill.getId(),new ToastCallback(mActivity){
+                @Override
+                public void success(ToastResponse res, Response response) {
+                    super.success(res, response);
+                    if(res.isSuccess()){
+                        adapter.remove(postion);
+                    }
+                }
+            });
+        }else if(clickItem==holder.getBinding().btnChangeState){
+            final int up = skill.getStatus() == 0 ? 1 : 0;
+            service.up(skill.getId(), up, new ToastCallback(mActivity){
+                @Override
+                public void success(ToastResponse res, Response response) {
+                    super.success(res, response);
+                    skill.setStatus(up);
+                    holder.closeWithAnim();
+                }
+            });
         }
     }
 
