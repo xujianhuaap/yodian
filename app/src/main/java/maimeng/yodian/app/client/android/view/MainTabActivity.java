@@ -13,6 +13,7 @@ import com.umeng.message.PushAgent;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.service.UmengPushMessageService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
@@ -99,7 +100,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
                 finish();
             }
         }else {
-                controller.onActivityResult(requestCode,resultCode,data);
+            controller.onActivityResult(requestCode,resultCode,data);
         }
     }
 
@@ -126,5 +127,11 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     @Override
     public String positiveText() {
         return "是";
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        LogUtil.i(MainTabActivity.class.getName(),"onNewIntent");
     }
 }

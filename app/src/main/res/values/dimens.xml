@@ -19,6 +19,7 @@
 
     <eat-comment/>
     <dimen name="skill_list_item_share_margin">5dp</dimen>
+    <dimen name="skill_list_template_item_height">110dp</dimen>
 
 
     <eat-comment/>

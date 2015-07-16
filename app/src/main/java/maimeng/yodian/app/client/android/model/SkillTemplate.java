@@ -1,25 +1,38 @@
 package maimeng.yodian.app.client.android.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
-public class SkillTemplate {
+
+import maimeng.yodian.app.client.android.BR;
+
+public class SkillTemplate extends BaseObservable implements Parcelable {
+
     @SerializedName("tid")
     private long id;
+    @Bindable
     private String name;
     private String pic;
+    @Bindable
     private String content;
+    @Bindable
     private String price;
+    @Bindable
     private String unit;
     private int status;
     private Date createtime;
-
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+        notifyPropertyChanged(BR.content);
     }
 
     public Date getCreatetime() {
@@ -36,6 +49,7 @@ public class SkillTemplate {
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
     public String getPic() {
@@ -52,6 +66,7 @@ public class SkillTemplate {
 
     public void setPrice(String price) {
         this.price = price;
+        notifyPropertyChanged(BR.price);
     }
 
     public int getStatus() {
@@ -68,5 +83,48 @@ public class SkillTemplate {
 
     public void setUnit(String unit) {
         this.unit = unit;
+        notifyPropertyChanged(BR.unit);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.pic);
+        dest.writeString(this.content);
+        dest.writeString(this.price);
+        dest.writeString(this.unit);
+        dest.writeInt(this.status);
+        dest.writeLong(createtime != null ? createtime.getTime() : -1);
+    }
+
+    public SkillTemplate() {
+    }
+
+    protected SkillTemplate(Parcel in) {
+        this.id = in.readLong();
+        this.name = in.readString();
+        this.pic = in.readString();
+        this.content = in.readString();
+        this.price = in.readString();
+        this.unit = in.readString();
+        this.status = in.readInt();
+        long tmpCreatetime = in.readLong();
+        this.createtime = tmpCreatetime == -1 ? null : new Date(tmpCreatetime);
+    }
+
+    public static final Parcelable.Creator<SkillTemplate> CREATOR = new Parcelable.Creator<SkillTemplate>() {
+        public SkillTemplate createFromParcel(Parcel source) {
+            return new SkillTemplate(source);
+        }
+
+        public SkillTemplate[] newArray(int size) {
+            return new SkillTemplate[size];
+        }
+    };
 }

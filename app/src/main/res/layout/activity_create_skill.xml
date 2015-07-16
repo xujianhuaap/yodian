@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="template"
+            type="maimeng.yodian.app.client.android.model.SkillTemplate" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_heightPercent="30%h">
+
+                    <ImageView
+                        android:id="@+id/skill_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="false"
+                        android:scaleType="fitXY" />
+                </FrameLayout>
+
+                <EditText
+                    android:id="@+id/skill_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{template.name}" />
+
+                <EditText
+                    android:maxLength="200"
+                    android:minLines="6"
+                    android:gravity="top"
+                    android:id="@+id/skill_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{template.content}" />
+                <EditText
+                    android:singleLine="true"
+                    android:id="@+id/skill_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{template.price}" />
+                <EditText
+                    android:singleLine="true"
+                    android:id="@+id/skill_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{template.unit}" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+        </ScrollView>
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:layout_margin="@dimen/floating_btn_margin"
+            android:src="@drawable/btn_back"
+            app:fab_colorNormal="@color/float_colorNormal"
+            app:fab_colorPressed="@color/float_colorPressed"
+            app:fab_colorRipple="@color/float_colorRipple">
+
+        </com.melnykov.fab.FloatingActionButton>
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/btn_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="@dimen/floating_btn_margin"
+            android:src="@drawable/btn_bg"
+            app:fab_colorNormal="@color/float_colorNormal"
+            app:fab_colorPressed="@color/float_colorPressed"
+            app:fab_colorRipple="@color/float_colorRipple"></com.melnykov.fab.FloatingActionButton>
+    </FrameLayout>
+</layout>
