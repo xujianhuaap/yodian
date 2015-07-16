@@ -131,7 +131,7 @@ public class SwipeItemLayout extends FrameLayout {
         mTopView = getChildAt(0);
         mBottomView = getChildAt(1);
         // 避免底部视图被隐藏时还能获取焦点被点击
-        if(mShowModel!=ShowModel.BeCover)mBottomView.setVisibility(INVISIBLE);
+        mBottomView.setVisibility(INVISIBLE);
 
         mTopLp = (MarginLayoutParams) mTopView.getLayoutParams();
         mBottomLp = (MarginLayoutParams) mBottomView.getLayoutParams();
@@ -432,11 +432,11 @@ public class SwipeItemLayout extends FrameLayout {
      */
     private void slideTo(int isOpen) {
         if (isOpen == 1) {
-            if(mShowModel!=ShowModel.BeCover)mBottomView.setVisibility(VISIBLE);
+            mBottomView.setVisibility(VISIBLE);
             if(mEnableAlpha)ViewCompat.setAlpha(mBottomView, 1.0f);
             mCurrentStatus = Status.Opened;
         } else {
-            if(mShowModel!=ShowModel.BeCover)mBottomView.setVisibility(INVISIBLE);
+            mBottomView.setVisibility(INVISIBLE);
             mCurrentStatus = Status.Closed;
         }
         mPreStatus = mCurrentStatus;
@@ -595,19 +595,19 @@ public class SwipeItemLayout extends FrameLayout {
             switch (state) {
                 // 步骤1：开始拖动
                 case ViewDragHelper.STATE_DRAGGING:
-                    if(mShowModel!=ShowModel.BeCover)mBottomView.setVisibility(VISIBLE);
+                    mBottomView.setVisibility(VISIBLE);
                     mCurrentStatus = Status.Moving;
                     mIsNeedNotify = true;
                     break;
                 // 步骤2：fling松开手或者直接设置视图到某个位置
                 case ViewDragHelper.STATE_SETTLING:
-                    if(mShowModel!=ShowModel.BeCover)mBottomView.setVisibility(VISIBLE);
+                    mBottomView.setVisibility(VISIBLE);
                     mCurrentStatus = Status.Moving;
                     break;
                 // 步骤3：视图完成移动到步骤2中设置的位置，并停止移动
                 case ViewDragHelper.STATE_IDLE:
                     if (mTopView.getLeft() == getPaddingLeft() + mTopLp.leftMargin) {
-                        if(mShowModel!=ShowModel.BeCover)mBottomView.setVisibility(INVISIBLE);
+                        mBottomView.setVisibility(INVISIBLE);
                         mCurrentStatus = Status.Closed;
                         if (mIsNeedNotify && mDelegate != null && mPreStatus != mCurrentStatus) {
                             mDelegate.onSwipeItemLayoutClosed(SwipeItemLayout.this);
