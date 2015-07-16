@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
@@ -52,7 +53,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
         mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
         controller=new ActivityProxyController(mListProxy,mHomeProxy);
         floatButton = (FloatingActionButton)findViewById(R.id.btn_float);
-        floatButton.setOnClickListener(new View.OnClickListener() {
+        floatButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!mListProxy.isInited())mListProxy.init();

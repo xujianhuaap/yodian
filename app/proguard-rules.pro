@@ -136,7 +136,7 @@
 #Bugly接口
 -keep public class com.tencent.bugly.crashreport.crash.jni.NativeCrashHandler{public *; native <methods>;}
 -keep public interface com.tencent.bugly.crashreport.crash.jni.NativeExceptionHandler{*;}
-
+-dontwarn java.lang.invoke.*
 
 
 # 新浪微博

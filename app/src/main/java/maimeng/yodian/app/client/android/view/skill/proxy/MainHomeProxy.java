@@ -73,7 +73,6 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         appBar=(AppBarLayout)view.findViewById(R.id.appBarLayout);
         mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
-//        mRecyclerView.setItemAnimator(new RecyclerViewItemAnimator());
         mUserAvatar=(RoundImageView)view.findViewById(R.id.user_avatar);
         mUserNickname=(TextView)view.findViewById(R.id.user_nickname);
         mBtnCreateSkill=view.findViewById(R.id.btn_createskill);

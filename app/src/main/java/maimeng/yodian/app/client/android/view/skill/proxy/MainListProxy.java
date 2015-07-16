@@ -23,7 +23,6 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
-import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
@@ -34,6 +33,7 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 
@@ -58,7 +58,6 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         service= Network.getService(SkillService.class);
         mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
-//        mRecyclerView.setItemAnimator(new RecyclerViewItemAnimator());
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header=new StoreHouseHeader(activity);
         header.setPadding(0, (int) mActivity.getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
