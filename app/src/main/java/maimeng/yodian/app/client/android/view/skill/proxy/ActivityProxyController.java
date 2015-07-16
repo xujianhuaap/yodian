@@ -1,5 +1,7 @@
-package maimeng.yodian.app.client.android.view.proxy;
+package maimeng.yodian.app.client.android.view.skill.proxy;
 
+
+import android.content.Intent;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -9,7 +11,7 @@ import com.melnykov.fab.FloatingActionButton;
 public class ActivityProxyController {
     private final MainListProxy mListProxy;
     private final MainHomeProxy mHomeProxy;
-
+    static final int REQUEST_CREATE_SKILL = 0x1003;//新建技能
     public void onFloatClick(FloatingActionButton v) {
         if(mListProxy.isShow()){
             mListProxy.hide(v);
@@ -27,6 +29,14 @@ public class ActivityProxyController {
     public void onTitleChanged(CharSequence title, int color) {
         mHomeProxy.onTitleChanged(title,color);
         mListProxy.onTitleChanged(title,color);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(mListProxy.isShow()){
+            mListProxy.onActivityResult(requestCode,resultCode,data);
+        }else{
+            mHomeProxy.onActivityResult(requestCode,resultCode,data);
+        }
     }
 }
 

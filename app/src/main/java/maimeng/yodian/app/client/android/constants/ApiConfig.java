@@ -50,7 +50,7 @@ public class ApiConfig {
 
         public static final String SKILL_LIST="/skill/list";//我/他的技能列表
         public static final String SKILL_CHOICE="/choice/index";//精选技能列表
-
+        public static final String SKILL_TEMPLATE="/skill/gettemplate";//技能模板列表
 
 
     }

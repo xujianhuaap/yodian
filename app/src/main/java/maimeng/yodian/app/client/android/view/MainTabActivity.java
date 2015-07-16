@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android;
+package maimeng.yodian.app.client.android.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,21 +10,22 @@ import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.service.UmengPushMessageService;
-import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
-import maimeng.yodian.app.client.android.view.proxy.ActivityProxyController;
-import maimeng.yodian.app.client.android.view.proxy.MainHomeProxy;
-import maimeng.yodian.app.client.android.view.proxy.MainListProxy;
+import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
+import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
+import maimeng.yodian.app.client.android.view.skill.proxy.MainListProxy;
 
 
-public class MainActivity extends AbstractActivity implements AlertDialog.PositiveListener {
+public class MainTabActivity extends AbstractActivity implements AlertDialog.PositiveListener {
     private ActivityProxyController controller;
-    public static final int REQUEST_AUTH=0x1001;
-    private static final int REQUEST_UPDATEINFO = 0x1002;
+    private static final int REQUEST_AUTH=0x1001;//登陆
+    private static final int REQUEST_UPDATEINFO = 0x1002;//更新个人信息
+
     private MainListProxy mListProxy;
     private MainHomeProxy mHomeProxy;
     private UserAuth user;
@@ -97,6 +98,8 @@ public class MainActivity extends AbstractActivity implements AlertDialog.Positi
             }else{
                 finish();
             }
+        }else {
+                controller.onActivityResult(requestCode,resultCode,data);
         }
     }
 
@@ -115,7 +118,6 @@ public class MainActivity extends AbstractActivity implements AlertDialog.Positi
         super.onPause();
         MobclickAgent.onPause(this);
     }
-
     @Override
     public void onPositiveClick(DialogInterface dialog) {
             startActivityForResult(new Intent(this, AuthSettingInfoActivity.class),REQUEST_UPDATEINFO);

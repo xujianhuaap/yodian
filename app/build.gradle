@@ -18,7 +18,7 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
     defaultConfig {
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1,LAUNCHER_ACTIVITY:"maimeng.yodian.app.client.android.MainActivity"]
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1,LAUNCHER_ACTIVITY:"maimeng.yodian.app.client.android.view.MainTabActivity"]
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
@@ -61,7 +61,7 @@ repositories {
     }
 }
 dependencies {
-    compile(name:'sharesdk-release', ext:'aar')
+//    compile(name:'sharesdk-release', ext:'aar')
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -80,7 +80,7 @@ dependencies {
     compile 'me.iwf.photopicker:PhotoPicker:0.1.8'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'in.srain.cube:ultra-ptr:1.0.10'
-//    compile('org.henjue.library:sharesdk:1.0.2_beta3') {
-//        exclude module: 'hnet', group: 'org.henjue.library'
-//    }
+    compile('org.henjue.library:sharesdk:1.0.2_beta3') {
+        exclude module: 'hnet', group: 'org.henjue.library'
+    }
 }

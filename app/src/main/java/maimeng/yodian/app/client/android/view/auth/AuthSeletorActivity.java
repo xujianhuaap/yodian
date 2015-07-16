@@ -19,7 +19,6 @@ import org.henjue.library.share.manager.IAuthManager;
 import org.henjue.library.share.manager.WeiboAuthManager;
 import org.henjue.library.share.model.AuthInfo;
 
-import maimeng.yodian.app.client.android.MainActivity;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.model.Auth;
@@ -28,6 +27,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 public class AuthSeletorActivity extends AppCompatActivity implements View.OnClickListener {
@@ -35,12 +35,12 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     private SsoHandler mSsoHandler;
     private AuthService service;
     private WaitDialog dialog;
-
+    private static final int REQUEST_MOBILE_AUTH=0x5001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(!TextUtils.isEmpty(UserAuth.read(this).token)){
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(this,MainTabActivity.class));
             finish();
         }else {
             service = Network.getService(AuthService.class);
@@ -54,7 +54,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.btn_loginphone){
-            startActivity(new Intent(this,AuthActivity.class));
+            startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_MOBILE_AUTH);
             finish();
         }else if(v.getId()==R.id.btn_loginwechat){
             IAuthManager authManager = AuthFactory.create(this, Type.Platform.WEIXIN);
@@ -68,12 +68,27 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mSsoHandler = WeiboAuthManager.getSsoHandler();
-        if (mSsoHandler != null) {
-            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        if(requestCode==REQUEST_MOBILE_AUTH){
+            handlerFinsh();
+        }else {
+            mSsoHandler = WeiboAuthManager.getSsoHandler();
+            if (mSsoHandler != null) {
+                mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+            }
         }
     }
 
+
+    private void handlerFinsh(){
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra("result",false)){
+            setResult(RESULT_OK);
+            finish();
+        }else {
+            startActivity(new Intent(AuthSeletorActivity.this, MainTabActivity.class));
+            finish();
+        }
+    }
 
     class YDAuthListener implements AuthListener,Callback<AuthResponse>{
         private final Type.Platform type;
@@ -115,8 +130,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
                 Auth data = res.getData();
                 UserAuth user = new UserAuth(authInfo.nickname, authInfo.headimgurl,typeValue , data.getToken(), data.getUid(), data.getNickname(), data.getAvatar());
                 user.write(AuthSeletorActivity.this);
-                startActivity(new Intent(AuthSeletorActivity.this, MainActivity.class));
-                finish();
+                handlerFinsh();
             }else{
                 res.showMessage(AuthSeletorActivity.this);
             }

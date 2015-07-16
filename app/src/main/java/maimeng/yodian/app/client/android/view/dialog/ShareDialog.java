@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import org.henjue.library.share.ShareListener;
 import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.IShareManager;
 import org.henjue.library.share.manager.QQShareManager;
@@ -45,7 +44,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 /**
  * Created by android on 2015/5/26.
  */
-public class ShareDialog extends DialogFragment implements Target, ShareListener {
+public class ShareDialog extends DialogFragment implements Target/*, ShareListener*/ {
 
     @Bind(R.id.report)
     TextView mReport;
@@ -73,21 +72,21 @@ public class ShareDialog extends DialogFragment implements Target, ShareListener
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void onSuccess() {
-        dismiss();
-        Toast.makeText(getActivity(),R.string.share_success,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onFaild() {
-        Toast.makeText(getActivity(),R.string.share_failed,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onCancel() {
-        Toast.makeText(getActivity(),R.string.share_cancel,Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void onSuccess() {
+//        dismiss();
+//        Toast.makeText(getActivity(),R.string.share_success,Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onFaild() {
+//        Toast.makeText(getActivity(),R.string.share_failed,Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onCancel() {
+//        Toast.makeText(getActivity(),R.string.share_cancel,Toast.LENGTH_SHORT).show();
+//    }
 
     public static class ShareParams {
         public final long id;
@@ -220,7 +219,7 @@ public class ShareDialog extends DialogFragment implements Target, ShareListener
         StringBuffer content=new StringBuffer();
         content.append(skillName).append(price).append(unit);
         IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.QQ);
-        iShareManager.share(new MessageWebpage(title, content.toString(), redirect_url, img_url), QQShareManager.QZONE_SHARE_TYPE,this);
+        iShareManager.share(new MessageWebpage(title, content.toString(), redirect_url, img_url), QQShareManager.QZONE_SHARE_TYPE/*,this*/);
     }
 
     @OnClick(R.id.report)
@@ -232,7 +231,7 @@ public class ShareDialog extends DialogFragment implements Target, ShareListener
         StringBuffer content=new StringBuffer();
         content.append(title).append(skillName).append(price).append(unit).append("@优点APP");
         IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.WEIBO);
-        iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, img_url), WeiboShareManager.WEIBO_SHARE_TYPE,this);
+        iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, img_url), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
     }
 
     @OnClick({R.id.fridens, R.id.weixin})
@@ -244,7 +243,7 @@ public class ShareDialog extends DialogFragment implements Target, ShareListener
             StringBuffer content=new StringBuffer();
             content.append(skillName).append(price).append(unit);
             IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIXIN);
-            iShareManager.share(new MessageWebpage(title,content.toString(),redirect_url,img_url),v.getId() == R.id.weixin?WechatShareManager.WEIXIN_SHARE_TYPE_TALK:WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS,this);
+            iShareManager.share(new MessageWebpage(title,content.toString(),redirect_url,img_url),v.getId() == R.id.weixin?WechatShareManager.WEIXIN_SHARE_TYPE_TALK:WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
     }
 
 

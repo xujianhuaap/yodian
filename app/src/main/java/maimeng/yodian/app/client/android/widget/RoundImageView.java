@@ -40,7 +40,12 @@ public class RoundImageView extends ImageView {
     }
 
     public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr,0);
+        super(context,attrs,defStyleAttr);
+        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.RoundImageView);
+        mBorderThickness = a.getDimensionPixelSize(R.styleable.RoundImageView_borderSize, 0);
+        mBorderOutsideColor = a.getColor(R.styleable.RoundImageView_outsideColor, defaultColor);
+        mBorderInsideColor = a.getColor(R.styleable.RoundImageView_insideColor, defaultColor);
+        a.recycle();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

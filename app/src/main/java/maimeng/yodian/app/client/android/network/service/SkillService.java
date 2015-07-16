@@ -26,4 +26,8 @@ public interface SkillService {
      */
     @Post(ApiConfig.Api.SKILL_CHOICE)
     void choose(@Param("p")int p,Callback<SkillResponse> callback);
+
+    @Post(ApiConfig.Api.SKILL_TEMPLATE)
+    void template();
+
 }
