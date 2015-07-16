@@ -31,65 +31,105 @@
 
                     <ImageView
                         android:id="@+id/skill_pic"
-                        app:imgUrl="@{template.pic}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="false"
-                        android:scaleType="fitXY" />
+                        android:scaleType="fitXY"
+                        app:imgUrl="@{template.pic}" />
+                    <FrameLayout
+                        android:id="@+id/btn_select_photo"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:padding="15dp"
+                        android:background="@drawable/btn_select_photo"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="上传图片" />
+                    </FrameLayout>
+                    <LinearLayout
+                        android:id="@+id/button_container"
+                        android:orientation="horizontal"
+                        android:visibility="invisible"
+                        android:background="@color/float_colorRipple"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/btn_camera"
+                            android:src="@drawable/btn_camera"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:visibility="invisible"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:id="@+id/btn_album"
+                            android:src="@drawable/btn_album"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
                 </FrameLayout>
 
 
-                    <EditText
-                        android:id="@+id/skill_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="#eeeeee"
-                        android:textColorHint="#55000000"
-                        android:hint="@string/create_skill_title"
-                        android:maxLength="25"
-                        android:text="@{template.name}"
-                        android:textColor="#000" />
+                <EditText
+                    android:id="@+id/skill_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#eeeeee"
+                    android:hint="@string/create_skill_title"
+                    android:maxLength="25"
+                    android:text="@{template.name}"
+                    android:textColor="#000"
+                    android:textColorHint="#55000000" />
 
-                    <EditText
-                        android:id="@+id/skill_content"
-                        android:textColorHint="#55000000"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="#eeeeee"
-                        android:hint="@string/create_skill_content"
-                        android:gravity="top"
-                        android:maxLength="200"
-                        android:minLines="6"
-                        android:text="@{template.content}"
-                        android:textColor="#000" />
+                <EditText
+                    android:id="@+id/skill_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#eeeeee"
+                    android:gravity="top"
+                    android:hint="@string/create_skill_content"
+                    android:maxLength="200"
+                    android:minLines="6"
+                    android:text="@{template.content}"
+                    android:textColor="#000"
+                    android:textColorHint="#55000000" />
 
-                    <EditText
-                        android:id="@+id/skill_price"
-                        android:layout_width="match_parent"
-                        android:textColorHint="#55000000"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="#eeeeee"
-                        android:singleLine="true"
-                        android:hint="@string/create_skill_price"
-                        android:text="@{template.price}"
-                        android:textColor="#000" />
+                <EditText
+                    android:id="@+id/skill_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#eeeeee"
+                    android:hint="@string/create_skill_price"
+                    android:singleLine="true"
+                    android:text="@{template.price}"
+                    android:textColor="#000"
+                    android:textColorHint="#55000000" />
 
 
-                    <EditText
-                        android:id="@+id/skill_unit"
-                        android:textColorHint="#55000000"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="#eeeeee"
-                        android:hint="@string/create_skill_unit"
-                        android:singleLine="true"
-                        android:maxLength="4"
-                        android:text="@{template.unit}"
-                        android:textColor="#000" />
+                <EditText
+                    android:id="@+id/skill_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#eeeeee"
+                    android:hint="@string/create_skill_unit"
+                    android:maxLength="4"
+                    android:singleLine="true"
+                    android:text="@{template.unit}"
+                    android:textColor="#000"
+                    android:textColorHint="#55000000" />
             </com.zhy.android.percent.support.PercentLinearLayout>
         </ScrollView>
 

@@ -52,6 +52,7 @@
                 <data android:scheme="yodian" android:host="www.ketie.me" android:path="/launcher/yodian"/>
             </intent-filter>
         </activity>
+        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"/>
         <!--umeng push start-->
         <receiver
             android:name="com.umeng.message.NotificationProxyBroadcastReceiver"

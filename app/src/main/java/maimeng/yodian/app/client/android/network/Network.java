@@ -86,7 +86,7 @@ public class Network {
     }
 
 
-    public Bitmap image(final Context context,final String uri){
+    public static Bitmap image(final Context context,final String uri){
         final CountDownLatch latch = new CountDownLatch(1);
         final Bitmap[] bitmaps = {null};
         new Thread(){

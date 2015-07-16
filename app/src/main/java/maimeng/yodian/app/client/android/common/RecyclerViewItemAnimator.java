@@ -31,7 +31,7 @@ public class RecyclerViewItemAnimator extends DefaultItemAnimator {
 
                 animator.playTogether(
                         ObjectAnimator.ofFloat(target, "translationX", -target.getMeasuredWidth(), 0.0f),
-                        ObjectAnimator.ofFloat(target, "alpha", target.getAlpha(), 1.0f)
+                        ObjectAnimator.ofFloat(target, "alpha_to0", target.getAlpha(), 1.0f)
                 );
 
                 animator.setTarget(target);

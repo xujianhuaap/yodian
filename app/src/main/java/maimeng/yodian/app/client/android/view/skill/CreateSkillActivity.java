@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -12,6 +13,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,6 +22,9 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.Response;
+
+import java.io.File;
+import java.util.ArrayList;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
@@ -28,12 +34,15 @@ import maimeng.yodian.app.client.android.network.TypeBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import me.iwf.photopicker.PhotoPickerActivity;
+import me.iwf.photopicker.utils.PhotoPickerIntent;
 
 /**
  *
  */
 public class CreateSkillActivity extends AppCompatActivity implements Target{
     private static final int REQUEST_AUTH = 0x1001;
+    private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
@@ -50,6 +59,25 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
         }else{
             mTemplate=new SkillTemplate();
         }
+        Network.image(this, mTemplate.getPic(), this);
+        binding.setTemplate(mTemplate);
+        binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
+        binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));
+        binding.skillPrice.addTextChangedListener(new EditTextChangeListener(binding.skillPrice, binding, mTemplate));
+        binding.skillUnit.addTextChangedListener(new EditTextChangeListener(binding.skillUnit, binding, mTemplate));
+        binding.btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggle();
+            }
+        });
+        binding.buttonContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggle();
+            }
+        });
+        service=Network.getService(SkillService.class);
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,13 +90,66 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
                 doDone();
             }
         });
-        binding.setTemplate(mTemplate);
-        binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
-        binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent,binding,mTemplate));
-        binding.skillPrice.addTextChangedListener(new EditTextChangeListener(binding.skillPrice, binding, mTemplate));
-        binding.skillUnit.addTextChangedListener(new EditTextChangeListener(binding.skillUnit,binding,mTemplate));
-        service=Network.getService(SkillService.class);
-        Network.image(this,mTemplate.getPic(),this);
+        binding.btnAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(CreateSkillActivity.this);
+                intentPhoto.setPhotoCount(1);
+                intentPhoto.setShowCamera(false);
+                startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
+            }
+        });
+        binding.btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(CreateSkillActivity.this);
+                intentPhoto.setPhotoCount(1);
+                intentPhoto.setShowCamera(true);
+                startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
+            }
+        });
+    }
+
+    private void toggle() {
+        final Animation animation;
+        if(binding.buttonContainer.getVisibility()==View.VISIBLE){
+            animation = AnimationUtils.loadAnimation(this, R.anim.alpha_to0);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    binding.buttonContainer.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+        }else{
+            animation = AnimationUtils.loadAnimation(this, R.anim.alpha_to1);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    binding.buttonContainer.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+        binding.buttonContainer.startAnimation(animation);
     }
 
     private void doDone() {
@@ -112,6 +193,12 @@ public class CreateSkillActivity extends AppCompatActivity implements Target{
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_AUTH && resultCode==RESULT_OK){
             doDone();
+        }else if(requestCode==REQUEST_SELECT_PHOTO && resultCode==RESULT_OK){
+            ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+            String uri = Uri.fromFile(new File(paths.get(0))).toString();
+            Network.image(this,uri,this);
+            binding.getTemplate().setPic(uri);
+            toggle();
         }
     }
 
