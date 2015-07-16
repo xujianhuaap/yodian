@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.model;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,18 +10,14 @@ import java.util.Date;
 
 import maimeng.yodian.app.client.android.BR;
 
-public class SkillTemplate extends BaseObservable implements Parcelable {
+public class SkillTemplate implements Parcelable {
 
     @SerializedName("tid")
     private long id;
-    @Bindable
     private String name;
     private String pic;
-    @Bindable
     private String content;
-    @Bindable
     private String price;
-    @Bindable
     private String unit;
     private int status;
     private Date createtime;
@@ -32,7 +27,6 @@ public class SkillTemplate extends BaseObservable implements Parcelable {
 
     public void setContent(String content) {
         this.content = content;
-        notifyPropertyChanged(BR.content);
     }
 
     public Date getCreatetime() {
@@ -49,7 +43,6 @@ public class SkillTemplate extends BaseObservable implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
-        notifyPropertyChanged(BR.name);
     }
 
     public String getPic() {
@@ -66,7 +59,6 @@ public class SkillTemplate extends BaseObservable implements Parcelable {
 
     public void setPrice(String price) {
         this.price = price;
-        notifyPropertyChanged(BR.price);
     }
 
     public int getStatus() {
@@ -83,7 +75,6 @@ public class SkillTemplate extends BaseObservable implements Parcelable {
 
     public void setUnit(String unit) {
         this.unit = unit;
-        notifyPropertyChanged(BR.unit);
     }
 
     @Override

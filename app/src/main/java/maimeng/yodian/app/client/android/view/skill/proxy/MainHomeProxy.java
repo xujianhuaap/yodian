@@ -135,7 +135,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     private void initUsrInfo() {
         mUserNickname.setText(user.nickname);
-        Network.image(user.img,mUserAvatar);
+        Network.image(mUserAvatar,user.img);
     }
 
     @Override

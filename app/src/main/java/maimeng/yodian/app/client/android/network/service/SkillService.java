@@ -3,10 +3,13 @@ package maimeng.yodian.app.client.android.network.service;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.anntoation.FormUrlEncoded;
 import org.henjue.library.hnet.anntoation.Get;
+import org.henjue.library.hnet.anntoation.Multipart;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.network.TypeBitmap;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 
@@ -29,7 +32,21 @@ public interface SkillService {
     @Post(ApiConfig.Api.SKILL_CHOICE)
     void choose(@Param("p")int p,Callback<SkillResponse> callback);
 
+    /**
+     * 获取技能模板
+     * @param callback
+     */
     @Get(ApiConfig.Api.SKILL_TEMPLATE)
     void template(Callback<SkillTemplateResponse> callback);
+
+    /**
+     * 添加技能
+     * @param name
+     * @param callback
+     */
+    @Multipart
+    @Post(ApiConfig.Api.SKILL_ADD)
+    void add(@Param("name")String name,@Param("content")String content,@Param("pic")TypeBitmap pic,@Param("price")String price,@Param("unit")String unit,ToastCallback callback);
+
 
 }

@@ -11,7 +11,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -25,42 +26,70 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:background="#d2d2d2"
                     app:layout_heightPercent="30%h">
 
                     <ImageView
                         android:id="@+id/skill_pic"
+                        app:imgUrl="@{template.pic}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY" />
                 </FrameLayout>
 
-                <EditText
-                    android:id="@+id/skill_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{template.name}" />
 
-                <EditText
-                    android:maxLength="200"
-                    android:minLines="6"
-                    android:gravity="top"
-                    android:id="@+id/skill_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{template.content}" />
-                <EditText
-                    android:singleLine="true"
-                    android:id="@+id/skill_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{template.price}" />
-                <EditText
-                    android:singleLine="true"
-                    android:id="@+id/skill_unit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{template.unit}" />
+                    <EditText
+                        android:id="@+id/skill_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#eeeeee"
+                        android:textColorHint="#55000000"
+                        android:hint="@string/create_skill_title"
+                        android:maxLength="25"
+                        android:text="@{template.name}"
+                        android:textColor="#000" />
+
+                    <EditText
+                        android:id="@+id/skill_content"
+                        android:textColorHint="#55000000"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#eeeeee"
+                        android:hint="@string/create_skill_content"
+                        android:gravity="top"
+                        android:maxLength="200"
+                        android:minLines="6"
+                        android:text="@{template.content}"
+                        android:textColor="#000" />
+
+                    <EditText
+                        android:id="@+id/skill_price"
+                        android:layout_width="match_parent"
+                        android:textColorHint="#55000000"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#eeeeee"
+                        android:singleLine="true"
+                        android:hint="@string/create_skill_price"
+                        android:text="@{template.price}"
+                        android:textColor="#000" />
+
+
+                    <EditText
+                        android:id="@+id/skill_unit"
+                        android:textColorHint="#55000000"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#eeeeee"
+                        android:hint="@string/create_skill_unit"
+                        android:singleLine="true"
+                        android:maxLength="4"
+                        android:text="@{template.unit}"
+                        android:textColor="#000" />
             </com.zhy.android.percent.support.PercentLinearLayout>
         </ScrollView>
 

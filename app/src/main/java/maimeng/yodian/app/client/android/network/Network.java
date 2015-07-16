@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.network;
 
 import android.app.Application;
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
@@ -10,7 +11,6 @@ import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
-
 
 import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.http.ClientStack;
@@ -127,16 +127,15 @@ public class Network {
         load.into(target);
 
     }
-
-
-
-    public static void image(String url,ImageView iv){
-        image(url,iv,-1,-1);
+    @BindingAdapter("bind:imgUrl")
+    public static void image(ImageView iv,String url){
+        image(iv,url,-1,-1);
     }
-    public static void image(String url,ImageView iv,int placeHolderDrawable){
-        image(url,iv,placeHolderDrawable,-1);
+    @BindingAdapter({"bind:imgUrl","bind:placeHolderDrawable"})
+    public static void image(ImageView iv,String url,int placeHolderDrawable){
+        image(iv,url,placeHolderDrawable,-1);
     }
-    public static void image(String url,ImageView iv,int placeHolderDrawable,int errorDrawable){
+    public static void image(ImageView iv,String url,int placeHolderDrawable,int errorDrawable){
         RequestCreator load = getOne().loader.load(url);
         if(placeHolderDrawable!=-1)load.placeholder(placeHolderDrawable);
         if(errorDrawable!=-1)load.error(errorDrawable);

@@ -71,7 +71,7 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry,SkillTemplat
         public void bind(SkillTemplate template){
             binding.setTemplate(template);
             this.template=template;
-            Network.image(template.getPic(),binding.skillImg);
+            Network.image(binding.skillImg,template.getPic());
         }
     }
      public abstract class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

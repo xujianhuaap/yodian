@@ -13,7 +13,6 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UserAuth;
 import maimeng.yodian.app.client.android.databinding.SkillListItemBinding;
 import maimeng.yodian.app.client.android.model.Skill;
-import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 
 /**
@@ -42,6 +41,7 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
     public void onBindViewHolder(ViewHolder holder, int position) {
         Skill item = getItem(position);
         holder.bind(item);
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -71,6 +71,7 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
         }
         public void bind(Skill item){
             this.data =item;
+            binding.setSkill(item);
             if(item.getUid()==user.uid){
                 binding.btnEdit.setVisibility(View.VISIBLE);
                 binding.btnContect.setVisibility(View.GONE);
@@ -78,10 +79,8 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
                 binding.btnContect.setVisibility(View.VISIBLE);
                 binding.btnEdit.setVisibility(View.GONE);
             }
-            binding.setSkill(item);
-            binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price,item.getPrice(),item.getUnit())));
-            Network.image(item.getAvatar(), binding.userAvatar);
-            Network.image(item.getPic(), binding.img);
+
+            binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(),item.getUnit())));
         }
 
         @Override

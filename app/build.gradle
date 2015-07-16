@@ -19,7 +19,7 @@ android {
     }
     defaultConfig {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1,LAUNCHER_ACTIVITY:"maimeng.yodian.app.client.android.view.MainTabActivity"]
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"

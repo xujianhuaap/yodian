@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="skill"
             type="maimeng.yodian.app.client.android.model.Skill" />
@@ -55,6 +54,7 @@
                         android:layout_height="wrap_content" />
                     <ImageView
                         android:id="@+id/img"
+                        app:imgUrl="@{skill.pic}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/user_nickname"
@@ -112,6 +112,7 @@
             <maimeng.yodian.app.client.android.widget.RoundImageView
                 android:id="@+id/user_avatar"
                 android:layout_width="40dp"
+                app:imgUrl="@{skill.avatar}"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp" />
         </FrameLayout>
