@@ -216,7 +216,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         final Skill skill = holder.getData();
         if(clickItem==holder.getBinding().btnShare){
             Skill data = skill;
-            ShareDialog.show(mActivity,new ShareDialog.ShareParams(data.getId(),"http://www.baidu.com/",data.getPic(),data.getName(),data.getUid(),data.getNickname(),data.getPrice(),data.getUnit(),""));
+            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data,data.getQrcodeUrl(),data.getUid(), data.getNickname(),""));
         }else if(clickItem==holder.getBinding().btnUpdate){
             Intent intent=new Intent(mActivity,CreateOrEditSkillActivity.class);
             intent.putExtra("skill", skill);

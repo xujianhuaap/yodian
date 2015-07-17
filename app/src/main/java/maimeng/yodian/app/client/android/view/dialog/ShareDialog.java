@@ -5,8 +5,12 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +22,14 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import net.glxn.qrgen.android.QRCode;
+
 import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.IShareManager;
-import org.henjue.library.share.manager.QQShareManager;
 import org.henjue.library.share.manager.ShareFactory;
 import org.henjue.library.share.manager.WechatShareManager;
 import org.henjue.library.share.manager.WeiboShareManager;
+import org.henjue.library.share.model.MessagePic;
 import org.henjue.library.share.model.MessageWebpage;
 
 import java.io.File;
@@ -37,6 +43,7 @@ import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 
@@ -50,21 +57,17 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     TextView mReport;
     @Bind(R.id.content)
     GridLayout mContent;
-    private long id;
     private long targetUid;
     private String reportContent;
-    private String skillName;
-    private String price;
     private String targetNickname;
     private String title;
-    private String unit;
     private String redirect_url;
-    private String img_url;
     private boolean end=false;
 
 
 
     private YApplication app;
+    private Skill skill;
 
     @Override
     public void onDestroyView() {
@@ -89,30 +92,24 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 //    }
 
     public static class ShareParams {
-        public final long id;
         public final long targetUid;
         public final String targetNickname;
-        public final String price;
-        public final String unit;
         public final String reportContent;
-        public final String skillName;
         public final String redirect_url;
-        public final String img_url;
+        private final Skill skill;
 
         /**
-         * @param id            元素id
-         * @param targetUid     目标用户id
-         * @param reportContent 举报内容说明
+         *  @param redirect_url
+         * @param targetUid
+         * @param targetNickname
+         * @param reportContent
+         * @param skill
          */
-        public ShareParams(long id,String redirect_url,String img_url,String skillName, long targetUid,String targetNickname,String price,String unit, String reportContent) {
-            this.id = id;
-            this.img_url=img_url;
+        public ShareParams(Skill skill,String redirect_url, long targetUid, String targetNickname, String reportContent) {
             this.redirect_url=redirect_url;
-            this.skillName=skillName;
-            this.price = price;
-            this.unit=unit;
             this.targetNickname=targetNickname;
             this.targetUid = targetUid;
+            this.skill=skill;
             this.reportContent = reportContent;
         }
     }
@@ -122,13 +119,14 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     public static void show(Activity context, ShareParams params) {
         newInstance(params).show(context.getFragmentManager(), "sharedialog");
     }
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        tempFile=new File(getActivity().getCacheDir(),System.currentTimeMillis()+".png");
+        File yodianDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "yodian");
+        if(!yodianDir.exists()){
+            yodianDir.mkdirs();
+        }
+        tempFile=new File(yodianDir,System.currentTimeMillis()+".png");
         if(!tempFile.exists()){
             try {
                 tempFile.createNewFile();
@@ -146,55 +144,64 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
      */
     public static ShareDialog newInstance(ShareParams params) {
         ShareDialog dialog = new ShareDialog();
+        Bundle args = new Bundle();
+        Skill skill = params.skill;
         StringBuffer title=new StringBuffer();
         title.append("【");
         title.append(params.targetNickname);
         title.append("】");
         title.append("正在出售Ta的时间技能:");
-        title.append(params.skillName);
-        Bundle args = new Bundle();
-        args.putLong("id", params.id);
+        title.append(skill.getName());
+
+
         args.putLong("targetUid", params.targetUid);
         args.putString("title", title.toString());
-        args.putString("price", params.price);
-        args.putString("unit", params.unit);
         args.putString("redirect_url", params.redirect_url);
-        args.putString("img_url", params.img_url);
         args.putString("reportContent", params.reportContent);
-        args.putString("skillName", params.skillName);
         args.putString("targetNickname", params.targetNickname);
+        args.putParcelable("skill", skill);
         dialog.setArguments(args);
         return dialog;
     }
     private File tempFile;
-
+    private Bitmap QRCodeBitmap;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle args = getArguments();
-        id = args.getLong("id");
+        skill=args.getParcelable("skill");
         targetUid = args.getLong("targetUid");
         title = args.getString("title");
-        price = args.getString("price");
-        unit = args.getString("unit");
         redirect_url = args.getString("redirect_url");
-        img_url = args.getString("img_url");
         reportContent = args.getString("reportContent");
-        skillName = args.getString("skillName");
         targetNickname = args.getString("targetNickname");
-        if(img_url!=null && (img_url.startsWith("http") || img_url.startsWith("ftp"))){
+        if(skill.getPic()!=null && (skill.getPic().startsWith("http") || skill.getPic().startsWith("ftp"))){
             Toast.makeText(getActivity(),"正在分享路上...",Toast.LENGTH_SHORT).show();
-            Network.image(getActivity(), img_url, this);
+            Network.image(getActivity(), skill.getPic(), this);
         }else{
             end=true;
         }
-
         if (UserAuth.read(getActivity()).uid!= targetUid) {
             mReport.setVisibility(View.VISIBLE);
         }else{
             ((View) mReport.getParent()).setVisibility(View.GONE);
             mContent.setRowCount(1);
         }
+        int size=getResources().getDimensionPixelSize(R.dimen.qrcode_size);
+        int left=getResources().getDimensionPixelSize(R.dimen.qrcode_left);
+        int top=getResources().getDimensionPixelSize(R.dimen.qrcode_top);
+        QRCode from = QRCode.from(skill.getQrcodeUrl());
+        from.withSize(size,size);
+        Bitmap qrcode = from.bitmap();
+        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.fingerprint_bg);
+
+
+        Bitmap bg = temp.copy(temp.getConfig(), true);
+        temp.recycle();
+        QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight(), Bitmap.Config.RGB_565);
+        Canvas can=new Canvas(QRCodeBitmap);
+        can.drawBitmap(bg,0,0,new Paint());
+        can.drawBitmap(qrcode, left, top, new Paint());
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -207,6 +214,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         if(tempFile!=null)tempFile.deleteOnExit();
+
     }
     @Override
     public void onResume() {
@@ -217,10 +225,8 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     @OnClick(R.id.qqRoom)
     public void qzone(final View v) {
-        StringBuffer content=new StringBuffer();
-        content.append(content).append("\n").append(price).append("/").append(unit);
         IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.QQ);
-        iShareManager.share(new MessageWebpage(title, content.toString(), redirect_url, img_url), QQShareManager.QZONE_SHARE_TYPE/*,this*/);
+        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, skill.getPic()),0/*,this*/);
     }
 
     @OnClick(R.id.report)
@@ -230,9 +236,9 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @OnClick(R.id.sina)
     public void ShareToWeiBo(View view) {
         StringBuffer content=new StringBuffer();
-        content.append(title).append(price).append(unit).append("@优点APP");
+        content.append(title).append(skill.getPrice()).append(skill.getUnit()).append("@优点APP");
         IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.WEIBO);
-        iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, img_url), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
+        iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, QRCodeBitmap), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
     }
 
     @OnClick({R.id.fridens, R.id.weixin})
@@ -241,10 +247,13 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
             Toast.makeText(getActivity(),"还未准备完成，请稍后...",Toast.LENGTH_SHORT).show();
             return;
         }
-            StringBuffer content=new StringBuffer();
-            content.append(content).append("\n").append(price).append("/").append(unit);
-            IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIXIN);
-            iShareManager.share(new MessageWebpage(title,content.toString(),redirect_url,img_url),v.getId() == R.id.weixin?WechatShareManager.WEIXIN_SHARE_TYPE_TALK:WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
+
+        IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIXIN);
+        if(v.getId() == R.id.weixin){
+            iShareManager.share(new MessageWebpage(title,skill.getContent(),redirect_url, tempFile.toString()),WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
+        }else{
+            iShareManager.share(new MessagePic(QRCodeBitmap),WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
+        }
     }
 
 
@@ -261,7 +270,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         try {
             bitmap.compress(Bitmap.CompressFormat.PNG,100,new FileOutputStream(tempFile));
-            this.img_url=tempFile.toString();
+            skill.setPic(tempFile.toString());
             end=true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();

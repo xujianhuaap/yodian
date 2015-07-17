@@ -183,7 +183,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     public void onClick(SkillListAdapter.ViewHolder holder, View clickItem, int postion) {
         if(clickItem==holder.getBinding().btnShare){
             Skill data = holder.getData();
-            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data.getId(), "http://www.baidu.com/", data.getPic(), data.getName(), data.getUid(), data.getNickname(), data.getPrice(), data.getUnit(), ""));
+            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data,data.getQrcodeUrl(),data.getUid(), data.getNickname(),""));
         }
     }
 

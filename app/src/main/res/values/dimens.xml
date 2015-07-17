@@ -28,4 +28,9 @@
 
     <eat-comment/>
     <dimen name="share_dialog_content_marginTop">30dp</dimen>
+
+    <eat-comment/>
+    <dimen name="qrcode_size">130dp</dimen>
+    <dimen name="qrcode_left">10dp</dimen>
+    <dimen name="qrcode_top">10dp</dimen>
 </resources>
