@@ -16,6 +16,8 @@ import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.http.ClientStack;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
@@ -131,15 +133,10 @@ public class Network {
     public static void image(ImageView iv,String url){
         image(iv,url,-1,-1);
     }
-    @BindingAdapter({"bind:imgUrl","bind:placeHolderDrawable"})
-    public static void image(ImageView iv,String url,int placeHolderDrawable){
-        image(iv,url,placeHolderDrawable,-1);
-    }
     public static void image(ImageView iv,String url,int placeHolderDrawable,int errorDrawable){
         RequestCreator load = getOne().loader.load(url);
         if(placeHolderDrawable!=-1)load.placeholder(placeHolderDrawable);
         if(errorDrawable!=-1)load.error(errorDrawable);
-        //load.into(new ImageTarget(iv));
         load.into(iv);
     }
     private static class ImageTarget implements Target {
