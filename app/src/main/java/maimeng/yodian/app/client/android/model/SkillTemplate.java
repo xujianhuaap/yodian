@@ -6,11 +6,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.BR;
-
+@DatabaseTable(tableName = "_skillTemplate")
 public class SkillTemplate extends BaseObservable implements Parcelable {
 
     public long getId() {
@@ -22,14 +24,22 @@ public class SkillTemplate extends BaseObservable implements Parcelable {
     }
 
     @SerializedName("tid")
+    @DatabaseField(columnName = "_id")
     private long id;
+    @DatabaseField(columnName = "_name")
     private String name;
     @Bindable
+    @DatabaseField(columnName = "_pic")
     private String pic;
+    @DatabaseField(columnName = "_content")
     private String content;
+    @DatabaseField(columnName = "_price")
     private String price;
+    @DatabaseField(columnName = "_unit")
     private String unit;
+    @DatabaseField(columnName = "_status")
     private int status;
+    @DatabaseField(columnName = "_createtime")
     private Date createtime;
     public String getContent() {
         return content;
