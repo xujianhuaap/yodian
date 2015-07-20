@@ -34,7 +34,9 @@
         <activity android:name=".view.auth.AuthActivity"/>
         <activity android:name=".view.skill.CreateOrEditSkillActivity" android:theme="@style/AppThemeTransparent" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".view.skill.SkillTemplateActivity" android:theme="@style/AppThemeTransparent"/>
+        <activity android:name=".view.user.SettingUserInfo"/>
         <activity android:name=".view.auth.AuthSeletorActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

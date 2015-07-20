@@ -124,7 +124,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         if(holder.getItemViewType()==ViewEntry.VIEW_TYPE_ITEM){
             SkillTemplateAdapter.ItemViewHolder itemHolder = (SkillTemplateAdapter.ItemViewHolder) holder;
             SkillTemplate template = itemHolder.getTemplate();
-            Pair<View, String> img = Pair.create((View)itemHolder.binding.skillImg, "img");
+            Pair<View, String> img = Pair.create((View)itemHolder.binding.skillImg, "avatar");
             Pair<View, String> title = Pair.create((View)itemHolder.binding.skillName, "title");
             ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(this,img,title);
             intent.putExtra("template",template);

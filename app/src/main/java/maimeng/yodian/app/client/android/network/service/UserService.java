@@ -25,4 +25,13 @@ public interface UserService {
     @Post(ApiConfig.Api.USER_INFO_UPDATE)
     void modifyInfo(@Param("nickname") String nickname, @Param("avatar") TypeBitmap avatar, Callback<ModifyUserResponse> callback);
 
+    /**
+     * 上传头像和昵称
+     * @param nickname
+     * @param callback
+     */
+    @Multipart
+    @Post(ApiConfig.Api.USER_INFO_UPDATE)
+    void modifyInfo(@Param("nickname") String nickname, @Param("weichat") String wechat, @Param("avatar") TypeBitmap avatar, Callback<ModifyUserResponse> callback);
+
 }

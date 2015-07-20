@@ -20,8 +20,7 @@ import org.henjue.library.share.manager.WeiboAuthManager;
 import org.henjue.library.share.model.AuthInfo;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.UserAuth;
-import maimeng.yodian.app.client.android.model.Auth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
@@ -39,7 +38,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!TextUtils.isEmpty(UserAuth.read(this).token)){
+        if(!TextUtils.isEmpty(User.read(this).getToken())){
             startActivity(new Intent(this,MainTabActivity.class));
             finish();
         }else {
@@ -127,9 +126,11 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         @Override
         public void success(AuthResponse res, Response response) {
             if(res.isSuccess()){
-                Auth data = res.getData();
-                UserAuth user = new UserAuth(authInfo.nickname, authInfo.headimgurl,typeValue , data.getToken(), data.getUid(), data.getNickname(), data.getAvatar());
-                user.write(AuthSeletorActivity.this);
+                User data = res.getData();
+                data.setLoginType(typeValue);
+                data.setT_nickname(authInfo.nickname);
+                data.setT_img(authInfo.headimgurl);
+                data.write(AuthSeletorActivity.this);
                 handlerFinsh();
             }else{
                 res.showMessage(AuthSeletorActivity.this);

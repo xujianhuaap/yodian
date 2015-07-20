@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
-import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.utils.LogUtil;
@@ -181,7 +181,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         }else{
             end=true;
         }
-        if (UserAuth.read(getActivity()).uid!= targetUid) {
+        if (User.read(getActivity()).getUid()!= targetUid) {
             mReport.setVisibility(View.VISIBLE);
         }else{
             ((View) mReport.getParent()).setVisibility(View.GONE);

@@ -29,7 +29,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
-import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -41,6 +41,7 @@ import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
+import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.RoundImageView;
 
@@ -48,6 +49,7 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
  * Created by android on 15-7-13.
  */
 public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<SkillListAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+    private static final int REQUEST_UPDATEINFO = 0x5005;
     private final CoordinatorLayout mView;
     private final MainTabActivity mActivity;
     private final RecyclerView mRecyclerView;
@@ -60,7 +62,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private boolean inited=false;
     private final SkillListAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
-    private UserAuth user;
+    private User user;
     private int page=1;
     private FloatingActionButton mFloatButton;
     private int mEditPostion;
@@ -74,6 +76,15 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         mUserAvatar=(RoundImageView)view.findViewById(R.id.user_avatar);
+        mUserAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Pair<View,String> avatar=Pair.create(v,"avatar");
+                Pair<View,String> back=Pair.create((View)mFloatButton,"back");
+                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
+                ActivityCompat.startActivityForResult(mActivity,new Intent(mActivity, SettingUserInfo.class),REQUEST_UPDATEINFO,options.toBundle());
+            }
+        });
         mUserNickname=(TextView)view.findViewById(R.id.user_nickname);
         mBtnCreateSkill=view.findViewById(R.id.btn_createskill);
         mBtnCreateSkill.setOnClickListener(this);
@@ -99,7 +110,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     public void loadData() {
-        service.list(user.uid, page, this);
+        service.list(user.getUid(), page, this);
     }
 
     @Override
@@ -131,7 +142,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     @Override
     public void init() {
         inited=true;
-        user=UserAuth.read(this.mActivity);
+        user= User.read(this.mActivity);
         initUsrInfo();
         initSkillInfo();
 
@@ -144,8 +155,8 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     private void initUsrInfo() {
-        mUserNickname.setText(user.nickname);
-        Network.image(mUserAvatar,user.img);
+        mUserNickname.setText(user.getNickname());
+        Network.image(mUserAvatar,user.getAvatar());
     }
 
     @Override
