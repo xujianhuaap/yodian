@@ -2,6 +2,8 @@ package maimeng.yodian.app.client.android.view.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -53,8 +55,8 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.btn_loginphone){
-            startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_MOBILE_AUTH);
-            finish();
+            ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(this,findViewById(R.id.icon),"icon");
+            ActivityCompat.startActivityForResult(this,new Intent(this, AuthActivity.class), REQUEST_MOBILE_AUTH,options.toBundle());
         }else if(v.getId()==R.id.btn_loginwechat){
             IAuthManager authManager = AuthFactory.create(this, Type.Platform.WEIXIN);
             authManager.login(new YDAuthListener( Type.Platform.WEIXIN));
@@ -67,7 +69,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_MOBILE_AUTH){
+        if(requestCode==REQUEST_MOBILE_AUTH && resultCode==RESULT_OK){
             handlerFinsh();
         }else {
             mSsoHandler = WeiboAuthManager.getSsoHandler();

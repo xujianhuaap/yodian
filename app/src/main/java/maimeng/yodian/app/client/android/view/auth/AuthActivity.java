@@ -1,6 +1,9 @@
 package maimeng.yodian.app.client.android.view.auth;
 
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,7 +29,7 @@ import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 /**
  * Created by android on 15-7-13.
  */
-public class AuthActivity extends AbstractActivity implements View.OnClickListener, Callback<AuthResponse> {
+public class AuthActivity extends AppCompatActivity implements View.OnClickListener, Callback<AuthResponse> {
     private View mBtnLogin;
     private AuthService service;
     private EditText mMobile;
@@ -37,15 +40,16 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         service = Network.getService(AuthService.class);
         setContentView(R.layout.activity_auth);
+        ViewCompat.setTransitionName(findViewById(R.id.icon),"icon");
         mMobile = (EditText) findViewById(R.id.mobile);
-        setTitle("登录");
+//        setTitle("登录");
         mBtnLogin = findViewById(R.id.btn_login);
         findViewById(R.id.btn_getcode).setOnClickListener(this);
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                ActivityCompat.finishAfterTransition(AuthActivity.this);
             }
         });
         findViewById(R.id.btn_clean).setOnClickListener(new View.OnClickListener() {
