@@ -117,6 +117,7 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
                 }
                 adapter.reload(data, false);
                 adapter.notifyDataSetChanged();
+                mRecyclerView.scrollToPosition(adapter.getItemCount()-1);
             }
         });
     }
