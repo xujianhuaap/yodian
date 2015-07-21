@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.fb.push.FeedbackPush;
 
 import org.henjue.library.share.ShareSDK;
 
@@ -37,6 +38,7 @@ public class YApplication extends Application {
             strategy.setAppReportDelay(5000);
             CrashReport.initCrashReport(this, "900004839", BuildConfig.DEBUG, strategy);  //初始化SDK
         }
+        FeedbackPush.getInstance(this).init(true);
         Network.getOne().init(this);
         ShareSDK.getInstance().initShare(ApiConfig.WEIXIN_APP_KEY, ApiConfig.WEIBO_APP_KEY, ApiConfig.QQ_APP_KEY, ApiConfig.WEIXIN_APP_SECRET, ApiConfig.REDIRECT_URL);
     }

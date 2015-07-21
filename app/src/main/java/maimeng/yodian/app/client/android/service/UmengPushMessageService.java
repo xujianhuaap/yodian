@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.umeng.fb.push.FeedbackPush;
 import com.umeng.message.UTrack;
 import com.umeng.message.UmengBaseIntentService;
 import com.umeng.message.entity.UMessage;
@@ -21,6 +22,9 @@ public class UmengPushMessageService extends UmengBaseIntentService {
     @Override
     protected void onMessage(Context context, Intent intent) {
         super.onMessage(context, intent);
+        if (FeedbackPush.getInstance(context).onFBMessage(intent)) {
+            return;
+        }
         try {
             String message = intent.getStringExtra(BaseConstants.MESSAGE_BODY);
             UMessage msg = new UMessage(new JSONObject(message));

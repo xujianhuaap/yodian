@@ -13,7 +13,12 @@
     <style name="AppThemeTransparent" parent="AppTheme">
         <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
-        <style name="AppThemeWhite" parent="AppTheme">
+    <style name="AppThemeSettings" parent="AppTheme">
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <!--<item name="android:windowFullscreen">true</item>-->
+    </style>
+    <style name="AppThemeWhite" parent="AppTheme">
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorPrimary">@android:color/white</item>
         <!--<item name="android:windowFullscreen">true</item>-->

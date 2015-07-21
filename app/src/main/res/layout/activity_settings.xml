@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/div_line" />
+
+        <TextView
+            android:id="@+id/btn_yijian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_icon_margin"
+            android:drawableLeft="@drawable/ic_yijian"
+            android:drawablePadding="@dimen/top_icon_margin"
+            android:gravity="center_vertical|left"
+            android:text="意见反馈"
+            android:textColor="@color/black_40" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/div_line" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_icon_margin"
+            android:gravity="center_vertical|left"
+            android:drawableLeft="@drawable/ic_cleancache"
+            android:drawablePadding="@dimen/top_icon_margin"
+            android:text="清除缓存"
+            android:textColor="@color/black_40" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/div_line" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_version"
+            android:layout_margin="@dimen/top_icon_margin"
+            android:drawablePadding="@dimen/top_icon_margin"
+            android:gravity="center_vertical|left"
+            android:text="当前版本"
+            android:textColor="@color/black_40" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/div_line" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/top_icon_margin"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_change_account"
+            android:drawablePadding="@dimen/top_icon_margin"
+            android:gravity="center_vertical|left"
+            android:text="切换账号"
+            android:textColor="@color/black_40" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/div_line" />
+    </LinearLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_margin="@dimen/floating_btn_margin"
+        android:src="@drawable/btn_back"
+        app:fab_colorNormal="@color/float_colorNormal"
+        app:fab_colorPressed="@color/float_colorPressed"
+        app:fab_colorRipple="@color/float_colorRipple"/>
+</FrameLayout>

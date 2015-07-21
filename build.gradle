@@ -18,5 +18,6 @@ allprojects {
         jcenter { url JCENTER_URL }
         maven { url SONATYPE_URL }
         maven { url 'https://dl.bintray.com/henjue/maven'}
+        maven { url "https://raw.githubusercontent.com/umeng/mvn-repo-umeng/master/repository" }
     }
 }

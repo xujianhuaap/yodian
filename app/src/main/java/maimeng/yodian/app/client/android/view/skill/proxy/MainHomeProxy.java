@@ -38,6 +38,7 @@ import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
+import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
@@ -59,6 +60,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private final RoundImageView mUserAvatar;
     private final TextView mUserNickname;
     private final View mBtnCreateSkill;
+    private final View mBtnSettings;
     private boolean inited=false;
     private final SkillListAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
@@ -73,6 +75,15 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         view.setVisibility(View.GONE);
         service=Network.getService(SkillService.class);
         appBar=(AppBarLayout)view.findViewById(R.id.appBarLayout);
+        mBtnSettings=view.findViewById(R.id.btn_settings);
+        mBtnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Pair<View,String> back=Pair.create((View)mFloatButton,"back");
+                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                ActivityCompat.startActivity(mActivity,new Intent(mActivity, SettingsActivity.class),options.toBundle());
+            }
+        });
         mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         mUserAvatar=(RoundImageView)view.findViewById(R.id.user_avatar);
