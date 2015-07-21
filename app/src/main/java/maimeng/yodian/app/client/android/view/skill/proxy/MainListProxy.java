@@ -104,8 +104,8 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void show(final FloatingActionButton button) {
-        button.setImageResource(R.drawable.btn_home_change);
         mActivity.setTitle("优点精选");
+        button.setImageResource(R.drawable.btn_home_change_normal);
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         TranslateAnimation animation = new TranslateAnimation(type,0,type, 0,type,1f,type, 0);
         animation.setInterpolator(new AccelerateInterpolator());
@@ -136,7 +136,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     public void hide(final FloatingActionButton button) {
         if(!mActivity.getProxyHome().isInited())mActivity.getProxyHome().init();
         mActivity.setTitle("首页");
-        button.setImageResource(R.drawable.btn_bg);
+        button.setImageResource(R.drawable.btn_selected);
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         AnimationSet animationSet=new AnimationSet(true);
         animationSet.setDuration(mActivity.getResources().getInteger(R.integer.duration));

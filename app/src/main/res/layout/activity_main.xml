@@ -16,7 +16,7 @@
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
         app:fab_colorRipple="@color/float_colorRipple"
-        android:src="@drawable/btn_home_change">
+        android:src="@drawable/btn_home_change_normal">
 
     </com.melnykov.fab.FloatingActionButton>
 </FrameLayout>
