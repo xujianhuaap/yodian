@@ -3,14 +3,4 @@
 <item android:drawable="@drawable/ic_loading_1" android:duration="@integer/loading_duration"/>
     <item android:drawable="@drawable/ic_loading_2" android:duration="@integer/loading_duration"/>
     <item android:drawable="@drawable/ic_loading_3" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_4" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_5" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_6" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_7" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_8" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_9" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_10" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_11" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_12" android:duration="@integer/loading_duration"/>
-    <item android:drawable="@drawable/ic_loading_13" android:duration="@integer/loading_duration"/>
 </animation-list>

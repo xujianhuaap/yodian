@@ -37,6 +37,7 @@ import maimeng.yodian.app.client.android.network.TypeBitmap;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.utils.BitmapUtils;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 
@@ -51,15 +52,18 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private boolean changed=false;
+    private WaitDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service=Network.getService(UserService.class);
         binding=DataBindingUtil.setContentView(this, R.layout.activity_setting_user_info);
         ViewCompat.setTransitionName(binding.userAvatar, "avatar");
-        ViewCompat.setTransitionName(binding.btnBack,"back");
+        ViewCompat.setTransitionName(binding.btnBack, "back");
         user = User.read(this);
         binding.setUser(user);
+        binding.executePendingBindings();
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,8 +82,6 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
                 binding.wechat.setText("");
             }
         });
-        binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
-        binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
         binding.btnSubmit.setOnClickListener(this);
         binding.userAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +114,8 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
             }
         });
         Network.image(this, user.getAvatar(), this);
+        binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
+        binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
     }
     private void toggle() {
         final Animation animation;
@@ -196,6 +200,7 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
     @Override
     public void start() {
         binding.btnSubmit.setEnabled(false);
+        dialog=WaitDialog.show(this);
     }
 
     @Override
@@ -216,6 +221,7 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
     @Override
     public void end() {
         binding.btnSubmit.setEnabled(true);
+        dialog.dismiss();
     }
 
     @Override
