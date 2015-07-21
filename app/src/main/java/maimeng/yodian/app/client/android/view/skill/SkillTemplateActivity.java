@@ -11,16 +11,20 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.j256.ormlite.dao.Dao;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillTemplateAdapter;
+import maimeng.yodian.app.client.android.db.SQLiteHelper;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -35,10 +39,10 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
     private SkillService service;
     private RecyclerView mTemplateList;
     private SkillTemplateAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         service=Network.getService(SkillService.class);
         setContentView(R.layout.activity_skill_template);
         ViewCompat.setTransitionName(findViewById(R.id.top), "top");
@@ -52,8 +56,22 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         });
         adapter=new SkillTemplateAdapter(this,this);
         mTemplateList=(RecyclerView)findViewById(R.id.template_list);
-        mTemplateList.setLayoutManager(new GridLayoutManager(this,2));
+        mTemplateList.setLayoutManager(new GridLayoutManager(this, 2));
         mTemplateList.setAdapter(adapter);
+        try {
+            Dao<SkillTemplate, Integer> dao=SQLiteHelper.getHelper(this).getDao();
+            List<SkillTemplate> data = dao.queryForAll();
+            List<ViewEntry> list=new ArrayList<>(data.size()+1);
+            for(SkillTemplate template:data){
+                list.add(new ItemViewEntry(template));
+            }
+            list.add(new AddButtonViewEntry());
+            adapter.reload(list, false);
+            adapter.notifyDataSetChanged();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         service.template(this);
     }
 
@@ -65,14 +83,26 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
     @Override
     public void success(SkillTemplateResponse res, Response response) {
         if(res.isSuccess()){
-            List<SkillTemplate> data = res.getData().getList();
-            List<ViewEntry> list=new ArrayList<>(data.size()+1);
-            for(SkillTemplate template:data){
+            Dao<SkillTemplate, Integer> dao=null;
+            try {
+                dao=SQLiteHelper.getHelper(this).getDao();
+                dao.delete(dao.deleteBuilder().prepare());
+                List<SkillTemplate> data = res.getData().getList();
+                int size=Math.min(data.size(),5);
+            List<ViewEntry> list=new ArrayList<>(size+1);
+            for(int i=0;i<size;i++){
+                SkillTemplate template=data.get(i);
                 list.add(new ItemViewEntry(template));
+                if(dao!=null){
+                    dao.create(template);
+                }
             }
             list.add(new AddButtonViewEntry());
             adapter.reload(list, false);
             adapter.notifyDataSetChanged();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }else{
             res.showMessage(this);
         }
@@ -94,7 +124,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         if(holder.getItemViewType()==ViewEntry.VIEW_TYPE_ITEM){
             SkillTemplateAdapter.ItemViewHolder itemHolder = (SkillTemplateAdapter.ItemViewHolder) holder;
             SkillTemplate template = itemHolder.getTemplate();
-            Pair<View, String> img = Pair.create((View)itemHolder.binding.skillImg, "img");
+            Pair<View, String> img = Pair.create((View)itemHolder.binding.skillImg, "avatar");
             Pair<View, String> title = Pair.create((View)itemHolder.binding.skillName, "title");
             ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(this,img,title);
             intent.putExtra("template",template);

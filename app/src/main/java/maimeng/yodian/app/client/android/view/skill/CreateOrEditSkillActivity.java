@@ -55,7 +55,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         final SkillTemplate mTemplate;
         if(getIntent().hasExtra("template")){
             mTemplate=getIntent().getParcelableExtra("template");
-            ViewCompat.setTransitionName(binding.skillPic, "img");
+            ViewCompat.setTransitionName(binding.skillPic, "avatar");
             ViewCompat.setTransitionName(binding.skillName, "title");
         }else{
             mTemplate = new SkillTemplate();

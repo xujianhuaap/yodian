@@ -14,8 +14,7 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.UserAuth;
-import maimeng.yodian.app.client.android.model.Auth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -86,9 +85,11 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
     @Override
     public void success(AuthResponse res, Response response) {
         if (res.isSuccess()) {
-            Auth data = res.getData();
-            UserAuth user = new UserAuth("", "", 0, data.getToken(), data.getUid(), data.getNickname(), data.getAvatar());
-            user.write(this);
+            User data = res.getData();
+            data.setT_img("");
+            data.setT_nickname("");
+            data.setLoginType(0);
+            data.write(this);
             setResult(RESULT_OK);
             finish();
         } else {

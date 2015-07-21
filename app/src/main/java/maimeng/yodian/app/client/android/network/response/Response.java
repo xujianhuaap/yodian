@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 
 public class Response {
@@ -37,7 +37,7 @@ public class Response {
     }
     public boolean isValidateAuth(Activity context,int requestCode){
         if(code==10011){
-            UserAuth.clear(context);
+            User.clear(context);
             Intent intent = new Intent(context, AuthSeletorActivity.class);
             if(requestCode!=-1){
                 intent.putExtra("result",true);

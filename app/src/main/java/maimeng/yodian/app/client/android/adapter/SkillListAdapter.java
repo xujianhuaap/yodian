@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.databinding.SkillListItemBinding;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
@@ -45,7 +45,7 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final UserAuth user;
+        private final User user;
         private SwipeItemLayout swipeItemLayout;
 
         public Skill getData() {
@@ -70,12 +70,12 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
             binding.btnUpdate.setOnClickListener(this);
-            user=UserAuth.read(swipeItemLayout.getContext());
+            user= User.read(swipeItemLayout.getContext());
         }
         public void bind(Skill item){
             this.data =item;
             binding.setSkill(item);
-            if(item.getUid()==user.uid){
+            if(item.getUid()==user.getUid()){
                 binding.btnEdit.setVisibility(View.VISIBLE);
                 binding.btnContect.setVisibility(View.GONE);
             }else{

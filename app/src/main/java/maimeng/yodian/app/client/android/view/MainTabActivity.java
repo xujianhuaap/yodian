@@ -12,7 +12,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.service.UmengPushMessageService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
@@ -30,7 +30,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
 
     private MainListProxy mListProxy;
     private MainHomeProxy mHomeProxy;
-    private UserAuth user;
+    private User user;
     private FloatingActionButton floatButton;
 
     public MainListProxy getProxyList() {
@@ -61,11 +61,11 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
                 controller.onFloatClick((FloatingActionButton) v);
             }
         });
-        user = UserAuth.read(this);
-        if(TextUtils.isEmpty(user.token)){
+        user = User.read(this);
+        if(TextUtils.isEmpty(user.getToken())){
             startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_AUTH);
         }else {
-            if(TextUtils.isEmpty(user.nickname)||TextUtils.isEmpty(user.img)){
+            if(TextUtils.isEmpty(user.getNickname())||TextUtils.isEmpty(user.getAvatar())){
                 AlertDialog dialog = AlertDialog.newInstance("资料补全", "你的资料不完整，请补全资料!");
                 dialog.setCancelable(false);
                 dialog.setPositiveListener(this);
@@ -91,8 +91,8 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
             }
         }else if(requestCode==REQUEST_UPDATEINFO){
             if(resultCode==RESULT_OK) {
-                user = UserAuth.read(this);
-                if (TextUtils.isEmpty(user.nickname) || TextUtils.isEmpty(user.img)) {
+                user = User.read(this);
+                if (TextUtils.isEmpty(user.getNickname()) || TextUtils.isEmpty(user.getAvatar())) {
                     finish();
                 } else {
                     showDefault();

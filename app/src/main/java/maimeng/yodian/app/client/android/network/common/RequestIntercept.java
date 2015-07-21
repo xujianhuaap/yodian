@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import maimeng.yodian.app.client.android.YApplication;
-import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.utils.MD5Util;
 
@@ -38,8 +38,8 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
         request.add("clientType",2);
         request.add("channelType", YApplication.channelId);
         if(mContext!=null){
-            UserAuth auth = UserAuth.read(mContext);
-            String token = auth.token;
+            User auth = User.read(mContext);
+            String token = auth.getToken();
             if(auth!=null && !TextUtils.isEmpty(token) && !params.containsKey("SN_KEY_API")){
                 request.add("SN_KEY_API", token);
             }

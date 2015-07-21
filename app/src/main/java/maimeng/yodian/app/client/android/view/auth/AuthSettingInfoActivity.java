@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypeBitmap;
@@ -49,7 +49,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
     private RoundImageView mUserImg;
     private EditText mNickname;
     private Bitmap bitmap;
-    private UserAuth user;
+    private User user;
     private PopupWindow window;
     public WaitDialog dialog;
     public static final String IMAGE_UNSPECIFIED = "image/*";
@@ -61,7 +61,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = UserAuth.read(this);
+        user = User.read(this);
         service=Network.getService(UserService.class);
         setContentView(R.layout.activity_auth_setting_info);
         mUserImg = (RoundImageView) findViewById(R.id.img_avatar);
@@ -141,14 +141,14 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
     }
     private void pullByWeixin() {
         if(user==null)return;
-        String name= TextUtils.isEmpty(user.nickname)?user.t_nickname:user.nickname;
-        String head= TextUtils.isEmpty(user.img)?user.t_img:user.img;
+        String name= TextUtils.isEmpty(user.getNickname())?user.getT_nickname():user.getNickname();
+        String head= TextUtils.isEmpty(user.getAvatar())?user.getT_img():user.getAvatar();
         setDefaultInfo(name,head);
     }
     private void pullByWeibo() {
         if(user==null)return;
-        String name= TextUtils.isEmpty(user.nickname)?user.t_nickname:user.nickname;
-        String head= TextUtils.isEmpty(user.img)?user.t_img:user.img;
+        String name= TextUtils.isEmpty(user.getNickname())?user.getT_nickname():user.getNickname();
+        String head= TextUtils.isEmpty(user.getAvatar())?user.getT_img():user.getAvatar();
         setDefaultInfo(name, head);
 
     }
@@ -254,7 +254,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
                     @Override
                     public void success(ModifyUserResponse res, Response response) {
                         if (res.isSuccess()) {
-                            user=new UserAuth(user.t_nickname,user.t_img,user.loginType,user.token,user.uid,text.toString(),res.getData().getAvatar());
+                            user=new User(user.getT_nickname(),user.getT_img(),user.loginType,user.getToken(),user.getUid(),text.toString(),res.getData().getAvatar());
                             user.write(AuthSettingInfoActivity.this);
                             setResult(RESULT_OK);
                             finish();

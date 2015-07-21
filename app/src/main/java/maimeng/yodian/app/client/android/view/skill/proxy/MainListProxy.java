@@ -27,7 +27,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
-import maimeng.yodian.app.client.android.common.UserAuth;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -47,7 +47,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private final PtrFrameLayout mRefreshLayout;
     private final RecyclerView mRecyclerView;
     private boolean inited=false;
-    private UserAuth user;
+    private User user;
     private int page=1;
     private final SkillListAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
