@@ -132,6 +132,9 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
                     adapter.notifyItemChanged(mEditPostion);
                     mEditPostion = -1;
                 }
+            }else if(requestCode==REQUEST_UPDATEINFO){
+                user= User.read(this.mActivity);
+                initUsrInfo();
             }
         }
     }
@@ -156,7 +159,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     private void initUsrInfo() {
         mUserNickname.setText(user.getNickname());
-        Network.image(mUserAvatar,user.getAvatar());
+        Network.image(mUserAvatar, user.getAvatar());
     }
 
     @Override

@@ -37,6 +37,9 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 public class Network {
     private static Network network;
     private ConcurrentHashMap<String,Object> services=new ConcurrentHashMap<>();
+    private int screenWidth;
+    private int screenHeight;
+
     public synchronized static Network getOne(){
         synchronized (Network.class){
             if(network==null){
@@ -52,6 +55,8 @@ public class Network {
     private HNet net;
     private Picasso loader;
     public void init(Application app){
+        screenWidth=app.getResources().getDisplayMetrics().widthPixels;
+        screenHeight =app.getResources().getDisplayMetrics().heightPixels;
         loader=Picasso.with(app);
         loader.setLoggingEnabled(BuildConfig.LOG_DEBUG);
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -134,7 +139,9 @@ public class Network {
         image(iv,url,-1,-1);
     }
     public static void image(ImageView iv,String url,int placeHolderDrawable,int errorDrawable){
-        RequestCreator load = getOne().loader.load(url);
+        Network one = getOne();
+        RequestCreator load = one.loader.load(url);
+        load.resize(one.screenWidth, one.screenHeight);
         if(placeHolderDrawable!=-1)load.placeholder(placeHolderDrawable);
         if(errorDrawable!=-1)load.error(errorDrawable);
         load.into(iv);

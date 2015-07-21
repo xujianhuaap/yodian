@@ -2,15 +2,19 @@ package maimeng.yodian.app.client.android.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Bundle;
 
 import com.google.gson.annotations.SerializedName;
+
+import maimeng.yodian.app.client.android.BR;
 
 
 /**
  * Created by henjue on 2015/4/7.
  */
-public class User {
+public class User extends BaseObservable{
     private static final String PREFERENCES_NAME = "_userinfo";
     private static final String KEY_T_NICK = "_t_nickname";
     private static final String KEY_T_IMG = "_t_headimg";
@@ -24,6 +28,7 @@ public class User {
     @SerializedName("nickname")
     private String nickname;
     @SerializedName("avatar")
+    @Bindable
     private String avatar;
     @SerializedName("SN_KEY_API")
     private  String token;
@@ -57,6 +62,7 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+        notifyPropertyChanged(BR.avatar);
     }
 
     public String getT_nickname() {

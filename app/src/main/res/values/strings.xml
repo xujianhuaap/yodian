@@ -34,5 +34,7 @@
     <string name="create_not_empty_pirce">技能价格不能为空</string>
     <string name="create_not_empty_unit">价格单位不能为空</string>
     <string name="status_xiajia">下架</string>
+    <string name="not_changed">没有任何修改</string>
+
     <string name="status_shangjia">上架</string>
 </resources>

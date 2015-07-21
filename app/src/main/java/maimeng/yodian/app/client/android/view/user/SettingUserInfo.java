@@ -1,8 +1,10 @@
 package maimeng.yodian.app.client.android.view.user;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -23,6 +25,9 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
@@ -31,6 +36,9 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypeBitmap;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
+import maimeng.yodian.app.client.android.utils.BitmapUtils;
+import me.iwf.photopicker.PhotoPickerActivity;
+import me.iwf.photopicker.utils.PhotoPickerIntent;
 
 /**
  * Created by android on 15-7-20.
@@ -40,7 +48,9 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
     private Bitmap mBitmap=null;
     private User user;
     private UserService service;
-
+    private static final int REQUEST_AUTH = 0x1001;
+    private static final int REQUEST_SELECT_PHOTO = 0x2001;
+    private boolean changed=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +91,24 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 toggle();
+            }
+        });
+        binding.btnAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(SettingUserInfo.this);
+                intentPhoto.setPhotoCount(1);
+                intentPhoto.setShowCamera(false);
+                startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
+            }
+        });
+        binding.btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(SettingUserInfo.this);
+                intentPhoto.setPhotoCount(1);
+                intentPhoto.setShowCamera(true);
+                startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
         Network.image(this, user.getAvatar(), this);
@@ -128,6 +156,10 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
     }
     @Override
     public void onClick(View v) {
+        if(!changed){
+            Toast.makeText(this,R.string.not_changed,Toast.LENGTH_SHORT).show();
+            return;
+        }
         binding.invalidateAll();
         if(TextUtils.isEmpty(user.getNickname())){
             binding.nickname.setError(getText(R.string.nickname_input_empty_message));
@@ -141,7 +173,9 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(this, R.string.avatar_input_empty_message, Toast.LENGTH_SHORT).show();
             return;
         }
-        service.modifyInfo(user.getNickname(),user.getWechat(),new TypeBitmap(mBitmap),this);
+
+//                service.modifyInfo(user.getNickname(),user.getWechat(),new TypeBitmap(BitmapUtils.compress(mBitmap,540,540,false)),this);
+        service.modifyInfo(user.getNickname(),user.getWechat(),new TypeBitmap(Bitmap.createScaledBitmap(mBitmap,540,540,true)),this);
     }
 
     @Override
@@ -161,13 +195,13 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void start() {
-
+        binding.btnSubmit.setEnabled(false);
     }
 
     @Override
     public void success(ModifyUserResponse res, Response response) {
+        res.showMessage(this);
         if(res.isSuccess()){
-            res.showMessage(this);
             user.write(this);
             setResult(RESULT_OK);
             finish();
@@ -181,7 +215,20 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void end() {
+        binding.btnSubmit.setEnabled(true);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_SELECT_PHOTO && resultCode==RESULT_OK){
+            ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+            String uri = Uri.fromFile(new File(paths.get(0))).toString();
+            Network.image(this,uri,this);
+            binding.getUser().setAvatar(uri);
+            changed=true;
+            toggle();
+        }
     }
 
     class EditTextChangeListener implements TextWatcher {
@@ -207,8 +254,10 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
         @Override
         public void afterTextChanged(Editable s) {
             if(mText==binding.wechat){
+                changed=true;
                 user.setWechat(s.toString());
             }else if(mText==binding.nickname){
+                changed=true;
                 user.setNickname(s.toString());
             }
         }
