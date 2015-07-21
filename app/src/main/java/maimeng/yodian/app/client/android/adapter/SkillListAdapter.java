@@ -75,6 +75,7 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
         public void bind(Skill item){
             this.data =item;
             binding.setSkill(item);
+            binding.executePendingBindings();
             if(item.getUid()==user.getUid()){
                 binding.btnEdit.setVisibility(View.VISIBLE);
                 binding.btnContect.setVisibility(View.GONE);

@@ -136,7 +136,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     public void hide(final FloatingActionButton button) {
         if(!mActivity.getProxyHome().isInited())mActivity.getProxyHome().init();
         mActivity.setTitle("首页");
-        button.setImageResource(R.drawable.btn_selected);
+        button.setImageResource(R.drawable.btn_selected_normal);
         int type = TranslateAnimation.RELATIVE_TO_SELF;
         AnimationSet animationSet=new AnimationSet(true);
         animationSet.setDuration(mActivity.getResources().getInteger(R.integer.duration));

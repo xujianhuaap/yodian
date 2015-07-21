@@ -152,7 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_margin="@dimen/floating_btn_margin"
-            android:src="@drawable/btn_bg"
+            android:src="@drawable/btn_submit_normal"
             app:fab_colorNormal="@color/float_colorNormal"
             app:fab_colorPressed="@color/float_colorPressed"
             app:fab_colorRipple="@color/float_colorRipple"></com.melnykov.fab.FloatingActionButton>

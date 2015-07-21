@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="skill"
             type="maimeng.yodian.app.client.android.model.Skill" />
@@ -53,14 +54,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <ImageView
-                        android:id="@+id/avatar"
+                        android:id="@+id/pic"
                         app:imgUrl="@{skill.pic}"
                         android:adjustViewBounds="false"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/skill_list_item_img_size"
                         android:layout_below="@+id/user_nickname"
                         android:scaleType="fitXY" />
-
+                    <ImageView
+                        android:id="@+id/pic_xiajia"
+                        android:visibility="@{skill.status==0?View.GONE:View.VISIBLE}"
+                        android:adjustViewBounds="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/skill_list_item_img_size"
+                        android:layout_below="@+id/user_nickname"
+                        android:src="@drawable/pic_skill_state_xiajia"
+                        android:scaleType="fitXY" />
                     <TextView
                         android:id="@+id/skill_name"
                         android:layout_width="match_parent"
@@ -137,7 +146,7 @@
                 <TextView
                     android:id="@+id/btn_change_state"
                     android:layout_width="match_parent"
-                    android:text="下架"
+                    android:text="@{skill.status==0?@string/status_xiajia:@string/status_shangjia}"
                     android:background="?attr/colorPrimary"
                     android:layout_weight="1"
                     android:gravity="center"

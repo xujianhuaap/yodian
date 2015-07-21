@@ -53,7 +53,8 @@ public class Skill extends BaseObservable implements Parcelable {
     private String content;//技能描述
     private String price;//技能价格
     private String unit;//技能价格单位
-    private int status;//2下架状态，0上架状态
+    @Bindable
+    private int status=0;//2下架状态，0上架状态
     private Date createtime;//技能添加时间戳
     private String nickname;//用户昵称
     private String avatar;//用户头像数据
@@ -120,6 +121,7 @@ public class Skill extends BaseObservable implements Parcelable {
 
     public void setStatus(int status) {
         this.status = status;
+        notifyPropertyChanged(BR.status);
     }
 
     public Date getCreatetime() {

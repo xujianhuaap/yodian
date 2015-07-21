@@ -245,12 +245,11 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
                 }
             });
         }else if(clickItem==holder.getBinding().btnChangeState){
-            final int up = skill.getStatus() == 0 ? 1 : 0;
-            service.up(skill.getId(), up, new ToastCallback(mActivity){
+            service.up(skill.getId(), skill.getStatus(), new ToastCallback(mActivity){
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
-                    skill.setStatus(up);
+                    skill.setStatus(skill.getStatus() == 0 ? 1 : 0);
                     holder.closeWithAnim();
                 }
             });
