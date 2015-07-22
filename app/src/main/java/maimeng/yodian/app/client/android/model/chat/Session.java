@@ -19,12 +19,19 @@ import maimeng.yodian.app.client.android.utils.SmileUtils;
 public class Session {
     private final EMConversation conversation;
     private final Context mContext;
-    private int missCount=0;//未读消息数
-    private int msgCount=0;//消息数
+    private String username;//用户名
+
+    public String getUsername() {
+        return username;
+    }
+
     private String nickname;//昵称
-    private CharSequence lastContent;
     private String lastDatetime;
     private String avatar;
+    private CharSequence lastContent;
+    private int missCount=0;//未读消息数
+    private int msgCount=0;//消息数
+
 
     public String getAvatar() {
         return avatar;
@@ -59,8 +66,9 @@ public class Session {
         return lastDatetime;
     }
     public Session(Context context,EMConversation conversation){
-        this.conversation=conversation;
         this.mContext=context;
+        this.conversation=conversation;
+        this.username=conversation.getUserName();
         EMMessage lastMessage = conversation.getLastMessage();
         lastContent=SmileUtils.getSmiledText(mContext, CommonUtils.getMessageDigest(lastMessage, mContext));
         missCount=conversation.getUnreadMsgCount();

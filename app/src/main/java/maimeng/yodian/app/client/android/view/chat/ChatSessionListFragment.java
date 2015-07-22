@@ -145,7 +145,9 @@ public class ChatSessionListFragment extends Fragment implements AbstractAdapter
 
     @Override
     public void onItemClick(ChatSessionListAdapter.ViewHolder holder, int postion) {
-
+        Session session = adapter.getItem(postion);
+        ChatActivity.ChatIntent intent=new ChatActivity.ChatIntent(session.getUsername());
+        startActivity(intent);
     }
 
     @Override
