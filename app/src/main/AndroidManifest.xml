@@ -12,6 +12,13 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Required -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -37,7 +44,8 @@
         <activity android:name=".view.user.SettingUserInfo"/>
         <activity android:name=".view.FeedBackActivity" android:label="@string/lable_feedback"/>
         <activity android:name=".view.SettingsActivity" android:theme="@style/AppThemeSettings"/>
-<activity android:name=".view.skill.SkillDetailsActivity"/>
+        <activity android:name=".view.chat.ChatMainActivity" android:label="@string/lable_chat" android:launchMode="singleTask"/>
+        <activity android:name=".view.skill.SkillDetailsActivity"/>
         <activity android:name=".view.auth.AuthSeletorActivity" android:theme="@style/AppThemeWhite">
 
             <intent-filter>
@@ -58,6 +66,7 @@
             </intent-filter>
         </activity>
         <activity android:name="me.iwf.photopicker.PhotoPickerActivity"/>
+        <service android:name=".service.ChatServiceLoginService"/>
         <!--umeng push start-->
         <activity
             android:name="com.umeng.fb.ConversationActivity"/>
@@ -173,6 +182,10 @@
         <meta-data
             android:name="CHANNEL_ID"
             android:value="${CHANNEL_ID}" />
+        <!-- 设置环信应用的appkey -->
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="maimengkeji#youdian" />
+        <!-- 声明sdk所需的service SDK核心功能-->
+        <service android:name="com.easemob.chat.EMChatService" />
     </application>
 
 </manifest>

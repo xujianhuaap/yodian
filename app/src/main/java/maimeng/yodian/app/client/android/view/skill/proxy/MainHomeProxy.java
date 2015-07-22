@@ -39,6 +39,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
+import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
@@ -62,6 +63,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private final TextView mUserNickname;
     private final View mBtnCreateSkill;
     private final View mBtnSettings;
+    private final View mBtnChat;
     private boolean inited=false;
     private final SkillListAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
@@ -77,6 +79,16 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         service=Network.getService(SkillService.class);
         appBar=(AppBarLayout)view.findViewById(R.id.appBarLayout);
         mBtnSettings=view.findViewById(R.id.btn_settings);
+        mBtnChat=view.findViewById(R.id.btn_chat);
+        mBtnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Pair<View,String> back=Pair.create((View)mFloatButton,"back");
+//                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+//                ActivityCompat.startActivity(mActivity,new Intent(mActivity, ChatMainActivity.class),options.toBundle());
+                mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
+            }
+        });
         mBtnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

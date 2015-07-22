@@ -254,7 +254,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
                     @Override
                     public void success(ModifyUserResponse res, Response response) {
                         if (res.isSuccess()) {
-                            user=new User(user.getT_nickname(),user.getT_img(),user.loginType,user.getToken(),user.getUid(),text.toString(),res.getData().getAvatar());
+                            user=new User(user.getT_nickname(),user.getT_img(),user.loginType,user.getToken(),user.getUid(),text.toString(),user.getChatLoginName(),res.getData().getAvatar());
                             user.write(AuthSettingInfoActivity.this);
                             setResult(RESULT_OK);
                             finish();

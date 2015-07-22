@@ -8,6 +8,7 @@
     <string name="hint_wechat">您的微信</string>
     <string name="clearSuccess">清除成功</string>
     <string name="lable_feedback">意见反馈</string>
+    <string name="lable_chat">聊天</string>
     <string name="lable_cleancache">清除缓存</string>
     <string name="lable_changeaccount">切换账号</string>
     <string name="currentVersion">当前版本:%s</string>
@@ -44,4 +45,14 @@
     <string name="status_shangjia">上架</string>
     <string name="feedback_item_user_lable">您说:</string>
     <string name="feedback_item_dev_lable">:官方</string>
+
+
+    <eat-comment>chat</eat-comment>
+    <string name="location_recv">[%1$s的位置]</string>
+    <string name="location_prefix">[我的位置]</string>
+    <string name="picture">[图片]</string>
+    <string name="video">[视频]</string>
+    <string name="file">[文件]</string>
+    <string name="voice">声音</string>
+    <string name="voice_call">[语音通话]</string>
 </resources>

@@ -20,6 +20,7 @@ public class User extends BaseObservable{
     private static final String KEY_T_IMG = "_t_headimg";
     private static final String KEY_NICK = "_nickname";
     private static final String KEY_IMG = "_headimg";
+    private static final String KEY_CHATNAME = "_chatname";
     private static final String KEY_UID = "_uid";
     private static final String KEY_TOKEN = "_token";
     private static final String KEY_TYPE = "_type";
@@ -34,6 +35,17 @@ public class User extends BaseObservable{
     private  String token;
     @SerializedName("weichat")
     private String wechat;
+
+    @SerializedName("hxname")
+    private String chatLoginName;
+
+    public String getChatLoginName() {
+        return chatLoginName;
+    }
+
+    public void setChatLoginName(String chatLoginName) {
+        this.chatLoginName = chatLoginName;
+    }
 
     public String getWechat() {
         return wechat;
@@ -119,7 +131,7 @@ public class User extends BaseObservable{
     public User(){
 
     }
-    public User(String t_name, String t_img, int loginType, String token, long uid, String nickname, String avatar) {
+    public User(String t_name, String t_img, int loginType, String token, long uid, String nickname,String chatLoginName, String avatar) {
         this.uid = uid;
         this.nickname = nickname;
         this.avatar = avatar;
@@ -127,6 +139,7 @@ public class User extends BaseObservable{
         this.token = token;
         this.t_nickname=t_name;
         this.t_img=t_img;
+        this.chatLoginName=chatLoginName;
     }
 
     public static synchronized User read(Context context) {
@@ -138,9 +151,10 @@ public class User extends BaseObservable{
             String t_nickname = pref.getString(KEY_T_NICK, "");
             String t_img = pref.getString(KEY_T_IMG, "");
             String token = pref.getString(KEY_TOKEN, "");
+            String chatname = pref.getString(KEY_CHATNAME, "");
             String wechat = pref.getString(KEY_WECHAT, "");
             int type = pref.getInt(KEY_TYPE, 0);
-            User user = new User(t_nickname, t_img, type, token, "".equals(uid)?0: Long.parseLong(uid), nickname, img);
+            User user = new User(t_nickname, t_img, type, token, "".equals(uid)?0: Long.parseLong(uid), nickname,chatname, img);
             user.setWechat(wechat);
             user.pushOn = pref.getBoolean(KEY_PUSH, true);
             return user;
@@ -155,6 +169,7 @@ public class User extends BaseObservable{
             editor.putString(KEY_T_NICK, t_nickname == null ? "" : t_nickname);
             editor.putString(KEY_TOKEN, token == null ? "" : token);
             editor.putString(KEY_NICK, nickname == null ? "" : nickname);
+            editor.putString(KEY_CHATNAME, chatLoginName == null ? "" : chatLoginName);
             editor.putString(KEY_UID, uid == 0 ? "" : ""+uid);
             editor.putString(KEY_IMG, avatar == null ? "" : avatar);
             editor.putString(KEY_TOKEN, token == null ? "" : token);
@@ -173,11 +188,12 @@ public class User extends BaseObservable{
         String img = bundle.getString(KEY_IMG, "");
         String token = bundle.getString(KEY_TOKEN, "");
         String wechat = bundle.getString(KEY_WECHAT, "");
+        String chatname = bundle.getString(KEY_CHATNAME, "");
         int type = bundle.getInt(KEY_TYPE, 0);
         String t_nickname = bundle.getString(KEY_T_NICK, "");
         String t_img = bundle.getString(KEY_T_IMG, "");
         boolean pushOn = bundle.getBoolean(KEY_PUSH, true);
-        User user = new User(t_nickname,t_img, type, token, "".equals(uid)?0: Long.parseLong(uid), nickname, img);
+        User user = new User(t_nickname,t_img, type, token, "".equals(uid)?0: Long.parseLong(uid), nickname, chatname,img);
         user.setWechat(wechat);
         user.pushOn = pushOn;
         return user;

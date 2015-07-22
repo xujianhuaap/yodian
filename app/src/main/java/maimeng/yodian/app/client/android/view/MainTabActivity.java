@@ -13,6 +13,7 @@ import com.umeng.message.PushAgent;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.service.UmengPushMessageService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
@@ -126,6 +127,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
         if(TextUtils.isEmpty(user.getToken())){
             startActivityForResult(new Intent(this, AuthSeletorActivity.class), REQUEST_AUTH);
         }else {
+            startService(new Intent(this, ChatServiceLoginService.class));
             if(TextUtils.isEmpty(user.getNickname())||TextUtils.isEmpty(user.getAvatar())){
                 AlertDialog dialog = AlertDialog.newInstance("资料补全", "你的资料不完整，请补全资料!");
                 dialog.setCancelable(false);

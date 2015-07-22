@@ -15,7 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways">
-
+            <ImageView
+                android:id="@+id/btn_chat"
+                android:layout_marginRight="@dimen/top_icon_margin"
+                android:layout_marginTop="@dimen/top_icon_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:src="@drawable/ic_settings" />
             <LinearLayout
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
