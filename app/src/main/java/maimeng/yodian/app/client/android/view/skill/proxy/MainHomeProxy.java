@@ -41,6 +41,7 @@ import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
+import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
@@ -233,7 +234,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onItemClick(SkillListAdapter.ViewHolder holder, int postion) {
-
+        mActivity.startActivity(new Intent(mActivity, SkillDetailsActivity.class));
     }
 
     @Override

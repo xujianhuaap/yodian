@@ -35,6 +35,7 @@ import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
+import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 
 /**
@@ -176,7 +177,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onItemClick(SkillListAdapter.ViewHolder holder, int postion) {
-
+        mActivity.startActivity(new Intent(mActivity, SkillDetailsActivity.class));
     }
 
     @Override
