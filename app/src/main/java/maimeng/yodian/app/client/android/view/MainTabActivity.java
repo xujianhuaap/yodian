@@ -16,6 +16,7 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.service.UmengPushMessageService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
+import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
@@ -61,19 +62,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
                 controller.onFloatClick((FloatingActionButton) v);
             }
         });
-        user = User.read(this);
-        if(TextUtils.isEmpty(user.getToken())){
-            startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_AUTH);
-        }else {
-            if(TextUtils.isEmpty(user.getNickname())||TextUtils.isEmpty(user.getAvatar())){
-                AlertDialog dialog = AlertDialog.newInstance("资料补全", "你的资料不完整，请补全资料!");
-                dialog.setCancelable(false);
-                dialog.setPositiveListener(this);
-                dialog.show(getFragmentManager(), "dialog");
-            }else {
-                showDefault();
-            }
-        }
+        onNewIntent(getIntent());
     }
     private void showDefault(){
         mListProxy.init();
@@ -133,6 +122,19 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        user = User.read(this);
+        if(TextUtils.isEmpty(user.getToken())){
+            startActivityForResult(new Intent(this, AuthSeletorActivity.class), REQUEST_AUTH);
+        }else {
+            if(TextUtils.isEmpty(user.getNickname())||TextUtils.isEmpty(user.getAvatar())){
+                AlertDialog dialog = AlertDialog.newInstance("资料补全", "你的资料不完整，请补全资料!");
+                dialog.setCancelable(false);
+                dialog.setPositiveListener(this);
+                dialog.show(getFragmentManager(), "dialog");
+            }else {
+                showDefault();
+            }
+        }
         LogUtil.i(MainTabActivity.class.getName(),"onNewIntent");
     }
 }

@@ -23,7 +23,7 @@
             android:drawableLeft="@drawable/ic_yijian"
             android:drawablePadding="@dimen/top_icon_margin"
             android:gravity="center_vertical|left"
-            android:text="意见反馈"
+            android:text="@string/lable_feedback"
             android:textColor="@color/black_40" />
 
         <View
@@ -32,13 +32,14 @@
             android:background="@color/div_line" />
 
         <TextView
+            android:id="@+id/btn_cleancache"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/top_icon_margin"
             android:gravity="center_vertical|left"
             android:drawableLeft="@drawable/ic_cleancache"
             android:drawablePadding="@dimen/top_icon_margin"
-            android:text="清除缓存"
+            android:text="@string/lable_cleancache"
             android:textColor="@color/black_40" />
 
         <View
@@ -47,13 +48,13 @@
             android:background="@color/div_line" />
 
         <TextView
+            android:id="@+id/current_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_version"
             android:layout_margin="@dimen/top_icon_margin"
             android:drawablePadding="@dimen/top_icon_margin"
             android:gravity="center_vertical|left"
-            android:text="当前版本"
             android:textColor="@color/black_40" />
 
         <View
@@ -62,13 +63,14 @@
             android:background="@color/div_line" />
 
         <TextView
+            android:id="@+id/btn_change_account"
             android:layout_width="match_parent"
             android:layout_margin="@dimen/top_icon_margin"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_change_account"
             android:drawablePadding="@dimen/top_icon_margin"
             android:gravity="center_vertical|left"
-            android:text="切换账号"
+            android:text="@string/lable_changeaccount"
             android:textColor="@color/black_40" />
 
         <View

@@ -35,7 +35,7 @@
         <activity android:name=".view.skill.CreateOrEditSkillActivity" android:theme="@style/AppThemeTransparent" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".view.skill.SkillTemplateActivity" android:theme="@style/AppThemeTransparent"/>
         <activity android:name=".view.user.SettingUserInfo"/>
-        <activity android:name=".view.FeedBackActivity" android:label="@string/user_feedback"/>
+        <activity android:name=".view.FeedBackActivity" android:label="@string/lable_feedback"/>
         <activity android:name=".view.SettingsActivity" android:theme="@style/AppThemeSettings"/>
 
         <activity android:name=".view.auth.AuthSeletorActivity" android:theme="@style/AppThemeWhite">

@@ -6,6 +6,12 @@
     <string name="lable_wechat">微信帐号</string>
     <string name="hint_nickname">您的昵称</string>
     <string name="hint_wechat">您的微信</string>
+    <string name="clearSuccess">清除成功</string>
+    <string name="lable_feedback">意见反馈</string>
+    <string name="lable_cleancache">清除缓存</string>
+    <string name="lable_changeaccount">切换账号</string>
+    <string name="currentVersion">当前版本:%s</string>
+    <string name="currentAccount">当前账号:%s</string>
     <string name="title_activity_web_launcher">WebLauncher</string>
     <string name="mobile_input_empty_message">手机号不能为空</string>
     <string name="code_input_empty_message">验证码不能为空</string>
@@ -36,7 +42,6 @@
     <string name="status_xiajia">下架</string>
     <string name="not_changed">没有任何修改</string>
     <string name="status_shangjia">上架</string>
-    <string name="user_feedback">用户反馈</string>
     <string name="feedback_item_user_lable">您说:</string>
     <string name="feedback_item_dev_lable">:官方</string>
 </resources>
