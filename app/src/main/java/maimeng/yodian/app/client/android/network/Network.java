@@ -136,15 +136,28 @@ public class Network {
     }
     @BindingAdapter("bind:imgUrl")
     public static void image(ImageView iv,String url){
-        image(iv,url,-1,-1);
+        image(iv, url, -1, -1);
     }
-    public static void image(ImageView iv,String url,int placeHolderDrawable,int errorDrawable){
+    @BindingAdapter({"bind:imgUrl","bind:placeHolder"})
+    public static void image(ImageView iv,String url,Drawable placeHolderDrawable){
+        image(iv,url,placeHolderDrawable,null);
+    }
+    @BindingAdapter({"bind:imgUrl","bind:placeHolder","bind:errorImage"})
+    public static void image(ImageView iv,String url,Drawable placeHolderDrawable,Drawable errorDrawable){
         Network one = getOne();
         RequestCreator load = one.loader.load(url);
         load.resize(one.screenWidth, one.screenHeight);
-        if(placeHolderDrawable!=-1)load.placeholder(placeHolderDrawable);
-        if(errorDrawable!=-1)load.error(errorDrawable);
+        if(placeHolderDrawable!=null)load.placeholder(placeHolderDrawable);
+        if(errorDrawable!=null)load.error(errorDrawable);
         load.into(iv);
+    }
+    public static void image(ImageView iv,String url,int placeHolderDrawable){
+        image(iv, url, iv.getResources().getDrawable(placeHolderDrawable),null);
+    }
+    public static void image(ImageView iv,String url,int placeHolderDrawable,int errorDrawable){
+        Drawable place = placeHolderDrawable==-1?null:iv.getResources().getDrawable(placeHolderDrawable);
+        Drawable error = errorDrawable==-1?null:iv.getResources().getDrawable(errorDrawable);
+        image(iv,url, place, error);
     }
     private static class ImageTarget implements Target {
         private final ImageView mImageView;

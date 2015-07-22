@@ -46,25 +46,6 @@ public class ChatSessionListAdapter extends AbstractAdapter<Session,ChatSessionL
         final ChatSessionListItemBinding binding=holder.binding;
         Session conversation = getItem(position);
         binding.setSession(conversation);
-        if (conversation.getMissCount() > 0) {
-            // 显示与此用户的消息未读数
-            binding.unreadMsgNumber.setText(String.valueOf(conversation.getMissCount()));
-            binding.unreadMsgNumber.setVisibility(View.VISIBLE);
-        } else {
-            binding.unreadMsgNumber.setVisibility(View.INVISIBLE);
-        }
-        if (conversation.getMsgCount() != 0) {
-            // 把最后一条消息的内容作为item的message内容
-                binding.name.setText(conversation.getNickname());
-                binding.message.setText(conversation.getLastContent(), TextView.BufferType.SPANNABLE);
-                binding.time.setText(conversation.getLastDatetime());
-                if (conversation.isSendFaild()) {
-                    binding.msgState.setVisibility(View.VISIBLE);
-                } else {
-                    binding.msgState.setVisibility(View.GONE);
-                }
-
-        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

@@ -53,6 +53,6 @@
     <string name="picture">[图片]</string>
     <string name="video">[视频]</string>
     <string name="file">[文件]</string>
-    <string name="voice">声音</string>
+    <string name="voice">[声音]</string>
     <string name="voice_call">[语音通话]</string>
 </resources>

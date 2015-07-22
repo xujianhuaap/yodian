@@ -24,8 +24,13 @@ public class Session {
     private String nickname;//昵称
     private CharSequence lastContent;
     private String lastDatetime;
-    private boolean sendFaild=false;
+    private String avatar;
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    private boolean sendFaild=false;
     public boolean isSendFaild() {
         return sendFaild;
     }
@@ -53,7 +58,6 @@ public class Session {
     public String getLastDatetime() {
         return lastDatetime;
     }
-
     public Session(Context context,EMConversation conversation){
         this.conversation=conversation;
         this.mContext=context;
@@ -70,6 +74,11 @@ public class Session {
             }else{
                 this.nickname=lastMessage.getUserName();
             }
+        } catch (EaseMobException e) {
+            e.printStackTrace();
+        }
+        try {
+            this.avatar = lastMessage.getStringAttribute("avatar");
         } catch (EaseMobException e) {
             e.printStackTrace();
         }
