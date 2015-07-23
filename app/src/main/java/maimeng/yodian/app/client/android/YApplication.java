@@ -12,13 +12,14 @@ import com.umeng.fb.push.FeedbackPush;
 
 import org.henjue.library.share.ShareSDK;
 
+import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.Network;
 
 /**
  * Created by android on 15-7-13.
  */
-public class YApplication extends Application {
+public class YApplication extends DemoApplication {
     public static int channelId=-1;
     public static String channelName;
     public static int versionCode;
@@ -43,7 +44,7 @@ public class YApplication extends Application {
         FeedbackPush.getInstance(this).init(true);
         Network.getOne().init(this);
         ShareSDK.getInstance().initShare(ApiConfig.WEIXIN_APP_KEY, ApiConfig.WEIBO_APP_KEY, ApiConfig.QQ_APP_KEY, ApiConfig.WEIXIN_APP_SECRET, ApiConfig.REDIRECT_URL);
-        EMChat.getInstance().init(this);
+//        EMChat.getInstance().init(this);
         EMChat.getInstance().setDebugMode(BuildConfig.DEBUG);
     }
 }

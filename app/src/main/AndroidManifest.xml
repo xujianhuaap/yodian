@@ -179,13 +179,6 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
-        <meta-data
-            android:name="CHANNEL_ID"
-            android:value="${CHANNEL_ID}" />
-        <!-- 设置环信应用的appkey -->
-        <meta-data android:name="EASEMOB_APPKEY"  android:value="maimengkeji#youdian" />
-        <!-- 声明sdk所需的service SDK核心功能-->
-        <service android:name="com.easemob.chat.EMChatService" />
     </application>
 
 </manifest>
