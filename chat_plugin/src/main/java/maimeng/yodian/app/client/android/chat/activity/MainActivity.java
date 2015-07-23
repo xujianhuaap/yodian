@@ -902,14 +902,6 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		super.onSaveInstanceState(outState);
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			moveTaskToBack(false);
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
 
 	private android.app.AlertDialog.Builder conflictBuilder;
 	private android.app.AlertDialog.Builder accountRemovedBuilder;

@@ -210,7 +210,6 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	/**
 	 * 获取所有会话
 	 * 
-	 * @param context
 	 * @return
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         +	 */
 	private List<EMConversation> loadConversationsWithRecentChat() {
