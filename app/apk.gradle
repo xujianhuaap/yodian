@@ -9,7 +9,7 @@ android {
             def day = now.getAt(Calendar.DAY_OF_MONTH);
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 if (buildName == 'debug') {
-                    def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}-${year}${month}${day}.apk")
+                    def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}.apk")
                     output.outputFile = new File(outputFile.parent, fileName)
                 } else {
                     def timemillis = Calendar.getInstance().getTimeInMillis();

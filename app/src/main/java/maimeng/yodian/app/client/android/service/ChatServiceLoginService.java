@@ -54,7 +54,22 @@ public class ChatServiceLoginService extends Service{
                     // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                     // ** manually load all local groups and
                     EMGroupManager.getInstance().loadAllGroups();
-                    EMChatManager.getInstance().loadAllConversations();
+                    EMChatManager.getInstance().loadAllConversations(new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            System.out.println("onSuccess");
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            System.out.println("onError");
+                        }
+
+                        @Override
+                        public void onProgress(int i, String s) {
+                            System.out.println("onProgress");
+                        }
+                    });
                     // 处理好友和群组
                     initializeContacts();
                 } catch (Exception e) {
