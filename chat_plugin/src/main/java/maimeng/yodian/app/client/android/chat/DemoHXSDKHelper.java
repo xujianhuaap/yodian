@@ -211,7 +211,7 @@ public class DemoHXSDKHelper extends HXSDKHelper{
             private final static String ROOM_CHANGE_BROADCAST = "easemob.demo.chatroom.changeevent.toast";
             private final IntentFilter filter = new IntentFilter(ROOM_CHANGE_BROADCAST);
             private boolean registered = false;
-            
+
             private void showToast(String value){
                 if(!registered){
                   //注册广播接收者
@@ -221,17 +221,17 @@ public class DemoHXSDKHelper extends HXSDKHelper{
                         public void onReceive(Context context, Intent intent) {
                             Toast.makeText(appContext, intent.getStringExtra("value"), Toast.LENGTH_SHORT).show();
                         }
-                        
+
                     }, filter);
-                    
+
                     registered = true;
                 }
-                
+
                 Intent broadcastIntent = new Intent(ROOM_CHANGE_BROADCAST);
                 broadcastIntent.putExtra("value", value);
                 appContext.sendBroadcast(broadcastIntent, null);
             }
-            
+
             @Override
             public void onChatRoomDestroyed(String roomId, String roomName) {
                 showToast(" room : " + roomId + " with room name : " + roomName + " was destroyed");
@@ -242,7 +242,7 @@ public class DemoHXSDKHelper extends HXSDKHelper{
             public void onMemberJoined(String roomId, String participant) {
                 showToast("member : " + participant + " join the room : " + roomId);
                 Log.i("info", "onmemberjoined="+participant);
-                
+
             }
 
             @Override
@@ -250,7 +250,7 @@ public class DemoHXSDKHelper extends HXSDKHelper{
                     String participant) {
                 showToast("member : " + participant + " leave the room : " + roomId + " room name : " + roomName);
                 Log.i("info", "onMemberExited="+participant);
-                
+
             }
 
             @Override
@@ -258,7 +258,7 @@ public class DemoHXSDKHelper extends HXSDKHelper{
                     String participant) {
                 showToast("member : " + participant + " was kicked from the room : " + roomId + " room name : " + roomName);
                 Log.i("info", "onMemberKicked="+participant);
-                
+
             }
 
         });
@@ -452,9 +452,9 @@ public class DemoHXSDKHelper extends HXSDKHelper{
 		}
 		return title;
 	}
-	
-	
-	
+
+
+
 
     public void setRobotList(Map<String, RobotUser> robotList){
     	this.robotList = robotList;

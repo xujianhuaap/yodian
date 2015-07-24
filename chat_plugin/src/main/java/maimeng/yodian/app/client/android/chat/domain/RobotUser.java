@@ -17,6 +17,16 @@ import com.easemob.chat.EMContact;
 
 public class RobotUser extends EMContact{
 	private String username;
+	private String id;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	private String nick;
 	private String header;
 	private String avatar;

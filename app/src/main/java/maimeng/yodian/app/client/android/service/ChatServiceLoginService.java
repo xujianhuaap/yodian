@@ -10,17 +10,23 @@ import android.widget.Toast;
 import com.easemob.EMCallBack;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroupManager;
+import com.easemob.chat.EMMessage;
+import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
+import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.MainActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
+import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 
@@ -72,6 +78,7 @@ public class ChatServiceLoginService extends Service{
                     });
                     // 处理好友和群组
                     initializeContacts();
+                    updateContacts();
                 } catch (Exception e) {
                     e.printStackTrace();
                     log(maimeng.yodian.app.client.android.chat.R.string.login_failure_failed);
@@ -100,6 +107,86 @@ public class ChatServiceLoginService extends Service{
         return super.onStartCommand(intent, flags, startId);
     }
 
+    private void updateContacts(){
+            EMChatManager.getInstance().loadAllConversations();
+            Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
+            Map<String, RobotUser> mMap = new HashMap<String, RobotUser>();
+            Map<String,  maimeng.yodian.app.client.android.chat.domain.User> mMapUser = new HashMap<String,  maimeng.yodian.app.client.android.chat.domain.User>();
+            for(EMConversation conversation:conversations.values()){
+                if(conversation.getAllMsgCount()>0){
+                    List<EMMessage> messages = conversation.loadMoreMsgFromDB(conversation.getMessage(0).getMsgId(), conversation.getAllMsgCount());
+                    for(EMMessage message:messages){
+                        try {
+                            String nickname=message.getStringAttribute("nickName");
+                            String avatar=message.getStringAttribute("avatar");
+                            String uid = message.getStringAttribute("uid");
+                            RobotUser robot = new RobotUser();
+                            maimeng.yodian.app.client.android.chat.domain.User user=new maimeng.yodian.app.client.android.chat.domain.User();
+                            robot.setAvatar(avatar);
+                            robot.setId(uid);
+                            robot.setNick(nickname);
+                            robot.setUsername(message.getUserName());
+                            user.setAvatar(avatar);
+                            user.setId(uid);
+                            user.setNick(nickname);
+                            user.setUsername(message.getUserName());
+                            mMap.put(message.getUserName(),robot);
+                            mMapUser.put(message.getUserName(),user);
+                        } catch (EaseMobException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            // 存入内存
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).setRobotList(mMap);
+        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).setContactList(mMapUser);
+            // 存入db
+            UserDao dao = new UserDao(this);
+            dao.saveRobotUser(new ArrayList<>(mMap.values()));
+            dao.saveContactList(new ArrayList<>(mMapUser.values()));
+//		asyncGetRobotNamesFromServer(new EMValueCallBack<List<EMContact>>() {
+//
+//			@Override
+//			public void onSuccess(final List<EMContact> value) {
+//				runOnUiThread(new Runnable() {
+//					@Override
+//					public void run() {
+//						progressBar.setVisibility(View.GONE);
+//						swipeRefreshLayout.setRefreshing(false);
+//						Map<String, RobotUser> mMap = new HashMap<String, RobotUser>();
+//						for (EMContact item : value) {
+//							RobotUser user = new RobotUser();
+//							user.setUsername(item.getUsername());
+//							user.setNick(item.getNick());
+//							user.setHeader("#");
+//							mMap.put(item.getUsername(), user);
+//						}
+//						robotList.clear();
+//						robotList.addAll(mMap.values());
+//						// 存入内存
+//						((DemoHXSDKHelper) HXSDKHelper.getInstance()).setRobotList(mMap);
+//						// 存入db
+//						UserDao dao = new UserDao(RobotsActivity.this);
+//						dao.saveRobotUser(robotList);
+//						adapter.notifyDataSetChanged();
+//					}
+//				});
+//			}
+//
+//			@Override
+//			public void onError(int error, String errorMsg) {
+//				runOnUiThread(new Runnable() {
+//					@Override
+//					public void run() {
+//						swipeRefreshLayout.setRefreshing(false);
+//						progressBar.setVisibility(View.GONE);
+//					}
+//				});
+//			}
+//		});
+
+    }
     private void initializeContacts() {
         Map<String, maimeng.yodian.app.client.android.chat.domain.User> userlist = new HashMap<String, maimeng.yodian.app.client.android.chat.domain.User>();
         // 添加user"申请与通知"
