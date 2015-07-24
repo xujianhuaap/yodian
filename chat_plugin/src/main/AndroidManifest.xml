@@ -127,7 +127,7 @@
         </activity>
         <!-- 地图 -->
         <activity
-            android:name="maimeng.yodian.app.client.android.activity.BaiduMapActivity"
+            android:name="maimeng.yodian.app.client.android.chat.activity.BaiduMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" >
         </activity>
