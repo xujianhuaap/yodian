@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.chat.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
@@ -49,20 +50,37 @@ import maimeng.yodian.app.client.android.chat.db.InviteMessgeDao;
  */
 public class ChatAllHistoryFragment extends Fragment implements View.OnClickListener {
 
+	private static final String SHOW_TITLE = "_show_title";
 	private InputMethodManager inputMethodManager;
 	private ListView listView;
 	private ChatAllHistoryAdapter adapter;
 	private EditText query;
 	private ImageButton clearSearch;
 	public RelativeLayout errorItem;
+	public static ChatAllHistoryFragment getInstance(boolean showTitle){
+		ChatAllHistoryFragment fragment=new ChatAllHistoryFragment();
+		Bundle opt=new Bundle();
+		opt.putBoolean(SHOW_TITLE, showTitle);
+		fragment.setArguments(opt);
+		return fragment;
+	}
 
+	/**
+	 * @Deprecated use {@link #getInstance(boolean)}
+	 */
+	@Deprecated
+	public ChatAllHistoryFragment(){
+
+	}
 	public TextView errorText;
 	private boolean hidden;
 	private List<EMConversation> conversationList = new ArrayList<EMConversation>();
 		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_conversation_history, container, false);
+		View root = inflater.inflate(R.layout.fragment_conversation_history, container, false);
+		root.findViewById(R.id.title_containar).setVisibility(getArguments().getBoolean(SHOW_TITLE,false)?View.VISIBLE:View.GONE);
+		return root;
 	}
 
 	@Override
@@ -89,7 +107,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 				EMConversation conversation = adapter.getItem(position);
 				String username = conversation.getUserName();
 				if (username.equals(DemoApplication.getInstance().getUserName()))
-					Toast.makeText(getActivity(), st2, 0).show();
+					Toast.makeText(getActivity(), st2, Toast.LENGTH_SHORT).show();
 				else {
 				    // 进入聊天页面
 				    Intent intent = new Intent(getActivity(), ChatActivity.class);

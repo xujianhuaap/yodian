@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	
 	private MyConnectionListener connectionListener = null;
 	private MyGroupChangeListener groupChangeListener = null;
-
+	protected boolean mini=false;
 	/**
 	 * 检查当前用户是否被删除
 	 */
@@ -134,15 +134,23 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		// 这个fragment只显示好友和群组的聊天记录
 		// chatHistoryFragment = new ChatHistoryFragment();
 		// 显示所有人消息记录的fragment
-		chatHistoryFragment = new ChatAllHistoryFragment();
-		contactListFragment = new ContactlistFragment();
-		settingFragment = new SettingsFragment();
-		fragments = new Fragment[] { chatHistoryFragment, contactListFragment, settingFragment };
-		// 添加显示第一个fragment
-		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatHistoryFragment)
-				.add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(chatHistoryFragment)
-				.commit();
-		
+		if(mini){
+			chatHistoryFragment = ChatAllHistoryFragment.getInstance(false);
+			fragments = new Fragment[] { chatHistoryFragment};
+			// 添加显示第一个fragment
+			getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatHistoryFragment)
+					.show(chatHistoryFragment)
+					.commit();
+		}else {
+			chatHistoryFragment = ChatAllHistoryFragment.getInstance(true);
+			contactListFragment = new ContactlistFragment();
+			settingFragment = new SettingsFragment();
+			fragments = new Fragment[]{chatHistoryFragment, contactListFragment, settingFragment};
+			// 添加显示第一个fragment
+			getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatHistoryFragment)
+					.add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(chatHistoryFragment)
+					.commit();
+		}
 		init();
 	}
 
@@ -310,14 +318,17 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	private void initView() {
 		unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
 		unreadAddressLable = (TextView) findViewById(R.id.unread_address_number);
-		mTabs = new Button[3];
-		mTabs[0] = (Button) findViewById(R.id.btn_conversation);
-		mTabs[1] = (Button) findViewById(R.id.btn_address_list);
-		mTabs[2] = (Button) findViewById(R.id.btn_setting);
-		// 把第一个tab设为选中状态
-		mTabs[0].setSelected(true);
-
-		registerForContextMenu(mTabs[1]);
+		if(mini){
+				findViewById(R.id.main_bottom).setVisibility(View.GONE);
+		}else {
+			mTabs = new Button[3];
+			mTabs[0] = (Button) findViewById(R.id.btn_conversation);
+			mTabs[1] = (Button) findViewById(R.id.btn_address_list);
+			mTabs[2] = (Button) findViewById(R.id.btn_setting);
+			// 把第一个tab设为选中状态
+			mTabs[0].setSelected(true);
+			registerForContextMenu(mTabs[1]);
+		}
 	}
 
 	/**
