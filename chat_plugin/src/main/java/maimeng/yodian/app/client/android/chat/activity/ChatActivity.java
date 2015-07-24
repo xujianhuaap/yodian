@@ -45,6 +45,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -212,6 +214,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		setUpView();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_chat_menu,menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	/**
 	 * initView
 	 */
@@ -366,6 +374,16 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		 });
 	}
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (chatType == CHATTYPE_SINGLE) {
+			menu.findItem(0).setVisible(true);
+		}else{
+			menu.findItem(0).setVisible(false);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
+
 	private void setUpView() {
 		iv_emoticons_normal.setOnClickListener(this);
 		iv_emoticons_checked.setOnClickListener(this);
@@ -385,17 +403,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 				isRobot = true;
 				String nick = robotMap.get(toChatUsername).getNick();
 				if(!TextUtils.isEmpty(nick)){
-					((TextView) findViewById(R.id.name)).setText(nick);
+					setTitle(nick);
 				}else{
-					((TextView) findViewById(R.id.name)).setText(toChatUsername);
+					setTitle(toChatUsername);
 				}
-			}else{
-				((TextView) findViewById(R.id.name)).setText(toChatUsername);
+			} else {
+				setTitle(toChatUsername);
 			}
 		} else {
 			// 群聊
-			findViewById(R.id.container_to_group).setVisibility(View.VISIBLE);
-			findViewById(R.id.container_remove).setVisibility(View.GONE);
 			findViewById(R.id.container_voice_call).setVisibility(View.GONE);
 			findViewById(R.id.container_video_call).setVisibility(View.GONE);
 			toChatUsername = getIntent().getStringExtra("groupId");
@@ -420,6 +436,14 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	            forwardMessage(forward_msg_id);
 	        }
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==0){
+			emptyHistory();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	protected void onConversationInit(){
@@ -522,7 +546,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	}
 	
 	protected void onChatRoomViewCreation(){
-        findViewById(R.id.container_to_group).setVisibility(View.GONE);
         
         final ProgressDialog pd = ProgressDialog.show(this, "", "Joining......");
         EMChatManager.getInstance().joinChatRoom(toChatUsername, new EMValueCallBack<EMChatRoom>() {
@@ -1226,9 +1249,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	/**
 	 * 点击清空聊天记录
 	 * 
-	 * @param view
 	 */
-	public void emptyHistory(View view) {
+	public void emptyHistory() {
 		String st5 = getResources().getString(R.string.Whether_to_empty_all_chats);
 		startActivityForResult(new Intent(this, AlertDialog.class).putExtra("titleIsCancel", true).putExtra("msg", st5)
 				.putExtra("cancel", true), REQUEST_CODE_EMPTY_HISTORY);

@@ -6,7 +6,7 @@
     android:animateLayoutChanges="true"
     android:background="#f2f0eb" >
 
-    <RelativeLayout
+<!--    <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
@@ -58,7 +58,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/to_group_details_normal" />
         </RelativeLayout>
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <LinearLayout
         android:id="@+id/bar_bottom"

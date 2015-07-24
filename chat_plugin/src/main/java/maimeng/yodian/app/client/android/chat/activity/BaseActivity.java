@@ -22,7 +22,9 @@ import android.view.View;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.applib.model.HXNotifier;
 
-public class BaseActivity extends AppCompatActivity {
+import maimeng.yodian.app.client.android.chat.AbstractActivity;
+
+public class BaseActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
