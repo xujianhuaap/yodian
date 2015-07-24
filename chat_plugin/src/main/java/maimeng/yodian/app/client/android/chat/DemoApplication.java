@@ -22,7 +22,6 @@ import com.easemob.EMCallBack;
 import maimeng.yodian.app.client.android.chat.domain.User;
 
 public class DemoApplication extends Application {
-
 	public static Context applicationContext;
 	private static DemoApplication instance;
 	// login user name
@@ -33,6 +32,16 @@ public class DemoApplication extends Application {
 	 */
 	public static String currentUserNick = "";
 	public static DemoHXSDKHelper hxSDKHelper = new DemoHXSDKHelper();
+
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
+	}
+
+	private User currentUser;
 
 	@Override
 	public void onCreate() {

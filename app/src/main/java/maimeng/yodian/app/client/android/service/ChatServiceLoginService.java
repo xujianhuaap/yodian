@@ -125,13 +125,14 @@ public class ChatServiceLoginService extends Service{
                             robot.setAvatar(avatar);
                             robot.setId(uid);
                             robot.setNick(nickname);
-                            robot.setUsername(message.getUserName());
+                            String userName = message.getUserName();
+                            robot.setUsername(userName);
                             user.setAvatar(avatar);
                             user.setId(uid);
                             user.setNick(nickname);
-                            user.setUsername(message.getUserName());
-                            mMap.put(message.getUserName(),robot);
-                            mMapUser.put(message.getUserName(),user);
+                            user.setUsername(userName);
+                            mMap.put(userName,robot);
+                            mMapUser.put(userName,user);
                         } catch (EaseMobException e) {
                             e.printStackTrace();
                         }

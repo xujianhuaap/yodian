@@ -97,6 +97,7 @@ import maimeng.yodian.app.client.android.chat.adapter.ExpressionPagerAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.MessageAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.VoicePlayClickListener;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
+import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
@@ -944,6 +945,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			if(isRobot){
 				message.setAttribute("em_robot_message", true);
 			}
+			User currentUser = DemoApplication.getInstance().getCurrentUser();
+			message.setAttribute("nickName", currentUser.getNick());
+			message.setAttribute("avatar", currentUser.getAvatar());
+			message.setAttribute("uid", currentUser.getId());
 			TextMessageBody txtBody = new TextMessageBody(content);
 			// 设置消息body
 			message.addBody(txtBody);

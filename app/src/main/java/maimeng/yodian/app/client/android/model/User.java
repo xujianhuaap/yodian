@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.google.gson.annotations.SerializedName;
 
 import maimeng.yodian.app.client.android.BR;
+import maimeng.yodian.app.client.android.YApplication;
 
 
 /**
@@ -153,6 +154,16 @@ public class User extends BaseObservable{
             String token = pref.getString(KEY_TOKEN, "");
             String chatname = pref.getString(KEY_CHATNAME, "");
             String wechat = pref.getString(KEY_WECHAT, "");
+
+            maimeng.yodian.app.client.android.chat.domain.User u=new maimeng.yodian.app.client.android.chat.domain.User();
+            u.setAvatar(img);
+            u.setUsername(chatname);
+            u.setNick(nickname);
+            u.setId(uid);
+            YApplication.getInstance().setCurrentUser(u);
+
+
+
             int type = pref.getInt(KEY_TYPE, 0);
             User user = new User(t_nickname, t_img, type, token, "".equals(uid)?0: Long.parseLong(uid), nickname,chatname, img);
             user.setWechat(wechat);
@@ -163,6 +174,7 @@ public class User extends BaseObservable{
 
     public void write(Context context) {
         synchronized (User.class) {
+
             SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString(KEY_T_IMG, t_img == null ? "" : t_img);
