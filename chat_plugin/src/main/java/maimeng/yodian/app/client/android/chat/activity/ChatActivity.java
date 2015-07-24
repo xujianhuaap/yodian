@@ -204,7 +204,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	public EMGroup group;
 	public EMChatRoom room;
 	public boolean isRobot;
-	
+	private String yd_nickname=null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -216,7 +217,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_chat_menu,menu);
+		getMenuInflater().inflate(R.menu.activity_chat_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -397,18 +398,22 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
 
 		if (chatType == CHATTYPE_SINGLE) { // 单聊
-			toChatUsername = getIntent().getStringExtra("userId");
-			Map<String,RobotUser> robotMap=((DemoHXSDKHelper)HXSDKHelper.getInstance()).getRobotList();
-			if(robotMap!=null&&robotMap.containsKey(toChatUsername)){
-				isRobot = true;
-				String nick = robotMap.get(toChatUsername).getNick();
-				if(!TextUtils.isEmpty(nick)){
-					setTitle(nick);
-				}else{
+			if(!TextUtils.isEmpty(yd_nickname)){
+				setTitle(yd_nickname);
+			}else {
+				toChatUsername = getIntent().getStringExtra("userId");
+				Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
+				if (robotMap != null && robotMap.containsKey(toChatUsername)) {
+					isRobot = true;
+					String nick = robotMap.get(toChatUsername).getNick();
+					if (!TextUtils.isEmpty(nick)) {
+						setTitle(nick);
+					} else {
+						setTitle(toChatUsername);
+					}
+				} else {
 					setTitle(toChatUsername);
 				}
-			} else {
-				setTitle(toChatUsername);
 			}
 		} else {
 			// 群聊
@@ -439,6 +444,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	}
 
 	@Override
+	public void setTitle(CharSequence title) {
+		//super.setTitle(title);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId()==0){
 			emptyHistory();
@@ -448,7 +458,18 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 	protected void onConversationInit(){
 	    if(chatType == CHATTYPE_SINGLE){
-	        conversation = EMChatManager.getInstance().getConversationByType(toChatUsername,EMConversationType.Chat);
+	        conversation = EMChatManager.getInstance().getConversationByType(toChatUsername, EMConversationType.Chat);
+			EMMessage lastMessage = conversation.getLastMessage();
+			if(lastMessage!=null){
+				try {
+					yd_nickname=lastMessage.getStringAttribute("nickName");
+					if(!TextUtils.isEmpty(yd_nickname)){
+						setTitle(yd_nickname);
+					}
+				} catch (EaseMobException e) {
+					e.printStackTrace();
+				}
+			}
 	    }else if(chatType == CHATTYPE_GROUP){
 	        conversation = EMChatManager.getInstance().getConversationByType(toChatUsername,EMConversationType.GroupChat);
 	    }else if(chatType == CHATTYPE_CHATROOM){
