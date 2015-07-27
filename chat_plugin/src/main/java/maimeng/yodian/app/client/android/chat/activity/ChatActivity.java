@@ -1132,6 +1132,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			if(isRobot){
 				message.setAttribute("em_robot_message", true);
 			}
+			User currentUser = DemoApplication.getInstance().getCurrentUser();
+			String nick = currentUser.getNick();
+			String avatar = currentUser.getAvatar();
+			String id = currentUser.getId();
+			message.setAttribute("nickName", nick);
+			message.setAttribute("avatar", avatar);
+			message.setAttribute("uid", id);
 			conversation.addMessage(message);
 			adapter.refreshSelectLast();
 			setResult(RESULT_OK);
@@ -1151,6 +1158,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		String to = toChatUsername;
 		// create and add image message in view
 		final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
+		User currentUser = DemoApplication.getInstance().getCurrentUser();
+		String nick = currentUser.getNick();
+		String avatar = currentUser.getAvatar();
+		String id = currentUser.getId();
+		message.setAttribute("nickName", nick);
+		message.setAttribute("avatar", avatar);
+		message.setAttribute("uid", id);
 		// 如果是群聊，设置chattype,默认是单聊
 		if (chatType == CHATTYPE_GROUP){
 			message.setChatType(ChatType.GroupChat);
@@ -1184,6 +1198,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		}
 		try {
 			EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VIDEO);
+			User currentUser = DemoApplication.getInstance().getCurrentUser();
+			String nick = currentUser.getNick();
+			String avatar = currentUser.getAvatar();
+			String id = currentUser.getId();
+			message.setAttribute("nickName", nick);
+			message.setAttribute("avatar", avatar);
+			message.setAttribute("uid", id);
 			// 如果是群聊，设置chattype,默认是单聊
 			if (chatType == CHATTYPE_GROUP){
 				message.setChatType(ChatType.GroupChat);
@@ -1254,6 +1275,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	 */
 	private void sendLocationMsg(double latitude, double longitude, String imagePath, String locationAddress) {
 		EMMessage message = EMMessage.createSendMessage(EMMessage.Type.LOCATION);
+		User currentUser = DemoApplication.getInstance().getCurrentUser();
+		String nick = currentUser.getNick();
+		String avatar = currentUser.getAvatar();
+		String id = currentUser.getId();
+		message.setAttribute("nickName", nick);
+		message.setAttribute("avatar", avatar);
+		message.setAttribute("uid", id);
 		// 如果是群聊，设置chattype,默认是单聊
 		if (chatType == CHATTYPE_GROUP){
 			message.setChatType(ChatType.GroupChat);
@@ -1310,6 +1338,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 		// 创建一个文件消息
 		EMMessage message = EMMessage.createSendMessage(EMMessage.Type.FILE);
+		User currentUser = DemoApplication.getInstance().getCurrentUser();
+		String nick = currentUser.getNick();
+		String avatar = currentUser.getAvatar();
+		String id = currentUser.getId();
+		message.setAttribute("nickName", nick);
+		message.setAttribute("avatar", avatar);
+		message.setAttribute("uid", id);
 		// 如果是群聊，设置chattype,默认是单聊
 		if (chatType == CHATTYPE_GROUP){
 			message.setChatType(ChatType.GroupChat);
