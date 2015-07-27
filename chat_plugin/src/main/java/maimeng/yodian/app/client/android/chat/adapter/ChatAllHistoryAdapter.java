@@ -63,9 +63,10 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 	private List<EMConversation> copyConversationList;
 	private ConversationFilter conversationFilter;
     private boolean notiyfyByFilter;
-
+	private final Map<String,RobotUser> robotMap;
 	public ChatAllHistoryAdapter(Context context, int textViewResourceId, List<EMConversation> objects) {
 		super(context, textViewResourceId, objects);
+		robotMap=((DemoHXSDKHelper)HXSDKHelper.getInstance()).getRobotList();
 		this.conversationList = objects;
 		copyConversationList = new ArrayList<EMConversation>();
 		copyConversationList.addAll(objects);
@@ -116,7 +117,6 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			} else if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
 				holder.name.setText("申请与通知");
 			}
-			Map<String,RobotUser> robotMap=((DemoHXSDKHelper)HXSDKHelper.getInstance()).getRobotList();
 			if(robotMap!=null&&robotMap.containsKey(username)){
 				String nick = robotMap.get(username).getNick();
 				if(!TextUtils.isEmpty(nick)){
@@ -266,9 +266,13 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 				final ArrayList<EMConversation> newValues = new ArrayList<EMConversation>();
 
 				for (int i = 0; i < count; i++) {
+
 					final EMConversation value = mOriginalValues.get(i);
 					String username = value.getUserName();
-					
+					if(robotMap.containsKey(username)){
+						RobotUser user = robotMap.get(username);
+						username=user.getNick();
+					}
 					EMGroup group = EMGroupManager.getInstance().getGroup(username);
 					if(group != null){
 						username = group.getGroupName();

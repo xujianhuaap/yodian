@@ -784,7 +784,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 					sendLocationMsg(latitude, longitude, "", locationAddress);
 				} else {
 					String st = getResources().getString(R.string.unable_to_get_loaction);
-					Toast.makeText(this, st, 0).show();
+					Toast.makeText(this, st, Toast.LENGTH_SHORT).show();
 				}
 				// 重发消息
 			} else if (requestCode == REQUEST_CODE_TEXT || requestCode == REQUEST_CODE_VOICE
