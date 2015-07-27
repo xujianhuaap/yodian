@@ -11,13 +11,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 
+import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -26,6 +29,10 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
+import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
+import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
+import maimeng.yodian.app.client.android.chat.db.UserDao;
+import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.Skill;
@@ -182,9 +189,43 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onClick(SkillListAdapter.ViewHolder holder, View clickItem, int postion) {
+        Skill skill = holder.getData();
         if(clickItem==holder.getBinding().btnShare){
-            Skill data = holder.getData();
+            Skill data = skill;
             ShareDialog.show(mActivity, new ShareDialog.ShareParams(data,data.getQrcodeUrl(),data.getUid(), data.getNickname(),""));
+        }else if(clickItem==holder.getBinding().btnContect){
+            Intent intent = new Intent(mActivity, ChatActivity.class);
+            Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
+            Map<String, maimeng.yodian.app.client.android.chat.domain.User> contactMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList();
+            String chatLoginName = skill.getChatLoginName();
+            if(robotMap.containsKey(chatLoginName)) {
+                intent.putExtra("userId", chatLoginName);
+                mActivity.startActivity(intent);
+            }else{
+                RobotUser robot=new RobotUser();
+                robot.setId(skill.getUid() + "");
+                robot.setUsername(chatLoginName);
+                robot.setNick(skill.getNickname());
+                robot.setAvatar(skill.getAvatar());
+                robotMap.put(skill.getChatLoginName(), robot);
+
+                maimeng.yodian.app.client.android.chat.domain.User user=new maimeng.yodian.app.client.android.chat.domain.User();
+                user.setId(skill.getUid() + "");
+                user.setUsername(chatLoginName);
+                user.setNick(skill.getNickname());
+                user.setAvatar(skill.getAvatar());
+                contactMap.put(skill.getChatLoginName(), user);
+                // 存入内存
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).setRobotList(robotMap);
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).setContactList(contactMap);
+                // 存入db
+                UserDao dao = new UserDao(mActivity);
+                dao.saveRobotUser(new ArrayList<>(robotMap.values()));
+                dao.saveContactList(new ArrayList<>(contactMap.values()));
+                intent.putExtra("userId", chatLoginName);
+                intent.putExtra("userNickname", skill.getNickname());
+                mActivity.startActivity(intent);
+            }
         }
     }
 

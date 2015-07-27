@@ -52,13 +52,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -162,7 +165,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	private View buttonPressToSpeak;
 	// private ViewPager expressionViewpager;
 	private LinearLayout emojiIconContainer;
-	private LinearLayout btnContainer;
+	private GridView btnContainer;
 	private TextView locationImgview;
 	private View more;
 	private int position;
@@ -206,6 +209,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	public EMChatRoom room;
 	public boolean isRobot;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -220,11 +224,39 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		getMenuInflater().inflate(R.menu.activity_chat_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	private boolean enableMap=false;
-	private boolean enableVideo=false;
-	private boolean enableFile=false;
-	private boolean enableVoiceCall=false;
-	private boolean enableVideoCall=false;
+
+
+	private class ViewEntry{
+		private final Drawable icon;
+		private final String text;
+		private final Intent intent;
+		private final int requestCode;
+		private final OnClickListener onClickListener;
+		private boolean enable=true;
+		ViewEntry(Drawable icon,String text,Intent intent,int requestCode){
+			this.icon=icon;
+			this.text=text;
+			this.intent=intent;
+			this.onClickListener=null;
+			this.requestCode=requestCode;
+		}
+		ViewEntry(Drawable icon,String text,OnClickListener onClickListener){
+			this.icon=icon;
+			this.text=text;
+			this.intent=null;
+			this.onClickListener=onClickListener;
+			this.requestCode=-1;
+		}
+	}
+	private class ViewHolder{
+		public final TextView icon;
+		ViewHolder(TextView v){
+			this.icon=v;
+			this.icon.setTextColor(getResources().getColor(android.R.color.black));
+			this.icon.setGravity(Gravity.CENTER);
+		}
+	}
+	private List<ViewEntry> entries=new ArrayList<>();
 	/**
 	 * initView
 	 */
@@ -241,7 +273,55 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		buttonPressToSpeak = findViewById(R.id.btn_press_to_speak);
 		expressionViewpager = (ViewPager) findViewById(R.id.vPager);
 		emojiIconContainer = (LinearLayout) findViewById(R.id.ll_face_container);
-		btnContainer = (LinearLayout) findViewById(R.id.ll_btn_container);
+		btnContainer = (GridView) findViewById(R.id.ll_btn_container);
+		BaseAdapter adapter = new BaseAdapter() {
+			@Override
+			public int getCount() {
+				return entries.size();
+			}
+
+			@Override
+			public ViewEntry getItem(int position) {
+				return entries.get(position);
+			}
+
+			@Override
+			public long getItemId(int position) {
+				return 0;
+			}
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				ViewHolder holder;
+				if (convertView == null) {
+					convertView = new TextView(ChatActivity.this);
+					holder = new ViewHolder((TextView) convertView);
+					convertView.setTag(holder);
+				} else {
+					holder = (ViewHolder) convertView.getTag();
+				}
+				final ViewEntry item = getItem(position);
+				holder.icon.setText(item.text);
+				holder.icon.setTag(R.id.tag_item,item);
+				holder.icon.setEnabled(item.enable);
+				holder.icon.setCompoundDrawablesWithIntrinsicBounds(null, item.icon, null, null);
+				if (item.onClickListener != null && item.intent == null) {
+					holder.icon.setOnClickListener(item.onClickListener);
+				}
+				if (item.onClickListener == null && item.intent != null) {
+					holder.icon.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							ViewEntry entry = (ViewEntry) v.getTag(R.id.tag_item);
+							startActivityForResult(entry.intent, entry.requestCode);
+						}
+					});
+				}
+				return convertView;
+			}
+		};
+		btnContainer.setAdapter(adapter);
+		initEntryData(entries);
 		locationImgview = (TextView) findViewById(R.id.btn_location);
 		iv_emoticons_normal = (ImageView) findViewById(R.id.iv_emoticons_normal);
 		iv_emoticons_checked = (ImageView) findViewById(R.id.iv_emoticons_checked);
@@ -346,10 +426,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		                                         List<EMMessage> messages;
 		                                         try {
 	                                                 if (chatType == CHATTYPE_SINGLE){
-                                                         messages = conversation.loadMoreMsgFromDB(adapter.getItem(0).getMsgId(), pagesize);
+                                                         messages = conversation.loadMoreMsgFromDB(ChatActivity.this.adapter.getItem(0).getMsgId(), pagesize);
 	                                                 }
 	                                                 else{
-                                                         messages = conversation.loadMoreGroupMsgFromDB(adapter.getItem(0).getMsgId(), pagesize);
+                                                         messages = conversation.loadMoreGroupMsgFromDB(ChatActivity.this.adapter.getItem(0).getMsgId(), pagesize);
 	                                                 }
 		                                         } catch (Exception e1) {
 	                                                 swipeRefreshLayout.setRefreshing(false);
@@ -357,8 +437,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		                                         }
 		                                         
 		                                         if (messages.size() > 0) {
-	                                                 adapter.notifyDataSetChanged();
-	                                                 adapter.refreshSeekTo(messages.size() - 1);
+	                                                 ChatActivity.this.adapter.notifyDataSetChanged();
+	                                                 ChatActivity.this.adapter.refreshSeekTo(messages.size() - 1);
 	                                                 if (messages.size() != pagesize){
 	                                                     haveMoreData = false;
 	                                                 }
@@ -377,6 +457,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		         }
 		 });
 	}
+
+
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -415,9 +497,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 					setTitle(toChatUsername);
 				}
 		} else {
-			// 群聊
-			findViewById(R.id.container_voice_call).setVisibility(View.GONE);
-			findViewById(R.id.container_video_call).setVisibility(View.GONE);
+			showVideoCall=false;
+			showVoiceCall=false;
 			toChatUsername = getIntent().getStringExtra("groupId");
 
 			if(chatType == CHATTYPE_GROUP){
@@ -527,17 +608,17 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
         listView.setOnTouchListener(new OnTouchListener() {
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard();
-                more.setVisibility(View.GONE);
-                iv_emoticons_normal.setVisibility(View.VISIBLE);
-                iv_emoticons_checked.setVisibility(View.INVISIBLE);
-                emojiIconContainer.setVisibility(View.GONE);
-                btnContainer.setVisibility(View.GONE);
-                return false;
-            }
-        });
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				hideKeyboard();
+				more.setVisibility(View.GONE);
+				iv_emoticons_normal.setVisibility(View.VISIBLE);
+				iv_emoticons_checked.setVisibility(View.INVISIBLE);
+				emojiIconContainer.setVisibility(View.GONE);
+				btnContainer.setVisibility(View.GONE);
+				return false;
+			}
+		});
 	}
 	
 	protected void onGroupViewCreation(){
@@ -558,42 +639,42 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         
         final ProgressDialog pd = ProgressDialog.show(this, "", "Joining......");
         EMChatManager.getInstance().joinChatRoom(toChatUsername, new EMValueCallBack<EMChatRoom>() {
-        
-        @Override
-        public void onSuccess(EMChatRoom value) {
-            // TODO Auto-generated method stub
-             runOnUiThread(new Runnable(){
-                   @Override
-                   public void run(){
-                        pd.dismiss();
-                        room = EMChatManager.getInstance().getChatRoom(toChatUsername);
-                        if(room !=null){
-                            ((TextView) findViewById(R.id.name)).setText(room.getName());
-                        }else{
-                            ((TextView) findViewById(R.id.name)).setText(toChatUsername);
-                        }
-                        EMLog.d(TAG, "join room success : " + room.getName());
-                        
-                        onConversationInit();
-                        
-                        onListViewCreation();
-                   }
-               });
-        }
-        
-        @Override
-        public void onError(final int error, String errorMsg) {
-                // TODO Auto-generated method stub
-                EMLog.d(TAG, "join room failure : " + error);
-               runOnUiThread(new Runnable(){
-                   @Override
-                   public void run(){
-                       pd.dismiss();
-                   }
-               });
-               finish();
-            }
-        });
+
+			@Override
+			public void onSuccess(EMChatRoom value) {
+				// TODO Auto-generated method stub
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						pd.dismiss();
+						room = EMChatManager.getInstance().getChatRoom(toChatUsername);
+						if (room != null) {
+							((TextView) findViewById(R.id.name)).setText(room.getName());
+						} else {
+							((TextView) findViewById(R.id.name)).setText(toChatUsername);
+						}
+						EMLog.d(TAG, "join room success : " + room.getName());
+
+						onConversationInit();
+
+						onListViewCreation();
+					}
+				});
+			}
+
+			@Override
+			public void onError(final int error, String errorMsg) {
+				// TODO Auto-generated method stub
+				EMLog.d(TAG, "join room failure : " + error);
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						pd.dismiss();
+					}
+				});
+				finish();
+			}
+		});
 	}
 	
 	/**
@@ -731,7 +812,79 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			}
 		}
 	}
-
+	private boolean enableVoiceCall =false;
+	private boolean enableVideoCall =false;
+	private boolean showMap=false;
+	private boolean showVideo=false;
+	private boolean showFile=false;
+	private boolean showVoiceCall=false;
+	private boolean showVideoCall=false;
+	private void initEntryData(List<ViewEntry> entries) {
+		if(entries==null){
+			entries=new ArrayList<>();
+		}else{
+			entries.clear();
+		}
+		entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_takepic_selector), getResources().getString(R.string.attach_take_pic), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				selectPicFromCamera();// 点击照相图标
+			}
+		}));
+		entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_image_selector), getResources().getString(R.string.attach_picture), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				selectPicFromLocal(); // 点击图片图标
+			}
+		}));
+		if(showMap)entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_location_selector), getResources().getString(R.string.attach_location), new Intent(this, BaiduMapActivity.class), REQUEST_CODE_MAP));// 位置
+		if(showVideo)entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_video_selector), getResources().getString(R.string.attach_video), new Intent(ChatActivity.this, ImageGridActivity.class),REQUEST_CODE_SELECT_VIDEO));// 点击摄像图标
+		if(showFile)entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_file_selector), getResources().getString(R.string.attach_file), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				selectFileFromLocal();// 点击文件图标
+			}
+		}));
+		if(showVoiceCall) {
+			ViewEntry object = new ViewEntry(getResources().getDrawable(R.drawable.chat_voice_call_selector), getResources().getString(R.string.attach_voice_call), new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String st1 = getResources().getString(R.string.not_connect_to_server);
+					// 点击语音电话图标
+					if (!EMChatManager.getInstance().isConnected())
+						Toast.makeText(v.getContext(), st1, 0).show();
+					else {
+						startActivity(new Intent(ChatActivity.this, VoiceCallActivity.class).putExtra("username",
+								toChatUsername).putExtra("isComingCall", false));
+						voiceCallBtn.setEnabled(false);
+						toggleMore(null);
+					}
+				}
+			});
+			object.enable=enableVoiceCall;
+			entries.add(object);
+		}
+		if(showVideoCall) {
+			ViewEntry object = new ViewEntry(getResources().getDrawable(R.drawable.chat_video_call_selector), getResources().getString(R.string.attach_video_call), new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String st1 = getResources().getString(R.string.not_connect_to_server);
+					// 视频通话
+					if (!EMChatManager.getInstance().isConnected())
+						Toast.makeText(v.getContext(), st1, Toast.LENGTH_SHORT).show();
+					else {
+						startActivity(new Intent(ChatActivity.this, VideoCallActivity.class).putExtra("username", toChatUsername).putExtra(
+								"isComingCall", false));
+						videoCallBtn.setEnabled(false);
+						toggleMore(null);
+					}
+				}
+			});
+			object.enable=enableVideoCall;
+			entries.add(object);
+		}
+		((BaseAdapter)btnContainer.getAdapter()).notifyDataSetChanged();
+	}
 	/**
 	 * 消息图标点击事件
 	 * 
@@ -744,12 +897,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		if (id == R.id.btn_send) {// 点击发送按钮(发文字和表情)
 			String s = mEditTextContent.getText().toString();
 			sendText(s);
-		} else if (id == R.id.btn_take_picture) {
-			selectPicFromCamera();// 点击照相图标
-		} else if (id == R.id.btn_picture) {
-			selectPicFromLocal(); // 点击图片图标
-		} else if (id == R.id.btn_location) { // 位置
-			startActivityForResult(new Intent(this, BaiduMapActivity.class), REQUEST_CODE_MAP);
 		} else if (id == R.id.iv_emoticons_normal) { // 点击显示表情框
 			more.setVisibility(View.VISIBLE);
 			iv_emoticons_normal.setVisibility(View.INVISIBLE);
@@ -764,30 +911,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			emojiIconContainer.setVisibility(View.GONE);
 			more.setVisibility(View.GONE);
 
-		} else if (id == R.id.btn_video) {
-			// 点击摄像图标
-			Intent intent = new Intent(ChatActivity.this, ImageGridActivity.class);
-			startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
-		} else if (id == R.id.btn_file) { // 点击文件图标
-			selectFileFromLocal();
-		} else if (id == R.id.btn_voice_call) { // 点击语音电话图标
-			if (!EMChatManager.getInstance().isConnected())
-				Toast.makeText(this, st1, 0).show();
-			else{
-				startActivity(new Intent(ChatActivity.this, VoiceCallActivity.class).putExtra("username",
-						toChatUsername).putExtra("isComingCall", false));
-				voiceCallBtn.setEnabled(false);
-				toggleMore(null);
-			}
-		} else if (id == R.id.btn_video_call) { // 视频通话
-			if (!EMChatManager.getInstance().isConnected())
-				Toast.makeText(this, st1, Toast.LENGTH_SHORT).show();
-			else{
-				startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", toChatUsername).putExtra(
-						"isComingCall", false));
-				videoCallBtn.setEnabled(false);
-				toggleMore(null);
-			}
 		}
 	}
 
@@ -1514,9 +1637,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		super.onResume();
 		if (group != null)
 			((TextView) findViewById(R.id.name)).setText(group.getGroupName());
-		voiceCallBtn.setEnabled(true);
-		videoCallBtn.setEnabled(true);
-
+		enableVoiceCall =true;
+		enableVideoCall =true;
+		initEntryData(entries);
 		 if(adapter != null){
 		     adapter.refresh();
 	     }

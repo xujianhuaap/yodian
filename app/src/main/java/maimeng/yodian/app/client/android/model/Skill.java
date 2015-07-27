@@ -23,6 +23,16 @@ public class Skill extends BaseObservable implements Parcelable {
     private String weichat;//微信号
     private String qrcode;//二维码图片
     private String qrcodeUrl;//二维码地址
+    @SerializedName("hxname")
+    private String chatLoginName;
+
+    public String getChatLoginName() {
+        return chatLoginName;
+    }
+
+    public void setChatLoginName(String chatLoginName) {
+        this.chatLoginName = chatLoginName;
+    }
 
     public String getWeichat() {
         return weichat;
