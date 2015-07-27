@@ -117,6 +117,7 @@ public class ChatServiceLoginService extends Service{
                     List<EMMessage> messages = conversation.loadMoreMsgFromDB(conversation.getMessage(0).getMsgId(), conversation.getAllMsgCount());
                     for(EMMessage message:messages){
                         try {
+                            String userName = message.getFrom();
                             String nickname=message.getStringAttribute("nickName");
                             String avatar=message.getStringAttribute("avatar");
                             String uid = message.getStringAttribute("uid");
@@ -125,14 +126,17 @@ public class ChatServiceLoginService extends Service{
                             robot.setAvatar(avatar);
                             robot.setId(uid);
                             robot.setNick(nickname);
-                            String userName = message.getUserName();
                             robot.setUsername(userName);
+
+
                             user.setAvatar(avatar);
                             user.setId(uid);
                             user.setNick(nickname);
                             user.setUsername(userName);
-                            mMap.put(userName,robot);
-                            mMapUser.put(userName,user);
+
+                            mMap.put(userName, robot);
+                            mMapUser.put(userName, user);
+                            LogUtil.i(ChatServiceLoginService.class.getName(),"refresh Contacts by %s,nickname:%s,avatar:%s,uid:%s",userName,nickname,avatar,uid);
                         } catch (EaseMobException e) {
                             e.printStackTrace();
                         }

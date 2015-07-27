@@ -441,7 +441,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 	@Override
 	public void setTitle(CharSequence title) {
-		//super.setTitle(title);
+		super.setTitle(title);
 	}
 
 	@Override
@@ -946,9 +946,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 				message.setAttribute("em_robot_message", true);
 			}
 			User currentUser = DemoApplication.getInstance().getCurrentUser();
-			message.setAttribute("nickName", currentUser.getNick());
-			message.setAttribute("avatar", currentUser.getAvatar());
-			message.setAttribute("uid", currentUser.getId());
+			String nick = currentUser.getNick();
+			String avatar = currentUser.getAvatar();
+			String id = currentUser.getId();
+			message.setAttribute("nickName", nick);
+			message.setAttribute("avatar", avatar);
+			message.setAttribute("uid", id);
 			TextMessageBody txtBody = new TextMessageBody(content);
 			// 设置消息body
 			message.addBody(txtBody);

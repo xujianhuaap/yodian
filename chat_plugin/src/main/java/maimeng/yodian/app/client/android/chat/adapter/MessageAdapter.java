@@ -67,6 +67,8 @@ import com.easemob.chat.NormalFileMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
+
+import maimeng.yodian.app.client.android.chat.BuildConfig;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.R;
@@ -565,12 +567,15 @@ public class MessageAdapter extends BaseAdapter{
 	 * @param imageView
 	 */
 	private void setUserAvatar(EMMessage message, ImageView imageView){
-	    if(message.direct == Direct.SEND && false){
-	        //显示自己头像
-	        UserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), imageView);
-	    }else{
-	        UserUtils.setUserAvatar(context, message.getFrom(), imageView);
-	    }
+//	    if(message.direct == Direct.SEND){
+//	        //显示自己头像
+//	        UserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), imageView);
+//	    }else{
+//	        UserUtils.setUserAvatar(context, message.getFrom(), imageView);
+//	    }
+		String from = message.getFrom();
+		if(BuildConfig.DEBUG)Log.i(MessageAdapter.class.getName(),"setUserAvatar(),username:"+from);
+		UserUtils.setUserAvatar(context, from, imageView);
 	}
 
 	/**
