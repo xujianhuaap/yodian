@@ -283,6 +283,11 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 					if(robotMap.containsKey(username)){
 						RobotUser user = robotMap.get(username);
 						username=user.getNick();
+					}else{
+						User user = UserUtils.getUserInfo(username);
+						if(user!=null){
+							username=user.getNick();
+						}
 					}
 					EMGroup group = EMGroupManager.getInstance().getGroup(username);
 					if(group != null){
@@ -290,7 +295,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 					}
 
 					// First match against the whole ,non-splitted value
-					if (username.startsWith(prefixString)) {
+					if (username.toLowerCase().contains(prefixString.toLowerCase())) {
 						newValues.add(value);
 					} else{
 						  final String[] words = username.split(" ");
@@ -298,7 +303,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 
 	                        // Start at index 0, in case valueText starts with space(s)
 	                        for (int k = 0; k < wordCount; k++) {
-	                            if (words[k].startsWith(prefixString)) {
+	                            if (words[k].toLowerCase().contains(prefixString.toLowerCase())) {
 	                                newValues.add(value);
 	                                break;
 	                            }
