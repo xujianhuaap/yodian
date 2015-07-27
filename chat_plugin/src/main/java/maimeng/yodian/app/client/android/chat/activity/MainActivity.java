@@ -31,7 +31,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -56,6 +55,8 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
 import com.easemob.chat.TextMessageBody;
+
+import maimeng.yodian.app.client.android.chat.AsyncContactService;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
@@ -174,31 +175,32 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
 	
 	static void asyncFetchGroupsFromServer(){
-	    HXSDKHelper.getInstance().asyncFetchGroupsFromServer(new EMCallBack(){
+	    HXSDKHelper.getInstance().asyncFetchGroupsFromServer(new EMCallBack() {
 
-            @Override
-            public void onSuccess() {
-                HXSDKHelper.getInstance().noitifyGroupSyncListeners(true);
-                
-                if(HXSDKHelper.getInstance().isContactsSyncedWithServer()){
-                    HXSDKHelper.getInstance().notifyForRecevingEvents();
-                }
-            }
+			@Override
+			public void onSuccess() {
+				HXSDKHelper.getInstance().noitifyGroupSyncListeners(true);
 
-            @Override
-            public void onError(int code, String message) {
-                HXSDKHelper.getInstance().noitifyGroupSyncListeners(false);                
-            }
+				if (HXSDKHelper.getInstance().isContactsSyncedWithServer()) {
+					HXSDKHelper.getInstance().notifyForRecevingEvents();
+				}
+			}
 
-            @Override
-            public void onProgress(int progress, String status) {
-                
-            }
-            
-        });
+			@Override
+			public void onError(int code, String message) {
+				HXSDKHelper.getInstance().noitifyGroupSyncListeners(false);
+			}
+
+			@Override
+			public void onProgress(int progress, String status) {
+
+			}
+
+		});
 	}
 	
-	static void asyncFetchContactsFromServer(){
+	void asyncFetchContactsFromServer(){
+		startService(new Intent(this, AsyncContactService.class));
 	    HXSDKHelper.getInstance().asyncFetchContactsFromServer(new EMValueCallBack<List<String>>(){
 
             @Override
@@ -250,7 +252,10 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                  // 存入db
                 UserDao dao = new UserDao(context);
                 List<User> users = new ArrayList<User>(userlist.values());
-                dao.saveContactList(users);
+				for(User user:users){
+					dao.saveOrUpdate(user);
+				}
+//                dao.saveContactList(users);
 
                 HXSDKHelper.getInstance().notifyContactsSyncListener(true);
                 
@@ -266,6 +271,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
             }
 	        
 	    });
+
 	}
 	
 	static void asyncFetchBlackListFromServer(){
@@ -512,7 +518,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 				User user = setUserHead(username);
 				// 添加好友时可能会回调added方法两次
 				if (!localUsers.containsKey(username)) {
-					userDao.saveContact(user);
+					userDao.saveOrUpdate(user);
 				}
 				toAddUsers.put(username, user);
 			}

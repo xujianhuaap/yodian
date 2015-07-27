@@ -18,7 +18,6 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -196,7 +195,6 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         }else if(clickItem==holder.getBinding().btnContect){
             Intent intent = new Intent(mActivity, ChatActivity.class);
             Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
-            Map<String, maimeng.yodian.app.client.android.chat.domain.User> contactMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList();
             String chatLoginName = skill.getChatLoginName();
             if(robotMap.containsKey(chatLoginName)) {
                 intent.putExtra("userId", chatLoginName);
@@ -207,21 +205,19 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
                 robot.setUsername(chatLoginName);
                 robot.setNick(skill.getNickname());
                 robot.setAvatar(skill.getAvatar());
-                robotMap.put(skill.getChatLoginName(), robot);
 
                 maimeng.yodian.app.client.android.chat.domain.User user=new maimeng.yodian.app.client.android.chat.domain.User();
                 user.setId(skill.getUid() + "");
                 user.setUsername(chatLoginName);
                 user.setNick(skill.getNickname());
                 user.setAvatar(skill.getAvatar());
-                contactMap.put(skill.getChatLoginName(), user);
                 // 存入内存
-                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).setRobotList(robotMap);
-                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).setContactList(contactMap);
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
                 // 存入db
                 UserDao dao = new UserDao(mActivity);
-                dao.saveRobotUser(new ArrayList<>(robotMap.values()));
-                dao.saveContactList(new ArrayList<>(contactMap.values()));
+                dao.saveOrUpdate(user);
+                dao.saveOrUpdate(robot);
                 intent.putExtra("userId", chatLoginName);
                 intent.putExtra("userNickname", skill.getNickname());
                 mActivity.startActivity(intent);

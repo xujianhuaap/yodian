@@ -14,6 +14,7 @@
 package maimeng.yodian.app.client.android.chat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,12 +76,12 @@ public class DemoHXSDKHelper extends HXSDKHelper{
     /**
      * contact list in cache
      */
-    private Map<String, User> contactList;
+    private Map<String, User> contactList=new HashMap<>();
     
     /**
      * robot list in cache
      */
-    private Map<String, RobotUser> robotList;
+    private Map<String, RobotUser> robotList=new HashMap<>();
     private CallReceiver callReceiver;
     
     
@@ -207,15 +208,15 @@ public class DemoHXSDKHelper extends HXSDKHelper{
         
         EMChatManager.getInstance().registerEventListener(eventListener);
         
-        EMChatManager.getInstance().addChatRoomChangeListener(new EMChatRoomChangeListener(){
+        EMChatManager.getInstance().addChatRoomChangeListener(new EMChatRoomChangeListener() {
             private final static String ROOM_CHANGE_BROADCAST = "easemob.demo.chatroom.changeevent.toast";
             private final IntentFilter filter = new IntentFilter(ROOM_CHANGE_BROADCAST);
             private boolean registered = false;
 
-            private void showToast(String value){
-                if(!registered){
-                  //注册广播接收者
-                    appContext.registerReceiver(new BroadcastReceiver(){
+            private void showToast(String value) {
+                if (!registered) {
+                    //注册广播接收者
+                    appContext.registerReceiver(new BroadcastReceiver() {
 
                         @Override
                         public void onReceive(Context context, Intent intent) {
@@ -235,29 +236,29 @@ public class DemoHXSDKHelper extends HXSDKHelper{
             @Override
             public void onChatRoomDestroyed(String roomId, String roomName) {
                 showToast(" room : " + roomId + " with room name : " + roomName + " was destroyed");
-                Log.i("info","onChatRoomDestroyed="+roomName);
+                Log.i("info", "onChatRoomDestroyed=" + roomName);
             }
 
             @Override
             public void onMemberJoined(String roomId, String participant) {
                 showToast("member : " + participant + " join the room : " + roomId);
-                Log.i("info", "onmemberjoined="+participant);
+                Log.i("info", "onmemberjoined=" + participant);
 
             }
 
             @Override
             public void onMemberExited(String roomId, String roomName,
-                    String participant) {
+                                       String participant) {
                 showToast("member : " + participant + " leave the room : " + roomId + " room name : " + roomName);
-                Log.i("info", "onMemberExited="+participant);
+                Log.i("info", "onMemberExited=" + participant);
 
             }
 
             @Override
             public void onMemberKicked(String roomId, String roomName,
-                    String participant) {
+                                       String participant) {
                 showToast("member : " + participant + " was kicked from the room : " + roomId + " room name : " + roomName);
-                Log.i("info", "onMemberKicked="+participant);
+                Log.i("info", "onMemberKicked=" + participant);
 
             }
 
@@ -468,7 +469,32 @@ public class DemoHXSDKHelper extends HXSDKHelper{
     public void setContactList(Map<String, User> contactList) {
         this.contactList = contactList;
     }
-    
+
+    /**
+     * 添加好友user list到内存中
+     * @param username
+     * @param user
+     */
+    public void saveOrUpdate(String username,User user) {
+        if(contactList==null){
+            contactList=new HashMap<>();
+        }
+        contactList.put(username,user);
+    }
+
+    /**
+     * 添加好友user list到内存中
+     * @param username
+     * @param user
+     */
+    public void saveOrUpdate(String username,RobotUser user) {
+        if(robotList==null){
+            robotList=new HashMap<>();
+        }
+        robotList.put(username,user);
+    }
+
+
     @Override
     public void logout(final EMCallBack callback){
         endCall();

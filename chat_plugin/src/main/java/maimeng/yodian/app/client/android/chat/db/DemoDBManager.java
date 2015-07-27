@@ -10,7 +10,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.util.Log;
 
+import maimeng.yodian.app.client.android.chat.BuildConfig;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage.InviteMesageStatus;
@@ -29,28 +31,6 @@ public class DemoDBManager {
     public static synchronized DemoDBManager getInstance(){
         return dbMgr;
     }
-    
-    /**
-     * 保存好友list
-     * 
-     * @param contactList
-     */
-    synchronized public void saveContactList(List<User> contactList) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db.isOpen()) {
-            db.delete(UserDao.TABLE_NAME, null, null);
-            for (User user : contactList) {
-                ContentValues values = new ContentValues();
-                values.put(UserDao.COLUMN_NAME_ID, user.getUsername());
-                if(user.getNick() != null)
-                    values.put(UserDao.COLUMN_NAME_NICK, user.getNick());
-                if(user.getAvatar() != null)
-                    values.put(UserDao.COLUMN_NAME_AVATAR, user.getAvatar());
-                db.replace(UserDao.TABLE_NAME, null, values);
-            }
-        }
-    }
-
     /**
      * 获取好友list
      * 
@@ -111,16 +91,31 @@ public class DemoDBManager {
      * 保存一个联系人
      * @param user
      */
-    synchronized public void saveContact(User user){
+    synchronized public void saveOrUpdate(User user){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query(UserDao.TABLE_NAME, null, UserDao.COLUMN_NAME_ID + "= ?", new String[]{user.getUsername()}, null, null, null);
         ContentValues values = new ContentValues();
-        values.put(UserDao.COLUMN_NAME_ID, user.getUsername());
-        if(user.getNick() != null)
-            values.put(UserDao.COLUMN_NAME_NICK, user.getNick());
-        if(user.getAvatar() != null)
-            values.put(UserDao.COLUMN_NAME_AVATAR, user.getAvatar());
-        if(db.isOpen()){
-            db.replace(UserDao.TABLE_NAME, null, values);
+        if(cursor.moveToFirst()){
+            if(BuildConfig.DEBUG) Log.i("DBManager","update Contact by "+user.getNick());
+            cursor.close();
+            if(user.getNick() != null)
+                values.put(UserDao.COLUMN_NAME_NICK, user.getNick());
+            if(user.getAvatar() != null)
+                values.put(UserDao.COLUMN_NAME_AVATAR, user.getAvatar());
+            if(db.isOpen()){
+                db.update(UserDao.TABLE_NAME, values, UserDao.COLUMN_NAME_ID + "= ?", new String[]{user.getUsername()});
+            }
+        }else{
+            if(BuildConfig.DEBUG) Log.i("DBManager","add Contact by "+user.getNick());
+            cursor.close();
+            values.put(UserDao.COLUMN_NAME_ID, user.getUsername());
+            if(user.getNick() != null)
+                values.put(UserDao.COLUMN_NAME_NICK, user.getNick());
+            if(user.getAvatar() != null)
+                values.put(UserDao.COLUMN_NAME_AVATAR, user.getAvatar());
+            if(db.isOpen()){
+                db.insert(UserDao.TABLE_NAME, null, values);
+            }
         }
     }
     
@@ -282,27 +277,7 @@ public class DemoDBManager {
             dbHelper.closeDB();
         }
     }
-    
-    
-    /**
-     * Save Robot list
-     */
-	synchronized public void saveRobotList(List<RobotUser> robotList) {
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		if (db.isOpen()) {
-			db.delete(UserDao.ROBOT_TABLE_NAME, null, null);
-			for (RobotUser item : robotList) {
-				ContentValues values = new ContentValues();
-				values.put(UserDao.ROBOT_COLUMN_NAME_ID, item.getUsername());
-				if (item.getNick() != null)
-					values.put(UserDao.ROBOT_COLUMN_NAME_NICK, item.getNick());
-				if (item.getAvatar() != null)
-					values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, item.getAvatar());
-				db.replace(UserDao.ROBOT_TABLE_NAME, null, values);
-			}
-		}
-	}
-    
+
     /**
      * load robot list
      */
@@ -345,7 +320,34 @@ public class DemoDBManager {
 		}
 		return users;
 	}
-    
-    
-    
+
+
+    synchronized public void saveOrUpdate(RobotUser user) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            Cursor cursor = db.query(UserDao.ROBOT_TABLE_NAME, null, UserDao.ROBOT_COLUMN_NAME_ID + "=  ?", new String[]{user.getUsername()}, null, null, null);
+            if(cursor.moveToFirst()){
+                if(BuildConfig.DEBUG) Log.i("DBManager","update RobotUser by "+user.getNick());
+                cursor.close();
+                ContentValues values = new ContentValues();
+                if(user.getNick() != null)
+                    values.put(UserDao.ROBOT_COLUMN_NAME_NICK, user.getNick());
+                if(user.getAvatar() != null)
+                    values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, user.getAvatar());
+                if(db.isOpen()){
+                    db.update(UserDao.ROBOT_TABLE_NAME, values, UserDao.ROBOT_COLUMN_NAME_ID + "=  ?", new String[]{user.getUsername()});
+                }
+            }else {
+                if(BuildConfig.DEBUG) Log.i("DBManager","add RobotUser by "+user.getNick());
+                cursor.close();
+                ContentValues values = new ContentValues();
+                values.put(UserDao.ROBOT_COLUMN_NAME_ID, user.getUsername());
+                if (user.getNick() != null)
+                    values.put(UserDao.ROBOT_COLUMN_NAME_NICK, user.getNick());
+                if (user.getAvatar() != null)
+                    values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, user.getAvatar());
+                if (db.isOpen()) {
+                    db.insert(UserDao.ROBOT_TABLE_NAME, null, values);
+                }
+            }
+    }
 }

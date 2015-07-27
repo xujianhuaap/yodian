@@ -46,6 +46,7 @@ import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
+import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.DateUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
@@ -122,10 +123,20 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 				if(!TextUtils.isEmpty(nick)){
 					holder.name.setText(nick);
 				}else{
-					holder.name.setText(username);
+					User user = UserUtils.getUserInfo(username);
+					if(user!=null){
+						holder.name.setText(user.getNick());
+					}else {
+						holder.name.setText(username);
+					}
 				}
 			}else{
-				holder.name.setText(username);
+				User user = UserUtils.getUserInfo(username);
+				if(user!=null){
+					holder.name.setText(user.getNick());
+				}else {
+					holder.name.setText(username);
+				}
 			}
 		}
 

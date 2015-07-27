@@ -149,7 +149,10 @@ public class RobotsActivity extends BaseActivity {
 		((DemoHXSDKHelper) HXSDKHelper.getInstance()).setRobotList(mMap);
 		// 存入db
 		UserDao dao = new UserDao(RobotsActivity.this);
-		dao.saveRobotUser(robotList);
+		for(RobotUser user:robotList){
+			dao.saveOrUpdate(user);
+		}
+//		dao.saveRobotUser(robotList);
 		adapter.notifyDataSetChanged();
 //		asyncGetRobotNamesFromServer(new EMValueCallBack<List<EMContact>>() {
 //

@@ -39,12 +39,12 @@ public class DemoHXSDKModel extends DefaultHXSDKModel{
     public boolean isDebugMode(){
         return true;
     }
-    
-    public boolean saveContactList(List<User> contactList) {
-        UserDao dao = new UserDao(context);
-        dao.saveContactList(contactList);
-        return true;
-    }
+//
+//    public boolean saveContactList(List<User> contactList) {
+//        UserDao dao = new UserDao(context);
+//        dao.saveContactList(contactList);
+//        return true;
+//    }
 
     public Map<String, User> getContactList() {
         UserDao dao = new UserDao(context);
@@ -55,12 +55,12 @@ public class DemoHXSDKModel extends DefaultHXSDKModel{
     	UserDao dao = new UserDao(context);
     	return dao.getRobotUser();
     }
-
-    public boolean saveRobotList(List<RobotUser> robotList){
-    	UserDao dao = new UserDao(context);
-    	dao.saveRobotUser(robotList);
-    	return true;
-    }
+//
+//    public boolean saveRobotList(List<RobotUser> robotList){
+//    	UserDao dao = new UserDao(context);
+//    	dao.saveRobotUser(robotList);
+//    	return true;
+//    }
     
     public void closeDB() {
         DemoDBManager.getInstance().closeDB();

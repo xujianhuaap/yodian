@@ -42,14 +42,14 @@ public class UserDao {
 	    DemoDBManager.getInstance().onInit(context);
 	}
 
-	/**
+/*	*//**
 	 * 保存好友list
 	 * 
 	 * @param contactList
-	 */
+	 *//*
 	public void saveContactList(List<User> contactList) {
 	    DemoDBManager.getInstance().saveContactList(contactList);
-	}
+	}*/
 
 	/**
 	 * 获取好友list
@@ -73,8 +73,8 @@ public class UserDao {
 	 * 保存一个联系人
 	 * @param user
 	 */
-	public void saveContact(User user){
-	    DemoDBManager.getInstance().saveContact(user);
+	public void saveOrUpdate(User user){
+	    DemoDBManager.getInstance().saveOrUpdate(user);
 	}
 	
 	public void setDisabledGroups(List<String> groups){
@@ -96,8 +96,10 @@ public class UserDao {
     public Map<String, RobotUser> getRobotUser(){
     	return DemoDBManager.getInstance().getRobotList();
     }
-    
-    public void saveRobotUser(List<RobotUser> robotList){
-    	DemoDBManager.getInstance().saveRobotList(robotList);
-    }
+	public void saveOrUpdate(RobotUser robot){
+		DemoDBManager.getInstance().saveOrUpdate(robot);
+	}
+//    public void saveRobotUser(List<RobotUser> robotList){
+//    	DemoDBManager.getInstance().saveRobotList(robotList);
+//    }
 }

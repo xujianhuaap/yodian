@@ -158,7 +158,7 @@ public class LoginActivity extends BaseActivity {
 						public void run() {
 							pd.dismiss();
 							DemoApplication.getInstance().logout(null);
-							Toast.makeText(getApplicationContext(), R.string.login_failure_failed, 1).show();
+							Toast.makeText(getApplicationContext(), R.string.login_failure_failed, Toast.LENGTH_LONG).show();
 						}
 					});
 					return;
@@ -231,7 +231,10 @@ public class LoginActivity extends BaseActivity {
 		// 存入db
 		UserDao dao = new UserDao(LoginActivity.this);
 		List<User> users = new ArrayList<User>(userlist.values());
-		dao.saveContactList(users);
+//		dao.saveContactList(users);
+		for(User user:users){
+			dao.saveOrUpdate(user);
+		}
 	}
 	
 	/**

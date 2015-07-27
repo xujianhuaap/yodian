@@ -55,7 +55,7 @@
             android:theme="@style/horizontal_slide" 
             android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
-
+        <service android:name=".AsyncContactService"/>
         <!-- 注册 -->
         <activity
             android:name=".activity.RegisterActivity"

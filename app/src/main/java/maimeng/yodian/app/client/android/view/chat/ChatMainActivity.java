@@ -1,11 +1,13 @@
 package maimeng.yodian.app.client.android.view.chat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.AsyncContactService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 
 /**
@@ -49,6 +51,7 @@ public class ChatMainActivity extends maimeng.yodian.app.client.android.chat.act
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mini=true;
+        startService(new Intent(this, AsyncContactService.class));
         super.onCreate(savedInstanceState);
     }
 }

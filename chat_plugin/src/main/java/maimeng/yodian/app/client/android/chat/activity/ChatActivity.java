@@ -104,6 +104,7 @@ import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
+import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import com.easemob.exceptions.EaseMobException;
@@ -491,10 +492,20 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 					if (!TextUtils.isEmpty(nick)) {
 						setTitle(nick);
 					} else {
-						setTitle(toChatUsername);
+						User user = UserUtils.getUserInfo(toChatUsername);
+						if(user!=null){
+							setTitle(user.getNick());
+						}else {
+							setTitle(toChatUsername);
+						}
 					}
 				} else {
-					setTitle(toChatUsername);
+					User user = UserUtils.getUserInfo(toChatUsername);
+					if(user!=null){
+						setTitle(user.getNick());
+					}else {
+						setTitle(toChatUsername);
+					}
 				}
 		} else {
 			showVideoCall=false;
