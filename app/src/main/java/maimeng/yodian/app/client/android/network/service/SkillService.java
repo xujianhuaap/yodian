@@ -7,9 +7,12 @@ import org.henjue.library.hnet.anntoation.Multipart;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
+import java.util.Map;
+
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.TypeBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 
@@ -79,4 +82,12 @@ public interface SkillService {
      */
     @Post(ApiConfig.Api.SKILL_UP)
     void up(@Param("sid")long sid,@Param("up")int up,ToastCallback callback);
+
+    /**
+     * 技能日记列表
+     * @param sid
+     * @param callback
+     */
+    @Post(ApiConfig.Api.RMARK_LIST)
+    void rmark_list(@Param("sid")long sid,@Param("p")int page,Callback<RmarkListResponse> callback);
 }

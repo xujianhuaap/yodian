@@ -183,7 +183,9 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onItemClick(SkillListAdapter.ViewHolder holder, int postion) {
-        mActivity.startActivity(new Intent(mActivity, SkillDetailsActivity.class));
+        Intent intent = new Intent(mActivity, SkillDetailsActivity.class);
+        intent.putExtra("sid",holder.getData().getId());
+        mActivity.startActivity(intent);
     }
 
     @Override

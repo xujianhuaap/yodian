@@ -55,6 +55,8 @@ public class ApiConfig {
         public static final String SKILL_UPDATE="/skill/edit";//修改技能
         public static final String SKILL_DELETE="/skill/delete";//删除技能
         public static final String SKILL_UP="/skill/up";//技能上架下架
+        public static final String RMARK_LIST="/skillcontent/list";//技能日记列表
+
 
 
     }
