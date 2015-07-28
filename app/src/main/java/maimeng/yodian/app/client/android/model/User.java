@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -70,7 +71,7 @@ public class User extends BaseObservable{
     }
 
     public String getAvatar() {
-        return avatar;
+        return TextUtils.isEmpty(avatar)?"http://":avatar;
     }
 
     public void setAvatar(String avatar) {
