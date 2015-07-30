@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -26,11 +27,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.easemob.applib.controller.HXSDKHelper;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +47,10 @@ import in.srain.cube.views.ptr.indicator.PtrIndicator;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkListAdapter;
+import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
+import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
+import maimeng.yodian.app.client.android.chat.db.UserDao;
+import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
@@ -58,7 +66,7 @@ import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 /**
  * Created by android on 2015/7/22.
  */
-public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler,AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>,AbstractAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder> {
+public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler,AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>,AbstractAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener {
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
     @Bind(R.id.recyclerView)
     ListView mListView;
@@ -81,6 +89,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private int mActionBarTitleColor;
     private View mTitleContainer;
     private ActivitySkillDetailsBinding binding;
+    private Skill skill;
 
     public int getTitleBarHeight() {
         if (mActionBarHeight != 0) {
@@ -104,6 +113,8 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         mSpannableString = new SpannableString("测试标题");
         mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
         binding=DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
+        binding.headerLogoBg.setOnClickListener(this);
+        binding.headerLogo.setOnClickListener(this);
         ButterKnife.bind(this);
         headBinding=DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, mListView, false);
         mPlaceHolderView = headBinding.getRoot();
@@ -275,7 +286,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     public void success(RmarkListResponse res, Response response) {
         if(res.isSuccess()){
             List<Rmark> list = res.getData().getList();
-            Skill skill = res.getData().getDetail();
+            skill = res.getData().getDetail();
             headBinding.setSkill(skill);
             binding.setSkill(skill);
             Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
@@ -314,6 +325,41 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     @Override
     public void onClick(RmarkListAdapter.ViewHolder holder, View clickItem, int postion) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v==binding.headerLogo || v==binding.headerLogoBg){
+            Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
+            Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
+            String chatLoginName = skill.getChatLoginName();
+            if(robotMap.containsKey(chatLoginName)) {
+                intent.putExtra("userId", chatLoginName);
+                startActivity(intent);
+            }else{
+                RobotUser robot=new RobotUser();
+                robot.setId(skill.getUid() + "");
+                robot.setUsername(chatLoginName);
+                robot.setNick(skill.getNickname());
+                robot.setAvatar(skill.getAvatar());
+
+                maimeng.yodian.app.client.android.chat.domain.User user=new maimeng.yodian.app.client.android.chat.domain.User();
+                user.setId(skill.getUid() + "");
+                user.setUsername(chatLoginName);
+                user.setNick(skill.getNickname());
+                user.setAvatar(skill.getAvatar());
+                // 存入内存
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
+                // 存入db
+                UserDao dao = new UserDao(SkillDetailsActivity.this);
+                dao.saveOrUpdate(user);
+                dao.saveOrUpdate(robot);
+                intent.putExtra("userId", chatLoginName);
+                intent.putExtra("userNickname", skill.getNickname());
+                startActivity(intent);
+            }
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
