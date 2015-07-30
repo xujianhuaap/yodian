@@ -83,11 +83,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private int mMinHeaderTranslation;
     private View mPlaceHolderView;
     private ViewHeaderPlaceholderBinding headBinding;
-    private View mHeader;
-    private SpannableString mSpannableString;
-    private AlphaForegroundColorSpan mAlphaForegroundColorSpan;
-    private int mActionBarTitleColor;
-    private View mTitleContainer;
     private ActivitySkillDetailsBinding binding;
     private Skill skill;
 
@@ -105,21 +100,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service = Network.getService(SkillService.class);
-        mActionBarTitleColor = 0xffffff;
 //        mSmoothInterpolator = new AccelerateDecelerateInterpolator();
         mSmoothInterpolator = new LinearInterpolator();
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.skill_detail_head_height);
         mMinHeaderTranslation = -mHeaderHeight + getTitleBarHeight();
-        mSpannableString = new SpannableString("测试标题");
-        mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
         binding=DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
         binding.headerLogoBg.setOnClickListener(this);
         binding.headerLogo.setOnClickListener(this);
         ButterKnife.bind(this);
         headBinding=DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, mListView, false);
         mPlaceHolderView = headBinding.getRoot();
-        mHeader = findViewById(R.id.header);
-        mTitleContainer = findViewById(R.id.title_containar);
         mListView.addHeaderView(mPlaceHolderView);
         adapter=new RmarkListAdapter(this);
         mRefreshLayout.setPtrHandler(this);
@@ -152,7 +142,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 float currentPercent = Math.min(1.0F, ptrIndicator.getCurrentPercent());
                 int posY = ptrIndicator.getCurrentPosY();
                 LogUtil.i("mRefreshLayout", "posY:%d", posY);
-                mHeader.setTranslationY(posY);
+                binding.header.setTranslationY(posY);
             }
         });
         LinearLayoutManager layout = new LinearLayoutManager(this);
@@ -175,12 +165,12 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 int scrollY = getScrollY();
                 //sticky actionbar
                 int translationY = Math.max(-scrollY, mMinHeaderTranslation);
-                mHeader.setTranslationY(translationY);
+                binding.header.setTranslationY(translationY);
                 //header_logo --> actionbar icon
-                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
+                float ratio = clamp(binding.header.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
                 setTextColor(binding.price,0,0,ratio);
                 //binding.headerLogo.setAlpha(1f - ratio);
-                mTitleContainer.setAlpha(ratio * 0.85f);//控制title栏的透明度
+                binding.titleContainar.setAlpha(ratio * 0.85f);//控制title栏的透明度
                 float interpolation = mSmoothInterpolator.getInterpolation(ratio);
                 interpolate(binding.headerLogo, binding.logo, interpolation);
                 interpolate(binding.price, binding.titlePrice, interpolation);
@@ -208,12 +198,8 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     }
 
     private void setTitleAlpha(float alpha) {
-
         findViewById(R.id.header_logo_bg).setAlpha(1f-alpha);
         findViewById(R.id.btn_contect_circle).setAlpha(alpha);
-        mAlphaForegroundColorSpan.setAlpha(alpha);
-        mSpannableString.setSpan(mAlphaForegroundColorSpan, 0, mSpannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        ((TextView)findViewById(R.id.title)).setText(mSpannableString);
     }
     private RectF getOnScreenRect(RectF rect, View view) {
         rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
@@ -233,7 +219,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         float translationY = 0.5F * (interpolation * (mRect2.top + mRect2.bottom - mRect1.top - mRect1.bottom));
 
         start.setTranslationX(translationX);
-        start.setTranslationY(translationY - mHeader.getTranslationY());
+        start.setTranslationY(translationY - binding.header.getTranslationY());
         start.setScaleX(scaleX);
         start.setScaleY(scaleY);
     }

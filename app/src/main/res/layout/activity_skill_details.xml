@@ -51,6 +51,7 @@
 
                 <ListView
                     android:id="@+id/recyclerView"
+                    android:scrollbars="none"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </in.srain.cube.views.ptr.PtrFrameLayout>
@@ -100,7 +101,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:layout_gravity="bottom"
-                android:background="?attr/colorPrimary">
+                android:background="?attr/colorPrimaryDark">
                 <FrameLayout
                     android:visibility="invisible"
                     android:layout_width="wrap_content"
