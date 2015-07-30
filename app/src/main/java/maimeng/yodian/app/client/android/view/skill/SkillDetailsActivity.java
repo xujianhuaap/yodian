@@ -61,7 +61,10 @@ import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBindin
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
+import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.widget.AlphaForegroundColorSpan;
@@ -381,12 +384,20 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void onDelete(RmarkListAdapter.ViewHolder holder) {
-
+            service.delete_rmark(holder.getBinding().getRmark().getScid(),new ToastCallback(this){
+                @Override
+                public void success(ToastResponse res, Response response) {
+                    super.success(res, response);
+                    if(res.isSuccess()){
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            });
     }
 
     @Override
     public void onReport(RmarkListAdapter.ViewHolder holder) {
-
+        Network.getService(CommonService.class).report(2, 0, holder.getBinding().getRmark().getScid(), 0, new ToastCallback(this));
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

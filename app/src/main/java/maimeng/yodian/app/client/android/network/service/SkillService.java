@@ -17,7 +17,7 @@ import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 
 @FormUrlEncoded
-public interface SkillService {
+public interface SkillService{
     /**
      * 某人的技能列表
      * @param uid
@@ -90,4 +90,12 @@ public interface SkillService {
      */
     @Post(ApiConfig.Api.RMARK_LIST)
     void rmark_list(@Param("sid")long sid,@Param("p")int page,Callback<RmarkListResponse> callback);
+
+    /**
+     *  删除日记
+     * @param id
+     * @param callback
+     */
+    @Post(ApiConfig.Api.RMARK_DELETE)
+    void delete_rmark(@Param("scid")long id,ToastCallback callback);
 }

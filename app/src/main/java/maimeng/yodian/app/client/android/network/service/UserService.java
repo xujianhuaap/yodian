@@ -14,7 +14,7 @@ import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
  * Created by android on 15-7-14.
  */
 @FormUrlEncoded
-public interface UserService {
+public interface UserService{
 
     /**
      * 上传头像和昵称
