@@ -1,21 +1,28 @@
 package maimeng.yodian.app.client.android.view.skill;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,8 +44,10 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkListAdapter;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
+import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
@@ -60,18 +69,18 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private int page=1;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private RmarkListAdapter adapter;
-    private AccelerateDecelerateInterpolator mSmoothInterpolator;
+    private Interpolator mSmoothInterpolator;
     private int mHeaderHeight;
     private int mActionBarHeight;
     private int mMinHeaderTranslation;
     private View mPlaceHolderView;
     private ViewHeaderPlaceholderBinding headBinding;
     private View mHeader;
-    private FrameLayout mHeaderLogo;
     private SpannableString mSpannableString;
     private AlphaForegroundColorSpan mAlphaForegroundColorSpan;
     private int mActionBarTitleColor;
     private View mTitleContainer;
+    private ActivitySkillDetailsBinding binding;
 
     public int getTitleBarHeight() {
         if (mActionBarHeight != 0) {
@@ -88,18 +97,18 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         super.onCreate(savedInstanceState);
         service = Network.getService(SkillService.class);
         mActionBarTitleColor = 0xffffff;
-        mSmoothInterpolator = new AccelerateDecelerateInterpolator();
+//        mSmoothInterpolator = new AccelerateDecelerateInterpolator();
+        mSmoothInterpolator = new LinearInterpolator();
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.skill_detail_head_height);
         mMinHeaderTranslation = -mHeaderHeight + getTitleBarHeight();
         mSpannableString = new SpannableString("测试标题");
         mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
-        setContentView(R.layout.activity_skill_details);
+        binding=DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
         ButterKnife.bind(this);
         headBinding=DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, mListView, false);
         mPlaceHolderView = headBinding.getRoot();
         mHeader = findViewById(R.id.header);
         mTitleContainer = findViewById(R.id.title_containar);
-        mHeaderLogo = (FrameLayout) findViewById(R.id.header_logo);
         mListView.addHeaderView(mPlaceHolderView);
         adapter=new RmarkListAdapter(this);
         mRefreshLayout.setPtrHandler(this);
@@ -154,11 +163,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int scrollY = getScrollY();
                 //sticky actionbar
-                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
+                int translationY = Math.max(-scrollY, mMinHeaderTranslation);
+                mHeader.setTranslationY(translationY);
                 //header_logo --> actionbar icon
                 float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
-                mTitleContainer.setAlpha(ratio*0.7f);//控制title栏的透明度
-                interpolate(mHeaderLogo, getActionBarIconView(), mSmoothInterpolator.getInterpolation(ratio));
+                setTextColor(binding.price,0,0,ratio);
+                //binding.headerLogo.setAlpha(1f - ratio);
+                mTitleContainer.setAlpha(ratio * 0.85f);//控制title栏的透明度
+                float interpolation = mSmoothInterpolator.getInterpolation(ratio);
+                interpolate(binding.headerLogo, binding.logo, interpolation);
+                interpolate(binding.price, binding.titlePrice, interpolation);
                 //actionbar title alpha
                 //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
                 //---------------------------------
@@ -171,36 +185,46 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         sid=getIntent().getLongExtra("sid",0);
         mRefreshLayout.autoRefresh();
     }
+
+    private void setTextColor(TextView tv, int startColor, int endColor, float ratio) {
+        if(ratio<0.3f){
+            tv.setTextColor(getResources().getColor(R.color.colorPrimary));
+        }else{
+            tv.setTextColor(Color.parseColor("#ffffff"));
+        }
+
+
+    }
+
     private void setTitleAlpha(float alpha) {
-        findViewById(R.id.ic_2).setAlpha(alpha);
+
+        findViewById(R.id.header_logo_bg).setAlpha(1f-alpha);
+        findViewById(R.id.btn_contect_circle).setAlpha(alpha);
         mAlphaForegroundColorSpan.setAlpha(alpha);
         mSpannableString.setSpan(mAlphaForegroundColorSpan, 0, mSpannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((TextView)findViewById(R.id.title)).setText(mSpannableString);
-    }
-    private ImageView getActionBarIconView() {
-        return (ImageView) findViewById(R.id.logo);
+//        ((TextView)findViewById(R.id.title)).setText(mSpannableString);
     }
     private RectF getOnScreenRect(RectF rect, View view) {
         rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
         return rect;
     }
 
-    private void interpolate(View view1, View view2, float interpolation) {
-
+    private void interpolate(View start, View end, float interpolation) {
+        LogUtil.i(LOG_TAG,"interpolation:%f",interpolation);
         RectF mRect1 = new RectF();
         RectF mRect2 = new RectF();
-        getOnScreenRect(mRect1, view1);
-        getOnScreenRect(mRect2, view2);
+        getOnScreenRect(mRect1, start);
+        getOnScreenRect(mRect2, end);
 
         float scaleX = 1.0F + interpolation * (mRect2.width() / mRect1.width() - 1.0F);
         float scaleY = 1.0F + interpolation * (mRect2.height() / mRect1.height() - 1.0F);
         float translationX = 0.5F * (interpolation * (mRect2.left + mRect2.right - mRect1.left - mRect1.right));
         float translationY = 0.5F * (interpolation * (mRect2.top + mRect2.bottom - mRect1.top - mRect1.bottom));
 
-        view1.setTranslationX(translationX);
-        view1.setTranslationY(translationY - mHeader.getTranslationY());
-        view1.setScaleX(scaleX);
-        view1.setScaleY(scaleY);
+        start.setTranslationX(translationX);
+        start.setTranslationY(translationY - mHeader.getTranslationY());
+        start.setScaleX(scaleX);
+        start.setScaleY(scaleY);
     }
     public float clamp(float value, float min, float max) {
         return Math.max(min,Math.min(value, max));
@@ -251,7 +275,13 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     public void success(RmarkListResponse res, Response response) {
         if(res.isSuccess()){
             List<Rmark> list = res.getData().getList();
-            headBinding.setSkill(res.getData().getDetail());
+            Skill skill = res.getData().getDetail();
+            headBinding.setSkill(skill);
+            binding.setSkill(skill);
+            Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
+            headBinding.price.setText(text);
+            binding.price.setText(text);
+            binding.titlePrice.setText(text);
             if(list.size()>0){
                 Rmark item = list.get(0);
                 for(int i=0;i<=100;i++){
