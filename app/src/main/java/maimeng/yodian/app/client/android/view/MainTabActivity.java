@@ -21,7 +21,7 @@ import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
-import maimeng.yodian.app.client.android.view.skill.proxy.MainListProxy;
+import maimeng.yodian.app.client.android.view.skill.proxy.MainSelectorProxy;
 
 
 public class MainTabActivity extends AbstractActivity implements AlertDialog.PositiveListener {
@@ -29,12 +29,12 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     private static final int REQUEST_AUTH=0x1001;//登陆
     private static final int REQUEST_UPDATEINFO = 0x1002;//更新个人信息
 
-    private MainListProxy mListProxy;
+    private MainSelectorProxy mListProxy;
     private MainHomeProxy mHomeProxy;
     private User user;
     private FloatingActionButton floatButton;
 
-    public MainListProxy getProxyList() {
+    public MainSelectorProxy getProxyList() {
         return mListProxy;
     }
 
@@ -50,7 +50,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
         mPushAgent.enable();
         mPushAgent.onAppStart();
         setContentView(R.layout.activity_yodian_main, false);
-        mListProxy = new MainListProxy(this, findViewById(R.id.list_root));
+        mListProxy = new MainSelectorProxy(this, findViewById(R.id.list_root));
         mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
         controller=new ActivityProxyController(mListProxy,mHomeProxy);
         floatButton = (FloatingActionButton)findViewById(R.id.btn_float);

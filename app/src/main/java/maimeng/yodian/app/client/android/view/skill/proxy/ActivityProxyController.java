@@ -9,7 +9,7 @@ import com.melnykov.fab.FloatingActionButton;
  * Created by android on 15-7-13.
  */
 public class ActivityProxyController {
-    private final MainListProxy mListProxy;
+    private final MainSelectorProxy mListProxy;
     private final MainHomeProxy mHomeProxy;
     public static final int REQUEST_CREATE_SKILL = 0x2403;//新建技能
     public static final int REQUEST_EDIT_SKILL = 0x2404;//编辑技能
@@ -22,7 +22,7 @@ public class ActivityProxyController {
             mHomeProxy.hide(v);
         }
     }
-    public ActivityProxyController(MainListProxy mListProxy, MainHomeProxy mHomeProxy) {
+    public ActivityProxyController(MainSelectorProxy mListProxy, MainHomeProxy mHomeProxy) {
         this.mListProxy=mListProxy;
         this.mHomeProxy=mHomeProxy;
     }

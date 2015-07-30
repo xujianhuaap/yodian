@@ -5,7 +5,7 @@
 
     <include layout="@layout/include_home" />
 
-    <include layout="@layout/include_list" />
+    <include layout="@layout/include_selector" />
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/btn_float"

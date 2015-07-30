@@ -27,12 +27,14 @@ import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
+import maimeng.yodian.app.client.android.adapter.SkillListHomeAdapter;
+import maimeng.yodian.app.client.android.adapter.SkillListSelectorAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
+import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -47,7 +49,7 @@ import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 /**
  * Created by android on 15-7-13.
  */
-public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<SkillListAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse> {
+public class MainSelectorProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse> {
     private final View mView;
     private final MainTabActivity mActivity;
     private final SkillService service;
@@ -56,9 +58,9 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private boolean inited=false;
     private User user;
     private int page=1;
-    private final SkillListAdapter adapter;
+    private final SkillListSelectorAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
-    public MainListProxy(MainTabActivity activity, View view){
+    public MainSelectorProxy(MainTabActivity activity, View view){
         this.mView=view;
         view.setVisibility(View.GONE);
         this.mActivity=activity;
@@ -66,9 +68,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
-        StoreHouseHeader header=new StoreHouseHeader(activity);
-        header.setPadding(0, (int) mActivity.getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
-        header.initWithString("YoDian");
+        StoreHouseHeader header= PullHeadView.create(mActivity);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
         LinearLayoutManager layout = new LinearLayoutManager(mActivity);
@@ -81,7 +81,7 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter=new SkillListAdapter(mActivity,this);
+        adapter=new SkillListSelectorAdapter(mActivity,this);
         mRecyclerView.setAdapter(adapter);
         ItemTouchHelper swipeTouchHelper=new ItemTouchHelper(new DefaultItemTouchHelperCallback());
         //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
@@ -182,14 +182,14 @@ public class MainListProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     @Override
-    public void onItemClick(SkillListAdapter.ViewHolder holder, int postion) {
+    public void onItemClick(SkillListSelectorAdapter.ViewHolder holder, int postion) {
         Intent intent = new Intent(mActivity, SkillDetailsActivity.class);
         intent.putExtra("sid",holder.getData().getId());
         mActivity.startActivity(intent);
     }
 
     @Override
-    public void onClick(SkillListAdapter.ViewHolder holder, View clickItem, int postion) {
+    public void onClick(SkillListSelectorAdapter.ViewHolder holder, View clickItem, int postion) {
         Skill skill = holder.getData();
         if(clickItem==holder.getBinding().btnShare){
             Skill data = skill;

@@ -5,6 +5,8 @@
     <dimen name="floating_btn_margin">10dp</dimen>
     <dimen name="pull_refresh_paddingTop">20dp</dimen>
     <dimen name="dialog_share_item_padding">5dp</dimen>
+    <dimen name="radius">15dp</dimen>
+    <dimen name="btn_text_size">18sp</dimen>
 
     <eat-comment/>
     <dimen name="auth_input_marginStart">30dp</dimen>
@@ -24,7 +26,7 @@
     <eat-comment/>
     <dimen name="skill_list_item_share_margin">5dp</dimen>
     <dimen name="skill_list_item_img_size">240dp</dimen>
-    <dimen name="skill_list_item_swipe_width">73dp</dimen>
+    <dimen name="skill_list_item_swipe_width">75dp</dimen>
     <dimen name="skill_list_template_item_height">110dp</dimen>
 
 

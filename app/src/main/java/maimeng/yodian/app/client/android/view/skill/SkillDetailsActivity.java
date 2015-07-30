@@ -36,6 +36,7 @@ import in.srain.cube.views.ptr.indicator.PtrIndicator;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkListAdapter;
+import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.network.Network;
@@ -102,9 +103,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         mListView.addHeaderView(mPlaceHolderView);
         adapter=new RmarkListAdapter(this);
         mRefreshLayout.setPtrHandler(this);
-        StoreHouseHeader header=new StoreHouseHeader(this);
-        header.setPadding(0, (int) getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
-        header.initWithString("YoDian");
+        StoreHouseHeader header= PullHeadView.create(this);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
         mRefreshLayout.addPtrUIHandler(new PtrUIHandler() {

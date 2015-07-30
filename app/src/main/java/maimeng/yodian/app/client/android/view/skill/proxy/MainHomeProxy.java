@@ -28,7 +28,8 @@ import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.SkillListAdapter;
+import maimeng.yodian.app.client.android.adapter.SkillListHomeAdapter;
+import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -51,7 +52,7 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<SkillListAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
     private final CoordinatorLayout mView;
     private final MainTabActivity mActivity;
@@ -65,7 +66,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private final View mBtnSettings;
     private final View mBtnChat;
     private boolean inited=false;
-    private final SkillListAdapter adapter;
+    private final SkillListHomeAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private User user;
     private int page=1;
@@ -114,9 +115,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         mBtnCreateSkill.setOnClickListener(this);
         appBar.addOnOffsetChangedListener(this);
         mRefreshLayout.setPtrHandler(this);
-        StoreHouseHeader header=new StoreHouseHeader(activity);
-        header.setPadding(0, (int) mActivity.getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
-        header.initWithString("YoDian");
+        StoreHouseHeader header= PullHeadView.create(mActivity);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
         LinearLayoutManager layout = new LinearLayoutManager(mActivity);
@@ -129,7 +128,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter=new SkillListAdapter(mActivity,this);
+        adapter=new SkillListHomeAdapter(mActivity,this);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -245,14 +244,14 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     @Override
-    public void onItemClick(SkillListAdapter.ViewHolder holder, int postion) {
+    public void onItemClick(SkillListHomeAdapter.ViewHolder holder, int postion) {
         Intent intent = new Intent(mActivity, SkillDetailsActivity.class);
         intent.putExtra("sid",holder.getData().getId());
         mActivity.startActivity(intent);
     }
 
     @Override
-    public void onClick(final SkillListAdapter.ViewHolder holder, View clickItem, final int postion) {
+    public void onClick(final SkillListHomeAdapter.ViewHolder holder, View clickItem, final int postion) {
         final Skill skill = holder.getData();
         if(clickItem==holder.getBinding().btnShare){
             Skill data = skill;

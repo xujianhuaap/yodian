@@ -10,30 +10,30 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.databinding.SkillListItemHomeBinding;
 import maimeng.yodian.app.client.android.model.User;
-import maimeng.yodian.app.client.android.databinding.SkillListItemBinding;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 
 /**
  * Created by android on 15-7-13.
  */
-public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.ViewHolder>{
-    public SkillListAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
+public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAdapter.ViewHolder>{
+    public SkillListHomeAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
     }
 
-    public SkillListAdapter(Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
+    public SkillListHomeAdapter(Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(fragment, viewHolderClickListener);
     }
 
-    public SkillListAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
+    public SkillListHomeAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(fragment, viewHolderClickListener);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        SkillListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item, parent, false);
+        SkillListItemHomeBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item_home, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -54,15 +54,16 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
 
         private Skill data;
 
-        public SkillListItemBinding getBinding() {
+        public SkillListItemHomeBinding getBinding() {
             return binding;
         }
 
-        private final SkillListItemBinding binding;
-        public ViewHolder(SkillListItemBinding binding) {
+        private final SkillListItemHomeBinding binding;
+        public ViewHolder(SkillListItemHomeBinding binding) {
             super(binding.getRoot());
-            swipeItemLayout=(SwipeItemLayout)itemView;
+            swipeItemLayout=(SwipeItemLayout)itemView.findViewById(R.id.swipe_item_layout);
             swipeItemLayout.setOnClickListener(this);
+            itemView.setOnClickListener(this);
             this.binding=binding;
             binding.btnEdit.setOnClickListener(this);
             binding.btnContect.setOnClickListener(this);
@@ -94,7 +95,7 @@ public class SkillListAdapter extends AbstractAdapter<Skill,SkillListAdapter.Vie
         }
         @Override
         public void onClick(View v) {
-            if(v==swipeItemLayout){
+            if(v==itemView){
                 mViewHolderClickListener.onItemClick(this,getLayoutPosition());
             }else if(v==binding.btnEdit){
                 if(swipeItemLayout.isClosed()){
