@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.network.response;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.model.Rmark;
+import maimeng.yodian.app.client.android.model.Skill;
 
 /**
  * Created by android on 2015/7/28.
@@ -20,6 +21,15 @@ public class RmarkListResponse extends Response {
 
     public class DataNode{
         private List<Rmark> list;
+        private Skill detail;
+
+        public Skill getDetail() {
+            return detail;
+        }
+
+        public void setDetail(Skill detail) {
+            this.detail = detail;
+        }
 
         public List<Rmark> getList() {
             return list;

@@ -1,40 +1,126 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
->
-        <TextView
-            android:id="@+id/toolbar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-        <TextView
-            android:background="#f00"
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-    </android.support.design.widget.AppBarLayout>
+    <data>
 
-    <in.srain.cube.views.ptr.PtrFrameLayout
-        android:id="@+id/refresh_layout"
+        <variable
+            name="skill"
+            type="maimeng.yodian.app.client.android.model.Skill" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:ptr_duration_to_close="300"
-        app:ptr_duration_to_close_header="1000"
-        app:ptr_keep_header_when_refresh="true"
-        app:ptr_pull_to_fresh="false"
-        app:ptr_ratio_of_header_height_to_refresh="1.2"
-        app:ptr_resistance="1.7">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        android:layout_height="match_parent">
+
+<!--        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </in.srain.cube.views.ptr.PtrFrameLayout>
-</android.support.design.widget.CoordinatorLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?attr/actionBarSize"-->
+                <!--android:background="#7f00">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/logo"-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_alignParentLeft="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:src="@null" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/title"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerInParent="true" />-->
+            <!--</RelativeLayout>-->
+
+            <in.srain.cube.views.ptr.PtrFrameLayout
+                android:id="@+id/refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:ptr_duration_to_close="300"
+                app:ptr_duration_to_close_header="1000"
+                app:ptr_keep_header_when_refresh="true"
+                app:ptr_pull_to_fresh="false"
+                app:ptr_ratio_of_header_height_to_refresh="1.2"
+                app:ptr_resistance="1.7">
+
+                <ListView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </in.srain.cube.views.ptr.PtrFrameLayout>
+        <RelativeLayout
+            android:id="@+id/title_containar"
+            android:layout_width="match_parent"
+            android:alpha="0"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@null" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <!--</LinearLayout>-->
+
+        <FrameLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/skill_detail_head_height">
+
+            <!--        <ImageView
+                        android:id="@+id/header_picture"
+                        android:layout_width="match_parent"
+                        android:visibility="invisible"
+                        android:layout_height="match_parent" />-->
+            <FrameLayout
+                android:id="@+id/header_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="30dp"
+                android:layout_marginRight="30dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/btn_ic_wechat" />
+
+                <ImageView
+                    android:id="@+id/ic_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:alpha="0"
+                    android:src="@drawable/btn_ic_circle" />
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:layout_margin="@dimen/floating_btn_margin"
+            android:src="@drawable/btn_back"
+            app:fab_colorNormal="@color/float_colorNormal"
+            app:fab_colorPressed="@color/float_colorPressed"
+            app:fab_colorRipple="@color/float_colorRipple" />
+    </FrameLayout>
+</layout>

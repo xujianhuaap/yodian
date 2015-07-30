@@ -35,4 +35,9 @@
     <dimen name="qrcode_size">130dp</dimen>
     <dimen name="qrcode_left">10dp</dimen>
     <dimen name="qrcode_top">10dp</dimen>
+
+
+    <eat-comment/>
+    <dimen name="skill_detail_head_height">250dp</dimen>
+    <!--<dimen name="skill_detail_head_overlay_height">650dp</dimen>-->
 </resources>
