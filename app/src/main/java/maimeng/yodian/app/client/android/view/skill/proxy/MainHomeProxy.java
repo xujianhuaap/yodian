@@ -2,6 +2,8 @@ package maimeng.yodian.app.client.android.view.skill.proxy;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import org.antlr.v4.codegen.model.Loop;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -72,9 +75,10 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private int page=1;
     private FloatingActionButton mFloatButton;
     private int mEditPostion;
-
+    private final Handler handler;
     public MainHomeProxy(MainTabActivity activity, View view){
         this.mView=(CoordinatorLayout)view;
+        handler=new Handler(Looper.getMainLooper());
         this.mActivity=activity;
         view.setVisibility(View.GONE);
         service=Network.getService(SkillService.class);
@@ -245,11 +249,17 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     @Override
-    public void onItemClick(SkillListHomeAdapter.ViewHolder holder, int postion) {
+    public void onItemClick(final SkillListHomeAdapter.ViewHolder holder, int postion) {
+        mFloatButton.show();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", holder.getData().getId()), options.toBundle());
+            }
+        }, 200);
 
-        Pair<View,String> back=Pair.create((View)mFloatButton,"back");
-        ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-        ActivityCompat.startActivity(mActivity,new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid",holder.getData().getId()),options.toBundle());
     }
 
     @Override

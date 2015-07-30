@@ -2,6 +2,8 @@ package maimeng.yodian.app.client.android.view.skill.proxy;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -64,9 +66,10 @@ public class MainSelectorProxy implements ActivityProxy,AbstractAdapter.ViewHold
     private final SkillListSelectorAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private FloatingActionButton mFloatButton;
-
+    private final Handler handler;
     public MainSelectorProxy(MainTabActivity activity, View view){
         this.mView=view;
+        handler=new Handler(Looper.getMainLooper());
         view.setVisibility(View.GONE);
         this.mActivity=activity;
         service= Network.getService(SkillService.class);
@@ -189,11 +192,16 @@ public class MainSelectorProxy implements ActivityProxy,AbstractAdapter.ViewHold
     }
 
     @Override
-    public void onItemClick(SkillListSelectorAdapter.ViewHolder holder, int postion) {
-
-        Pair<View,String> back=Pair.create((View)mFloatButton,"back");
-        ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", holder.getData().getId()), options.toBundle());
+    public void onItemClick(final SkillListSelectorAdapter.ViewHolder holder, int postion) {
+        mFloatButton.show();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", holder.getData().getId()), options.toBundle());
+            }
+        }, 200);
     }
 
     @Override
