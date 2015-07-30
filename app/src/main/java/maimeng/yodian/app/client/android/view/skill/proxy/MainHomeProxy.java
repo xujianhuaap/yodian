@@ -192,6 +192,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     @Override
     public void show(FloatingActionButton button) {
         this.mFloatButton=button;
+        button.attachToRecyclerView(mRecyclerView);
         AlphaAnimation alphaAnimation=new AlphaAnimation(0f,1f);
         alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {

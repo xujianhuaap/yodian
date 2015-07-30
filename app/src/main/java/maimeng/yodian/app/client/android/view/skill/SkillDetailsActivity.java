@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.easemob.applib.controller.HXSDKHelper;
+import com.melnykov.fab.ScrollDirectionListener;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -69,7 +70,7 @@ import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 /**
  * Created by android on 2015/7/22.
  */
-public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler,AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>,AbstractAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener {
+public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler,AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>,AbstractAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener, RmarkListAdapter.ActionListener {
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
     @Bind(R.id.recyclerView)
     ListView mListView;
@@ -109,7 +110,8 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.skill_detail_head_height);
         mMinHeaderTranslation = -mHeaderHeight + getTitleBarHeight();
         binding=DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
-        ViewCompat.setTransitionName(binding.btnBack,"back");
+        ViewCompat.setTransitionName(binding.btnBack, "back");
+
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +124,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         headBinding=DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, mListView, false);
         mPlaceHolderView = headBinding.getRoot();
         mListView.addHeaderView(mPlaceHolderView);
-        adapter=new RmarkListAdapter(this);
+        adapter=new RmarkListAdapter(this,this);
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header= PullHeadView.create(this);
         mRefreshLayout.addPtrUIHandler(header);
@@ -166,7 +168,19 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         };
         mListView.setAdapter(adapter);
 
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        //mListView.setOnScrollListener();
+
+        binding.btnBack.attachToListView(binding.recyclerView, new ScrollDirectionListener() {
+            @Override
+            public void onScrollDown() {
+                binding.btnBack.show();
+            }
+
+            @Override
+            public void onScrollUp() {
+                binding.btnBack.hide();
+            }
+        },new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
             }
@@ -182,7 +196,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 setTextColor(binding.price, 0, 0, ratio);
                 //binding.headerLogo.setAlpha(1f - ratio);
                 binding.titleContainar.setAlpha(ratio * 0.85f);//控制title栏的透明度
-                if(inited) binding.headerLogoBg.setAlpha(1f - ratio);
+                if (inited) binding.headerLogoBg.setAlpha(1f - ratio);
                 float interpolation = mSmoothInterpolator.getInterpolation(ratio);
                 interpolate(binding.headerLogo, binding.logo, interpolation);
                 interpolate(binding.price, binding.titlePrice, interpolation);
@@ -193,8 +207,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
             }
         });
-
-
         sid=getIntent().getLongExtra("sid",0);
         mRefreshLayout.autoRefresh();
     }
@@ -365,6 +377,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    public void onDelete(RmarkListAdapter.ViewHolder holder) {
+
+    }
+
+    @Override
+    public void onReport(RmarkListAdapter.ViewHolder holder) {
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

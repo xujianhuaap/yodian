@@ -117,6 +117,7 @@ public class MainSelectorProxy implements ActivityProxy,AbstractAdapter.ViewHold
     @Override
     public void show(final FloatingActionButton button) {
         mFloatButton=button;
+        button.attachToRecyclerView(mRecyclerView);
         mActivity.setTitle("优点精选");
         button.setImageResource(R.drawable.btn_home_change_normal);
         int type = TranslateAnimation.RELATIVE_TO_SELF;
