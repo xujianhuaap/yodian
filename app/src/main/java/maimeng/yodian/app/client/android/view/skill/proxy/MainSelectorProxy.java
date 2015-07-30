@@ -2,6 +2,9 @@ package maimeng.yodian.app.client.android.view.skill.proxy;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -60,6 +63,8 @@ public class MainSelectorProxy implements ActivityProxy,AbstractAdapter.ViewHold
     private int page=1;
     private final SkillListSelectorAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
+    private FloatingActionButton mFloatButton;
+
     public MainSelectorProxy(MainTabActivity activity, View view){
         this.mView=view;
         view.setVisibility(View.GONE);
@@ -111,6 +116,7 @@ public class MainSelectorProxy implements ActivityProxy,AbstractAdapter.ViewHold
 
     @Override
     public void show(final FloatingActionButton button) {
+        mFloatButton=button;
         mActivity.setTitle("优点精选");
         button.setImageResource(R.drawable.btn_home_change_normal);
         int type = TranslateAnimation.RELATIVE_TO_SELF;
@@ -183,9 +189,10 @@ public class MainSelectorProxy implements ActivityProxy,AbstractAdapter.ViewHold
 
     @Override
     public void onItemClick(SkillListSelectorAdapter.ViewHolder holder, int postion) {
-        Intent intent = new Intent(mActivity, SkillDetailsActivity.class);
-        intent.putExtra("sid",holder.getData().getId());
-        mActivity.startActivity(intent);
+
+        Pair<View,String> back=Pair.create((View)mFloatButton,"back");
+        ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", holder.getData().getId()), options.toBundle());
     }
 
     @Override

@@ -245,9 +245,10 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onItemClick(SkillListHomeAdapter.ViewHolder holder, int postion) {
-        Intent intent = new Intent(mActivity, SkillDetailsActivity.class);
-        intent.putExtra("sid",holder.getData().getId());
-        mActivity.startActivity(intent);
+
+        Pair<View,String> back=Pair.create((View)mFloatButton,"back");
+        ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+        ActivityCompat.startActivity(mActivity,new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid",holder.getData().getId()),options.toBundle());
     }
 
     @Override
