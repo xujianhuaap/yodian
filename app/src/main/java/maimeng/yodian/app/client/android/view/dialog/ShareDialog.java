@@ -42,8 +42,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
+import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.model.User;
-import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 

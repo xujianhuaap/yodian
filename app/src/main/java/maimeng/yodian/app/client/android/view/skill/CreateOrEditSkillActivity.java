@@ -27,8 +27,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
-import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypeBitmap;
@@ -41,26 +41,27 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 /**
  *
  */
-public class CreateOrEditSkillActivity extends AppCompatActivity implements Target{
+public class CreateOrEditSkillActivity extends AppCompatActivity implements Target {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
-    private boolean isEdit=false;
+    private boolean isEdit = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
-        if(getIntent().hasExtra("template")){
-            mTemplate=getIntent().getParcelableExtra("template");
+        if (getIntent().hasExtra("template")) {
+            mTemplate = getIntent().getParcelableExtra("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
             ViewCompat.setTransitionName(binding.skillName, "title");
-        }else{
+        } else {
             mTemplate = new SkillTemplate();
-            if(getIntent().hasExtra("skill")){
-                Skill skill=getIntent().getParcelableExtra("skill");
+            if (getIntent().hasExtra("skill")) {
+                Skill skill = getIntent().getParcelableExtra("skill");
                 mTemplate.setPic(skill.getPic());
                 mTemplate.setUnit(skill.getUnit());
                 mTemplate.setPrice(skill.getPrice());
@@ -69,7 +70,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 mTemplate.setCreatetime(skill.getCreatetime());
                 mTemplate.setId(skill.getId());
                 mTemplate.setStatus(skill.getStatus());
-                isEdit=true;
+                isEdit = true;
             }
         }
         Network.image(this, mTemplate.getPic(), this);
@@ -90,7 +91,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 toggle();
             }
         });
-        service=Network.getService(SkillService.class);
+        service = Network.getService(SkillService.class);
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +126,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 
     private void toggle() {
         final Animation animation;
-        if(binding.buttonContainer.getVisibility()==View.VISIBLE){
+        if (binding.buttonContainer.getVisibility() == View.VISIBLE) {
             animation = AnimationUtils.loadAnimation(this, R.anim.alpha_to0);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -144,7 +145,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 }
             });
 
-        }else{
+        } else {
             animation = AnimationUtils.loadAnimation(this, R.anim.alpha_to1);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -168,34 +169,34 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
     private void doDone() {
         binding.invalidateAll();
         final SkillTemplate template = binding.getTemplate();
-        if(TextUtils.isEmpty(template.getName())){
+        if (TextUtils.isEmpty(template.getName())) {
             binding.getTemplate();
             binding.skillName.setError(getText(R.string.create_not_empty_name));
             return;
         }
-        if(TextUtils.isEmpty(template.getContent())){
+        if (TextUtils.isEmpty(template.getContent())) {
             binding.skillContent.setError(getText(R.string.create_not_empty_content));
             return;
         }
-        if(TextUtils.isEmpty(template.getPrice())){
+        if (TextUtils.isEmpty(template.getPrice())) {
             binding.skillPrice.setError(getText(R.string.create_not_empty_pirce));
             return;
         }
-        if(TextUtils.isEmpty(template.getUnit())){
+        if (TextUtils.isEmpty(template.getUnit())) {
             binding.skillUnit.setError(getText(R.string.create_not_empty_unit));
             return;
         }
-        if(mBitmap==null){
-            Toast.makeText(this,R.string.create_not_empty_pic,Toast.LENGTH_SHORT).show();
+        if (mBitmap == null) {
+            Toast.makeText(this, R.string.create_not_empty_pic, Toast.LENGTH_SHORT).show();
             return;
         }
-        if(isEdit){
+        if (isEdit) {
             service.update(template.getId(), template.getName(), template.getContent(), new TypeBitmap(mBitmap), template.getPrice(), template.getUnit(), new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
                     if (res.isSuccess()) {
-                        Skill skill=getIntent().getParcelableExtra("skill");
+                        Skill skill = getIntent().getParcelableExtra("skill");
                         skill.setPic(template.getPic());
                         skill.setUnit(template.getUnit());
                         skill.setPrice(template.getPrice());
@@ -203,14 +204,14 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                         skill.setContent(template.getContent());
                         skill.setCreatetime(template.getCreatetime());
                         skill.setStatus(template.getStatus());
-                        Intent data=new Intent();
-                        data.putExtra("skill",skill);
-                        setResult(RESULT_OK,data);
+                        Intent data = new Intent();
+                        data.putExtra("skill", skill);
+                        setResult(RESULT_OK, data);
                         finish();
                     } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
                 }
             });
-        }else {
+        } else {
             service.add(template.getName(), template.getContent(), new TypeBitmap(mBitmap), template.getPrice(), template.getUnit(), new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
@@ -227,12 +228,12 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_AUTH && resultCode==RESULT_OK){
+        if (requestCode == REQUEST_AUTH && resultCode == RESULT_OK) {
             doDone();
-        }else if(requestCode==REQUEST_SELECT_PHOTO && resultCode==RESULT_OK){
+        } else if (requestCode == REQUEST_SELECT_PHOTO && resultCode == RESULT_OK) {
             ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
             String uri = Uri.fromFile(new File(paths.get(0))).toString();
-            Network.image(this,uri,this);
+            Network.image(this, uri, this);
             binding.getTemplate().setPic(uri);
             toggle();
         }
@@ -240,7 +241,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 
     @Override
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        this.mBitmap=bitmap;
+        this.mBitmap = bitmap;
     }
 
     @Override
@@ -253,16 +254,17 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 
     }
 
-    class EditTextChangeListener implements TextWatcher{
+    class EditTextChangeListener implements TextWatcher {
         private final EditText mText;
         private final SkillTemplate mTemplate;
         private final ActivityCreateSkillBinding mBinding;
 
-        EditTextChangeListener(EditText text,ActivityCreateSkillBinding binding,SkillTemplate template){
-            this.mText=text;
-            this.mBinding=binding;
-            this.mTemplate=template;
+        EditTextChangeListener(EditText text, ActivityCreateSkillBinding binding, SkillTemplate template) {
+            this.mText = text;
+            this.mBinding = binding;
+            this.mTemplate = template;
         }
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -275,13 +277,13 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 
         @Override
         public void afterTextChanged(Editable s) {
-            if(mText==binding.skillContent){
+            if (mText == binding.skillContent) {
                 mTemplate.setContent(s.toString());
-            }else if(mText==binding.skillName){
+            } else if (mText == binding.skillName) {
                 mTemplate.setName(s.toString());
-            }else if(mText==binding.skillPrice){
+            } else if (mText == binding.skillPrice) {
                 mTemplate.setPrice(s.toString());
-            }else if(mText==binding.skillUnit){
+            } else if (mText == binding.skillUnit) {
                 mTemplate.setUnit(s.toString());
             }
         }

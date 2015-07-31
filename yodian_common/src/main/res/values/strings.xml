@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">yodian_common</string>
+    <string name="lable_price"><![CDATA[￥<b>%1$s</b>/%2$s]]></string>
+</resources>

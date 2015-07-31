@@ -62,7 +62,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         user = User.read(this);
-        service=Network.getService(UserService.class);
+        service = Network.getService(UserService.class);
         setContentView(R.layout.activity_auth_setting_info);
         mUserImg = (RoundImageView) findViewById(R.id.img_avatar);
         findViewById(R.id.btn_album).setOnClickListener(this);
@@ -80,12 +80,14 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
         final String nickname = this.mNickname.getText().toString();
 
     }
+
     private String getPhotoFileName() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "'IMG'_yyyyMMdd_HHmmss");
         return dateFormat.format(date) + ".jpg";
     }
+
     private void createTempFile() {
         File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "chuangketie");
         if (!dir.exists()) {
@@ -93,7 +95,9 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
         }
         tempFile = new File(dir, getPhotoFileName());
     }
+
     File tempFile;
+
     private void showPhotoHraph() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "temp.jpg")));
@@ -115,7 +119,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        float dimension =getResources().getDisplayMetrics().widthPixels/2;
+        float dimension = getResources().getDisplayMetrics().widthPixels / 2;
 
         intent.putExtra("outputX", dimension);
         intent.putExtra("outputY", dimension);
@@ -130,35 +134,34 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
 
     /**
      * 从第三方拉取信息
-     *
      */
     private void pull() {
-        if (user.loginType==1) {
+        if (user.loginType == 1) {
             pullByWeixin();
-        } else if (user.loginType==2) {
+        } else if (user.loginType == 2) {
             pullByWeibo();
         }
     }
+
     private void pullByWeixin() {
-        if(user==null)return;
-        String name= TextUtils.isEmpty(user.getNickname())?user.getT_nickname():user.getNickname();
-        String head= TextUtils.isEmpty(user.getAvatar())?user.getT_img():user.getAvatar();
-        setDefaultInfo(name,head);
+        if (user == null) return;
+        String name = TextUtils.isEmpty(user.getNickname()) ? user.getT_nickname() : user.getNickname();
+        String head = TextUtils.isEmpty(user.getAvatar()) ? user.getT_img() : user.getAvatar();
+        setDefaultInfo(name, head);
     }
+
     private void pullByWeibo() {
-        if(user==null)return;
-        String name= TextUtils.isEmpty(user.getNickname())?user.getT_nickname():user.getNickname();
-        String head= TextUtils.isEmpty(user.getAvatar())?user.getT_img():user.getAvatar();
+        if (user == null) return;
+        String name = TextUtils.isEmpty(user.getNickname()) ? user.getT_nickname() : user.getNickname();
+        String head = TextUtils.isEmpty(user.getAvatar()) ? user.getT_img() : user.getAvatar();
         setDefaultInfo(name, head);
 
     }
 
     private void setDefaultInfo(String nickname, String headUrl) {
-        if(headUrl==null) return;
+        if (headUrl == null) return;
         Network.image(this, headUrl, this);
-        if(headUrl!=null){
-            mUserImg.setTag(headUrl);
-        }
+        mUserImg.setTag(headUrl);
         mNickname.setText(nickname);
     }
 
@@ -178,8 +181,8 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
                     break;
                 case REQUEST_PHOTORESOULT:
                     try {
-                        bitmap= BitmapFactory.decodeFileDescriptor(new FileInputStream(tempFile).getFD());
-                        onBitmapLoaded(bitmap,null);
+                        bitmap = BitmapFactory.decodeFileDescriptor(new FileInputStream(tempFile).getFD());
+                        onBitmapLoaded(bitmap, null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -194,10 +197,9 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
     }
 
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode== KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -226,35 +228,35 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
     @Override
     protected void onStop() {
         super.onStop();
-        if(dialog!=null){
+        if (dialog != null) {
             dialog.dismiss();
         }
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btn_album){
+        if (v.getId() == R.id.btn_album) {
             showPhotoZoom();
-        }else if(v.getId()==R.id.btn_camera){
+        } else if (v.getId() == R.id.btn_camera) {
             showPhotoHraph();
-        }else if(v.getId()==R.id.btn_done){
+        } else if (v.getId() == R.id.btn_done) {
             final Editable text = mNickname.getText();
-            if(TextUtils.isEmpty(text)){
-                Toast.makeText(this,R.string.nickname_input_empty_message,Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(text)) {
+                Toast.makeText(this, R.string.nickname_input_empty_message, Toast.LENGTH_SHORT).show();
 
-            }else if(bitmap==null){
-                Toast.makeText(this,R.string.avatar_input_empty_message,Toast.LENGTH_SHORT).show();
-            }else {
+            } else if (bitmap == null) {
+                Toast.makeText(this, R.string.avatar_input_empty_message, Toast.LENGTH_SHORT).show();
+            } else {
                 service.modifyInfo(text.toString(), new TypeBitmap(bitmap), new Callback<ModifyUserResponse>() {
                     @Override
                     public void start() {
-                        dialog=WaitDialog.show(AuthSettingInfoActivity.this);
+                        dialog = WaitDialog.show(AuthSettingInfoActivity.this);
                     }
 
                     @Override
                     public void success(ModifyUserResponse res, Response response) {
                         if (res.isSuccess()) {
-                            user=new User(user.getT_nickname(),user.getT_img(),user.loginType,user.getToken(),user.getUid(),text.toString(),user.getChatLoginName(),res.getData().getAvatar());
+                            user = new User(user.getT_nickname(), user.getT_img(), user.loginType, user.getToken(), user.getUid(), text.toString(), user.getChatLoginName(), res.getData().getAvatar());
                             user.write(AuthSettingInfoActivity.this);
                             setResult(RESULT_OK);
                             finish();
@@ -263,12 +265,12 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
 
                     @Override
                     public void failure(HNetError hNetError) {
-                        ErrorUtils.checkError(AuthSettingInfoActivity.this,hNetError);
+                        ErrorUtils.checkError(AuthSettingInfoActivity.this, hNetError);
                     }
 
                     @Override
                     public void end() {
-                        if(dialog!=null)dialog.dismiss();
+                        if (dialog != null) dialog.dismiss();
                     }
                 });
             }

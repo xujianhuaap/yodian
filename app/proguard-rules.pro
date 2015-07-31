@@ -27,7 +27,7 @@
 
 -keep class butterknife.** { *; }
 -keep class **$$ViewInjector { *; }
--keep class maimeng.ketie.app.client.android.model.** { *; }
+
 -keep class com.google.gson.** {*;}
 
 -keep class com.tencent.mm.sdk.** {*;}
@@ -55,6 +55,11 @@
 -dontwarn com.facebook.**
 -dontwarn com.google.gson.**
 -dontwarn maimeng.ketie.app.client.android.model.**
+-keep class maimeng.ketie.app.client.android.model.** { *; }
+
+-dontwarn maimeng.ketie.app.client.android.common.model.**
+-keep class maimeng.ketie.app.client.android.common.model.** { *; }
+
 -keep class maimeng.ketie.app.client.android.network.response.** {*;}
 -dontwarn maimeng.ketie.app.client.android.network.response.**
 

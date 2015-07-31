@@ -19,6 +19,7 @@ import maimeng.yodian.app.client.android.network.response.AuthResponse;
 public interface AuthService {
     /**
      * 手机号码登录
+     *
      * @param mobile
      * @param code
      * @param pushtoken
@@ -26,35 +27,35 @@ public interface AuthService {
      */
     @Post(ApiConfig.Api.AUTH_LOGIN)
     @Filter(LoginPhoneFilter.class)
-    void login(@Param("mobile")String mobile,@Param("code")String code,@Param("etoken")String pushtoken,Callback<AuthResponse> callback);
+    void login(@Param("mobile") String mobile, @Param("code") String code, @Param("etoken") String pushtoken, Callback<AuthResponse> callback);
 
     /**
      * 第三方登录
-     * @param type 1新浪微博,2微信
-     * @param token 第三方token
-     * @param usid 第三方用户id
+     *
+     * @param type      1新浪微博,2微信
+     * @param token     第三方token
+     * @param usid      第三方用户id
      * @param pushtoken 推送token
      * @param callback
      */
     @Post(ApiConfig.Api.AUTH_LOGIN)
     @Filter(LoginThirdPartyFilter.class)
-    void thirdParty(@Param("type")int type,@Param("token")String token,@Param("usid")String usid,@Param("etoken")String pushtoken,Callback<AuthResponse> callback);
+    void thirdParty(@Param("type") int type, @Param("token") String token, @Param("usid") String usid, @Param("etoken") String pushtoken, Callback<AuthResponse> callback);
 
     /**
      * 获取短信验证码
+     *
      * @param mobile
      * @param callback
      */
     @Post(ApiConfig.Api.AUTH_GETCODE)
-    void getCode(@Param("mobile")String mobile,ToastCallback callback);
-
-
+    void getCode(@Param("mobile") String mobile, ToastCallback callback);
 
 
     class LoginThirdPartyFilter implements RequestFilter {
         @Override
         public void onComplite(RequestFacade requestFacade) {
-            requestFacade.add("etype",2);
+            requestFacade.add("etype", 2);
         }
 
         @Override
@@ -67,11 +68,12 @@ public interface AuthService {
 
         }
     }
+
     class LoginPhoneFilter implements RequestFilter {
         @Override
         public void onComplite(RequestFacade requestFacade) {
-            requestFacade.add("type",0);
-            requestFacade.add("etype",2);
+            requestFacade.add("type", 0);
+            requestFacade.add("etype", 2);
         }
 
         @Override

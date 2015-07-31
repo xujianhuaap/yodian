@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="maimeng.yodian.app.client.android" >
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    package="maimeng.yodian.app.client.android">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -16,69 +17,92 @@
     <!-- Required -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <application
+        android:name=".YApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name=".YApplication"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <!--<activity-alias-->
-            <!--android:name=".LauncherActivity"-->
-            <!--android:targetActivity="${LAUNCHER_ACTIVITY}">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+        <!--android:name=".LauncherActivity"-->
+        <!--android:targetActivity="${LAUNCHER_ACTIVITY}">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
         <!--</activity-alias>-->
         <activity
-            android:name=".view.MainTabActivity" android:launchMode="singleTask"
-            android:label="@string/app_name" >
+            android:name=".view.MainTabActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
 
         </activity>
-        <activity android:name=".view.auth.AuthActivity"/>
-        <activity android:name=".view.skill.CreateOrEditSkillActivity" android:theme="@style/AppThemeTransparent" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".view.skill.SkillTemplateActivity" android:theme="@style/AppThemeTransparent"/>
-        <activity android:name=".view.user.SettingUserInfo"/>
-        <activity android:name=".view.FeedBackActivity" android:label="@string/lable_feedback"/>
-        <activity android:name=".view.SettingsActivity" android:theme="@style/AppThemeSettings"/>
-        <activity android:name=".view.chat.ChatMainActivity" android:label="@string/lable_chat" android:launchMode="singleTask"/>
-        <activity android:name=".view.skill.SkillDetailsActivity"/>
-        <activity android:name=".view.auth.AuthSeletorActivity" android:theme="@style/AppThemeWhite">
+        <activity android:name=".view.auth.AuthActivity" />
+        <activity
+            android:name=".view.skill.CreateOrEditSkillActivity"
+            android:theme="@style/AppThemeTransparent"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".view.skill.SkillTemplateActivity"
+            android:theme="@style/AppThemeTransparent" />
+        <activity android:name=".view.user.SettingUserInfo" />
+        <activity
+            android:name=".view.FeedBackActivity"
+            android:label="@string/lable_feedback" />
+        <activity
+            android:name=".view.SettingsActivity"
+            android:theme="@style/AppThemeSettings" />
+        <activity
+            android:name=".view.chat.ChatMainActivity"
+            android:label="@string/lable_chat"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.skill.SkillDetailsActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.auth.AuthSeletorActivity"
+            android:theme="@style/AppThemeWhite">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.auth.AuthSettingInfoActivity"/>
+        <activity android:name=".view.auth.AuthSettingInfoActivity" />
         <activity
             android:name=".view.WebLauncher"
             android:exported="true"
-            android:label="@string/title_activity_web_launcher" >
+            android:label="@string/title_activity_web_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="yodian" android:host="www.ketie.me" android:path="/launcher/yodian"/>
+
+                <data
+                    android:host="www.ketie.me"
+                    android:path="/launcher/yodian"
+                    android:scheme="yodian" />
             </intent-filter>
         </activity>
-        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"/>
-        <service android:name=".service.ChatServiceLoginService"/>
+        <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
+
+        <service android:name=".service.ChatServiceLoginService" />
         <!--umeng push start-->
-        <activity
-            android:name="com.umeng.fb.ConversationActivity"/>
+        <activity android:name="com.umeng.fb.ConversationActivity" />
+
         <receiver
             android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
-            android:process=":push"
-            android:exported="false" >
-        </receiver>
+            android:exported="false"
+            android:process=":push"></receiver>
         <receiver
             android:name="com.umeng.message.SystemReceiver"
-            android:process=":push" >
+            android:process=":push">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -92,14 +116,14 @@
         </receiver>
         <receiver
             android:name="com.umeng.message.MessageReceiver"
-            android:process=":push" >
+            android:process=":push">
             <intent-filter>
                 <action android:name="org.agoo.android.intent.action.RECEIVE" />
             </intent-filter>
         </receiver>
         <receiver
             android:name="com.umeng.message.ElectionReceiver"
-            android:process=":push" >
+            android:process=":push">
             <intent-filter>
                 <action android:name="org.agoo.android.intent.action.ELECTION_RESULT_V4" />
                 <category android:name="umeng" />
@@ -107,21 +131,22 @@
         </receiver>
         <receiver
             android:name="com.umeng.message.RegistrationReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="maimeng.yodian.app.client.android.intent.action.COMMAND" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.umeng.message.UmengMessageBootReceiver" >
+        <receiver android:name="com.umeng.message.UmengMessageBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <service
             android:name="com.umeng.message.UmengService"
-            android:label="PushService"
             android:exported="true"
-            android:process=":push" >
+            android:label="PushService"
+            android:process=":push">
             <intent-filter>
                 <action android:name="maimeng.yodian.app.client.android.intent.action.START" />
             </intent-filter>
@@ -133,12 +158,13 @@
                 <category android:name="umeng" />
             </intent-filter>
         </service>
-        <service android:name="com.umeng.message.UmengIntentService"
+        <service
+            android:name="com.umeng.message.UmengIntentService"
             android:process=":push" />
         <service
             android:name="com.umeng.message.UmengMessageIntentReceiverService"
-            android:process=":push"
-            android:exported="true" >
+            android:exported="true"
+            android:process=":push">
             <intent-filter>
                 <action android:name="org.android.agoo.client.MessageReceiverService" />
             </intent-filter>
@@ -148,17 +174,19 @@
         </service>
         <!-- V1.3.0添加的service，负责下载通知的资源 -->
         <service android:name="com.umeng.message.UmengDownloadResourceService" />
-        <service android:name=".service.UmengPushMessageService"/>
+        <service android:name=".service.UmengPushMessageService" />
         <!--umeng push end-->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
-            android:screenOrientation="nosensor"
             android:launchMode="singleTask"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1104669989" />
             </intent-filter>
         </activity>
@@ -167,16 +195,17 @@
             android:exported="true" />
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
-            android:screenOrientation="nosensor"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
+            android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustResize" />
         <!---->
-        <meta-data android:value="55a3c89567e58e19e2003146" android:name="UMENG_APPKEY"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55a3c89567e58e19e2003146" />
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="96b2203b2eb5a412f4173a170de0afc9" >
-        </meta-data>
+            android:value="96b2203b2eb5a412f4173a170de0afc9"></meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />

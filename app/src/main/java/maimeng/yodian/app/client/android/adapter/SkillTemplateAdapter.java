@@ -15,13 +15,13 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.databinding.SkillTemplateItemBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
-import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.viewentry.skill.ItemViewEntry;
 import maimeng.yodian.app.client.android.viewentry.skill.ViewEntry;
 
-public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry,SkillTemplateAdapter.ViewHolder> {
+public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTemplateAdapter.ViewHolder> {
     public SkillTemplateAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
     }
@@ -41,38 +41,42 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry,SkillTemplat
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType==ViewEntry.VIEW_TYPE_ADDBUTTON){
-            return new AddButtonViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.skill_template_addbutton,parent,false));
-        }else if(viewType==ViewEntry.VIEW_TYPE_ITEM){
-            SkillTemplateItemBinding binding=DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_template_item, parent, false);
+        if (viewType == ViewEntry.VIEW_TYPE_ADDBUTTON) {
+            return new AddButtonViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.skill_template_addbutton, parent, false));
+        } else if (viewType == ViewEntry.VIEW_TYPE_ITEM) {
+            SkillTemplateItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_template_item, parent, false);
             return new ItemViewHolder(binding);
-        }else{
+        } else {
             throw new IllegalArgumentException("viewType must to be ViewEntry.VIEW_TYPE_ADDBUTTON or ViewEntry.VIEW_TYPE_ITEM");
         }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(holder.getItemViewType()==ViewEntry.VIEW_TYPE_ITEM){
-            ((ItemViewHolder)holder).bind(((ItemViewEntry)getItem(position)).template);
+        if (holder.getItemViewType() == ViewEntry.VIEW_TYPE_ITEM) {
+            ((ItemViewHolder) holder).bind(((ItemViewEntry) getItem(position)).template);
         }
     }
-    public class AddButtonViewHolder extends ViewHolder{
+
+    public class AddButtonViewHolder extends ViewHolder {
         public AddButtonViewHolder(View itemView) {
             super(itemView);
         }
     }
-    public class ItemViewHolder extends ViewHolder{
+
+    public class ItemViewHolder extends ViewHolder {
         public final SkillTemplateItemBinding binding;
         private SkillTemplate template;
 
         public SkillTemplate getTemplate() {
             return template;
         }
+
         private Target target;
+
         public ItemViewHolder(SkillTemplateItemBinding binding) {
             super(binding.getRoot());
-            this.binding=binding;
+            this.binding = binding;
             target = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -100,21 +104,23 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry,SkillTemplat
             };
 
         }
-        public void bind(SkillTemplate template){
+
+        public void bind(SkillTemplate template) {
             binding.setTemplate(template);
-            this.template=template;
-            Network.image(itemView.getContext(), template.getPic(), target);
+            this.template = template;
+            ImageLoader.image(itemView.getContext(), template.getPic(), target);
         }
     }
-     public abstract class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public abstract class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
         }
 
-         @Override
-         public void onClick(View v) {
-             mViewHolderClickListener.onItemClick(this,getLayoutPosition());
-         }
-     }
+        @Override
+        public void onClick(View v) {
+            mViewHolderClickListener.onItemClick(this, getLayoutPosition());
+        }
+    }
 }

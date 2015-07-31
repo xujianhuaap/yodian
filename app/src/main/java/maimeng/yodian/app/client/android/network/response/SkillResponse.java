@@ -2,7 +2,8 @@ package maimeng.yodian.app.client.android.network.response;
 
 import java.util.List;
 
-import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.common.model.Skill;
+
 
 /**
  * Created by android on 15-7-14.
@@ -18,7 +19,7 @@ public class SkillResponse extends Response {
         this.data = data;
     }
 
-   public class DataNode{
+    public class DataNode {
         public List<Skill> getList() {
             return list;
         }

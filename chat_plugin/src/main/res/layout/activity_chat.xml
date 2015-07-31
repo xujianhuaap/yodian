@@ -4,61 +4,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#f2f0eb" >
+    android:background="#f2f0eb">
 
-<!--    <RelativeLayout
-        android:id="@+id/top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_top_bar"
-        android:background="@color/top_bar_normal_bg"
-        android:gravity="center_vertical" >
-
-        <include layout="@layout/commom_back_btn" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-        <RelativeLayout
-            android:id="@+id/container_remove"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/common_tab_bg"
-            android:onClick="emptyHistory" >
-
-            <ImageView
+    <!--    <RelativeLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_top_bar"
+            android:background="@color/top_bar_normal_bg"
+            android:gravity="center_vertical" >
+    
+            <include layout="@layout/commom_back_btn" />
+    
+            <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+    
+            <RelativeLayout
+                android:id="@+id/container_remove"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="9dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/mm_title_remove" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/container_to_group"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/common_tab_bg"
-            android:onClick="toGroupDetails"
-            android:visibility="gone" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/to_group_details_normal" />
-        </RelativeLayout>
-    </RelativeLayout>-->
+                android:background="@drawable/common_tab_bg"
+                android:onClick="emptyHistory" >
+    
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="9dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/mm_title_remove" />
+            </RelativeLayout>
+    
+            <RelativeLayout
+                android:id="@+id/container_to_group"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/common_tab_bg"
+                android:onClick="toGroupDetails"
+                android:visibility="gone" >
+    
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/to_group_details_normal" />
+            </RelativeLayout>
+        </RelativeLayout>-->
 
     <LinearLayout
         android:id="@+id/bar_bottom"
@@ -67,7 +67,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:paddingBottom="2dip"
-        android:paddingTop="2dip" >
+        android:paddingTop="2dip">
 
         <View
             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
             android:background="#aaffffff"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingTop="4dp" >
+            android:paddingTop="4dp">
 
             <Button
                 android:id="@+id/btn_set_mode_voice"
@@ -112,7 +112,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/chat_press_speak_btn"
                 android:gravity="center"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:layout_weight="1"
-                android:gravity="bottom" >
+                android:gravity="bottom">
 
                 <maimeng.yodian.app.client.android.chat.widget.PasteEditText
                     android:id="@+id/et_sendmessage"
@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:orientation="vertical"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <!-- 表情图片 -->
 
@@ -210,7 +210,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:orientation="vertical"
-                android:visibility="visible" >
+                android:visibility="visible">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/vPager"
@@ -220,20 +220,67 @@
 
             <!-- 图片，表情，名片等按钮 -->
 
-        <!--<include layout="@layout/include_chat_bottom_container" android:id="@+id/ll_btn_container"/>-->
+            <!--<include layout="@layout/include_chat_bottom_container" android:id="@+id/ll_btn_container"/>-->
             <GridView
                 android:id="@+id/ll_btn_container"
                 android:layout_width="match_parent"
-                android:numColumns="4"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:numColumns="4" />
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/skill_container"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@id/top_bar"
+        android:background="#000"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/skill_pic"
+            android:layout_width="110dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/skill_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/skill_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_show_skill"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="#0f0" />
+    </LinearLayout>
+
     <RelativeLayout
+        android:id="@+id/list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bar_bottom"
-        android:layout_below="@id/top_bar" >
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@id/skill_container">
 
         <ProgressBar
             android:id="@+id/pb_load_more"
@@ -244,20 +291,20 @@
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/chat_swipe_layout"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
-            
-	        <ListView
-	            android:id="@+id/list"
-	            android:layout_width="match_parent"
-	            android:layout_height="match_parent"
-	            android:layout_below="@id/pb_load_more"
-	            android:cacheColorHint="#00000000"
-	            android:divider="@null"
-	            android:dividerHeight="5dp"
-	            android:listSelector="#00000000"
-	            android:scrollbarStyle="outsideOverlay"
-	            android:transcriptMode="normal" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/pb_load_more"
+                android:cacheColorHint="#00000000"
+                android:divider="@null"
+                android:dividerHeight="5dp"
+                android:listSelector="#00000000"
+                android:scrollbarStyle="outsideOverlay"
+                android:transcriptMode="normal" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <RelativeLayout
@@ -267,7 +314,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/recording_hint_bg"
             android:padding="10dp"
-            android:visibility="invisible" >
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/mic_image"

@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.model;
+package maimeng.yodian.app.client.android.common.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -9,8 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-import maimeng.yodian.app.client.android.BR;
-import maimeng.yodian.app.client.android.BuildConfig;
+import maimeng.yodian.app.client.android.common.BR;
+import maimeng.yodian.app.client.android.common.BuildConfig;
+
 
 /**
  * Created by android on 15-7-14.

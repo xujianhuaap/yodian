@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.easemob.EMCallBack;
@@ -32,7 +33,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 /**
  * Created by android on 2015/7/22.
  */
-public class ChatServiceLoginService extends Service{
+public class ChatServiceLoginService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -45,8 +46,11 @@ public class ChatServiceLoginService extends Service{
 //        EMChatManager.getInstance().login(User.read(this).getChatLoginName(), "hx123456", this);
 
 
-        final String currentUsername=User.read(this).getChatLoginName();
-        final String currentPassword="hx123456";
+        final String currentUsername = User.read(this).getChatLoginName();
+        final String currentPassword = "hx123456";
+        if (TextUtils.isEmpty(currentUsername)) {
+            return super.onStartCommand(intent, flags, startId);
+        }
         EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
 
             @Override
@@ -96,20 +100,20 @@ public class ChatServiceLoginService extends Service{
 
             @Override
             public void onError(final int code, final String message) {
-                log(maimeng.yodian.app.client.android.chat.R.string.login_failure_failed,message);
+                log(maimeng.yodian.app.client.android.chat.R.string.login_failure_failed, message);
             }
         });
-
 
 
         return super.onStartCommand(intent, flags, startId);
     }
 
 
-    void log(int resId,String messasge){
-        LogUtil.d("ChatServiceLoginService",getResources().getString(resId)+messasge);
+    void log(int resId, String messasge) {
+        LogUtil.d("ChatServiceLoginService", getResources().getString(resId) + messasge);
     }
-    void log(int resId){
+
+    void log(int resId) {
         LogUtil.d("ChatServiceLoginService", getResources().getString(resId));
     }
 }

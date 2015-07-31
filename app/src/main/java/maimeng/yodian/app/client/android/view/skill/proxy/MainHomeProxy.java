@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 
-import org.antlr.v4.codegen.model.Loop;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -33,8 +32,8 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListHomeAdapter;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.model.User;
-import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -81,7 +80,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         handler=new Handler(Looper.getMainLooper());
         this.mActivity=activity;
         view.setVisibility(View.GONE);
-        service=Network.getService(SkillService.class);
+        service= Network.getService(SkillService.class);
         appBar=(AppBarLayout)view.findViewById(R.id.appBarLayout);
         mBtnSettings=view.findViewById(R.id.btn_settings);
         mBtnChat=view.findViewById(R.id.btn_chat);

@@ -5,81 +5,84 @@
 
         <variable
             name="skill"
-            type="maimeng.yodian.app.client.android.model.Skill" />
+            type="maimeng.yodian.app.client.android.common.model.Skill" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<!--        <LinearLayout
+        <!--        <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">-->
+
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:background="#7f00">-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/logo"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:src="@null" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true" />-->
+        <!--</RelativeLayout>-->
+
+        <in.srain.cube.views.ptr.PtrFrameLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">-->
+            android:layout_weight="1"
+            app:ptr_duration_to_close="300"
+            app:ptr_duration_to_close_header="1000"
+            app:ptr_keep_header_when_refresh="true"
+            app:ptr_pull_to_fresh="false"
+            app:ptr_ratio_of_header_height_to_refresh="1.2"
+            app:ptr_resistance="1.7">
 
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="?attr/actionBarSize"-->
-                <!--android:background="#7f00">-->
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/logo"-->
-                    <!--android:layout_width="30dp"-->
-                    <!--android:layout_height="30dp"-->
-                    <!--android:layout_alignParentLeft="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:src="@null" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/title"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerInParent="true" />-->
-            <!--</RelativeLayout>-->
-
-            <in.srain.cube.views.ptr.PtrFrameLayout
-                android:id="@+id/refresh_layout"
+            <ListView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:ptr_duration_to_close="300"
-                app:ptr_duration_to_close_header="1000"
-                app:ptr_keep_header_when_refresh="true"
-                app:ptr_pull_to_fresh="false"
-                app:ptr_ratio_of_header_height_to_refresh="1.2"
-                app:ptr_resistance="1.7">
+                android:scrollbars="none" />
+        </in.srain.cube.views.ptr.PtrFrameLayout>
 
-                <ListView
-                    android:id="@+id/recyclerView"
-                    android:scrollbars="none"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </in.srain.cube.views.ptr.PtrFrameLayout>
         <RelativeLayout
             android:id="@+id/title_containar"
             android:layout_width="match_parent"
-            android:alpha="0"
             android:layout_height="?attr/actionBarSize"
+            android:alpha="0"
             android:background="?attr/colorPrimary">
+
             <TextView
-                android:layout_gravity="bottom"
                 android:id="@+id/title_price"
-                android:singleLine="true"
-                android:padding="5dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:visibility="invisible"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="bottom"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:layout_marginRight="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/btn_ic_wechat" />
+                android:layout_marginRight="20dp"
+                android:src="@drawable/btn_ic_wechat"
+                android:visibility="invisible" />
         </RelativeLayout>
         <!--</LinearLayout>-->
 
@@ -97,61 +100,69 @@
                 android:id="@+id/header_logo_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:padding="5dp"
                 android:layout_gravity="bottom"
-                android:background="?attr/colorPrimaryDark">
+                android:background="?attr/colorPrimaryDark"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
                 <FrameLayout
-                    android:visibility="invisible"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible">
+
                     <ImageView
-                        android:src="@drawable/btn_ic_wechat"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/btn_ic_wechat" />
+
                     <ImageView
-                        android:src="@drawable/btn_ic_circle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/btn_ic_circle" />
                 </FrameLayout>
+
                 <TextView
-                    android:layout_centerInParent="true"
                     android:id="@+id/btn_contect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:textSize="@dimen/btn_text_size"
                     android:scaleType="centerInside"
                     android:text="@string/btn_contact_ta"
+                    android:textSize="@dimen/btn_text_size"
                     android:visibility="visible" />
             </LinearLayout>
+
             <TextView
-                android:layout_gravity="bottom"
                 android:id="@+id/price"
-                android:singleLine="true"
-                android:padding="5dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_marginBottom="60dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="60dp"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark" />
+
             <FrameLayout
                 android:id="@+id/header_logo"
-                android:padding="5dp"
-                android:layout_marginRight="30dp"
-                android:layout_gravity="bottom|center_horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginRight="30dp"
+                android:padding="5dp">
+
                 <ImageView
-                    android:src="@drawable/btn_ic_wechat"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_ic_wechat" />
+
                 <ImageView
                     android:id="@+id/btn_contect_circle"
-                    android:src="@drawable/btn_ic_circle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_ic_circle" />
             </FrameLayout>
 
         </FrameLayout>

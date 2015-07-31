@@ -35,15 +35,16 @@ import maimeng.yodian.app.client.android.viewentry.skill.AddButtonViewEntry;
 import maimeng.yodian.app.client.android.viewentry.skill.ItemViewEntry;
 import maimeng.yodian.app.client.android.viewentry.skill.ViewEntry;
 
-public class SkillTemplateActivity extends AppCompatActivity implements Callback<SkillTemplateResponse>,AbstractAdapter.ViewHolderClickListener<SkillTemplateAdapter.ViewHolder> {
+public class SkillTemplateActivity extends AppCompatActivity implements Callback<SkillTemplateResponse>, AbstractAdapter.ViewHolderClickListener<SkillTemplateAdapter.ViewHolder> {
     private SkillService service;
     private RecyclerView mTemplateList;
     private SkillTemplateAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        service=Network.getService(SkillService.class);
+        service = Network.getService(SkillService.class);
         setContentView(R.layout.activity_skill_template);
         ViewCompat.setTransitionName(findViewById(R.id.top), "top");
         View floatbutton = findViewById(R.id.btn_back);
@@ -54,15 +55,15 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
                 ActivityCompat.finishAfterTransition(SkillTemplateActivity.this);
             }
         });
-        adapter=new SkillTemplateAdapter(this,this);
-        mTemplateList=(RecyclerView)findViewById(R.id.template_list);
+        adapter = new SkillTemplateAdapter(this, this);
+        mTemplateList = (RecyclerView) findViewById(R.id.template_list);
         mTemplateList.setLayoutManager(new GridLayoutManager(this, 2));
         mTemplateList.setAdapter(adapter);
         try {
-            Dao<SkillTemplate, Integer> dao=SQLiteHelper.getHelper(this).getDao();
+            Dao<SkillTemplate, Integer> dao = SQLiteHelper.getHelper(this).getDao();
             List<SkillTemplate> data = dao.queryForAll();
-            List<ViewEntry> list=new ArrayList<>(data.size()+1);
-            for(SkillTemplate template:data){
+            List<ViewEntry> list = new ArrayList<>(data.size() + 1);
+            for (SkillTemplate template : data) {
                 list.add(new ItemViewEntry(template));
             }
             list.add(new AddButtonViewEntry());
@@ -82,35 +83,35 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
 
     @Override
     public void success(SkillTemplateResponse res, Response response) {
-        if(res.isSuccess()){
-            Dao<SkillTemplate, Integer> dao=null;
+        if (res.isSuccess()) {
+            Dao<SkillTemplate, Integer> dao = null;
             try {
-                dao=SQLiteHelper.getHelper(this).getDao();
+                dao = SQLiteHelper.getHelper(this).getDao();
                 dao.delete(dao.deleteBuilder().prepare());
                 List<SkillTemplate> data = res.getData().getList();
-                int size=Math.min(data.size(),5);
-            List<ViewEntry> list=new ArrayList<>(size+1);
-            for(int i=0;i<size;i++){
-                SkillTemplate template=data.get(i);
-                list.add(new ItemViewEntry(template));
-                if(dao!=null){
-                    dao.create(template);
+                int size = Math.min(data.size(), 5);
+                List<ViewEntry> list = new ArrayList<>(size + 1);
+                for (int i = 0; i < size; i++) {
+                    SkillTemplate template = data.get(i);
+                    list.add(new ItemViewEntry(template));
+                    if (dao != null) {
+                        dao.create(template);
+                    }
                 }
-            }
-            list.add(new AddButtonViewEntry());
-            adapter.reload(list, false);
-            adapter.notifyDataSetChanged();
+                list.add(new AddButtonViewEntry());
+                adapter.reload(list, false);
+                adapter.notifyDataSetChanged();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             res.showMessage(this);
         }
     }
 
     @Override
     public void failure(HNetError hNetError) {
-        ErrorUtils.checkError(this,hNetError);
+        ErrorUtils.checkError(this, hNetError);
     }
 
     @Override
@@ -120,16 +121,16 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
 
     @Override
     public void onItemClick(SkillTemplateAdapter.ViewHolder holder, int postion) {
-        Intent intent=new Intent(this,CreateOrEditSkillActivity.class);
-        if(holder.getItemViewType()==ViewEntry.VIEW_TYPE_ITEM){
+        Intent intent = new Intent(this, CreateOrEditSkillActivity.class);
+        if (holder.getItemViewType() == ViewEntry.VIEW_TYPE_ITEM) {
             SkillTemplateAdapter.ItemViewHolder itemHolder = (SkillTemplateAdapter.ItemViewHolder) holder;
             SkillTemplate template = itemHolder.getTemplate();
-            Pair<View, String> img = Pair.create((View)itemHolder.binding.skillImg, "avatar");
-            Pair<View, String> title = Pair.create((View)itemHolder.binding.skillName, "title");
-            ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(this,img,title);
-            intent.putExtra("template",template);
+            Pair<View, String> img = Pair.create((View) itemHolder.binding.skillImg, "avatar");
+            Pair<View, String> title = Pair.create((View) itemHolder.binding.skillName, "title");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, img, title);
+            intent.putExtra("template", template);
             ActivityCompat.startActivityForResult(this, intent, ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
-        }else {
+        } else {
             startActivityForResult(intent, ActivityProxyController.REQUEST_CREATE_SKILL);
         }
     }
@@ -137,8 +138,8 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==ActivityProxyController.REQUEST_CREATE_SKILL){
-            if(resultCode==RESULT_OK){
+        if (requestCode == ActivityProxyController.REQUEST_CREATE_SKILL) {
+            if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK);
                 finish();
             }
