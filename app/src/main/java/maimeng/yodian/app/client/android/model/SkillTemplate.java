@@ -12,6 +12,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.BR;
+
 @DatabaseTable(tableName = "_skillTemplate")
 public class SkillTemplate extends BaseObservable implements Parcelable {
 
@@ -41,6 +42,7 @@ public class SkillTemplate extends BaseObservable implements Parcelable {
     private int status;
     @DatabaseField(columnName = "_createtime")
     private Date createtime;
+
     public String getContent() {
         return content;
     }

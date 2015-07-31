@@ -16,7 +16,7 @@ import maimeng.yodian.app.client.android.YApplication;
 /**
  * Created by henjue on 2015/4/7.
  */
-public class User extends BaseObservable{
+public class User extends BaseObservable {
     private static final String PREFERENCES_NAME = "_userinfo";
     private static final String KEY_T_NICK = "_t_nickname";
     private static final String KEY_T_IMG = "_t_headimg";
@@ -34,7 +34,7 @@ public class User extends BaseObservable{
     @Bindable
     private String avatar;
     @SerializedName("SN_KEY_API")
-    private  String token;
+    private String token;
     @SerializedName("weichat")
     private String wechat;
 
@@ -71,7 +71,7 @@ public class User extends BaseObservable{
     }
 
     public String getAvatar() {
-        return TextUtils.isEmpty(avatar)?"http://":avatar;
+        return TextUtils.isEmpty(avatar) ? "http://" : avatar;
     }
 
     public void setAvatar(String avatar) {
@@ -130,18 +130,19 @@ public class User extends BaseObservable{
     public boolean pushOn = true;
     public int loginType;//0官方,1微信,2微博
 
-    public User(){
+    public User() {
 
     }
-    public User(String t_name, String t_img, int loginType, String token, long uid, String nickname,String chatLoginName, String avatar) {
+
+    public User(String t_name, String t_img, int loginType, String token, long uid, String nickname, String chatLoginName, String avatar) {
         this.uid = uid;
         this.nickname = nickname;
         this.avatar = avatar;
         this.loginType = loginType;
         this.token = token;
-        this.t_nickname=t_name;
-        this.t_img=t_img;
-        this.chatLoginName=chatLoginName;
+        this.t_nickname = t_name;
+        this.t_img = t_img;
+        this.chatLoginName = chatLoginName;
     }
 
     public static synchronized User read(Context context) {
@@ -156,7 +157,7 @@ public class User extends BaseObservable{
             String chatname = pref.getString(KEY_CHATNAME, "");
             String wechat = pref.getString(KEY_WECHAT, "");
 
-            maimeng.yodian.app.client.android.chat.domain.User u=new maimeng.yodian.app.client.android.chat.domain.User();
+            maimeng.yodian.app.client.android.chat.domain.User u = new maimeng.yodian.app.client.android.chat.domain.User();
             u.setAvatar(img);
             u.setUsername(chatname);
             u.setNick(nickname);
@@ -164,9 +165,8 @@ public class User extends BaseObservable{
             YApplication.getInstance().setCurrentUser(u);
 
 
-
             int type = pref.getInt(KEY_TYPE, 0);
-            User user = new User(t_nickname, t_img, type, token, "".equals(uid)?0: Long.parseLong(uid), nickname,chatname, img);
+            User user = new User(t_nickname, t_img, type, token, "".equals(uid) ? 0 : Long.parseLong(uid), nickname, chatname, img);
             user.setWechat(wechat);
             user.pushOn = pref.getBoolean(KEY_PUSH, true);
             return user;
@@ -183,7 +183,7 @@ public class User extends BaseObservable{
             editor.putString(KEY_TOKEN, token == null ? "" : token);
             editor.putString(KEY_NICK, nickname == null ? "" : nickname);
             editor.putString(KEY_CHATNAME, chatLoginName == null ? "" : chatLoginName);
-            editor.putString(KEY_UID, uid == 0 ? "" : ""+uid);
+            editor.putString(KEY_UID, uid == 0 ? "" : "" + uid);
             editor.putString(KEY_IMG, avatar == null ? "" : avatar);
             editor.putString(KEY_TOKEN, token == null ? "" : token);
             editor.putString(KEY_WECHAT, wechat == null ? "" : wechat);
@@ -206,7 +206,7 @@ public class User extends BaseObservable{
         String t_nickname = bundle.getString(KEY_T_NICK, "");
         String t_img = bundle.getString(KEY_T_IMG, "");
         boolean pushOn = bundle.getBoolean(KEY_PUSH, true);
-        User user = new User(t_nickname,t_img, type, token, "".equals(uid)?0: Long.parseLong(uid), nickname, chatname,img);
+        User user = new User(t_nickname, t_img, type, token, "".equals(uid) ? 0 : Long.parseLong(uid), nickname, chatname, img);
         user.setWechat(wechat);
         user.pushOn = pushOn;
         return user;

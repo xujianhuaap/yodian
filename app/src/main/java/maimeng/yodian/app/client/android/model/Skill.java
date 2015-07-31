@@ -43,7 +43,7 @@ public class Skill extends BaseObservable implements Parcelable {
     }
 
     public String getQrcodeUrl() {
-        return BuildConfig.DEBUG?qrcodeUrl.replaceAll("^http://share.yodian.me/","http://sharetest.yodian.me/"):qrcodeUrl;
+        return BuildConfig.DEBUG ? qrcodeUrl.replaceAll("^http://share.yodian.me/", "http://sharetest.yodian.me/") : qrcodeUrl;
     }
 
     public void setQrcodeUrl(String qrcodeUrl) {
@@ -64,7 +64,7 @@ public class Skill extends BaseObservable implements Parcelable {
     private String price;//技能价格
     private String unit;//技能价格单位
     @Bindable
-    private int status=0;//2下架状态，0上架状态
+    private int status = 0;//2下架状态，0上架状态
     private Date createtime;//技能添加时间戳
     private String nickname;//用户昵称
     private String avatar;//用户头像数据
@@ -76,6 +76,7 @@ public class Skill extends BaseObservable implements Parcelable {
     public void setId(long id) {
         this.id = id;
     }
+
     @Bindable
     public String getName() {
         return name;
@@ -93,6 +94,7 @@ public class Skill extends BaseObservable implements Parcelable {
     public void setPic(String pic) {
         this.pic = pic;
     }
+
     @Bindable
     public String getContent() {
         return content;
@@ -102,6 +104,7 @@ public class Skill extends BaseObservable implements Parcelable {
         this.content = content;
         notifyPropertyChanged(BR.content);
     }
+
     public long getUid() {
         return uid;
     }
@@ -125,6 +128,7 @@ public class Skill extends BaseObservable implements Parcelable {
     public void setUnit(String unit) {
         this.unit = unit;
     }
+
     public int getStatus() {
         return status;
     }
@@ -162,16 +166,16 @@ public class Skill extends BaseObservable implements Parcelable {
     }
 
     public void update(Skill skill) {
-        this.uid=skill.uid;
-        this.name=skill.name;
-        this.pic=skill.pic;
-        this.content=skill.content;
-        this.price=skill.price;
-        this.unit=skill.unit;
-        this.status=skill.status;
-        this.createtime=skill.createtime;
-        this.nickname=skill.nickname;
-        this.avatar=skill.avatar;
+        this.uid = skill.uid;
+        this.name = skill.name;
+        this.pic = skill.pic;
+        this.content = skill.content;
+        this.price = skill.price;
+        this.unit = skill.unit;
+        this.status = skill.status;
+        this.createtime = skill.createtime;
+        this.nickname = skill.nickname;
+        this.avatar = skill.avatar;
 
     }
 

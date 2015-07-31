@@ -50,21 +50,21 @@ public class GsonConverter implements Converter {
             charset = MimeUtil.parseCharset(body.mimeType(), charset);
         }
         InputStreamReader isr = null;
-        StringBuffer sb=new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         try {
             isr = new InputStreamReader(body.in(), charset);
-            BufferedReader reader=new BufferedReader(isr);
-            String str="";
-            while((str=reader.readLine())!=null){
+            BufferedReader reader = new BufferedReader(isr);
+            String str = "";
+            while ((str = reader.readLine()) != null) {
                 sb.append(str).append("\n");
             }
             String json = sb.toString();
-            if(Network.getNet().getLogLevel()!= HNet.LogLevel.NONE){
+            if (Network.getNet().getLogLevel() != HNet.LogLevel.NONE) {
                 LogUtil.i("GsonConverter", json);
             }
             return gson.fromJson(json, type);
         } catch (IOException | JsonParseException e) {
-            throw new ConversionException(sb.toString(),e);
+            throw new ConversionException(sb.toString(), e);
         } finally {
             if (isr != null) {
                 try {
@@ -113,36 +113,42 @@ public class GsonConverter implements Converter {
             out.write(jsonBytes);
         }
     }
-    public static class StringAdapter implements JsonDeserializer<String>,JsonSerializer<String>{
+
+    public static class StringAdapter implements JsonDeserializer<String>, JsonSerializer<String> {
 
         @Override
         public String deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return json==null?"":json.getAsString();
+            return json == null ? "" : json.getAsString();
         }
 
         @Override
         public JsonElement serialize(String src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(src==null?"":src);
+            return new JsonPrimitive(src == null ? "" : src);
         }
     }
-    public static class TypeDataAdapter implements JsonDeserializer<TypeData>{
+
+    public static class TypeDataAdapter implements JsonDeserializer<TypeData> {
         private final Gson gson;
-        public TypeDataAdapter(){
-            gson=new Gson();
+
+        public TypeDataAdapter() {
+            gson = new Gson();
         }
+
         @Override
         public TypeData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            if(json instanceof JsonArray){
-                    return new ObjectTypeData();
+            if (json instanceof JsonArray) {
+                return new ObjectTypeData();
             }
-            return gson.fromJson(json,typeOfT);
+            return gson.fromJson(json, typeOfT);
         }
     }
-    public static class DateAdapter implements JsonDeserializer<java.util.Date>,JsonSerializer<java.util.Date>{
+
+    public static class DateAdapter implements JsonDeserializer<java.util.Date>, JsonSerializer<java.util.Date> {
 
         @Override
         public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return new java.util.Date(json.getAsJsonPrimitive().getAsLong());
+            long asLong = json.getAsJsonPrimitive().getAsLong() * 1000;
+            return new java.util.Date(asLong);
         }
 
         @Override
@@ -150,7 +156,8 @@ public class GsonConverter implements Converter {
             return new JsonPrimitive(src.getTime());
         }
     }
-    public static class  ObjectTypeData implements TypeData{
+
+    public static class ObjectTypeData implements TypeData {
 
     }
 
