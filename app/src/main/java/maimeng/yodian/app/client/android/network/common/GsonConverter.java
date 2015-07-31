@@ -147,13 +147,12 @@ public class GsonConverter implements Converter {
 
         @Override
         public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            long asLong = json.getAsJsonPrimitive().getAsLong() * 1000;
-            return new java.util.Date(asLong);
+            return new java.util.Date(json.getAsJsonPrimitive().getAsLong() * 1000);
         }
 
         @Override
         public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(src.getTime());
+            return new JsonPrimitive(src.getTime() / 1000);
         }
     }
 

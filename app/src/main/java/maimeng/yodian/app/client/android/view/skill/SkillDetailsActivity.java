@@ -74,7 +74,7 @@ import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 /**
  * Created by android on 2015/7/22.
  */
-public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler,AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>,AbstractAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener, RmarkListAdapter.ActionListener {
+public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler, AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>, AbstractAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener, RmarkListAdapter.ActionListener {
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
     @Bind(R.id.recyclerView)
     ListView mListView;
@@ -82,7 +82,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     PtrFrameLayout mRefreshLayout;
     private SkillService service;
     private long sid;
-    private int page=1;
+    private int page = 1;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private RmarkListAdapter adapter;
     private Interpolator mSmoothInterpolator;
@@ -106,19 +106,24 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         }
         return mActionBarHeight;
     }
-    private boolean inited=false;
+
+    private boolean inited = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user=User.read(this);
+        user = User.read(this);
         service = Network.getService(SkillService.class);
 //        mSmoothInterpolator = new AccelerateDecelerateInterpolator();
         mSmoothInterpolator = new LinearInterpolator();
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.skill_detail_head_height);
         mMinHeaderTranslation = -mHeaderHeight + getTitleBarHeight();
-        binding=DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
+        headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, mListView, false);
         ViewCompat.setTransitionName(binding.btnBack, "back");
-
+//        ViewCompat.setTransitionName(headBinding.pic, "pic");
+//        ViewCompat.setTransitionName(headBinding.userNickname, "nick");
+//        ViewCompat.setTransitionName(headBinding.userAvatar, "avatar");
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,33 +133,32 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         binding.headerLogoBg.setOnClickListener(this);
         binding.headerLogo.setOnClickListener(this);
         ButterKnife.bind(this);
-        headBinding=DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, mListView, false);
         mPlaceHolderView = headBinding.getRoot();
         mListView.addHeaderView(mPlaceHolderView);
-        adapter=new RmarkListAdapter(this,this);
+        adapter = new RmarkListAdapter(this, this);
         mRefreshLayout.setPtrHandler(this);
-        StoreHouseHeader header= PullHeadView.create(this);
+        StoreHouseHeader header = PullHeadView.create(this);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
         mRefreshLayout.addPtrUIHandler(new PtrUIHandler() {
             @Override
             public void onUIReset(PtrFrameLayout ptrFrameLayout) {
-                LogUtil.i("mRefreshLayout","onUIReset");
+                LogUtil.i("mRefreshLayout", "onUIReset");
             }
 
             @Override
             public void onUIRefreshPrepare(PtrFrameLayout ptrFrameLayout) {
-                LogUtil.i("mRefreshLayout","onUIRefreshPrepare");
+                LogUtil.i("mRefreshLayout", "onUIRefreshPrepare");
             }
 
             @Override
             public void onUIRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-                LogUtil.i("mRefreshLayout","onUIRefreshBegin");
+                LogUtil.i("mRefreshLayout", "onUIRefreshBegin");
             }
 
             @Override
             public void onUIRefreshComplete(PtrFrameLayout ptrFrameLayout) {
-                LogUtil.i("mRefreshLayout","onUIRefreshComplete");
+                LogUtil.i("mRefreshLayout", "onUIRefreshComplete");
             }
 
             @Override
@@ -169,7 +173,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
             @Override
             public void onLoadMore() {
-                page ++;
+                page++;
                 sync();
             }
         };
@@ -187,7 +191,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             public void onScrollUp() {
                 binding.btnBack.hide();
             }
-        },new AbsListView.OnScrollListener() {
+        }, new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
             }
@@ -214,16 +218,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
             }
         });
-        Skill skill =  getIntent().getParcelableExtra("skill");
-        sid= skill.getId();
-        isMe=skill.getUid()==user.getUid();
+        Skill skill = getIntent().getParcelableExtra("skill");
+        sid = skill.getId();
+        isMe = skill.getUid() == user.getUid();
         mRefreshLayout.autoRefresh();
     }
 
     private void setTextColor(TextView tv, int startColor, int endColor, float ratio) {
-        if(ratio<0.3f){
+        if (ratio < 0.3f) {
             tv.setTextColor(getResources().getColor(R.color.colorPrimary));
-        }else{
+        } else {
             tv.setTextColor(Color.parseColor("#ffffff"));
         }
 
@@ -233,13 +237,14 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private void setTitleAlpha(float alpha) {
         findViewById(R.id.btn_contect_circle).setAlpha(alpha);
     }
+
     private RectF getOnScreenRect(RectF rect, View view) {
         rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
         return rect;
     }
 
     private void interpolate(View start, View end, float interpolation) {
-        LogUtil.i(LOG_TAG,"interpolation:%f",interpolation);
+        LogUtil.i(LOG_TAG, "interpolation:%f", interpolation);
         RectF mRect1 = new RectF();
         RectF mRect2 = new RectF();
         getOnScreenRect(mRect1, start);
@@ -255,9 +260,11 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         start.setScaleX(scaleX);
         start.setScaleY(scaleY);
     }
+
     public float clamp(float value, float min, float max) {
-        return Math.max(min,Math.min(value, max));
+        return Math.max(min, Math.min(value, max));
     }
+
     public int getScrollY() {
         View c = mListView.getChildAt(0);
         if (c == null) {
@@ -288,7 +295,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-       sync();
+        sync();
     }
 
     private void sync() {
@@ -302,15 +309,15 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void success(RmarkListResponse res, Response response) {
-        if(res.isSuccess()){
+        if (res.isSuccess()) {
             List<Rmark> list = res.getData().getList();
-            if(skill==null) {
+            if (skill == null) {
                 binding.headerLogoBg.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        inited=true;
+                        inited = true;
                     }
-                },1000);
+                }, 1000);
                 skill = res.getData().getDetail();
                 headBinding.setSkill(skill);
                 binding.setSkill(skill);
@@ -325,9 +332,9 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 //                    list.add(item);
 //                }
 //            }
-            adapter.reload(list,page!=1);
+            adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
-        }else{
+        } else {
             res.showMessage(this);
         }
     }
@@ -354,21 +361,21 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void onClick(View v) {
-        if(v==binding.headerLogo || v==binding.headerLogoBg){
+        if (v == binding.headerLogo || v == binding.headerLogoBg) {
             Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
             Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
             String chatLoginName = skill.getChatLoginName();
-            if(robotMap.containsKey(chatLoginName)) {
+            if (robotMap.containsKey(chatLoginName)) {
                 intent.putExtra("userId", chatLoginName);
                 startActivity(intent);
-            }else{
-                RobotUser robot=new RobotUser();
+            } else {
+                RobotUser robot = new RobotUser();
                 robot.setId(skill.getUid() + "");
                 robot.setUsername(chatLoginName);
                 robot.setNick(skill.getNickname());
                 robot.setAvatar(skill.getAvatar());
 
-                maimeng.yodian.app.client.android.chat.domain.User user=new maimeng.yodian.app.client.android.chat.domain.User();
+                maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
                 user.setId(skill.getUid() + "");
                 user.setUsername(chatLoginName);
                 user.setNick(skill.getNickname());
@@ -389,15 +396,15 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void onDelete(RmarkListAdapter.ViewHolder holder) {
-            service.delete_rmark(holder.getBinding().getRmark().getScid(),new ToastCallback(this){
-                @Override
-                public void success(ToastResponse res, Response response) {
-                    super.success(res, response);
-                    if(res.isSuccess()){
-                        adapter.notifyDataSetChanged();
-                    }
+        service.delete_rmark(holder.getBinding().getRmark().getScid(), new ToastCallback(this) {
+            @Override
+            public void success(ToastResponse res, Response response) {
+                super.success(res, response);
+                if (res.isSuccess()) {
+                    adapter.notifyDataSetChanged();
                 }
-            });
+            }
+        });
     }
 
     @Override
