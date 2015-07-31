@@ -13,8 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.adapter;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -31,9 +29,12 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.VoiceMessageBody;
+import com.easemob.util.EMLog;
+
+import java.io.File;
+
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
-import com.easemob.util.EMLog;
 
 public class VoicePlayClickListener implements View.OnClickListener {
 	private static final String TAG = "VoicePlayClickListener";

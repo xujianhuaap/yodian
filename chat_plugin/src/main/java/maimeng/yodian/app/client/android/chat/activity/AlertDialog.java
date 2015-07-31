@@ -13,8 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.io.File;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -25,10 +23,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.easemob.util.ImageUtils;
+
+import java.io.File;
+
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.task.DownloadImageTask;
 import maimeng.yodian.app.client.android.chat.utils.ImageCache;
-import com.easemob.util.ImageUtils;
 
 public class AlertDialog extends BaseActivity {
 	private TextView mTextView;

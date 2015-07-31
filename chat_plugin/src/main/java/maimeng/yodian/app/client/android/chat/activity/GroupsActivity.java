@@ -13,8 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,14 +30,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.easemob.applib.controller.HXSDKHelper;
-import com.easemob.applib.utils.HXPreferenceUtils;
-import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
+import com.easemob.util.EMLog;
+
+import java.util.List;
+
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.adapter.GroupAdapter;
-import com.easemob.exceptions.EaseMobException;
-import com.easemob.util.EMLog;
 
 public class GroupsActivity extends BaseActivity {
 	public static final String TAG = "GroupsActivity";

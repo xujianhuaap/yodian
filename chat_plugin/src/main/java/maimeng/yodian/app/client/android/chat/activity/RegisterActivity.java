@@ -22,9 +22,10 @@ import android.widget.Toast;
 
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
+
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.R;
-import com.easemob.exceptions.EaseMobException;
 
 /**
  * 注册页

@@ -11,13 +11,6 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -51,11 +44,19 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.easemob.util.EMLog;
+import com.easemob.util.PathUtil;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.chat.video.util.Utils;
-import com.easemob.util.EMLog;
-import com.easemob.util.PathUtil;
 
 public class RecorderVideoActivity extends BaseActivity implements
 		OnClickListener, SurfaceHolder.Callback, OnErrorListener,

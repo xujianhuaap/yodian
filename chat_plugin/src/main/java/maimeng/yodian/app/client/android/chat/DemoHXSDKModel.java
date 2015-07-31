@@ -13,12 +13,12 @@
  */
 package maimeng.yodian.app.client.android.chat;
 
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 
 import com.easemob.applib.model.DefaultHXSDKModel;
+
+import java.util.Map;
+
 import maimeng.yodian.app.client.android.chat.db.DemoDBManager;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;

@@ -20,10 +20,11 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.easemob.util.ImageUtils;
+
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.utils.ImageCache;
 import maimeng.yodian.app.client.android.chat.widget.photoview.PhotoView;
-import com.easemob.util.ImageUtils;
 
 public class LoadLocalBigImgTask extends AsyncTask<Void, Void, Bitmap> {
 

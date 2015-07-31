@@ -13,11 +13,10 @@
  */
 package maimeng.yodian.app.client.android.chat.db;
 
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 
+import java.util.List;
+import java.util.Map;
 
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;

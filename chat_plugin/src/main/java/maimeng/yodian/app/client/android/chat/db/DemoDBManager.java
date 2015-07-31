@@ -1,10 +1,5 @@
 package maimeng.yodian.app.client.android.chat.db;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,13 +7,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.easemob.util.HanziToPinyin;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import maimeng.yodian.app.client.android.chat.BuildConfig;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage.InviteMesageStatus;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import com.easemob.util.HanziToPinyin;
 
 public class DemoDBManager {
     static private DemoDBManager dbMgr = new DemoDBManager();

@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.easemob.chat.EMVideoCallHelper;
+
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 
 public class CameraHelper implements PreviewCallback {

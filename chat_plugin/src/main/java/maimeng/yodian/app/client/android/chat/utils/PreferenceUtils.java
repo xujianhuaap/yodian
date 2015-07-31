@@ -13,10 +13,9 @@
  */
 package maimeng.yodian.app.client.android.chat.utils;
 
-import com.easemob.applib.utils.HXPreferenceUtils;
-
 import android.content.Context;
-import android.content.SharedPreferences;
+
+import com.easemob.applib.utils.HXPreferenceUtils;
 
 /**
  * 

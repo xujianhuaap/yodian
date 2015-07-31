@@ -16,10 +16,6 @@
 
 package maimeng.yodian.app.client.android.chat.video.util;
 
-import java.lang.ref.WeakReference;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -32,6 +28,10 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.ImageView;
+
+import java.lang.ref.WeakReference;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import maimeng.yodian.app.client.android.chat.BuildConfig;
 

@@ -1,7 +1,5 @@
 package maimeng.yodian.app.client.android.chat.video.util;
 
-import java.io.FileDescriptor;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,6 +9,8 @@ import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.util.Log;
+
+import java.io.FileDescriptor;
 
 import maimeng.yodian.app.client.android.chat.BuildConfig;
 

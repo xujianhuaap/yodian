@@ -13,10 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -33,15 +29,18 @@ import android.widget.ProgressBar;
 
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
-import maimeng.yodian.app.client.android.chat.R;
-import maimeng.yodian.app.client.android.chat.task.LoadLocalBigImgTask;
-import maimeng.yodian.app.client.android.chat.utils.ImageCache;
-import maimeng.yodian.app.client.android.chat.widget.photoview.PhotoView;
 import com.easemob.util.EMLog;
 import com.easemob.util.ImageUtils;
 import com.easemob.util.PathUtil;
 
-import org.slf4j.IMarkerFactory;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import maimeng.yodian.app.client.android.chat.R;
+import maimeng.yodian.app.client.android.chat.task.LoadLocalBigImgTask;
+import maimeng.yodian.app.client.android.chat.utils.ImageCache;
+import maimeng.yodian.app.client.android.chat.widget.photoview.PhotoView;
 
 /**
  * 下载显示大图

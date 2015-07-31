@@ -13,9 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -41,12 +38,16 @@ import android.widget.Toast;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
-import maimeng.yodian.app.client.android.chat.R;
-import maimeng.yodian.app.client.android.chat.utils.UserUtils;
-import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import maimeng.yodian.app.client.android.chat.R;
+import maimeng.yodian.app.client.android.chat.utils.UserUtils;
+import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 
 public class GroupDetailsActivity extends BaseActivity implements OnClickListener {
 	private static final String TAG = "GroupDetailsActivity";

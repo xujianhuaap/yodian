@@ -13,8 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.task;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,15 +23,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
+import com.easemob.util.ImageUtils;
+
+import java.io.File;
+
 import maimeng.yodian.app.client.android.chat.activity.ShowBigImage;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.chat.utils.ImageCache;
-import com.easemob.util.ImageUtils;
 
 public class LoadImageTask extends AsyncTask<Object, Void, Bitmap> {
 	private ImageView iv = null;

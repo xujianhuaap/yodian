@@ -13,8 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.util.UUID;
-
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.media.SoundPool;
@@ -41,9 +39,12 @@ import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMCallStateChangeListener;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMVideoCallHelper;
+import com.easemob.exceptions.EMServiceNotReadyException;
+
+import java.util.UUID;
+
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.utils.CameraHelper;
-import com.easemob.exceptions.EMServiceNotReadyException;
 
 public class VideoCallActivity extends CallActivity implements OnClickListener {
 

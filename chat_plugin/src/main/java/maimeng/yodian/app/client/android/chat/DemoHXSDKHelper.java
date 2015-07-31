@@ -13,23 +13,13 @@
  */
 package maimeng.yodian.app.client.android.chat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.EMCallBack;
@@ -43,10 +33,19 @@ import com.easemob.applib.model.HXSDKModel;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
-import com.easemob.chat.EMContact;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
+import com.easemob.util.EMLog;
+import com.easemob.util.EasyUtils;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.activity.MainActivity;
 import maimeng.yodian.app.client.android.chat.activity.VideoCallActivity;
@@ -55,9 +54,6 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.receiver.CallReceiver;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
-import com.easemob.exceptions.EaseMobException;
-import com.easemob.util.EMLog;
-import com.easemob.util.EasyUtils;
 
 /**
  * Demo UI HX SDK helper class which subclass HXSDKHelper

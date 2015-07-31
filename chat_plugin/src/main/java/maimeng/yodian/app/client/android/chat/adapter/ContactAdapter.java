@@ -13,9 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,14 +26,15 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
+import com.easemob.util.EMLog;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
-import maimeng.yodian.app.client.android.chat.widget.Sidebar;
-import com.easemob.util.EMLog;
 
 /**
  * 简单的好友Adapter实现

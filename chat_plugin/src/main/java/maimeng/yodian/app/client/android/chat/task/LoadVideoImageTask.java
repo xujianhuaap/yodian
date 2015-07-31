@@ -1,7 +1,5 @@
 package maimeng.yodian.app.client.android.chat.task;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,10 +11,13 @@ import android.widget.ImageView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.VideoMessageBody;
+import com.easemob.util.ImageUtils;
+
+import java.io.File;
+
 import maimeng.yodian.app.client.android.chat.activity.ShowVideoActivity;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.chat.utils.ImageCache;
-import com.easemob.util.ImageUtils;
 
 public class LoadVideoImageTask extends AsyncTask<Object, Void, Bitmap> {
 

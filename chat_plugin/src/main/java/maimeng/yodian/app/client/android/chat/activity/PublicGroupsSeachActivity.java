@@ -11,11 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
-import maimeng.yodian.app.client.android.chat.R;
 import com.easemob.exceptions.EaseMobException;
+
+import maimeng.yodian.app.client.android.chat.R;
 
 public class PublicGroupsSeachActivity extends BaseActivity{
     private RelativeLayout containerLayout;

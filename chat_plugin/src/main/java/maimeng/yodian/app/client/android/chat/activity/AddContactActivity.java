@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -28,8 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.applib.utils.HXPreferenceUtils;
 import com.easemob.chat.EMContactManager;
+
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.R;
 

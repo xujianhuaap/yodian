@@ -1,8 +1,5 @@
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -11,7 +8,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build.VERSION_CODES;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -31,6 +27,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easemob.util.DateUtils;
+import com.easemob.util.EMLog;
+import com.easemob.util.TextFormater;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import maimeng.yodian.app.client.android.chat.BuildConfig;
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.domain.VideoEntity;
@@ -38,9 +41,6 @@ import maimeng.yodian.app.client.android.chat.video.util.ImageCache;
 import maimeng.yodian.app.client.android.chat.video.util.ImageResizer;
 import maimeng.yodian.app.client.android.chat.video.util.Utils;
 import maimeng.yodian.app.client.android.chat.widget.RecyclingImageView;
-import com.easemob.util.DateUtils;
-import com.easemob.util.EMLog;
-import com.easemob.util.TextFormater;
 
 public class ImageGridFragment extends Fragment implements OnItemClickListener {
 

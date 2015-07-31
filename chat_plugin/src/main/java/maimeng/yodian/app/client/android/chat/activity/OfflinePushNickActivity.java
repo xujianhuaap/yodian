@@ -1,8 +1,5 @@
 package maimeng.yodian.app.client.android.chat.activity;
 
-import com.easemob.chat.EMChatManager;
-import maimeng.yodian.app.client.android.chat.R;
-
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.easemob.chat.EMChatManager;
+
+import maimeng.yodian.app.client.android.chat.R;
 
 public class OfflinePushNickActivity extends BaseActivity {
 

@@ -1,26 +1,26 @@
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.util.Collections;
-import java.util.List;
-
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
-import maimeng.yodian.app.client.android.chat.R;
-import com.easemob.exceptions.EaseMobException;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.easemob.chat.EMGroupManager;
+import com.easemob.exceptions.EaseMobException;
+
+import java.util.Collections;
+import java.util.List;
+
+import maimeng.yodian.app.client.android.chat.R;
 
 public class GroupBlacklistActivity extends BaseActivity {
 	private ListView listView;

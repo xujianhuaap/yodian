@@ -13,7 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;

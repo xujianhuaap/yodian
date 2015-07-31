@@ -25,10 +25,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
-import maimeng.yodian.app.client.android.chat.R;
 import com.easemob.exceptions.EaseMobException;
+
+import maimeng.yodian.app.client.android.chat.R;
 
 public class NewGroupActivity extends BaseActivity {
 	private EditText groupNameEditText;

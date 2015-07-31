@@ -13,8 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.utils;
 
-import java.util.List;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
@@ -23,9 +21,12 @@ import android.net.NetworkInfo;
 
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
+import com.easemob.util.EMLog;
+
+import java.util.List;
+
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.R;
-import com.easemob.util.EMLog;
 
 public class CommonUtils {
 	private static final String TAG = "CommonUtils";

@@ -25,10 +25,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.easemob.applib.utils.HXPreferenceUtils;
+import com.easemob.util.DensityUtil;
+
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.adapter.ContactAdapter;
-import com.easemob.util.DensityUtil;
 
 public class Sidebar extends View{
 	private Paint paint;

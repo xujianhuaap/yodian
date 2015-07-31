@@ -13,16 +13,16 @@
  */
 package maimeng.yodian.app.client.android.chat.utils;
 
+import android.content.Context;
+import android.text.Spannable;
+import android.text.Spannable.Factory;
+import android.text.style.ImageSpan;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import android.content.Context;
-import android.text.Spannable;
-import android.text.Spannable.Factory;
-import android.text.style.ImageSpan;
 
 import maimeng.yodian.app.client.android.chat.R;
 

@@ -19,15 +19,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.EditText;
-import android.widget.TextView.BufferType;
 
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
-import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 
 /**
  * 自定义的textview，用来处理复制粘贴的消息

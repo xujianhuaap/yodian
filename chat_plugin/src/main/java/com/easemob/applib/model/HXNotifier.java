@@ -11,10 +11,6 @@
  */
 package com.easemob.applib.model;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -34,6 +30,10 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.EMLog;
 import com.easemob.util.EasyUtils;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * 新消息提醒class

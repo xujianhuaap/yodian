@@ -13,18 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.adapter;
 
-import java.io.File;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -61,7 +49,6 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
-import com.easemob.chat.EMMessage.Direct;
 import com.easemob.chat.EMMessage.Type;
 import com.easemob.chat.FileMessageBody;
 import com.easemob.chat.ImageMessageBody;
@@ -70,6 +57,24 @@ import com.easemob.chat.NormalFileMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
+import com.easemob.exceptions.EaseMobException;
+import com.easemob.util.DensityUtil;
+import com.easemob.util.EMLog;
+import com.easemob.util.FileUtils;
+import com.easemob.util.LatLng;
+import com.easemob.util.TextFormater;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.File;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import maimeng.yodian.app.client.android.chat.BuildConfig;
 import maimeng.yodian.app.client.android.chat.Constant;
@@ -89,12 +94,6 @@ import maimeng.yodian.app.client.android.chat.utils.ImageCache;
 import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
-import com.easemob.exceptions.EaseMobException;
-import com.easemob.util.DensityUtil;
-import com.easemob.util.EMLog;
-import com.easemob.util.FileUtils;
-import com.easemob.util.LatLng;
-import com.easemob.util.TextFormater;
 
 public class MessageAdapter extends BaseAdapter{
 

@@ -13,8 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.adapter;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -32,6 +30,9 @@ import android.widget.Toast;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+
+import java.util.List;
+
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.db.InviteMessgeDao;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage;

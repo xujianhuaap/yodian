@@ -1,12 +1,12 @@
 package maimeng.yodian.app.client.android.chat.activity;
 
-import maimeng.yodian.app.client.android.chat.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import maimeng.yodian.app.client.android.chat.R;
 
 public class EditActivity extends BaseActivity{
 	private EditText editText;

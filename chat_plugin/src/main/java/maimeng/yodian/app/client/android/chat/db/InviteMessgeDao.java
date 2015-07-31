@@ -13,10 +13,10 @@
  */
 package maimeng.yodian.app.client.android.chat.db;
 
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
+
+import java.util.List;
 
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage;
 

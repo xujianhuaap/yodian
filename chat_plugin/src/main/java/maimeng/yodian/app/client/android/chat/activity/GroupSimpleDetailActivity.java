@@ -26,8 +26,9 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
-import maimeng.yodian.app.client.android.chat.R;
 import com.easemob.exceptions.EaseMobException;
+
+import maimeng.yodian.app.client.android.chat.R;
 
 public class GroupSimpleDetailActivity extends BaseActivity {
 	private Button btn_add_group;

@@ -13,13 +13,13 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.easemob.chat.EMMessage;
+
 import maimeng.yodian.app.client.android.chat.R;
 
 public class ContextMenu extends BaseActivity {

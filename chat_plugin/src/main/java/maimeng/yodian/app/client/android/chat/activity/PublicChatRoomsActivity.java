@@ -14,27 +14,17 @@
 
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -45,11 +35,12 @@ import com.easemob.EMChatRoomChangeListener;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatRoom;
 import com.easemob.chat.EMCursorResult;
-import com.easemob.chat.EMGroupInfo;
-import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.chat.R;
 import com.easemob.exceptions.EaseMobException;
-import com.easemob.util.NetUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import maimeng.yodian.app.client.android.chat.R;
 
 public class PublicChatRoomsActivity extends BaseActivity {
 	private ProgressBar pb;

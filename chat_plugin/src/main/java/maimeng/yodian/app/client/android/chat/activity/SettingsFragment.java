@@ -30,12 +30,11 @@ import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.applib.controller.HXSDKHelper;
-import com.easemob.applib.model.HXSDKModel;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
+
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKModel;
 import maimeng.yodian.app.client.android.chat.R;
 

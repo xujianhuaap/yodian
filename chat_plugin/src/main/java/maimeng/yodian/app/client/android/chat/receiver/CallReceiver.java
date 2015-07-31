@@ -18,10 +18,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.easemob.util.EMLog;
+
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.VideoCallActivity;
 import maimeng.yodian.app.client.android.chat.activity.VoiceCallActivity;
-import com.easemob.util.EMLog;
 
 public class CallReceiver extends BroadcastReceiver{
 

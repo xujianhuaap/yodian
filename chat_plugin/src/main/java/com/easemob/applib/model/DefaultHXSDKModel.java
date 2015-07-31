@@ -17,16 +17,17 @@ package com.easemob.applib.model;
  * UI Demo HX Model implementation
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.easemob.applib.utils.HXPreferenceUtils;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.easemob.applib.utils.HXPreferenceUtils;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 /**
  * HuanXin default SDK Model implementation

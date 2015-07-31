@@ -13,12 +13,13 @@
  */
 package maimeng.yodian.app.client.android.chat;
 
-import java.util.Map;
-
 import android.app.Application;
 import android.content.Context;
 
 import com.easemob.EMCallBack;
+
+import java.util.Map;
+
 import maimeng.yodian.app.client.android.chat.domain.User;
 
 public class DemoApplication extends Application {

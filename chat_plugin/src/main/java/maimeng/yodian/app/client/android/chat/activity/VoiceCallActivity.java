@@ -14,8 +14,6 @@
 
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.util.UUID;
-
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.media.SoundPool;
@@ -38,8 +36,11 @@ import android.widget.Toast;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMCallStateChangeListener;
 import com.easemob.chat.EMChatManager;
-import maimeng.yodian.app.client.android.chat.R;
 import com.easemob.exceptions.EMServiceNotReadyException;
+
+import java.util.UUID;
+
+import maimeng.yodian.app.client.android.chat.R;
 
 /**
  * 语音通话页面

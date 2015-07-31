@@ -3,10 +3,11 @@ package maimeng.yodian.app.client.android.chat.utils;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.R;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import com.squareup.picasso.Picasso;
 
 public class UserUtils {
     /**

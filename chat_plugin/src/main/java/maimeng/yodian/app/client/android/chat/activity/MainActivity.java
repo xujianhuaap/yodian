@@ -13,12 +13,6 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,6 +49,15 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
 import com.easemob.chat.TextMessageBody;
+import com.easemob.util.EMLog;
+import com.easemob.util.HanziToPinyin;
+import com.easemob.util.NetUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import maimeng.yodian.app.client.android.chat.AsyncContactService;
 import maimeng.yodian.app.client.android.chat.Constant;
@@ -67,9 +70,6 @@ import maimeng.yodian.app.client.android.chat.domain.InviteMessage;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage.InviteMesageStatus;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
-import com.easemob.util.EMLog;
-import com.easemob.util.HanziToPinyin;
-import com.easemob.util.NetUtils;
 
 public class MainActivity extends BaseActivity implements EMEventListener {
 

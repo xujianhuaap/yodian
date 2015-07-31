@@ -13,10 +13,7 @@
  */
 package maimeng.yodian.app.client.android.chat.adapter;
 
-import java.util.List;
-
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -30,6 +27,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easemob.chat.EMGroup;
+
+import java.util.List;
+
 import maimeng.yodian.app.client.android.chat.R;
 
 public class GroupAdapter extends ArrayAdapter<EMGroup> {
