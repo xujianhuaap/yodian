@@ -16,8 +16,6 @@ import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.http.ClientStack;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
@@ -59,6 +57,7 @@ public class Network {
         screenHeight =app.getResources().getDisplayMetrics().heightPixels;
         loader=Picasso.with(app);
         loader.setLoggingEnabled(BuildConfig.LOG_DEBUG);
+        loader.setIndicatorsEnabled(BuildConfig.DEBUG);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(TypeData.class, new GsonConverter.TypeDataAdapter());
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Date.class, new GsonConverter.DateAdapter());
@@ -101,9 +100,8 @@ public class Network {
             public void run() {
                 super.run();
                 try {
-                    Picasso with = Picasso.with(context);
-                    with.setLoggingEnabled(BuildConfig.LOG_DEBUG);
-                    bitmaps[0]= with.load(uri).get();
+                    Picasso loader = getOne().loader;
+                    bitmaps[0]= loader.load(uri).get();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }finally {
@@ -128,7 +126,9 @@ public class Network {
 
     }
     public static void image(Context context,String uri,int placeHolderDrawable,int errorDrawable,Target target){
-        RequestCreator load = getOne().loader.load(uri);
+        Network one = getOne();
+        RequestCreator load = one.loader.load(uri);
+        load.resize(one.screenWidth, one.screenHeight);
         if(placeHolderDrawable!=-1)load.placeholder(placeHolderDrawable);
         if(errorDrawable!=-1)load.error(errorDrawable);
         load.into(target);
@@ -146,9 +146,10 @@ public class Network {
     public static void image(ImageView iv,String url,Drawable placeHolderDrawable,Drawable errorDrawable){
         Network one = getOne();
         RequestCreator load = one.loader.load(url);
-        load.resize(one.screenWidth, one.screenHeight);
+        load.tag(iv.getContext());
         if(placeHolderDrawable!=null)load.placeholder(placeHolderDrawable);
         if(errorDrawable!=null)load.error(errorDrawable);
+        load.fit();
         load.into(iv);
     }
     public static void image(ImageView iv,String url,int placeHolderDrawable){
