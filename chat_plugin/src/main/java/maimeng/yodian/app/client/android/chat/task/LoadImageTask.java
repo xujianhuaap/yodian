@@ -20,6 +20,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -100,7 +103,8 @@ public class LoadImageTask extends AsyncTask<Object, Void, Bitmap> {
 								e.printStackTrace();
 							}
 						}
-						activity.startActivity(intent);
+						Bundle options= ActivityOptionsCompat.makeSceneTransitionAnimation(activity, iv, "img").toBundle();
+						ActivityCompat.startActivity(activity, intent, options);
 					}
 				}
 			});

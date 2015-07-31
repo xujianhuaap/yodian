@@ -33,7 +33,10 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -1459,7 +1462,8 @@ public class MessageAdapter extends BaseAdapter{
 							e.printStackTrace();
 						}
 					}
-					activity.startActivity(intent);
+					Bundle options= ActivityOptionsCompat.makeSceneTransitionAnimation(activity,iv,"img").toBundle();
+					ActivityCompat.startActivity(activity,intent,options);
 				}
 			});
 			return true;

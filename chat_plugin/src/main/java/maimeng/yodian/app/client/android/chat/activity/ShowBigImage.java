@@ -23,6 +23,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -38,6 +40,8 @@ import maimeng.yodian.app.client.android.chat.widget.photoview.PhotoView;
 import com.easemob.util.EMLog;
 import com.easemob.util.ImageUtils;
 import com.easemob.util.PathUtil;
+
+import org.slf4j.IMarkerFactory;
 
 /**
  * 下载显示大图
@@ -56,10 +60,11 @@ public class ShowBigImage extends BaseActivity {
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.activity_show_big_image);
 		super.onCreate(savedInstanceState);
-
+		setContentView(R.layout.activity_show_big_image);
+		setTitle("看图");
 		image = (PhotoView) findViewById(R.id.image);
+		ViewCompat.setTransitionName(image,"img");
 		loadLocalPb = (ProgressBar) findViewById(R.id.pb_load_local);
 		default_res = getIntent().getIntExtra("default_image", R.drawable.default_avatar);
 		Uri uri = getIntent().getParcelableExtra("uri");
@@ -196,6 +201,6 @@ public class ShowBigImage extends BaseActivity {
 	public void onBackPressed() {
 		if (isDownloaded)
 			setResult(RESULT_OK);
-		finish();
+		ActivityCompat.finishAfterTransition(this);
 	}
 }
