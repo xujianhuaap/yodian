@@ -76,10 +76,6 @@ import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
  */
 public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler, AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>, AbstractAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener, RmarkListAdapter.ActionListener {
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
-    @Bind(R.id.recyclerView)
-    ListView mListView;
-    @Bind(R.id.refresh_layout)
-    PtrFrameLayout mRefreshLayout;
     private SkillService service;
     private long sid;
     private int page = 1;
@@ -119,7 +115,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.skill_detail_head_height);
         mMinHeaderTranslation = -mHeaderHeight + getTitleBarHeight();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
-        headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, mListView, false);
         ViewCompat.setTransitionName(binding.btnBack, "back");
 //        ViewCompat.setTransitionName(headBinding.pic, "pic");
 //        ViewCompat.setTransitionName(headBinding.userNickname, "nick");
@@ -133,14 +128,15 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         binding.headerLogoBg.setOnClickListener(this);
         binding.headerLogo.setOnClickListener(this);
         ButterKnife.bind(this);
+        headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, binding.recyclerView, false);
         mPlaceHolderView = headBinding.getRoot();
-        mListView.addHeaderView(mPlaceHolderView);
+        binding.recyclerView.addHeaderView(mPlaceHolderView);
         adapter = new RmarkListAdapter(this, this);
-        mRefreshLayout.setPtrHandler(this);
+        binding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this);
-        mRefreshLayout.addPtrUIHandler(header);
-        mRefreshLayout.setHeaderView(header);
-        mRefreshLayout.addPtrUIHandler(new PtrUIHandler() {
+        binding.refreshLayout.addPtrUIHandler(header);
+        binding.refreshLayout.setHeaderView(header);
+        binding.refreshLayout.addPtrUIHandler(new PtrUIHandler() {
             @Override
             public void onUIReset(PtrFrameLayout ptrFrameLayout) {
                 LogUtil.i("mRefreshLayout", "onUIReset");
@@ -177,7 +173,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 sync();
             }
         };
-        mListView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(adapter);
 
         //mListView.setOnScrollListener();
 
@@ -221,7 +217,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         Skill skill = getIntent().getParcelableExtra("skill");
         sid = skill.getId();
         isMe = skill.getUid() == user.getUid();
-        mRefreshLayout.autoRefresh();
+        binding.refreshLayout.autoRefresh();
     }
 
     private void setTextColor(TextView tv, int startColor, int endColor, float ratio) {
@@ -266,12 +262,12 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     }
 
     public int getScrollY() {
-        View c = mListView.getChildAt(0);
+        View c = binding.recyclerView.getChildAt(0);
         if (c == null) {
             return 0;
         }
 
-        int firstVisiblePosition = mListView.getFirstVisiblePosition();
+        int firstVisiblePosition = binding.recyclerView.getFirstVisiblePosition();
         int top = c.getTop();
 
         int headerHeight = 0;
@@ -346,7 +342,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void end() {
-        mRefreshLayout.refreshComplete();
+        binding.refreshLayout.refreshComplete();
     }
 
     @Override
