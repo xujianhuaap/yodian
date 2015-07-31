@@ -3,10 +3,16 @@ package maimeng.yodian.app.client.android.adapter;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.SkillTemplateItemBinding;
@@ -63,15 +69,41 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry,SkillTemplat
         public SkillTemplate getTemplate() {
             return template;
         }
-
+        private Target target;
         public ItemViewHolder(SkillTemplateItemBinding binding) {
             super(binding.getRoot());
             this.binding=binding;
+            target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    ItemViewHolder.this.binding.skillImg.setImageBitmap(bitmap);
+                    new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
+                        @Override
+                        public void onGenerated(Palette palette) {
+                            Palette.Swatch swatch2 = palette.getMutedSwatch();
+                            if (swatch2 != null) {
+                                ItemViewHolder.this.binding.skillName.setTextColor(swatch2.getBodyTextColor());
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            };
+
         }
         public void bind(SkillTemplate template){
             binding.setTemplate(template);
             this.template=template;
-            Network.image(binding.skillImg,template.getPic());
+            Network.image(itemView.getContext(), template.getPic(), target);
         }
     }
      public abstract class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

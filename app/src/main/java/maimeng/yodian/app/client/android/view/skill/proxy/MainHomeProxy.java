@@ -120,6 +120,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         appBar.addOnOffsetChangedListener(this);
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header= PullHeadView.create(mActivity);
+        header.setTextColor(0xffffff);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
         LinearLayoutManager layout = new LinearLayoutManager(mActivity);

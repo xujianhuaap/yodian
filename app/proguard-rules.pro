@@ -171,3 +171,6 @@
 -keep class org.bitlet.** {*;}
 -keep class org.slf4j.** {*;}
 -keep class ch.imvs.** {*;}
+
+
+#-libraryjars libs/easemobchat_2.2.1.jar
