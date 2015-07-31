@@ -60,6 +60,7 @@ import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
@@ -92,6 +93,8 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private ViewHeaderPlaceholderBinding headBinding;
     private ActivitySkillDetailsBinding binding;
     private Skill skill;
+    private User user;
+    private boolean isMe;
 
     public int getTitleBarHeight() {
         if (mActionBarHeight != 0) {
@@ -107,6 +110,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user=User.read(this);
         service = Network.getService(SkillService.class);
 //        mSmoothInterpolator = new AccelerateDecelerateInterpolator();
         mSmoothInterpolator = new LinearInterpolator();
@@ -210,7 +214,9 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
             }
         });
-        sid=getIntent().getLongExtra("sid",0);
+        Skill skill =  getIntent().getParcelableExtra("skill");
+        sid= skill.getId();
+        isMe=skill.getUid()==user.getUid();
         mRefreshLayout.autoRefresh();
     }
 
@@ -313,15 +319,14 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.price.setText(text);
                 binding.titlePrice.setText(text);
             }
-            if(list.size()>0){
-                Rmark item = list.get(0);
-                for(int i=0;i<=100;i++){
-                    list.add(item);
-                }
-                adapter.reload(list,page!=1);
-                adapter.notifyDataSetChanged();
-            }
-
+//            if(list.size()>0){
+//                Rmark item = list.get(0);
+//                for(int i=0;i<=100;i++){
+//                    list.add(item);
+//                }
+//            }
+            adapter.reload(list,page!=1);
+            adapter.notifyDataSetChanged();
         }else{
             res.showMessage(this);
         }

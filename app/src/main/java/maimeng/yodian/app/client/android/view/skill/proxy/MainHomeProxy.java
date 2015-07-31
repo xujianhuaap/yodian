@@ -256,7 +256,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
             public void run() {
                 Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", holder.getData().getId()), options.toBundle());
+                ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", holder.getData()), options.toBundle());
             }
         }, 200);
 
