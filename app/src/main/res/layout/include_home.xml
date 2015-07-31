@@ -57,16 +57,38 @@
                 android:src="@drawable/ic_settings" />
         </FrameLayout>
 
-
-        <TextView
-            android:id="@+id/btn_createskill"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?colorPrimaryDark"
-            android:gravity="center"
+            android:orientation="horizontal"
             android:padding="10dp"
-            android:text="添加新技能"
-            android:textSize="20sp" />
+            android:background="?colorPrimaryDark"
+            android:layout_height="?attr/actionBarSize">
+            <TextView
+                android:id="@+id/btn_createskill"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="添加新技能"
+                android:textSize="16sp" />
+            <View android:layout_width="1px" android:layout_height="match_parent" android:background="@color/div_line"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="我的订单"
+                android:textSize="16sp" />
+            <View android:layout_width="1px" android:layout_height="match_parent" android:background="@color/div_line"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="我的余额"
+                android:textSize="16sp" />
+        </LinearLayout>
+
 
 
     </android.support.design.widget.AppBarLayout>
