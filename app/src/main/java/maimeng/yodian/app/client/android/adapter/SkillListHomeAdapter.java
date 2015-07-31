@@ -62,8 +62,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
         public ViewHolder(SkillListItemHomeBinding binding) {
             super(binding.getRoot());
             swipeItemLayout=(SwipeItemLayout)itemView.findViewById(R.id.swipe_item_layout);
-            swipeItemLayout.setOnClickListener(this);
-            itemView.setOnClickListener(this);
+            binding.root.setOnClickListener(this);
             this.binding=binding;
             binding.btnEdit.setOnClickListener(this);
             binding.btnContect.setOnClickListener(this);
@@ -74,6 +73,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
             user= User.read(swipeItemLayout.getContext());
         }
         public void bind(Skill item){
+            closeWithAnim();
             this.data =item;
             binding.setSkill(item);
             binding.executePendingBindings();
@@ -95,7 +95,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
         }
         @Override
         public void onClick(View v) {
-            if(v==itemView){
+            if(v==binding.root){
                 mViewHolderClickListener.onItemClick(this,getLayoutPosition());
             }else if(v==binding.btnEdit){
                 if(swipeItemLayout.isClosed()){

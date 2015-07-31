@@ -21,11 +21,11 @@
         app:swipeDirection="left">
 
         <FrameLayout
+            android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
->
-
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,10 +136,19 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/btn_review"
+                    android:layout_width="match_parent"
+                    android:text="预览"
+                    android:background="?attr/colorPrimaryDark"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content" />
+                <TextView
                     android:id="@+id/btn_update"
                     android:layout_width="match_parent"
                     android:text="修改"
-                    android:background="?attr/colorPrimaryDark"
+                    android:background="?attr/colorPrimary"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:layout_gravity="center"
@@ -148,7 +157,7 @@
                     android:id="@+id/btn_change_state"
                     android:layout_width="match_parent"
                     android:text="@{skill.status==0?@string/status_xiajia:@string/status_shangjia}"
-                    android:background="?attr/colorPrimary"
+                    android:background="@color/colorPrimaryDark2"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -157,7 +166,7 @@
                     android:id="@+id/btn_delete"
                     android:layout_width="match_parent"
                     android:text="删除"
-                    android:background="#00000000"
+                    android:background="#5f5f5f"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:layout_gravity="center"

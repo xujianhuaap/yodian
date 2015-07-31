@@ -3,6 +3,7 @@
     <color name="colorPrimary">#FFC140</color>
     <color name="colorPrimaryGreen">#00ff00</color>
     <color name="colorPrimaryDark">#FFA739</color>
+    <color name="colorPrimaryDark2">#ffb544</color>
     <color name="div_line">#77000000</color>
     <color name="float_colorNormal">#3000</color>
     <color name="float_colorPressed">@color/colorPrimaryDark</color>
