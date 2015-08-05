@@ -58,6 +58,7 @@ import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
+import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
 /**
  * Created by android on 2015/7/22.
@@ -153,7 +154,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.header.setTranslationY(posY);
             }
         });
-        LinearLayoutManager layout = new LinearLayoutManager(this);
+        ListLayoutManager layout = new ListLayoutManager(this);
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
             @Override
             public void onLoadMore() {

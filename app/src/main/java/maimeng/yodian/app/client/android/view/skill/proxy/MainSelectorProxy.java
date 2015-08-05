@@ -45,10 +45,12 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
+import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
 /**
  * Created by android on 15-7-13.
@@ -79,7 +81,7 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
         StoreHouseHeader header = PullHeadView.create(mActivity);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
-        LinearLayoutManager layout = new LinearLayoutManager(mActivity);
+        ListLayoutManager layout = new ListLayoutManager(mActivity);
         mRecyclerView.setLayoutManager(layout);
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
             @Override

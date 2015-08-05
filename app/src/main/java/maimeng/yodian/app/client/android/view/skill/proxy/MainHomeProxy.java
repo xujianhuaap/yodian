@@ -40,6 +40,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
@@ -49,12 +50,13 @@ import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
+import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
     private final CoordinatorLayout mView;
     private final MainTabActivity mActivity;
@@ -67,23 +69,24 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     private final View mBtnCreateSkill;
     private final View mBtnSettings;
     private final View mBtnChat;
-    private boolean inited=false;
+    private boolean inited = false;
     private final SkillListHomeAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private User user;
-    private int page=1;
+    private int page = 1;
     private FloatingActionButton mFloatButton;
     private int mEditPostion;
     private final Handler handler;
-    public MainHomeProxy(MainTabActivity activity, View view){
-        this.mView=(CoordinatorLayout)view;
-        handler=new Handler(Looper.getMainLooper());
-        this.mActivity=activity;
+
+    public MainHomeProxy(MainTabActivity activity, View view) {
+        this.mView = (CoordinatorLayout) view;
+        handler = new Handler(Looper.getMainLooper());
+        this.mActivity = activity;
         view.setVisibility(View.GONE);
-        service= Network.getService(SkillService.class);
-        appBar=(AppBarLayout)view.findViewById(R.id.appBarLayout);
-        mBtnSettings=view.findViewById(R.id.btn_settings);
-        mBtnChat=view.findViewById(R.id.btn_chat);
+        service = Network.getService(SkillService.class);
+        appBar = (AppBarLayout) view.findViewById(R.id.appBarLayout);
+        mBtnSettings = view.findViewById(R.id.btn_settings);
+        mBtnChat = view.findViewById(R.id.btn_chat);
         mBtnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,43 +99,43 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
         mBtnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Pair<View,String> back=Pair.create((View)mFloatButton,"back");
-                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                ActivityCompat.startActivity(mActivity,new Intent(mActivity, SettingsActivity.class),options.toBundle());
+                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                ActivityCompat.startActivity(mActivity, new Intent(mActivity, SettingsActivity.class), options.toBundle());
             }
         });
-        mRefreshLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
-        mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
-        mUserAvatar=(RoundImageView)view.findViewById(R.id.user_avatar);
+        mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        mUserAvatar = (RoundImageView) view.findViewById(R.id.user_avatar);
         mUserAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Pair<View,String> avatar=Pair.create(v,"avatar");
-                Pair<View,String> back=Pair.create((View)mFloatButton,"back");
-                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
-                ActivityCompat.startActivityForResult(mActivity,new Intent(mActivity, SettingUserInfo.class),REQUEST_UPDATEINFO,options.toBundle());
+                Pair<View, String> avatar = Pair.create(v, "avatar");
+                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
+                ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
             }
         });
-        mUserNickname=(TextView)view.findViewById(R.id.user_nickname);
-        mBtnCreateSkill=view.findViewById(R.id.btn_createskill);
+        mUserNickname = (TextView) view.findViewById(R.id.user_nickname);
+        mBtnCreateSkill = view.findViewById(R.id.btn_createskill);
         mBtnCreateSkill.setOnClickListener(this);
         appBar.addOnOffsetChangedListener(this);
         mRefreshLayout.setPtrHandler(this);
-        StoreHouseHeader header= PullHeadView.create(mActivity);
+        StoreHouseHeader header = PullHeadView.create(mActivity);
         header.setTextColor(0xffffff);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
-        LinearLayoutManager layout = new LinearLayoutManager(mActivity);
+        ListLayoutManager layout = new ListLayoutManager(mActivity);
         mRecyclerView.setLayoutManager(layout);
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
             @Override
             public void onLoadMore() {
-                page ++;
+                page++;
                 loadData();
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter=new SkillListHomeAdapter(mActivity,this);
+        adapter = new SkillListHomeAdapter(mActivity, this);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -142,37 +145,38 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void reset() {
-        page=1;
+        page = 1;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode==ActivityProxyController.REQUEST_CREATE_SKILL){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ActivityProxyController.REQUEST_CREATE_SKILL) {
                 init();
-            }else if(requestCode==REQUEST_AUTH){
+            } else if (requestCode == REQUEST_AUTH) {
                 init();
-            }else if(requestCode==ActivityProxyController.REQUEST_EDIT_SKILL){
+            } else if (requestCode == ActivityProxyController.REQUEST_EDIT_SKILL) {
                 Skill skill = data.getParcelableExtra("skill");
-                if(mEditPostion!= -1 && skill!=null) {
+                if (mEditPostion != -1 && skill != null) {
                     adapter.getItem(mEditPostion).update(skill);
                     adapter.notifyItemChanged(mEditPostion);
                     mEditPostion = -1;
                 }
-            }else if(requestCode==REQUEST_UPDATEINFO){
-                user= User.read(this.mActivity);
+            } else if (requestCode == REQUEST_UPDATEINFO) {
+                user = User.read(this.mActivity);
                 initUsrInfo();
             }
         }
     }
 
-    public boolean isInited(){
+    public boolean isInited() {
         return this.inited;
     }
+
     @Override
     public void init() {
-        inited=true;
-        user= User.read(this.mActivity);
+        inited = true;
+        user = User.read(this.mActivity);
         initUsrInfo();
         initSkillInfo();
 
@@ -180,7 +184,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     }
 
     private void initSkillInfo() {
-        page=1;
+        page = 1;
         mRefreshLayout.autoRefresh();
     }
 
@@ -195,9 +199,9 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void show(FloatingActionButton button) {
-        this.mFloatButton=button;
+        this.mFloatButton = button;
         button.attachToRecyclerView(mRecyclerView);
-        AlphaAnimation alphaAnimation=new AlphaAnimation(0f,1f);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
         alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -221,7 +225,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void hide(FloatingActionButton button) {
-        AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0f);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
         alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -265,27 +269,27 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
     @Override
     public void onClick(final SkillListHomeAdapter.ViewHolder holder, View clickItem, final int postion) {
         final Skill skill = holder.getData();
-        if(clickItem==holder.getBinding().btnShare){
+        if (clickItem == holder.getBinding().btnShare) {
             Skill data = skill;
-            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data,data.getQrcodeUrl(),data.getUid(), data.getNickname(),""));
-        }else if(clickItem==holder.getBinding().btnUpdate){
-            Intent intent=new Intent(mActivity,CreateOrEditSkillActivity.class);
+            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""));
+        } else if (clickItem == holder.getBinding().btnUpdate) {
+            Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
             intent.putExtra("skill", skill);
             mActivity.startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
-            mEditPostion=postion;
+            mEditPostion = postion;
             holder.closeWithAnim();
-        }else if(clickItem==holder.getBinding().btnDelete){
-            service.delete(skill.getId(),new ToastCallback(mActivity){
+        } else if (clickItem == holder.getBinding().btnDelete) {
+            service.delete(skill.getId(), new ToastCallback(mActivity) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
-                    if(res.isSuccess()){
+                    if (res.isSuccess()) {
                         adapter.remove(postion);
                     }
                 }
             });
-        }else if(clickItem==holder.getBinding().btnChangeState){
-            service.up(skill.getId(), skill.getStatus(), new ToastCallback(mActivity){
+        } else if (clickItem == holder.getBinding().btnChangeState) {
+            service.up(skill.getId(), skill.getStatus(), new ToastCallback(mActivity) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -304,7 +308,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-       reset();
+        reset();
         loadData();
     }
 
@@ -315,13 +319,13 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void success(SkillResponse res, Response response) {
-        if(res.isSuccess()){
+        if (res.isSuccess()) {
             List<Skill> list = res.getData().getList();
-            adapter.reload(list,page!=1);
+            adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
-        }else{
+        } else {
             res.showMessage(mActivity);
-            if(!res.isValidateAuth(mActivity,REQUEST_AUTH)){
+            if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
 //                if(!mActivity.isFinishing()){
 //                    mActivity.finish();
 //                }
@@ -332,7 +336,7 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void failure(HNetError hNetError) {
-        ErrorUtils.checkError(mActivity,hNetError);
+        ErrorUtils.checkError(mActivity, hNetError);
     }
 
     @Override
@@ -342,14 +346,14 @@ public class MainHomeProxy implements ActivityProxy,AbstractAdapter.ViewHolderCl
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        mRefreshLayout.setEnabled(i==0);
+        mRefreshLayout.setEnabled(i == 0);
     }
 
     @Override
     public void onClick(View v) {
-        Pair<View,String> top=Pair.create(v,"top");
-        Pair<View,String> floatbutton=Pair.create((View)mFloatButton,"floatbutton");
-        ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity,top,floatbutton);
-        ActivityCompat.startActivityForResult(mActivity,new Intent(mActivity, SkillTemplateActivity.class),ActivityProxyController.REQUEST_CREATE_SKILL,options.toBundle());
+        Pair<View, String> top = Pair.create(v, "top");
+        Pair<View, String> floatbutton = Pair.create((View) mFloatButton, "floatbutton");
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
+        ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
     }
 }

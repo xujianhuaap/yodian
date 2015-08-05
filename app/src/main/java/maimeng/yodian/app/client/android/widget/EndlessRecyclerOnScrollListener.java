@@ -1,10 +1,6 @@
 package maimeng.yodian.app.client.android.widget;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
-import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * Created by android on 15-7-12.
@@ -17,9 +13,9 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
     int firstVisibleItem, visibleItemCount, totalItemCount;
 
 
-    private LinearLayoutManager mLinearLayoutManager;
+    private ListLayoutManager mLinearLayoutManager;
 
-    public EndlessRecyclerOnScrollListener(LinearLayoutManager linearLayoutManager) {
+    public EndlessRecyclerOnScrollListener(ListLayoutManager linearLayoutManager) {
         this.mLinearLayoutManager = linearLayoutManager;
     }
 
@@ -28,13 +24,12 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         super.onScrolled(recyclerView, dx, dy);
 
 
-
     }
 
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-        if(newState== RecyclerView.SCROLL_STATE_IDLE){
+        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
             visibleItemCount = recyclerView.getChildCount();
             totalItemCount = mLinearLayoutManager.getItemCount();
             firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
@@ -44,7 +39,7 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
                     previousTotal = totalItemCount;
                 }
             }
-            if (mLinearLayoutManager.findFirstCompletelyVisibleItemPosition()!=0 && !loading && (totalItemCount - visibleItemCount)
+            if (mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() != 0 && !loading && (totalItemCount - visibleItemCount)
                     <= (firstVisibleItem + visibleThreshold)) {
                 onLoadMore();
                 loading = true;
