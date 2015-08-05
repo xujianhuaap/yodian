@@ -36,7 +36,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.TypeBitmap;
+import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -247,7 +247,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
             } else if (bitmap == null) {
                 Toast.makeText(this, R.string.avatar_input_empty_message, Toast.LENGTH_SHORT).show();
             } else {
-                service.modifyInfo(text.toString(), new TypeBitmap(bitmap), new Callback<ModifyUserResponse>() {
+                service.modifyInfo(text.toString(), new TypedBitmap.Builder(bitmap).setMaxSize(300).setAutoMatch(getResources()).build(), new Callback<ModifyUserResponse>() {
                     @Override
                     public void start() {
                         dialog = WaitDialog.show(AuthSettingInfoActivity.this);

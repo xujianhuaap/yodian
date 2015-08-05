@@ -33,7 +33,7 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.TypeBitmap;
+import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -180,7 +180,7 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
         }
 
 //                service.modifyInfo(user.getNickname(),user.getWechat(),new TypeBitmap(BitmapUtils.compress(mBitmap,540,540,false)),this);
-        service.modifyInfo(user.getNickname(), user.getWechat(), new TypeBitmap(Bitmap.createScaledBitmap(mBitmap, 540, 540, true)), this);
+        service.modifyInfo(user.getNickname(), user.getWechat(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), this);
     }
 
     @Override

@@ -31,10 +31,11 @@ import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.TypeBitmap;
+import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 
@@ -48,6 +49,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
     private boolean isEdit = false;
+    private WaitDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,7 +193,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             return;
         }
         if (isEdit) {
-            service.update(template.getId(), template.getName(), template.getContent(), new TypeBitmap(mBitmap), template.getPrice(), template.getUnit(), new ToastCallback(this) {
+            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -210,9 +212,22 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                         finish();
                     } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
                 }
+
+                @Override
+                public void start() {
+                    super.start();
+                    dialog = WaitDialog.show(CreateOrEditSkillActivity.this);
+
+                }
+
+                @Override
+                public void end() {
+                    super.end();
+                    if (dialog != null) dialog.dismiss();
+                }
             });
         } else {
-            service.add(template.getName(), template.getContent(), new TypeBitmap(mBitmap), template.getPrice(), template.getUnit(), new ToastCallback(this) {
+            service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -220,6 +235,19 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                         setResult(RESULT_OK);
                         finish();
                     } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
+                }
+
+                @Override
+                public void start() {
+                    super.start();
+                    dialog = WaitDialog.show(CreateOrEditSkillActivity.this);
+
+                }
+
+                @Override
+                public void end() {
+                    super.end();
+                    if (dialog != null) dialog.dismiss();
                 }
             });
         }

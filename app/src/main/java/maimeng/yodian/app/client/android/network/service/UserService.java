@@ -7,7 +7,7 @@ import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.ApiConfig;
-import maimeng.yodian.app.client.android.network.TypeBitmap;
+import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 
 /**
@@ -24,7 +24,7 @@ public interface UserService {
      */
     @Multipart
     @Post(ApiConfig.Api.USER_INFO_UPDATE)
-    void modifyInfo(@Param("nickname") String nickname, @Param("avatar") TypeBitmap avatar, Callback<ModifyUserResponse> callback);
+    void modifyInfo(@Param("nickname") String nickname, @Param("avatar") TypedBitmap avatar, Callback<ModifyUserResponse> callback);
 
     /**
      * 上传头像和昵称
@@ -34,6 +34,6 @@ public interface UserService {
      */
     @Multipart
     @Post(ApiConfig.Api.USER_INFO_UPDATE)
-    void modifyInfo(@Param("nickname") String nickname, @Param("weichat") String wechat, @Param("avatar") TypeBitmap avatar, Callback<ModifyUserResponse> callback);
+    void modifyInfo(@Param("nickname") String nickname, @Param("weichat") String wechat, @Param("avatar") TypedBitmap avatar, Callback<ModifyUserResponse> callback);
 
 }

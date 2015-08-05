@@ -8,33 +8,36 @@ import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.ApiConfig;
-import maimeng.yodian.app.client.android.network.TypeBitmap;
+import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 
 @FormUrlEncoded
-public interface SkillService{
+public interface SkillService {
     /**
      * 某人的技能列表
+     *
      * @param uid
      * @param p
      * @param callback
      */
     @Post(ApiConfig.Api.SKILL_LIST)
-    void list(@Param("uid")long uid,@Param("p")int p,Callback<SkillResponse> callback);
+    void list(@Param("uid") long uid, @Param("p") int p, Callback<SkillResponse> callback);
 
     /**
      * 进选技能列表
+     *
      * @param p
      * @param callback
      */
     @Post(ApiConfig.Api.SKILL_CHOICE)
-    void choose(@Param("p")int p,Callback<SkillResponse> callback);
+    void choose(@Param("p") int p, Callback<SkillResponse> callback);
 
     /**
      * 获取技能模板
+     *
      * @param callback
      */
     @Get(ApiConfig.Api.SKILL_TEMPLATE)
@@ -42,15 +45,17 @@ public interface SkillService{
 
     /**
      * 添加技能
+     *
      * @param name
      * @param callback
      */
     @Multipart
     @Post(ApiConfig.Api.SKILL_ADD)
-    void add(@Param("name")String name,@Param("content")String content,@Param("pic")TypeBitmap pic,@Param("price")String price,@Param("unit")String unit,ToastCallback callback);
+    void add(@Param("name") String name, @Param("content") String content, @Param("pic") TypedBitmap pic, @Param("price") String price, @Param("unit") String unit, ToastCallback callback);
 
     /**
      * 修改技能
+     *
      * @param sid
      * @param name
      * @param content
@@ -61,39 +66,43 @@ public interface SkillService{
      */
     @Multipart
     @Post(ApiConfig.Api.SKILL_UPDATE)
-    void update(@Param("sid")long sid,@Param("name")String name,@Param("content")String content,@Param("pic")TypeBitmap pic,@Param("price")String price,@Param("unit")String unit,ToastCallback callback);
+    void update(@Param("sid") long sid, @Param("name") String name, @Param("content") String content, @Param("pic") TypedBitmap pic, @Param("price") String price, @Param("unit") String unit, ToastCallback callback);
 
 
     /**
-     *  删除技能
+     * 删除技能
+     *
      * @param sid
      * @param callback
      */
     @Post(ApiConfig.Api.SKILL_DELETE)
-    void delete(@Param("sid")long sid,ToastCallback callback);
+    void delete(@Param("sid") long sid, ToastCallback callback);
 
     /**
      * * 上架下架技能
+     *
      * @param sid
-     * @param up 1上架，0下架
+     * @param up       1上架，0下架
      * @param callback
      */
     @Post(ApiConfig.Api.SKILL_UP)
-    void up(@Param("sid")long sid,@Param("up")int up,ToastCallback callback);
+    void up(@Param("sid") long sid, @Param("up") int up, ToastCallback callback);
 
     /**
      * 技能日记列表
+     *
      * @param sid
      * @param callback
      */
     @Post(ApiConfig.Api.RMARK_LIST)
-    void rmark_list(@Param("sid")long sid,@Param("p")int page,Callback<RmarkListResponse> callback);
+    void rmark_list(@Param("sid") long sid, @Param("p") int page, Callback<RmarkListResponse> callback);
 
     /**
-     *  删除日记
+     * 删除日记
+     *
      * @param id
      * @param callback
      */
     @Post(ApiConfig.Api.RMARK_DELETE)
-    void delete_rmark(@Param("scid")long id,ToastCallback callback);
+    void delete_rmark(@Param("scid") long id, ToastCallback callback);
 }
