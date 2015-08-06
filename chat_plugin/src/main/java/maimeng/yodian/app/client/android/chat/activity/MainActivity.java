@@ -113,13 +113,13 @@ public class MainActivity extends BaseActivity implements EMEventListener {
             // 三个fragment里加的判断同理
             DemoApplication.getInstance().logout(null);
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+//            startActivity(new Intent(this, LoginActivity.class));
             return;
         } else if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false)) {
             // 防止被T后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+//            startActivity(new Intent(this, LoginActivity.class));
             return;
         }
         setContentView(R.layout.activity_chat_main);
@@ -543,7 +543,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                     String st10 = getResources().getString(R.string.have_you_removed);
                     if (ChatActivity.activityInstance != null
                             && usernameList.contains(ChatActivity.activityInstance.getToChatUsername())) {
-                        Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, 1)
+                        Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_LONG)
                                 .show();
                         ChatActivity.activityInstance.finish();
                     }
@@ -945,7 +945,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                         dialog.dismiss();
                         conflictBuilder = null;
                         finish();
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
                 });
                 conflictBuilder.setCancelable(false);
@@ -980,7 +980,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                         dialog.dismiss();
                         accountRemovedBuilder = null;
                         finish();
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
                 });
                 accountRemovedBuilder.setCancelable(false);
@@ -1020,7 +1020,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                             public void run() {
                                 // 重新显示登陆页面
                                 finish();
-                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
                             }
                         });

@@ -342,7 +342,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 						pd.dismiss();
 						// 重新显示登陆页面
 						((MainActivity) getActivity()).finish();
-						startActivity(new Intent(getActivity(), LoginActivity.class));
+//						startActivity(new Intent(getActivity(), LoginActivity.class));
 						
 					}
 				});
