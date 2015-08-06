@@ -168,7 +168,8 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         binding.buttonContainer.startAnimation(animation);
     }
 
-    private void doDone() {
+    private void
+               doDone() {
         binding.invalidateAll();
         final SkillTemplate template = binding.getTemplate();
         if (TextUtils.isEmpty(template.getName())) {

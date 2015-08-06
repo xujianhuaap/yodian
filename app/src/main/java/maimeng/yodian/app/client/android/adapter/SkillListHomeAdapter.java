@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.adapter;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -13,6 +14,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.databinding.SkillListItemHomeBinding;
 import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 
 /**
@@ -70,6 +72,9 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
             binding.btnUpdate.setOnClickListener(this);
+            //create by xu 08-06
+            binding.btnReview.setOnClickListener(this);
+            //end
             user= User.read(swipeItemLayout.getContext());
         }
         public void bind(Skill item){
@@ -103,6 +108,10 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
                 }else{
                     swipeItemLayout.closeWithAnim();
                 }
+            }else if(v==binding.btnReview){
+                //create by xu 08-06
+                SkillPreviewActivity.show(binding.getSkill(),mContext);
+                //end
             }else{
                 mViewHolderClickListener.onClick(this,v,getLayoutPosition());
             }

@@ -51,6 +51,11 @@
             android:name=".view.skill.SkillTemplateActivity"
             android:theme="@style/AppThemeTransparent" />
         <activity android:name=".view.user.SettingUserInfo" />
+        <activity android:name=".view.skill.SkillPreviewActivity"
+            android:theme="@style/AppThemeTransparent"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
         <activity
             android:name=".view.FeedBackActivity"
             android:label="@string/lable_feedback" />

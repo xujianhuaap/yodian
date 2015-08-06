@@ -347,37 +347,39 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     @Override
     public void onClick(View v) {
         if (v == binding.headerLogo || v == binding.headerLogoBg) {
-            Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
-            intent.putExtra("skill", skill);
 
-            Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
-            String chatLoginName = skill.getChatLoginName();
-            if (robotMap.containsKey(chatLoginName)) {
-                intent.putExtra("userId", chatLoginName);
-                startActivity(intent);
-            } else {
-                RobotUser robot = new RobotUser();
-                robot.setId(skill.getUid() + "");
-                robot.setUsername(chatLoginName);
-                robot.setNick(skill.getNickname());
-                robot.setAvatar(skill.getAvatar());
 
-                maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                user.setId(skill.getUid() + "");
-                user.setUsername(chatLoginName);
-                user.setNick(skill.getNickname());
-                user.setAvatar(skill.getAvatar());
-                // 存入内存
-                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
-                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
-                // 存入db
-                UserDao dao = new UserDao(SkillDetailsActivity.this);
-                dao.saveOrUpdate(user);
-                dao.saveOrUpdate(robot);
-                intent.putExtra("userId", chatLoginName);
-                intent.putExtra("userNickname", skill.getNickname());
-                startActivity(intent);
-            }
+//            Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
+//            intent.putExtra("skill", skill);
+//
+//            Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
+//            String chatLoginName = skill.getChatLoginName();
+//            if (robotMap.containsKey(chatLoginName)) {
+//                intent.putExtra("userId", chatLoginName);
+//                startActivity(intent);
+//            } else {
+//                RobotUser robot = new RobotUser();
+//                robot.setId(skill.getUid() + "");
+//                robot.setUsername(chatLoginName);
+//                robot.setNick(skill.getNickname());
+//                robot.setAvatar(skill.getAvatar());
+//
+//                maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
+//                user.setId(skill.getUid() + "");
+//                user.setUsername(chatLoginName);
+//                user.setNick(skill.getNickname());
+//                user.setAvatar(skill.getAvatar());
+//                // 存入内存
+//                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
+//                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
+//                // 存入db
+//                UserDao dao = new UserDao(SkillDetailsActivity.this);
+//                dao.saveOrUpdate(user);
+//                dao.saveOrUpdate(robot);
+//                intent.putExtra("userId", chatLoginName);
+//                intent.putExtra("userNickname", skill.getNickname());
+//                startActivity(intent);
+//            }
         }
     }
 
