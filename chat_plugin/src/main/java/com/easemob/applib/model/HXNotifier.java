@@ -135,7 +135,7 @@ public class HXNotifier {
             sendNotification(message, true);
 
         }
-        
+
         viberateAndPlayTone(message);
     }
     

@@ -47,7 +47,8 @@ public class ChatServiceLoginService extends Service {
 //        EMChatManager.getInstance().login(User.read(this).getChatLoginName(), "hx123456", this);
 
 
-        final String currentUsername = User.read(this).getChatLoginName();
+        final User read = User.read(this);
+        final String currentUsername = read.getChatLoginName();
         final String currentPassword = "hx123456";
         if (TextUtils.isEmpty(currentUsername)) {
             return super.onStartCommand(intent, flags, startId);
@@ -61,6 +62,23 @@ public class ChatServiceLoginService extends Service {
                 DemoApplication.getInstance().setPassword(currentPassword);
 
                 try {
+
+                    UserDao userDao = new UserDao(ChatServiceLoginService.this);
+                    RobotUser robotUser = new RobotUser();
+                    maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
+                    robotUser.setAvatar(read.getAvatar());
+                    robotUser.setId(read.getUid() + "");
+                    robotUser.setUsername(read.getChatLoginName());
+                    robotUser.setNick(read.getNickname());
+
+                    user.setAvatar(read.getAvatar());
+                    user.setId(read.getUid() + "");
+                    user.setUsername(read.getChatLoginName());
+                    user.setNick(read.getNickname());
+                    userDao.saveOrUpdate(robotUser);
+                    userDao.saveOrUpdate(user);
+
+
                     // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                     // ** manually load all local groups and
                     EMGroupManager.getInstance().loadAllGroups();
