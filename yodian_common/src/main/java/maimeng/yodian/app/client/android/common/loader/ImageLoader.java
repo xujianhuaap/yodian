@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -19,6 +20,7 @@ import maimeng.yodian.app.client.android.common.BuildConfig;
  * Created by android on 2015/7/31.
  */
 public class ImageLoader {
+    public static final boolean DEBUG=true;
     private static ImageLoader network;
     private final int screenWidth;
     private final int screenHeight;
@@ -39,8 +41,8 @@ public class ImageLoader {
         screenWidth = app.getResources().getDisplayMetrics().widthPixels;
         screenHeight = app.getResources().getDisplayMetrics().heightPixels;
         loader = Picasso.with(app);
-        loader.setLoggingEnabled(BuildConfig.DEBUG);
-        loader.setIndicatorsEnabled(BuildConfig.DEBUG);
+        loader.setLoggingEnabled(BuildConfig.DEBUG || DEBUG);
+        loader.setIndicatorsEnabled(BuildConfig.DEBUG||DEBUG);
     }
 
     public static Bitmap image(final Context context, final String uri) {
@@ -110,9 +112,12 @@ public class ImageLoader {
     }
 
     public static void image(ImageView iv, String url, int placeHolderDrawable) {
-        image(iv, url, iv.getResources().getDrawable(placeHolderDrawable), null);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+            image(iv, url, iv.getResources().getDrawable(placeHolderDrawable, iv.getContext().getTheme()), null);
+        }else{
+            image(iv, url, iv.getResources().getDrawable(placeHolderDrawable), null);
+        }
     }
-
     public static void image(ImageView iv, String url, int placeHolderDrawable, int errorDrawable) {
         Drawable place = placeHolderDrawable == -1 ? null : iv.getResources().getDrawable(placeHolderDrawable);
         Drawable error = errorDrawable == -1 ? null : iv.getResources().getDrawable(errorDrawable);

@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 import com.easemob.applib.controller.HXSDKHelper;
@@ -42,7 +43,7 @@ public class ChatServiceLoginService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        EMChatManager.getInstance().logout();
+//        EMChatManager.getInstance().logout();
 //        EMChatManager.getInstance().login(User.read(this).getChatLoginName(), "hx123456", this);
 
 
@@ -79,10 +80,12 @@ public class ChatServiceLoginService extends Service {
                             System.out.println("onProgress");
                         }
                     });
+                    EMChatManager.getInstance().updateCurrentUserNick(User.read(ChatServiceLoginService.this).getNickname());
                     // 处理好友和群组
                     startService(new Intent(ChatServiceLoginService.this, AsyncContactService.class));
                 } catch (Exception e) {
                     e.printStackTrace();
+                    DemoApplication.getInstance().logout(null);
                     log(maimeng.yodian.app.client.android.chat.R.string.login_failure_failed);
                     return;
                 }
@@ -90,7 +93,7 @@ public class ChatServiceLoginService extends Service {
                 boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
                         DemoApplication.currentUserNick.trim());
                 if (!updatenick) {
-                    Log.e("LoginActivity", "update current user nick fail");
+                    Log.i("ChatServiceLoginService", "update current user nick fail");
                 }
             }
 

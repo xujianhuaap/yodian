@@ -47,4 +47,9 @@ public class YApplication extends DemoApplication {
 //        EMChat.getInstance().init(this);
         EMChat.getInstance().setDebugMode(BuildConfig.DEBUG);
     }
+
+    @Override
+    public String getAppKey() {
+        return BuildConfig.DEBUG ? "maimengkeji#youdiantest" : "maimengkeji#youdian";
+    }
 }

@@ -70,6 +70,10 @@ public class Skill extends BaseObservable implements Parcelable {
     private String nickname;//用户昵称
     private String avatar;//用户头像数据
 
+    public boolean isXiaJia() {
+        return status != 0;
+    }
+
     public long getId() {
         return id;
     }
