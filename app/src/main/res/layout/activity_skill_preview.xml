@@ -8,15 +8,18 @@
             name="skill"
             type="maimeng.yodian.app.client.android.common.model.Skill" />
     </data>
-
-
-
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
             android:id="@+id/fra_title">
 
             <TextView
@@ -37,119 +40,124 @@
                 android:src="@drawable/ic_share_qqroom"/>
 
         </FrameLayout>
-        <android.support.design.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fra_title">
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/appBarLayout"
+
+            <RelativeLayout
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+                app:layout_scrollFlags="scroll|enterAlways">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            >
+                <ImageView
+                    android:id="@+id/pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="200dp"
+                    android:adjustViewBounds="false"
+                    android:scaleType="centerCrop"
+                    app:imgUrl="@{skill.pic}"
+                    app:layout_scrollFlags="scroll|enterAlways"/>
 
-                            <ImageView
-                                android:id="@+id/pic"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:minHeight="120dp"
-                                android:adjustViewBounds="false"
-                                android:scaleType="centerCrop"
-                                app:imgUrl="@{skill.pic}" />
+                <LinearLayout
+                    android:id="@+id/ll_skill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pic"
+                    android:background="@color/float_colorRipple"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    app:layout_scrollFlags="scroll|enterAlways">
 
-                            <LinearLayout
-                                android:id="@+id/ll_skill"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/pic"
-                                android:background="@color/float_colorRipple"
-                                android:orientation="vertical"
-                                android:padding="5dp">
+                    <TextView
+                        android:id="@+id/skill_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:singleLine="true"
+                        android:text="@{skill.name}"
+                        android:textColor="#fff"
+                        app:layout_scrollFlags="scroll|enterAlways"/>
 
-                                <TextView
-                                    android:id="@+id/skill_name"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="left|center_vertical"
-                                    android:singleLine="true"
-                                    android:text="@{skill.name}"
-                                    android:textColor="#fff" />
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:singleLine="true"
+                        android:textColor="@color/colorPrimaryDark"
+                        app:layout_scrollFlags="scroll|enterAlways"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_below="@id/ll_skill"
+                    android:background="@color/colorPrimaryDark"
+                    app:layout_scrollFlags="scroll|enterAlways">
 
-                                <TextView
-                                    android:id="@+id/price"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="left|center_vertical"
-                                    android:singleLine="true"
-                                    android:text="@{skill.price}"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    />
-                            </LinearLayout>
-                            <LinearLayout
-                                android:id="@+id/ll_wrapper"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center"
-                                android:layout_below="@id/ll_skill">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="40dp"
+                        android:scaleType="centerInside"
+                        android:gravity="center"
+                        android:text="添加技能"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/ic_settings"
+                        app:layout_scrollFlags="scroll|enterAlways"
+                        />
+                    <TextView
+                        android:layout_width="2dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginLeft="50dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="40dp"
+                        android:scaleType="centerInside"
+                        android:gravity="center"
+                        android:text="联系Ｔａ"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/ic_settings"
+                        app:layout_scrollFlags="scroll|enterAlways"/>
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:minHeight="40dp"
-                                    android:layout_marginRight="25dp"
-                                    android:scaleType="centerInside"
-                                    android:gravity="center"
-                                    android:text="添加技能"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="14sp"
-                                    android:drawablePadding="10dp"
-                                    android:drawableRight="@drawable/ic_settings"
-                                    />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:minHeight="40dp"
-                                    android:scaleType="centerInside"
-                                    android:gravity="center"
-                                    android:text="联系Ｔａ"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="14sp"
-                                    android:drawablePadding="10dp"
-                                    android:drawableRight="@drawable/ic_settings"/>
-
-                            </LinearLayout>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/ll_wrapper"
-                                android:padding="15dp"
-                                android:textColor="@android:color/white"
-                                android:background="@android:color/black"
-                                android:text="@{skill.content}"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_wrapper"
+                    android:padding="15dp"
+                    android:textColor="@android:color/white"
+                    android:background="@android:color/black"
+                    android:text="@{skill.content}"
+                    app:layout_scrollFlags="scroll|enterAlways"/>
 
 
-                        </RelativeLayout>
+            </RelativeLayout>
 
-            </android.support.design.widget.AppBarLayout>
+        </android.support.design.widget.AppBarLayout>
 
-            <ListView
+        <android.support.v7.widget.RecyclerView
                 android:id="@+id/rec_diary"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            </ListView>
-
-        </android.support.design.widget.CoordinatorLayout>
+        </android.support.v7.widget.RecyclerView>
 
 
 
+    </android.support.design.widget.CoordinatorLayout>
 
 
-    </RelativeLayout>
 </layout>

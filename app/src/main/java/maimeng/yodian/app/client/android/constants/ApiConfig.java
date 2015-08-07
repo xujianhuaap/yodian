@@ -52,6 +52,7 @@ public class ApiConfig {
         public static final String SKILL_UP = "/skill/up";//技能上架下架
         public static final String RMARK_LIST = "/skillcontent/list";//技能日记列表
         public static final String RMARK_DELETE = "/skillcontent/delete";//删除技能日记
+        public static final String RMARK_ADD="/skillcontent/add";//添加日记
         public static final String REPORT = "/index/report";//举报
 
 

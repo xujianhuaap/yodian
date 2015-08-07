@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="skill"
+            type="maimeng.yodian.app.client.android.common.model.Skill" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <ImageView
+            android:id="@+id/pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="200dp"
+            android:adjustViewBounds="false"
+            android:scaleType="centerCrop"
+            app:imgUrl="@{skill.pic}"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+        <LinearLayout
+            android:id="@+id/ll_skill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pic"
+            android:background="@color/float_colorRipple"
+            android:orientation="vertical"
+            android:padding="5dp"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <TextView
+                android:id="@+id/skill_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="@{skill.name}"
+                android:textColor="#fff"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_scrollFlags="scroll|enterAlways"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_below="@id/ll_skill"
+            android:background="@color/colorPrimaryDark"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:scaleType="centerInside"
+                android:gravity="center"
+                android:text="添加技能"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/ic_settings"
+                app:layout_scrollFlags="scroll|enterAlways"
+                />
+            <TextView
+                android:layout_width="2dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@android:color/black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:scaleType="centerInside"
+                android:gravity="center"
+                android:text="联系Ｔａ"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/ic_settings"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_wrapper"
+            android:padding="15dp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/black"
+            android:text="@{skill.content}"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+
+    </RelativeLayout>
+</layout>

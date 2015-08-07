@@ -1,7 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</FrameLayout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="#d2d2d2"
+                    >
+
+                    <ImageView
+                        android:id="@+id/skill_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:adjustViewBounds="false"
+                        android:scaleType="fitXY" />
+                    <FrameLayout
+                        android:id="@+id/btn_select_photo"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:padding="15dp"
+                        android:background="@drawable/btn_select_photo"
+                        android:layout_gravity="center">
+                        <CheckBox
+                            android:id="@+id/che_select_photo"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:button="@null"
+                            android:text="上传图片" />
+                    </FrameLayout>
+                    <LinearLayout
+                        android:id="@+id/button_container"
+                        android:orientation="horizontal"
+                        android:visibility="invisible"
+                        android:background="@color/float_colorRipple"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/btn_camera"
+                            android:src="@drawable/btn_camera"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:visibility="invisible"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:id="@+id/btn_album"
+                            android:src="@drawable/btn_album"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <EditText
+                    android:id="@+id/edit_diary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    android:padding="10dp"
+                    android:hint="请输入..."
+                    android:gravity="left"
+                    android:textSize="16sp"
+                    android:maxLength="150"
+                    android:imeActionLabel="完成"
+                    android:imeOptions="actionDone"
+                    android:textColorHint="@android:color/black"
+                    android:background="@android:color/white"
+                    android:textColor="@android:color/black"
+                    />
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text=""/>
+
+            </LinearLayout>
+
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_submit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:fab_colorNormal="@color/float_colorNormal"
+                app:fab_colorPressed="@color/float_colorPressed"
+                app:fab_colorRipple="@color/float_colorRipple"
+                android:src="@drawable/btn_share"
+                android:layout_gravity="bottom|end">
+
+            </android.support.design.widget.FloatingActionButton>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_goback"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:fab_colorNormal="@color/float_colorNormal"
+                app:fab_colorPressed="@color/float_colorPressed"
+                app:fab_colorRipple="@color/float_colorRipple"
+                android:src="@drawable/btn_back"
+                android:layout_gravity="bottom|left">
+
+            </android.support.design.widget.FloatingActionButton>
+
+    </FrameLayout>
+</layout>

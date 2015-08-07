@@ -56,6 +56,9 @@
             android:windowSoftInputMode="adjustPan">
 
         </activity>
+        <activity android:name=".view.skill.RmarkPublishActivity">
+
+        </activity>
         <activity
             android:name=".view.FeedBackActivity"
             android:label="@string/lable_feedback" />

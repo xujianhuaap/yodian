@@ -60,11 +60,12 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark>{
         boolean opened=false;
         public ViewHolder(RmarkListItemBinding binding){
             this.binding=binding;
-            translation=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -100f);
-            alpha=PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1.0f);
+            translation=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -200f);
+
+            alpha=PropertyValuesHolder.ofFloat(View.ALPHA, 0.8f, 1.0f);
 
 
-            translation2=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -100f, 0f);
+            translation2=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -200f, 0f);
             alpha2=PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f);
 
             binding.btnMenuMore.setOnClickListener(this);

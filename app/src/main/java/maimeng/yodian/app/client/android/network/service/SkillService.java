@@ -13,6 +13,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 @FormUrlEncoded
 public interface SkillService {
@@ -105,4 +106,18 @@ public interface SkillService {
      */
     @Post(ApiConfig.Api.RMARK_DELETE)
     void delete_rmark(@Param("scid") long id, ToastCallback callback);
+
+    /***
+     * 添加日记
+     *
+     * @param sid
+     * @param content
+     * @param pic
+     * @param callback
+     */
+    @Multipart
+    @Post(ApiConfig.Api.RMARK_ADD)
+    void add_rmark(@Param("sid")long sid,@Param("content")String content,@Param("pic")TypedBitmap pic,
+                   Callback<ToastResponse> callback);
+
 }

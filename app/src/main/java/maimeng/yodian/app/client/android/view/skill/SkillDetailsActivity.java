@@ -348,7 +348,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     public void onClick(View v) {
         if (v == binding.headerLogo || v == binding.headerLogoBg) {
 
-
+            RmarkPublishActivity.show(this,(Skill)getIntent().getParcelableExtra("skill"));
 //            Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
 //            intent.putExtra("skill", skill);
 //
