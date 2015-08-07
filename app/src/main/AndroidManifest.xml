@@ -61,6 +61,7 @@
             android:name=".view.chat.ChatMainActivity"
             android:label="@string/lable_chat"
             android:launchMode="singleTask" />
+
         <activity
             android:name=".view.skill.SkillDetailsActivity"
             android:launchMode="singleTask" />

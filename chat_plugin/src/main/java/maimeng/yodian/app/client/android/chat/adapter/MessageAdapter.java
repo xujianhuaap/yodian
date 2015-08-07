@@ -15,6 +15,7 @@ package maimeng.yodian.app.client.android.chat.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -95,6 +96,7 @@ import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.common.loader.ImageLoader;
+import maimeng.yodian.app.client.android.common.view.ContactDialog;
 
 public class MessageAdapter extends BaseAdapter {
 
@@ -351,6 +353,7 @@ public class MessageAdapter extends BaseAdapter {
                 holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
                 holder.vcard_wechat = (TextView) convertView.findViewById(R.id.vcard_wechat);
+                holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
             } else if (itemViewType == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
                 holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                 holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -362,6 +365,7 @@ public class MessageAdapter extends BaseAdapter {
                 holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
                 holder.vcard_wechat = (TextView) convertView.findViewById(R.id.vcard_wechat);
+                holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
             } else if (message.getType() == EMMessage.Type.IMAGE) {
                 try {
                     holder.iv = ((ImageView) convertView.findViewById(R.id.iv_sendPicture));
@@ -512,9 +516,15 @@ public class MessageAdapter extends BaseAdapter {
                         String avatar = message.getStringAttribute("avatar");
                         String uid = message.getStringAttribute("uid");
                         String nickName = message.getStringAttribute("nickName");
-                        String wechat = message.getStringAttribute("weChat");
+                        final String wechat = message.getStringAttribute("weChat");
                         holder.vcard_wechat.setText(wechat);
                         holder.vcard_nickname.setText(nickName);
+                        holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                v.getContext().startActivity(new Intent(v.getContext(), ContactDialog.class).putExtra("wechat", wechat));
+                            }
+                        });
                         ImageLoader.image(holder.vcard_avatar, avatar);
                         if (message.direct == EMMessage.Direct.SEND) {
                             switch (message.status) {
@@ -1620,6 +1630,7 @@ public class MessageAdapter extends BaseAdapter {
         TextView vcard_nickname;
         TextView vcard_wechat;
         ImageView vcard_avatar;
+        View wechat_vcard_item;
     }
 
     /*
