@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.common.view;
 
+import android.animation.ArgbEvaluator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,6 +18,6 @@ public class ContactDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         GifImageView view = new GifImageView(this);
         setContentView(view);
-        view.setImageResource(R.raw.weixin);
+        view.setImageResource(R.drawable.weixin);
     }
 }
