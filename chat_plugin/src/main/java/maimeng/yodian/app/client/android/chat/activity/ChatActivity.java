@@ -120,6 +120,7 @@ import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.common.utils.LogUtil;
 
 /**
  * 聊天页面
@@ -218,7 +219,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public EMChatRoom room;
     public boolean isRobot;
     private Skill skill;
-    private View skillContainer;
+    private LinearLayout skillContainer;
     private View btnShowSkill;
     private ImageView skillPic;
     private TextView skillName;
@@ -239,8 +240,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     }
 
     private void showSkill() {
+        LogUtil.d("henjue", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         final boolean show = skill != null;
         if (show) {
+
             skillContainer.setVisibility(View.VISIBLE);
             final String pic = skill.getPic();
             ImageLoader.image(skillPic, pic);
@@ -249,6 +252,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         } else {
             skillContainer.setVisibility(View.GONE);
         }
+        LogUtil.d("henjue", "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
     @Override
@@ -312,7 +316,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         expressionViewpager = (ViewPager) findViewById(R.id.vPager);
         emojiIconContainer = (LinearLayout) findViewById(R.id.ll_face_container);
         btnContainer = (GridView) findViewById(R.id.ll_btn_container);
-        skillContainer = findViewById(R.id.skill_container);
+        skillContainer = (LinearLayout) findViewById(R.id.skill_container);
         skillPic = (ImageView) findViewById(R.id.skill_pic);
         skillName = (TextView) findViewById(R.id.skill_name);
         skillPrice = (TextView) findViewById(R.id.skill_price);
@@ -1064,7 +1068,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 skill.setPrice(skillJson.getString("price"));
                 skill.setUnit(skillJson.getString("unit"));
                 skill.setPic(skillJson.getString("pic"));
-//                showSkill();
+                initView();
+                setUpView();
+                showSkill();
             }
         } catch (EaseMobException | JSONException e) {
             e.printStackTrace();
