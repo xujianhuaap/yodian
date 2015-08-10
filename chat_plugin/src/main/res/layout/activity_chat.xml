@@ -146,6 +146,7 @@
                     android:paddingLeft="1dp"
                     android:paddingRight="1dp"
                     android:paddingTop="3dp"
+                    android:textColor="#000"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -229,111 +230,118 @@
         </LinearLayout>
     </LinearLayout>
 
+
     <LinearLayout
-        android:id="@+id/skill_container"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@id/top_bar"
-        android:background="#000"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/skill_pic"
-            android:layout_width="110dp"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/skill_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true" />
-
-            <TextView
-                android:id="@+id/skill_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryDark" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/btn_show_skill"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="#0f0" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bar_bottom"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@id/skill_container">
+        android:layout_below="@id/top_bar"
+        android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/pb_load_more"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone" />
+        <LinearLayout
+            android:id="@+id/skill_container"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#000"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:visibility="gone">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/chat_swipe_layout"
+            <ImageView
+                android:id="@+id/skill_pic"
+                android:layout_width="110dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/skill_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/skill_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryDark" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btn_show_skill"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="#0f0" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/list_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
-                android:id="@+id/list"
+            <ProgressBar
+                android:id="@+id/pb_load_more"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone" />
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/chat_swipe_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/pb_load_more"
-                android:cacheColorHint="#00000000"
-                android:divider="@null"
-                android:dividerHeight="5dp"
-                android:listSelector="#00000000"
-                android:scrollbarStyle="outsideOverlay"
-                android:transcriptMode="normal" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/recording_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/recording_hint_bg"
-            android:padding="10dp"
-            android:visibility="invisible">
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/pb_load_more"
+                    android:cacheColorHint="#00000000"
+                    android:divider="@null"
+                    android:dividerHeight="5dp"
+                    android:listSelector="#00000000"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:transcriptMode="normal" />
+            </android.support.v4.widget.SwipeRefreshLayout>
 
-            <ImageView
-                android:id="@+id/mic_image"
+            <RelativeLayout
+                android:id="@+id/recording_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/record_animate_01" />
+                android:layout_centerInParent="true"
+                android:background="@drawable/recording_hint_bg"
+                android:padding="10dp"
+                android:visibility="invisible">
 
-            <TextView
-                android:id="@+id/recording_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/mic_image"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:padding="2dp"
-                android:text="@string/move_up_to_cancel"
-                android:textSize="10sp" />
+                <ImageView
+                    android:id="@+id/mic_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/record_animate_01" />
+
+                <TextView
+                    android:id="@+id/recording_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mic_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:padding="2dp"
+                    android:text="@string/move_up_to_cancel"
+                    android:textSize="10sp" />
+            </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
+
 
 </RelativeLayout>

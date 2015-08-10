@@ -1,5 +1,8 @@
 package maimeng.yodian.app.client.android.view.skill;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -125,6 +128,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         StoreHouseHeader header = PullHeadView.create(this);
         binding.refreshLayout.addPtrUIHandler(header);
         binding.refreshLayout.setHeaderView(header);
+        final ObjectAnimator colorAnimator = ObjectAnimator.ofObject(binding.price, "textColor", new ArgbEvaluator(), getResources().getColor(R.color.colorPrimaryDark), getResources().getColor(android.R.color.white));
+        colorAnimator.setDuration(10000);
+        colorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int color = (Integer) animation.getAnimatedValue();
+                binding.price.setTextColor(color);
+
+            }
+        });
         binding.refreshLayout.addPtrUIHandler(new PtrUIHandler() {
             @Override
             public void onUIReset(PtrFrameLayout ptrFrameLayout) {
@@ -184,19 +197,19 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int scrollY = getScrollY();
-                //sticky actionbar
+                //sticky titleBar
                 int translationY = Math.max(-scrollY, mMinHeaderTranslation);
                 binding.header.setTranslationY(translationY);
                 //header_logo --> actionbar icon
                 float ratio = clamp(binding.header.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
-                setTextColor(binding.price, 0, 0, ratio);
+                colorAnimator.setCurrentPlayTime((long) (ratio * 10000));//文字颜色渐变
                 //binding.headerLogo.setAlpha(1f - ratio);
                 binding.titleContainar.setAlpha(ratio * 0.85f);//控制title栏的透明度
                 if (inited) binding.headerLogoBg.setAlpha(1f - ratio);
                 float interpolation = mSmoothInterpolator.getInterpolation(ratio);
                 interpolate(binding.headerLogo, binding.logo, interpolation);
                 interpolate(binding.price, binding.titlePrice, interpolation);
-                //actionbar title alpha
+                //titleBar title alpha
                 //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
                 //---------------------------------
                 //better way thanks to @cyrilmottier
@@ -209,16 +222,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         binding.refreshLayout.autoRefresh();
     }
 
-    private void setTextColor(TextView tv, int startColor, int endColor, float ratio) {
-        if (ratio < 0.3f) {
-            tv.setTextColor(getResources().getColor(R.color.colorPrimary));
-        } else {
-            tv.setTextColor(Color.parseColor("#ffffff"));
-        }
-
-
-    }
-
     private void setTitleAlpha(float alpha) {
         findViewById(R.id.btn_contect_circle).setAlpha(alpha);
     }
@@ -229,7 +232,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     }
 
     private void interpolate(View start, View end, float interpolation) {
-        LogUtil.i(LOG_TAG, "interpolation:%f", interpolation);
         RectF mRect1 = new RectF();
         RectF mRect2 = new RectF();
         getOnScreenRect(mRect1, start);

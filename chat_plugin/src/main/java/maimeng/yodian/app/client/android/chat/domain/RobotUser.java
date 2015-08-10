@@ -14,6 +14,8 @@
 package maimeng.yodian.app.client.android.chat.domain;
 
 import com.easemob.chat.EMContact;
+import com.easemob.chat.EMMessage;
+import com.easemob.exceptions.EaseMobException;
 
 public class RobotUser extends EMContact{
 	private String username;
@@ -54,6 +56,17 @@ public class RobotUser extends EMContact{
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	 
-	
+
+	public static RobotUser parse(EMMessage message) throws EaseMobException {
+		final RobotUser user = new RobotUser();
+		String userName = message.getFrom();
+		String nickname=message.getStringAttribute("nickName");
+		String avatar=message.getStringAttribute("avatar");
+		String uid = message.getStringAttribute("uid");
+		user.setAvatar(avatar);
+		user.setId(uid);
+		user.setNick(nickname);
+		user.setUsername(userName);
+		return user;
+	}
 }

@@ -36,6 +36,7 @@ import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
+import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.EasyUtils;
 
@@ -50,6 +51,7 @@ import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.activity.MainActivity;
 import maimeng.yodian.app.client.android.chat.activity.VideoCallActivity;
 import maimeng.yodian.app.client.android.chat.activity.VoiceCallActivity;
+import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.receiver.CallReceiver;
@@ -138,6 +140,20 @@ public class DemoHXSDKHelper extends HXSDKHelper{
                 
                 switch (event.getEvent()) {
                 case EventNewMessage:
+                    /**
+                     * 使用最新消息中的附加数据更新联系人信息
+                     */
+                    try {
+                        User user = User.parse(message);
+                        RobotUser robotUser = RobotUser.parse(message);
+                        saveOrUpdate(user.getUsername(),user);
+                        saveOrUpdate(robotUser.getUsername(),robotUser);
+                        UserDao userDao=new UserDao(appContext);
+                        userDao.saveOrUpdate(robotUser);
+                        userDao.saveOrUpdate(user);
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    }
                     //应用在后台，不需要刷新UI,通知栏提示新消息
                     if(activityList.size() <= 0){
                         HXSDKHelper.getInstance().getNotifier().onNewMsg(message);

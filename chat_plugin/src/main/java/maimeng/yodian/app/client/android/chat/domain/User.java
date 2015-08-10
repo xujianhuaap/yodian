@@ -14,6 +14,8 @@
 package maimeng.yodian.app.client.android.chat.domain;
 
 import com.easemob.chat.EMContact;
+import com.easemob.chat.EMMessage;
+import com.easemob.exceptions.EaseMobException;
 
 public class User extends EMContact {
 	private int unreadMsgCount;
@@ -77,5 +79,19 @@ public class User extends EMContact {
 	@Override
 	public String toString() {
 		return nick == null ? username : nick;
+	}
+
+
+	public static User parse(EMMessage message) throws EaseMobException {
+		final User user = new User();
+		String userName = message.getFrom();
+		String nickname=message.getStringAttribute("nickName");
+		String avatar=message.getStringAttribute("avatar");
+		String uid = message.getStringAttribute("uid");
+		user.setAvatar(avatar);
+		user.setId(uid);
+		user.setNick(nickname);
+		user.setUsername(userName);
+		return user;
 	}
 }

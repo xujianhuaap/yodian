@@ -16,6 +16,7 @@ package maimeng.yodian.app.client.android.chat.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -89,6 +90,10 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -115,6 +120,7 @@ import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.common.utils.LogUtil;
 
 /**
  * 聊天页面
@@ -213,6 +219,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public EMChatRoom room;
     public boolean isRobot;
     private Skill skill;
+    private LinearLayout skillContainer;
+    private View btnShowSkill;
+    private ImageView skillPic;
+    private TextView skillName;
+    private TextView skillPrice;
+    private boolean intoSkill = false;
 
 
     @Override
@@ -220,6 +232,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         skill = getIntent().getParcelableExtra("skill");
+        intoSkill = true;
         activityInstance = this;
         initView();
         setUpView();
@@ -227,20 +240,19 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     }
 
     private void showSkill() {
+        LogUtil.d("henjue", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         final boolean show = skill != null;
-        findViewById(R.id.skill_container).setVisibility(show ? View.VISIBLE : View.GONE);
-        if (!show) return;
-        findViewById(R.id.btn_show_skill).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent().setClassName(v.getContext(), "maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity").putExtra("skill", skill));
-            }
-        });
-        ImageLoader.image((ImageView) findViewById(R.id.skill_pic), skill.getPic());
-        TextView name = (TextView) findViewById(R.id.skill_name);
-        TextView price = (TextView) findViewById(R.id.skill_price);
-        name.setText(skill.getName());
-        price.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
+        if (show) {
+
+            skillContainer.setVisibility(View.VISIBLE);
+            final String pic = skill.getPic();
+            ImageLoader.image(skillPic, pic);
+            skillName.setText(skill.getName());
+            skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
+        } else {
+            skillContainer.setVisibility(View.GONE);
+        }
+        LogUtil.d("henjue", "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
     @Override
@@ -304,6 +316,17 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         expressionViewpager = (ViewPager) findViewById(R.id.vPager);
         emojiIconContainer = (LinearLayout) findViewById(R.id.ll_face_container);
         btnContainer = (GridView) findViewById(R.id.ll_btn_container);
+        skillContainer = (LinearLayout) findViewById(R.id.skill_container);
+        skillPic = (ImageView) findViewById(R.id.skill_pic);
+        skillName = (TextView) findViewById(R.id.skill_name);
+        skillPrice = (TextView) findViewById(R.id.skill_price);
+        btnShowSkill = findViewById(R.id.btn_show_skill);
+        btnShowSkill.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent().setClassName(v.getContext(), "maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity").putExtra("skill", skill));
+            }
+        });
         BaseAdapter adapter = new BaseAdapter() {
             @Override
             public int getCount() {
@@ -857,6 +880,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private boolean enableVoiceCall = false;
     private boolean enableVideoCall = false;
     private boolean showMap = false;
+    private boolean showWechatVcard = true;
     private boolean showVideo = false;
     private boolean showFile = false;
     private boolean showVoiceCall = false;
@@ -880,6 +904,14 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 selectPicFromLocal(); // 点击图片图标
             }
         }));
+        if (showWechatVcard) {
+            entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_location_selector), "名片", new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendText("", true);
+                }
+            }));//微信名片
+        }
         if (showMap)
             entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_location_selector), getResources().getString(R.string.attach_location), new Intent(this, BaiduMapActivity.class), REQUEST_CODE_MAP));// 位置
         if (showVideo)
@@ -972,7 +1004,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             case EventNewMessage: {
                 //获取到message
                 EMMessage message = (EMMessage) event.getData();
-
+                handlerSkillBanner(message);//处理技能banner信息
                 String username = null;
                 //群组消息
                 if (message.getChatType() == ChatType.GroupChat || message.getChatType() == ChatType.ChatRoom) {
@@ -1000,6 +1032,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 refreshUI();
                 break;
             }
+            case EventNewCMDMessage:
+                break;
             case EventReadAck: {
                 //获取到message
                 EMMessage message = (EMMessage) event.getData();
@@ -1012,10 +1046,35 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 refreshUI();
                 break;
             }
+            case EventConversationListChanged:
+                break;
+            case EventMessageChanged:
+                break;
+            case EventLogout:
+                break;
             default:
                 break;
         }
 
+    }
+
+    private void handlerSkillBanner(EMMessage message) {
+        try {
+            JSONObject skillJson = message.getJSONObjectAttribute("skill");
+            if (skillJson != null) {
+                skill = new Skill();
+                skill.setName(skillJson.getString("name"));
+                skill.setId(skillJson.getLong("sid"));
+                skill.setPrice(skillJson.getString("price"));
+                skill.setUnit(skillJson.getString("unit"));
+                skill.setPic(skillJson.getString("pic"));
+                initView();
+                setUpView();
+                showSkill();
+            }
+        } catch (EaseMobException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -1092,14 +1151,18 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         startActivityForResult(intent, REQUEST_CODE_LOCAL);
     }
 
+    private static final String PREFERENCES_NAME = "_userinfo";
+    private static final String KEY_WECHAT = "_wechat";
+
     /**
      * 发送文本消息
      *
-     * @param content  message content
-     * @param isResend boolean resend
+     * @param content message content
      */
-    public void sendText(String content) {
-
+    public void sendText(String content, boolean sendVcard) {
+        if (sendVcard) {
+            content = "[名片]";
+        }
         if (content.length() > 0) {
             EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
             // 如果是群聊，设置chattype,默认是单聊
@@ -1111,14 +1174,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (isRobot) {
                 message.setAttribute("em_robot_message", true);
             }
-            User currentUser = DemoApplication.getInstance().getCurrentUser();
-            String nick = currentUser.getNick();
-            String avatar = currentUser.getAvatar();
-            String id = currentUser.getId();
-            message.setAttribute("nickName", nick);
-            message.setAttribute("avatar", avatar);
-            message.setAttribute("uid", id);
-            TextMessageBody txtBody = new TextMessageBody(content);
+            setExtAttribute(message);
+            if (sendVcard) {
+                SharedPreferences pref = getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
+                String wechat = pref.getString(KEY_WECHAT, "");
+                message.setAttribute("weChat", wechat);
+            }
+            final TextMessageBody txtBody = new TextMessageBody(content);
             // 设置消息body
             message.addBody(txtBody);
             // 设置要发给谁,用户username或者群聊groupid
@@ -1131,6 +1193,37 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
             setResult(RESULT_OK);
 
+        }
+    }
+
+    /**
+     * 发送文本消息
+     *
+     * @param content message content
+     */
+    public void sendText(String content) {
+        sendText(content, false);
+    }
+
+    /**
+     * 给消息设置附加数据
+     *
+     * @param message
+     */
+    private void setExtAttribute(EMMessage message) {
+        User currentUser = DemoApplication.getInstance().getCurrentUser();
+        String nick = currentUser.getNick();
+        String avatar = currentUser.getAvatar();
+        String id = currentUser.getId();
+        message.setAttribute("nickName", nick);
+        message.setAttribute("avatar", avatar);
+        message.setAttribute("uid", id);
+        if (skill != null && intoSkill) {
+            try {
+                message.setAttribute("skill", new JSONObject(new Gson().toJson(skill)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1161,13 +1254,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (isRobot) {
                 message.setAttribute("em_robot_message", true);
             }
-            User currentUser = DemoApplication.getInstance().getCurrentUser();
-            String nick = currentUser.getNick();
-            String avatar = currentUser.getAvatar();
-            String id = currentUser.getId();
-            message.setAttribute("nickName", nick);
-            message.setAttribute("avatar", avatar);
-            message.setAttribute("uid", id);
+            setExtAttribute(message);
             conversation.addMessage(message);
             adapter.refreshSelectLast();
             setResult(RESULT_OK);
@@ -1187,13 +1274,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         String to = toChatUsername;
         // create and add image message in view
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
-        User currentUser = DemoApplication.getInstance().getCurrentUser();
-        String nick = currentUser.getNick();
-        String avatar = currentUser.getAvatar();
-        String id = currentUser.getId();
-        message.setAttribute("nickName", nick);
-        message.setAttribute("avatar", avatar);
-        message.setAttribute("uid", id);
+        setExtAttribute(message);
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
@@ -1227,13 +1308,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
         try {
             EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VIDEO);
-            User currentUser = DemoApplication.getInstance().getCurrentUser();
-            String nick = currentUser.getNick();
-            String avatar = currentUser.getAvatar();
-            String id = currentUser.getId();
-            message.setAttribute("nickName", nick);
-            message.setAttribute("avatar", avatar);
-            message.setAttribute("uid", id);
+            setExtAttribute(message);
             // 如果是群聊，设置chattype,默认是单聊
             if (chatType == CHATTYPE_GROUP) {
                 message.setChatType(ChatType.GroupChat);
@@ -1304,13 +1379,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      */
     private void sendLocationMsg(double latitude, double longitude, String imagePath, String locationAddress) {
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.LOCATION);
-        User currentUser = DemoApplication.getInstance().getCurrentUser();
-        String nick = currentUser.getNick();
-        String avatar = currentUser.getAvatar();
-        String id = currentUser.getId();
-        message.setAttribute("nickName", nick);
-        message.setAttribute("avatar", avatar);
-        message.setAttribute("uid", id);
+        setExtAttribute(message);
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
@@ -1367,13 +1436,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
         // 创建一个文件消息
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.FILE);
-        User currentUser = DemoApplication.getInstance().getCurrentUser();
-        String nick = currentUser.getNick();
-        String avatar = currentUser.getAvatar();
-        String id = currentUser.getId();
-        message.setAttribute("nickName", nick);
-        message.setAttribute("avatar", avatar);
-        message.setAttribute("uid", id);
+        setExtAttribute(message);
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
@@ -1845,7 +1908,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 /*if (view.getFirstVisiblePosition() == 0 && !isloading && haveMoreData && conversation.getAllMessages().size() != 0) {
                     isloading = true;
 					loadmorePB.setVisibility(View.VISIBLE);
-					// sdk初始化加载的聊天记录为20条，到顶时去db里获取更多					
+					// sdk初始化加载的聊天记录为20条，到顶时去db里获取更多
 					List<EMMessage> messages;
 					EMMessage firstMsg = conversation.getAllMessages().get(0);
 					try {
@@ -1868,7 +1931,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 						if (messages.size() > 0) {
 							adapter.refreshSeekTo(messages.size() - 1);
 						}
-						
+
 						if (messages.size() != pagesize)
 							haveMoreData = false;
 					} else {

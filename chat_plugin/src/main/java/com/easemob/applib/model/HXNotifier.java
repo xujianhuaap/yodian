@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -44,7 +45,6 @@ import java.util.Locale;
  */
 public class HXNotifier {
     private final static String TAG = "notify";
-    Ringtone ringtone = null;
 
     protected final static String[] msg_eng = { "sent a message", "sent a picture", "sent a voice",
                                                 "sent location message", "sent a video", "sent a file", "%1 contacts sent %2 messages"
@@ -68,6 +68,7 @@ public class HXNotifier {
     protected AudioManager audioManager;
     protected Vibrator vibrator;
     protected HXNotificationInfoProvider notificationInfoProvider;
+    private MediaPlayer mMediaPlayer;
 
     public HXNotifier() {
     }
@@ -135,7 +136,7 @@ public class HXNotifier {
             sendNotification(message, true);
 
         }
-        
+
         viberateAndPlayTone(message);
     }
     
@@ -316,39 +317,23 @@ public class HXNotifier {
             }
 
             if(model.getSettingMsgSound()){
-                if (ringtone == null) {
                     Uri notificationUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-                    ringtone = RingtoneManager.getRingtone(appContext, notificationUri);
-                    if (ringtone == null) {
-                        EMLog.d(TAG, "cant find ringtone at:" + notificationUri.getPath());
-                        return;
-                    }
-                }
-                
-                if (!ringtone.isPlaying()) {
-                    String vendor = Build.MANUFACTURER;
-                    
-                    ringtone.play();
-                    // for samsung S3, we meet a bug that the phone will
-                    // continue ringtone without stop
-                    // so add below special handler to stop it after 3s if
-                    // needed
-                    if (vendor != null && vendor.toLowerCase().contains("samsung")) {
-                        Thread ctlThread = new Thread() {
-                            public void run() {
-                                try {
-                                    Thread.sleep(3000);
-                                    if (ringtone.isPlaying()) {
-                                        ringtone.stop();
-                                    }
-                                } catch (Exception e) {
-                                }
+                    if(notificationUri!=null){
+                        if(mMediaPlayer == null) {
+                            mMediaPlayer = new MediaPlayer();
+                            mMediaPlayer.setDataSource(appContext, notificationUri);
+                            mMediaPlayer.setLooping(false); //循环播放
+                            mMediaPlayer.prepare();
+                            mMediaPlayer.start();
+                        }else {
+                            if (!mMediaPlayer.isPlaying()) {
+                                mMediaPlayer.start();
                             }
-                        };
-                        ctlThread.run();
+                        }
                     }
-                }
+
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
