@@ -12,6 +12,7 @@ public class _360Activity extends AbsSplashActivity {
     @Override
     protected void onTimeout() {
         LauncherCheck.updateFirstRun(this, false);
+        setResult(RESULT_OK);
         finish();
     }
 
