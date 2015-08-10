@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
@@ -48,17 +50,18 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
  * Created by android on 15-8-6.
  */
 public class SkillPreviewActivity extends AppCompatActivity implements View.OnClickListener,
-        Callback<RmarkListResponse>,AbstractAdapter.ViewHolderClickListener<RmarkAdapter.ViewHolder> {
+        SwipeRefreshLayout.OnRefreshListener {
 
     private static final String LOG_TAG =SkillPreviewActivity.class.getName() ;
 
-    private ActivitySkillPreviewBinding mBinding;
     private int page=1;
-    private SkillService mSkillService;
-    private WaitDialog mWaitDialog;
-    private Skill mSkill;
+    private boolean append;
 
+    private Skill mSkill;
     private RmarkAdapter mAdapter;
+    private CallBackProxy mCallBackProxy;
+    private SkillService mSkillService;
+    private ActivitySkillPreviewBinding mBinding;
 
     public static void show(Skill skill,Context context){
         Intent intent=new Intent();
@@ -71,12 +74,11 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int width=getResources().getDisplayMetrics().widthPixels;
         Intent intent=getIntent();
-         mSkill= intent.getParcelableExtra("skill");
-        Spanned  priceText= Html.fromHtml(getResources().getString(R.string.lable_price, mSkill.getPrice(), mSkill.getUnit()));
+        mSkill= intent.getParcelableExtra("skill");
 
         ButterKnife.bind(this);
+        mCallBackProxy = new CallBackProxy();
         mSkillService = Network.getService(SkillService.class);
 
         ListLayoutManager linearLayoutManager=new ListLayoutManager(this);
@@ -84,79 +86,119 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                 EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore() {
-
+                page++;
+                append=true;
+                refresh(mSkill);
             }
         };
-        mAdapter=new RmarkAdapter(this,this);
+
+        ViewHolderClickListenerProxy viewHolderClickListenerProxy=new ViewHolderClickListenerProxy();
+        mAdapter=new RmarkAdapter(this,mSkill,viewHolderClickListenerProxy);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_skill_preview);
-//        ViewHeaderPreviewDiaryBinding headerPreviewDiaryBinding=DataBindingUtil.inflate(
-//                getLayoutInflater(),R.layout.view_header_preview_diary,mBinding.recDiary,false);
-//
-//        headerPreviewDiaryBinding.setSkill(mSkill);
-//        headerPreviewDiaryBinding.price.setText(priceText);
-//        headerPreviewDiaryBinding.pic.setLayoutParams(new RelativeLayout.LayoutParams(width, width * 3 / 4));
-
         mBinding.setSkill(mSkill);
         mBinding.recDiary.setLayoutManager(linearLayoutManager);
         mBinding.recDiary.setHasFixedSize(true);
         mBinding.recDiary.addOnScrollListener(endlessRecyclerOnScrollListener);
         mBinding.recDiary.setAdapter(mAdapter);
+        mBinding.fabGoback.setOnClickListener(this);
+        mBinding.ivShare.setOnClickListener(this);
+        mBinding.swipeLayout.setOnRefreshListener(this);
 
         refresh(mSkill);
     }
 
-    private void refresh(Skill skill){
-        mSkillService.rmark_list(skill.getId(), page, this);
+
+
+    @Override
+     public void onRefresh() {
+         page=1;
+         append=false;
+         refresh(mSkill);
+     }
+
+     private void refresh(Skill skill){
+
+        mSkillService.rmark_list(skill.getId(), page, mCallBackProxy);
     }
 
     @Override
     public void onClick(View v) {
+        if(v==mBinding.fabGoback){
+            finish();
+        }if(v==mBinding.ivShare){
+            ShareDialog.ShareParams shareParams=new ShareDialog.ShareParams(mSkill,
+                    mSkill.getQrcodeUrl(),mSkill.getUid(),mSkill.getNickname(),"");
+            ShareDialog.show(this, shareParams);
 
-    }
-
-
-
-    @Override
-    public void end() {
-        if(mWaitDialog!=null){
-            mWaitDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void failure(HNetError hNetError) {
-        ErrorUtils.checkError(this,hNetError);
-    }
-
-    @Override
-    public void start() {
-        mWaitDialog = WaitDialog.show(this);
-    }
-
-    @Override
-    public void success(RmarkListResponse rmarkListResponse, Response response) {
-        if(rmarkListResponse.isSuccess()){
-            List<Rmark>rmarks=rmarkListResponse.getData().getList();
-            mAdapter.reload(rmarks,true);
-            mAdapter.notifyDataSetChanged();
         }
     }
 
 
-    @Override
-    public void onItemClick(RmarkAdapter.ViewHolder holder, int postion) {
 
+    /***
+     * 网络请求 返回数据
+     *
+     */
+
+    private class CallBackProxy implements Callback<RmarkListResponse>{
+
+        @Override
+        public void end() {
+            mBinding.swipeLayout.setRefreshing(false);
+        }
+
+        @Override
+        public void failure(HNetError hNetError) {
+            mBinding.swipeLayout.setRefreshing(false);
+            ErrorUtils.checkError(SkillPreviewActivity.this,hNetError);
+        }
+
+        @Override
+        public void start() {
+            mBinding.swipeLayout.setRefreshing(true);
+        }
+
+        @Override
+        public void success(RmarkListResponse rmarkListResponse, Response response) {
+            if(rmarkListResponse.isSuccess()){
+                List<Rmark>rmarks=rmarkListResponse.getData().getList();
+                if(page==1&& rmarks.size()==0){
+                    mBinding.recDiary.setVisibility(View.INVISIBLE);
+                }
+                mAdapter.reload(rmarks,append);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
-    @Override
-    public void onClick(RmarkAdapter.ViewHolder holder, View clickItem, int postion) {
-        //
+    /***
+     *  RecyclerView 的点击事件
+     */
+    private class ViewHolderClickListenerProxy implements AbstractAdapter.ViewHolderClickListener<RmarkAdapter.ViewHolder>{
 
+        @Override
+        public void onItemClick(RmarkAdapter.ViewHolder holder, int postion) {
 
-            mSkillService.delete_rmark(mSkill.getId(),new ToastCallback(this));
+        }
 
+        @Override
+        public void onClick(RmarkAdapter.ViewHolder holder, View clickItem, int postion) {
+            if(postion==0){
+
+            }else{
+
+                RmarkAdapter.NormalViewHolder normalViewHolder=(RmarkAdapter.NormalViewHolder)holder;
+                if(normalViewHolder.binding.btnMenuDelete==clickItem){
+                    mSkillService.delete_rmark(normalViewHolder.binding.getRmark().getId(),new ToastCallback(SkillPreviewActivity.this));
+                }else if(normalViewHolder.binding.btnMenuReport==clickItem){
+
+                }
+            }
+
+        }
     }
+
 
 
 }

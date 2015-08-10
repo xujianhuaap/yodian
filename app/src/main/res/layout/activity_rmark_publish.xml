@@ -121,7 +121,8 @@
                 app:fab_colorNormal="@color/float_colorNormal"
                 app:fab_colorPressed="@color/float_colorPressed"
                 app:fab_colorRipple="@color/float_colorRipple"
-                android:src="@drawable/btn_back"
+                android:scaleType="centerCrop"
+                android:background="@drawable/btn_back"
                 android:layout_gravity="bottom|left">
 
             </android.support.design.widget.FloatingActionButton>

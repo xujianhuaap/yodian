@@ -55,4 +55,10 @@
     <string name="file">[文件]</string>
     <string name="voice">[声音]</string>
     <string name="voice_call">[语音通话]</string>
+
+    <!--日記預覽-->
+    <string name="skill_preview_title_bar"> 预 览</string>
+    <string name="skill_preview_connect">联系Ta</string>
+    <string name="skill_preview_add_skill">添加技能</string>
+
 </resources>

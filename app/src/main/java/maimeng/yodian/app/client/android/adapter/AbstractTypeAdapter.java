@@ -12,7 +12,7 @@ import java.util.List;
  * @param <IT> 数据类型，JavaBean
  * @param <VH> ViewHolder
  */
-public abstract class AbstractAdapter<IT, VH extends RecyclerView.ViewHolder > extends RecyclerView.Adapter<VH> {
+public abstract class AbstractTypeAdapter<IT, VH extends RecyclerView.ViewHolder > extends RecyclerView.Adapter<VH> {
     protected final ViewHolderClickListener<VH> mViewHolderClickListener;
     protected final Context mContext;
 
@@ -38,16 +38,16 @@ public abstract class AbstractAdapter<IT, VH extends RecyclerView.ViewHolder > e
     }
 
 
-    public AbstractAdapter(Context context, ViewHolderClickListener<VH> viewHolderClickListener) {
+    public AbstractTypeAdapter(Context context, ViewHolderClickListener<VH> viewHolderClickListener) {
         this.mViewHolderClickListener = viewHolderClickListener;
         this.mContext = context;
     }
 
-    public AbstractAdapter(Fragment fragment, ViewHolderClickListener<VH> viewHolderClickListener) {
+    public AbstractTypeAdapter(Fragment fragment, ViewHolderClickListener<VH> viewHolderClickListener) {
         this(fragment.getActivity(), viewHolderClickListener);
     }
 
-    public AbstractAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<VH> viewHolderClickListener) {
+    public AbstractTypeAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<VH> viewHolderClickListener) {
         this(fragment.getActivity(), viewHolderClickListener);
     }
 

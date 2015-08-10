@@ -8,27 +8,23 @@
             name="skill"
             type="maimeng.yodian.app.client.android.common.model.Skill" />
     </data>
-    <android.support.design.widget.CoordinatorLayout
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
             android:id="@+id/fra_title">
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/skill_preview_tv_title_height"
                 android:layout_width="match_parent"
                 android:gravity="center"
-                android:text="预览"
-                android:textSize="20sp"
+                android:text="@string/skill_preview_title_bar"
+                android:textSize="@dimen/tex_size_large"
                 android:textColor="@android:color/white"
                 android:background="@color/colorPrimaryDark"/>
             <ImageView
@@ -41,123 +37,42 @@
 
         </FrameLayout>
 
-            <RelativeLayout
-                android:id="@+id/header"
+
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways">
-
-                <ImageView
-                    android:id="@+id/pic"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rec_diary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="200dp"
-                    android:adjustViewBounds="false"
-                    android:scaleType="centerCrop"
-                    app:imgUrl="@{skill.pic}"
-                    app:layout_scrollFlags="scroll|enterAlways"/>
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                </android.support.v7.widget.RecyclerView>
 
-                <LinearLayout
-                    android:id="@+id/ll_skill"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/pic"
-                    android:background="@color/float_colorRipple"
-                    android:orientation="vertical"
-                    android:padding="5dp"
-                    app:layout_scrollFlags="scroll|enterAlways">
-
-                    <TextView
-                        android:id="@+id/skill_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left|center_vertical"
-                        android:singleLine="true"
-                        android:text="@{skill.name}"
-                        android:textColor="#fff"
-                        app:layout_scrollFlags="scroll|enterAlways"/>
-
-                    <TextView
-                        android:id="@+id/price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left|center_vertical"
-                        android:singleLine="true"
-                        android:textColor="@color/colorPrimaryDark"
-                        app:layout_scrollFlags="scroll|enterAlways"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/ll_wrapper"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_below="@id/ll_skill"
-                    android:background="@color/colorPrimaryDark"
-                    app:layout_scrollFlags="scroll|enterAlways">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="40dp"
-                        android:scaleType="centerInside"
-                        android:gravity="center"
-                        android:text="添加技能"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:drawablePadding="10dp"
-                        android:drawableLeft="@drawable/ic_settings"
-                        app:layout_scrollFlags="scroll|enterAlways"
-                        />
-                    <TextView
-                        android:layout_width="2dp"
-                        android:layout_marginRight="50dp"
-                        android:layout_marginLeft="50dp"
-                        android:paddingTop="2dp"
-                        android:paddingBottom="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@android:color/black" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="40dp"
-                        android:scaleType="centerInside"
-                        android:gravity="center"
-                        android:text="联系Ｔａ"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:drawablePadding="10dp"
-                        android:drawableLeft="@drawable/ic_settings"
-                        app:layout_scrollFlags="scroll|enterAlways"/>
-
-                </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_wrapper"
-                    android:padding="15dp"
-                    android:textColor="@android:color/white"
-                    android:background="@android:color/black"
-                    android:text="@{skill.content}"
-                    app:layout_scrollFlags="scroll|enterAlways"/>
-
-
-            </RelativeLayout>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/rec_diary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        </android.support.v7.widget.RecyclerView>
+            </android.support.v4.widget.SwipeRefreshLayout>
 
 
 
-    </android.support.design.widget.CoordinatorLayout>
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/fab_goback"
+                android:layout_width="@dimen/floating_btn_width"
+                android:layout_height="@dimen/floating_btn_height"
+                android:layout_marginLeft="@dimen/floating_btn_margin"
+                android:layout_marginBottom="@dimen/floating_btn_margin"
+                android:src="@drawable/btn_back"
+                app:fab_colorNormal="@color/colorPrimaryDark"
+                app:fab_colorPressed="@color/colorPrimary"
+                app:layout_anchorGravity="bottom|left"
+                app:layout_anchor="@+id/rec_diary" />
 
+
+
+        </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
 
 </layout>

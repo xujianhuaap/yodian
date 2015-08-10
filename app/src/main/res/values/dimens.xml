@@ -2,7 +2,11 @@
     <eat-comment/>
     <dimen name="top_icon_margin">10dp</dimen>
     <dimen name="setup_wizard_avatar_size">100dp</dimen>
+
     <dimen name="floating_btn_margin">10dp</dimen>
+    <dimen name="floating_btn_width">30dp</dimen>
+    <dimen name="floating_btn_height">30dp</dimen>
+
     <dimen name="pull_refresh_paddingTop">20dp</dimen>
     <dimen name="dialog_share_item_padding">5dp</dimen>
     <dimen name="radius">15dp</dimen>
@@ -42,4 +46,12 @@
     <eat-comment/>
     <dimen name="skill_detail_head_height">250dp</dimen>
     <!--<dimen name="skill_detail_head_overlay_height">650dp</dimen>-->
+
+    <!-- activity_preview_skill-->
+    <dimen name="skill_preview_tv_title_height">40dp</dimen>
+
+    <!-- text size-->
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_normal">18sp</dimen>
+    <dimen name="tex_size_large">20sp</dimen>
 </resources>
