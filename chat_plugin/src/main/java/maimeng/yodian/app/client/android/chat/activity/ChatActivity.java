@@ -239,21 +239,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         showSkill();
     }
 
-    private void showSkill() {
-        LogUtil.d("henjue", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        final boolean show = skill != null;
-        if (show) {
-
-            skillContainer.setVisibility(View.VISIBLE);
-            final String pic = skill.getPic();
-            ImageLoader.image(skillPic, pic);
-            skillName.setText(skill.getName());
-            skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
-        } else {
-            skillContainer.setVisibility(View.GONE);
-        }
-        LogUtil.d("henjue", "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -993,6 +978,33 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
     }
 
+    private void showSkill() {
+        //这里有问题，banner不显示
+        LogUtil.d("henjue", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        final boolean show = skill != null;
+        if (show) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    skillContainer.setVisibility(View.VISIBLE);
+                    final String pic = skill.getPic();
+                    ImageLoader.image(skillPic, pic);
+                    skillName.setText(skill.getName());
+                    skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
+                }
+            });
+
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    skillContainer.setVisibility(View.GONE);
+                }
+            });
+        }
+        LogUtil.d("henjue", "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+    }
+
     /**
      * 事件监听
      * <p/>
@@ -1002,9 +1014,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public void onEvent(EMNotifierEvent event) {
         switch (event.getEvent()) {
             case EventNewMessage: {
+                LogUtil.d("henjue", "onEvent.%s", "EventNewMessage");
                 //获取到message
                 EMMessage message = (EMMessage) event.getData();
-                handlerSkillBanner(message);//处理技能banner信息
                 String username = null;
                 //群组消息
                 if (message.getChatType() == ChatType.GroupChat || message.getChatType() == ChatType.ChatRoom) {
@@ -1023,34 +1035,41 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     //如果消息不是和当前聊天ID的消息
                     HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
                 }
-
+                handlerSkillBanner(message);//处理技能banner信息
                 break;
             }
             case EventDeliveryAck: {
+                LogUtil.d("henjue", "onEvent.%s", "EventDeliveryAck");
                 //获取到message
                 EMMessage message = (EMMessage) event.getData();
                 refreshUI();
                 break;
             }
             case EventNewCMDMessage:
+                LogUtil.d("henjue", "onEvent.%s", "EventNewCMDMessage");
                 break;
             case EventReadAck: {
+                LogUtil.d("henjue", "onEvent.%s", "EventReadAck");
                 //获取到message
                 EMMessage message = (EMMessage) event.getData();
                 refreshUI();
                 break;
             }
             case EventOfflineMessage: {
+                LogUtil.d("henjue", "onEvent.%s", "EventOfflineMessage");
                 //a list of offline messages
                 //List<EMMessage> offlineMessages = (List<EMMessage>) event.getData();
                 refreshUI();
                 break;
             }
             case EventConversationListChanged:
+                LogUtil.d("henjue", "onEvent.%s", "EventConversationListChanged");
                 break;
             case EventMessageChanged:
+                LogUtil.d("henjue", "onEvent.%s", "EventMessageChanged");
                 break;
             case EventLogout:
+                LogUtil.d("henjue", "onEvent.%s", "EventLogout");
                 break;
             default:
                 break;
@@ -1108,7 +1127,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public void selectPicFromCamera() {
         if (!CommonUtils.isExitsSdcard()) {
             String st = getResources().getString(R.string.sd_card_does_not_exist);
-            Toast.makeText(getApplicationContext(), st, 0).show();
+            Toast.makeText(getApplicationContext(), st, Toast.LENGTH_SHORT).show();
             return;
         }
 
