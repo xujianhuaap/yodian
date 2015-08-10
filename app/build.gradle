@@ -18,7 +18,7 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
     defaultConfig {
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.MainTabActivity"]
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -29,7 +29,7 @@ android {
             // 不显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
             //混淆
-            minifyEnabled true
+            minifyEnabled false
             //Zipalign优化
             zipAlignEnabled true
             // 移除无用的resource文件

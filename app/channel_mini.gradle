@@ -1,13 +1,16 @@
-android{
+android {
     productFlavors {
         baidu {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu", CHANNEL_ID: 2,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.BaiduSplashActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu", CHANNEL_ID: 2, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         anzhuo {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhuo", CHANNEL_ID: 11,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhuo", CHANNEL_ID: 11, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         _91 {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_91", CHANNEL_ID: 12,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_91", CHANNEL_ID: 12, LAUNCHER_ACTIVITY: "DefaultActivity"]
+        }
+        _360 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360", CHANNEL_ID: 3, LAUNCHER_ACTIVITY: "_360Activity"]
         }
     }
 //    productFlavors.all {

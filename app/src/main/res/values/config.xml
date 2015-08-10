@@ -3,4 +3,6 @@
     <item name="loading_duration" type="integer">90</item>
     <item name="duration" type="integer">300</item>
     <item name="duration_long" type="integer">900</item>
+    <item name="splash_duration" type="integer">5000</item>
+
 </resources>

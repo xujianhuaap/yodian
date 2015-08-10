@@ -1,7 +1,7 @@
-android{
+android {
     productFlavors {
         home {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "home", CHANNEL_ID: 0,LAUNCHER_ACTIVITY:"maimeng.ketie.app.client.android.view.common.splash.DefaultSplashActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "home", CHANNEL_ID: 0, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
     }
 //    productFlavors.all {

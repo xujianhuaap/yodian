@@ -1,3 +1,4 @@
+//apply from: 'channel_mini.gradle'
 android {
     applicationVariants.all { variant ->
         def buildName = variant.name;
