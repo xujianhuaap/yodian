@@ -102,30 +102,31 @@
 
 
 
-            <android.support.design.widget.FloatingActionButton
+            <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/fab_submit"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_margin="@dimen/floating_btn_margin"
+                android:src="@drawable/btn_submit_normal"
                 app:fab_colorNormal="@color/float_colorNormal"
                 app:fab_colorPressed="@color/float_colorPressed"
-                app:fab_colorRipple="@color/float_colorRipple"
-                android:src="@drawable/btn_share"
-                android:layout_gravity="bottom|end">
+                app:fab_colorRipple="@color/float_colorRipple">
 
-            </android.support.design.widget.FloatingActionButton>
+            </com.melnykov.fab.FloatingActionButton>
 
-            <android.support.design.widget.FloatingActionButton
+            <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/fab_goback"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|bottom"
+                android:layout_margin="@dimen/floating_btn_margin"
+                android:src="@drawable/btn_back"
                 app:fab_colorNormal="@color/float_colorNormal"
                 app:fab_colorPressed="@color/float_colorPressed"
-                app:fab_colorRipple="@color/float_colorRipple"
-                android:scaleType="centerCrop"
-                android:background="@drawable/btn_back"
-                android:layout_gravity="bottom|left">
+                app:fab_colorRipple="@color/float_colorRipple">
 
-            </android.support.design.widget.FloatingActionButton>
+            </com.melnykov.fab.FloatingActionButton>
 
     </FrameLayout>
 </layout>

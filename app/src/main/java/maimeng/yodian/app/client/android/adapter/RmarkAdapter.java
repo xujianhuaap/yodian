@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.databinding.RmarkListItemBinding;
-import maimeng.yodian.app.client.android.databinding.SkillListItemHomeBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPreviewDiaryBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.User;
@@ -23,13 +22,14 @@ import maimeng.yodian.app.client.android.model.User;
 /**
  * Created by android on 15-8-7.
  */
-public class RmarkAdapter extends AbstractAdapter<Rmark,RmarkAdapter.ViewHolder> {
+public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewHolder> {
     private ViewHolderClickListener<RmarkAdapter.ViewHolder> mViewHolderClickListener;
     private Skill mSkill;
     private User me;
     private final int TYPE_HEADER=232;
     private final int TYPE_NORMAL=234;
     private  Spanned priceText=null;
+
     public RmarkAdapter(Context context,Skill skill, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
         me=User.read(mContext);
@@ -45,6 +45,8 @@ public class RmarkAdapter extends AbstractAdapter<Rmark,RmarkAdapter.ViewHolder>
         super(fragment, viewHolderClickListener);
     }
 
+
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
@@ -54,9 +56,10 @@ public class RmarkAdapter extends AbstractAdapter<Rmark,RmarkAdapter.ViewHolder>
             priceText= Html.fromHtml(mContext.getResources().getString(R.string.lable_price, mSkill.getPrice(), mSkill.getUnit()));
             viewHolder.binding.price.setText(priceText);
         }else{
+            Rmark rmark=(Rmark)getItem(position);
             NormalViewHolder viewHolder=(NormalViewHolder)holder;
-            viewHolder.bind(getItem(position-1));
-            viewHolder.binding.setRmark(getItem(position-1));
+            viewHolder.bind(rmark);
+            viewHolder.binding.setRmark(rmark);
         }
 
     }
@@ -187,4 +190,11 @@ public class RmarkAdapter extends AbstractAdapter<Rmark,RmarkAdapter.ViewHolder>
         }
     }
 
+    @Override
+    public Object getItem(int position) {
+        if(position==0){
+            return  mSkill;
+        }
+        return datas.get(position-1);
+    }
 }

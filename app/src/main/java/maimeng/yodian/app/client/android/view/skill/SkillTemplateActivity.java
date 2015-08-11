@@ -23,6 +23,7 @@ import java.util.List;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
+import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillTemplateAdapter;
 import maimeng.yodian.app.client.android.db.SQLiteHelper;
 import maimeng.yodian.app.client.android.model.SkillTemplate;

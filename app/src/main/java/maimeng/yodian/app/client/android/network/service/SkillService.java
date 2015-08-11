@@ -34,7 +34,7 @@ public interface SkillService {
      * @param callback
      */
     @Post(ApiConfig.Api.SKILL_CHOICE)
-    void choose(@Param("p") int p, Callback<SkillResponse> callback);
+    void choose(@Param("p") int p,@Param("scid") int scid, Callback<SkillResponse> callback);
 
     /**
      * 获取技能模板

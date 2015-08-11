@@ -23,7 +23,6 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,10 +40,6 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.common.model.Skill;
-import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
-import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
-import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
-import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -60,7 +55,7 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 /**
  * Created by android on 15-7-13.
  */
-public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.BaseViewHolder>, PtrHandler, Callback<SkillResponse> {
+public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse> {
     private final View mView;
     private final MainTabActivity mActivity;
     private final SkillService service;
@@ -201,63 +196,58 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
     }
 
     @Override
-    public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder holder, int postion) {
-        if (holder instanceof SkillListSelectorAdapter.ItemViewHolder) {
-            mFloatButton.show();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+    public void onItemClick(final SkillListSelectorAdapter.ViewHolder holder, int postion) {
+        mFloatButton.show();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
 //                Pair<View, String> contact = Pair.create((View) holder.getBinding().pic, "pic");
 //                Pair<View, String> nick = Pair.create((View) holder.getBinding().userNickname, "nick");
 //                Pair<View, String> avatar = Pair.create((View) holder.getBinding().userAvatar, "avatar");
-                    //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back, contact, avatar);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", ((SkillListSelectorAdapter.ItemViewHolder) holder).getData()), options.toBundle());
-                }
-            }, 200);
-        }
+                //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back, contact, avatar);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", holder.getData()), options.toBundle());
+            }
+        }, 200);
     }
 
     @Override
-    public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, int postion) {
-        if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
-            SkillListSelectorAdapter.ItemViewHolder holder = (SkillListSelectorAdapter.ItemViewHolder) h;
-            Skill skill = holder.getData();
-            if (clickItem == holder.getBinding().btnShare) {
-                Skill data = skill;
-                ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""));
-            } else if (clickItem == holder.getBinding().btnContect) {
-                Intent intent = new Intent(mActivity, ChatActivity.class);
-                intent.putExtra("skill", holder.getData());
-                Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
-                String chatLoginName = skill.getChatLoginName();
-                if (robotMap.containsKey(chatLoginName)) {
-                    intent.putExtra("userId", chatLoginName);
-                    mActivity.startActivity(intent);
-                } else {
-                    RobotUser robot = new RobotUser();
-                    robot.setId(skill.getUid() + "");
-                    robot.setUsername(chatLoginName);
-                    robot.setNick(skill.getNickname());
-                    robot.setAvatar(skill.getAvatar());
+    public void onClick(SkillListSelectorAdapter.ViewHolder holder, View clickItem, int postion) {
+        Skill skill = holder.getData();
+        if (clickItem == holder.getBinding().btnShare) {
+            Skill data = skill;
+            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""));
+        } else if (clickItem == holder.getBinding().btnContect) {
+            Intent intent = new Intent(mActivity, ChatActivity.class);
+            intent.putExtra("skill", holder.getData());
+            Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
+            String chatLoginName = skill.getChatLoginName();
+            if (robotMap.containsKey(chatLoginName)) {
+                intent.putExtra("userId", chatLoginName);
+                mActivity.startActivity(intent);
+            } else {
+                RobotUser robot = new RobotUser();
+                robot.setId(skill.getUid() + "");
+                robot.setUsername(chatLoginName);
+                robot.setNick(skill.getNickname());
+                robot.setAvatar(skill.getAvatar());
 
-                    maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                    user.setId(skill.getUid() + "");
-                    user.setUsername(chatLoginName);
-                    user.setNick(skill.getNickname());
-                    user.setAvatar(skill.getAvatar());
-                    // 存入内存
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
-                    // 存入db
-                    UserDao dao = new UserDao(mActivity);
-                    dao.saveOrUpdate(user);
-                    dao.saveOrUpdate(robot);
-                    intent.putExtra("userId", chatLoginName);
-                    intent.putExtra("userNickname", skill.getNickname());
-                    mActivity.startActivity(intent);
-                }
+                maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
+                user.setId(skill.getUid() + "");
+                user.setUsername(chatLoginName);
+                user.setNick(skill.getNickname());
+                user.setAvatar(skill.getAvatar());
+                // 存入内存
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
+                // 存入db
+                UserDao dao = new UserDao(mActivity);
+                dao.saveOrUpdate(user);
+                dao.saveOrUpdate(robot);
+                intent.putExtra("userId", chatLoginName);
+                intent.putExtra("userNickname", skill.getNickname());
+                mActivity.startActivity(intent);
             }
         }
     }
@@ -282,21 +272,8 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
     @Override
     public void success(SkillResponse res, Response response) {
         if (res.isSuccess()) {
-            SkillResponse.DataNode data = res.getData();
-            List<Skill> list = data.getList();
-            final List<ViewEntry> entries;
-            if (page == 1) {
-                entries = new ArrayList<>(list.size() + 2);
-                entries.add(new BannerViewEntry(data.getBanner()));
-                entries.add(new HeadViewEntry(data.getHeadSkill(), data.getHeadUser()));
-            } else {
-                entries = new ArrayList<>(list.size());
-            }
-
-            for (Skill skill : list) {
-                entries.add(new ItemViewEntry(skill));
-            }
-            adapter.reload(entries, page != 1);
+            List<Skill> list = res.getData().getList();
+            adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
         } else {
             res.showMessage(mActivity);

@@ -1,8 +1,8 @@
 package maimeng.yodian.app.client.android.adapter;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -20,7 +20,7 @@ import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 /**
  * Created by android on 15-7-13.
  */
-public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAdapter.ViewHolder>{
+public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAdapter.ViewHolder> {
     public SkillListHomeAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
     }
@@ -110,7 +110,8 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
                 }
             }else if(v==binding.btnReview){
                 //create by xu 08-06
-                SkillPreviewActivity.show(binding.getSkill(),mContext);
+                Activity activity=(Activity)mContext;
+                SkillPreviewActivity.show(binding.getSkill(),activity,0,0);
                 //end
             }else{
                 mViewHolderClickListener.onClick(this,v,getLayoutPosition());

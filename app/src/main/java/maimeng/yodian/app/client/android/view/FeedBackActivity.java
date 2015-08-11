@@ -30,6 +30,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
+import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.model.User;
 
 /**
@@ -133,7 +134,7 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
         sync();
     }
 
-    class Adapter extends AbstractAdapter<Reply,ViewHolder>{
+    class Adapter extends AbstractAdapter<Reply,ViewHolder> {
         public static final int VIEW_TYPE_DEV=1;
         public static final int VIEW_TYPE_USER=2;
         final SimpleDateFormat format;

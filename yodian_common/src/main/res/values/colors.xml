@@ -9,4 +9,7 @@
     <color name="float_colorPressed">@color/colorPrimaryDark</color>
     <color name="float_colorRipple">#8000</color>
     <color name="chat_textColor">#ccc</color>
+
+    <color name="colorPrimaryDarkTransparent">#99FFA739</color>
+
 </resources>

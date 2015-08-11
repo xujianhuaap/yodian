@@ -45,6 +45,7 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 public class CreateOrEditSkillActivity extends AppCompatActivity implements Target {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
+    private static final int REQUEST_DONE = 0x1003;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
@@ -74,6 +75,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 mTemplate.setStatus(skill.getStatus());
                 isEdit = true;
             }
+
         }
         Network.image(this, mTemplate.getPic(), this);
         binding.setTemplate(mTemplate);
@@ -103,6 +105,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         binding.btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 doDone();
             }
         });
@@ -168,9 +171,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         binding.buttonContainer.startAnimation(animation);
     }
 
-    private void
-               doDone() {
-        binding.invalidateAll();
+    private void doDone() {
         final SkillTemplate template = binding.getTemplate();
         if (TextUtils.isEmpty(template.getName())) {
             binding.getTemplate();
@@ -193,79 +194,98 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             Toast.makeText(this, R.string.create_not_empty_pic, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (isEdit) {
-            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
-                @Override
-                public void success(ToastResponse res, Response response) {
-                    super.success(res, response);
-                    if (res.isSuccess()) {
-                        Skill skill = getIntent().getParcelableExtra("skill");
-                        skill.setPic(template.getPic());
-                        skill.setUnit(template.getUnit());
-                        skill.setPrice(template.getPrice());
-                        skill.setName(template.getName());
-                        skill.setContent(template.getContent());
-                        skill.setCreatetime(template.getCreatetime());
-                        skill.setStatus(template.getStatus());
-                        Intent data = new Intent();
-                        data.putExtra("skill", skill);
-                        setResult(RESULT_OK, data);
-                        finish();
-                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
-                }
 
-                @Override
-                public void start() {
-                    super.start();
-                    dialog = WaitDialog.show(CreateOrEditSkillActivity.this);
 
-                }
+        Skill skill=new Skill();
+        skill.setPic(template.getPic());
+        skill.setId(template.getId());
+        skill.setName(template.getName());
+        skill.setContent(template.getContent());
+        skill.setPrice(template.getPrice());
+        skill.setUnit(template.getUnit());
 
-                @Override
-                public void end() {
-                    super.end();
-                    if (dialog != null) dialog.dismiss();
-                }
-            });
-        } else {
-            service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
-                @Override
-                public void success(ToastResponse res, Response response) {
-                    super.success(res, response);
-                    if (res.isSuccess()) {
-                        setResult(RESULT_OK);
-                        finish();
-                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
-                }
 
-                @Override
-                public void start() {
-                    super.start();
-                    dialog = WaitDialog.show(CreateOrEditSkillActivity.this);
+        int editstatu=isEdit ?1:2;
+        SkillPreviewActivity.show(skill, CreateOrEditSkillActivity.this,editstatu, REQUEST_DONE);
 
-                }
-
-                @Override
-                public void end() {
-                    super.end();
-                    if (dialog != null) dialog.dismiss();
-                }
-            });
-        }
+//        if (isEdit) {
+//            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
+//                @Override
+//                public void success(ToastResponse res, Response response) {
+//                    super.success(res, response);
+//                    if (res.isSuccess()) {
+//                        Skill skill = getIntent().getParcelableExtra("skill");
+//                        skill.setPic(template.getPic());
+//                        skill.setUnit(template.getUnit());
+//                        skill.setPrice(template.getPrice());
+//                        skill.setName(template.getName());
+//                        skill.setContent(template.getContent());
+//                        skill.setCreatetime(template.getCreatetime());
+//                        skill.setStatus(template.getStatus());
+//                        Intent data = new Intent();
+//                        data.putExtra("skill", skill);
+//                        setResult(RESULT_OK, data);
+//                        finish();
+//                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
+//                }
+//
+//                @Override
+//                public void start() {
+//                    super.start();
+//                    dialog = WaitDialog.show(CreateOrEditSkillActivity.this);
+//
+//                }
+//
+//                @Override
+//                public void end() {
+//                    super.end();
+//                    if (dialog != null) dialog.dismiss();
+//                }
+//            });
+//        } else {
+//            service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
+//                @Override
+//                public void success(ToastResponse res, Response response) {
+//                    super.success(res, response);
+//                    if (res.isSuccess()) {
+//                        setResult(RESULT_OK);
+//                        finish();
+//                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
+//                }
+//
+//                @Override
+//                public void start() {
+//                    super.start();
+//                    dialog = WaitDialog.show(CreateOrEditSkillActivity.this);
+//
+//                }
+//
+//                @Override
+//                public void end() {
+//                    super.end();
+//                    if (dialog != null) dialog.dismiss();
+//                }
+//            });
+//        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_AUTH && resultCode == RESULT_OK) {
-            doDone();
-        } else if (requestCode == REQUEST_SELECT_PHOTO && resultCode == RESULT_OK) {
-            ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
-            String uri = Uri.fromFile(new File(paths.get(0))).toString();
-            Network.image(this, uri, this);
-            binding.getTemplate().setPic(uri);
-            toggle();
+        if(resultCode==RESULT_OK){
+            if (requestCode == REQUEST_AUTH ) {
+                doDone();
+            } else if (requestCode == REQUEST_SELECT_PHOTO ) {
+                ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+                String uri = Uri.fromFile(new File(paths.get(0))).toString();
+                Network.image(this, uri, this);
+                binding.getTemplate().setPic(uri);
+                toggle();
+            } else if(resultCode==REQUEST_DONE){
+
+            }
         }
+
     }
 
     @Override
