@@ -1,5 +1,7 @@
 package maimeng.yodian.app.client.android.view.auth;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -85,11 +87,17 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-
+    public static void start(Context context){
+        context.startActivity(new Intent(context, AuthSeletorActivity.class));
+    }
+    public static void start(Activity context,int requestCode){
+        context.startActivityForResult(new Intent(context, AuthSeletorActivity.class).putExtra("result",true), requestCode);
+    }
     private void handlerFinsh() {
         Intent intent = getIntent();
-        if (intent.getBooleanExtra("result", false)) {
-            setResult(RESULT_OK);
+        boolean result = intent.getBooleanExtra("result", false);
+        setResult(RESULT_OK);
+        if (result) {
             finish();
         } else {
             startActivity(new Intent(AuthSeletorActivity.this, MainTabActivity.class));
