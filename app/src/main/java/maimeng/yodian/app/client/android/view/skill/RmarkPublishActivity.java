@@ -139,7 +139,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
                 InputMethodManager inputMethodService= (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodService.hideSoftInputFromInputMethod(mBinding.editDiary.getWindowToken(),0);
             }
-            return true;
+            return false;
         }
 
         @Override
@@ -168,14 +168,24 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
         if(v==mBinding.fabGoback){
             finish();
         }else if(v==mBinding.fabSubmit){
-            String content=mBinding.editDiary.getText().toString();
-            String path=mFile.getAbsolutePath();
-            if(content!=null&&path!=null){
-                Skill skill=new Skill();
-                skill.setPic(path);
-                skill.setContent(content);
-                refresh(skill);
+            if(mFile!=null){
+                String content=mBinding.editDiary.getText().toString();
+                if(content!=null){
+                    String path=mFile.getAbsolutePath();
+                    if(content!=null&&path!=null){
+                        Skill skill=new Skill();
+                        skill.setPic(path);
+                        skill.setContent(content);
+                        refresh(skill);
+                    }
+                }else {
+                    Toast.makeText(this,"您还没编辑日记内容",Toast.LENGTH_SHORT).show();
+                }
+
+            }else {
+                Toast.makeText(this,"不要忘记选择图片",Toast.LENGTH_SHORT).show();
             }
+
 
         }else {
 
@@ -250,5 +260,11 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mTempUri);
         startActivityForResult(intent, REQUEST_CODE_CLIPPING);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        LogUtil.d(LOG_TAG,"onback");
     }
 }

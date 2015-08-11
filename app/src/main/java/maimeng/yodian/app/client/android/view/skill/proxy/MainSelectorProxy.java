@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill.proxy;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
@@ -7,14 +8,16 @@ import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
@@ -23,6 +26,7 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +44,15 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.model.Theme;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
+import maimeng.yodian.app.client.android.view.skill.CategoryWindow;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
@@ -55,19 +60,31 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 /**
  * Created by android on 15-7-13.
  */
-public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse> {
+public class MainSelectorProxy implements ActivityProxy,
+        AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.ViewHolder>,
+        PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryWindow.CategoryClickListener {
+
+    private static final String LOG_TAG = MainSelectorProxy.class.getName();
     private final View mView;
     private final MainTabActivity mActivity;
     private final SkillService service;
+    private final TextView mTitle;
+    private final ImageView mTitleIndicator;
     private final PtrFrameLayout mRefreshLayout;
     private final RecyclerView mRecyclerView;
+
+
     private boolean inited = false;
     private User user;
     private int page = 1;
+    private int scid;
+    private final int mTitleStatus = 0x23;
     private final SkillListSelectorAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private FloatingActionButton mFloatButton;
     private final Handler handler;
+    private ArrayList<Theme> mCategory;
+    private CategoryWindow mCategoryFragment;
 
     public MainSelectorProxy(MainTabActivity activity, View view) {
         this.mView = view;
@@ -75,6 +92,10 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
         view.setVisibility(View.GONE);
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
+        mTitleIndicator=(ImageView)view.findViewById(R.id.title_logo);
+        mTitle = (TextView) view.findViewById(R.id.list_title);
+        mTitle.setOnClickListener(this);
+        mTitle.setTag(mTitleStatus);
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
@@ -97,8 +118,33 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
         //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
+
+    @Override
+    public void onClickListener(View v, Theme theme) {
+        scid = (int) theme.getScid();
+        loadData();
+        mTitle.setText(theme.getName());
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mTitleStatus == v.getTag()) {
+            mCategoryFragment = CategoryWindow.show(mActivity, mCategory, this);
+            int y_offset = mView.findViewById(R.id.toolbar).getHeight() + 60;
+            mCategoryFragment.showAtLocation(mView, Gravity.TOP, 0, y_offset);
+
+            v.setTag(0);
+        } else {
+            mCategoryFragment.dismiss();
+            v.setTag(mTitleStatus);
+        }
+        
+        ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180).setDuration(2000).start();
+
+    }
+
     public void loadData() {
-        service.choose(page, this);
+        service.choose(page, scid, this);
     }
 
     @Override
@@ -272,6 +318,7 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
     @Override
     public void success(SkillResponse res, Response response) {
         if (res.isSuccess()) {
+            mCategory = res.getData().getCategory();
             List<Skill> list = res.getData().getList();
             adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();

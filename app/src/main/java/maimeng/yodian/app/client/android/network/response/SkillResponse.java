@@ -1,8 +1,10 @@
 package maimeng.yodian.app.client.android.network.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.model.Theme;
 
 
 /**
@@ -20,6 +22,16 @@ public class SkillResponse extends Response {
     }
 
     public class DataNode {
+        private ArrayList<Theme>category;
+
+        public ArrayList<Theme> getCategory() {
+            return category;
+        }
+
+        public void setCategory(ArrayList<Theme> category) {
+            this.category = category;
+        }
+
         public List<Skill> getList() {
             return list;
         }

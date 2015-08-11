@@ -1,4 +1,8 @@
 <resources>
+    <style name="CatogoryWindowAnimation">
+        <item name="android:windowExitAnimation">@anim/push_top_out</item>
+        <item name="android:windowEnterAnimation">@anim/push_top_in</item>
+    </style>
 
 
 </resources>
