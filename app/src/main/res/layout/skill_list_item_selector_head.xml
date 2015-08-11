@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="skill"
+            type="maimeng.yodian.app.client.android.network.response.SkillResponse.DataNode.Head" />
+
+        <variable
+            name="user"
+            type="maimeng.yodian.app.client.android.network.response.SkillResponse.DataNode.Head" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/skill_list_head_height"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:scaleType="center"
+            app:imgUrl="@{skill.pic}" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/skill_list_head_height"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:scaleType="center"
+            app:imgUrl="@{user.pic}" />
+    </LinearLayout>
+</layout>

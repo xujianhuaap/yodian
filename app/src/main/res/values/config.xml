@@ -4,5 +4,5 @@
     <item name="duration" type="integer">300</item>
     <item name="duration_long" type="integer">900</item>
     <item name="splash_duration" type="integer">5000</item>
-
+    <item name="banner_duration" type="integer">5000</item>
 </resources>

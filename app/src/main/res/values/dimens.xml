@@ -1,5 +1,5 @@
 <resources>
-    <eat-comment/>
+    <eat-comment />
     <dimen name="top_icon_margin">10dp</dimen>
     <dimen name="setup_wizard_avatar_size">100dp</dimen>
 
@@ -12,7 +12,7 @@
     <dimen name="radius">15dp</dimen>
     <dimen name="btn_text_size">18sp</dimen>
 
-    <eat-comment/>
+    <eat-comment />
     <dimen name="auth_input_marginStart">30dp</dimen>
     <dimen name="auth_input_space_height">20dp</dimen>
     <dimen name="auth_input_marginEnd">30dp</dimen>
@@ -26,24 +26,25 @@
     <dimen name="auth_input_clean_padding">5dp</dimen>
 
 
-
-    <eat-comment/>
+    <eat-comment />
     <dimen name="skill_list_item_share_margin">5dp</dimen>
     <dimen name="skill_list_item_img_size">240dp</dimen>
     <dimen name="skill_list_item_swipe_width">75dp</dimen>
     <dimen name="skill_list_template_item_height">110dp</dimen>
+    <dimen name="skill_list_banner_height">90dp</dimen>
+    <dimen name="skill_list_head_height">90dp</dimen>
 
 
-    <eat-comment/>
+    <eat-comment />
     <dimen name="share_dialog_content_marginTop">30dp</dimen>
 
-    <eat-comment/>
+    <eat-comment />
     <dimen name="qrcode_size">130dp</dimen>
     <dimen name="qrcode_left">10dp</dimen>
     <dimen name="qrcode_top">10dp</dimen>
 
 
-    <eat-comment/>
+    <eat-comment />
     <dimen name="skill_detail_head_height">250dp</dimen>
     <!--<dimen name="skill_detail_head_overlay_height">650dp</dimen>-->
 

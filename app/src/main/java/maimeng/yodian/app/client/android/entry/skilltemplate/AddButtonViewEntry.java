@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.viewentry.skill;
+package maimeng.yodian.app.client.android.entry.skilltemplate;
 
 public class AddButtonViewEntry extends ViewEntry {
     public AddButtonViewEntry() {

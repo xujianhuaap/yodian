@@ -18,8 +18,8 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.databinding.SkillTemplateItemBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
-import maimeng.yodian.app.client.android.viewentry.skill.ItemViewEntry;
-import maimeng.yodian.app.client.android.viewentry.skill.ViewEntry;
+import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
+import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
 
 public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTemplateAdapter.ViewHolder> {
     public SkillTemplateAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
