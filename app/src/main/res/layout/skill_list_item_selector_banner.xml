@@ -7,6 +7,7 @@
     android:layout_height="@dimen/skill_list_banner_height"
     app:banner_pageChangeDuration="@integer/banner_duration"
     app:banner_pointAutoPlayAble="true"
+    app:banner_pointAutoPlayInterval="@integer/banner_interval"
     app:banner_pointContainerBackground="#0000"
     app:banner_pointDrawable="@drawable/point"
     app:banner_pointTopBottomMargin="5dp"
