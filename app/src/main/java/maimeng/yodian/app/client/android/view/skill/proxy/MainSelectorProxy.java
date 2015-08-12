@@ -59,6 +59,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
+import maimeng.yodian.app.client.android.widget.CategoryLayout;
 import maimeng.yodian.app.client.android.widget.CategoryView;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
@@ -90,6 +91,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
     private ArrayList<Theme> mCategory;
     private CategoryView mCategoryView;
+    private CategoryLayout mCategoryContainer;
     private ImageView mTitleIndicator;
     private TextView mTitle;
     private ObjectAnimator animator;
@@ -102,7 +104,8 @@ public class MainSelectorProxy implements ActivityProxy,
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
 
-        mCategoryView=(CategoryView)view.findViewById(R.id.category);
+        mCategoryContainer=(CategoryLayout)view.findViewById(R.id.categoryContainer);
+        mCategoryView=(CategoryView)mCategoryContainer.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);
         mTitleIndicator=(ImageView)view.findViewById(R.id.title_logo);
         mTitle = (TextView) view.findViewById(R.id.list_title);
@@ -147,10 +150,10 @@ public class MainSelectorProxy implements ActivityProxy,
         if(animator!=null&&!animator.isRunning()){
             if (mTitleStatus == v.getTag()) {
 
-                mCategoryView.show(600);
+                mCategoryContainer.show(600);
                 v.setTag(0);
             } else {
-                mCategoryView.dismiss(600);
+                mCategoryContainer.dismiss(600);
                 v.setTag(mTitleStatus);
             }
 

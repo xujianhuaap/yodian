@@ -71,21 +71,33 @@
             </android.support.v7.widget.RecyclerView>
         </in.srain.cube.views.ptr.PtrFrameLayout>
         </LinearLayout>
-
-        <maimeng.yodian.app.client.android.widget.CategoryView
-            android:id="@+id/category"
-            android:layout_marginTop="80dp"
-            android:layout_gravity="center_horizontal|top"
+        <maimeng.yodian.app.client.android.widget.CategoryLayout
+            android:id="@+id/categoryContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="80dp"
             android:visibility="gone"
-            android:padding="10dp"
-            android:minHeight="200dp"
-            
-            android:numColumns="3"
             android:background="@color/colorPrimaryDarkTransparent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_triangle"
+                android:layout_gravity="center_horizontal"/>
 
-        </maimeng.yodian.app.client.android.widget.CategoryView>
+            <maimeng.yodian.app.client.android.widget.CategoryView
+                android:id="@+id/category"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:minHeight="200dp"
+                android:numColumns="3">
+
+            </maimeng.yodian.app.client.android.widget.CategoryView>
+
+        </maimeng.yodian.app.client.android.widget.CategoryLayout>
+
     </FrameLayout>
 
 
