@@ -10,7 +10,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -52,8 +51,8 @@ import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
-import maimeng.yodian.app.client.android.view.skill.CategoryWindow;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
+import maimeng.yodian.app.client.android.widget.CategoryView;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
@@ -62,7 +61,7 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
  */
 public class MainSelectorProxy implements ActivityProxy,
         AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.ViewHolder>,
-        PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryWindow.CategoryClickListener {
+        PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryView.CategoryClickListener {
 
     private static final String LOG_TAG = MainSelectorProxy.class.getName();
     private final View mView;
@@ -76,6 +75,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
     private boolean inited = false;
     private User user;
+    private int dgree=1;
     private int page = 1;
     private int scid;
     private final int mTitleStatus = 0x23;
@@ -84,7 +84,8 @@ public class MainSelectorProxy implements ActivityProxy,
     private FloatingActionButton mFloatButton;
     private final Handler handler;
     private ArrayList<Theme> mCategory;
-    private CategoryWindow mCategoryFragment;
+    private CategoryView mCategoryView;
+    private ObjectAnimator animator;
 
     public MainSelectorProxy(MainTabActivity activity, View view) {
         this.mView = view;
@@ -92,6 +93,8 @@ public class MainSelectorProxy implements ActivityProxy,
         view.setVisibility(View.GONE);
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
+        mCategoryView=(CategoryView)view.findViewById(R.id.category);
+        mCategoryView.setCategoryClickListener(this);
         mTitleIndicator=(ImageView)view.findViewById(R.id.title_logo);
         mTitle = (TextView) view.findViewById(R.id.list_title);
         mTitle.setOnClickListener(this);
@@ -114,6 +117,9 @@ public class MainSelectorProxy implements ActivityProxy,
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
         adapter = new SkillListSelectorAdapter(mActivity, this);
         mRecyclerView.setAdapter(adapter);
+
+        animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180 * dgree);
+        animator.setDuration(300);
         ItemTouchHelper swipeTouchHelper = new ItemTouchHelper(new DefaultItemTouchHelperCallback());
         //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
     }
@@ -128,18 +134,20 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onClick(View v) {
-        if (mTitleStatus == v.getTag()) {
-            mCategoryFragment = CategoryWindow.show(mActivity, mCategory, this);
-            int y_offset = mView.findViewById(R.id.toolbar).getHeight() + 60;
-            mCategoryFragment.showAtLocation(mView, Gravity.TOP, 0, y_offset);
+        if(animator!=null&&!animator.isRunning()){
+            if (mTitleStatus == v.getTag()) {
 
-            v.setTag(0);
-        } else {
-            mCategoryFragment.dismiss();
-            v.setTag(mTitleStatus);
+                mCategoryView.show(300);
+                v.setTag(0);
+            } else {
+                mCategoryView.dismiss(300);
+                v.setTag(mTitleStatus);
+            }
+
+           animator.start();
+            dgree++;
+
         }
-        
-        ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180).setDuration(2000).start();
 
     }
 
@@ -322,6 +330,8 @@ public class MainSelectorProxy implements ActivityProxy,
             List<Skill> list = res.getData().getList();
             adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
+
+            mCategoryView.bindData(mActivity,mCategory);
         } else {
             res.showMessage(mActivity);
             if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {

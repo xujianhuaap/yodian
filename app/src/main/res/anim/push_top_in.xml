@@ -3,8 +3,9 @@
     android:duration="@integer/duration">
     <translate
         android:fromXDelta="0"
-        android:fromYDelta="0"
+        android:fromYDelta="70%"
         android:toXDelta="0"
-        android:toYDelta="0"></translate>
+        android:repeatMode="restart"
+        android:toYDelta="200%"></translate>
 
 </set>
