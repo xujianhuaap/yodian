@@ -14,7 +14,7 @@ import java.util.List;
  */
 public abstract class AbstractListAdapter<IT> extends BaseAdapter {
     protected final Context mContext;
-
+    private final ArrayList<IT> datas = new ArrayList<>();
     public void delete(int position) {
         this.datas.remove(position);
         notifyDataSetChanged();
@@ -39,7 +39,7 @@ public abstract class AbstractListAdapter<IT> extends BaseAdapter {
 
 
 
-    private final ArrayList<IT> datas = new ArrayList<>();
+
     public void reload(final List<IT> datas, boolean append) {
         if (!append) {
             this.datas.clear();

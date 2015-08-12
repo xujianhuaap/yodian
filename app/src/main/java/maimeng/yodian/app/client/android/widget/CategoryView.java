@@ -69,12 +69,11 @@ public class CategoryView extends GridView implements ThemeAdapter.AdapterClickL
      * @param themes
      */
     public  void  bindData(Context context, ArrayList<Theme> themes) {
+
         adapter = new ThemeAdapter(context);
         adapter.reload(themes, true);
         this.setAdapter(adapter);
         adapter.setAdapterClickListener(this);
-
-
     }
 
     /***

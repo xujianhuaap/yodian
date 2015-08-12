@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.network.response;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import maimeng.yodian.app.client.android.common.model.Skill;
@@ -22,15 +23,6 @@ public class SkillResponse extends Response {
     }
 
     public class DataNode {
-        private ArrayList<Theme>category;
-
-        public ArrayList<Theme> getCategory() {
-            return category;
-        }
-
-        public void setCategory(ArrayList<Theme> category) {
-            this.category = category;
-        }
 
         public List<Skill> getList() {
             return list;
@@ -41,5 +33,93 @@ public class SkillResponse extends Response {
         }
 
         private List<Skill> list;
+        private List<Banner> banner;
+        private List<Theme> category;
+
+        public List<Theme> getCategory() {
+            return category;
+        }
+
+        public void setCategory(List<Theme> category) {
+            this.category = category;
+        }
+
+        @SerializedName("skill")
+        private Head headSkill;
+
+        public Head getHeadUser() {
+            return headUser;
+        }
+        public void setHeadUser(Head headUser) {
+            this.headUser = headUser;
+        }
+
+        public Head getHeadSkill() {
+            return headSkill;
+        }
+
+        public void setHeadSkill(Head headSkill) {
+            this.headSkill = headSkill;
+        }
+
+        @SerializedName("user")
+
+        private Head headUser;
+        public List<Banner> getBanner() {
+            return banner;
+        }
+
+        public void setBanner(List<Banner> banner) {
+            this.banner = banner;
+        }
+        public class Head{
+            private int value;
+            private String pic;
+
+            public int getValue() {
+                return value;
+            }
+
+            public void setValue(int value) {
+                this.value = value;
+            }
+
+            public String getPic() {
+                return pic;
+            }
+
+            public void setPic(String pic) {
+                this.pic = pic;
+            }
+        }
+        public class Banner{
+            private int type;
+            private int value;
+            private String pic;
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+
+            public int getValue() {
+                return value;
+            }
+
+            public void setValue(int value) {
+                this.value = value;
+            }
+
+            public String getPic() {
+                return pic;
+            }
+
+            public void setPic(String pic) {
+                this.pic = pic;
+            }
+        }
     }
 }

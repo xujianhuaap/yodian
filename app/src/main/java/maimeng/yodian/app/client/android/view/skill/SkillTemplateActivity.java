@@ -32,9 +32,9 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
-import maimeng.yodian.app.client.android.viewentry.skill.AddButtonViewEntry;
-import maimeng.yodian.app.client.android.viewentry.skill.ItemViewEntry;
-import maimeng.yodian.app.client.android.viewentry.skill.ViewEntry;
+import maimeng.yodian.app.client.android.entry.skilltemplate.AddButtonViewEntry;
+import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
+import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
 
 public class SkillTemplateActivity extends AppCompatActivity implements Callback<SkillTemplateResponse>, AbstractAdapter.ViewHolderClickListener<SkillTemplateAdapter.ViewHolder> {
     private SkillService service;
