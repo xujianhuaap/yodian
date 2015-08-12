@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.model.Theme;
 
 
 /**
@@ -22,6 +23,7 @@ public class SkillResponse extends Response {
     }
 
     public class DataNode {
+
         public List<Skill> getList() {
             return list;
         }
@@ -32,6 +34,16 @@ public class SkillResponse extends Response {
 
         private List<Skill> list;
         private List<Banner> banner;
+        private List<Theme> category;
+
+        public List<Theme> getCategory() {
+            return category;
+        }
+
+        public void setCategory(List<Theme> category) {
+            this.category = category;
+        }
+
         @SerializedName("skill")
         private Head headSkill;
 

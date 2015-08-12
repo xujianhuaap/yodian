@@ -16,6 +16,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
@@ -47,6 +49,7 @@ import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
+import maimeng.yodian.app.client.android.model.Theme;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -56,13 +59,20 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
+import maimeng.yodian.app.client.android.widget.CategoryView;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
 /**
  * Created by android on 15-7-13.
  */
-public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.BaseViewHolder>, PtrHandler, Callback<SkillResponse> {
+
+public class MainSelectorProxy implements ActivityProxy,
+        AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.BaseViewHolder>,
+        PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryView.CategoryClickListener {
+
+    private static final String LOG_TAG = MainSelectorProxy.class.getName();
+    private static final int mTitleStatus=0x37;
     private final View mView;
     private final MainTabActivity mActivity;
     private final SkillService service;
@@ -70,11 +80,20 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
     private final RecyclerView mRecyclerView;
     private boolean inited = false;
     private User user;
+    private int dgree=1;
     private int page = 1;
+    private int scid=0;
     private final SkillListSelectorAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private FloatingActionButton mFloatButton;
     private final Handler handler;
+
+    private ArrayList<Theme> mCategory;
+    private CategoryView mCategoryView;
+    private ImageView mTitleIndicator;
+    private TextView mTitle;
+    private ObjectAnimator animator;
+
 
     public MainSelectorProxy(MainTabActivity activity, View view) {
         this.mView = view;
@@ -82,6 +101,13 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
         view.setVisibility(View.GONE);
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
+
+        mCategoryView=(CategoryView)view.findViewById(R.id.category);
+        mCategoryView.setCategoryClickListener(this);
+        mTitleIndicator=(ImageView)view.findViewById(R.id.title_logo);
+        mTitle = (TextView) view.findViewById(R.id.list_title);
+        mTitle.setOnClickListener(this);
+        mTitle.setTag(mTitleStatus);
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
@@ -100,8 +126,39 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
         adapter = new SkillListSelectorAdapter(mActivity, this);
         mRecyclerView.setAdapter(adapter);
+
+        animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180 * dgree);
+        animator.setDuration(300);
         ItemTouchHelper swipeTouchHelper = new ItemTouchHelper(new DefaultItemTouchHelperCallback());
         //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+
+
+    @Override
+    public void onClickListener(View v, Theme theme) {
+        scid = (int) theme.getScid();
+        loadData();
+        mTitle.setText(theme.getName());
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(animator!=null&&!animator.isRunning()){
+            if (mTitleStatus == v.getTag()) {
+
+                mCategoryView.show(600);
+                v.setTag(0);
+            } else {
+                mCategoryView.dismiss(600);
+                v.setTag(mTitleStatus);
+            }
+
+           animator.start();
+            dgree++;
+
+        }
+
     }
 
     public void loadData() {
@@ -337,6 +394,12 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
             }
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
+
+            mCategory=(ArrayList)res.getData().getCategory();
+            if(mCategory==null){
+                mCategory=new ArrayList<Theme>();
+            }
+            mCategoryView.bindData(mActivity,mCategory);
         } else {
             res.showMessage(mActivity);
             if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {

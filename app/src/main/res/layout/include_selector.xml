@@ -1,66 +1,91 @@
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:id="@+id/list_root"
-    android:background="#fff"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize">
+        android:orientation="horizontal"
+        android:minHeight="80dp"
+        android:gravity="center">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/list_title"
-                android:layout_width="wrap_content"
+            android:background="#fff"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal|top"
+            android:gravity="center"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:text="优点精选"
-                style="@style/Base.TextAppearance.AppCompat.Title"
-                android:singleLine="true"
-                android:textColor="?android:attr/textColorPrimary" />
-            <ImageView
-                android:id="@+id/title_logo"
-                android:layout_marginLeft="10dp"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/ic_triangle_indicator"
-                android:scaleType="centerCrop"
-               />
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/list_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="优点精选"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:singleLine="true"
+                    android:textColor="?android:attr/textColorPrimary" />
+                <ImageView
+                    android:id="@+id/title_logo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_triangle_indicator"
+                    android:scaleType="centerCrop"
+                   />
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+
+
+        <in.srain.cube.views.ptr.PtrFrameLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:ptr_resistance="1.7"
+            app:ptr_ratio_of_header_height_to_refresh="1.2"
+            app:ptr_duration_to_close="300"
+            app:ptr_duration_to_close_header="1000"
+            app:ptr_keep_header_when_refresh="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:ptr_pull_to_fresh="false">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+        </in.srain.cube.views.ptr.PtrFrameLayout>
         </LinearLayout>
 
-
-    </android.support.v7.widget.Toolbar>
-
-
-    <in.srain.cube.views.ptr.PtrFrameLayout
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:ptr_resistance="1.7"
-        app:ptr_ratio_of_header_height_to_refresh="1.2"
-        app:ptr_duration_to_close="300"
-        app:ptr_duration_to_close_header="1000"
-        app:ptr_keep_header_when_refresh="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:ptr_pull_to_fresh="false">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <maimeng.yodian.app.client.android.widget.CategoryView
+            android:id="@+id/category"
+            android:layout_marginTop="80dp"
+            android:layout_gravity="center_horizontal|top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="10dp"
+            android:minHeight="200dp"
+            
+            android:numColumns="3"
+            android:background="@color/colorPrimaryDarkTransparent">
 
-        </android.support.v7.widget.RecyclerView>
-    </in.srain.cube.views.ptr.PtrFrameLayout>
-</LinearLayout>
+        </maimeng.yodian.app.client.android.widget.CategoryView>
+    </FrameLayout>
+
 
