@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill.proxy;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
+import kotlin.data;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
@@ -72,7 +75,7 @@ public class MainSelectorProxy implements ActivityProxy,
         PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryView.CategoryClickListener {
 
     private static final String LOG_TAG = MainSelectorProxy.class.getName();
-    private static final int mTitleStatus=0x37;
+    private static final int mTitleStatus = 0x37;
     private final View mView;
     private final MainTabActivity mActivity;
     private final SkillService service;
@@ -80,15 +83,15 @@ public class MainSelectorProxy implements ActivityProxy,
     private final RecyclerView mRecyclerView;
     private boolean inited = false;
     private User user;
-    private int dgree=1;
+    private int dgree = 1;
     private int page = 1;
-    private int scid=0;
+    private int scid = 0;
     private final SkillListSelectorAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private FloatingActionButton mFloatButton;
     private final Handler handler;
 
-    private ArrayList<Theme> mCategory;
+    private List<Theme> mCategory;
     private CategoryView mCategoryView;
     private ImageView mTitleIndicator;
     private TextView mTitle;
@@ -102,9 +105,9 @@ public class MainSelectorProxy implements ActivityProxy,
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
 
-        mCategoryView=(CategoryView)view.findViewById(R.id.category);
+        mCategoryView = (CategoryView) view.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);
-        mTitleIndicator=(ImageView)view.findViewById(R.id.title_logo);
+        mTitleIndicator = (ImageView) view.findViewById(R.id.title_logo);
         mTitle = (TextView) view.findViewById(R.id.list_title);
         mTitle.setOnClickListener(this);
         mTitle.setTag(mTitleStatus);
@@ -134,7 +137,6 @@ public class MainSelectorProxy implements ActivityProxy,
     }
 
 
-
     @Override
     public void onClickListener(View v, Theme theme) {
         scid = (int) theme.getScid();
@@ -144,7 +146,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onClick(View v) {
-        if(animator!=null&&!animator.isRunning()){
+        if (animator != null && !animator.isRunning()) {
             if (mTitleStatus == v.getTag()) {
 
                 mCategoryView.show(600);
@@ -154,7 +156,7 @@ public class MainSelectorProxy implements ActivityProxy,
                 v.setTag(mTitleStatus);
             }
 
-           animator.start();
+            animator.start();
             dgree++;
 
         }
@@ -368,6 +370,7 @@ public class MainSelectorProxy implements ActivityProxy,
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
         reset();
         loadData();
+
     }
 
     @Override
@@ -395,11 +398,11 @@ public class MainSelectorProxy implements ActivityProxy,
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
 
-            mCategory=(ArrayList)res.getData().getCategory();
-            if(mCategory==null){
-                mCategory=new ArrayList<Theme>();
+            mCategory = res.getData().getCategory();
+            if (mCategory == null) {
+                mCategory = new ArrayList<Theme>();
             }
-            mCategoryView.bindData(mActivity,mCategory);
+            mCategoryView.bindData(mActivity, mCategory);
         } else {
             res.showMessage(mActivity);
             if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
