@@ -15,6 +15,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.Toast;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
@@ -33,6 +34,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
+import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListSelectorAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
@@ -201,8 +203,8 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
     }
 
     @Override
-    public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder holder, int postion) {
-        if (holder instanceof SkillListSelectorAdapter.ItemViewHolder) {
+    public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
+        if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
             mFloatButton.show();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -213,9 +215,37 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
 //                Pair<View, String> avatar = Pair.create((View) holder.getBinding().userAvatar, "avatar");
                     //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back, contact, avatar);
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", ((SkillListSelectorAdapter.ItemViewHolder) holder).getData()), options.toBundle());
+                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", ((SkillListSelectorAdapter.ItemViewHolder) h).getData()), options.toBundle());
                 }
             }, 200);
+        }
+    }
+
+    private void clickBanner(SkillListSelectorAdapter.BannerViewHolder holder) {
+        int current = holder.currentPage % holder.list.banners.size();
+        SkillResponse.DataNode.Banner banner = holder.list.banners.get(current);
+        if (banner.getType() == 3) {
+            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+            ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", Long.parseLong(banner.getValue())), options.toBundle());
+        } else if (banner.getType() == 2) {
+            Toast.makeText(mActivity, "用户", Toast.LENGTH_SHORT).show();
+        } else if (banner.getType() == 1) {
+            Toast.makeText(mActivity, "网址", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * @param type 1:skill,2:user
+     * @param data
+     */
+    private void clickHead(int type, HeadViewEntry data) {
+        if (type == 1) {
+            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+            ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", data.skill.getValue()), options.toBundle());
+        } else {
+            Toast.makeText(mActivity, "click Head User", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -259,6 +289,15 @@ public class MainSelectorProxy implements ActivityProxy, AbstractAdapter.ViewHol
                     mActivity.startActivity(intent);
                 }
             }
+        } else if (SkillListSelectorAdapter.HeadViewHolder.class.isInstance(h)) {
+            SkillListSelectorAdapter.HeadViewHolder holder = (SkillListSelectorAdapter.HeadViewHolder) h;
+            if (clickItem == holder.binding.headSkill) {
+                clickHead(1, holder.data);
+            } else if (clickItem == holder.binding.headUser) {
+                clickHead(2, holder.data);
+            }
+        } else if (SkillListSelectorAdapter.BannerViewHolder.class.isInstance(h)) {
+            clickBanner(((SkillListSelectorAdapter.BannerViewHolder) h));
         }
     }
 

@@ -38,6 +38,7 @@ public class SkillResponse extends Response {
         public Head getHeadUser() {
             return headUser;
         }
+
         public void setHeadUser(Head headUser) {
             this.headUser = headUser;
         }
@@ -53,6 +54,7 @@ public class SkillResponse extends Response {
         @SerializedName("user")
 
         private Head headUser;
+
         public List<Banner> getBanner() {
             return banner;
         }
@@ -60,11 +62,12 @@ public class SkillResponse extends Response {
         public void setBanner(List<Banner> banner) {
             this.banner = banner;
         }
-        public class Head{
-            private int value;
+
+        public class Head {
+            private long value;
             private String pic;
 
-            public int getValue() {
+            public long getValue() {
                 return value;
             }
 
@@ -80,9 +83,18 @@ public class SkillResponse extends Response {
                 this.pic = pic;
             }
         }
-        public class Banner{
+
+        public class Banner {
+            /**
+             * 1:网址;2用户;3技能
+             */
+
             private int type;
-            private int value;
+            /**
+             * 1的时候是网址，2或3的时候是id(long)
+             */
+
+            private String value;
             private String pic;
 
             public int getType() {
@@ -93,11 +105,11 @@ public class SkillResponse extends Response {
                 this.type = type;
             }
 
-            public int getValue() {
+            public String getValue() {
                 return value;
             }
 
-            public void setValue(int value) {
+            public void setValue(String value) {
                 this.value = value;
             }
 

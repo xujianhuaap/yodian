@@ -19,6 +19,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/head_skill"
             android:layout_width="match_parent"
             android:layout_height="@dimen/skill_list_head_height"
             android:layout_margin="5dp"
@@ -27,6 +28,7 @@
             app:imgUrl="@{skill.pic}" />
 
         <ImageView
+            android:id="@+id/head_user"
             android:layout_width="match_parent"
             android:layout_height="@dimen/skill_list_head_height"
             android:layout_margin="5dp"

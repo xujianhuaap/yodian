@@ -57,6 +57,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
@@ -80,6 +81,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private Skill skill;
     private User user;
     private boolean isMe;
+    private WaitDialog dialog;
 
     public int getTitleBarHeight() {
         if (mActionBarHeight != 0) {
@@ -104,6 +106,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.skill_detail_head_height);
         mMinHeaderTranslation = -mHeaderHeight + getTitleBarHeight();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
+        binding.btnContect.setText("");
         ViewCompat.setTransitionName(binding.btnBack, "back");
 //        ViewCompat.setTransitionName(headBinding.pic, "pic");
 //        ViewCompat.setTransitionName(headBinding.userNickname, "nick");
@@ -214,16 +217,27 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
             }
         });
-        Skill skill = getIntent().getParcelableExtra("skill");
-        sid = skill.getId();
-        isMe = skill.getUid() == user.getUid();
-        if (isMe) {
-            binding.headerLogoImg.setImageResource(R.drawable.btn_ic_add);
-            binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_add);
-            binding.btnContect.setText("添加日记");
+
+
+        if (getIntent().hasExtra("skill")) {
+            Skill skill = getIntent().getParcelableExtra("skill");
+            sid = skill.getId();
+            isMe = skill.getUid() == user.getUid();
+            if (isMe) {
+                binding.headerLogoImg.setImageResource(R.drawable.btn_ic_add);
+                binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_add);
+                binding.btnContect.setText("添加日记");
+            } else {
+                binding.headerLogoImg.setImageResource(R.drawable.btn_ic_wechat);
+                binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_wechat);
+                binding.btnContect.setText(R.string.btn_contact_ta);
+            }
+            binding.refreshLayout.autoRefresh();
+        } else {
+            sid = getIntent().getLongExtra("sid", 0);
+            binding.refreshLayout.autoRefresh();
         }
 
-        binding.refreshLayout.autoRefresh();
     }
 
     private void setTitleAlpha(float alpha) {
@@ -295,7 +309,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void start() {
-
+        dialog = WaitDialog.show(this);
     }
 
     @Override
@@ -310,6 +324,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                     }
                 }, 1000);
                 skill = res.getData().getDetail();
+                isMe = skill.getUid() == user.getUid();
+                if (isMe) {
+                    binding.headerLogoImg.setImageResource(R.drawable.btn_ic_add);
+                    binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_add);
+                    binding.btnContect.setText("添加日记");
+                } else {
+                    binding.headerLogoImg.setImageResource(R.drawable.btn_ic_wechat);
+                    binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_wechat);
+                    binding.btnContect.setText(R.string.btn_contact_ta);
+                }
                 headBinding.setSkill(skill);
                 binding.setSkill(skill);
                 Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
@@ -317,12 +341,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.price.setText(text);
                 binding.titlePrice.setText(text);
             }
-//            if(list.size()>0){
-//                Rmark item = list.get(0);
-//                for(int i=0;i<=100;i++){
-//                    list.add(item);
-//                }
-//            }
             adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
         } else {
@@ -337,7 +355,9 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void end() {
+        dialog.dismiss();
         binding.refreshLayout.refreshComplete();
+
     }
 
     @Override

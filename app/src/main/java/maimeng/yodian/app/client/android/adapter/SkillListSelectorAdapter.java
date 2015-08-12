@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.media.Image;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -99,15 +100,25 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         holder.bind(((ItemViewEntry) item).skill);
     }
 
-    public class BaseViewHolder extends RecyclerView.ViewHolder {
+    public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public BaseViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                mViewHolderClickListener.onItemClick(this, getLayoutPosition());
+            }
         }
     }
 
-    public class BannerViewHolder extends BaseViewHolder {
-        private BGABanner banner;
+    public class BannerViewHolder extends BaseViewHolder implements ViewPager.OnPageChangeListener {
+        public BGABanner banner;
         private final BGABanner.TransitionEffect[] types;
+        public int currentPage;
+        public BannerViewEntry list;
 
         public BannerViewHolder(View root) {
             super(root);
@@ -125,15 +136,18 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                     BGABanner.TransitionEffect.Stack,
                     BGABanner.TransitionEffect.Depth,
                     BGABanner.TransitionEffect.Zoom};
+            banner.addOnPageChangeListener(this);
 
         }
 
         public void bind(BannerViewEntry item) {
+            this.list = item;
             List<View> views = new ArrayList<>();
             for (SkillResponse.DataNode.Banner banner : item.banners) {
                 ImageView iv = new ImageView(mContext);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 views.add(iv);
+                iv.setOnClickListener(this);
                 ImageLoader.image(iv, banner.getPic());
             }
             banner.setViews(views);
@@ -143,19 +157,50 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
             }
             banner.setTransitionEffect(types[type]);
         }
+
+        @Override
+        public void onClick(View v) {
+            super.onClick(v);
+            mViewHolderClickListener.onClick(this, v, getLayoutPosition());
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            this.currentPage = position;
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
     }
 
     public class HeadViewHolder extends BaseViewHolder {
-        private final SkillListItemSelectorHeadBinding binding;
+        public final SkillListItemSelectorHeadBinding binding;
+        public HeadViewEntry data;
 
         public HeadViewHolder(SkillListItemSelectorHeadBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.headSkill.setOnClickListener(this);
+            binding.headUser.setOnClickListener(this);
         }
 
         public void bind(HeadViewEntry item) {
+            this.data = item;
             binding.setSkill(item.skill);
             binding.setUser(item.user);
+        }
+
+        @Override
+        public void onClick(View v) {
+            super.onClick(v);
+            mViewHolderClickListener.onClick(this, v, getLayoutPosition());
         }
     }
 
@@ -179,7 +224,6 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
             super(binding.getRoot());
             swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             swipeItemLayout.setOnClickListener(this);
-            itemView.setOnClickListener(this);
             this.binding = binding;
             binding.btnEdit.setOnClickListener(this);
             binding.btnContect.setOnClickListener(this);
@@ -214,9 +258,8 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
 
         @Override
         public void onClick(View v) {
-            if (v == itemView) {
-                mViewHolderClickListener.onItemClick(this, getLayoutPosition());
-            } else if (v == binding.btnEdit) {
+            super.onClick(v);
+            if (v == binding.btnEdit) {
                 if (swipeItemLayout.isClosed()) {
                     swipeItemLayout.openWithAnim();
                 } else {

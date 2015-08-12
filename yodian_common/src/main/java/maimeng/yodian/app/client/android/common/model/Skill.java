@@ -21,11 +21,11 @@ public class Skill extends BaseObservable implements Parcelable {
     @SerializedName("sid")
     private long id;//技能id
     private long uid;//用户id
-    private String weichat;//微信号
+    private String weichat = "";//微信号
     private String qrcode;//二维码图片
-    private String qrcodeUrl;//二维码地址
+    private String qrcodeUrl = "";//二维码地址
     @SerializedName("hxname")
-    private String chatLoginName;
+    private String chatLoginName = "";
 
     public String getChatLoginName() {
         return chatLoginName;
@@ -59,15 +59,15 @@ public class Skill extends BaseObservable implements Parcelable {
         this.qrcode = qrcode;
     }
 
-    private String name;//技能名称
+    private String name = "";//技能名称
     private String pic;//技能图片
-    private String content;//技能描述
-    private String price;//技能价格
-    private String unit;//技能价格单位
+    private String content = "";//技能描述
+    private String price = "";//技能价格
+    private String unit = "";//技能价格单位
     @Bindable
     private int status = 0;//2下架状态，0上架状态
     private Date createtime;//技能添加时间戳
-    private String nickname;//用户昵称
+    private String nickname = "";//用户昵称
     private String avatar;//用户头像数据
 
     public boolean isXiaJia() {
