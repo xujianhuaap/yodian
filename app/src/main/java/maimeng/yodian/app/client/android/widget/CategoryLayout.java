@@ -42,7 +42,7 @@ public class CategoryLayout extends LinearLayout {
             enterAnimator.setDuration(duration);
 
             dismissAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y,-this.getHeight()-enterOffSet);
-            dismissAnimator.setDuration(1200);
+            dismissAnimator.setDuration(duration);
 
 
 

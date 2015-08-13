@@ -187,6 +187,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         public HeadViewHolder(SkillListItemSelectorHeadBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
             binding.headSkill.setOnClickListener(this);
             binding.headUser.setOnClickListener(this);
         }

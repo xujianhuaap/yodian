@@ -152,11 +152,12 @@ public class MainSelectorProxy implements ActivityProxy,
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-
+                mCategoryContainer.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
+
                 if (mTitle.getTag().equals(CATEGORY_ANIM_ENTER)) {
                     mTitle.setTag(CATEGORY_ANIM_DISMISS);
                 } else {
@@ -174,7 +175,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
             }
         });
-        animator.setDuration(600);
+        animator.setDuration(mActivity.getResources().getInteger(R.integer.duration_long));
         ItemTouchHelper swipeTouchHelper = new ItemTouchHelper(new DefaultItemTouchHelperCallback());
         //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
     }
@@ -182,23 +183,28 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onClickListener(View v, Theme theme) {
+
         scid = (int) theme.getScid();
         loadData();
         mTitle.setText(theme.getName());
+
+        categoryEnterAndDismissAnim();
+
     }
 
     @Override
     public void onClick(View v) {
+        categoryEnterAndDismissAnim();
+    }
 
-
-        mCategoryContainer.initAnimator(600, mToolBar.getHeight());
+    private void categoryEnterAndDismissAnim() {
+        mCategoryContainer.initAnimator(mActivity.getResources().getInteger(R.integer.duration_long), mToolBar.getHeight());
 
         if (animator != null && !animator.isRunning()) {
 
             animator.start();
             dgree++;
         }
-        mCategoryContainer.setVisibility(View.VISIBLE);
 
 
     }
