@@ -87,12 +87,14 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public static void start(Context context){
+    public static void start(Context context) {
         context.startActivity(new Intent(context, AuthSeletorActivity.class));
     }
-    public static void start(Activity context,int requestCode){
-        context.startActivityForResult(new Intent(context, AuthSeletorActivity.class).putExtra("result",true), requestCode);
+
+    public static void start(Activity context, int requestCode) {
+        context.startActivityForResult(new Intent(context, AuthSeletorActivity.class).putExtra("result", true), requestCode);
     }
+
     private void handlerFinsh() {
         Intent intent = getIntent();
         boolean result = intent.getBooleanExtra("result", false);

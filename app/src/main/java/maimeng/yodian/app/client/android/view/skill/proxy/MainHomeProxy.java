@@ -21,6 +21,7 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -29,7 +30,6 @@ import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListHomeAdapter;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.common.model.Skill;
@@ -37,11 +37,9 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -128,7 +126,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
             @Override
             public void onLoadMore() {
                 page++;
-                loadData();
+                syncRequest();
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
@@ -136,13 +134,8 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         mRecyclerView.setAdapter(adapter);
     }
 
-    public void loadData() {
+    public void syncRequest() {
         service.list(user.getUid(), page, this);
-    }
-
-    @Override
-    public void reset() {
-        page = 1;
     }
 
     @Override
@@ -188,6 +181,15 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     private void initSkillInfo() {
         page = 1;
         mRefreshLayout.autoRefresh();
+    }
+
+    @Override
+    public void reset() {
+        inited = false;
+        mUserNickname.setText(R.string.NA);
+        mUserAvatar.setImageResource(R.drawable.default_avatar);
+        adapter.reload(new ArrayList<Skill>(), false);
+        adapter.notifyDataSetChanged();
     }
 
     private void initUsrInfo() {
@@ -309,8 +311,8 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-        reset();
-        loadData();
+        page = 1;
+        syncRequest();
     }
 
     @Override

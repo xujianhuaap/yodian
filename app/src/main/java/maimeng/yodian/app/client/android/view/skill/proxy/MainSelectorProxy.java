@@ -17,10 +17,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
@@ -30,7 +28,6 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +35,8 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
-import kotlin.data;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListSelectorAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
@@ -141,7 +136,7 @@ public class MainSelectorProxy implements ActivityProxy,
             @Override
             public void onLoadMore() {
                 page++;
-                loadData();
+                syncRequest();
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
@@ -196,7 +191,7 @@ public class MainSelectorProxy implements ActivityProxy,
     public void onClickListener(View v, Theme theme) {
 
         scid = (int) theme.getScid();
-        loadData();
+        syncRequest();
         mTitle.setText(theme.getName());
 
         categoryEnterAndDismissAnim();
@@ -220,7 +215,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
     }
 
-    public void loadData() {
+    public void syncRequest() {
         service.choose(page, scid, this);
     }
 
@@ -433,7 +428,7 @@ public class MainSelectorProxy implements ActivityProxy,
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
         reset();
-        loadData();
+        syncRequest();
 
     }
 
