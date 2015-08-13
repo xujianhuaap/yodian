@@ -122,6 +122,7 @@ public class MainSelectorProxy implements ActivityProxy,
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(mActivity);
+        header.setTextColor(0x000000);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
         ListLayoutManager layout = new ListLayoutManager(mActivity);
