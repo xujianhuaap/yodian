@@ -17,6 +17,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.Toast;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -29,6 +30,7 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +38,10 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
+import kotlin.data;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
+import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListSelectorAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
@@ -73,13 +77,14 @@ public class MainSelectorProxy implements ActivityProxy,
         PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryView.CategoryClickListener {
 
     private static final String LOG_TAG = MainSelectorProxy.class.getName();
-    private static final int CATEGORY_ANIM_ENTER= 0x37;
-    private static final int CATEGORY_ANIM_DISMISS=0x32;
+    private static final int CATEGORY_ANIM_ENTER = 0x37;
+    private static final int CATEGORY_ANIM_DISMISS = 0x32;
     private final View mView;
     private final MainTabActivity mActivity;
     private final SkillService service;
     private final PtrFrameLayout mRefreshLayout;
     private final RecyclerView mRecyclerView;
+    private final CategoryLayout mCategoryContainer;
     private boolean inited = false;
     private User user;
     private int dgree = 1;
@@ -90,9 +95,8 @@ public class MainSelectorProxy implements ActivityProxy,
     private FloatingActionButton mFloatButton;
     private final Handler handler;
 
-    private ArrayList<Theme> mCategory;
+    private List<Theme> mCategory;
     private CategoryView mCategoryView;
-    private CategoryLayout mCategoryContainer;
     private ImageView mTitleIndicator;
     private android.support.v7.widget.Toolbar mToolBar;
     private TextView mTitle;
@@ -105,9 +109,8 @@ public class MainSelectorProxy implements ActivityProxy,
         view.setVisibility(View.GONE);
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
-
         mCategoryContainer = (CategoryLayout) view.findViewById(R.id.categoryContainer);
-        mToolBar= (android.support.v7.widget.Toolbar) view.findViewById(R.id.toolbar);
+        mToolBar = (android.support.v7.widget.Toolbar) view.findViewById(R.id.toolbar);
         mCategoryView = (CategoryView) mCategoryContainer.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);
         mTitleIndicator = (ImageView) view.findViewById(R.id.title_logo);
@@ -154,10 +157,10 @@ public class MainSelectorProxy implements ActivityProxy,
             @Override
             public void onAnimationEnd(Animator animation) {
 
-                if(mTitle.getTag().equals(CATEGORY_ANIM_ENTER)){
+                if (mTitle.getTag().equals(CATEGORY_ANIM_ENTER)) {
                     mTitle.setTag(CATEGORY_ANIM_DISMISS);
-                }else{
-                   mTitle.setTag(CATEGORY_ANIM_ENTER);
+                } else {
+                    mTitle.setTag(CATEGORY_ANIM_ENTER);
                 }
             }
 
@@ -200,9 +203,10 @@ public class MainSelectorProxy implements ActivityProxy,
 
         if (animator != null && !animator.isRunning()) {
 
-            animator.start();
-            dgree++;
+                animator.start();
+                dgree++;
         }
+
 
     }
 
@@ -305,8 +309,8 @@ public class MainSelectorProxy implements ActivityProxy,
     }
 
     @Override
-    public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder holder, int postion) {
-        if (holder instanceof SkillListSelectorAdapter.ItemViewHolder) {
+    public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
+        if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
             mFloatButton.show();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -317,9 +321,37 @@ public class MainSelectorProxy implements ActivityProxy,
 //                Pair<View, String> avatar = Pair.create((View) holder.getBinding().userAvatar, "avatar");
                     //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back, contact, avatar);
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", ((SkillListSelectorAdapter.ItemViewHolder) holder).getData()), options.toBundle());
+                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", ((SkillListSelectorAdapter.ItemViewHolder) h).getData()), options.toBundle());
                 }
             }, 200);
+        }
+    }
+
+    private void clickBanner(SkillListSelectorAdapter.BannerViewHolder holder) {
+        int current = holder.currentPage % holder.list.banners.size();
+        SkillResponse.DataNode.Banner banner = holder.list.banners.get(current);
+        if (banner.getType() == 3) {
+            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+            ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", Long.parseLong(banner.getValue())), options.toBundle());
+        } else if (banner.getType() == 2) {
+            Toast.makeText(mActivity, "用户", Toast.LENGTH_SHORT).show();
+        } else if (banner.getType() == 1) {
+            Toast.makeText(mActivity, "网址", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * @param type 1:skill,2:user
+     * @param data
+     */
+    private void clickHead(int type, HeadViewEntry data) {
+        if (type == 1) {
+            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+            ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", data.skill.getValue()), options.toBundle());
+        } else {
+            Toast.makeText(mActivity, "click Head User", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -363,6 +395,15 @@ public class MainSelectorProxy implements ActivityProxy,
                     mActivity.startActivity(intent);
                 }
             }
+        } else if (SkillListSelectorAdapter.HeadViewHolder.class.isInstance(h)) {
+            SkillListSelectorAdapter.HeadViewHolder holder = (SkillListSelectorAdapter.HeadViewHolder) h;
+            if (clickItem == holder.binding.headSkill) {
+                clickHead(1, holder.data);
+            } else if (clickItem == holder.binding.headUser) {
+                clickHead(2, holder.data);
+            }
+        } else if (SkillListSelectorAdapter.BannerViewHolder.class.isInstance(h)) {
+            clickBanner(((SkillListSelectorAdapter.BannerViewHolder) h));
         }
     }
 
@@ -376,6 +417,7 @@ public class MainSelectorProxy implements ActivityProxy,
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
         reset();
         loadData();
+
     }
 
     @Override
@@ -403,7 +445,8 @@ public class MainSelectorProxy implements ActivityProxy,
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
 
-            mCategory = (ArrayList) res.getData().getCategory();
+
+            mCategory = res.getData().getCategory();
             if (mCategory == null) {
                 mCategory = new ArrayList<Theme>();
             }

@@ -35,6 +35,8 @@
         </in.srain.cube.views.ptr.PtrFrameLayout>
 
 
+
+
         <maimeng.yodian.app.client.android.widget.CategoryLayout
             android:id="@+id/categoryContainer"
             android:layout_width="match_parent"
@@ -42,6 +44,8 @@
             android:layout_gravity="center_horizontal|top"
             android:orientation="vertical"
             android:visibility="gone"
+            android:padding="10dp"
+            android:numColumns="3"
             android:background="@color/colorPrimaryDarkTransparent">
             <TextView
                 android:layout_width="wrap_content"
