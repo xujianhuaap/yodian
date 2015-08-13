@@ -44,7 +44,6 @@
             android:layout_gravity="center_horizontal|top"
             android:orientation="vertical"
             android:visibility="gone"
-            android:padding="10dp"
             android:numColumns="3"
             android:background="@color/colorPrimaryDarkTransparent">
             <TextView
