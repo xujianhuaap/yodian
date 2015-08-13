@@ -148,11 +148,12 @@ public class MainSelectorProxy implements ActivityProxy,
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-
+                mCategoryContainer.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
+
                 if(mTitle.getTag().equals(CATEGORY_ANIM_ENTER)){
                     mTitle.setTag(CATEGORY_ANIM_DISMISS);
                 }else{
@@ -178,23 +179,30 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onClickListener(View v, Theme theme) {
+
         scid = (int) theme.getScid();
         loadData();
         mTitle.setText(theme.getName());
+
+        categoryEnterAndDismissAnim();
+
     }
 
     @Override
     public void onClick(View v) {
 
-        mCategoryContainer.initAnimator(600,mToolBar.getHeight());
+        categoryEnterAndDismissAnim();
+
+    }
+
+    private void categoryEnterAndDismissAnim() {
+        mCategoryContainer.initAnimator(600, mToolBar.getHeight());
 
         if (animator != null && !animator.isRunning()) {
 
             animator.start();
             dgree++;
         }
-        mCategoryContainer.setVisibility(View.VISIBLE);
-
 
     }
 

@@ -69,8 +69,8 @@
                 android:layout_marginLeft="@dimen/floating_btn_margin"
                 android:layout_marginBottom="@dimen/floating_btn_margin"
                 android:src="@drawable/btn_back"
-                app:fab_colorNormal="@color/colorPrimaryDark"
-                app:fab_colorPressed="@color/colorPrimary"
+                app:fab_colorNormal="@color/float_colorNormal"
+                app:fab_colorPressed="@color/float_colorPressed"
                 app:layout_anchorGravity="bottom|left"
                 app:layout_anchor="@+id/rec_diary" />
 
@@ -81,8 +81,8 @@
                 android:layout_gravity="right|bottom"
                 android:layout_margin="@dimen/floating_btn_margin"
                 android:src="@drawable/btn_submit_normal"
-                app:fab_colorNormal="@color/float_colorNormal"
-                app:fab_colorPressed="@color/float_colorPressed"
+                app:fab_colorNormal="@color/float_colorPressed"
+                app:fab_colorPressed="@color/float_colorNormal"
                 app:fab_colorRipple="@color/float_colorRipple"></com.melnykov.fab.FloatingActionButton>
 
 
