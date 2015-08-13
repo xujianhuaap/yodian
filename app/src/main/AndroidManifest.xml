@@ -51,6 +51,7 @@
 
         </activity>
         <activity android:name=".view.auth.AuthActivity" />
+        <activity android:name=".view.user.UserHomeActivity" />
         <activity
             android:name=".view.skill.CreateOrEditSkillActivity"
             android:theme="@style/AppThemeTransparent"

@@ -15,84 +15,108 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways">
+
             <ImageView
                 android:id="@+id/btn_chat"
-                android:paddingLeft="5dp"
-                android:paddingBottom="5dp"
-                android:layout_marginRight="@dimen/top_icon_margin"
-                android:layout_marginTop="@dimen/top_icon_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|left"
+                android:layout_marginRight="@dimen/top_icon_margin"
+                android:layout_marginTop="@dimen/top_icon_margin"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
                 android:src="@drawable/ic_msg" />
+
             <LinearLayout
-                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
 
                 <maimeng.yodian.app.client.android.widget.RoundImageView
                     android:id="@+id/user_avatar"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    app:borderSize="2dp"
-                    app:insideColor="#ffffff"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/ic_launcher"
+                    app:borderSize="2dp"
+                    app:insideColor="#ffffff" />
 
                 <TextView
                     android:id="@+id/user_nickname"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp" />
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/btn_settings"
-                android:layout_marginRight="@dimen/top_icon_margin"
-                android:layout_marginTop="@dimen/top_icon_margin"
+                android:id="@+id/btn_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|right"
+                android:layout_marginRight="@dimen/top_icon_margin"
+                android:layout_marginTop="@dimen/top_icon_margin"
+                android:src="@drawable/ic_reportlogo"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginRight="@dimen/top_icon_margin"
+                android:layout_marginTop="@dimen/top_icon_margin"
                 android:src="@drawable/ic_settings" />
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:padding="10dp"
+            android:layout_height="?attr/actionBarSize"
             android:background="?colorPrimaryDark"
-            android:layout_height="?attr/actionBarSize">
+            android:orientation="horizontal"
+            android:padding="10dp">
+
             <TextView
                 android:id="@+id/btn_createskill"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="添加新技能"
                 android:textSize="16sp" />
-            <View android:layout_width="1px" android:layout_height="match_parent" android:background="@color/div_line" android:visibility="gone"/>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/div_line"
+                android:visibility="gone" />
+
             <TextView
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:layout_weight="1"
                 android:text="我的订单"
-                android:textSize="16sp" />
-            <View android:layout_width="1px" android:layout_height="match_parent" android:background="@color/div_line" android:visibility="gone"/>
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/div_line"
+                android:visibility="gone" />
+
             <TextView
-                android:visibility="gone"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="我的余额"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
         </LinearLayout>
-
 
 
     </android.support.design.widget.AppBarLayout>
@@ -101,13 +125,14 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:ptr_resistance="1.7"
-        app:ptr_ratio_of_header_height_to_refresh="1.2"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:ptr_duration_to_close="300"
         app:ptr_duration_to_close_header="1000"
         app:ptr_keep_header_when_refresh="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:ptr_pull_to_fresh="false">
+        app:ptr_pull_to_fresh="false"
+        app:ptr_ratio_of_header_height_to_refresh="1.2"
+        app:ptr_resistance="1.7">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

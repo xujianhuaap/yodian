@@ -63,6 +63,7 @@ import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
+import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 import maimeng.yodian.app.client.android.widget.CategoryLayout;
 import maimeng.yodian.app.client.android.widget.CategoryView;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
@@ -190,17 +191,17 @@ public class MainSelectorProxy implements ActivityProxy,
     public void onClick(View v) {
 
 
-            mCategoryContainer.initAnimator(600, mToolBar.getHeight());
+        mCategoryContainer.initAnimator(600, mToolBar.getHeight());
 
-            if (animator != null && !animator.isRunning()) {
+        if (animator != null && !animator.isRunning()) {
 
-                animator.start();
-                dgree++;
-            }
-            mCategoryContainer.setVisibility(View.VISIBLE);
-
-
+            animator.start();
+            dgree++;
         }
+        mCategoryContainer.setVisibility(View.VISIBLE);
+
+
+    }
 
     public void loadData() {
         service.choose(page, 0, this);
@@ -327,7 +328,9 @@ public class MainSelectorProxy implements ActivityProxy,
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
             ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", Long.parseLong(banner.getValue())), options.toBundle());
         } else if (banner.getType() == 2) {
-            Toast.makeText(mActivity, "用户", Toast.LENGTH_SHORT).show();
+            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+            ActivityCompat.startActivity(mActivity, new Intent(mActivity, UserHomeActivity.class).putExtra("uid", banner.getValue()), options.toBundle());
         } else if (banner.getType() == 1) {
             Toast.makeText(mActivity, "网址", Toast.LENGTH_SHORT).show();
         }
@@ -343,7 +346,9 @@ public class MainSelectorProxy implements ActivityProxy,
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
             ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", data.skill.getValue()), options.toBundle());
         } else {
-            Toast.makeText(mActivity, "click Head User", Toast.LENGTH_SHORT).show();
+            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+            ActivityCompat.startActivity(mActivity, new Intent(mActivity, UserHomeActivity.class).putExtra("uid", data.user.getValue()), options.toBundle());
         }
     }
 

@@ -38,6 +38,7 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
+import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
@@ -55,10 +56,10 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
     private final CoordinatorLayout mView;
-    private final MainTabActivity mActivity;
+    private final Activity mActivity;
     private final RecyclerView mRecyclerView;
     private final PtrFrameLayout mRefreshLayout;
     private final SkillService service;
@@ -77,7 +78,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     private int mEditPostion;
     private final Handler handler;
 
-    public MainHomeProxy(MainTabActivity activity, View view) {
+    public MainHomeProxy(Activity activity, View view) {
         this.mView = (CoordinatorLayout) view;
         handler = new Handler(Looper.getMainLooper());
         this.mActivity = activity;
@@ -178,8 +179,13 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         user = User.read(this.mActivity);
         initUsrInfo();
         initSkillInfo();
+    }
 
-
+    public void init(User user) {
+        inited = true;
+        this.user = user;
+        initUsrInfo();
+        initSkillInfo();
     }
 
     private void initSkillInfo() {
@@ -317,7 +323,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     }
 
     @Override
-    public void success(SkillResponse res, Response response) {
+    public void success(SkillUserResponse res, Response response) {
         if (res.isSuccess()) {
             List<Skill> list = res.getData().getList();
             adapter.reload(list, page != 1);
@@ -355,4 +361,5 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
         ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
     }
+
 }

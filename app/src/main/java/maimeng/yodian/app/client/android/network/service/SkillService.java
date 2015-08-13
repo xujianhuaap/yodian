@@ -13,6 +13,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
+import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 @FormUrlEncoded
@@ -25,7 +26,7 @@ public interface SkillService {
      * @param callback
      */
     @Post(ApiConfig.Api.SKILL_LIST)
-    void list(@Param("uid") long uid, @Param("p") int p, Callback<SkillResponse> callback);
+    void list(@Param("uid") long uid, @Param("p") int p, Callback<SkillUserResponse> callback);
 
     /**
      * 进选技能列表
@@ -34,7 +35,7 @@ public interface SkillService {
      * @param callback
      */
     @Post(ApiConfig.Api.SKILL_CHOICE)
-    void choose(@Param("p") int p,@Param("scid") int scid, Callback<SkillResponse> callback);
+    void choose(@Param("p") int p, @Param("scid") int scid, Callback<SkillResponse> callback);
 
     /**
      * 获取技能模板
@@ -117,7 +118,7 @@ public interface SkillService {
      */
     @Multipart
     @Post(ApiConfig.Api.RMARK_ADD)
-    void add_rmark(@Param("sid")long sid,@Param("content")String content,@Param("pic")TypedBitmap pic,
+    void add_rmark(@Param("sid") long sid, @Param("content") String content, @Param("pic") TypedBitmap pic,
                    Callback<ToastResponse> callback);
 
 }

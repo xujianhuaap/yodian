@@ -6,6 +6,7 @@ import java.util.List;
 
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.model.Theme;
+import maimeng.yodian.app.client.android.model.User;
 
 
 /**
@@ -100,7 +101,6 @@ public class SkillResponse extends Response {
             /**
              * 1:网址;2用户;3技能
              */
-
             private int type;
             /**
              * 1的时候是网址，2或3的时候是id(long)
