@@ -24,13 +24,13 @@
                 android:layout_marginRight="@dimen/top_icon_margin"
                 android:layout_marginTop="@dimen/top_icon_margin"
                 android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
+                android:paddingLeft="16dp"
                 android:src="@drawable/ic_msg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:orientation="vertical">
 
                 <maimeng.yodian.app.client.android.widget.RoundImageView
@@ -38,7 +38,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_launcher"
+                    android:src="@drawable/default_avatar"
                     app:borderSize="2dp"
                     app:insideColor="#ffffff" />
 
@@ -58,6 +58,8 @@
                 android:layout_gravity="top|right"
                 android:layout_marginRight="@dimen/top_icon_margin"
                 android:layout_marginTop="@dimen/top_icon_margin"
+                android:paddingBottom="5dp"
+                android:paddingLeft="16dp"
                 android:src="@drawable/ic_report_userhome"
                 android:visibility="gone" />
 
@@ -66,8 +68,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|right"
-                android:layout_marginRight="@dimen/top_icon_margin"
+                android:layout_marginLeft="@dimen/top_icon_margin"
                 android:layout_marginTop="@dimen/top_icon_margin"
+                android:paddingBottom="5dp"
+                android:paddingRight="16dp"
                 android:src="@drawable/ic_settings" />
         </FrameLayout>
 

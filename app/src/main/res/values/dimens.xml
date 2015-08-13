@@ -1,6 +1,6 @@
 <resources>
     <eat-comment />
-    <dimen name="top_icon_margin">10dp</dimen>
+    <dimen name="top_icon_margin">12dp</dimen>
     <dimen name="setup_wizard_avatar_size">100dp</dimen>
 
     <dimen name="floating_btn_margin">10dp</dimen>

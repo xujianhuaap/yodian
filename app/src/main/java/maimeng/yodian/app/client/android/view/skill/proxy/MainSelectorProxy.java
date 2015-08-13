@@ -17,10 +17,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
@@ -30,7 +28,6 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +35,8 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
-import kotlin.data;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListSelectorAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
@@ -61,6 +56,8 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
+import maimeng.yodian.app.client.android.view.WebViewActivity;
+import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
@@ -86,6 +83,7 @@ public class MainSelectorProxy implements ActivityProxy,
     private final PtrFrameLayout mRefreshLayout;
     private final RecyclerView mRecyclerView;
     private final CategoryLayout mCategoryContainer;
+    private final View mBtnChat;
     private boolean inited = false;
     private User user;
     private int dgree = 1;
@@ -111,6 +109,13 @@ public class MainSelectorProxy implements ActivityProxy,
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
         mCategoryContainer = (CategoryLayout) view.findViewById(R.id.categoryContainer);
+        mBtnChat = view.findViewById(R.id.btn_chat);
+        mBtnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
+            }
+        });
         mToolBar = (android.support.v7.widget.Toolbar) view.findViewById(R.id.toolbar);
         mCategoryView = (CategoryView) mCategoryContainer.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);
@@ -131,7 +136,7 @@ public class MainSelectorProxy implements ActivityProxy,
             @Override
             public void onLoadMore() {
                 page++;
-                loadData();
+                syncRequest();
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
@@ -186,7 +191,7 @@ public class MainSelectorProxy implements ActivityProxy,
     public void onClickListener(View v, Theme theme) {
 
         scid = (int) theme.getScid();
-        loadData();
+        syncRequest();
         mTitle.setText(theme.getName());
 
         categoryEnterAndDismissAnim();
@@ -210,7 +215,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
     }
 
-    public void loadData() {
+    public void syncRequest() {
         service.choose(page, scid, this);
     }
 
@@ -339,7 +344,10 @@ public class MainSelectorProxy implements ActivityProxy,
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
             ActivityCompat.startActivity(mActivity, new Intent(mActivity, UserHomeActivity.class).putExtra("uid", banner.getValue()), options.toBundle());
         } else if (banner.getType() == 1) {
-            Toast.makeText(mActivity, "网址", Toast.LENGTH_SHORT).show();
+            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+            ActivityCompat.startActivity(mActivity, WebViewActivity.newIntent(mActivity, banner.getValue()), options.toBundle())
+            ;
         }
     }
 
@@ -420,7 +428,7 @@ public class MainSelectorProxy implements ActivityProxy,
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
         reset();
-        loadData();
+        syncRequest();
 
     }
 

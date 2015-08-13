@@ -82,6 +82,9 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
         if (requestCode == REQUEST_AUTH) {
             if (resultCode == RESULT_OK) {
                 mListProxy.init();
+                mHomeProxy.reset();
+                mHomeProxy.init();
+                mListProxy.show(floatButton);
             } else {
                 finish();
             }
@@ -134,7 +137,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
         super.onNewIntent(intent);
         user = User.read(this);
         if (TextUtils.isEmpty(user.getToken())) {
-            AuthSeletorActivity.start(this,REQUEST_AUTH);
+            AuthSeletorActivity.start(this, REQUEST_AUTH);
         } else {
             startService(new Intent(this, ChatServiceLoginService.class));
             if (TextUtils.isEmpty(user.getNickname()) || TextUtils.isEmpty(user.getAvatar())) {

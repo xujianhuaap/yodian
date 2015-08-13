@@ -34,18 +34,19 @@ public class SettingsActivity extends AbstractActivity {
     private TextView mCurrentVersion;
     PopupWindow window;
     User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         setTitle(R.string.action_settings);
-        user=User.read(SettingsActivity.this);
-        mBtnBack=findViewById(R.id.btn_back);
-        mBtnYijian=findViewById(R.id.btn_yijian);
-        mBtnChangeAccount=findViewById(R.id.btn_change_account);
-        mBtnCleanCache=findViewById(R.id.btn_cleancache);
-        mCurrentVersion=(TextView)findViewById(R.id.current_version);
-        ViewCompat.setTransitionName(mBtnBack,"back");
+        user = User.read(SettingsActivity.this);
+        mBtnBack = findViewById(R.id.btn_back);
+        mBtnYijian = findViewById(R.id.btn_yijian);
+        mBtnChangeAccount = findViewById(R.id.btn_change_account);
+        mBtnCleanCache = findViewById(R.id.btn_cleancache);
+        mCurrentVersion = (TextView) findViewById(R.id.current_version);
+        ViewCompat.setTransitionName(mBtnBack, "back");
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             mCurrentVersion.setText(getString(R.string.currentVersion, packageInfo.versionName));
@@ -61,8 +62,8 @@ public class SettingsActivity extends AbstractActivity {
         mBtnYijian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Pair<View,String> back=Pair.create((View)mBtnBack,"back");
-                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(SettingsActivity.this, back);
+                Pair<View, String> back = Pair.create((View) mBtnBack, "back");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingsActivity.this, back);
                 ActivityCompat.startActivity(SettingsActivity.this, new Intent(SettingsActivity.this, FeedBackActivity.class), options.toBundle());
             }
 
@@ -81,7 +82,7 @@ public class SettingsActivity extends AbstractActivity {
                     public void onClick(View v) {
                         User.clear(SettingsActivity.this);
                         Intent intent = new Intent(SettingsActivity.this, MainTabActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
                 });
@@ -89,7 +90,7 @@ public class SettingsActivity extends AbstractActivity {
                 cancleChange.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(window!=null) {
+                        if (window != null) {
                             window.dismiss();
                         }
                     }
@@ -101,12 +102,13 @@ public class SettingsActivity extends AbstractActivity {
         mBtnCleanCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                      clearCache();
+                clearCache();
                 Toast.makeText(SettingsActivity.this, R.string.clearSuccess, Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
     private void clearCache() {
         DataCleanManager.cleanDatabases(SettingsActivity.this);
         DataCleanManager.cleanExternalCache(SettingsActivity.this);
