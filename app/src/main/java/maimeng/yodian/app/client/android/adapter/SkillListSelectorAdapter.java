@@ -1,9 +1,9 @@
 package maimeng.yodian.app.client.android.adapter;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.media.Image;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -20,14 +20,15 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
-import maimeng.yodian.app.client.android.databinding.SkillListItemSelectorBinding;
-import maimeng.yodian.app.client.android.databinding.SkillListItemSelectorHeadBinding;
+import maimeng.yodian.app.client.android.databinding.SkillListItemHeadBinding;
+import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
+import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 
 /**
@@ -50,12 +51,12 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case ViewEntry.VIEW_TYPE_ITEM:
-                SkillListItemSelectorBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item_selector, parent, false);
+                SkillListItemSkillBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item_skill, parent, false);
                 return new ItemViewHolder(binding);
             case ViewEntry.VIEW_TYPE_BANNER:
-                return new BannerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.skill_list_item_selector_banner, parent, false));
+                return new BannerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.skill_list_item_banner, parent, false));
             case ViewEntry.VIEW_TYPE_HEAD:
-                SkillListItemSelectorHeadBinding headBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item_selector_head, parent, false);
+                SkillListItemHeadBinding headBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item_head, parent, false);
                 return new HeadViewHolder(headBinding);
             default:
                 throw new RuntimeException("Error ViewType");
@@ -181,10 +182,10 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
     }
 
     public class HeadViewHolder extends BaseViewHolder {
-        public final SkillListItemSelectorHeadBinding binding;
+        public final SkillListItemHeadBinding binding;
         public HeadViewEntry data;
 
-        public HeadViewHolder(SkillListItemSelectorHeadBinding binding) {
+        public HeadViewHolder(SkillListItemHeadBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
@@ -208,6 +209,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
     public class ItemViewHolder extends BaseViewHolder implements View.OnClickListener {
         private final User user;
         private SwipeItemLayout swipeItemLayout;
+        private boolean isMe;
 
         public Skill getData() {
             return data;
@@ -215,31 +217,35 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
 
         private Skill data;
 
-        public SkillListItemSelectorBinding getBinding() {
+        public SkillListItemSkillBinding getBinding() {
             return binding;
         }
 
-        private final SkillListItemSelectorBinding binding;
+        private final SkillListItemSkillBinding binding;
 
-        public ItemViewHolder(SkillListItemSelectorBinding binding) {
+        public ItemViewHolder(SkillListItemSkillBinding binding) {
             super(binding.getRoot());
             swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
-            swipeItemLayout.setOnClickListener(this);
+            binding.root.setOnClickListener(this);
             this.binding = binding;
-            binding.btnEdit.setOnClickListener(this);
-            binding.btnContect.setOnClickListener(this);
+            binding.btnBottom.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
             binding.btnUpdate.setOnClickListener(this);
+            //create by xu 08-06
+            binding.btnReview.setOnClickListener(this);
+            //end
             user = User.read(swipeItemLayout.getContext());
         }
 
         public void bind(Skill item) {
+            closeWithAnim();
             this.data = item;
             binding.setSkill(item);
             binding.executePendingBindings();
-            if (item.getUid() == user.getUid()) {
+            isMe = item.getUid() == user.getUid();
+            if (isMe) {
                 binding.btnEdit.setVisibility(View.VISIBLE);
                 binding.btnContect.setVisibility(View.GONE);
             } else {
@@ -259,13 +265,23 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
 
         @Override
         public void onClick(View v) {
-            super.onClick(v);
-            if (v == binding.btnEdit) {
-                if (swipeItemLayout.isClosed()) {
-                    swipeItemLayout.openWithAnim();
+            if (v == binding.root) {
+                mViewHolderClickListener.onItemClick(this, getLayoutPosition());
+            } else if (v == binding.btnBottom) {
+                if (isMe) {
+                    if (swipeItemLayout.isClosed()) {
+                        swipeItemLayout.openWithAnim();
+                    } else {
+                        swipeItemLayout.closeWithAnim();
+                    }
                 } else {
-                    swipeItemLayout.closeWithAnim();
+                    mViewHolderClickListener.onClick(this, v, getLayoutPosition());
                 }
+            } else if (v == binding.btnReview) {
+                //create by xu 08-06
+                Activity activity = (Activity) mContext;
+                SkillPreviewActivity.show(binding.getSkill(), activity, 0, 0);
+                //end
             } else {
                 mViewHolderClickListener.onClick(this, v, getLayoutPosition());
             }

@@ -366,7 +366,7 @@ public class MainSelectorProxy implements ActivityProxy,
             if (clickItem == holder.getBinding().btnShare) {
                 Skill data = skill;
                 ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""));
-            } else if (clickItem == holder.getBinding().btnContect) {
+            } else if (clickItem == holder.getBinding().btnBottom) {
                 Intent intent = new Intent(mActivity, ChatActivity.class);
                 intent.putExtra("skill", holder.getData());
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
