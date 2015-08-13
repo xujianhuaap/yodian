@@ -57,6 +57,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
     private SkillService mSkillService;
     private ActivitySkillPreviewBinding mBinding;
     private WaitDialog dialog;
+    private ShareDialog mShareDialog;
 
     /***
      *
@@ -144,9 +145,12 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         if(v==mBinding.fabGoback){
             finish();
         }if(v==mBinding.ivShare){
-            ShareDialog.ShareParams shareParams=new ShareDialog.ShareParams(mSkill,
-                    mSkill.getQrcodeUrl(),mSkill.getUid(),mSkill.getNickname(),"");
-            ShareDialog.show(this, shareParams);
+            mShareDialog.dismiss();
+            if(mShareDialog==null){
+                ShareDialog.ShareParams shareParams=new ShareDialog.ShareParams(mSkill,
+                        mSkill.getQrcodeUrl(),mSkill.getUid(),mSkill.getNickname(),"");
+                mShareDialog = ShareDialog.show(this, shareParams);
+            }
 
         }else if(mBinding.btnDone==v){
             submitSkill();
@@ -247,10 +251,6 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         public void success(RmarkListResponse rmarkListResponse, Response response) {
             if(rmarkListResponse.isSuccess()){
                 List<Rmark>rmarks=rmarkListResponse.getData().getList();
-//                if(page==1&& rmarks.size()==0){
-//                    mBinding.recDiary.setVisibility(View.INVISIBLE);
-//                }
-
                 mAdapter.reload(rmarks,append);
                 mAdapter.notifyDataSetChanged();
             }

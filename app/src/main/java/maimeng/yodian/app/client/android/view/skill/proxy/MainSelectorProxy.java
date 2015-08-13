@@ -1,6 +1,8 @@
 package maimeng.yodian.app.client.android.view.skill.proxy;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
@@ -8,7 +10,6 @@ import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
@@ -58,10 +60,10 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
+import maimeng.yodian.app.client.android.widget.CategoryLayout;
 import maimeng.yodian.app.client.android.widget.CategoryView;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
@@ -75,12 +77,14 @@ public class MainSelectorProxy implements ActivityProxy,
         PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryView.CategoryClickListener {
 
     private static final String LOG_TAG = MainSelectorProxy.class.getName();
-    private static final int mTitleStatus = 0x37;
+    private static final int CATEGORY_ANIM_ENTER = 0x37;
+    private static final int CATEGORY_ANIM_DISMISS = 0x32;
     private final View mView;
     private final MainTabActivity mActivity;
     private final SkillService service;
     private final PtrFrameLayout mRefreshLayout;
     private final RecyclerView mRecyclerView;
+    private final CategoryLayout mCategoryContainer;
     private boolean inited = false;
     private User user;
     private int dgree = 1;
@@ -94,6 +98,7 @@ public class MainSelectorProxy implements ActivityProxy,
     private List<Theme> mCategory;
     private CategoryView mCategoryView;
     private ImageView mTitleIndicator;
+    private android.support.v7.widget.Toolbar mToolBar;
     private TextView mTitle;
     private ObjectAnimator animator;
 
@@ -104,13 +109,14 @@ public class MainSelectorProxy implements ActivityProxy,
         view.setVisibility(View.GONE);
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
-
-        mCategoryView = (CategoryView) view.findViewById(R.id.category);
+        mCategoryContainer = (CategoryLayout) view.findViewById(R.id.categoryContainer);
+        mToolBar = (android.support.v7.widget.Toolbar) view.findViewById(R.id.toolbar);
+        mCategoryView = (CategoryView) mCategoryContainer.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);
         mTitleIndicator = (ImageView) view.findViewById(R.id.title_logo);
         mTitle = (TextView) view.findViewById(R.id.list_title);
         mTitle.setOnClickListener(this);
-        mTitle.setTag(mTitleStatus);
+        mTitle.setTag(CATEGORY_ANIM_ENTER);
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
@@ -131,7 +137,43 @@ public class MainSelectorProxy implements ActivityProxy,
         mRecyclerView.setAdapter(adapter);
 
         animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180 * dgree);
-        animator.setDuration(300);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                if (mTitle.getTag().equals(CATEGORY_ANIM_ENTER)) {
+                    mCategoryContainer.enterAnimator.setCurrentPlayTime(animation.getCurrentPlayTime());
+                } else {
+                    mCategoryContainer.dismissAnimator.setCurrentPlayTime(animation.getCurrentPlayTime());
+                }
+            }
+        });
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (mTitle.getTag().equals(CATEGORY_ANIM_ENTER)) {
+                    mTitle.setTag(CATEGORY_ANIM_DISMISS);
+                } else {
+                    mTitle.setTag(CATEGORY_ANIM_ENTER);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.setDuration(600);
         ItemTouchHelper swipeTouchHelper = new ItemTouchHelper(new DefaultItemTouchHelperCallback());
         //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
     }
@@ -146,22 +188,19 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onClick(View v) {
-        if (animator != null && !animator.isRunning()) {
-            if (mTitleStatus == v.getTag()) {
 
-                mCategoryView.show(600);
-                v.setTag(0);
-            } else {
-                mCategoryView.dismiss(600);
-                v.setTag(mTitleStatus);
+
+            mCategoryContainer.initAnimator(600, mToolBar.getHeight());
+
+            if (animator != null && !animator.isRunning()) {
+
+                animator.start();
+                dgree++;
             }
+            mCategoryContainer.setVisibility(View.VISIBLE);
 
-            animator.start();
-            dgree++;
 
         }
-
-    }
 
     public void loadData() {
         service.choose(page, 0, this);
@@ -398,11 +437,13 @@ public class MainSelectorProxy implements ActivityProxy,
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
 
+
             mCategory = res.getData().getCategory();
             if (mCategory == null) {
                 mCategory = new ArrayList<Theme>();
             }
             mCategoryView.bindData(mActivity, mCategory);
+
         } else {
             res.showMessage(mActivity);
             if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {

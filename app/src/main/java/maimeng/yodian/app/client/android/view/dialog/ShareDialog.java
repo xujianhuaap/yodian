@@ -115,10 +115,16 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     }
 
 
+    // modify by xu 08-12
 
-    public static void show(Activity context, ShareParams params) {
-        newInstance(params).show(context.getFragmentManager(), "sharedialog");
+    public static ShareDialog show(Activity context, ShareParams params) {
+        ShareDialog shareDialog=newInstance(params);
+        shareDialog.show(context.getFragmentManager(), "sharedialog");
+        return shareDialog;
     }
+
+    //end
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

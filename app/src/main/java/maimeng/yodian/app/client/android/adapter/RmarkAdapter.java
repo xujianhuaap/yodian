@@ -11,6 +11,8 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.model.Skill;
@@ -28,11 +30,13 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
     private User me;
     private final int TYPE_HEADER=232;
     private final int TYPE_NORMAL=234;
+    private  int SCREEN_WIDTH;
     private  Spanned priceText=null;
 
     public RmarkAdapter(Context context,Skill skill, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
         me=User.read(mContext);
+        SCREEN_WIDTH=mContext.getResources().getDisplayMetrics().widthPixels;
         mViewHolderClickListener=viewHolderClickListener;
         mSkill=skill;
     }
@@ -98,6 +102,7 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
         public HeaderViewHolder( ViewHeaderPreviewDiaryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.pic.setLayoutParams(new FrameLayout.LayoutParams(SCREEN_WIDTH,SCREEN_WIDTH*4/5));
         }
     }
     public  final class NormalViewHolder extends ViewHolder implements View.OnClickListener{
@@ -113,6 +118,8 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
         public NormalViewHolder(RmarkListItemBinding binding) {
             super(binding.getRoot());
             this.binding=binding;
+
+            binding.pic.setLayoutParams(new RelativeLayout.LayoutParams(SCREEN_WIDTH,SCREEN_WIDTH));
 
             translation=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -200f);
             alpha=PropertyValuesHolder.ofFloat(View.ALPHA, 0.8f, 1.0f);

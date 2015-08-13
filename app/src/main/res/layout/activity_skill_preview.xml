@@ -16,7 +16,10 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/fra_title">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/fra_title"
+            android:background="@color/colorPrimaryDark">
 
             <TextView
                 android:id="@+id/tv_title"
@@ -26,14 +29,15 @@
                 android:text="@string/skill_preview_title_bar"
                 android:textSize="@dimen/tex_size_large"
                 android:textColor="@android:color/white"
-                android:background="@color/colorPrimaryDark"/>
+              />
             <ImageView
                 android:id="@+id/iv_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:paddingRight="10dp"
-                android:src="@drawable/ic_share_qqroom"/>
+                android:padding="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_share"/>
 
         </FrameLayout>
 
