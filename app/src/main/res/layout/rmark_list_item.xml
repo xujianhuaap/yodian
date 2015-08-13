@@ -62,8 +62,8 @@
 
             <ImageView
                 android:id="@+id/pic"
-                android:layout_width="360dp"
-                android:layout_height="360dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/fragment_container"
                 android:scaleType="center"
                 app:imgUrl="@{rmark.pic}" />

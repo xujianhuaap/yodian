@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <CheckBox
+        android:id="@+id/white_dot"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_centerHorizontal="true"
+        android:button="@null"
+        android:visibility="gone"
+        android:background="@drawable/ic_white_dot"
+        android:layout_marginRight="5dp"
+        android:layout_gravity="center"/>
     <TextView
         android:id="@+id/theme_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="精选"
+        android:layout_toRightOf="@+id/white_dot"
+        android:layout_alignBaseline="@+id/white_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="精选sfdfdf"
+        android:singleLine="true"
         android:textSize="16sp"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:drawablePadding="3dp"
-         />
+        android:drawablePadding="3dp" />
 
 </LinearLayout>

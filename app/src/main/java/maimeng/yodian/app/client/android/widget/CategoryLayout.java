@@ -13,9 +13,10 @@ import android.widget.LinearLayout;
  * Created by android on 15-8-12.
  */
 public class CategoryLayout extends LinearLayout {
-    private CategoryView mCategory;
-    private ObjectAnimator objectAnimator;
-    private ObjectAnimator dismissAnimator;
+
+
+    public ObjectAnimator enterAnimator;
+    public ObjectAnimator dismissAnimator;
 
     public CategoryLayout(Context context) {
         super(context);
@@ -33,47 +34,19 @@ public class CategoryLayout extends LinearLayout {
 
     /***
      * 初始化动画
-     * @param offset
+     *
      */
-    private void initAnimator(int offset) {
+    public void initAnimator(int duration,int enterOffSet) {
 
-        if(objectAnimator==null){
-            objectAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, 0);
-        }
+            enterAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y ,enterOffSet);
+            enterAnimator.setDuration(duration);
 
-        dismissAnimator=null;
-        if(dismissAnimator==null){
-            offset=-offset;
-            dismissAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y,offset);
-        }
+            dismissAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y,-this.getHeight()-enterOffSet);
+            dismissAnimator.setDuration(1200);
 
-    }
-    /***
-     * 伴随动画展现控件
-     * @param animDuration
-     */
-    public void show(int animDuration){
 
-        this.setVisibility(VISIBLE);
-        initAnimator(this.getHeight());
-        if(objectAnimator!=null&&!objectAnimator.isRunning()){
-            objectAnimator.setDuration(animDuration);
-            objectAnimator.start();
-        }
+
 
     }
 
-    /***
-     * 伴随动画控件消失
-     * @param animDuration
-     */
-    public void dismiss(int animDuration){
-        this.setVisibility(GONE);
-        initAnimator(this.getHeight());
-        if(dismissAnimator!=null&&!dismissAnimator.isRunning()){
-            dismissAnimator.setDuration(animDuration);
-            dismissAnimator.start();
-        }
-
-    }
 }
