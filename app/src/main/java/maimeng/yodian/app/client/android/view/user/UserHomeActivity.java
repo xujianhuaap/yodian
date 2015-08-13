@@ -7,6 +7,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -106,6 +108,7 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
             final SkillUserResponse.DataNode data = res.getData();
             this.user = data.getUser();
             proxy.init(user);
+            proxy.show((FloatingActionButton) findViewById(R.id.btn_back));
         } else {
             res.showMessage(this);
         }

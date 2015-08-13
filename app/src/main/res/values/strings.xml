@@ -16,6 +16,7 @@
     <string name="currentAccount">当前账号:%s</string>
     <string name="title_activity_web_launcher">WebLauncher</string>
     <string name="btn_contact_ta">联系TA</string>
+    <string name="btn_edit_skill">编辑技能</string>
     <string name="mobile_input_empty_message">手机号不能为空</string>
     <string name="code_input_empty_message">验证码不能为空</string>
     <string name="nickname_input_empty_message">昵称不能为空</string>

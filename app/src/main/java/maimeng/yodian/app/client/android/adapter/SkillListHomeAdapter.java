@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.model.Skill;
-import maimeng.yodian.app.client.android.databinding.SkillListItemHomeBinding;
+import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
@@ -20,7 +20,7 @@ import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 /**
  * Created by android on 15-7-13.
  */
-public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAdapter.ViewHolder> {
+public class SkillListHomeAdapter extends AbstractAdapter<Skill, SkillListHomeAdapter.ViewHolder> {
     public SkillListHomeAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
     }
@@ -35,7 +35,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        SkillListItemHomeBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item_home, parent, false);
+        SkillListItemSkillBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item_skill, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -49,6 +49,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final User user;
         private SwipeItemLayout swipeItemLayout;
+        private boolean isMe;
 
         public Skill getData() {
             return data;
@@ -56,18 +57,18 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
 
         private Skill data;
 
-        public SkillListItemHomeBinding getBinding() {
+        public SkillListItemSkillBinding getBinding() {
             return binding;
         }
 
-        private final SkillListItemHomeBinding binding;
-        public ViewHolder(SkillListItemHomeBinding binding) {
+        private final SkillListItemSkillBinding binding;
+
+        public ViewHolder(SkillListItemSkillBinding binding) {
             super(binding.getRoot());
-            swipeItemLayout=(SwipeItemLayout)itemView.findViewById(R.id.swipe_item_layout);
+            swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             binding.root.setOnClickListener(this);
-            this.binding=binding;
-            binding.btnEdit.setOnClickListener(this);
-            binding.btnContect.setOnClickListener(this);
+            this.binding = binding;
+            binding.btnBottom.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
@@ -75,46 +76,54 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill,SkillListHomeAda
             //create by xu 08-06
             binding.btnReview.setOnClickListener(this);
             //end
-            user= User.read(swipeItemLayout.getContext());
+            user = User.read(swipeItemLayout.getContext());
         }
-        public void bind(Skill item){
+
+        public void bind(Skill item) {
             closeWithAnim();
-            this.data =item;
+            this.data = item;
             binding.setSkill(item);
             binding.executePendingBindings();
-            if(item.getUid()==user.getUid()){
+            isMe = item.getUid() == user.getUid();
+            if (isMe) {
                 binding.btnEdit.setVisibility(View.VISIBLE);
                 binding.btnContect.setVisibility(View.GONE);
-            }else{
+            } else {
                 binding.btnContect.setVisibility(View.VISIBLE);
                 binding.btnEdit.setVisibility(View.GONE);
             }
 
-            binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(),item.getUnit())));
+            binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(), item.getUnit())));
         }
-        public void closeWithAnim(){
-            if(swipeItemLayout.isClosed()){
-            }else{
+
+        public void closeWithAnim() {
+            if (swipeItemLayout.isClosed()) {
+            } else {
                 swipeItemLayout.closeWithAnim();
             }
         }
+
         @Override
         public void onClick(View v) {
-            if(v==binding.root){
-                mViewHolderClickListener.onItemClick(this,getLayoutPosition());
-            }else if(v==binding.btnEdit){
-                if(swipeItemLayout.isClosed()){
-                    swipeItemLayout.openWithAnim();
-                }else{
-                    swipeItemLayout.closeWithAnim();
+            if (v == binding.root) {
+                mViewHolderClickListener.onItemClick(this, getLayoutPosition());
+            } else if (v == binding.btnBottom) {
+                if (isMe) {
+                    if (swipeItemLayout.isClosed()) {
+                        swipeItemLayout.openWithAnim();
+                    } else {
+                        swipeItemLayout.closeWithAnim();
+                    }
+                } else {
+                    mViewHolderClickListener.onClick(this, v, getLayoutPosition());
                 }
-            }else if(v==binding.btnReview){
+            } else if (v == binding.btnReview) {
                 //create by xu 08-06
-                Activity activity=(Activity)mContext;
-                SkillPreviewActivity.show(binding.getSkill(),activity,0,0);
+                Activity activity = (Activity) mContext;
+                SkillPreviewActivity.show(binding.getSkill(), activity, 0, 0);
                 //end
-            }else{
-                mViewHolderClickListener.onClick(this,v,getLayoutPosition());
+            } else {
+                mViewHolderClickListener.onClick(this, v, getLayoutPosition());
             }
         }
     }

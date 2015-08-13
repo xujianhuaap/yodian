@@ -122,7 +122,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         appBar.addOnOffsetChangedListener(this);
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(mActivity);
-        header.setTextColor(0xffffff);
+
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
         ListLayoutManager layout = new ListLayoutManager(mActivity);
@@ -259,7 +259,6 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     @Override
     public void onItemClick(final SkillListHomeAdapter.ViewHolder holder, int postion) {
-        mFloatButton.show();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
