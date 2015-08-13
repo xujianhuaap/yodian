@@ -62,6 +62,7 @@ import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.WebViewActivity;
+import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
@@ -87,6 +88,7 @@ public class MainSelectorProxy implements ActivityProxy,
     private final PtrFrameLayout mRefreshLayout;
     private final RecyclerView mRecyclerView;
     private final CategoryLayout mCategoryContainer;
+    private final View mBtnChat;
     private boolean inited = false;
     private User user;
     private int dgree = 1;
@@ -112,6 +114,13 @@ public class MainSelectorProxy implements ActivityProxy,
         this.mActivity = activity;
         service = Network.getService(SkillService.class);
         mCategoryContainer = (CategoryLayout) view.findViewById(R.id.categoryContainer);
+        mBtnChat = view.findViewById(R.id.btn_chat);
+        mBtnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
+            }
+        });
         mToolBar = (android.support.v7.widget.Toolbar) view.findViewById(R.id.toolbar);
         mCategoryView = (CategoryView) mCategoryContainer.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);

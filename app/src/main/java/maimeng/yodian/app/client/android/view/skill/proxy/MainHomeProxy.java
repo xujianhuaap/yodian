@@ -90,9 +90,6 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         mBtnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Pair<View,String> back=Pair.create((View)mFloatButton,"back");
-//                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-//                ActivityCompat.startActivity(mActivity,new Intent(mActivity, ChatMainActivity.class),options.toBundle());
                 mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
             }
         });

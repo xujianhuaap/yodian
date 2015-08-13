@@ -74,31 +74,47 @@
         android:gravity="center"
         android:minHeight="?attr/actionBarSize">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/list_title"
-                style="@style/Base.TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="优点精选"
-                android:textColor="?android:attr/textColorPrimary" />
+            android:gravity="center_vertical">
 
             <ImageView
-                android:id="@+id/title_logo"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_triangle_indicator" />
-        </LinearLayout>
+                android:id="@+id/btn_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginRight="@dimen/top_icon_margin"
+                android:src="@drawable/ic_msg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/list_title"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="优点精选"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/title_logo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_triangle_indicator" />
+            </LinearLayout>
+        </FrameLayout>
+
 
     </android.support.v7.widget.Toolbar>
 
