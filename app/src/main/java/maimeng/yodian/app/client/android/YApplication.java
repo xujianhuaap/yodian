@@ -1,6 +1,8 @@
 
 package maimeng.yodian.app.client.android;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
@@ -52,4 +54,6 @@ public class YApplication extends DemoApplication {
     public String getAppKey() {
         return BuildConfig.DEBUG ? "maimengkeji#youdiantest" : "maimengkeji#youdian";
     }
+
+
 }

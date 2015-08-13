@@ -1,9 +1,11 @@
 package maimeng.yodian.app.client.android.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,14 +18,17 @@ import maimeng.yodian.app.client.android.model.Theme;
  */
 public class ThemeAdapter extends AbstractListAdapter<Theme> {
 
-    private AdapterClickListener adapterClickListener;
+    private AdapterClickListener mAdapterClickListener;
+    private final SharedPreferences mSharedPreferences;
 
     public void setAdapterClickListener(AdapterClickListener adapterClickListener) {
-        this.adapterClickListener = adapterClickListener;
+        this.mAdapterClickListener = adapterClickListener;
     }
 
     public ThemeAdapter(Context context) {
         super(context);
+        this.mSharedPreferences = context.getSharedPreferences("yodian", Context.MODE_PRIVATE);
+        mSharedPreferences.edit().putInt("logo",0).commit();
     }
 
     @Override
@@ -36,7 +41,10 @@ public class ThemeAdapter extends AbstractListAdapter<Theme> {
         }else{
             holder=(ViewHolder)convertView.getTag();
         }
-        holder.bind(getItem(position));
+        holder.bind(getItem(position),position);
+        if(position==mSharedPreferences.getInt("logo",0x89)){
+            convertView.findViewById(R.id.white_dot).setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 
@@ -46,29 +54,34 @@ public class ThemeAdapter extends AbstractListAdapter<Theme> {
     }
 
     public  final class ViewHolder implements View.OnClickListener{
-        private  Theme theme;
+        private  Theme mTheme;
 
-        private View convertView;
+        private final View mConvertView;
+        private final CheckBox mLogo;
+        private int mPosition;
 
         public ViewHolder(View convertView) {
-            this.convertView = convertView;
+            this.mConvertView = convertView;
+            this.mLogo=(CheckBox)convertView.findViewById(R.id.white_dot);
         }
 
-        public void bind(Theme theme){
-            this.theme=theme;
-            TextView tv=(TextView)convertView.findViewById(R.id.theme_name);
+        public void bind(Theme theme,int position){
+            this.mTheme=theme;
+            mPosition=position;
+            TextView tv=(TextView)mConvertView.findViewById(R.id.theme_name);
             tv.setText(theme.getName());
             tv.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            adapterClickListener.onClickListner(v,theme);
+            mSharedPreferences.edit().putInt("logo",mPosition).commit();
+            mAdapterClickListener.onClickListner(v,mTheme,mPosition);
         }
     }
 
     public interface  AdapterClickListener {
-        public void onClickListner(View v,Theme theme);
+        public void onClickListner(View v,Theme theme,int position);
 
     }
 }
