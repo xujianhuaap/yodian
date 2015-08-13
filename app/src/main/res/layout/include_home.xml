@@ -58,7 +58,7 @@
                 android:layout_gravity="top|right"
                 android:layout_marginRight="@dimen/top_icon_margin"
                 android:layout_marginTop="@dimen/top_icon_margin"
-                android:src="@drawable/ic_reportlogo"
+                android:src="@drawable/ic_report_userhome"
                 android:visibility="gone" />
 
             <ImageView

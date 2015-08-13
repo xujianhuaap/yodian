@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.user;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -14,10 +15,14 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
+import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
 
@@ -30,6 +35,7 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     private int page = 1;
     private View mBtnSettings;
     private WaitDialog dialog;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,30 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     }
 
     private void report() {
+        AlertDialog alert = AlertDialog.newInstance("提示", "确定要举报该恋用户吗？");
+        alert.setNegativeListener(new AlertDialog.NegativeListener() {
+            @Override
+            public void onNegativeClick(DialogInterface dialog) {
+                dialog.dismiss();
+            }
 
+            @Override
+            public String negativeText() {
+                return getString(android.R.string.cancel);
+            }
+        });
+        alert.setPositiveListener(new AlertDialog.PositiveListener() {
+            @Override
+            public void onPositiveClick(DialogInterface dialog) {
+                Network.getService(CommonService.class).report(3, 0, 0, user.getUid(), new ToastCallback(UserHomeActivity.this));
+            }
+
+            @Override
+            public String positiveText() {
+                return getString(R.string.lable_report);
+            }
+        });
+        alert.show(getFragmentManager(), "alert");
     }
 
     @Override
@@ -75,7 +104,8 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     public void success(SkillUserResponse res, Response response) {
         if (res.isSuccess()) {
             final SkillUserResponse.DataNode data = res.getData();
-            proxy.init(data.getUser());
+            this.user = data.getUser();
+            proxy.init(user);
         } else {
             res.showMessage(this);
         }
