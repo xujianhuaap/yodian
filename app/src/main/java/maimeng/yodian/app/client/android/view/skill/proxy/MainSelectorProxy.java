@@ -61,6 +61,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
+import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
@@ -339,7 +340,10 @@ public class MainSelectorProxy implements ActivityProxy,
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
             ActivityCompat.startActivity(mActivity, new Intent(mActivity, UserHomeActivity.class).putExtra("uid", banner.getValue()), options.toBundle());
         } else if (banner.getType() == 1) {
-            Toast.makeText(mActivity, "网址", Toast.LENGTH_SHORT).show();
+            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+            ActivityCompat.startActivity(mActivity, WebViewActivity.newIntent(mActivity, banner.getValue()), options.toBundle())
+            ;
         }
     }
 
