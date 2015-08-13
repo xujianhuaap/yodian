@@ -210,7 +210,7 @@ public class MainSelectorProxy implements ActivityProxy,
     }
 
     public void loadData() {
-        service.choose(page, 0, this);
+        service.choose(page, scid, this);
     }
 
     @Override
