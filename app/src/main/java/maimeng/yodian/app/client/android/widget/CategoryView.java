@@ -9,6 +9,7 @@ import android.widget.GridView;
 import java.util.ArrayList;
 import java.util.List;
 
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.ThemeAdapter;
 import maimeng.yodian.app.client.android.model.Theme;
 
@@ -46,24 +47,7 @@ public class CategoryView extends GridView implements ThemeAdapter.AdapterClickL
         this.mCategoryClickListener = categoryClickListener;
     }
 
-    /***
-     * 初始化动画
-     *
-     * @param offset
-     */
-    private void initAnimator(int offset) {
 
-        if (objectAnimator == null) {
-            objectAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, 0);
-        }
-
-        dismissAnimator = null;
-        if (dismissAnimator == null) {
-            offset = -offset;
-            dismissAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, offset);
-        }
-
-    }
 
     /***
      * 为该控件绑定数据
@@ -72,42 +56,14 @@ public class CategoryView extends GridView implements ThemeAdapter.AdapterClickL
      * @param themes
      */
     public void bindData(Context context, List<Theme> themes) {
-
-        adapter = new ThemeAdapter(context);
-        adapter.reload(themes, true);
+        if(adapter==null){
+            adapter = new ThemeAdapter(context);
+        }
+        adapter.reload(themes, false);
         this.setAdapter(adapter);
         adapter.setAdapterClickListener(this);
     }
 
-    /***
-     * 伴随动画展现控件
-     *
-     * @param animDuration
-     */
-    public void show(int animDuration) {
-        this.setVisibility(VISIBLE);
-        initAnimator(this.getHeight());
-        if (objectAnimator != null && !objectAnimator.isRunning()) {
-            objectAnimator.setDuration(animDuration);
-            objectAnimator.start();
-        }
-
-    }
-
-    /***
-     * 伴随动画控件消失
-     *
-     * @param animDuration
-     */
-    public void dismiss(int animDuration) {
-        this.setVisibility(GONE);
-        initAnimator(this.getHeight());
-        if (dismissAnimator != null && !dismissAnimator.isRunning()) {
-            dismissAnimator.setDuration(animDuration);
-            dismissAnimator.start();
-        }
-
-    }
 
     /***
      * 点击刷新category
@@ -116,7 +72,15 @@ public class CategoryView extends GridView implements ThemeAdapter.AdapterClickL
      * @param theme
      */
     @Override
-    public void onClickListner(View v, Theme theme) {
+    public void onClickListner(View v, Theme theme,int position) {
+        for(int i=0;i<getChildCount();i++){
+           View view = getChildAt(i).findViewById(R.id.white_dot);
+            if(position==i){
+                view.setVisibility(VISIBLE);
+            }else{
+                view.setVisibility(INVISIBLE);
+            }
+        }
         mCategoryClickListener.onClickListener(v, theme);
     }
 

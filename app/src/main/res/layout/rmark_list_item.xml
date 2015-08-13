@@ -9,11 +9,11 @@
             type="maimeng.yodian.app.client.android.model.Rmark" />
     </data>
 
-    <FrameLayout
-        android:descendantFocusability="blocksDescendants"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+    <!--<FrameLayout-->
+        <!--android:descendantFocusability="blocksDescendants"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:padding="10dp">-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -63,7 +63,7 @@
             <ImageView
                 android:id="@+id/pic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="160dp"
                 android:layout_below="@id/fragment_container"
                 android:scaleType="center"
                 app:imgUrl="@{rmark.pic}" />
@@ -77,8 +77,8 @@
                 android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/pic"
+                android:layout_below="@+id/pic"
                 android:text="@{rmark.content}" />
         </RelativeLayout>
-    </FrameLayout>
+    <!--</FrameLayout>-->
 </layout>

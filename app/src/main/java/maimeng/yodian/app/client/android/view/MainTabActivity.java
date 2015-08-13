@@ -148,4 +148,11 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
         }
         LogUtil.i(MainTabActivity.class.getName(), "onNewIntent");
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+    }
 }

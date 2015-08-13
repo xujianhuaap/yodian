@@ -74,6 +74,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark>{
         }
         public void bind(Rmark rmark){
             this.binding.setRmark(rmark);
+
             reset();
             if(rmark.getUid()==me.getUid()){
                 open = ObjectAnimator.ofPropertyValuesHolder(binding.btnMenuDelete, translation, alpha);
