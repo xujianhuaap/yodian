@@ -203,7 +203,12 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                 super.success(res, response);
                 if (res.isSuccess()) {
                     setResult(RESULT_OK);
-                    finish();
+                    String redirect_url="https://www.baidu.com/img/bd_logo1.png";
+                    mSkill.setQrcodeUrl(redirect_url);
+                    ShareDialog.ShareParams params=new ShareDialog.ShareParams(mSkill,mSkill.getQrcodeUrl(),
+                            mSkill.getId(),mSkill.getNickname(),"");
+                    ShareDialog.show(SkillPreviewActivity.this,params);
+//                    finish();
                 } else if (res.isValidateAuth(SkillPreviewActivity.this, REQUEST_AUTH)) ;
             }
 

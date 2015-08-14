@@ -30,6 +30,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -203,7 +204,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         skill.setContent(template.getContent());
         skill.setPrice(template.getPrice());
         skill.setUnit(template.getUnit());
-
+        skill.setNickname(User.read(this).getT_nickname());
 
         int editstatu=isEdit ?1:2;
         SkillPreviewActivity.show(skill, CreateOrEditSkillActivity.this,editstatu, REQUEST_DONE);
