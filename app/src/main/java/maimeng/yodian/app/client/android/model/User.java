@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName;
 
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.YApplication;
+import maimeng.yodian.app.client.android.chat.DemoApplication;
 
 
 /**
@@ -220,5 +221,8 @@ public class User extends BaseObservable {
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
         editor.apply();
+        // 登陆成功，保存用户名密码
+        DemoApplication.getInstance().setUserName("");
+        DemoApplication.getInstance().setPassword("");
     }
 }
