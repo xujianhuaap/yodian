@@ -9,6 +9,8 @@ import com.squareup.picasso.Target;
 import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.http.ClientStack;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -87,6 +89,17 @@ public class Network {
     }
 
     public static void image(Context context, String url, Target target) {
-        ImageLoader.image(context, url, target);
+
+        String path = null;
+        try {
+            path = URLDecoder.decode(url, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            path = url;
+        } finally {
+            ImageLoader.image(context, path, target);
+        }
+
+
     }
 }

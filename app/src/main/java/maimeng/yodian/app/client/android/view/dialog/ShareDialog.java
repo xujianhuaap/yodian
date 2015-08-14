@@ -63,6 +63,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     private String title;
     private String redirect_url;
     private boolean end=false;
+    private boolean releaseOk;
 
 
 
@@ -123,6 +124,12 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         return shareDialog;
     }
 
+    public static ShareDialog show(Activity context, ShareParams params,boolean releaseOk) {
+        ShareDialog shareDialog=newInstance(params);
+        shareDialog.show(context.getFragmentManager(), "sharedialog");
+        shareDialog.releaseOk=releaseOk;
+        return shareDialog;
+    }
     //end
 
     @Nullable
@@ -142,6 +149,10 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         }
 //        getDialog().getWindow().getAttributes().windowAnimations = R.style.ShareDialogAnimation;
         View inflate = inflater.inflate(R.layout.pop_share_view, container, false);
+        if(releaseOk){
+            inflate.findViewById(R.id.release_ok).setVisibility(View.VISIBLE);
+        }
+
         ButterKnife.bind(this, inflate);
         return inflate;
     }

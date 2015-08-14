@@ -78,7 +78,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             }
 
         }
-        Network.image(this, mTemplate.getPic(), this);
+        if(mTemplate.getPic()!=null) Network.image(this, mTemplate.getPic(), this);
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
         binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));

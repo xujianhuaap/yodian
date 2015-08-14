@@ -55,6 +55,8 @@ public class ApiConfig {
         public static final String RMARK_ADD="/skillcontent/add";//添加日记
         public static final String REPORT = "/index/report";//举报
 
+        public static final String QRODE_URL="http://share.yodian.me/";
+
 
     }
 }

@@ -23,6 +23,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
 import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -203,12 +204,12 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                 super.success(res, response);
                 if (res.isSuccess()) {
                     setResult(RESULT_OK);
-                    String redirect_url="https://www.baidu.com/img/bd_logo1.png";
-                    mSkill.setQrcodeUrl(redirect_url);
+                    String qurode=mSkill.getQrcodeUrl();
+                    if(qurode.equals(""))  mSkill.setQrcodeUrl(ApiConfig.Api.QRODE_URL);
                     ShareDialog.ShareParams params=new ShareDialog.ShareParams(mSkill,mSkill.getQrcodeUrl(),
                             mSkill.getId(),mSkill.getNickname(),"");
-                    ShareDialog.show(SkillPreviewActivity.this,params);
-//                    finish();
+                    ShareDialog.show(SkillPreviewActivity.this, params,true);
+
                 } else if (res.isValidateAuth(SkillPreviewActivity.this, REQUEST_AUTH)) ;
             }
 
