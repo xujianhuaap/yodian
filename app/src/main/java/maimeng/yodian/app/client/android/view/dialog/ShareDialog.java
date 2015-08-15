@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -243,7 +244,11 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @OnClick(R.id.qqRoom)
     public void qzone(final View v) {
         IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.QQ);
-        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, skill.getPic()),0/*,this*/);
+        String imgPath=skill.getPic();
+        if(imgPath!=null&&imgPath.startsWith("file://")){
+            imgPath=Uri.parse(skill.getPic()).getPath();
+        }
+        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, imgPath),0/*,this*/);
     }
 
     @OnClick(R.id.report)

@@ -279,13 +279,18 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             } else if (requestCode == REQUEST_SELECT_PHOTO ) {
                 ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
                 String uri = Uri.fromFile(new File(paths.get(0))).toString();
-                Network.image(this, uri, this);
+                int width=binding.skillPic.getWidth();
+                int height=binding.skillPic.getHeight();
+                if(width>0&&height>0){
+                    Network.image(this, uri, this,240,240);
+                }
+
                 binding.getTemplate().setPic(uri);
                 toggle();
             } else if(resultCode==REQUEST_DONE){
 
             }
-        }
+         }
 
     }
 

@@ -20,7 +20,7 @@ import maimeng.yodian.app.client.android.common.BuildConfig;
  * Created by android on 2015/7/31.
  */
 public class ImageLoader {
-    public static final boolean DEBUG=true;
+    public static final boolean DEBUG = true;
     private static ImageLoader network;
     private final int screenWidth;
     private final int screenHeight;
@@ -42,7 +42,7 @@ public class ImageLoader {
         screenHeight = app.getResources().getDisplayMetrics().heightPixels;
         loader = Picasso.with(app);
         loader.setLoggingEnabled(BuildConfig.DEBUG || DEBUG);
-        loader.setIndicatorsEnabled(BuildConfig.DEBUG||DEBUG);
+        loader.setIndicatorsEnabled(BuildConfig.DEBUG || DEBUG);
     }
 
     public static Bitmap image(final Context context, final String uri) {
@@ -78,17 +78,28 @@ public class ImageLoader {
 
     public static void image(Context context, String uri, int placeHolderDrawable, Target target) {
         image(context, uri, placeHolderDrawable, -1, target);
+    }
+
+    public static void image(Context context, String uri, Target target,int width,int height) {
+        image(context, uri, -1, -1, target,width,height);
 
     }
 
-    public static void image(Context context, String uri, int placeHolderDrawable, int errorDrawable, Target target) {
+    public static void image(Context context, String uri, int placeHolderDrawable, Target target,int width,int height) {
+        image(context, uri, placeHolderDrawable, -1, target,width,height);
+
+    }
+    public static void image(Context context, String uri, int placeHolderDrawable, int errorDrawable, Target target, int width, int height) {
         ImageLoader one = getOne(context);
         RequestCreator load = one.loader.load(uri);
-        load.resize(one.screenWidth, one.screenHeight);
+        load.resize(width, height);
         if (placeHolderDrawable != -1) load.placeholder(placeHolderDrawable);
         if (errorDrawable != -1) load.error(errorDrawable);
         load.into(target);
+    }
 
+    public static void image(Context context, String uri, int placeHolderDrawable, int errorDrawable, Target target) {
+        image(context, uri, placeHolderDrawable, errorDrawable, target, getOne(context).screenWidth, getOne(context).screenHeight);
     }
 
     @BindingAdapter("bind:imgUrl")
@@ -112,12 +123,13 @@ public class ImageLoader {
     }
 
     public static void image(ImageView iv, String url, int placeHolderDrawable) {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             image(iv, url, iv.getResources().getDrawable(placeHolderDrawable, iv.getContext().getTheme()), null);
-        }else{
+        } else {
             image(iv, url, iv.getResources().getDrawable(placeHolderDrawable), null);
         }
     }
+
     public static void image(ImageView iv, String url, int placeHolderDrawable, int errorDrawable) {
         Drawable place = placeHolderDrawable == -1 ? null : iv.getResources().getDrawable(placeHolderDrawable);
         Drawable error = errorDrawable == -1 ? null : iv.getResources().getDrawable(errorDrawable);

@@ -17,24 +17,28 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+           >
 
             <TextView
                 android:id="@+id/time"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:paddingLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:textSize="14sp"
+                android:gravity="bottom"
                 android:text="@{rmark.createtime}" />
 
             <FrameLayout
-                android:id="@id/fragment_container"
+                android:id="@+id/fra_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="20dp"
-                android:layout_alignTop="@id/time"
+                android:layout_below="@+id/time"
+                android:layout_alignTop="@+id/time"
                 android:layout_toRightOf="@id/time">
                 <ImageView
                     android:id="@+id/btn_menu_delete"
@@ -62,12 +66,12 @@
 
             <ImageView
                 android:id="@+id/pic"
-                android:layout_width="@dimen/pic_width"
+                android:layout_width="360dp"
                 android:layout_height="@dimen/pic_height"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_below="@id/fragment_container"
+                android:layout_below="@id/fra_container"
                 android:scaleType="center"
                 app:imgUrl="@{rmark.pic}" />
 
@@ -75,9 +79,11 @@
                 android:padding="10dp"
                 android:id="@+id/content"
                 android:background="#fff"
-                android:lineSpacingExtra="5dp"
-                android:lineSpacingMultiplier="2"
+                android:lineSpacingExtra="3dp"
+                android:lineSpacingMultiplier="1"
                 android:textColor="#000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pic"

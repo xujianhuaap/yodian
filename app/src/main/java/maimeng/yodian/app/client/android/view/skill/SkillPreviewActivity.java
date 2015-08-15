@@ -124,7 +124,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         }
 
         refresh(mSkill);
-        Network.image(this, mSkill.getPic(), new TargetProxy());
+        Network.image(this, mSkill.getPic(), new TargetProxy(),240,240);
     }
 
 
@@ -146,7 +146,10 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         if(v==mBinding.fabGoback){
             finish();
         }if(v==mBinding.ivShare){
-            mShareDialog.dismiss();
+            if(mShareDialog!=null){
+                mShareDialog.dismiss();
+                mShareDialog=null;
+            }
             if(mShareDialog==null){
                 ShareDialog.ShareParams shareParams=new ShareDialog.ShareParams(mSkill,
                         mSkill.getQrcodeUrl(),mSkill.getUid(),mSkill.getNickname(),"");
@@ -298,7 +301,8 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            mBitmap=bitmap;
+            mBitmap=Bitmap.createScaledBitmap(bitmap,720,720,false);
+
         }
 
         @Override

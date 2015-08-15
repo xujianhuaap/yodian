@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.adapter;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -32,6 +33,7 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
     private final int TYPE_NORMAL=234;
     private  int SCREEN_WIDTH;
     private  Spanned priceText=null;
+
 
     public RmarkAdapter(Context context,Skill skill, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
@@ -118,8 +120,10 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
         public NormalViewHolder(RmarkListItemBinding binding) {
             super(binding.getRoot());
             this.binding=binding;
-
-            binding.pic.setLayoutParams(new RelativeLayout.LayoutParams(SCREEN_WIDTH,SCREEN_WIDTH));
+            RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)binding.pic.getLayoutParams();
+            layoutParams.width=SCREEN_WIDTH;
+            layoutParams.height=SCREEN_WIDTH;
+            binding.pic.setLayoutParams(layoutParams);
 
             translation=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -200f);
             alpha=PropertyValuesHolder.ofFloat(View.ALPHA, 0.8f, 1.0f);

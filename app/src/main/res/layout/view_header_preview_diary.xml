@@ -36,8 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pic"
                 android:background="@color/div_line"
+                android:paddingLeft="3dp"
                 android:orientation="vertical"
-                android:padding="5dp"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <TextView
@@ -54,7 +54,7 @@
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left|center_vertical"
+                    android:gravity="left|bottom"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimaryDark"
                     app:layout_scrollFlags="scroll|enterAlways"

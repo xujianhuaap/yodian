@@ -90,6 +90,13 @@ public class Network {
 
     public static void image(Context context, String url, Target target) {
 
+        image(context,url,target,0,0);
+
+
+    }
+
+    public static void image(Context context, String url, Target target,int width,int height) {
+
         String path = null;
         try {
             path = URLDecoder.decode(url, "UTF-8");
@@ -97,7 +104,12 @@ public class Network {
             e.printStackTrace();
             path = url;
         } finally {
-            ImageLoader.image(context, path, target);
+            if(width>0&&height>0){
+                ImageLoader.image(context, path, target,width,height);
+            }else {
+                ImageLoader.image(context,url,target);
+            }
+
         }
 
 
