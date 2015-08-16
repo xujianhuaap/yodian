@@ -37,11 +37,11 @@
         <!--android:layout_centerInParent="true" />-->
         <!--</RelativeLayout>-->
 
+
         <in.srain.cube.views.ptr.PtrFrameLayout
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             app:ptr_duration_to_close="300"
             app:ptr_duration_to_close_header="1000"
             app:ptr_keep_header_when_refresh="true"
@@ -53,6 +53,8 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:divider="#00000000"
+                android:dividerHeight="0dp"
                 android:scrollbars="none" />
         </in.srain.cube.views.ptr.PtrFrameLayout>
 

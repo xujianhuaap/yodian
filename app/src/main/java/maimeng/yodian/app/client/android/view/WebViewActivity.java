@@ -44,14 +44,18 @@ public class WebViewActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
-        String imgth = getIntent().getStringExtra(URL);
-        WebView web = (WebView) findViewById(R.id.web);
-        View mBtnBack = findViewById(R.id.btn_back);
+        final String imgth = getIntent().getStringExtra(URL);
+        final WebView web = (WebView) findViewById(R.id.web);
+        final View mBtnBack = findViewById(R.id.btn_back);
         ViewCompat.setTransitionName(mBtnBack, "back");
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(WebViewActivity.this);
+                if (web.canGoBack()) {
+                    web.goBack();
+                } else {
+                    ActivityCompat.finishAfterTransition(WebViewActivity.this);
+                }
             }
         });
         WebSettings webSettings = web.getSettings();

@@ -1,5 +1,7 @@
 package maimeng.yodian.app.client.android.view.skill.proxy;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
@@ -40,6 +42,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -56,6 +59,7 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
  */
 public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
+    private static final String LOG_TAG = MainHomeProxy.class.getSimpleName();
     private final CoordinatorLayout mView;
     private final Activity mActivity;
     private final RecyclerView mRecyclerView;
@@ -75,9 +79,11 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     private FloatingActionButton mFloatButton;
     private int mEditPostion;
     private final Handler handler;
+    ValueAnimator animator = new ValueAnimator();
 
     public MainHomeProxy(Activity activity, View view) {
         this.mView = (CoordinatorLayout) view;
+
         handler = new Handler(Looper.getMainLooper());
         this.mActivity = activity;
         view.setVisibility(View.GONE);
@@ -132,6 +138,15 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
         adapter = new SkillListHomeAdapter(mActivity, this);
         mRecyclerView.setAdapter(adapter);
+        animator.setIntValues(activity.getResources().getColor(R.color.colorPrimaryDark), activity.getResources().getColor(R.color.colorPrimary));
+        animator.setEvaluator(new ArgbEvaluator());
+        animator.setDuration(10000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                ((View) mBtnCreateSkill.getParent()).setBackgroundColor(Integer.parseInt(animation.getAnimatedValue().toString()));
+            }
+        });
     }
 
     public void syncRequest() {
@@ -344,9 +359,13 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         mRefreshLayout.refreshComplete();
     }
 
+
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
         mRefreshLayout.setEnabled(i == 0);
+        final float ratio = (float) Math.abs(i) / 507f;
+        final int playTime = (int) (ratio * 10000);
+        animator.setCurrentPlayTime(playTime);
     }
 
     @Override
