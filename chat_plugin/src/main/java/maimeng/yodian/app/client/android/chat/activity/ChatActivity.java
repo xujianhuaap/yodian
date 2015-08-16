@@ -862,6 +862,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
     }
 
+    private boolean enableTakePic = false;
+    private boolean enableImage = true;
     private boolean enableVoiceCall = false;
     private boolean enableVideoCall = false;
     private boolean showMap = false;
@@ -877,20 +879,24 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         } else {
             entries.clear();
         }
-        entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_takepic_selector), getResources().getString(R.string.attach_take_pic), new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectPicFromCamera();// 点击照相图标
-            }
-        }));
-        entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_image_selector), getResources().getString(R.string.attach_picture), new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectPicFromLocal(); // 点击图片图标
-            }
-        }));
+        if (enableTakePic) {
+            entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_takepic_selector), getResources().getString(R.string.attach_take_pic), new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectPicFromCamera();// 点击照相图标
+                }
+            }));
+        }
+        if (enableImage) {
+            entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_image_selector), getResources().getString(R.string.attach_picture), new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectPicFromLocal(); // 点击图片图标
+                }
+            }));
+        }
         if (showWechatVcard) {
-            entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_location_selector), "名片", new OnClickListener() {
+            entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_vcard_selector), "名片", new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     sendText("", true);

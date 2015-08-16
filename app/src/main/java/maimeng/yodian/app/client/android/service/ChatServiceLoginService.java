@@ -59,7 +59,6 @@ public class ChatServiceLoginService extends Service {
             public void onSuccess() {
                 // 登陆成功，保存用户名密码
                 DemoApplication.getInstance().setUserName(currentUsername);
-                DemoApplication.getInstance().setPassword(currentPassword);
 
                 try {
 

@@ -223,6 +223,5 @@ public class User extends BaseObservable {
         editor.apply();
         // 登陆成功，保存用户名密码
         DemoApplication.getInstance().setUserName("");
-        DemoApplication.getInstance().setPassword("");
     }
 }

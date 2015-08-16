@@ -71,7 +71,8 @@ import maimeng.yodian.app.client.android.chat.domain.InviteMessage.InviteMesageS
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 
-public class MainActivity extends BaseActivity implements EMEventListener {
+
+public abstract class MainActivity extends BaseActivity implements EMEventListener {
 
     protected static final String TAG = "MainActivity";
     // 未读消息textview
@@ -80,14 +81,9 @@ public class MainActivity extends BaseActivity implements EMEventListener {
     private TextView unreadAddressLable;
 
     private Button[] mTabs;
-    private ContactlistFragment contactListFragment;
-    // private ChatHistoryFragment chatHistoryFragment;
     private ChatAllHistoryFragment chatHistoryFragment;
-    private SettingsFragment settingFragment;
     private Fragment[] fragments;
     private int index;
-    // 当前fragment的index
-    private int currentTabIndex;
     // 账号在别处登录
     public boolean isConflict = false;
     // 账号被移除
@@ -145,20 +141,14 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                     .commit();
         } else {
             chatHistoryFragment = ChatAllHistoryFragment.getInstance(true);
-            contactListFragment = new ContactlistFragment();
-            settingFragment = new SettingsFragment();
-            fragments = new Fragment[]{chatHistoryFragment, contactListFragment, settingFragment};
+            fragments = new Fragment[]{chatHistoryFragment};
             // 添加显示第一个fragment
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatHistoryFragment)
-                    .add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(chatHistoryFragment)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatHistoryFragment).show(chatHistoryFragment).commit();
         }
         init();
     }
 
     private void init() {
-        // setContactListener监听联系人的变化等
-        EMContactManager.getInstance().setContactListener(new MyContactListener());
         // 注册一个监听连接状态的listener
 
         connectionListener = new MyConnectionListener();
@@ -338,34 +328,6 @@ public class MainActivity extends BaseActivity implements EMEventListener {
     }
 
     /**
-     * button点击事件
-     *
-     * @param view
-     */
-    public void onTabClicked(View view) {
-        int id = view.getId();
-        if (id == R.id.btn_conversation) {
-            index = 0;
-        } else if (id == R.id.btn_address_list) {
-            index = 1;
-        } else if (id == R.id.btn_setting) {
-            index = 2;
-        }
-        if (currentTabIndex != index) {
-            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
-            trx.hide(fragments[currentTabIndex]);
-            if (!fragments[index].isAdded()) {
-                trx.add(R.id.fragment_container, fragments[index]);
-            }
-            trx.show(fragments[index]).commit();
-        }
-        mTabs[currentTabIndex].setSelected(false);
-        // 把当前tab设为选中状态
-        mTabs[index].setSelected(true);
-        currentTabIndex = index;
-    }
-
-    /**
      * 监听事件
      */
     @Override
@@ -402,11 +364,9 @@ public class MainActivity extends BaseActivity implements EMEventListener {
             public void run() {
                 // 刷新bottom bar消息未读数
                 updateUnreadLabel();
-                if (currentTabIndex == 0) {
-                    // 当前页面如果为聊天历史页面，刷新此页面
-                    if (chatHistoryFragment != null) {
-                        chatHistoryFragment.refresh();
-                    }
+                // 当前页面如果为聊天历史页面，刷新此页面
+                if (chatHistoryFragment != null) {
+                    chatHistoryFragment.refresh();
                 }
             }
         });
@@ -503,108 +463,6 @@ public class MainActivity extends BaseActivity implements EMEventListener {
     private InviteMessgeDao inviteMessgeDao;
     private UserDao userDao;
 
-    /***
-     * 好友变化listener
-     */
-    public class MyContactListener implements EMContactListener {
-
-        @Override
-        public void onContactAdded(List<String> usernameList) {
-            // 保存增加的联系人
-            Map<String, User> localUsers = DemoApplication.getInstance().getContactList();
-            Map<String, User> toAddUsers = new HashMap<String, User>();
-            for (String username : usernameList) {
-                User user = setUserHead(username);
-                // 添加好友时可能会回调added方法两次
-                if (!localUsers.containsKey(username)) {
-                    userDao.saveOrUpdate(user);
-                }
-                toAddUsers.put(username, user);
-            }
-            localUsers.putAll(toAddUsers);
-            // 刷新ui
-            if (currentTabIndex == 1)
-                contactListFragment.refresh();
-
-        }
-
-        @Override
-        public void onContactDeleted(final List<String> usernameList) {
-            // 被删除
-            Map<String, User> localUsers = DemoApplication.getInstance().getContactList();
-            for (String username : usernameList) {
-                localUsers.remove(username);
-                userDao.deleteContact(username);
-                inviteMessgeDao.deleteMessage(username);
-            }
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    // 如果正在与此用户的聊天页面
-                    String st10 = getResources().getString(R.string.have_you_removed);
-                    if (ChatActivity.activityInstance != null
-                            && usernameList.contains(ChatActivity.activityInstance.getToChatUsername())) {
-                        Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_LONG)
-                                .show();
-                        ChatActivity.activityInstance.finish();
-                    }
-                    updateUnreadLabel();
-                    // 刷新ui
-                    contactListFragment.refresh();
-                    chatHistoryFragment.refresh();
-                }
-            });
-
-        }
-
-        @Override
-        public void onContactInvited(String username, String reason) {
-
-            // 接到邀请的消息，如果不处理(同意或拒绝)，掉线后，服务器会自动再发过来，所以客户端不需要重复提醒
-            List<InviteMessage> msgs = inviteMessgeDao.getMessagesList();
-
-            for (InviteMessage inviteMessage : msgs) {
-                if (inviteMessage.getGroupId() == null && inviteMessage.getFrom().equals(username)) {
-                    inviteMessgeDao.deleteMessage(username);
-                }
-            }
-            // 自己封装的javabean
-            InviteMessage msg = new InviteMessage();
-            msg.setFrom(username);
-            msg.setTime(System.currentTimeMillis());
-            msg.setReason(reason);
-            Log.d(TAG, username + "请求加你为好友,reason: " + reason);
-            // 设置相应status
-            msg.setStatus(InviteMesageStatus.BEINVITEED);
-            notifyNewIviteMessage(msg);
-
-        }
-
-        @Override
-        public void onContactAgreed(String username) {
-            List<InviteMessage> msgs = inviteMessgeDao.getMessagesList();
-            for (InviteMessage inviteMessage : msgs) {
-                if (inviteMessage.getFrom().equals(username)) {
-                    return;
-                }
-            }
-            // 自己封装的javabean
-            InviteMessage msg = new InviteMessage();
-            msg.setFrom(username);
-            msg.setTime(System.currentTimeMillis());
-            Log.d(TAG, username + "同意了你的好友请求");
-            msg.setStatus(InviteMesageStatus.BEAGREED);
-            notifyNewIviteMessage(msg);
-
-        }
-
-        @Override
-        public void onContactRefused(String username) {
-
-            // 参考同意，被邀请实现此功能,demo未实现
-            Log.d(username, username + "拒绝了你的好友请求");
-        }
-
-    }
 
     /**
      * 连接监听listener
@@ -711,8 +569,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                 public void run() {
                     updateUnreadLabel();
                     // 刷新ui
-                    if (currentTabIndex == 0)
-                        chatHistoryFragment.refresh();
+                    chatHistoryFragment.refresh();
                     if (CommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
                         GroupsActivity.instance.onResume();
                     }
@@ -740,8 +597,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                 public void run() {
                     try {
                         updateUnreadLabel();
-                        if (currentTabIndex == 0)
-                            chatHistoryFragment.refresh();
+                        chatHistoryFragment.refresh();
                         if (CommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
                             GroupsActivity.instance.onResume();
                         }
@@ -761,8 +617,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
             runOnUiThread(new Runnable() {
                 public void run() {
                     updateUnreadLabel();
-                    if (currentTabIndex == 0)
-                        chatHistoryFragment.refresh();
+                    chatHistoryFragment.refresh();
                     if (CommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
                         GroupsActivity.instance.onResume();
                     }
@@ -806,8 +661,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                 public void run() {
                     updateUnreadLabel();
                     // 刷新ui
-                    if (currentTabIndex == 0)
-                        chatHistoryFragment.refresh();
+                    chatHistoryFragment.refresh();
                     if (CommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
                         GroupsActivity.instance.onResume();
                     }
@@ -833,9 +687,6 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
         // 刷新bottom bar消息未读数
         updateUnreadAddressLable();
-        // 刷新好友页面ui
-        if (currentTabIndex == 1)
-            contactListFragment.refresh();
     }
 
     /**
@@ -928,34 +779,34 @@ public class MainActivity extends BaseActivity implements EMEventListener {
      * 显示帐号在别处登录dialog
      */
     private void showConflictDialog() {
-        isConflictDialogShow = true;
-        DemoApplication.getInstance().logout(null);
-        String st = getResources().getString(R.string.Logoff_notification);
-        if (!MainActivity.this.isFinishing()) {
-            // clear up global variables
-            try {
-                if (conflictBuilder == null)
-                    conflictBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
-                conflictBuilder.setTitle(st);
-                conflictBuilder.setMessage(R.string.connect_conflict);
-                conflictBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        conflictBuilder = null;
-                        finish();
-//                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    }
-                });
-                conflictBuilder.setCancelable(false);
-                conflictBuilder.create().show();
-                isConflict = true;
-            } catch (Exception e) {
-                EMLog.e(TAG, "---------color conflictBuilder error" + e.getMessage());
-            }
-
-        }
+//        isConflictDialogShow = true;
+//        DemoApplication.getInstance().logout(null);
+//        String st = getResources().getString(R.string.Logoff_notification);
+//        if (!MainActivity.this.isFinishing()) {
+//            // clear up global variables
+//            try {
+//                if (conflictBuilder == null)
+//                    conflictBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
+//                conflictBuilder.setTitle(st);
+//                conflictBuilder.setMessage(R.string.connect_conflict);
+//                conflictBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        conflictBuilder = null;
+//                        finish();
+////                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                    }
+//                });
+//                conflictBuilder.setCancelable(false);
+//                conflictBuilder.create().show();
+//                isConflict = true;
+//            } catch (Exception e) {
+//                EMLog.e(TAG, "---------color conflictBuilder error" + e.getMessage());
+//            }
+//
+//        }
 
     }
 
