@@ -2,9 +2,7 @@ package maimeng.yodian.app.client.android.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
@@ -12,22 +10,13 @@ import com.google.gson.annotations.SerializedName;
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
+import maimeng.yodian.app.client.android.common.model.UserBaseColum;
 
 
 /**
  * Created by henjue on 2015/4/7.
  */
-public class User extends BaseObservable {
-    private static final String PREFERENCES_NAME = "_userinfo";
-    private static final String KEY_T_NICK = "_t_nickname";
-    private static final String KEY_T_IMG = "_t_headimg";
-    private static final String KEY_NICK = "_nickname";
-    private static final String KEY_IMG = "_headimg";
-    private static final String KEY_CHATNAME = "_chatname";
-    private static final String KEY_UID = "_uid";
-    private static final String KEY_TOKEN = "_token";
-    private static final String KEY_TYPE = "_type";
-    private static final String KEY_PUSH = "_PUSH";
+public class User extends UserBaseColum {
     @SerializedName("nickname")
     private String nickname;
     @SerializedName("avatar")
@@ -214,8 +203,7 @@ public class User extends BaseObservable {
     }
 
     public static class Info {
-        private static final String KEY_MOBILE = "_key_mobile";
-        private static final String KEY_WECHAT = "_key_wechat";
+
         private String mobile;
         @SerializedName("weichat")
         private String wechat;

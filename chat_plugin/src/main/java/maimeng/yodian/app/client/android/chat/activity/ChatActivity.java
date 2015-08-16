@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -121,6 +121,8 @@ import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.common.utils.LogUtil;
+
+import static maimeng.yodian.app.client.android.common.model.UserBaseColum.*;
 
 /**
  * 聊天页面
@@ -1013,7 +1015,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     /**
      * 事件监听
-     * <p/>
+     * <p>
      * see {@link EMNotifierEvent}
      */
     @Override
@@ -1175,9 +1177,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
         startActivityForResult(intent, REQUEST_CODE_LOCAL);
     }
-
-    private static final String PREFERENCES_NAME = "_userinfo";
-    private static final String KEY_WECHAT = "_wechat";
 
     /**
      * 发送文本消息

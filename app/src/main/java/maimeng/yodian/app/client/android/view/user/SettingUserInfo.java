@@ -190,7 +190,7 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBitmapFailed(Drawable errorDrawable) {
-
+        Toast.makeText(this, "加载头像失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
