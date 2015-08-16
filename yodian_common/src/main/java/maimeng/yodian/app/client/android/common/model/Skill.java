@@ -16,7 +16,7 @@ import maimeng.yodian.app.client.android.common.BuildConfig;
 /**
  * Created by android on 15-7-14.
  */
-public class Skill extends BaseObservable implements Parcelable {
+public class Skill extends UserBaseColum implements Parcelable {
 
     @SerializedName("sid")
     private long id;//技能id
@@ -69,10 +69,6 @@ public class Skill extends BaseObservable implements Parcelable {
     private Date createtime;//技能添加时间戳
     private String nickname = "";//用户昵称
     private String avatar;//用户头像数据
-
-    public boolean isXiaJia() {
-        return status != 0;
-    }
 
     public long getId() {
         return id;
@@ -171,16 +167,16 @@ public class Skill extends BaseObservable implements Parcelable {
     }
 
     public void update(Skill skill) {
-        this.uid = skill.uid;
-        this.name = skill.name;
-        this.pic = skill.pic;
-        this.content = skill.content;
-        this.price = skill.price;
-        this.unit = skill.unit;
-        this.status = skill.status;
-        this.createtime = skill.createtime;
-        this.nickname = skill.nickname;
-        this.avatar = skill.avatar;
+        setUid(skill.uid);
+        setName(skill.name);
+        setPic(skill.pic);
+        setContent(skill.content);
+        setPrice(skill.price);
+        setUnit(skill.unit);
+        setStatus(skill.status);
+        setCreatetime(skill.createtime);
+        setNickname(skill.nickname);
+        setAvatar(skill.avatar);
 
     }
 
