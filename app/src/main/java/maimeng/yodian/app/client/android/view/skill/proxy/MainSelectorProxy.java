@@ -316,7 +316,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
-        if(mCategoryContainer!=null&&mCategoryContainer.VISIBLE==mCategoryContainer.getVisibility()){
+        if(mCategoryContainer!=null&&mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)){
             categoryEnterAndDismissAnim();
         }
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
@@ -374,7 +374,7 @@ public class MainSelectorProxy implements ActivityProxy,
     @Override
     public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, int postion) {
 
-        if(mCategoryContainer!=null&&mCategoryContainer.VISIBLE==mCategoryContainer.getVisibility()){
+        if(mCategoryContainer!=null&&mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)){
             categoryEnterAndDismissAnim();
         }
 
