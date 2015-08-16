@@ -78,7 +78,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             }
 
         }
-        if(mTemplate.getPic()!=null) Network.image(this, mTemplate.getPic(), this);
+        if (mTemplate.getPic() != null) Network.image(this, mTemplate.getPic(), this);
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
         binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));
@@ -197,7 +197,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         }
 
 
-        Skill skill=new Skill();
+        Skill skill = new Skill();
         skill.setPic(template.getPic());
         skill.setId(template.getId());
         skill.setName(template.getName());
@@ -206,8 +206,8 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         skill.setUnit(template.getUnit());
         skill.setNickname(User.read(this).getT_nickname());
 
-        int editstatu=isEdit ?1:2;
-        SkillPreviewActivity.show(skill, CreateOrEditSkillActivity.this,editstatu, REQUEST_DONE);
+        int editstatu = isEdit ? 1 : 2;
+        SkillPreviewActivity.show(skill, CreateOrEditSkillActivity.this, editstatu, REQUEST_DONE);
 
 //        if (isEdit) {
 //            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
@@ -273,24 +273,24 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            if (requestCode == REQUEST_AUTH ) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_AUTH) {
                 doDone();
-            } else if (requestCode == REQUEST_SELECT_PHOTO ) {
+            } else if (requestCode == REQUEST_SELECT_PHOTO) {
                 ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
                 String uri = Uri.fromFile(new File(paths.get(0))).toString();
-                int width=binding.skillPic.getWidth();
-                int height=binding.skillPic.getHeight();
-                if(width>0&&height>0){
-                    Network.image(this, uri, this,240,240);
+                int width = binding.skillPic.getWidth();
+                int height = binding.skillPic.getHeight();
+                if (width > 0 && height > 0) {
+                    Network.image(this, uri, this, 240, 240);
                 }
 
                 binding.getTemplate().setPic(uri);
                 toggle();
-            } else if(resultCode==REQUEST_DONE){
+            } else if (resultCode == REQUEST_DONE) {
 
             }
-         }
+        }
 
     }
 
@@ -332,14 +332,17 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 
         @Override
         public void afterTextChanged(Editable s) {
+            final String name = s.toString();
             if (mText == binding.skillContent) {
-                mTemplate.setContent(s.toString());
+                mTemplate.setContent(name);
+                binding.contentCount.setText(name.length() + "/200");
             } else if (mText == binding.skillName) {
-                mTemplate.setName(s.toString());
+                mTemplate.setName(name);
+                binding.titleCount.setText(name.length() + "/25");
             } else if (mText == binding.skillPrice) {
-                mTemplate.setPrice(s.toString());
+                mTemplate.setPrice(name);
             } else if (mText == binding.skillUnit) {
-                mTemplate.setUnit(s.toString());
+                mTemplate.setUnit(name);
             }
         }
     }

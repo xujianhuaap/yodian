@@ -37,45 +37,51 @@
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
                         app:imgUrl="@{template.pic}" />
+
                     <FrameLayout
                         android:id="@+id/btn_select_photo"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:padding="15dp"
+                        android:layout_gravity="center"
                         android:background="@drawable/btn_select_photo"
-                        android:layout_gravity="center">
+                        android:padding="15dp">
+
                         <TextView
-                            android:gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:gravity="center"
                             android:text="上传图片" />
                     </FrameLayout>
+
                     <LinearLayout
                         android:id="@+id/button_container"
-                        android:orientation="horizontal"
-                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:background="@color/float_colorRipple"
                         android:gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
                         <ImageView
                             android:id="@+id/btn_camera"
-                            android:src="@drawable/btn_camera"
-                            android:layout_weight="1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@drawable/btn_camera" />
+
                         <ImageView
-                            android:layout_weight="1"
                             android:layout_width="wrap_content"
-                            android:visibility="invisible"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="invisible" />
+
                         <ImageView
                             android:id="@+id/btn_album"
-                            android:src="@drawable/btn_album"
-                            android:layout_weight="1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@drawable/btn_album" />
                     </LinearLayout>
                 </FrameLayout>
 
@@ -84,24 +90,25 @@
                     android:id="@+id/skill_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="30dp"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="5dp"
                     android:background="#eeeeee"
                     android:hint="@string/create_skill_title"
                     android:maxLength="25"
+                    android:minHeight="30dp"
+                    android:paddingLeft="5dp"
                     android:text="@{template.name}"
                     android:textColor="#000"
                     android:textColorHint="#55000000" />
 
                 <TextView
+                    android:id="@+id/title_count"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="#eeeeee"
+                    android:gravity="right"
                     android:paddingRight="10dp"
                     android:text="0/25"
-                    android:textColor="#55000000"
-                    android:gravity="right"
-                    android:background="#eeeeee"/>
+                    android:textColor="#55000000" />
 
                 <EditText
                     android:id="@+id/skill_content"
@@ -116,6 +123,16 @@
                     android:text="@{template.content}"
                     android:textColor="#000"
                     android:textColorHint="#55000000" />
+
+                <TextView
+                    android:id="@+id/content_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#eeeeee"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="0/200"
+                    android:textColor="#55000000" />
 
                 <EditText
                     android:id="@+id/skill_price"
