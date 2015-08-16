@@ -153,7 +153,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
             if(mShareDialog==null){
                 ShareDialog.ShareParams shareParams=new ShareDialog.ShareParams(mSkill,
                         mSkill.getQrcodeUrl(),mSkill.getUid(),mSkill.getNickname(),"");
-                mShareDialog = ShareDialog.show(this, shareParams);
+                mShareDialog = ShareDialog.show(this, shareParams,1);
             }
 
         }else if(mBinding.btnDone==v){
@@ -211,7 +211,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                     if(qurode.equals(""))  mSkill.setQrcodeUrl(ApiConfig.Api.QRODE_URL);
                     ShareDialog.ShareParams params=new ShareDialog.ShareParams(mSkill,mSkill.getQrcodeUrl(),
                             mSkill.getId(),mSkill.getNickname(),"");
-                    ShareDialog.show(SkillPreviewActivity.this, params,true);
+                    ShareDialog.show(SkillPreviewActivity.this, params,true,1);
 
                 } else if (res.isValidateAuth(SkillPreviewActivity.this, REQUEST_AUTH)) ;
             }

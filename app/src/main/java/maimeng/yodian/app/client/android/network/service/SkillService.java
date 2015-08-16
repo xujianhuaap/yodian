@@ -118,7 +118,14 @@ public interface SkillService {
      */
     @Multipart
     @Post(ApiConfig.Api.RMARK_ADD)
-    void add_rmark(@Param("sid") long sid, @Param("content") String content, @Param("pic") TypedBitmap pic,
+    void add_rmark(@Param("sid") long sid, @Param("content") String content,
+                   @Param("pic") TypedBitmap pic,
                    Callback<ToastResponse> callback);
+
+
+    @Post(ApiConfig.Api.REPORT)
+    void report(@Param("type")int type,@Param("scid")long scid,
+                @Param("sid")long sid,@Param("rid")long rid,
+                ToastCallback callback);
 
 }

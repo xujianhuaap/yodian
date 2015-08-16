@@ -292,7 +292,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         final Skill skill = holder.getData();
         if (clickItem == holder.getBinding().btnShare) {
             Skill data = skill;
-            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""));
+            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""),1);
         } else if (clickItem == holder.getBinding().btnUpdate) {
             Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
             intent.putExtra("skill", skill);

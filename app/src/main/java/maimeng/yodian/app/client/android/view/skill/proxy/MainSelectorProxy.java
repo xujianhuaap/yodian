@@ -316,6 +316,9 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
+        if(mCategoryContainer!=null&&mCategoryContainer.VISIBLE==mCategoryContainer.getVisibility()){
+            categoryEnterAndDismissAnim();
+        }
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
             mFloatButton.show();
             handler.postDelayed(new Runnable() {
@@ -370,12 +373,17 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, int postion) {
+
+        if(mCategoryContainer!=null&&mCategoryContainer.VISIBLE==mCategoryContainer.getVisibility()){
+            categoryEnterAndDismissAnim();
+        }
+
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
             SkillListSelectorAdapter.ItemViewHolder holder = (SkillListSelectorAdapter.ItemViewHolder) h;
             Skill skill = holder.getData();
             if (clickItem == holder.getBinding().btnShare) {
                 Skill data = skill;
-                ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""));
+                ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""),1);
             } else if (clickItem == holder.getBinding().btnBottom) {
                 Intent intent = new Intent(mActivity, ChatActivity.class);
                 intent.putExtra("skill", holder.getData());
