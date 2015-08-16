@@ -6,12 +6,16 @@ import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
@@ -19,6 +23,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.AbsListView;
@@ -27,6 +32,8 @@ import android.widget.ImageView;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.ScrollDirectionListener;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -50,6 +57,7 @@ import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
@@ -245,6 +253,36 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.btnContect.setText(R.string.btn_contact_ta);
             }
             binding.refreshLayout.autoRefresh();
+            ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    if (bitmap != null) {
+                        new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+                                Palette.Swatch vibrant = palette.getVibrantSwatch();
+                                if (android.os.Build.VERSION.SDK_INT >= 21) {
+                                    Window window = getWindow();
+                                    // 很明显，这两货是新API才有的。
+                                    window.setStatusBarColor(colorBurn(vibrant.getRgb()));
+                                    window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                                }
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
         } else {
             sid = getIntent().getLongExtra("sid", 0);
             binding.refreshLayout.autoRefresh();
@@ -353,13 +391,45 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 headBinding.price.setText(text);
                 binding.price.setText(text);
                 binding.titlePrice.setText(text);
+                ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        if (bitmap != null) {
+                            new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    Palette.Swatch vibrant = palette.getVibrantSwatch();
+
+                                    if (vibrant != null && android.os.Build.VERSION.SDK_INT >= 21) {
+                                        Window window = getWindow();
+                                        // 很明显，这两货是新API才有的。
+                                        window.setStatusBarColor(colorBurn(vibrant.getRgb()));
+                                        window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                                    }
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
+
             }
             if (isMe) {
+                binding.recyclerView.removeHeaderView(noSkillRmark);
                 if (list.size() > 0 || page > 1) {
                 } else {
                     ////pic_no_skill_rmark
                     if (isMe) {
-                        binding.recyclerView.removeHeaderView(noSkillRmark);
                         binding.recyclerView.addHeaderView(noSkillRmark);
                     }
                 }
@@ -381,6 +451,17 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         dialog.dismiss();
         binding.refreshLayout.refreshComplete();
 
+    }
+
+    private int colorBurn(int RGBValues) {
+        int alpha = RGBValues >> 24;
+        int red = RGBValues >> 16 & 0xFF;
+        int green = RGBValues >> 8 & 0xFF;
+        int blue = RGBValues & 0xFF;
+        red = (int) Math.floor(red * (1 - 0.1));
+        green = (int) Math.floor(green * (1 - 0.1));
+        blue = (int) Math.floor(blue * (1 - 0.1));
+        return Color.rgb(red, green, blue);
     }
 
     @Override
