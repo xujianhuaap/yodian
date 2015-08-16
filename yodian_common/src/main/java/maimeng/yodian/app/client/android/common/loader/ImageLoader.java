@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 import maimeng.yodian.app.client.android.common.BuildConfig;
+import maimeng.yodian.app.client.android.common.R;
 
 /**
  * Created by android on 2015/7/31.
@@ -80,21 +81,23 @@ public class ImageLoader {
         image(context, uri, placeHolderDrawable, -1, target);
     }
 
-    public static void image(Context context, String uri, Target target,int width,int height) {
-        image(context, uri, -1, -1, target,width,height);
+    public static void image(Context context, String uri, Target target, int width, int height) {
+        image(context, uri, -1, -1, target, width, height);
 
     }
 
-    public static void image(Context context, String uri, int placeHolderDrawable, Target target,int width,int height) {
-        image(context, uri, placeHolderDrawable, -1, target,width,height);
+    public static void image(Context context, String uri, int placeHolderDrawable, Target target, int width, int height) {
+        image(context, uri, placeHolderDrawable, -1, target, width, height);
 
     }
+
     public static void image(Context context, String uri, int placeHolderDrawable, int errorDrawable, Target target, int width, int height) {
         ImageLoader one = getOne(context);
         RequestCreator load = one.loader.load(uri);
         load.resize(width, height);
-        if (placeHolderDrawable != -1) load.placeholder(placeHolderDrawable);
+        if (placeHolderDrawable <= 0) placeHolderDrawable = R.drawable.default_place_holder;
         if (errorDrawable != -1) load.error(errorDrawable);
+        load.placeholder(placeHolderDrawable);
         load.into(target);
     }
 
@@ -116,8 +119,10 @@ public class ImageLoader {
     public static void image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable) {
         RequestCreator load = getOne(iv.getContext()).loader.load(url);
         load.tag(iv.getContext());
-        if (placeHolderDrawable != null) load.placeholder(placeHolderDrawable);
+        if (placeHolderDrawable == null)
+            placeHolderDrawable = iv.getResources().getDrawable(R.drawable.default_place_holder);
         if (errorDrawable != null) load.error(errorDrawable);
+        load.placeholder(placeHolderDrawable);
         load.fit();
         load.into(iv);
     }

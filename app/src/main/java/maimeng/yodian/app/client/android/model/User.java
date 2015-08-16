@@ -28,7 +28,6 @@ public class User extends BaseObservable {
     private static final String KEY_TOKEN = "_token";
     private static final String KEY_TYPE = "_type";
     private static final String KEY_PUSH = "_PUSH";
-    private static final String KEY_WECHAT = "_wechat";
     @SerializedName("nickname")
     private String nickname;
     @SerializedName("avatar")
@@ -36,8 +35,6 @@ public class User extends BaseObservable {
     private String avatar;
     @SerializedName("SN_KEY_API")
     private String token;
-    @SerializedName("weichat")
-    private String wechat;
 
     @SerializedName("hxname")
     private String chatLoginName;
@@ -51,12 +48,9 @@ public class User extends BaseObservable {
     }
 
     public String getWechat() {
-        return wechat;
+        return info != null ? info.getWechat() : "";
     }
 
-    public void setWechat(String wechat) {
-        this.wechat = wechat;
-    }
 
     @SerializedName("uid")
     private long uid;
@@ -156,7 +150,6 @@ public class User extends BaseObservable {
             String t_img = pref.getString(KEY_T_IMG, "");
             String token = pref.getString(KEY_TOKEN, "");
             String chatname = pref.getString(KEY_CHATNAME, "");
-            String wechat = pref.getString(KEY_WECHAT, "");
 
             maimeng.yodian.app.client.android.chat.domain.User u = new maimeng.yodian.app.client.android.chat.domain.User();
             u.setAvatar(img);
@@ -165,18 +158,16 @@ public class User extends BaseObservable {
             u.setId(uid);
             YApplication.getInstance().setCurrentUser(u);
 
-
             int type = pref.getInt(KEY_TYPE, 0);
             User user = new User(t_nickname, t_img, type, token, "".equals(uid) ? 0 : Long.parseLong(uid), nickname, chatname, img);
-            user.setWechat(wechat);
+            user.setInfo(Info.read(pref));
             user.pushOn = pref.getBoolean(KEY_PUSH, true);
             return user;
         }
     }
 
-    public void write(Context context) {
+    public synchronized void write(Context context) {
         synchronized (User.class) {
-
             SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString(KEY_T_IMG, t_img == null ? "" : t_img);
@@ -187,31 +178,13 @@ public class User extends BaseObservable {
             editor.putString(KEY_UID, uid == 0 ? "" : "" + uid);
             editor.putString(KEY_IMG, avatar == null ? "" : avatar);
             editor.putString(KEY_TOKEN, token == null ? "" : token);
-            editor.putString(KEY_WECHAT, wechat == null ? "" : wechat);
             editor.putBoolean(KEY_PUSH, pushOn);
             editor.putInt(KEY_TYPE, loginType);
-
+            if (info != null) info.write(editor);
             editor.apply();
         }
     }
 
-
-    public static User parse(Bundle bundle) {
-        String nickname = bundle.getString(KEY_NICK, "");
-        String uid = bundle.getString(KEY_UID, "");
-        String img = bundle.getString(KEY_IMG, "");
-        String token = bundle.getString(KEY_TOKEN, "");
-        String wechat = bundle.getString(KEY_WECHAT, "");
-        String chatname = bundle.getString(KEY_CHATNAME, "");
-        int type = bundle.getInt(KEY_TYPE, 0);
-        String t_nickname = bundle.getString(KEY_T_NICK, "");
-        String t_img = bundle.getString(KEY_T_IMG, "");
-        boolean pushOn = bundle.getBoolean(KEY_PUSH, true);
-        User user = new User(t_nickname, t_img, type, token, "".equals(uid) ? 0 : Long.parseLong(uid), nickname, chatname, img);
-        user.setWechat(wechat);
-        user.pushOn = pushOn;
-        return user;
-    }
 
     public static void clear(Context context) {
         if (null == context) {
@@ -223,5 +196,62 @@ public class User extends BaseObservable {
         editor.apply();
         // 登陆成功，保存用户名密码
         DemoApplication.getInstance().setUserName("");
+    }
+
+    public Info getInfo() {
+        return info;
+    }
+
+    public User setInfo(Info info) {
+        this.info = info;
+        return this;
+    }
+
+    private Info info;
+
+    public void setWechat(String wechat) {
+        if (info != null) info.setWechat(wechat);
+    }
+
+    public static class Info {
+        private static final String KEY_MOBILE = "_key_mobile";
+        private static final String KEY_WECHAT = "_key_wechat";
+        private String mobile;
+        @SerializedName("weichat")
+        private String wechat;
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
+
+        public String getWechat() {
+            return wechat != null ? wechat : "";
+        }
+
+        public void setWechat(String wechat) {
+            this.wechat = wechat;
+        }
+
+        public synchronized void write(SharedPreferences.Editor editor) {
+            synchronized (User.class) {
+                editor.putString(KEY_MOBILE, this.mobile == null ? "" : this.mobile);
+                editor.putString(KEY_WECHAT, this.wechat == null ? "" : this.wechat);
+            }
+        }
+
+        public static synchronized Info read(SharedPreferences pref) {
+            synchronized (User.class) {
+                Info info = new Info();
+                String mobile = pref.getString(KEY_MOBILE, "");
+                String wechat = pref.getString(KEY_WECHAT, "");
+                info.setWechat(wechat);
+                info.setMobile(mobile);
+                return info;
+            }
+        }
     }
 }

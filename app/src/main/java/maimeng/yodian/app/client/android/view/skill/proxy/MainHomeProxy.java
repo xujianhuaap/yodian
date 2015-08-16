@@ -23,9 +23,11 @@ import com.melnykov.fab.FloatingActionButton;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -42,7 +44,9 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
+import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthActivity;
@@ -183,17 +187,38 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     @Override
     public void init() {
-        inited = true;
-        user = User.read(this.mActivity);
-        initUsrInfo();
-        initSkillInfo();
+        init(User.read(this.mActivity));
     }
 
     public void init(User user) {
         inited = true;
         this.user = user;
-        initUsrInfo();
-        initSkillInfo();
+        Network.getService(UserService.class).info(new Callback<UserInfoResponse>() {
+            @Override
+            public void start() {
+
+            }
+
+            @Override
+            public void success(UserInfoResponse res, Response response) {
+                if (res.isSuccess()) {
+                    User.read(mActivity).setInfo(res.getData()).write(mActivity);
+                    initUsrInfo();
+                    initSkillInfo();
+                }
+            }
+
+            @Override
+            public void failure(HNetError hNetError) {
+                ErrorUtils.checkError(mActivity, hNetError);
+            }
+
+            @Override
+            public void end() {
+
+            }
+        });
+
     }
 
     private void initSkillInfo() {
