@@ -32,6 +32,7 @@ import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
+import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.view.splash.BaiduActivity;
 
@@ -57,6 +58,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
             findViewById(R.id.btn_loginwechat).setOnClickListener(this);
             findViewById(R.id.btn_loginweibo).setOnClickListener(this);
             findViewById(R.id.btn_loginphone).setOnClickListener(this);
+            findViewById(R.id.btn_user_protocol).setOnClickListener(this);
         }
     }
 
@@ -71,6 +73,8 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         } else if (v.getId() == R.id.btn_loginweibo) {
             IAuthManager authManager = AuthFactory.create(this, Type.Platform.WEIBO);
             authManager.login(new YDAuthListener(Type.Platform.WEIBO));
+        } else if (v.getId() == R.id.btn_user_protocol) {
+            WebViewActivity.show(this, "https://www.baidu.com");
         }
     }
 

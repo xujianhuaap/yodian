@@ -23,6 +23,7 @@
     <string name="nickname_input_empty_message">昵称不能为空</string>
     <string name="wechat_input_empty_message">微信号不能为空</string>
     <string name="avatar_input_empty_message">头像不能为空</string>
+    <string name="lable_user_protocol"><u>注册即同意用户协议</u></string>
     <string name="input_phone_hint">输入手机号码</string>
     <string name="input_valicode_hint">输入验证码</string>
     <string name="input_feedback_hint">我想说</string>

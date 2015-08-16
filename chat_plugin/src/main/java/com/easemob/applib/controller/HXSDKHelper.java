@@ -249,12 +249,6 @@ public abstract class HXSDKHelper {
         return hxId;
     }
 
-    public String getPassword() {
-        if (password == null) {
-            password = hxModel.getPwd();
-        }
-        return password;
-    }
 
     public void setHXId(String hxId) {
         if (hxId != null) {
@@ -264,11 +258,6 @@ public abstract class HXSDKHelper {
         }
     }
 
-    public void setPassword(String password) {
-        if (hxModel.savePassword(password)) {
-            this.password = password;
-        }
-    }
 
     /**
      * the subclass must override this class to provide its own model or directly use {@link DefaultHXSDKModel}
@@ -320,7 +309,6 @@ public abstract class HXSDKHelper {
      * logout HuanXin SDK
      */
     public void logout(final EMCallBack callback) {
-        setPassword(null);
         reset();
         EMChatManager.getInstance().logout(new EMCallBack() {
 

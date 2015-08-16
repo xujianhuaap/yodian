@@ -468,9 +468,6 @@ public class MainSelectorProxy implements ActivityProxy,
         } else {
             res.showMessage(mActivity);
             if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
-//                if(!mActivity.isFinishing()){
-//                    mActivity.finish();
-//                }
             }
         }
 

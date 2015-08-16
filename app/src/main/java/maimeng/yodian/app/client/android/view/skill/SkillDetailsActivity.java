@@ -15,10 +15,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.ScrollDirectionListener;
@@ -82,6 +86,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private User user;
     private boolean isMe;
     private WaitDialog dialog;
+    private FrameLayout noSkillRmark;
 
     public int getTitleBarHeight() {
         if (mActionBarHeight != 0) {
@@ -100,6 +105,13 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         user = User.read(this);
+        noSkillRmark = new FrameLayout(this);
+        noSkillRmark.setPadding(0, 50, 0, 0);
+        final ImageView iv = new ImageView(this);
+        iv.setImageResource(R.drawable.pic_no_skill_rmark);
+        final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
+        noSkillRmark.addView(iv, params);
         service = Network.getService(SkillService.class);
 //        mSmoothInterpolator = new AccelerateDecelerateInterpolator();
         mSmoothInterpolator = new LinearInterpolator();
@@ -340,6 +352,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 headBinding.price.setText(text);
                 binding.price.setText(text);
                 binding.titlePrice.setText(text);
+            }
+            if (isMe) {
+                if (list.size() > 0) {
+                } else {
+                    ////pic_no_skill_rmark
+                    if (isMe) {
+                        binding.recyclerView.removeHeaderView(noSkillRmark);
+                        binding.recyclerView.addHeaderView(noSkillRmark);
+                    }
+                }
             }
             adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
