@@ -76,7 +76,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private SkillService service;
     private long sid;
     private int page = 1;
-    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private RmarkListAdapter adapter;
     private Interpolator mSmoothInterpolator;
     private int mHeaderHeight;
@@ -189,14 +188,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.header.setTranslationY(posY);
             }
         });
-        ListLayoutManager layout = new ListLayoutManager(this);
-        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
-            @Override
-            public void onLoadMore() {
-                page++;
-                sync();
-            }
-        };
         binding.recyclerView.setAdapter(adapter);
 
         //mListView.setOnScrollListener();
@@ -321,6 +312,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+        page = 1;
         sync();
     }
 
