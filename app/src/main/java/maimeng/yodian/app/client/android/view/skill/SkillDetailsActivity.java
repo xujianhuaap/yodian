@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.view.skill;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.RectF;
@@ -61,6 +62,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
@@ -138,7 +140,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         headBinding.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""),1);
+                ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""), 1);
             }
         });
         mPlaceHolderView = headBinding.getRoot();
@@ -361,7 +363,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.titlePrice.setText(text);
             }
             if (isMe) {
-                if (list.size() > 0) {
+                if (list.size() > 0 || page > 1) {
                 } else {
                     ////pic_no_skill_rmark
                     if (isMe) {
@@ -441,16 +443,40 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     }
 
     @Override
-    public void onDelete(RmarkListAdapter.ViewHolder holder) {
-        service.delete_rmark(holder.getBinding().getRmark().getScid(), new ToastCallback(this) {
+    public void onDelete(final RmarkListAdapter.ViewHolder holder) {
+
+        AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
             @Override
-            public void success(ToastResponse res, Response response) {
-                super.success(res, response);
-                if (res.isSuccess()) {
-                    adapter.notifyDataSetChanged();
-                }
+            public void onPositiveClick(final DialogInterface dialog) {
+                dialog.dismiss();
+                service.delete_rmark(holder.getBinding().getRmark().getScid(), new ToastCallback(SkillDetailsActivity.this) {
+                    @Override
+                    public void success(ToastResponse res, Response response) {
+                        super.success(res, response);
+                        if (res.isSuccess()) {
+                            adapter.remove(holder.getPosition());
+                        }
+                    }
+                });
             }
-        });
+
+            @Override
+            public String positiveText() {
+                return getResources().getString(android.R.string.ok);
+            }
+        }).setNegativeListener(new AlertDialog.NegativeListener() {
+            @Override
+            public void onNegativeClick(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public String negativeText() {
+                return getResources().getString(android.R.string.cancel);
+            }
+        }).show(getFragmentManager(), "delete_dialog");
+
+
     }
 
     @Override
