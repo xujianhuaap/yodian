@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,10 +44,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
+import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 
 /**
@@ -70,6 +76,12 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     private YApplication app;
     private Skill skill;
+    private Rmark rmark;
+    private Bitmap shareBitmap;
+    private int type;
+    private long scid;
+    private long sid;
+    private long rid;
 
     @Override
     public void onDestroyView() {
@@ -119,18 +131,25 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     // modify by xu 08-12
 
-    public static ShareDialog show(Activity context, ShareParams params) {
+    public static ShareDialog show(Activity context, ShareParams params,int type) {
         ShareDialog shareDialog=newInstance(params);
         shareDialog.show(context.getFragmentManager(), "sharedialog");
+        shareDialog.type=type;
         return shareDialog;
     }
 
-    public static ShareDialog show(Activity context, ShareParams params,boolean releaseOk) {
+    public static ShareDialog show(Activity context, ShareParams params,boolean releaseOk,int type) {
         ShareDialog shareDialog=newInstance(params);
         shareDialog.show(context.getFragmentManager(), "sharedialog");
         shareDialog.releaseOk=releaseOk;
+        shareDialog.type=type;
         return shareDialog;
     }
+
+    public void setRmark(Rmark rmark) {
+        this.rmark = rmark;
+    }
+
     //end
 
     @Nullable
@@ -183,6 +202,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     }
     private File tempFile;
     private Bitmap QRCodeBitmap;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -211,15 +231,54 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         QRCode from = QRCode.from(skill.getQrcodeUrl());
         from.withSize(size,size);
         Bitmap qrcode = from.bitmap();
+
         Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.fingerprint_bg);
-
-
         Bitmap bg = temp.copy(temp.getConfig(), true);
         temp.recycle();
         QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight(), Bitmap.Config.RGB_565);
         Canvas can=new Canvas(QRCodeBitmap);
         can.drawBitmap(bg,0,0,new Paint());
         can.drawBitmap(qrcode, left, top, new Paint());
+
+        View shareView =getActivity().getLayoutInflater().inflate(R.layout.view_share,null);
+
+        RoundImageView avater=(RoundImageView)shareView.findViewById(R.id.avatar);
+        ImageView contentPic=(ImageView)shareView.findViewById(R.id.contenPic);
+        ImageView shareBrand=(ImageView)shareView.findViewById(R.id.share_brand);
+
+        TextView title=(TextView)shareView.findViewById(R.id.tv_skill_title);
+        TextView price=(TextView)shareView.findViewById(R.id.tv_skill_price);
+        TextView content=(TextView)shareView.findViewById(R.id.tv_skill_content);
+        TextView nickname=(TextView)shareView.findViewById(R.id.tv_nickname);
+
+
+        Network.image(avater,skill.getAvatar());
+        ImageLoader.image(contentPic, skill.getPic());
+        shareBrand.setImageBitmap(QRCodeBitmap);
+
+
+        title.setText(skill.getName());
+        price.setText(skill.getPrice());
+        content.setText(skill.getContent());
+        nickname.setText(skill.getNickname());
+
+       shareBitmap=convertViewToBitmap(shareView);
+
+
+
+
+    }
+
+
+    public static Bitmap convertViewToBitmap(View view){
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+
+         return bitmap;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -243,7 +302,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     @OnClick(R.id.qqRoom)
     public void qzone(final View v) {
-        IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.QQ);
+        IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.QQ );
         String imgPath=skill.getPic();
         if(imgPath!=null&&imgPath.startsWith("file://")){
             imgPath=Uri.parse(skill.getPic()).getPath();
@@ -253,6 +312,46 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     @OnClick(R.id.report)
     public void report(View v) {
+        scid = 0;
+        sid = 0;
+        rid = 0;
+        switch (type){
+            case 1:
+                sid =skill.getId();
+                break;
+            case 2:
+                if(rmark!=null)
+                scid =rmark.getId();
+                break;
+            case 3:
+                rid =skill.getUid();
+                break;
+        }
+
+        AlertDialog alertDialog=AlertDialog.newInstance("","你确定要举报吗？").setNegativeListener(new AlertDialog.NegativeListener() {
+            @Override
+            public void onNegativeClick(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public String negativeText() {
+                return "取消";
+            }
+        }).setPositiveListener(new AlertDialog.PositiveListener() {
+            @Override
+            public void onPositiveClick(DialogInterface dialog) {
+                SkillService skillService=Network.getService(SkillService.class);
+                skillService.report(type, scid, sid, rid,new ToastCallback(getActivity()));
+            }
+
+            @Override
+            public String positiveText() {
+                return "确定";
+            }
+        });
+        alertDialog.show(getFragmentManager(),"");
+
     }
 
     @OnClick(R.id.sina)
@@ -260,7 +359,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         StringBuffer content=new StringBuffer();
         content.append(title).append(skill.getPrice()).append(skill.getUnit()).append("@优点APP");
         IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.WEIBO);
-        iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, QRCodeBitmap), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
+        iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, shareBitmap), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
     }
 
     @OnClick({R.id.fridens, R.id.weixin})

@@ -138,7 +138,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         headBinding.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""));
+                ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""),1);
             }
         });
         mPlaceHolderView = headBinding.getRoot();

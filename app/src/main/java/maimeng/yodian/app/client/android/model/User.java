@@ -16,6 +16,7 @@ import maimeng.yodian.app.client.android.common.model.UserBaseColum;
 /**
  * Created by henjue on 2015/4/7.
  */
+
 public class User extends UserBaseColum {
     @SerializedName("nickname")
     private String nickname;
@@ -203,7 +204,8 @@ public class User extends UserBaseColum {
     }
 
     public static class Info {
-
+        private static final String KEY_MOBILE = "_key_mobile";
+        private static final String KEY_WECHAT = "_key_wechat";
         private String mobile;
         @SerializedName("weichat")
         private String wechat;
