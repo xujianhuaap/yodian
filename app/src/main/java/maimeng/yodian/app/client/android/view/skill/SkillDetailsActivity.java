@@ -253,36 +253,40 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.btnContect.setText(R.string.btn_contact_ta);
             }
             binding.refreshLayout.autoRefresh();
-            ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    if (bitmap != null) {
-                        new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
-                                Palette.Swatch vibrant = palette.getVibrantSwatch();
-                                if (android.os.Build.VERSION.SDK_INT >= 21) {
-                                    Window window = getWindow();
-                                    // 很明显，这两货是新API才有的。
-                                    window.setStatusBarColor(colorBurn(vibrant.getRgb()));
-                                    window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+            if (android.os.Build.VERSION.SDK_INT >= 21) {
+                ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        if (bitmap != null) {
+                            new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    Palette.Swatch vibrant = palette.getVibrantSwatch();
+
+                                    if (vibrant != null) {
+                                        Window window = getWindow();
+                                        // 很明显，这两货是新API才有的。
+                                        window.setStatusBarColor(colorBurn(vibrant.getRgb()));
+                                        window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                                    }
+
                                 }
-
-                            }
-                        });
+                            });
+                        }
                     }
-                }
 
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
 
-                }
+                    }
 
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-                }
-            });
+                    }
+                });
+
+            }
         } else {
             sid = getIntent().getLongExtra("sid", 0);
             binding.refreshLayout.autoRefresh();
@@ -391,38 +395,40 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 headBinding.price.setText(text);
                 binding.price.setText(text);
                 binding.titlePrice.setText(text);
-                ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        if (bitmap != null) {
-                            new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
-                                @Override
-                                public void onGenerated(Palette palette) {
-                                    Palette.Swatch vibrant = palette.getVibrantSwatch();
+                if (android.os.Build.VERSION.SDK_INT >= 21) {
+                    ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            if (bitmap != null) {
+                                new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                    @Override
+                                    public void onGenerated(Palette palette) {
+                                        Palette.Swatch vibrant = palette.getVibrantSwatch();
 
-                                    if (vibrant != null && android.os.Build.VERSION.SDK_INT >= 21) {
-                                        Window window = getWindow();
-                                        // 很明显，这两货是新API才有的。
-                                        window.setStatusBarColor(colorBurn(vibrant.getRgb()));
-                                        window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                                        if (vibrant != null) {
+                                            Window window = getWindow();
+                                            // 很明显，这两货是新API才有的。
+                                            window.setStatusBarColor(colorBurn(vibrant.getRgb()));
+                                            window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                                        }
+
                                     }
-
-                                }
-                            });
+                                });
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-                    }
-                });
+                        }
+                    });
 
+                }
             }
             if (isMe) {
                 binding.recyclerView.removeHeaderView(noSkillRmark);
