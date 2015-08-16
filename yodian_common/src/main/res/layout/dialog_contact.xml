@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_wechat"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:drawableLeft="@drawable/ic_ok"
+        android:textSize="18sp"/>
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="复制到你的微信号 "
+        android:maxWidth="240dp"
+        android:textSize="18sp"/>
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </pl.droidsonroids.gif.GifImageView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_enter_wechat"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_enter_wechat"/>
+
+        <Button
+            android:id="@+id/btn_wechat_close"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_wechat_close"/>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

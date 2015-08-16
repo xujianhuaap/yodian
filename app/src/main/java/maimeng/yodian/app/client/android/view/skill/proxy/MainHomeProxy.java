@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.skill.proxy;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -41,7 +42,9 @@ import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
+import maimeng.yodian.app.client.android.view.auth.AuthActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
@@ -353,11 +356,37 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     }
 
     @Override
-    public void onClick(View v) {
-        Pair<View, String> top = Pair.create(v, "top");
-        Pair<View, String> floatbutton = Pair.create((View) mFloatButton, "floatbutton");
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
-        ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
+    public void onClick(final View v) {
+        if(User.read(mActivity).getWechat()==null){
+            AlertDialog.newInstance("提示","你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
+                @Override
+                public void onPositiveClick(DialogInterface dialog) {
+                    Pair<View, String> avatar = Pair.create(v, "avatar");
+                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
+                    ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+                }
+
+                @Override
+                public String positiveText() {
+                    return "前往";
+                }
+            }).show(mActivity.getFragmentManager(), "");
+
+        } else{
+
+            Pair<View, String> top = Pair.create(v, "top");
+            Pair<View, String> floatbutton = Pair.create((View) mFloatButton, "floatbutton");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
+            ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL,options.toBundle());
+        }
+
+
+
+
+
+
+
     }
 
 }

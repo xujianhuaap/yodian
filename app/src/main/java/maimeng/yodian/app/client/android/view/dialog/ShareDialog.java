@@ -43,6 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
+import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
@@ -183,6 +184,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     }
     private File tempFile;
     private Bitmap QRCodeBitmap;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -211,15 +213,26 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         QRCode from = QRCode.from(skill.getQrcodeUrl());
         from.withSize(size,size);
         Bitmap qrcode = from.bitmap();
+        String contentPic=skill.getPic();
+        Bitmap contentBitmap=null;
+        if(contentPic.startsWith("file:")){
+            contentBitmap=BitmapFactory.decodeFile(Uri.parse(contentPic).getPath());
+        }else{
+            contentBitmap= ImageLoader.image(getActivity(),contentPic);
+        }
+
+
+        int contentWidth=contentBitmap.getWidth();
+        int contentHeigth=contentBitmap.getHeight();
+
         Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.fingerprint_bg);
-
-
         Bitmap bg = temp.copy(temp.getConfig(), true);
         temp.recycle();
-        QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight(), Bitmap.Config.RGB_565);
+        QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight()+contentHeigth, Bitmap.Config.RGB_565);
         Canvas can=new Canvas(QRCodeBitmap);
-        can.drawBitmap(bg,0,0,new Paint());
-        can.drawBitmap(qrcode, left, top, new Paint());
+        can.drawBitmap(contentBitmap,0,0,new Paint());
+        can.drawBitmap(bg,0,contentHeigth,new Paint());
+        can.drawBitmap(qrcode, left, top+contentHeigth, new Paint());
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
