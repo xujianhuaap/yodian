@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.activity.VideoCallActivity;
 import maimeng.yodian.app.client.android.chat.activity.VoiceCallActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
@@ -55,7 +56,6 @@ import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.receiver.CallReceiver;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.view.chat.ChatActivity;
 
 /**
  * Demo UI HX SDK helper class which subclass HXSDKHelper

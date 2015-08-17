@@ -123,7 +123,7 @@ public class PublicChatRoomsActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 
                 final EMChatRoom room = adapter.getItem(position);
-                startActivity(new Intent(PublicChatRoomsActivity.this, maimeng.yodian.app.client.android.view.chat.ChatActivity.class).putExtra("chatType", 3).
+                startActivity(new Intent(PublicChatRoomsActivity.this, ChatActivity.class).putExtra("chatType", 3).
                 		putExtra("groupId", room.getId()));
                 
             }

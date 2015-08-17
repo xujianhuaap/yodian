@@ -52,7 +52,7 @@ public class ForwardMessageActivity extends PickContactNoCheckboxActivity {
 				ChatActivity.activityInstance.finish();
 			} catch (Exception e) {
 			}
-			Intent intent = new Intent(this, maimeng.yodian.app.client.android.view.chat.ChatActivity.class);
+			Intent intent = new Intent(this,ChatActivity.class);
 			if (selectUser == null)
 				return;
 			// it is single chat

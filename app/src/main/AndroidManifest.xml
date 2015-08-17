@@ -50,6 +50,8 @@
             android:launchMode="singleTask">
 
         </activity>
+        <activity android:name=".chat.activity.ChatActivity"/>
+        <activity android:name=".view.dialog.ContactDialog"/>
         <activity android:name=".view.auth.AuthActivity" />
         <activity android:name=".view.WebViewActivity" />
         <activity android:name=".view.user.UserHomeActivity" />
@@ -77,9 +79,6 @@
             android:name=".view.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppThemeSettings" />
-        <activity
-            android:name=".view.chat.ChatActivity"
-            android:launchMode="singleTask" />
         <activity
             android:name=".view.chat.ChatMainActivity"
             android:label="@string/lable_chat"

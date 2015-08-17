@@ -94,7 +94,7 @@ public class RobotsActivity extends BaseActivity {
 
 				RobotUser user = (RobotUser) parent.getItemAtPosition(position);
 				Intent intent = new Intent();
-				intent.setClass(RobotsActivity.this, maimeng.yodian.app.client.android.view.chat.ChatActivity.class);
+				intent.setClass(RobotsActivity.this, ChatActivity.class);
 				intent.putExtra("userId", user.getUsername());
 				startActivity(intent);
 			}

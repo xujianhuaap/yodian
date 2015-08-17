@@ -115,7 +115,7 @@ public class GroupsActivity extends BaseActivity {
 					startActivityForResult(new Intent(GroupsActivity.this, PublicGroupsActivity.class), 0);
 				} else {
 					// 进入群聊
-					Intent intent = new Intent(GroupsActivity.this, maimeng.yodian.app.client.android.view.chat.ChatActivity.class);
+					Intent intent = new Intent(GroupsActivity.this, ChatActivity.class);
 					// it is group chat
 					intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
 					intent.putExtra("groupId", groupAdapter.getItem(position - 3).getGroupId());

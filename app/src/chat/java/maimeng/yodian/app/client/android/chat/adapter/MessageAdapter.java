@@ -15,7 +15,6 @@ package maimeng.yodian.app.client.android.chat.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -96,7 +95,7 @@ import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.common.loader.ImageLoader;
-import maimeng.yodian.app.client.android.common.view.ContactDialog;
+import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 
 public class MessageAdapter extends BaseAdapter {
 

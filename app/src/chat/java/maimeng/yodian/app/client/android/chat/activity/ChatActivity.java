@@ -33,6 +33,7 @@ import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.support.v7.app.ActionBar;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.Html;
@@ -121,13 +122,14 @@ import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.common.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 
 import static maimeng.yodian.app.client.android.common.model.UserBaseColum.*;
 
 /**
  * 聊天页面
  */
-public abstract class ChatActivity extends BaseActivity implements OnClickListener, EMEventListener {
+public class ChatActivity extends BaseActivity implements OnClickListener, EMEventListener {
     private static final String TAG = "ChatActivity";
     private static final int REQUEST_CODE_EMPTY_HISTORY = 2;
     public static final int REQUEST_CODE_CONTEXT_MENU = 3;
@@ -244,12 +246,18 @@ public abstract class ChatActivity extends BaseActivity implements OnClickListen
         initView();
         setUpView();
         showSkill();
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_chat_menu, menu);
+        menu.add(0,1001,0,"").setIcon(R.drawable.btn_ic_contact).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -510,6 +518,8 @@ public abstract class ChatActivity extends BaseActivity implements OnClickListen
         } else {
             menu.findItem(R.id.menu_chat_clear).setVisible(false);
         }
+        MenuItem item = menu.findItem(R.id.menu_chat_clear);
+        item.setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -585,6 +595,15 @@ public abstract class ChatActivity extends BaseActivity implements OnClickListen
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_chat_clear) {
             emptyHistory();
+        }
+        int itemId = item.getItemId();
+        if(itemId ==1001){
+            Skill skill = getSkill();
+            if(skill!=null) {
+                startActivity(new Intent(this, ContactDialog.class).putExtra("wechat", skill.getWeichat()));
+            }
+        }else if(itemId ==android.R.id.home){
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -1088,7 +1107,9 @@ public abstract class ChatActivity extends BaseActivity implements OnClickListen
 
     }
 
-    protected abstract void onNewMessage(EMMessage message);
+    private void onNewMessage(EMMessage message){
+
+    }
 
     private void handlerSkillBanner(EMMessage message) {
         try {
