@@ -4,6 +4,11 @@ apply from: 'signing_config.gradle'
 apply from: 'apk.gradle'
 apply from: 'check.gradle'
 android {
+    sourceSets{
+        main.java.srcDirs += 'src/chat/java'
+        main.res.srcDirs += 'src/chat/res'
+        main.jniLibs.srcDirs += 'src/chat/jniLibs'
+    }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 //    lintOptions {
@@ -65,7 +70,6 @@ dependencies {
     compile(name: 'fb-5.3.0', ext: 'aar') {
         exclude module: 'message', group: 'com.umeng'
     }
-    compile project(':chat_plugin')
     compile project(':yodian_common')
     compile project(':PhotoPicker')
 }
@@ -77,7 +81,7 @@ dependencies {
     compile 'com.android.support:palette-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
-
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.jakewharton:butterknife:7.0.1'

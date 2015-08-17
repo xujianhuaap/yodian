@@ -16,7 +16,7 @@ public class ConnectionConflictBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         User.clear(context);
-        new AlertDialog.Builder(context).setTitle("提示").setMessage(maimeng.yodian.app.client.android.chat.R.string.connect_conflict).setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(context).setTitle("提示").setMessage(maimeng.yodian.app.client.android.R.string.connect_conflict).setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(context, AuthSeletorActivity.class);

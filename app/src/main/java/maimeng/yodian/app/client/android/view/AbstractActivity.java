@@ -70,7 +70,7 @@ public abstract class AbstractActivity extends maimeng.yodian.app.client.android
 
     private void onConnectionConflict() {
         if (dialog == null) {
-            dialog = AlertDialog.newInstance("提示", getString(maimeng.yodian.app.client.android.chat.R.string.connect_conflict));
+            dialog = AlertDialog.newInstance("提示", getString(maimeng.yodian.app.client.android.R.string.connect_conflict));
             dialog.setPositiveListener(new AlertDialog.PositiveListener() {
                 @Override
                 public void onPositiveClick(DialogInterface d) {

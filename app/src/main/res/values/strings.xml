@@ -52,16 +52,6 @@
     <string name="feedback_item_user_lable">您说:</string>
     <string name="feedback_item_dev_lable">:官方</string>
 
-
-    <eat-comment>chat</eat-comment>
-    <string name="location_recv">[%1$s的位置]</string>
-    <string name="location_prefix">[我的位置]</string>
-    <string name="picture">[图片]</string>
-    <string name="video">[视频]</string>
-    <string name="file">[文件]</string>
-    <string name="voice">[声音]</string>
-    <string name="voice_call">[语音通话]</string>
-
     <!--日記預覽-->
     <string name="skill_preview_title_bar"> 预 览</string>
     <string name="skill_preview_connect">联系Ta</string>

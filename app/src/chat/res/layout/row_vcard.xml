@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vcard_wechat_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微信名片"
+        android:textColor="@color/chat_textColor" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#ccc" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/vcard_avatar"
+            android:layout_width="@dimen/size_avatar"
+            android:layout_height="@dimen/size_avatar"
+            android:maxHeight="@dimen/size_avatar"
+            android:maxWidth="@dimen/size_avatar"
+            android:minHeight="@dimen/size_avatar"
+            android:minWidth="@dimen/size_avatar" />
+
+        <TextView
+            android:id="@+id/vcard_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/vcard_avatar"
+            android:text="henjue"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/vcard_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/vcard_nickname"
+            android:layout_below="@id/vcard_nickname"
+            android:text="asdfasdfasfsfasdfsfasfasfasdfasd"
+            android:textColor="@color/chat_textColor"
+            android:textSize="15sp" />
+    </RelativeLayout>
+</LinearLayout>
