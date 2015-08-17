@@ -1,6 +1,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">优点</string>
     <string name="NA">N/A</string>
+    <string name="title_settings_user_info">设置信息</string>
     <string name="action_settings">设置</string>
     <string name="lable_nickname">用户昵称</string>
     <string name="lable_report">举报</string>

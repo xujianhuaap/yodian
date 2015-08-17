@@ -1,7 +1,5 @@
 package maimeng.yodian.app.client.android.chat;
 
-import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +12,6 @@ import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 
-import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
-import maimeng.yodian.app.client.android.chat.activity.AlertDialog2;
 import maimeng.yodian.app.client.android.common.Action;
 
 /**
@@ -23,7 +19,7 @@ import maimeng.yodian.app.client.android.common.Action;
  */
 public abstract class AbstractActivity extends AppCompatActivity implements EMConnectionListener {
     private FrameLayout mContent;
-    private TextView mTitle;
+    protected TextView mTitle;
     protected Toolbar mToolBar;
 
     @SuppressWarnings("ConstantConditions")
@@ -97,7 +93,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
 
     @Override
     public void setContentView(View view) {
-        super.setContentView(view);
+        super.setContentView(R.layout.activity_base);
         mContent = (FrameLayout) findViewById(R.id.base_content);
         mTitle = (TextView) findViewById(R.id.base_title);
         mToolBar = (Toolbar) findViewById(R.id.toolbar);

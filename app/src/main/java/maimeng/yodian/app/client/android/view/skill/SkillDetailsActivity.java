@@ -55,7 +55,6 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkListAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
-import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
@@ -72,11 +71,10 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.chat.ChatActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
-import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
-import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
 /**
  * Created by android on 2015/7/22.
@@ -256,7 +254,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             }
             binding.refreshLayout.autoRefresh();
             if (android.os.Build.VERSION.SDK_INT >= 21) {
-                setStatuBarColor();
+//                setStatuBarColor();
             }
         } else {
             sid = getIntent().getLongExtra("sid", 0);
@@ -401,7 +399,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.price.setText(text);
                 binding.titlePrice.setText(text);
                 if (android.os.Build.VERSION.SDK_INT >= 21) {
-                    setStatuBarColor();
+//                    setStatuBarColor();
                 }
             }
             if (isMe) {

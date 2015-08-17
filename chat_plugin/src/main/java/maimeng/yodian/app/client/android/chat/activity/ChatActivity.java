@@ -127,7 +127,7 @@ import static maimeng.yodian.app.client.android.common.model.UserBaseColum.*;
 /**
  * 聊天页面
  */
-public class ChatActivity extends BaseActivity implements OnClickListener, EMEventListener {
+public abstract class ChatActivity extends BaseActivity implements OnClickListener, EMEventListener {
     private static final String TAG = "ChatActivity";
     private static final int REQUEST_CODE_EMPTY_HISTORY = 2;
     public static final int REQUEST_CODE_CONTEXT_MENU = 3;
@@ -220,6 +220,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public EMGroup group;
     public EMChatRoom room;
     public boolean isRobot;
+
+    public Skill getSkill() {
+        return skill;
+    }
+
     private Skill skill;
     private LinearLayout skillContainer;
     private View btnShowSkill;
@@ -501,12 +506,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (chatType == CHATTYPE_SINGLE) {
-            menu.findItem(0).setVisible(true);
+            menu.findItem(R.id.menu_chat_clear).setVisible(true);
         } else {
-            menu.findItem(0).setVisible(false);
-        }
-        for (int i = 0; i < menu.size(); i++) {
-            menu.getItem(i).setVisible(false);
+            menu.findItem(R.id.menu_chat_clear).setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -581,7 +583,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == 0) {
+        if (item.getItemId() == R.id.menu_chat_clear) {
             emptyHistory();
         }
         return super.onOptionsItemSelected(item);
@@ -1043,6 +1045,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     //如果消息不是和当前聊天ID的消息
                     HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
                 }
+                onNewMessage(message);
                 handlerSkillBanner(message);//处理技能banner信息
                 break;
             }
@@ -1084,6 +1087,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
 
     }
+
+    protected abstract void onNewMessage(EMMessage message);
 
     private void handlerSkillBanner(EMMessage message) {
         try {

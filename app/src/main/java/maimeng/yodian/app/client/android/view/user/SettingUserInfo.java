@@ -8,10 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -29,8 +30,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.chat.AbstractActivity;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
+import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
@@ -43,7 +45,7 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 /**
  * Created by android on 15-7-20.
  */
-public class SettingUserInfo extends AppCompatActivity implements View.OnClickListener, Target, Callback<ModifyUserResponse> {
+public class SettingUserInfo extends AbstractActivity implements View.OnClickListener, Target, Callback<ModifyUserResponse> {
     private ActivitySettingUserInfoBinding binding;
     private Bitmap mBitmap = null;
     private User user;
@@ -52,12 +54,25 @@ public class SettingUserInfo extends AppCompatActivity implements View.OnClickLi
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private boolean changed = false;
     private WaitDialog dialog;
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            ActivityCompat.finishAfterTransition(SettingUserInfo.this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         service = Network.getService(UserService.class);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_setting_user_info);
+        binding=DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_setting_user_info,null,false);
+        setContentView(binding.getRoot());
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         ViewCompat.setTransitionName(binding.userAvatar, "avatar");
         ViewCompat.setTransitionName(binding.btnBack, "back");
         user = User.read(this);
