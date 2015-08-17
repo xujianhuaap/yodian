@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +27,9 @@ import org.henjue.library.hnet.Response;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.model.Skill;
@@ -53,10 +57,15 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
     private Bitmap mBitmap;
     private boolean isEdit = false;
     private WaitDialog dialog;
+    private File tempFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        tempFile = new File(dir, getPhotoFileName());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
         if (getIntent().hasExtra("template")) {
@@ -271,6 +280,38 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 //        }
     }
 
+    public static final String IMAGE_UNSPECIFIED = "image/*";
+
+    private String getPhotoFileName() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "'IMG'_yyyyMMdd_HHmmss");
+        return dateFormat.format(date) + ".jpg";
+    }
+
+    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "yodian");
+    public static final int REQUEST_PHOTORESOULT = 0x1003;// 结果
+
+    public void startPhotoZoom(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+//        intent.putExtra("aspectX", 1);
+//        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        final int width = binding.skillPic.getWidth();
+        final int height = binding.skillPic.getHeight();
+        intent.putExtra("outputX", width);
+        intent.putExtra("outputY", height);
+        intent.putExtra("return-data", false);
+        tempFile = new File(dir, getPhotoFileName());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+        startActivityForResult(intent, REQUEST_PHOTORESOULT);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -280,14 +321,20 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             } else if (requestCode == REQUEST_SELECT_PHOTO) {
                 ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
                 String uri = Uri.fromFile(new File(paths.get(0))).toString();
-                int width = binding.skillPic.getWidth();
-                int height = binding.skillPic.getHeight();
-                if (width > 0 && height > 0) {
-                    Network.image(this, uri, this, 240, 240);
-                }
+                startPhotoZoom(Uri.parse(uri));
 
-                binding.getTemplate().setPic(uri);
-                toggle();
+            } else if (requestCode == REQUEST_PHOTORESOULT) {
+                if (tempFile != null) {
+                    final String url = Uri.fromFile(tempFile).toString();
+                    int height = binding.skillPic.getHeight();
+                    int width = binding.skillPic.getWidth();
+                    if (width > 0 && height > 0) {
+                        Network.image(this, url, this, 240, 240);
+                    }
+                    binding.getTemplate().setPic(url);
+                    toggle();
+                    tempFile.deleteOnExit();
+                }
             } else if (resultCode == REQUEST_DONE) {
 
             }
@@ -314,6 +361,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         private final EditText mText;
         private final SkillTemplate mTemplate;
         private final ActivityCreateSkillBinding mBinding;
+
         EditTextChangeListener(EditText text, ActivityCreateSkillBinding binding, SkillTemplate template) {
             this.mText = text;
             this.mBinding = binding;
@@ -343,8 +391,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 String temp = s.toString();
                 int posDot = temp.indexOf(".");
                 if (posDot <= 0) return;
-                if (temp.length() - posDot - 1 > 2)
-                {
+                if (temp.length() - posDot - 1 > 2) {
                     s.delete(posDot + 3, posDot + 4);
                 }
                 mTemplate.setPrice(s.toString());

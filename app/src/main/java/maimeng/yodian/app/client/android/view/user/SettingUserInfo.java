@@ -263,6 +263,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 Network.image(this, url, this);
                 binding.getUser().setAvatar(url);
                 changed = true;
+                tempFile.deleteOnExit();
             }
 
             toggle();
