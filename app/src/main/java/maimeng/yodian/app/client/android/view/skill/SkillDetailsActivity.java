@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.view.skill;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
@@ -254,44 +256,47 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             }
             binding.refreshLayout.autoRefresh();
             if (android.os.Build.VERSION.SDK_INT >= 21) {
-                ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        if (bitmap != null) {
-                            new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
-                                @Override
-                                public void onGenerated(Palette palette) {
-                                    Palette.Swatch vibrant = palette.getVibrantSwatch();
-
-                                    if (vibrant != null) {
-                                        Window window = getWindow();
-                                        // 很明显，这两货是新API才有的。
-                                        window.setStatusBarColor(colorBurn(vibrant.getRgb()));
-                                        window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
-                                    }
-
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
-
+                setStatuBarColor();
             }
         } else {
             sid = getIntent().getLongExtra("sid", 0);
             binding.refreshLayout.autoRefresh();
         }
+    }
 
+    public void setStatuBarColor() {
+        ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                if (bitmap != null) {
+                    new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
+                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void onGenerated(Palette palette) {
+                            Palette.Swatch vibrant = palette.getVibrantSwatch();
+
+                            if (vibrant != null) {
+                                Window window = getWindow();
+                                // 很明显，这两货是新API才有的。
+                                window.setStatusBarColor(colorBurn(vibrant.getRgb()));
+                                window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                            }
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
     }
 
     private void setTitleAlpha(float alpha) {
@@ -396,38 +401,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.price.setText(text);
                 binding.titlePrice.setText(text);
                 if (android.os.Build.VERSION.SDK_INT >= 21) {
-                    ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            if (bitmap != null) {
-                                new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
-                                    @Override
-                                    public void onGenerated(Palette palette) {
-                                        Palette.Swatch vibrant = palette.getVibrantSwatch();
-
-                                        if (vibrant != null) {
-                                            Window window = getWindow();
-                                            // 很明显，这两货是新API才有的。
-                                            window.setStatusBarColor(colorBurn(vibrant.getRgb()));
-                                            window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
-                                        }
-
-                                    }
-                                });
-                            }
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                        }
-                    });
-
+                    setStatuBarColor();
                 }
             }
             if (isMe) {
@@ -559,8 +533,32 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     }
 
     @Override
-    public void onReport(RmarkListAdapter.ViewHolder holder) {
-        Network.getService(CommonService.class).report(2, 0, holder.getBinding().getRmark().getScid(), 0, new ToastCallback(this));
+    public void onReport(final RmarkListAdapter.ViewHolder holder) {
+
+        AlertDialog.newInstance("提示", "确定要举报吗?").setPositiveListener(new AlertDialog.PositiveListener() {
+            @Override
+            public void onPositiveClick(final DialogInterface dialog) {
+                dialog.dismiss();
+                Network.getService(CommonService.class).report(2, 0, holder.getBinding().getRmark().getScid(), 0, new ToastCallback(SkillDetailsActivity.this));
+            }
+
+            @Override
+            public String positiveText() {
+                return getResources().getString(android.R.string.ok);
+            }
+        }).setNegativeListener(new AlertDialog.NegativeListener() {
+            @Override
+            public void onNegativeClick(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public String negativeText() {
+                return getResources().getString(android.R.string.cancel);
+            }
+        }).show(getFragmentManager(), "delete_dialog");
+
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
