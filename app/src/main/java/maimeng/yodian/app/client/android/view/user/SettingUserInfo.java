@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
@@ -27,7 +29,9 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.AbstractActivity;
@@ -54,22 +58,28 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private boolean changed = false;
     private WaitDialog dialog;
+    private File tempFile;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             ActivityCompat.finishAfterTransition(SettingUserInfo.this);
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        tempFile = new File(dir, getPhotoFileName());
         service = Network.getService(UserService.class);
-        binding=DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_setting_user_info,null,false);
+        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_setting_user_info, null, false);
         setContentView(binding.getRoot());
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null) {
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -246,9 +256,15 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         if (requestCode == REQUEST_SELECT_PHOTO && resultCode == RESULT_OK) {
             ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
             String uri = Uri.fromFile(new File(paths.get(0))).toString();
-            Network.image(this, uri, this);
-            binding.getUser().setAvatar(uri);
-            changed = true;
+            startPhotoZoom(Uri.parse(uri));
+        } else if (requestCode == REQUEST_PHOTORESOULT && RESULT_OK == resultCode) {
+            if (tempFile != null) {
+                final String url = Uri.fromFile(tempFile).toString();
+                Network.image(this, url, this);
+                binding.getUser().setAvatar(url);
+                changed = true;
+            }
+
             toggle();
         }
     }
@@ -284,5 +300,36 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 user.setNickname(s.toString());
             }
         }
+    }
+
+    public static final String IMAGE_UNSPECIFIED = "image/*";
+
+    private String getPhotoFileName() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "'IMG'_yyyyMMdd_HHmmss");
+        return dateFormat.format(date) + ".jpg";
+    }
+
+    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "yodian");
+    public static final int REQUEST_PHOTORESOULT = 0x1003;// 结果
+
+    public void startPhotoZoom(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        float dimension = 320;
+        intent.putExtra("outputX", dimension);
+        intent.putExtra("outputY", dimension);
+        intent.putExtra("return-data", false);
+        tempFile = new File(dir, getPhotoFileName());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+        startActivityForResult(intent, REQUEST_PHOTORESOULT);
     }
 }
