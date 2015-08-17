@@ -11,6 +11,7 @@ import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
+import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
@@ -53,7 +54,7 @@ public interface SkillService {
      */
     @Multipart
     @Post(ApiConfig.Api.SKILL_ADD)
-    void add(@Param("name") String name, @Param("content") String content, @Param("pic") TypedBitmap pic, @Param("price") String price, @Param("unit") String unit, ToastCallback callback);
+    void add(@Param("name") String name, @Param("content") String content, @Param("pic") TypedBitmap pic, @Param("price") String price, @Param("unit") String unit, Callback<SkillAllResponse> callback);
 
     /**
      * 修改技能
@@ -124,8 +125,8 @@ public interface SkillService {
 
 
     @Post(ApiConfig.Api.REPORT)
-    void report(@Param("type")int type,@Param("scid")long scid,
-                @Param("sid")long sid,@Param("rid")long rid,
+    void report(@Param("type") int type, @Param("scid") long scid,
+                @Param("sid") long sid, @Param("rid") long rid,
                 ToastCallback callback);
 
 }

@@ -165,6 +165,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == ActivityProxyController.REQUEST_CREATE_SKILL) {
                 init();
+                mActivity.startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtras(data));
             } else if (requestCode == REQUEST_AUTH) {
                 init();
             } else if (requestCode == ActivityProxyController.REQUEST_EDIT_SKILL) {

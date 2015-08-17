@@ -44,7 +44,7 @@ public class Skill extends UserBaseColum implements Parcelable {
     }
 
     public String getQrcodeUrl() {
-        return BuildConfig.DEBUG ? qrcodeUrl.replaceAll("^http://share.yodian.me/", "http://sharetest.yodian.me/") : qrcodeUrl;
+        return BuildConfig.DEBUG ? qrcodeUrl == null ? "" : qrcodeUrl.replaceAll("^http://share.yodian.me/", "http://sharetest.yodian.me/") : qrcodeUrl;
     }
 
     public void setQrcodeUrl(String qrcodeUrl) {
