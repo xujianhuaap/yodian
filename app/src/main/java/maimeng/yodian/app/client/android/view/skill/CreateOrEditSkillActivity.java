@@ -24,6 +24,7 @@ import com.squareup.picasso.Target;
 import org.henjue.library.hnet.Response;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import maimeng.yodian.app.client.android.R;
@@ -313,7 +314,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         private final EditText mText;
         private final SkillTemplate mTemplate;
         private final ActivityCreateSkillBinding mBinding;
-
         EditTextChangeListener(EditText text, ActivityCreateSkillBinding binding, SkillTemplate template) {
             this.mText = text;
             this.mBinding = binding;
@@ -340,7 +340,14 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 mTemplate.setName(name);
                 binding.titleCount.setText(name.length() + "/25");
             } else if (mText == binding.skillPrice) {
-                mTemplate.setPrice(name);
+                String temp = s.toString();
+                int posDot = temp.indexOf(".");
+                if (posDot <= 0) return;
+                if (temp.length() - posDot - 1 > 2)
+                {
+                    s.delete(posDot + 3, posDot + 4);
+                }
+                mTemplate.setPrice(s.toString());
             } else if (mText == binding.skillUnit) {
                 mTemplate.setUnit(name);
             }

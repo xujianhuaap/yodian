@@ -155,6 +155,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/create_skill_price"
                         android:singleLine="true"
+                        android:inputType="numberDecimal"
                         android:text="@{template.price}"
                         android:textColor="#000"
                         android:textColorHint="#55000000" />
