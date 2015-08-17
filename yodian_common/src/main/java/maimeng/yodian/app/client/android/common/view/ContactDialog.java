@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import maimeng.yodian.app.client.android.common.R;
@@ -28,8 +29,8 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
         View view = getLayoutInflater().inflate(R.layout.dialog_contact, null);
         GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif);
         TextView weChat = (TextView) view.findViewById(R.id.tv_wechat);
-        Button exit=(Button)view.findViewById(R.id.btn_wechat_close);
-        Button enter=(Button)view.findViewById(R.id.btn_enter_wechat);
+        ImageView exit=(ImageView)view.findViewById(R.id.btn_wechat_close);
+        ImageView enter=(ImageView)view.findViewById(R.id.btn_enter_wechat);
         exit.setOnClickListener(this);
         enter.setOnClickListener(this);
         setFinishOnTouchOutside(true);
@@ -48,8 +49,6 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
 
         if(v.getId()==R.id.btn_enter_wechat){
-
-
         }else if(v.getId()==R.id.btn_wechat_close){
             finish();
         }

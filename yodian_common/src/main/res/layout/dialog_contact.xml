@@ -32,19 +32,19 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
-        <Button
+        <ImageView
             android:id="@+id/btn_enter_wechat"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/ic_enter_wechat"/>
+            android:src="@drawable/ic_enter_wechat"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btn_wechat_close"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/ic_wechat_close"/>
+            android:src="@drawable/ic_wechat_close"/>
 
 
     </LinearLayout>
