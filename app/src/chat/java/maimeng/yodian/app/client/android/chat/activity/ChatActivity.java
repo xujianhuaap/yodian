@@ -111,6 +111,7 @@ import maimeng.yodian.app.client.android.chat.adapter.ExpressionAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.ExpressionPagerAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.MessageAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.VoicePlayClickListener;
+import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
@@ -222,6 +223,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public EMGroup group;
     public EMChatRoom room;
     public boolean isRobot;
+    private String wechat;
 
     public Skill getSkill() {
         return skill;
@@ -540,12 +542,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
             if (robotMap != null && robotMap.containsKey(toChatUsername)) {
                 isRobot = true;
-                String nick = robotMap.get(toChatUsername).getNick();
+                RobotUser robotUser = robotMap.get(toChatUsername);
+                String nick = robotUser.getNick();
                 if (!TextUtils.isEmpty(nick)) {
+                    wechat=robotUser.getWechat();
                     setTitle(nick);
                 } else {
                     User user = UserUtils.getUserInfo(toChatUsername);
                     if (user != null) {
+                        wechat=user.getWechat();
                         setTitle(user.getNick());
                     } else {
                         setTitle(toChatUsername);
@@ -554,6 +559,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             } else {
                 User user = UserUtils.getUserInfo(toChatUsername);
                 if (user != null) {
+                    wechat=user.getWechat();
                     setTitle(user.getNick());
                 } else {
                     setTitle(toChatUsername);
@@ -598,9 +604,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
         int itemId = item.getItemId();
         if(itemId ==1001){
-            Skill skill = getSkill();
-            if(skill!=null) {
-                startActivity(new Intent(this, ContactDialog.class).putExtra("wechat", skill.getWeichat()));
+            if(wechat!=null) {
+                startActivity(new Intent(this, ContactDialog.class).putExtra("wechat", wechat));
             }
         }else if(itemId ==android.R.id.home){
             finish();
@@ -627,7 +632,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (msgCount < conversation.getAllMsgCount() && msgCount < pagesize) {
             String msgId = null;
             if (msgs != null && msgs.size() > 0) {
-                msgId = msgs.get(0).getMsgId();
+                EMMessage emMessage = msgs.get(0);
+
+                msgId = emMessage.getMsgId();
             }
             if (chatType == CHATTYPE_SINGLE) {
                 conversation.loadMoreMsgFromDB(msgId, pagesize);

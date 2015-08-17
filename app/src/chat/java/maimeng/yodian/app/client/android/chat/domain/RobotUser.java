@@ -56,17 +56,27 @@ public class RobotUser extends EMContact{
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+	public String getWechat() {
+		return wechat;
+	}
 
+	public void setWechat(String wechat) {
+		this.wechat = wechat;
+	}
+
+	private String wechat;
 	public static RobotUser parse(EMMessage message) throws EaseMobException {
 		final RobotUser user = new RobotUser();
 		String userName = message.getFrom();
 		String nickname=message.getStringAttribute("nickName");
 		String avatar=message.getStringAttribute("avatar");
 		String uid = message.getStringAttribute("uid");
+		String wechat=message.getStringAttribute("weChat");
 		user.setAvatar(avatar);
 		user.setId(uid);
 		user.setNick(nickname);
 		user.setUsername(userName);
+		user.setWechat(wechat);
 		return user;
 	}
 }

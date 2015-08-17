@@ -46,10 +46,12 @@ public class DemoDBManager {
                 String username = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_ID));
                 String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
                 String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
+                String wechat = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_WECHAT));
                 User user = new User();
                 user.setUsername(username);
                 user.setNick(nick);
                 user.setAvatar(avatar);
+                user.setWechat(wechat);
                 String headerName = null;
                 if (!TextUtils.isEmpty(user.getNick())) {
                     headerName = user.getNick();
@@ -103,6 +105,8 @@ public class DemoDBManager {
                 values.put(UserDao.COLUMN_NAME_NICK, user.getNick());
             if(user.getAvatar() != null)
                 values.put(UserDao.COLUMN_NAME_AVATAR, user.getAvatar());
+            if(user.getWechat()!=null)
+                values.put(UserDao.COLUMN_NAME_WECHAT,user.getWechat());
             if(db.isOpen()){
                 db.update(UserDao.TABLE_NAME, values, UserDao.COLUMN_NAME_ID + "= ?", new String[]{user.getUsername()});
             }
@@ -114,6 +118,8 @@ public class DemoDBManager {
                 values.put(UserDao.COLUMN_NAME_NICK, user.getNick());
             if(user.getAvatar() != null)
                 values.put(UserDao.COLUMN_NAME_AVATAR, user.getAvatar());
+            if(user.getWechat()!=null)
+                values.put(UserDao.COLUMN_NAME_WECHAT,user.getWechat());
             if(db.isOpen()){
                 db.insert(UserDao.TABLE_NAME, null, values);
             }
@@ -294,10 +300,12 @@ public class DemoDBManager {
 				String username = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_ID));
 				String nick = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_NICK));
 				String avatar = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_AVATAR));
+                String wechat = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_WECHAT));
 				RobotUser user = new RobotUser();
 				user.setUsername(username);
 				user.setNick(nick);
 				user.setAvatar(avatar);
+                user.setWechat(wechat);
 				String headerName = null;
 				if (!TextUtils.isEmpty(user.getNick())) {
 					headerName = user.getNick();
@@ -334,6 +342,8 @@ public class DemoDBManager {
                     values.put(UserDao.ROBOT_COLUMN_NAME_NICK, user.getNick());
                 if(user.getAvatar() != null)
                     values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, user.getAvatar());
+                if(user.getWechat()!=null)
+                    values.put(UserDao.ROBOT_COLUMN_NAME_WECHAT,user.getWechat());
                 if(db.isOpen()){
                     db.update(UserDao.ROBOT_TABLE_NAME, values, UserDao.ROBOT_COLUMN_NAME_ID + "=  ?", new String[]{user.getUsername()});
                 }
@@ -346,6 +356,8 @@ public class DemoDBManager {
                     values.put(UserDao.ROBOT_COLUMN_NAME_NICK, user.getNick());
                 if (user.getAvatar() != null)
                     values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, user.getAvatar());
+                if(user.getWechat()!=null)
+                    values.put(UserDao.ROBOT_COLUMN_NAME_WECHAT,user.getWechat());
                 if (db.isOpen()) {
                     db.insert(UserDao.ROBOT_TABLE_NAME, null, values);
                 }

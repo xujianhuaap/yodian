@@ -21,6 +21,16 @@ public class User extends EMContact {
 	private int unreadMsgCount;
 	private String header;
 	private String avatar;
+
+	public String getWechat() {
+		return wechat;
+	}
+
+	public void setWechat(String wechat) {
+		this.wechat = wechat;
+	}
+
+	private String wechat;
 	private String id;
 
 	public String getId() {
@@ -88,10 +98,12 @@ public class User extends EMContact {
 		String nickname=message.getStringAttribute("nickName");
 		String avatar=message.getStringAttribute("avatar");
 		String uid = message.getStringAttribute("uid");
+		String wechat=message.getStringAttribute("weChat");
 		user.setAvatar(avatar);
 		user.setId(uid);
 		user.setNick(nickname);
 		user.setUsername(userName);
+		user.setWechat(wechat);
 		return user;
 	}
 }

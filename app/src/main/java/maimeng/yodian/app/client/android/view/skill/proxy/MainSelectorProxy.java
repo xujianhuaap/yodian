@@ -397,12 +397,17 @@ public class MainSelectorProxy implements ActivityProxy,
                     robot.setUsername(chatLoginName);
                     robot.setNick(skill.getNickname());
                     robot.setAvatar(skill.getAvatar());
+                    robot.setWechat(skill.getWeichat());
+
 
                     maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
                     user.setId(skill.getUid() + "");
                     user.setUsername(chatLoginName);
                     user.setNick(skill.getNickname());
                     user.setAvatar(skill.getAvatar());
+                    user.setWechat(skill.getWeichat());
+
+
                     // 存入内存
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);

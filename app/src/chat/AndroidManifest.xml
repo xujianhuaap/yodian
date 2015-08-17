@@ -44,7 +44,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustResize|stateVisible" />-->
-        <service android:name=".AsyncContactService" />
         <!-- 注册 -->
         <!--<activity
             android:name=".activity.RegisterActivity"

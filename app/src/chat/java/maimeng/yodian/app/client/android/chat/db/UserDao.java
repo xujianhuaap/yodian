@@ -26,6 +26,7 @@ public class UserDao {
 	public static final String COLUMN_NAME_ID = "username";
 	public static final String COLUMN_NAME_NICK = "nick";
 	public static final String COLUMN_NAME_AVATAR = "avatar";
+	public static final String COLUMN_NAME_WECHAT = "wechat";
 	
 	public static final String PREF_TABLE_NAME = "pref";
 	public static final String COLUMN_NAME_DISABLED_GROUPS = "disabled_groups";
@@ -35,7 +36,7 @@ public class UserDao {
 	public static final String ROBOT_COLUMN_NAME_ID = "username";
 	public static final String ROBOT_COLUMN_NAME_NICK = "nick";
 	public static final String ROBOT_COLUMN_NAME_AVATAR = "avatar";
-	
+	public static final String ROBOT_COLUMN_NAME_WECHAT = "wechat";
 	
 	public UserDao(Context context) {
 	    DemoDBManager.getInstance().onInit(context);

@@ -46,27 +46,13 @@ public class AsyncContactService extends Service {
                 List<EMMessage> messages = conversation.loadMoreMsgFromDB(conversation.getMessage(0).getMsgId(), conversation.getAllMsgCount());
                 for(EMMessage message:messages){
                     try {
-                        String userName = message.getFrom();
-                        String nickname=message.getStringAttribute("nickName");
-                        String avatar=message.getStringAttribute("avatar");
-                        String uid = message.getStringAttribute("uid");
-                        RobotUser robot = new RobotUser();
-                        maimeng.yodian.app.client.android.chat.domain.User user=new maimeng.yodian.app.client.android.chat.domain.User();
-                        robot.setAvatar(avatar);
-                        robot.setId(uid);
-                        robot.setNick(nickname);
-                        robot.setUsername(userName);
-
-
-                        user.setAvatar(avatar);
-                        user.setId(uid);
-                        user.setNick(nickname);
-                        user.setUsername(userName);
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(userName, user);
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(userName, robot);
+                        RobotUser robot = RobotUser.parse(message);
+                        maimeng.yodian.app.client.android.chat.domain.User user=maimeng.yodian.app.client.android.chat.domain.User.parse(message);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user.getUsername(), user);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), robot);
                         dao.saveOrUpdate(user);
                         dao.saveOrUpdate(robot);
-                        log("refresh Contacts by %s,nickname:%s,avatar:%s,uid:%s",userName,nickname,avatar,uid);
+                        log("refresh Contacts by %s,nickname:%s,avatar:%s,uid:%s,wechat:%s",user.getUsername(),user.getNick(),user.getAvatar(),user.getId(),user.getWechat());
                     } catch (EaseMobException e) {
                         e.printStackTrace();
                     }
