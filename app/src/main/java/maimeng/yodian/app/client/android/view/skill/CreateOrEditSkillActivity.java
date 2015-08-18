@@ -350,7 +350,9 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                     int height = binding.skillPic.getHeight();
                     int width = binding.skillPic.getWidth();
                     if (width > 0 && height > 0) {
-                        Network.image(this, url, this, 240, 240);
+                        Network.image(this, url, this, height, height);
+                    } else {
+                        Network.image(this, url, this, 1080, 320);
                     }
                     binding.getTemplate().setPic(url);
                     toggle();
@@ -411,9 +413,10 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             } else if (mText == binding.skillPrice) {
                 String temp = s.toString();
                 int posDot = temp.indexOf(".");
-                if (posDot <= 0) return;
-                if (temp.length() - posDot - 1 > 2) {
-                    s.delete(posDot + 3, posDot + 4);
+                if (posDot > 0) {
+                    if (temp.length() - posDot - 1 > 2) {
+                        s.delete(posDot + 3, posDot + 4);
+                    }
                 }
                 mTemplate.setPrice(s.toString());
             } else if (mText == binding.skillUnit) {
