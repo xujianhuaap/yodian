@@ -260,12 +260,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
         if (path != null) {
 
-            if (path.startsWith("http://")) {
-                ImageLoader.image(contentPic, path);
-            } else if (path.startsWith("file://")) {
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                contentPic.setImageBitmap(bitmap);
-            }
+           ImageLoader.image(contentPic,path);
         }
 
         if (avaterPath != null) {
