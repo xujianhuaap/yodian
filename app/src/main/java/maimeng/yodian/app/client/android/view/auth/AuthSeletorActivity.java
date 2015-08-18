@@ -74,7 +74,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
             IAuthManager authManager = AuthFactory.create(this, Type.Platform.WEIBO);
             authManager.login(new YDAuthListener(Type.Platform.WEIBO));
         } else if (v.getId() == R.id.btn_user_protocol) {
-            WebViewActivity.show(this, "https://www.baidu.com");
+            WebViewActivity.show(this, "http://www.ketie.me/ydxy.html");
         }
     }
 

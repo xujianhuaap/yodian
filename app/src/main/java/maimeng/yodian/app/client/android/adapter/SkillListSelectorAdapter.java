@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.network.ImageLoader;
 import maimeng.yodian.app.client.android.model.Skill;
@@ -35,16 +37,21 @@ import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
  * Created by android on 15-7-13.
  */
 public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillListSelectorAdapter.BaseViewHolder> {
-    public SkillListSelectorAdapter(Context context, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener) {
+    private final PtrFrameLayout refreshLayout;
+
+    public SkillListSelectorAdapter(Context context, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(context, viewHolderClickListener);
+        this.refreshLayout = refreshLayout;
     }
 
-    public SkillListSelectorAdapter(Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener) {
+    public SkillListSelectorAdapter(Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(fragment, viewHolderClickListener);
+        this.refreshLayout = refreshLayout;
     }
 
-    public SkillListSelectorAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener) {
+    public SkillListSelectorAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(fragment, viewHolderClickListener);
+        this.refreshLayout = refreshLayout;
     }
 
     @Override
@@ -138,6 +145,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                     BGABanner.TransitionEffect.Depth,
                     BGABanner.TransitionEffect.Zoom};
             banner.addOnPageChangeListener(this);
+
 
         }
 

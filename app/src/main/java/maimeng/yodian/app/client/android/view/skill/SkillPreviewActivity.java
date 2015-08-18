@@ -27,6 +27,7 @@ import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.network.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -124,7 +125,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         }
 
         refresh(mSkill);
-        Network.image(this, mSkill.getPic(), new TargetProxy(), 240, 240);
+        ImageLoader.image(this, mSkill.getPic(), new TargetProxy(), 240, 240);
     }
 
 

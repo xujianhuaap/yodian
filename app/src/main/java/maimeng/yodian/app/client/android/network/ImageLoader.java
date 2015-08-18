@@ -46,7 +46,7 @@ public class ImageLoader {
         loader.setIndicatorsEnabled(BuildConfig.DEBUG || DEBUG);
     }
 
-    public static Bitmap image(final Context context, final String uri, final int width,final int height) {
+    public static Bitmap image(final Context context, final String uri, final int width, final int height) {
         final CountDownLatch latch = new CountDownLatch(1);
         final Bitmap[] bitmaps = {null};
         new Thread() {
@@ -55,9 +55,9 @@ public class ImageLoader {
                 super.run();
                 try {
                     Picasso loader = getOne(context).loader;
-                    RequestCreator creator=loader.load(uri);
-                    if(width>0&&height>0){
-                        creator.resize(width,height);
+                    RequestCreator creator = loader.load(uri);
+                    if (width > 0 && height > 0) {
+                        creator.resize(width, height);
                     }
                     bitmaps[0] = creator.get();
                 } catch (IOException e) {
@@ -78,7 +78,7 @@ public class ImageLoader {
 
     public static Bitmap image(final Context context, final String uri) {
 
-        return image(context,uri,0,0);
+        return image(context, uri, 0, 0);
 
     }
 

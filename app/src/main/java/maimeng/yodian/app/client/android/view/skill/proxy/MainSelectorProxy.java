@@ -65,6 +65,7 @@ import maimeng.yodian.app.client.android.widget.CategoryLayout;
 import maimeng.yodian.app.client.android.widget.CategoryView;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
+import maimeng.yodian.app.client.android.widget.PagerRecyclerView;
 
 /**
  * Created by android on 15-7-13.
@@ -81,7 +82,7 @@ public class MainSelectorProxy implements ActivityProxy,
     private final MainTabActivity mActivity;
     private final SkillService service;
     private final PtrFrameLayout mRefreshLayout;
-    private final RecyclerView mRecyclerView;
+    private final PagerRecyclerView mRecyclerView;
     private final CategoryLayout mCategoryContainer;
     private final View mBtnChat;
     private boolean inited = false;
@@ -124,7 +125,7 @@ public class MainSelectorProxy implements ActivityProxy,
         mTitle.setOnClickListener(this);
         mTitle.setTag(CATEGORY_ANIM_ENTER);
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        mRecyclerView = (PagerRecyclerView) view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(mActivity);
         header.setTextColor(0x000000);
@@ -140,7 +141,7 @@ public class MainSelectorProxy implements ActivityProxy,
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter = new SkillListSelectorAdapter(mActivity, this);
+        adapter = new SkillListSelectorAdapter(mActivity, this, mRefreshLayout);
         mRecyclerView.setAdapter(adapter);
 
         animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180 * dgree);
