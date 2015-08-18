@@ -40,6 +40,7 @@ import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.network.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -95,7 +96,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             }
 
         }
-        if (mTemplate.getPic() != null) Network.image(this, mTemplate.getPic(), this);
+        if (mTemplate.getPic() != null) ImageLoader.image(this, mTemplate.getPic(), this);
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
         binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));
@@ -350,9 +351,9 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                     int height = binding.skillPic.getHeight();
                     int width = binding.skillPic.getWidth();
                     if (width > 0 && height > 0) {
-                        Network.image(this, url, this, height, height);
+                        ImageLoader.image(this, url, this, height, height);
                     } else {
-                        Network.image(this, url, this, 1080, 320);
+                        ImageLoader.image(this, url, this, 108, height);
                     }
                     binding.getTemplate().setPic(url);
                     toggle();

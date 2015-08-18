@@ -38,6 +38,7 @@ import maimeng.yodian.app.client.android.chat.AbstractActivity;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.network.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
@@ -137,7 +138,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
-        Network.image(this, user.getAvatar(), this);
+        ImageLoader.image(this, user.getAvatar(), this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
     }
@@ -261,7 +262,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         } else if (requestCode == REQUEST_PHOTORESOULT && RESULT_OK == resultCode) {
             if (tempFile != null) {
                 final String url = Uri.fromFile(tempFile).toString();
-                Network.image(this, url, this);
+                ImageLoader.image(this, url, this);
                 binding.getUser().setAvatar(url);
                 changed = true;
                 tempFile.deleteOnExit();

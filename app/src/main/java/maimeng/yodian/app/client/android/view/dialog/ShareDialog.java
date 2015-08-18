@@ -232,7 +232,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         targetNickname = args.getString("targetNickname");
         if (skill.getPic() != null && (skill.getPic().startsWith("http") || skill.getPic().startsWith("ftp"))) {
             Toast.makeText(getActivity(), "正在分享路上...", Toast.LENGTH_SHORT).show();
-            Network.image(getActivity(), skill.getPic(), this);
+            ImageLoader.image(getActivity(), skill.getPic(), this);
         } else {
             end = true;
         }
@@ -246,30 +246,30 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
         shareView = view.findViewById(R.id.share);
 
-        RoundImageView avater=(RoundImageView) shareView.findViewById(R.id.avatar);
-        ImageView contentPic=(ImageView) shareView.findViewById(R.id.contenPic);
+        RoundImageView avater = (RoundImageView) shareView.findViewById(R.id.avatar);
+        ImageView contentPic = (ImageView) shareView.findViewById(R.id.contenPic);
 
 
-        TextView title=(TextView) shareView.findViewById(R.id.tv_skill_title);
-        TextView price=(TextView) shareView.findViewById(R.id.tv_skill_price);
-        TextView content=(TextView) shareView.findViewById(R.id.tv_skill_content);
-        TextView nickname=(TextView) shareView.findViewById(R.id.tv_nickname);
+        TextView title = (TextView) shareView.findViewById(R.id.tv_skill_title);
+        TextView price = (TextView) shareView.findViewById(R.id.tv_skill_price);
+        TextView content = (TextView) shareView.findViewById(R.id.tv_skill_content);
+        TextView nickname = (TextView) shareView.findViewById(R.id.tv_nickname);
 
-        String path=skill.getPic();
-        String avaterPath=skill.getAvatar();
+        String path = skill.getPic();
+        String avaterPath = skill.getAvatar();
 
-        if(path!=null){
+        if (path != null) {
 
-            if(path.startsWith("http://")){
-                ImageLoader.image(contentPic,path);
-            }else if(path.startsWith("file://")){
-                Bitmap bitmap=BitmapFactory.decodeFile(path);
+            if (path.startsWith("http://")) {
+                ImageLoader.image(contentPic, path);
+            } else if (path.startsWith("file://")) {
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
                 contentPic.setImageBitmap(bitmap);
             }
         }
 
-        if(avaterPath!=null){
-            Network.image(avater,avaterPath );
+        if (avaterPath != null) {
+            ImageLoader.image(avater, avaterPath);
         }
 
         title.setText(skill.getName());
@@ -282,34 +282,27 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     /***
      * @param type 1 新浪分享　２　好友分享 3 其他
-     *
-     *
      */
 
-    private Bitmap  getShareBitmap(int type,View shareView) {
-        Bitmap QRCodeBitmap=null;
-        if(type==1){
-            QRCodeBitmap=generatePlatformBitmap(R.drawable.ic_market_sina);
-        }else if(type==2){
-           QRCodeBitmap=generatePlatformBitmap(R.drawable.ic_market_wechat);
+    private Bitmap getShareBitmap(int type, View shareView) {
+        Bitmap QRCodeBitmap = null;
+        if (type == 1) {
+            QRCodeBitmap = generatePlatformBitmap(R.drawable.ic_market_sina);
+        } else if (type == 2) {
+            QRCodeBitmap = generatePlatformBitmap(R.drawable.ic_market_wechat);
         }
         ImageView shareBrand = (ImageView) shareView.findViewById(R.id.share_brand);
         shareBrand.setImageBitmap(QRCodeBitmap);
-        Bitmap shareBitmap=convertViewToBitmap(shareView);
+        Bitmap shareBitmap = convertViewToBitmap(shareView);
         return shareBitmap;
     }
 
     /**
-     *
-     * @param drawableId
-     *
-     * Type.Platform.WeiBo drawableId为R.drawble.ic_market_sina
-     *
-     * Type.Platform.WEIXIN  drawableId为R.drawble.ic_market_wechat
-     *
-     *
+     * @param drawableId Type.Platform.WeiBo drawableId为R.drawble.ic_market_sina
+     *                   <p/>
+     *                   Type.Platform.WEIXIN  drawableId为R.drawble.ic_market_wechat
      */
-    private Bitmap  generatePlatformBitmap(int drawableId) {
+    private Bitmap generatePlatformBitmap(int drawableId) {
         int size = getResources().getDimensionPixelSize(R.dimen.qrcode_size);
         int left = getResources().getDimensionPixelSize(R.dimen.qrcode_left);
         int top = getResources().getDimensionPixelSize(R.dimen.qrcode_top);
@@ -422,13 +415,12 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @OnClick(R.id.sina)
     public void ShareToWeiBo(View view) {
 
-        Bitmap bitmap=getShareBitmap(1,shareView);
-        StringBuffer content=new StringBuffer();
+        Bitmap bitmap = getShareBitmap(1, shareView);
+        StringBuffer content = new StringBuffer();
         content.append(title).append(skill.getPrice()).append(skill.getUnit()).append("@优点APP");
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIBO);
         iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, bitmap), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
     }
-
 
 
     @OnClick({R.id.fridens, R.id.weixin})
@@ -442,7 +434,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         if (v.getId() == R.id.weixin) {
             iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.toString()), WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
         } else {
-            Bitmap bitmap=getShareBitmap(2,shareView);
+            Bitmap bitmap = getShareBitmap(2, shareView);
             iShareManager.share(new MessagePic(bitmap), WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
         }
     }

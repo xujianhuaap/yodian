@@ -81,36 +81,4 @@ public class Network {
             return service;
         }
     }
-
-
-    public static void image(RoundImageView iv, String url) {
-        ImageLoader.image(iv, url);
-    }
-
-    public static void image(Context context, String url, Target target) {
-
-        image(context,url,target,0,0);
-
-
-    }
-
-    public static void image(Context context, String url, Target target,int width,int height) {
-
-        String path = null;
-        try {
-            path = URLDecoder.decode(url, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            path = url;
-        } finally {
-            if(width>0&&height>0){
-                ImageLoader.image(context, path, target,width,height);
-            }else {
-                ImageLoader.image(context,url,target);
-            }
-
-        }
-
-
-    }
 }

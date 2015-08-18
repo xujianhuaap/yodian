@@ -45,6 +45,7 @@ import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.network.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
@@ -243,7 +244,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     private void initUsrInfo() {
         mUserNickname.setText(user.getNickname());
-        Network.image(mUserAvatar, user.getAvatar());
+        ImageLoader.image(mUserAvatar, user.getAvatar());
     }
 
     @Override
