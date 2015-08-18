@@ -1,7 +1,9 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -31,14 +33,18 @@ public class WaitDialog extends android.app.DialogFragment {
     }
 
     public static WaitDialog show(Activity activity, String message) {
-        WaitDialog waitDialog = newInstance(message);
         FragmentManager fragmentManager = activity.getFragmentManager();
-        waitDialog.show(fragmentManager, UUID.randomUUID().toString());
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        WaitDialog waitDialog = (WaitDialog) fragmentManager.findFragmentByTag(activity.hashCode() + "");
+        if (waitDialog == null) {
+            waitDialog = newInstance(message);
+        }
+        waitDialog.show(transaction, activity.hashCode() + "");
         return waitDialog;
     }
 
     public static WaitDialog show(Activity activity) {
-        return show(activity,"请稍等...");
+        return show(activity, "请稍等...");
     }
 
     @Override
@@ -60,11 +66,11 @@ public class WaitDialog extends android.app.DialogFragment {
                 return false;
             }
         });
-        TextView tv=(TextView)inflate.findViewById(R.id.title);
+        TextView tv = (TextView) inflate.findViewById(R.id.title);
         String string = getArguments().getString("alert-message");
-        if(string !=null){
+        if (string != null) {
             tv.setText(string);
-        }else{
+        } else {
             tv.setVisibility(View.GONE);
         }
         android.app.AlertDialog dialog = builder.create();
