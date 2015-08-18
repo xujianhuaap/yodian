@@ -29,6 +29,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <service android:name=".chat.AsyncContactService" />
+
         <activity
             android:name=".view.splash.DefaultActivity"
             android:screenOrientation="nosensor" />
@@ -50,8 +51,8 @@
             android:launchMode="singleTask">
 
         </activity>
-        <activity android:name=".chat.activity.ChatActivity"/>
-        <activity android:name=".view.dialog.ContactDialog"/>
+        <activity android:name=".chat.activity.ChatActivity" />
+        <activity android:name=".view.dialog.ContactDialog" />
         <activity android:name=".view.auth.AuthActivity" />
         <activity android:name=".view.WebViewActivity" />
         <activity android:name=".view.user.UserHomeActivity" />
@@ -62,7 +63,9 @@
         <activity
             android:name=".view.skill.SkillTemplateActivity"
             android:theme="@style/AppThemeTransparent" />
-        <activity android:name=".view.user.SettingUserInfo" android:label="@string/title_settings_user_info" />
+        <activity
+            android:name=".view.user.SettingUserInfo"
+            android:label="@string/title_settings_user_info" />
         <activity
             android:name=".view.skill.SkillPreviewActivity"
             android:theme="@style/AppThemeTransparent"
@@ -103,6 +106,7 @@
             android:label="@string/title_activity_web_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 

@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -53,12 +54,16 @@ import maimeng.yodian.app.client.android.model.Theme;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
+import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 import maimeng.yodian.app.client.android.widget.CategoryLayout;
@@ -371,19 +376,73 @@ public class MainSelectorProxy implements ActivityProxy,
         }
     }
 
+    private int mEditPostion;
+
     @Override
-    public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, int postion) {
+    public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, final int postion) {
 
         if (mCategoryContainer != null && mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)) {
             categoryEnterAndDismissAnim();
         }
 
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
-            SkillListSelectorAdapter.ItemViewHolder holder = (SkillListSelectorAdapter.ItemViewHolder) h;
-            Skill skill = holder.getData();
+            final SkillListSelectorAdapter.ItemViewHolder holder = (SkillListSelectorAdapter.ItemViewHolder) h;
+            final Skill skill = holder.getData();
             if (clickItem == holder.getBinding().btnShare) {
                 Skill data = skill;
                 ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
+            } else if (clickItem == holder.getBinding().btnUpdate) {
+                Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
+                intent.putExtra("skill", skill);
+                mActivity.startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
+                mEditPostion = postion;
+                holder.closeWithAnim();
+            } else if (clickItem == holder.getBinding().btnDelete) {
+                AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
+                    @Override
+                    public void onPositiveClick(final DialogInterface dialog) {
+                        dialog.dismiss();
+                        service.delete(skill.getId(), new ToastCallback(mActivity) {
+                            @Override
+                            public void success(ToastResponse res, Response response) {
+                                super.success(res, response);
+                                if (res.isSuccess()) {
+                                    adapter.remove(postion);
+                                }
+                            }
+
+                            @Override
+                            public void end() {
+                                super.end();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public String positiveText() {
+                        return mActivity.getResources().getString(android.R.string.ok);
+                    }
+                }).setNegativeListener(new AlertDialog.NegativeListener() {
+                    @Override
+                    public void onNegativeClick(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public String negativeText() {
+                        return mActivity.getResources().getString(android.R.string.cancel);
+                    }
+                }).show(mActivity.getFragmentManager(), "delete_dialog");
+
+            } else if (clickItem == holder.getBinding().btnChangeState) {
+                service.up(skill.getId(), skill.getStatus(), new ToastCallback(mActivity) {
+                    @Override
+                    public void success(ToastResponse res, Response response) {
+                        super.success(res, response);
+                        skill.setStatus(skill.getStatus() == 0 ? 1 : 0);
+                        holder.closeWithAnim();
+                    }
+                });
             } else if (clickItem == holder.getBinding().btnBottom) {
                 Intent intent = new Intent(mActivity, ChatActivity.class);
                 intent.putExtra("skill", holder.getData());
@@ -499,6 +558,13 @@ public class MainSelectorProxy implements ActivityProxy,
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_AUTH && resultCode == Activity.RESULT_OK) {
             init();
+        } else if (requestCode == ActivityProxyController.REQUEST_EDIT_SKILL && resultCode == Activity.RESULT_OK) {
+            Skill skill = data.getParcelableExtra("skill");
+            if (mEditPostion != -1 && skill != null) {
+                ((ItemViewEntry) adapter.getItem(mEditPostion)).skill.update(skill);
+                adapter.notifyItemChanged(mEditPostion);
+                mEditPostion = -1;
+            }
         }
     }
 }
