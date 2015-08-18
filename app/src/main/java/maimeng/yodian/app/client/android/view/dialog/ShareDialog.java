@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,12 +45,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
-import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.model.Rmark;
+import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.widget.RoundImageView;
@@ -260,12 +261,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
         if (path != null) {
 
-            if (path.startsWith("http://")) {
-                ImageLoader.image(contentPic, path);
-            } else if (path.startsWith("file://")) {
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                contentPic.setImageBitmap(bitmap);
-            }
+            ImageLoader.image(contentPic, path);
         }
 
         if (avaterPath != null) {
@@ -308,15 +304,20 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         int top = getResources().getDimensionPixelSize(R.dimen.qrcode_top);
         QRCode from = QRCode.from(skill.getQrcodeUrl());
         from.withSize(size, size);
+        int border = 25;
         Bitmap qrcode = from.bitmap();
-
+        Bitmap bitmap = Bitmap.createBitmap(qrcode.getWidth() - border * 0, qrcode.getHeight() - border * 0, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Rect rect = new Rect(border, border, bitmap.getWidth() - border, bitmap.getHeight() - border);
+        canvas.clipRect(rect);
+        canvas.drawBitmap(qrcode, 0, 0, new Paint());
         Bitmap temp = BitmapFactory.decodeResource(getResources(), drawableId);
         Bitmap bg = temp.copy(temp.getConfig(), true);
         temp.recycle();
         Bitmap QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight(), Bitmap.Config.RGB_565);
         Canvas can = new Canvas(QRCodeBitmap);
         can.drawBitmap(bg, 0, 0, new Paint());
-        can.drawBitmap(qrcode, left, top, new Paint());
+        can.drawBitmap(bitmap, left, top, new Paint());
 
         return QRCodeBitmap;
     }
