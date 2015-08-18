@@ -81,6 +81,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     private long scid;
     private long sid;
     private long rid;
+    private View shareView;
 
     @Override
     public void onDestroyView() {
@@ -255,29 +256,28 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         can.drawBitmap(bg, 0, 0, new Paint());
         can.drawBitmap(qrcode, left, top, new Paint());
 
-        View shareView = getActivity().getLayoutInflater().inflate(R.layout.view_share, null);
+        shareView = view.findViewById(R.id.eee);
 
-        RoundImageView avater = (RoundImageView) shareView.findViewById(R.id.avatar);
-        ImageView contentPic = (ImageView) shareView.findViewById(R.id.contenPic);
-        ImageView shareBrand = (ImageView) shareView.findViewById(R.id.share_brand);
+        RoundImageView avater=(RoundImageView) shareView.findViewById(R.id.avatar);
+        ImageView contentPic=(ImageView) shareView.findViewById(R.id.contenPic);
+        ImageView shareBrand=(ImageView) shareView.findViewById(R.id.share_brand);
 
-        TextView title = (TextView) shareView.findViewById(R.id.tv_skill_title);
-        TextView price = (TextView) shareView.findViewById(R.id.tv_skill_price);
-        TextView content = (TextView) shareView.findViewById(R.id.tv_skill_content);
-        TextView nickname = (TextView) shareView.findViewById(R.id.tv_nickname);
+        TextView title=(TextView) shareView.findViewById(R.id.tv_skill_title);
+        TextView price=(TextView) shareView.findViewById(R.id.tv_skill_price);
+        TextView content=(TextView) shareView.findViewById(R.id.tv_skill_content);
+        TextView nickname=(TextView) shareView.findViewById(R.id.tv_nickname);
 
 
         Network.image(avater, skill.getAvatar());
         ImageLoader.image(contentPic, skill.getPic());
         shareBrand.setImageBitmap(QRCodeBitmap);
+        shareBrand.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
         title.setText(skill.getName());
         price.setText(skill.getPrice());
         content.setText(skill.getContent());
         nickname.setText(skill.getNickname());
-
-        shareBitmap = convertViewToBitmap(shareView);
 
 
     }
@@ -373,7 +373,8 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     @OnClick(R.id.sina)
     public void ShareToWeiBo(View view) {
-        StringBuffer content = new StringBuffer();
+        shareBitmap=convertViewToBitmap(shareView);
+        StringBuffer content=new StringBuffer();
         content.append(title).append(skill.getPrice()).append(skill.getUnit()).append("@优点APP");
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIBO);
         iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, shareBitmap), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);

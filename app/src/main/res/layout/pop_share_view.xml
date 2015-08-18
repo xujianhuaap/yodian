@@ -111,6 +111,11 @@
         </FrameLayout>
     </GridLayout>
 
+    <include layout="@layout/view_share"
+        android:id="@+id/eee"
+        android:visibility="gone"
+        />
+
 
 
 </LinearLayout>
