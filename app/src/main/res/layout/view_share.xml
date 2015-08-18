@@ -10,20 +10,23 @@
             android:layout_height="wrap_content">
             <maimeng.yodian.app.client.android.widget.RoundImageView
                 android:id="@+id/avatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginLeft="10dp"/>
             <TextView
                 android:id="@+id/tv_nickname"
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="apidf"
                 android:textSize="16sp"
                 android:padding="5dp"
                 android:textColor="@android:color/white"
-                android:maxLength="10"
+                android:maxLength="2"
+                android:maxLines="1"
                 android:maxWidth="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_below="@+id/avatar"/>
 
             <TextView
@@ -32,10 +35,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="apidf"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:padding="5dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:maxWidth="150dp"
+                android:layout_marginRight="25dp"
                android:layout_toRightOf="@+id/avatar"/>
             <TextView
                 android:id="@+id/tv_skill_price"
@@ -43,22 +47,26 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="apidf"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:padding="5dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:maxWidth="150dp"
                 android:layout_toRightOf="@+id/tv_skill_title"/>
             <TextView
                 android:id="@+id/tv_skill_content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="left"
                 android:text="apidf"
                 android:textSize="16sp"
                 android:padding="5dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
                 android:maxWidth="200dp"
-                android:layout_alignBottom="@+id/avatar"
+                android:maxLines="2"
+                android:maxLength="20"
+                android:layout_marginTop="5dp"
+                android:layout_alignLeft="@id/tv_skill_title"
+                android:layout_alignBottom="@+id/tv_nickname"
                 android:layout_below="@id/tv_skill_price"
                 android:layout_toRightOf="@id/avatar"/>
 
@@ -70,6 +78,7 @@
         android:id="@+id/contenPic"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:scaleType="centerCrop"
         android:layout_gravity="center" />
     <TextView
         android:layout_width="match_parent"
