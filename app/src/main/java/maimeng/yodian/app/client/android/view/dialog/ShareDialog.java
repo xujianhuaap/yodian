@@ -335,7 +335,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.setDrawingCacheEnabled(true);
-//        view.destroyDrawingCache();
+        view.destroyDrawingCache();
         view.buildDrawingCache();
         Bitmap bitmap = view.getDrawingCache();
 
@@ -372,7 +372,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         if (imgPath != null && imgPath.startsWith("file://")) {
             imgPath = Uri.parse(skill.getPic()).getPath();
         }
-        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, imgPath), 0/*,this*/);
+        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), 0/*,this*/);
     }
 
     @OnClick(R.id.report)
