@@ -36,7 +36,9 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
-                        app:imgUrl="@{template.pic}" />
+                        app:imgUrl="@{template.pic}"
+                        app:width=""
+                        app:height="1020dp"/>
 
                     <FrameLayout
                         android:id="@+id/btn_select_photo"

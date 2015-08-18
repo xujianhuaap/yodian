@@ -98,7 +98,7 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTempla
         public void bind(SkillTemplate template) {
             binding.setTemplate(template);
             this.template = template;
-            ImageLoader.image(itemView.getContext(), template.getPic(), target);
+            ImageLoader.image(itemView.getContext(), template.getPic(), target,720,720);
         }
     }
 

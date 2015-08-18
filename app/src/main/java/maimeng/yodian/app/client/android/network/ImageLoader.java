@@ -117,20 +117,29 @@ public class ImageLoader {
 
     @BindingAdapter("bind:imgUrl")
     public static void image(ImageView iv, String url) {
-        image(iv, url, -1, -1);
+        image(iv, url, -1, -1,0,0);
     }
+
+
 
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder"})
     public static void image(ImageView iv, String url, Drawable placeHolderDrawable) {
-        image(iv, url, placeHolderDrawable, null);
+        image(iv, url, placeHolderDrawable, null,0,0);
     }
 
-    @BindingAdapter({"bind:imgUrl", "bind:placeHolder", "bind:errorImage"})
-    public static void image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable) {
+    @BindingAdapter({"bind:imgUrl","bind:width","bind:height"})
+    public static void image(ImageView iv, String url,int width,int height) {
+        image(iv, url, -1, -1,width,height);
+    }
+
+    @BindingAdapter({"bind:imgUrl", "bind:placeHolder", "bind:errorImage","bind:width","bind:height"})
+    public static void image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable,int width,int height) {
         ImageLoader one = getOne(iv.getContext());
         RequestCreator load = one.loader.load(url);
-        int width = one.screenWidth;
-        int height = one.screenHeight;
+        if(width==0&&height==0){
+            width = one.screenWidth;
+            height = one.screenHeight;
+        }
         int width1 = iv.getWidth();
         if (width1 > 0) {
             width = width1;
@@ -151,16 +160,16 @@ public class ImageLoader {
 
     public static void image(ImageView iv, String url, int placeHolderDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            image(iv, url, iv.getResources().getDrawable(placeHolderDrawable, iv.getContext().getTheme()), null);
+            image(iv, url, iv.getResources().getDrawable(placeHolderDrawable, iv.getContext().getTheme()), null,0,0);
         } else {
-            image(iv, url, iv.getResources().getDrawable(placeHolderDrawable), null);
+            image(iv, url, iv.getResources().getDrawable(placeHolderDrawable), null,0,0);
         }
     }
 
-    public static void image(ImageView iv, String url, int placeHolderDrawable, int errorDrawable) {
+    public static void image(ImageView iv, String url, int placeHolderDrawable, int errorDrawable,int width,int height) {
         Drawable place = placeHolderDrawable == -1 ? null : iv.getResources().getDrawable(placeHolderDrawable);
         Drawable error = errorDrawable == -1 ? null : iv.getResources().getDrawable(errorDrawable);
-        image(iv, url, place, error);
+        image(iv, url, place, error,width,height);
     }
 
     private static class ImageTarget implements Target {
