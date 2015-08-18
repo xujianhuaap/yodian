@@ -18,8 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="5dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/time"
@@ -65,14 +64,12 @@
 
             <ImageView
                 android:id="@+id/pic"
-                android:layout_width="360dp"
-                android:layout_height="@dimen/pic_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="2dp"
                 android:layout_below="@id/fra_container"
-                android:scaleType="center"
+                android:scaleType="centerCrop"
                 app:imgUrl="@{rmark.pic}" />
 
             <TextView

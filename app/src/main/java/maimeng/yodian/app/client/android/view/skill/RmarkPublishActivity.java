@@ -1,13 +1,11 @@
 package maimeng.yodian.app.client.android.view.skill;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.adapters.TextViewBindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.inputmethodservice.InputMethodService;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,28 +17,24 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.util.FileUtils;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
 
-import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
-import org.henjue.library.hnet.exception.HNetError;
 
 import java.io.File;
+import java.io.IOException;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivityRmarkPublishBinding;
-import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.network.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -67,6 +61,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     private SkillService mSkillService;
     private Skill mSkill;
     private WaitDialog dialog;
+    private Bitmap mBitmap;
 
     public static void show(Activity context, Skill skill, View backView, int requestCode) {
         Intent intent = new Intent();
@@ -99,9 +94,8 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
 
     private void refresh(Skill skill) {
 
-        Bitmap bitmap = BitmapFactory.decodeFile(skill.getPic());
-        if (bitmap != null) {
-            TypedBitmap typedBitmap = new TypedBitmap.Builder(bitmap, 360, 360).build();
+        if (mBitmap!= null) {
+            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap, 360, 360).build();
             mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
@@ -224,17 +218,17 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_CLIPPING) {
-
-            } else if (requestCode == REQUEST_CODE_ALBUM) {
-                Bitmap bitmap = BitmapFactory.decodeFile(data.getData().getPath());
-                mBinding.cheSelectPhoto.setChecked(false);
-                mBinding.skillPic.setImageBitmap(bitmap);
+            String uri = null;
+            if (requestCode == REQUEST_CODE_ALBUM) {
+                uri = data.getData().toString();
             } else {
-                Bitmap bitmap = BitmapFactory.decodeFile(mTempUri.getPath());
-                mBinding.cheSelectPhoto.setChecked(false);
-                mBinding.skillPic.setImageBitmap(bitmap);
+                uri = mTempUri.toString();
             }
+
+            mBinding.cheSelectPhoto.setChecked(false);
+
+            mBitmap = ImageLoader.image(this, uri,1020,1020);
+            mBinding.skillPic.setImageBitmap(mBitmap);
 
         }
     }
