@@ -225,13 +225,15 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_CLIPPING) {
+
+            } else if (requestCode == REQUEST_CODE_ALBUM) {
+                Bitmap bitmap = BitmapFactory.decodeFile(data.getData().getPath());
+                mBinding.cheSelectPhoto.setChecked(false);
+                mBinding.skillPic.setImageBitmap(bitmap);
+            } else {
                 Bitmap bitmap = BitmapFactory.decodeFile(mTempUri.getPath());
                 mBinding.cheSelectPhoto.setChecked(false);
                 mBinding.skillPic.setImageBitmap(bitmap);
-            } else if (requestCode == REQUEST_CODE_ALBUM) {
-                startPhotoZoom(data.getData());
-            } else {
-                startPhotoZoom(mTempUri);
             }
 
         }
