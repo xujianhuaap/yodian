@@ -1,26 +1,20 @@
 package maimeng.yodian.app.client.android.network;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.google.gson.GsonBuilder;
-import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.http.ClientStack;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
-import maimeng.yodian.app.client.android.network.common.ApacheHttpStack;
 import maimeng.yodian.app.client.android.network.common.GsonConverter;
 import maimeng.yodian.app.client.android.network.common.RequestIntercept;
 import maimeng.yodian.app.client.android.network.response.TypeData;
-import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 
 /**
@@ -53,12 +47,6 @@ public class Network {
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(String.class, new GsonConverter.StringAdapter());
         net = new HNet.Builder()
                 .setEndpoint(ApiConfig.API_HOST)
-                .setClient(new ClientStack.Provider() {
-                    @Override
-                    public ClientStack get() {
-                        return new ApacheHttpStack();
-                    }
-                })
                 .setIntercept(new RequestIntercept(app.getApplicationContext()))
                 .setConverter(new GsonConverter(gsonBuilder.create()))
                 .build();
