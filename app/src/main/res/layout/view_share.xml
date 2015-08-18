@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="200dp"
-    android:layout_height="200dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -11,7 +12,7 @@
                 android:id="@+id/avatar"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/ic_wechat_close"/>
+                android:layout_marginLeft="10dp"/>
             <TextView
                 android:id="@+id/tv_nickname"
                 android:layout_width="100dp"
@@ -21,41 +22,43 @@
                 android:textSize="16sp"
                 android:padding="5dp"
                 android:textColor="@android:color/white"
+                android:maxLength="10
+                "
                 android:maxWidth="30dp"
                 android:layout_below="@+id/avatar"/>
 
             <TextView
                 android:id="@+id/tv_skill_title"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="apidf"
                 android:textSize="16sp"
                 android:padding="5dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:maxWidth="30dp"
+                android:maxWidth="150dp"
                android:layout_toRightOf="@+id/avatar"/>
             <TextView
                 android:id="@+id/tv_skill_price"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="apidf"
                 android:textSize="16sp"
                 android:padding="5dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:maxWidth="30dp"
+                android:maxWidth="150dp"
                 android:layout_toRightOf="@+id/tv_skill_title"/>
             <TextView
                 android:id="@+id/tv_skill_content"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="apidf"
                 android:textSize="16sp"
                 android:padding="5dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:maxWidth="30dp"
+                android:maxWidth="200dp"
                 android:layout_alignBottom="@+id/avatar"
                 android:layout_below="@id/tv_skill_price"
                 android:layout_toRightOf="@id/avatar"/>
@@ -85,10 +88,11 @@
         <ImageView
             android:id="@+id/share_brand"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/fingerprint_bg"/>
+            android:layout_height="match_parent" />
 
     </FrameLayout>
+
+
 
 
 </LinearLayout>
