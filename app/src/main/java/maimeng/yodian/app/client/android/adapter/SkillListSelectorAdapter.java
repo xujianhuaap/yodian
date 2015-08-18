@@ -18,8 +18,8 @@ import java.util.Random;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.loader.ImageLoader;
-import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.databinding.SkillListItemHeadBinding;
 import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;

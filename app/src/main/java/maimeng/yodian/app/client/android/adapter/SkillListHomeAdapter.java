@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;

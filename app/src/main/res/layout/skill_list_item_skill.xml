@@ -8,7 +8,7 @@
 
         <variable
             name="skill"
-            type="maimeng.yodian.app.client.android.common.model.Skill" />
+            type="maimeng.yodian.app.client.android.model.Skill" />
     </data>
 
 

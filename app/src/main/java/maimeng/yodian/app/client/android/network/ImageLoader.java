@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.common.loader;
+package maimeng.yodian.app.client.android.network;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
@@ -14,8 +14,8 @@ import com.squareup.picasso.Target;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
-import maimeng.yodian.app.client.android.common.BuildConfig;
-import maimeng.yodian.app.client.android.common.R;
+import maimeng.yodian.app.client.android.BuildConfig;
+import maimeng.yodian.app.client.android.R;
 
 /**
  * Created by android on 2015/7/31.

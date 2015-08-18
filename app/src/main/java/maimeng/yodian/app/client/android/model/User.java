@@ -10,7 +10,6 @@ import com.google.gson.annotations.SerializedName;
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.common.model.UserBaseColum;
 
 
 /**

@@ -1,6 +1,6 @@
 package maimeng.yodian.app.client.android.network.response;
 
-import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.model.Skill;
 
 /**
  * Created by android on 2015/8/18.

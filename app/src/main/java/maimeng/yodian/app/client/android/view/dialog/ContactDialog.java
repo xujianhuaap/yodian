@@ -19,14 +19,14 @@ import org.henjue.library.share.manager.IAuthManager;
 import org.henjue.library.share.manager.WechatAuthManager;
 
 import maimeng.yodian.app.client.android.YApplication;
-import maimeng.yodian.app.client.android.common.R;
+import maimeng.yodian.app.client.android.R;
 import pl.droidsonroids.gif.GifImageView;
 
 
 /**
  * Created by android on 2015/8/7.
  */
-public class ContactDialog extends AppCompatActivity implements View.OnClickListener{
+public class ContactDialog extends AppCompatActivity implements View.OnClickListener {
     private String mWeChatNum;
 
     @Override
@@ -39,8 +39,8 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
         View view = getLayoutInflater().inflate(R.layout.dialog_contact, null);
         GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif);
         TextView weChat = (TextView) view.findViewById(R.id.tv_wechat);
-        ImageView exit=(ImageView)view.findViewById(R.id.btn_wechat_close);
-        ImageView enter=(ImageView)view.findViewById(R.id.btn_enter_wechat);
+        ImageView exit = (ImageView) view.findViewById(R.id.btn_wechat_close);
+        ImageView enter = (ImageView) view.findViewById(R.id.btn_enter_wechat);
         exit.setOnClickListener(this);
         enter.setOnClickListener(this);
         setFinishOnTouchOutside(true);
@@ -50,7 +50,7 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
         weChat.setText("已将微信号：" + mWeChatNum);
 
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        ClipData data = ClipData.newPlainText("wechat" , mWeChatNum);
+        ClipData data = ClipData.newPlainText("wechat", mWeChatNum);
         clipboardManager.setPrimaryClip(data);
 
     }
@@ -58,12 +58,12 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==R.id.btn_enter_wechat){
-            WechatAuthManager factory = (WechatAuthManager)AuthFactory.create(this, Type.Platform.WEIXIN);
-            if(WechatAuthManager.getIWXAPI().isWXAppInstalled()){
+        if (v.getId() == R.id.btn_enter_wechat) {
+            WechatAuthManager factory = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);
+            if (WechatAuthManager.getIWXAPI().isWXAppInstalled()) {
                 WechatAuthManager.getIWXAPI().openWXApp();
             }
-        }else if(v.getId()==R.id.btn_wechat_close){
+        } else if (v.getId() == R.id.btn_wechat_close) {
             finish();
         }
     }

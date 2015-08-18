@@ -121,7 +121,7 @@ public interface SkillService {
     @Post(ApiConfig.Api.RMARK_ADD)
     void add_rmark(@Param("sid") long sid, @Param("content") String content,
                    @Param("pic") TypedBitmap pic,
-                   Callback<ToastResponse> callback);
+                   ToastCallback callback);
 
 
     @Post(ApiConfig.Api.REPORT)

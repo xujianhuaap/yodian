@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 import maimeng.yodian.app.client.android.BuildConfig;
-import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.common.ApacheHttpStack;
 import maimeng.yodian.app.client.android.network.common.GsonConverter;
