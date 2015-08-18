@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.utils.WebLauncherUtils;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
@@ -85,38 +86,34 @@ public class WebViewActivity extends AbstractActivity {
                 super.onPageFinished(view, url);
             }
         };
-        web.addJavascriptInterface(new YoDianJavaScript(this),"yodian");
+        web.addJavascriptInterface(new YoDianJavaScript(this,web),"yodian");
         web.setWebViewClient(webViewClient);
         web.loadUrl(imgth);
     }
 
     public static class YoDianJavaScript{
         private final Activity mContext;
-        public YoDianJavaScript(Activity context){
+        private final WebView web;
+
+        public YoDianJavaScript(Activity context, WebView web){
             this.mContext=context;
+            this.web=web;
         }
         @android.webkit.JavascriptInterface
         public boolean startActivity(final String url){
-            if(url==null)return false;
-            Uri uri = Uri.parse(url);
-            if(uri.getScheme().equalsIgnoreCase("intent")){
-                String _type=uri.getQueryParameter("ydtype");
-                String _id=uri.getQueryParameter("ydid");
-                if(!TextUtils.isEmpty(_type) && !TextUtils.isEmpty(_id)){
-                    int type=Integer.parseInt(_type);
-                    long id=Long.parseLong(_id);
-                    switch (type){
-                        case 0:
-                            mContext.startActivity(new Intent(mContext,UserHomeActivity.class).putExtra("uid",id));
-                            return true;
-                        case 1:
-                            mContext.startActivity(new Intent(mContext,SkillDetailsActivity.class).putExtra("sid", id));
-                            return true;
-                    }
-                }
-
-            }
-            return false;
+            return WebLauncherUtils.handler(mContext,url);
+        }
+        @android.webkit.JavascriptInterface
+        public boolean canBack(){
+            return web.canGoBack();
+        }
+        @android.webkit.JavascriptInterface
+        public void back(){
+            web.goBack();
+        }
+        @android.webkit.JavascriptInterface
+        public void close(){
+                mContext.finish();
         }
     }
 }
