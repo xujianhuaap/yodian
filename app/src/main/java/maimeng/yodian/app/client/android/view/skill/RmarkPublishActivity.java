@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -10,6 +11,9 @@ import android.inputmethodservice.InputMethodService;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,12 +43,14 @@ import maimeng.yodian.app.client.android.databinding.ActivityRmarkPublishBinding
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
- * Created by android on 15-8-6.
+ * 日记发布
  */
 public class RmarkPublishActivity extends AppCompatActivity implements View.OnClickListener,
         CheckBox.OnCheckedChangeListener {
@@ -60,12 +66,13 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     private File mFile;
     private SkillService mSkillService;
     private Skill mSkill;
+    private WaitDialog dialog;
 
-    public static void show(Context context, Skill skill) {
+    public static void show(Activity context, Skill skill, View backView, int requestCode) {
         Intent intent = new Intent();
         intent.putExtra("skill", skill);
         intent.setClass(context, RmarkPublishActivity.class);
-        context.startActivity(intent);
+        ActivityCompat.startActivityForResult(context, intent, requestCode, ActivityOptionsCompat.makeSceneTransitionAnimation(context, backView, "back").toBundle());
 
     }
 
@@ -77,11 +84,11 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
                 R.layout.activity_rmark_publish);
         mSkill = getIntent().getParcelableExtra("skill");
         mSkillService = Network.getService(SkillService.class);
-
+        ViewCompat.setTransitionName(mBinding.btnBack, "back");
         EditTextProxy editTextProxy = new EditTextProxy();
 
-        mBinding.fabGoback.setOnClickListener(this);
-        mBinding.fabSubmit.setOnClickListener(this);
+        mBinding.btnBack.setOnClickListener(this);
+        mBinding.btnDone.setOnClickListener(this);
         mBinding.btnCamera.setOnClickListener(this);
         mBinding.btnAlbum.setOnClickListener(this);
         mBinding.cheSelectPhoto.setOnCheckedChangeListener(this);
@@ -95,36 +102,32 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
         Bitmap bitmap = BitmapFactory.decodeFile(skill.getPic());
         if (bitmap != null) {
             TypedBitmap typedBitmap = new TypedBitmap.Builder(bitmap, 360, 360).build();
-            mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallBack());
+            mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
+                @Override
+                public void success(ToastResponse res, Response response) {
+                    super.success(res, response);
+                    if (mFile != null) mFile.deleteOnExit();
+                    mTempUri = null;
+                    if (res.isSuccess()) {
+                        setResult(RESULT_OK);
+                        ActivityCompat.finishAfterTransition(RmarkPublishActivity.this);
+                    }
+                }
+
+                @Override
+                public void start() {
+                    super.start();
+                    dialog = WaitDialog.show(RmarkPublishActivity.this);
+                }
+
+                @Override
+                public void end() {
+                    super.end();
+                    dialog.dismiss();
+                }
+            });
         }
 
-    }
-
-    private class ToastCallBack implements Callback<ToastResponse> {
-        @Override
-        public void start() {
-
-        }
-
-        @Override
-        public void success(ToastResponse toastResponse, Response response) {
-
-            if (toastResponse.isSuccess()) {
-                Toast.makeText(RmarkPublishActivity.this, "日记上传成功", Toast.LENGTH_SHORT).show();
-                mFile.delete();
-                mTempUri = null;
-            }
-        }
-
-        @Override
-        public void failure(HNetError hNetError) {
-            ErrorUtils.checkError(RmarkPublishActivity.this, hNetError);
-        }
-
-        @Override
-        public void end() {
-
-        }
     }
 
     /***
@@ -163,19 +166,18 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        if (v == mBinding.fabGoback) {
-            finish();
-        } else if (v == mBinding.fabSubmit) {
+        if (v == mBinding.btnBack) {
+            ActivityCompat.finishAfterTransition(this);
+        } else if (v == mBinding.btnDone) {
             if (mFile != null) {
-                String content = mBinding.editDiary.getText().toString();
-                if (content != null) {
+                Editable text = mBinding.editDiary.getText();
+                if (text != null) {
+                    String content = text.toString();
                     String path = mFile.getAbsolutePath();
-                    if (content != null && path != null) {
-                        Skill skill = new Skill();
-                        skill.setPic(path);
-                        skill.setContent(content);
-                        refresh(skill);
-                    }
+                    Skill skill = new Skill();
+                    skill.setPic(path);
+                    skill.setContent(content);
+                    refresh(skill);
                 } else {
                     Toast.makeText(this, "您还没编辑日记内容", Toast.LENGTH_SHORT).show();
                 }
