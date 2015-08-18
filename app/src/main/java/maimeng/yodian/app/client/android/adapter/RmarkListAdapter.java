@@ -16,14 +16,14 @@ import maimeng.yodian.app.client.android.model.User;
 /**
  * Created by android on 2015/7/28.
  */
-public class RmarkListAdapter extends AbstractListAdapter<Rmark>{
+public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
     private final User me;
     private final ActionListener listener;
 
-    public RmarkListAdapter(Context context,ActionListener listener) {
+    public RmarkListAdapter(Context context, ActionListener listener) {
         super(context);
-        me=User.read(context);
-        this.listener=listener;
+        me = User.read(context);
+        this.listener = listener;
     }
 
     @Override
@@ -34,18 +34,29 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if(convertView==null){
-            RmarkListItemBinding binding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.rmark_list_item, parent, false);
-            holder= new ViewHolder(binding);
-            convertView=binding.getRoot();
+        if (convertView == null) {
+            RmarkListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.rmark_list_item, parent, false);
+            holder = new ViewHolder(binding);
+            convertView = binding.getRoot();
             convertView.setTag(holder);
-        }else{
-            holder=(ViewHolder)convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-        holder.bind(getItem(position));
+        holder.bind(getItem(position), position);
         return convertView;
     }
+
     public class ViewHolder implements View.OnClickListener {
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        private int position;
+
         public RmarkListItemBinding getBinding() {
             return binding;
         }
@@ -57,26 +68,28 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark>{
         private final PropertyValuesHolder alpha;
         ObjectAnimator open;
         ObjectAnimator close;
-        boolean opened=false;
-        public ViewHolder(RmarkListItemBinding binding){
-            this.binding=binding;
-            translation=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -200f);
+        boolean opened = false;
 
-            alpha=PropertyValuesHolder.ofFloat(View.ALPHA, 0.8f, 1.0f);
+        public ViewHolder(RmarkListItemBinding binding) {
+            this.binding = binding;
+            translation = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -200f);
+
+            alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0.8f, 1.0f);
 
 
-            translation2=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -200f, 0f);
-            alpha2=PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f);
+            translation2 = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -200f, 0f);
+            alpha2 = PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f);
 
             binding.btnMenuMore.setOnClickListener(this);
             binding.btnMenuDelete.setOnClickListener(this);
             binding.btnMenuReport.setOnClickListener(this);
         }
-        public void bind(Rmark rmark){
-            this.binding.setRmark(rmark);
 
+        public void bind(Rmark rmark, int position) {
+            this.binding.setRmark(rmark);
+            this.position = position;
             reset();
-            if(rmark.getUid()==me.getUid()){
+            if (rmark.getUid() == me.getUid()) {
                 open = ObjectAnimator.ofPropertyValuesHolder(binding.btnMenuDelete, translation, alpha);
                 open.setDuration(binding.getRoot().getContext().getResources().getInteger(R.integer.duration));
 
@@ -84,7 +97,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark>{
                 close = ObjectAnimator.ofPropertyValuesHolder(binding.btnMenuDelete, translation2, alpha2);
                 close.setDuration(binding.getRoot().getContext().getResources().getInteger(R.integer.duration));
 
-            }else{
+            } else {
                 open = ObjectAnimator.ofPropertyValuesHolder(binding.btnMenuReport, translation, alpha);
                 open.setDuration(binding.getRoot().getContext().getResources().getInteger(R.integer.duration));
 
@@ -97,7 +110,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark>{
         }
 
         public void reset() {
-            opened=false;
+            opened = false;
             binding.btnMenuDelete.setTranslationX(0f);
             binding.btnMenuDelete.setAlpha(0f);
             binding.btnMenuReport.setTranslationX(0f);
@@ -106,37 +119,39 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark>{
 
         @Override
         public void onClick(View v) {
-            if(v==binding.btnMenuMore){
-                if(opened){
-                    opened=false;
+            if (v == binding.btnMenuMore) {
+                if (opened) {
+                    opened = false;
                     close.start();
-                }else {
-                    opened=true;
+                } else {
+                    opened = true;
                     open.start();
                 }
-            }else if(v==binding.btnMenuDelete){
+            } else if (v == binding.btnMenuDelete) {
                 listener.onDelete(this);
-                if(opened){
-                    opened=false;
+                if (opened) {
+                    opened = false;
                     close.start();
-                }else {
-                    opened=true;
+                } else {
+                    opened = true;
                     open.start();
                 }
-            }else if(v==binding.btnMenuReport){
+            } else if (v == binding.btnMenuReport) {
                 listener.onReport(this);
-                if(opened){
-                    opened=false;
+                if (opened) {
+                    opened = false;
                     close.start();
-                }else {
-                    opened=true;
+                } else {
+                    opened = true;
                     open.start();
                 }
             }
         }
     }
-    public interface ActionListener{
+
+    public interface ActionListener {
         void onDelete(ViewHolder holder);
+
         void onReport(ViewHolder holder);
     }
 }

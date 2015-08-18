@@ -81,15 +81,6 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTempla
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     ItemViewHolder.this.binding.skillImg.setImageBitmap(bitmap);
-                    new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
-                        @Override
-                        public void onGenerated(Palette palette) {
-                            Palette.Swatch swatch2 = palette.getMutedSwatch();
-                            if (swatch2 != null) {
-                                ItemViewHolder.this.binding.skillName.setTextColor(swatch2.getBodyTextColor());
-                            }
-                        }
-                    });
                 }
 
                 @Override

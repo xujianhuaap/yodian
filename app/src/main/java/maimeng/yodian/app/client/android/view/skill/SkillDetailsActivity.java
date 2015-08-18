@@ -3,14 +3,21 @@ package maimeng.yodian.app.client.android.view.skill;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
@@ -18,6 +25,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.AbsListView;
@@ -26,6 +34,8 @@ import android.widget.ImageView;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.ScrollDirectionListener;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -49,6 +59,7 @@ import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.common.loader.ImageLoader;
 import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
@@ -61,10 +72,9 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
-import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
-import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
 /**
  * Created by android on 2015/7/22.
@@ -74,7 +84,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private SkillService service;
     private long sid;
     private int page = 1;
-    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private RmarkListAdapter adapter;
     private Interpolator mSmoothInterpolator;
     private int mHeaderHeight;
@@ -138,7 +147,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         headBinding.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""),1);
+                ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""), 1);
             }
         });
         mPlaceHolderView = headBinding.getRoot();
@@ -187,14 +196,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.header.setTranslationY(posY);
             }
         });
-        ListLayoutManager layout = new ListLayoutManager(this);
-        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
-            @Override
-            public void onLoadMore() {
-                page++;
-                sync();
-            }
-        };
         binding.recyclerView.setAdapter(adapter);
 
         //mListView.setOnScrollListener();
@@ -252,11 +253,48 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 binding.btnContect.setText(R.string.btn_contact_ta);
             }
             binding.refreshLayout.autoRefresh();
+            if (android.os.Build.VERSION.SDK_INT >= 21) {
+//                setStatuBarColor();
+            }
         } else {
             sid = getIntent().getLongExtra("sid", 0);
             binding.refreshLayout.autoRefresh();
         }
+    }
 
+    public void setStatuBarColor() {
+        ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                if (bitmap != null) {
+                    new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
+                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void onGenerated(Palette palette) {
+                            Palette.Swatch vibrant = palette.getVibrantSwatch();
+
+                            if (vibrant != null) {
+                                Window window = getWindow();
+                                // 很明显，这两货是新API才有的。
+                                window.setStatusBarColor(colorBurn(vibrant.getRgb()));
+                                window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                            }
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
     }
 
     private void setTitleAlpha(float alpha) {
@@ -319,6 +357,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+        page = 1;
         sync();
     }
 
@@ -359,13 +398,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 headBinding.price.setText(text);
                 binding.price.setText(text);
                 binding.titlePrice.setText(text);
+                if (android.os.Build.VERSION.SDK_INT >= 21) {
+//                    setStatuBarColor();
+                }
             }
             if (isMe) {
-                if (list.size() > 0) {
+                binding.recyclerView.removeHeaderView(noSkillRmark);
+                if (list.size() > 0 || page > 1) {
                 } else {
                     ////pic_no_skill_rmark
                     if (isMe) {
-                        binding.recyclerView.removeHeaderView(noSkillRmark);
                         binding.recyclerView.addHeaderView(noSkillRmark);
                     }
                 }
@@ -387,6 +429,17 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         dialog.dismiss();
         binding.refreshLayout.refreshComplete();
 
+    }
+
+    private int colorBurn(int RGBValues) {
+        int alpha = RGBValues >> 24;
+        int red = RGBValues >> 16 & 0xFF;
+        int green = RGBValues >> 8 & 0xFF;
+        int blue = RGBValues & 0xFF;
+        red = (int) Math.floor(red * (1 - 0.1));
+        green = (int) Math.floor(green * (1 - 0.1));
+        blue = (int) Math.floor(blue * (1 - 0.1));
+        return Color.rgb(red, green, blue);
     }
 
     @Override
@@ -419,12 +472,14 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                     robot.setUsername(chatLoginName);
                     robot.setNick(skill.getNickname());
                     robot.setAvatar(skill.getAvatar());
+                    robot.setWechat(skill.getWeichat());
 
                     maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
                     user.setId(skill.getUid() + "");
                     user.setUsername(chatLoginName);
                     user.setNick(skill.getNickname());
                     user.setAvatar(skill.getAvatar());
+                    user.setWechat(skill.getWeichat());
                     // 存入内存
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
@@ -441,21 +496,69 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     }
 
     @Override
-    public void onDelete(RmarkListAdapter.ViewHolder holder) {
-        service.delete_rmark(holder.getBinding().getRmark().getScid(), new ToastCallback(this) {
+    public void onDelete(final RmarkListAdapter.ViewHolder holder) {
+
+        AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
             @Override
-            public void success(ToastResponse res, Response response) {
-                super.success(res, response);
-                if (res.isSuccess()) {
-                    adapter.notifyDataSetChanged();
-                }
+            public void onPositiveClick(final DialogInterface dialog) {
+                dialog.dismiss();
+                service.delete_rmark(holder.getBinding().getRmark().getScid(), new ToastCallback(SkillDetailsActivity.this) {
+                    @Override
+                    public void success(ToastResponse res, Response response) {
+                        super.success(res, response);
+                        if (res.isSuccess()) {
+                            adapter.remove(holder.getPosition());
+                        }
+                    }
+                });
             }
-        });
+
+            @Override
+            public String positiveText() {
+                return getResources().getString(android.R.string.ok);
+            }
+        }).setNegativeListener(new AlertDialog.NegativeListener() {
+            @Override
+            public void onNegativeClick(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public String negativeText() {
+                return getResources().getString(android.R.string.cancel);
+            }
+        }).show(getFragmentManager(), "delete_dialog");
+
+
     }
 
     @Override
-    public void onReport(RmarkListAdapter.ViewHolder holder) {
-        Network.getService(CommonService.class).report(2, 0, holder.getBinding().getRmark().getScid(), 0, new ToastCallback(this));
+    public void onReport(final RmarkListAdapter.ViewHolder holder) {
+
+        AlertDialog.newInstance("提示", "确定要举报吗?").setPositiveListener(new AlertDialog.PositiveListener() {
+            @Override
+            public void onPositiveClick(final DialogInterface dialog) {
+                dialog.dismiss();
+                Network.getService(CommonService.class).report(2, 0, holder.getBinding().getRmark().getScid(), 0, new ToastCallback(SkillDetailsActivity.this));
+            }
+
+            @Override
+            public String positiveText() {
+                return getResources().getString(android.R.string.ok);
+            }
+        }).setNegativeListener(new AlertDialog.NegativeListener() {
+            @Override
+            public void onNegativeClick(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public String negativeText() {
+                return getResources().getString(android.R.string.cancel);
+            }
+        }).show(getFragmentManager(), "delete_dialog");
+
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

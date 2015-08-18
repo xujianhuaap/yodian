@@ -23,10 +23,7 @@ import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 /**
  * Created by android on 15-7-13.
  */
-public abstract class AbstractActivity extends AppCompatActivity implements EMConnectionListener {
-    private FrameLayout mContent;
-    private TextView mTitle;
-    protected Toolbar mToolBar;
+public abstract class AbstractActivity extends maimeng.yodian.app.client.android.chat.AbstractActivity implements EMConnectionListener {
     private AlertDialog dialog;
 
     @SuppressWarnings("ConstantConditions")
@@ -73,7 +70,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
 
     private void onConnectionConflict() {
         if (dialog == null) {
-            dialog = AlertDialog.newInstance("提示", getString(maimeng.yodian.app.client.android.chat.R.string.connect_conflict));
+            dialog = AlertDialog.newInstance("提示", getString(maimeng.yodian.app.client.android.R.string.connect_conflict));
             dialog.setPositiveListener(new AlertDialog.PositiveListener() {
                 @Override
                 public void onPositiveClick(DialogInterface d) {
@@ -101,54 +98,5 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
 
     }
 
-    @Override
-    protected void onTitleChanged(CharSequence title, int color) {
-        super.onTitleChanged(title, color);
-        if (mTitle != null) mTitle.setText(title);
-    }
 
-    public void setContentView(View view, boolean showTitle) {
-        if (showTitle) {
-            setContentView(view);
-        } else {
-            super.setContentView(view);
-        }
-    }
-
-    public void setContentView(int layoutResID, boolean showTitle) {
-        if (showTitle) {
-            setContentView(layoutResID);
-        } else {
-            super.setContentView(layoutResID);
-        }
-    }
-
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        mContent = (FrameLayout) findViewById(R.id.base_content);
-        mTitle = (TextView) findViewById(R.id.base_title);
-        mToolBar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolBar != null) {
-            mToolBar.setTitle("");
-            setSupportActionBar(mToolBar);
-
-        }
-        mContent.removeAllViews();
-        mContent.addView(view);
-    }
-
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(R.layout.activity_base);
-        mContent = (FrameLayout) findViewById(R.id.base_content);
-        mTitle = (TextView) findViewById(R.id.base_title);
-        mToolBar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolBar != null) {
-            mToolBar.setTitle("");
-            setSupportActionBar(mToolBar);
-
-        }
-        getLayoutInflater().inflate(layoutResID, mContent, true);
-    }
 }

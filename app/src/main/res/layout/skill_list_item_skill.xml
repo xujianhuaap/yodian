@@ -76,7 +76,7 @@
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
                         android:src="@drawable/pic_skill_state_xiajia"
-                        android:visibility="@{skill.isXiaJia?View.VISIBLE:View.GONE}" />
+                        android:visibility="@{skill.status != 0?View.VISIBLE:View.GONE}" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimaryDark2"
                     android:gravity="center"
-                    android:text="@{skill.isXiaJia?@string/status_shangjia:@string/status_xiajia}" />
+                    android:text="@{skill.status != 0?@string/status_shangjia:@string/status_xiajia}" />
 
                 <TextView
                     android:id="@+id/btn_delete"

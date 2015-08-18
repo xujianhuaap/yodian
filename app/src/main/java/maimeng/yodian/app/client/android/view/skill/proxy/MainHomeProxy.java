@@ -165,6 +165,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == ActivityProxyController.REQUEST_CREATE_SKILL) {
                 init();
+                mActivity.startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtras(data));
             } else if (requestCode == REQUEST_AUTH) {
                 init();
             } else if (requestCode == ActivityProxyController.REQUEST_EDIT_SKILL) {
@@ -317,7 +318,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         final Skill skill = holder.getData();
         if (clickItem == holder.getBinding().btnShare) {
             Skill data = skill;
-            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""),1);
+            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
         } else if (clickItem == holder.getBinding().btnUpdate) {
             Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
             intent.putExtra("skill", skill);
@@ -325,15 +326,42 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
             mEditPostion = postion;
             holder.closeWithAnim();
         } else if (clickItem == holder.getBinding().btnDelete) {
-            service.delete(skill.getId(), new ToastCallback(mActivity) {
+            AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
                 @Override
-                public void success(ToastResponse res, Response response) {
-                    super.success(res, response);
-                    if (res.isSuccess()) {
-                        adapter.remove(postion);
-                    }
+                public void onPositiveClick(final DialogInterface dialog) {
+                    dialog.dismiss();
+                    service.delete(skill.getId(), new ToastCallback(mActivity) {
+                        @Override
+                        public void success(ToastResponse res, Response response) {
+                            super.success(res, response);
+                            if (res.isSuccess()) {
+                                adapter.remove(postion);
+                            }
+                        }
+
+                        @Override
+                        public void end() {
+                            super.end();
+                        }
+                    });
                 }
-            });
+
+                @Override
+                public String positiveText() {
+                    return mActivity.getResources().getString(android.R.string.ok);
+                }
+            }).setNegativeListener(new AlertDialog.NegativeListener() {
+                @Override
+                public void onNegativeClick(DialogInterface dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public String negativeText() {
+                    return mActivity.getResources().getString(android.R.string.cancel);
+                }
+            }).show(mActivity.getFragmentManager(), "delete_dialog");
+
         } else if (clickItem == holder.getBinding().btnChangeState) {
             service.up(skill.getId(), skill.getStatus(), new ToastCallback(mActivity) {
                 @Override
@@ -398,8 +426,8 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     @Override
     public void onClick(final View v) {
-        if(User.read(mActivity).getWechat()==null){
-            AlertDialog.newInstance("提示","你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
+        if (User.read(mActivity).getWechat() == null) {
+            AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
                 @Override
                 public void onPositiveClick(DialogInterface dialog) {
                     Pair<View, String> avatar = Pair.create(v, "avatar");
@@ -414,18 +442,13 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
                 }
             }).show(mActivity.getFragmentManager(), "");
 
-        } else{
+        } else {
 
             Pair<View, String> top = Pair.create(v, "top");
             Pair<View, String> floatbutton = Pair.create((View) mFloatButton, "floatbutton");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
-            ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL,options.toBundle());
+            ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
         }
-
-
-
-
-
 
 
     }

@@ -1,6 +1,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">优点</string>
     <string name="NA">N/A</string>
+    <string name="title_settings_user_info">设置信息</string>
     <string name="action_settings">设置</string>
     <string name="lable_nickname">用户昵称</string>
     <string name="lable_report">举报</string>
@@ -50,16 +51,6 @@
     <string name="status_shangjia">上架</string>
     <string name="feedback_item_user_lable">您说:</string>
     <string name="feedback_item_dev_lable">:官方</string>
-
-
-    <eat-comment>chat</eat-comment>
-    <string name="location_recv">[%1$s的位置]</string>
-    <string name="location_prefix">[我的位置]</string>
-    <string name="picture">[图片]</string>
-    <string name="video">[视频]</string>
-    <string name="file">[文件]</string>
-    <string name="voice">[声音]</string>
-    <string name="voice_call">[语音通话]</string>
 
     <!--日記預覽-->
     <string name="skill_preview_title_bar"> 预 览</string>

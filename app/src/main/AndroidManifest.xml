@@ -28,7 +28,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
+        <service android:name=".chat.AsyncContactService" />
         <activity
             android:name=".view.splash.DefaultActivity"
             android:screenOrientation="nosensor" />
@@ -50,6 +50,8 @@
             android:launchMode="singleTask">
 
         </activity>
+        <activity android:name=".chat.activity.ChatActivity"/>
+        <activity android:name=".view.dialog.ContactDialog"/>
         <activity android:name=".view.auth.AuthActivity" />
         <activity android:name=".view.WebViewActivity" />
         <activity android:name=".view.user.UserHomeActivity" />
@@ -60,7 +62,7 @@
         <activity
             android:name=".view.skill.SkillTemplateActivity"
             android:theme="@style/AppThemeTransparent" />
-        <activity android:name=".view.user.SettingUserInfo" />
+        <activity android:name=".view.user.SettingUserInfo" android:label="@string/title_settings_user_info" />
         <activity
             android:name=".view.skill.SkillPreviewActivity"
             android:theme="@style/AppThemeTransparent"
@@ -75,6 +77,7 @@
             android:label="@string/lable_feedback" />
         <activity
             android:name=".view.SettingsActivity"
+            android:label="@string/action_settings"
             android:theme="@style/AppThemeSettings" />
         <activity
             android:name=".view.chat.ChatMainActivity"
@@ -229,6 +232,26 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
+        <!--chat-->
+        <!-- 显示下载大图页面 -->
+        <activity
+            android:name=".chat.activity.ShowBigImage"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"></activity>
+        <!-- 下载文件 -->
+        <activity
+            android:name=".chat.activity.ShowNormalFileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"></activity>
+        <!-- 自定义的contextmenu -->
+        <activity
+            android:name=".chat.activity.ContextMenu"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyle"></activity>
+        <!-- 自定义的alertdialog -->
+        <activity
+            android:name=".chat.activity.AlertDialog"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyle"></activity>
     </application>
-
 </manifest>

@@ -1,5 +1,4 @@
-include ':app', ':yodian_common'
+include ':app', ':yodian_common',':PhotoPicker'
 def app=project(':app')
 app.name='yodian_app'
 app.projectDir=new File(settingsDir,'app')
-include ':chat_plugin'

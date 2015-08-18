@@ -2,8 +2,10 @@
 
 buildscript {
     repositories {
-        jcenter { url JCENTER_URL }
-        maven { url SONATYPE_URL }
+//        jcenter { url JCENTER_URL }
+//        maven { url SONATYPE_URL }
+        maven { url 'https://dl.bintray.com/henjue/maven'}
+        jcenter()
     }
     dependencies {
 //        classpath 'com.android.tools.build:gradle:1.2.3'
@@ -16,8 +18,9 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter { url JCENTER_URL }
-        maven { url SONATYPE_URL }
+//        jcenter { url JCENTER_URL }
+//        maven { url SONATYPE_URL }
         maven { url 'https://dl.bintray.com/henjue/maven'}
+        jcenter()
     }
 }

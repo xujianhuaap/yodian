@@ -69,9 +69,8 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     private String targetNickname;
     private String title;
     private String redirect_url;
-    private boolean end=false;
+    private boolean end = false;
     private boolean releaseOk;
-
 
 
     private YApplication app;
@@ -114,17 +113,17 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         private final Skill skill;
 
         /**
-         *  @param redirect_url
+         * @param redirect_url
          * @param targetUid
          * @param targetNickname
          * @param reportContent
          * @param skill
          */
-        public ShareParams(Skill skill,String redirect_url, long targetUid, String targetNickname, String reportContent) {
-            this.redirect_url=redirect_url;
-            this.targetNickname=targetNickname;
+        public ShareParams(Skill skill, String redirect_url, long targetUid, String targetNickname, String reportContent) {
+            this.redirect_url = redirect_url;
+            this.targetNickname = targetNickname;
             this.targetUid = targetUid;
-            this.skill=skill;
+            this.skill = skill;
             this.reportContent = reportContent;
         }
     }
@@ -132,18 +131,18 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     // modify by xu 08-12
 
-    public static ShareDialog show(Activity context, ShareParams params,int type) {
-        ShareDialog shareDialog=newInstance(params);
+    public static ShareDialog show(Activity context, ShareParams params, int type) {
+        ShareDialog shareDialog = newInstance(params);
         shareDialog.show(context.getFragmentManager(), "sharedialog");
-        shareDialog.type=type;
+        shareDialog.type = type;
         return shareDialog;
     }
 
-    public static ShareDialog show(Activity context, ShareParams params,boolean releaseOk,int type) {
-        ShareDialog shareDialog=newInstance(params);
+    public static ShareDialog show(Activity context, ShareParams params, boolean releaseOk, int type) {
+        ShareDialog shareDialog = newInstance(params);
         shareDialog.show(context.getFragmentManager(), "sharedialog");
-        shareDialog.releaseOk=releaseOk;
-        shareDialog.type=type;
+        shareDialog.releaseOk = releaseOk;
+        shareDialog.type = type;
         return shareDialog;
     }
 
@@ -157,11 +156,11 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         File yodianDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "yodian");
-        if(!yodianDir.exists()){
+        if (!yodianDir.exists()) {
             yodianDir.mkdirs();
         }
-        tempFile=new File(yodianDir,System.currentTimeMillis()+".png");
-        if(!tempFile.exists()){
+        tempFile = new File(yodianDir, System.currentTimeMillis() + ".png");
+        if (!tempFile.exists()) {
             try {
                 tempFile.createNewFile();
             } catch (IOException e) {
@@ -170,13 +169,14 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         }
 //        getDialog().getWindow().getAttributes().windowAnimations = R.style.ShareDialogAnimation;
         View inflate = inflater.inflate(R.layout.pop_share_view, container, false);
-        if(releaseOk){
+        if (releaseOk) {
             inflate.findViewById(R.id.release_ok).setVisibility(View.VISIBLE);
         }
 
         ButterKnife.bind(this, inflate);
         return inflate;
     }
+
     /**
      * @param params Options
      */
@@ -184,7 +184,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         ShareDialog dialog = new ShareDialog();
         Bundle args = new Bundle();
         Skill skill = params.skill;
-        StringBuffer title=new StringBuffer();
+        StringBuffer title = new StringBuffer();
         title.append("【");
         title.append(params.targetNickname);
         title.append("】");
@@ -201,6 +201,21 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         dialog.setArguments(args);
         return dialog;
     }
+
+    public interface Listener {
+        void onClose();
+    }
+
+    public Listener getListener() {
+        return listener;
+    }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    private Listener listener;
+
     private File tempFile;
     private Bitmap QRCodeBitmap;
 
@@ -208,37 +223,37 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle args = getArguments();
-        skill=args.getParcelable("skill");
+        skill = args.getParcelable("skill");
         targetUid = args.getLong("targetUid");
         title = args.getString("title");
         redirect_url = args.getString("redirect_url");
         reportContent = args.getString("reportContent");
         targetNickname = args.getString("targetNickname");
-        if(skill.getPic()!=null && (skill.getPic().startsWith("http") || skill.getPic().startsWith("ftp"))){
-            Toast.makeText(getActivity(),"正在分享路上...",Toast.LENGTH_SHORT).show();
+        if (skill.getPic() != null && (skill.getPic().startsWith("http") || skill.getPic().startsWith("ftp"))) {
+            Toast.makeText(getActivity(), "正在分享路上...", Toast.LENGTH_SHORT).show();
             Network.image(getActivity(), skill.getPic(), this);
-        }else{
-            end=true;
+        } else {
+            end = true;
         }
-        if (User.read(getActivity()).getUid()!= targetUid) {
+        if (User.read(getActivity()).getUid() != targetUid) {
             mReport.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             ((View) mReport.getParent()).setVisibility(View.GONE);
             mContent.setRowCount(1);
         }
-        int size=getResources().getDimensionPixelSize(R.dimen.qrcode_size);
-        int left=getResources().getDimensionPixelSize(R.dimen.qrcode_left);
-        int top=getResources().getDimensionPixelSize(R.dimen.qrcode_top);
+        int size = getResources().getDimensionPixelSize(R.dimen.qrcode_size);
+        int left = getResources().getDimensionPixelSize(R.dimen.qrcode_left);
+        int top = getResources().getDimensionPixelSize(R.dimen.qrcode_top);
         QRCode from = QRCode.from(skill.getQrcodeUrl());
-        from.withSize(size,size);
+        from.withSize(size, size);
         Bitmap qrcode = from.bitmap();
 
         Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.fingerprint_bg);
         Bitmap bg = temp.copy(temp.getConfig(), true);
         temp.recycle();
         QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight(), Bitmap.Config.RGB_565);
-        Canvas can=new Canvas(QRCodeBitmap);
-        can.drawBitmap(bg,0,0,new Paint());
+        Canvas can = new Canvas(QRCodeBitmap);
+        can.drawBitmap(bg, 0, 0, new Paint());
         can.drawBitmap(qrcode, left, top, new Paint());
 
         shareView = view.findViewById(R.id.eee);
@@ -253,7 +268,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         TextView nickname=(TextView) shareView.findViewById(R.id.tv_nickname);
 
 
-        Network.image(avater,skill.getAvatar());
+        Network.image(avater, skill.getAvatar());
         ImageLoader.image(contentPic, skill.getPic());
         shareBrand.setImageBitmap(QRCodeBitmap);
         shareBrand.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -265,14 +280,10 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         nickname.setText(skill.getNickname());
 
 
-
-
-
-
     }
 
 
-    public static Bitmap convertViewToBitmap(View view){
+    public static Bitmap convertViewToBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
@@ -280,8 +291,9 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         view.buildDrawingCache();
         Bitmap bitmap = view.getDrawingCache();
 
-         return bitmap;
+        return bitmap;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -292,9 +304,12 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if(tempFile!=null)tempFile.deleteOnExit();
-
+        if (tempFile != null) tempFile.deleteOnExit();
+        if (this.listener != null) {
+            this.listener.onClose();
+        }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -304,12 +319,12 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     @OnClick(R.id.qqRoom)
     public void qzone(final View v) {
-        IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.QQ );
-        String imgPath=skill.getPic();
-        if(imgPath!=null&&imgPath.startsWith("file://")){
-            imgPath=Uri.parse(skill.getPic()).getPath();
+        IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.QQ);
+        String imgPath = skill.getPic();
+        if (imgPath != null && imgPath.startsWith("file://")) {
+            imgPath = Uri.parse(skill.getPic()).getPath();
         }
-        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, imgPath),0/*,this*/);
+        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, imgPath), 0/*,this*/);
     }
 
     @OnClick(R.id.report)
@@ -317,20 +332,20 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         scid = 0;
         sid = 0;
         rid = 0;
-        switch (type){
+        switch (type) {
             case 1:
-                sid =skill.getId();
+                sid = skill.getId();
                 break;
             case 2:
-                if(rmark!=null)
-                scid =rmark.getId();
+                if (rmark != null)
+                    scid = rmark.getId();
                 break;
             case 3:
-                rid =skill.getUid();
+                rid = skill.getUid();
                 break;
         }
 
-        AlertDialog alertDialog=AlertDialog.newInstance("","你确定要举报吗？").setNegativeListener(new AlertDialog.NegativeListener() {
+        AlertDialog alertDialog = AlertDialog.newInstance("", "你确定要举报吗？").setNegativeListener(new AlertDialog.NegativeListener() {
             @Override
             public void onNegativeClick(DialogInterface dialog) {
                 dialog.dismiss();
@@ -343,8 +358,8 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         }).setPositiveListener(new AlertDialog.PositiveListener() {
             @Override
             public void onPositiveClick(DialogInterface dialog) {
-                SkillService skillService=Network.getService(SkillService.class);
-                skillService.report(type, scid, sid, rid,new ToastCallback(getActivity()));
+                SkillService skillService = Network.getService(SkillService.class);
+                skillService.report(type, scid, sid, rid, new ToastCallback(getActivity()));
             }
 
             @Override
@@ -352,7 +367,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
                 return "确定";
             }
         });
-        alertDialog.show(getFragmentManager(),"");
+        alertDialog.show(getFragmentManager(), "");
 
     }
 
@@ -361,25 +376,24 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         shareBitmap=convertViewToBitmap(shareView);
         StringBuffer content=new StringBuffer();
         content.append(title).append(skill.getPrice()).append(skill.getUnit()).append("@优点APP");
-        IShareManager iShareManager= ShareFactory.create(getActivity(), Type.Platform.WEIBO);
+        IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIBO);
         iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, shareBitmap), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
     }
 
     @OnClick({R.id.fridens, R.id.weixin})
     public void ShareToWeiXin(View v) {
-        if(!end){
-            Toast.makeText(getActivity(),"还未准备完成，请稍后...",Toast.LENGTH_SHORT).show();
+        if (!end) {
+            Toast.makeText(getActivity(), "还未准备完成，请稍后...", Toast.LENGTH_SHORT).show();
             return;
         }
 
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIXIN);
-        if(v.getId() == R.id.weixin){
-            iShareManager.share(new MessageWebpage(title,skill.getContent(),redirect_url, tempFile.toString()),WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
-        }else{
-            iShareManager.share(new MessagePic(QRCodeBitmap),WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
+        if (v.getId() == R.id.weixin) {
+            iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.toString()), WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
+        } else {
+            iShareManager.share(new MessagePic(QRCodeBitmap), WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
         }
     }
-
 
 
     private void showMessage(Context context, String message) {
@@ -390,12 +404,13 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         Activity context = getActivity();
         showMessage(context, message);
     }
+
     @Override
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         try {
-            bitmap.compress(Bitmap.CompressFormat.PNG,100,new FileOutputStream(tempFile));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(tempFile));
             skill.setPic(tempFile.toString());
-            end=true;
+            end = true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

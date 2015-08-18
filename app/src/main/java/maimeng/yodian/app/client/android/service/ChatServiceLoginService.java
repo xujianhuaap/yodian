@@ -59,7 +59,6 @@ public class ChatServiceLoginService extends Service {
             public void onSuccess() {
                 // 登陆成功，保存用户名密码
                 DemoApplication.getInstance().setUserName(currentUsername);
-
                 try {
 
                     UserDao userDao = new UserDao(ChatServiceLoginService.this);
@@ -103,7 +102,7 @@ public class ChatServiceLoginService extends Service {
                 } catch (Exception e) {
                     e.printStackTrace();
                     DemoApplication.getInstance().logout(null);
-                    log(maimeng.yodian.app.client.android.chat.R.string.login_failure_failed);
+                    log(maimeng.yodian.app.client.android.R.string.login_failure_failed);
                     return;
                 }
                 // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
@@ -120,7 +119,7 @@ public class ChatServiceLoginService extends Service {
 
             @Override
             public void onError(final int code, final String message) {
-                log(maimeng.yodian.app.client.android.chat.R.string.login_failure_failed, message);
+                log(maimeng.yodian.app.client.android.R.string.login_failure_failed, message);
             }
         });
 

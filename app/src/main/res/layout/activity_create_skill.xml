@@ -134,31 +134,59 @@
                     android:text="0/200"
                     android:textColor="#55000000" />
 
-                <EditText
-                    android:id="@+id/skill_price"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#eeeeee"
-                    android:hint="@string/create_skill_price"
-                    android:singleLine="true"
-                    android:text="@{template.price}"
-                    android:textColor="#000"
-                    android:textColorHint="#55000000" />
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="价格"
+                        android:textColor="#000" />
 
-                <EditText
-                    android:id="@+id/skill_unit"
+                    <EditText
+                        android:id="@+id/skill_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/create_skill_price"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:text="@{template.price}"
+                        android:textColor="#000"
+                        android:textColorHint="#55000000" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#eeeeee"
-                    android:hint="@string/create_skill_unit"
-                    android:maxLength="4"
-                    android:singleLine="true"
-                    android:text="@{template.unit}"
-                    android:textColor="#000"
-                    android:textColorHint="#55000000" />
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="单位"
+                        android:textColor="#000" />
+
+                    <EditText
+                        android:id="@+id/skill_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/create_skill_unit"
+                        android:maxLength="4"
+                        android:singleLine="true"
+                        android:text="@{template.unit}"
+                        android:textColor="#000"
+                        android:textColorHint="#55000000" />
+                </LinearLayout>
             </com.zhy.android.percent.support.PercentLinearLayout>
         </ScrollView>
 

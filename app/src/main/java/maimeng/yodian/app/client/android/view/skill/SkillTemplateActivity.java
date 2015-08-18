@@ -141,7 +141,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ActivityProxyController.REQUEST_CREATE_SKILL) {
             if (resultCode == RESULT_OK) {
-                setResult(RESULT_OK);
+                setResult(RESULT_OK, data);
                 finish();
             }
         }
