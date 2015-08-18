@@ -233,6 +233,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     public void success(ModifyUserResponse res, Response response) {
         res.showMessage(this);
         if (res.isSuccess()) {
+            user.setAvatar(res.getData().getAvatar());
             user.write(this);
             setResult(RESULT_OK);
             finish();
