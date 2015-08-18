@@ -6,40 +6,40 @@
 
         <variable
             name="skill"
-            type="maimeng.yodian.app.client.android.common.model.Skill" />
+            type="maimeng.yodian.app.client.android.model.Skill" />
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <FrameLayout
+            android:id="@+id/fra_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:id="@+id/fra_title"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/colorPrimaryDark"
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_height="@dimen/skill_preview_tv_title_height"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/skill_preview_tv_title_height"
                 android:gravity="center"
                 android:text="@string/skill_preview_title_bar"
-                android:textSize="@dimen/tex_size_large"
                 android:textColor="@android:color/white"
-              />
+                android:textSize="@dimen/tex_size_large" />
+
             <ImageView
                 android:id="@+id/iv_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:padding="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/ic_share"/>
+                android:padding="5dp"
+                android:src="@drawable/ic_share" />
 
         </FrameLayout>
-
 
 
         <android.support.design.widget.CoordinatorLayout
@@ -50,28 +50,27 @@
                 android:id="@+id/swipe_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rec_diary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-                </android.support.v7.widget.RecyclerView>
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v7.widget.RecyclerView>
 
             </android.support.v4.widget.SwipeRefreshLayout>
-
 
 
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/fab_goback"
                 android:layout_width="@dimen/floating_btn_width"
                 android:layout_height="@dimen/floating_btn_height"
-                android:layout_marginLeft="@dimen/floating_btn_margin"
                 android:layout_marginBottom="@dimen/floating_btn_margin"
+                android:layout_marginLeft="@dimen/floating_btn_margin"
                 android:src="@drawable/btn_back"
                 app:fab_colorNormal="@color/float_colorNormal"
                 app:fab_colorPressed="@color/float_colorPressed"
-                app:layout_anchorGravity="bottom|left"
-                app:layout_anchor="@+id/rec_diary" />
+                app:layout_anchor="@+id/rec_diary"
+                app:layout_anchorGravity="bottom|left" />
 
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/btn_done"
@@ -83,7 +82,6 @@
                 app:fab_colorNormal="@color/float_colorPressed"
                 app:fab_colorPressed="@color/float_colorNormal"
                 app:fab_colorRipple="@color/float_colorRipple"></com.melnykov.fab.FloatingActionButton>
-
 
 
         </android.support.design.widget.CoordinatorLayout>

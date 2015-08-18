@@ -4,17 +4,17 @@ apply from: 'signing_config.gradle'
 apply from: 'apk.gradle'
 apply from: 'check.gradle'
 android {
-    sourceSets{
+    sourceSets {
         main.java.srcDirs += 'src/chat/java'
         main.res.srcDirs += 'src/chat/res'
         main.jniLibs.srcDirs += 'src/chat/jniLibs'
     }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-//    lintOptions {
-//        abortOnError false
-//        disable 'InvalidPackage'
-//    }
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
     aaptOptions {
         ignoreAssetsPattern "!.svn:!.git:!.ds_store:!*.scc:.*:<dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"
     }
@@ -70,7 +70,6 @@ dependencies {
     compile(name: 'fb-5.3.0', ext: 'aar') {
         exclude module: 'message', group: 'com.umeng'
     }
-    compile project(':yodian_common')
     compile project(':PhotoPicker')
 }
 dependencies {
@@ -82,6 +81,10 @@ dependencies {
     compile 'com.android.support:design:22.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.7'
+    compile 'org.henjue.library:hnet:1.0.0_beta2'
 
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.jakewharton:butterknife:7.0.1'

@@ -16,31 +16,31 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.model.Skill;
 import maimeng.yodian.app.client.android.databinding.RmarkListItemBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPreviewDiaryBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
+import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.model.User;
 
 /**
  * Created by android on 15-8-7.
  */
-public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewHolder> {
+public class RmarkAdapter extends AbstractHeaderAdapter<Rmark, RmarkAdapter.ViewHolder> {
     private ViewHolderClickListener<RmarkAdapter.ViewHolder> mViewHolderClickListener;
     private Skill mSkill;
     private User me;
-    private final int TYPE_HEADER=232;
-    private final int TYPE_NORMAL=234;
-    private  int SCREEN_WIDTH;
-    private  Spanned priceText=null;
+    private final int TYPE_HEADER = 232;
+    private final int TYPE_NORMAL = 234;
+    private int SCREEN_WIDTH;
+    private Spanned priceText = null;
 
 
-    public RmarkAdapter(Context context,Skill skill, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
+    public RmarkAdapter(Context context, Skill skill, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
-        me=User.read(mContext);
-        SCREEN_WIDTH=mContext.getResources().getDisplayMetrics().widthPixels;
-        mViewHolderClickListener=viewHolderClickListener;
-        mSkill=skill;
+        me = User.read(mContext);
+        SCREEN_WIDTH = mContext.getResources().getDisplayMetrics().widthPixels;
+        mViewHolderClickListener = viewHolderClickListener;
+        mSkill = skill;
     }
 
     public RmarkAdapter(Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
@@ -52,18 +52,17 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
     }
 
 
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        if(position==0){
-            HeaderViewHolder viewHolder=(HeaderViewHolder)holder;
+        if (position == 0) {
+            HeaderViewHolder viewHolder = (HeaderViewHolder) holder;
             viewHolder.binding.setSkill(mSkill);
-            priceText= Html.fromHtml(mContext.getResources().getString(R.string.lable_price, mSkill.getPrice(), mSkill.getUnit()));
+            priceText = Html.fromHtml(mContext.getResources().getString(R.string.lable_price, mSkill.getPrice(), mSkill.getUnit()));
             viewHolder.binding.price.setText(priceText);
-        }else{
-            Rmark rmark=(Rmark)getItem(position);
-            NormalViewHolder viewHolder=(NormalViewHolder)holder;
+        } else {
+            Rmark rmark = (Rmark) getItem(position);
+            NormalViewHolder viewHolder = (NormalViewHolder) holder;
             viewHolder.bind(rmark);
             viewHolder.binding.setRmark(rmark);
         }
@@ -73,12 +72,12 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType==TYPE_HEADER){
-            ViewHeaderPreviewDiaryBinding headerBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_header_preview_diary, parent, false);
-            HeaderViewHolder viewHolder=new HeaderViewHolder(headerBinding);
+        if (viewType == TYPE_HEADER) {
+            ViewHeaderPreviewDiaryBinding headerBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_header_preview_diary, parent, false);
+            HeaderViewHolder viewHolder = new HeaderViewHolder(headerBinding);
             return viewHolder;
-        }else{
-            RmarkListItemBinding binding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.rmark_list_item, parent, false);
+        } else {
+            RmarkListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.rmark_list_item, parent, false);
             return new NormalViewHolder(binding);
         }
 
@@ -87,27 +86,29 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        if(position==0){
+        if (position == 0) {
             return TYPE_HEADER;
         }
         return TYPE_NORMAL;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
         }
     }
-    public final class HeaderViewHolder extends ViewHolder{
+
+    public final class HeaderViewHolder extends ViewHolder {
         public final ViewHeaderPreviewDiaryBinding binding;
 
-        public HeaderViewHolder( ViewHeaderPreviewDiaryBinding binding) {
+        public HeaderViewHolder(ViewHeaderPreviewDiaryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.pic.setLayoutParams(new FrameLayout.LayoutParams(SCREEN_WIDTH,SCREEN_WIDTH*4/5));
+            binding.pic.setLayoutParams(new FrameLayout.LayoutParams(SCREEN_WIDTH, SCREEN_WIDTH * 4 / 5));
         }
     }
-    public  final class NormalViewHolder extends ViewHolder implements View.OnClickListener{
+
+    public final class NormalViewHolder extends ViewHolder implements View.OnClickListener {
         public final RmarkListItemBinding binding;
         private final PropertyValuesHolder alpha2;
         private final PropertyValuesHolder translation2;
@@ -115,20 +116,20 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
         private final PropertyValuesHolder alpha;
         ObjectAnimator open;
         ObjectAnimator close;
-        boolean opened=false;
+        boolean opened = false;
 
         public NormalViewHolder(RmarkListItemBinding binding) {
             super(binding.getRoot());
-            this.binding=binding;
-            RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)binding.pic.getLayoutParams();
-            layoutParams.width=SCREEN_WIDTH;
-            layoutParams.height=SCREEN_WIDTH;
+            this.binding = binding;
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.pic.getLayoutParams();
+            layoutParams.width = SCREEN_WIDTH;
+            layoutParams.height = SCREEN_WIDTH;
             binding.pic.setLayoutParams(layoutParams);
 
-            translation=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -200f);
-            alpha=PropertyValuesHolder.ofFloat(View.ALPHA, 0.8f, 1.0f);
-            translation2=PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -200f, 0f);
-            alpha2=PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f);
+            translation = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -200f);
+            alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0.8f, 1.0f);
+            translation2 = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -200f, 0f);
+            alpha2 = PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f);
 
             this.binding.btnMenuDelete.setOnClickListener(this);
             this.binding.btnMenuMore.setOnClickListener(this);
@@ -136,11 +137,10 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
         }
 
 
-
-        private void bind(Rmark rmark){
+        private void bind(Rmark rmark) {
 
             reset();
-            if(rmark.getUid()==me.getUid()){
+            if (rmark.getUid() == me.getUid()) {
                 open = ObjectAnimator.ofPropertyValuesHolder(binding.btnMenuDelete, translation, alpha);
                 open.setDuration(binding.getRoot().getContext().getResources().getInteger(R.integer.duration));
 
@@ -148,7 +148,7 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
                 close = ObjectAnimator.ofPropertyValuesHolder(binding.btnMenuDelete, translation2, alpha2);
                 close.setDuration(binding.getRoot().getContext().getResources().getInteger(R.integer.duration));
 
-            }else{
+            } else {
                 open = ObjectAnimator.ofPropertyValuesHolder(binding.btnMenuReport, translation, alpha);
                 open.setDuration(binding.getRoot().getContext().getResources().getInteger(R.integer.duration));
 
@@ -160,7 +160,7 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
 
 
         public void reset() {
-            opened=false;
+            opened = false;
             binding.btnMenuDelete.setTranslationX(0f);
             binding.btnMenuDelete.setAlpha(0f);
             binding.btnMenuReport.setTranslationX(0f);
@@ -169,32 +169,32 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
 
         @Override
         public void onClick(View v) {
-            if(v==binding.btnMenuMore){
-                if(opened){
-                    opened=false;
+            if (v == binding.btnMenuMore) {
+                if (opened) {
+                    opened = false;
                     close.start();
-                }else {
-                    opened=true;
+                } else {
+                    opened = true;
                     open.start();
                 }
-            }else if(v==binding.btnMenuDelete){
-              mViewHolderClickListener.onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
+            } else if (v == binding.btnMenuDelete) {
+                mViewHolderClickListener.onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
 
-                if(opened){
-                    opened=false;
+                if (opened) {
+                    opened = false;
                     close.start();
-                }else {
-                    opened=true;
+                } else {
+                    opened = true;
                     open.start();
                 }
-            }else if(v==binding.btnMenuReport){
+            } else if (v == binding.btnMenuReport) {
                 mViewHolderClickListener
                         .onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
-                if(opened){
-                    opened=false;
+                if (opened) {
+                    opened = false;
                     close.start();
-                }else {
-                    opened=true;
+                } else {
+                    opened = true;
                     open.start();
                 }
             }
@@ -203,9 +203,9 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark,RmarkAdapter.ViewH
 
     @Override
     public Object getItem(int position) {
-        if(position==0){
-            return  mSkill;
+        if (position == 0) {
+            return mSkill;
         }
-        return datas.get(position-1);
+        return datas.get(position - 1);
     }
 }

@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.common.model;
+package maimeng.yodian.app.client.android.model;
 
 import android.databinding.BaseObservable;
 

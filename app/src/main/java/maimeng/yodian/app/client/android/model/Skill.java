@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.common.model;
+package maimeng.yodian.app.client.android.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -9,14 +9,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-import maimeng.yodian.app.client.android.common.BR;
-import maimeng.yodian.app.client.android.common.BuildConfig;
+import maimeng.yodian.app.client.android.BR;
+import maimeng.yodian.app.client.android.BuildConfig;
 
 
 /**
  * Created by android on 15-7-14.
  */
-public class Skill extends UserBaseColum implements Parcelable {
+public class Skill extends BaseObservable implements Parcelable {
 
     @SerializedName("sid")
     private long id;//技能id

@@ -44,7 +44,7 @@ import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
 import maimeng.yodian.app.client.android.common.PullHeadView;
-import maimeng.yodian.app.client.android.common.model.Skill;
+import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
@@ -315,7 +315,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
-        if(mCategoryContainer!=null&&mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)){
+        if (mCategoryContainer != null && mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)) {
             categoryEnterAndDismissAnim();
         }
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
@@ -373,7 +373,7 @@ public class MainSelectorProxy implements ActivityProxy,
     @Override
     public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, int postion) {
 
-        if(mCategoryContainer!=null&&mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)){
+        if (mCategoryContainer != null && mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)) {
             categoryEnterAndDismissAnim();
         }
 
@@ -382,7 +382,7 @@ public class MainSelectorProxy implements ActivityProxy,
             Skill skill = holder.getData();
             if (clickItem == holder.getBinding().btnShare) {
                 Skill data = skill;
-                ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""),1);
+                ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
             } else if (clickItem == holder.getBinding().btnBottom) {
                 Intent intent = new Intent(mActivity, ChatActivity.class);
                 intent.putExtra("skill", holder.getData());

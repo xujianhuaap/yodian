@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -111,7 +111,6 @@ import maimeng.yodian.app.client.android.chat.adapter.ExpressionAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.ExpressionPagerAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.MessageAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.VoicePlayClickListener;
-import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
@@ -120,12 +119,12 @@ import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
-import maimeng.yodian.app.client.android.common.loader.ImageLoader;
-import maimeng.yodian.app.client.android.common.model.Skill;
-import maimeng.yodian.app.client.android.common.utils.LogUtil;
+import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 
-import static maimeng.yodian.app.client.android.common.model.UserBaseColum.*;
+import static maimeng.yodian.app.client.android.model.UserBaseColum.*;
 
 /**
  * 聊天页面
@@ -249,7 +248,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         setUpView();
         showSkill();
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null) {
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -259,7 +258,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_chat_menu, menu);
-        menu.add(0,1001,0,"").setIcon(R.drawable.btn_ic_contact).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 1001, 0, "").setIcon(R.drawable.btn_ic_contact).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -545,12 +544,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 RobotUser robotUser = robotMap.get(toChatUsername);
                 String nick = robotUser.getNick();
                 if (!TextUtils.isEmpty(nick)) {
-                    wechat=robotUser.getWechat();
+                    wechat = robotUser.getWechat();
                     setTitle(nick);
                 } else {
                     User user = UserUtils.getUserInfo(toChatUsername);
                     if (user != null) {
-                        wechat=user.getWechat();
+                        wechat = user.getWechat();
                         setTitle(user.getNick());
                     } else {
                         setTitle(toChatUsername);
@@ -559,7 +558,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             } else {
                 User user = UserUtils.getUserInfo(toChatUsername);
                 if (user != null) {
-                    wechat=user.getWechat();
+                    wechat = user.getWechat();
                     setTitle(user.getNick());
                 } else {
                     setTitle(toChatUsername);
@@ -603,11 +602,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             emptyHistory();
         }
         int itemId = item.getItemId();
-        if(itemId ==1001){
-            if(wechat!=null) {
+        if (itemId == 1001) {
+            if (wechat != null) {
                 startActivity(new Intent(this, ContactDialog.class).putExtra("wechat", wechat));
             }
-        }else if(itemId ==android.R.id.home){
+        } else if (itemId == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -1114,7 +1113,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     }
 
-    private void onNewMessage(EMMessage message){
+    private void onNewMessage(EMMessage message) {
 
     }
 

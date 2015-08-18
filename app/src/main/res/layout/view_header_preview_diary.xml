@@ -6,7 +6,7 @@
 
         <variable
             name="skill"
-            type="maimeng.yodian.app.client.android.common.model.Skill" />
+            type="maimeng.yodian.app.client.android.model.Skill" />
     </data>
 
     <RelativeLayout
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_scrollFlags="scroll|enterAlways">
+
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
@@ -23,21 +24,21 @@
                 android:id="@+id/pic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="200dp"
                 android:adjustViewBounds="false"
+                android:minHeight="200dp"
                 android:scaleType="centerCrop"
                 app:imgUrl="@{skill.pic}"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                app:layout_scrollFlags="scroll|enterAlways" />
 
             <LinearLayout
                 android:id="@+id/ll_skill"
-                android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pic"
+                android:layout_gravity="bottom"
                 android:background="@color/div_line"
-                android:paddingLeft="3dp"
                 android:orientation="vertical"
+                android:paddingLeft="3dp"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <TextView
@@ -48,7 +49,7 @@
                     android:singleLine="true"
                     android:text="@{skill.name}"
                     android:textColor="#fff"
-                    app:layout_scrollFlags="scroll|enterAlways"/>
+                    app:layout_scrollFlags="scroll|enterAlways" />
 
                 <TextView
                     android:id="@+id/price"
@@ -57,8 +58,7 @@
                     android:gravity="left|bottom"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimaryDark"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    />
+                    app:layout_scrollFlags="scroll|enterAlways" />
             </LinearLayout>
 
         </FrameLayout>
@@ -68,33 +68,34 @@
             android:id="@+id/ll_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_below="@id/fragment_container"
             android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:minHeight="40dp"
                 android:scaleType="centerInside"
-                android:gravity="center"
+                android:src="@drawable/ic_connect_others"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:src="@drawable/ic_connect_others"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                app:layout_scrollFlags="scroll|enterAlways" />
 
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_wrapper"
-            android:padding="15dp"
-            android:textColor="@android:color/white"
             android:background="@android:color/black"
+            android:padding="15dp"
             android:text="@{skill.content}"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            android:textColor="@android:color/white"
+            app:layout_scrollFlags="scroll|enterAlways" />
 
 
     </RelativeLayout>
