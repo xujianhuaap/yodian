@@ -83,6 +83,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     private long rid;
     private View shareView;
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -217,7 +218,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     private Listener listener;
 
     private File tempFile;
-    private Bitmap QRCodeBitmap;
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -241,38 +242,35 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
             ((View) mReport.getParent()).setVisibility(View.GONE);
             mContent.setRowCount(1);
         }
-        int size = getResources().getDimensionPixelSize(R.dimen.qrcode_size);
-        int left = getResources().getDimensionPixelSize(R.dimen.qrcode_left);
-        int top = getResources().getDimensionPixelSize(R.dimen.qrcode_top);
-        QRCode from = QRCode.from(skill.getQrcodeUrl());
-        from.withSize(size, size);
-        Bitmap qrcode = from.bitmap();
 
-        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.fingerprint_bg);
-        Bitmap bg = temp.copy(temp.getConfig(), true);
-        temp.recycle();
-        QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight(), Bitmap.Config.RGB_565);
-        Canvas can = new Canvas(QRCodeBitmap);
-        can.drawBitmap(bg, 0, 0, new Paint());
-        can.drawBitmap(qrcode, left, top, new Paint());
 
-        shareView = view.findViewById(R.id.eee);
+        shareView = view.findViewById(R.id.share);
 
         RoundImageView avater=(RoundImageView) shareView.findViewById(R.id.avatar);
         ImageView contentPic=(ImageView) shareView.findViewById(R.id.contenPic);
-        ImageView shareBrand=(ImageView) shareView.findViewById(R.id.share_brand);
+
 
         TextView title=(TextView) shareView.findViewById(R.id.tv_skill_title);
         TextView price=(TextView) shareView.findViewById(R.id.tv_skill_price);
         TextView content=(TextView) shareView.findViewById(R.id.tv_skill_content);
         TextView nickname=(TextView) shareView.findViewById(R.id.tv_nickname);
 
+        String path=skill.getPic();
+        String avaterPath=skill.getAvatar();
 
-        Network.image(avater, skill.getAvatar());
-        ImageLoader.image(contentPic, skill.getPic());
-        shareBrand.setImageBitmap(QRCodeBitmap);
-        shareBrand.setScaleType(ImageView.ScaleType.FIT_XY);
+        if(path!=null){
 
+            if(path.startsWith("http://")){
+                ImageLoader.image(contentPic,path);
+            }else if(path.startsWith("file://")){
+                Bitmap bitmap=BitmapFactory.decodeFile(path);
+                contentPic.setImageBitmap(bitmap);
+            }
+        }
+
+        if(avaterPath!=null){
+            Network.image(avater,avaterPath );
+        }
 
         title.setText(skill.getName());
         price.setText(skill.getPrice());
@@ -282,12 +280,62 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     }
 
+    /***
+     * @param type 1 新浪分享　２　好友分享 3 其他
+     *
+     *
+     */
+
+    private Bitmap  getShareBitmap(int type,View shareView) {
+        Bitmap QRCodeBitmap=null;
+        if(type==1){
+            QRCodeBitmap=generatePlatformBitmap(R.drawable.ic_market_sina);
+        }else if(type==2){
+           QRCodeBitmap=generatePlatformBitmap(R.drawable.ic_market_wechat);
+        }
+        ImageView shareBrand = (ImageView) shareView.findViewById(R.id.share_brand);
+        shareBrand.setImageBitmap(QRCodeBitmap);
+        Bitmap shareBitmap=convertViewToBitmap(shareView);
+        return shareBitmap;
+    }
+
+    /**
+     *
+     * @param drawableId
+     *
+     * Type.Platform.WeiBo drawableId为R.drawble.ic_market_sina
+     *
+     * Type.Platform.WEIXIN  drawableId为R.drawble.ic_market_wechat
+     *
+     *
+     */
+    private Bitmap  generatePlatformBitmap(int drawableId) {
+        int size = getResources().getDimensionPixelSize(R.dimen.qrcode_size);
+        int left = getResources().getDimensionPixelSize(R.dimen.qrcode_left);
+        int top = getResources().getDimensionPixelSize(R.dimen.qrcode_top);
+        QRCode from = QRCode.from(skill.getQrcodeUrl());
+        from.withSize(size, size);
+        Bitmap qrcode = from.bitmap();
+
+        Bitmap temp = BitmapFactory.decodeResource(getResources(), drawableId);
+        Bitmap bg = temp.copy(temp.getConfig(), true);
+        temp.recycle();
+        Bitmap QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight(), Bitmap.Config.RGB_565);
+        Canvas can = new Canvas(QRCodeBitmap);
+        can.drawBitmap(bg, 0, 0, new Paint());
+        can.drawBitmap(qrcode, left, top, new Paint());
+
+        return QRCodeBitmap;
+    }
+
 
     public static Bitmap convertViewToBitmap(View view) {
+
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.setDrawingCacheEnabled(true);
+        view.destroyDrawingCache();
         view.buildDrawingCache();
         Bitmap bitmap = view.getDrawingCache();
 
@@ -324,7 +372,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         if (imgPath != null && imgPath.startsWith("file://")) {
             imgPath = Uri.parse(skill.getPic()).getPath();
         }
-        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, imgPath), 0/*,this*/);
+        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), 0/*,this*/);
     }
 
     @OnClick(R.id.report)
@@ -373,12 +421,15 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     @OnClick(R.id.sina)
     public void ShareToWeiBo(View view) {
-        shareBitmap=convertViewToBitmap(shareView);
+
+        Bitmap bitmap=getShareBitmap(1,shareView);
         StringBuffer content=new StringBuffer();
         content.append(title).append(skill.getPrice()).append(skill.getUnit()).append("@优点APP");
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIBO);
-        iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, shareBitmap), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
+        iShareManager.share(new MessageWebpage("", content.toString(), redirect_url, bitmap), WeiboShareManager.WEIBO_SHARE_TYPE/*,this*/);
     }
+
+
 
     @OnClick({R.id.fridens, R.id.weixin})
     public void ShareToWeiXin(View v) {
@@ -391,7 +442,8 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         if (v.getId() == R.id.weixin) {
             iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.toString()), WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
         } else {
-            iShareManager.share(new MessagePic(QRCodeBitmap), WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
+            Bitmap bitmap=getShareBitmap(2,shareView);
+            iShareManager.share(new MessagePic(bitmap), WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
         }
     }
 
@@ -408,6 +460,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @Override
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         try {
+
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(tempFile));
             skill.setPic(tempFile.toString());
             end = true;
