@@ -94,7 +94,7 @@ import maimeng.yodian.app.client.android.chat.utils.ImageCache;
 import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
-import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 
 public class MessageAdapter extends BaseAdapter {

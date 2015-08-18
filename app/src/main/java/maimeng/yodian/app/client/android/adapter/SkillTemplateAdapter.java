@@ -10,11 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.databinding.SkillTemplateItemBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
@@ -71,34 +72,17 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTempla
             return template;
         }
 
-        private Target target;
-
         public ItemViewHolder(SkillTemplateItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            target = new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    ItemViewHolder.this.binding.skillImg.setImageBitmap(bitmap);
-                }
 
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                }
-            };
 
         }
 
         public void bind(SkillTemplate template) {
             binding.setTemplate(template);
             this.template = template;
-            ImageLoader.image(itemView.getContext(), template.getPic(), target);
+            ImageLoader.image(binding.skillImg, template.getPic());
         }
     }
 

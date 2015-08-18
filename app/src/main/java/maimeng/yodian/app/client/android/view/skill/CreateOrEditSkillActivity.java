@@ -40,7 +40,7 @@ import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -96,7 +96,8 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             }
 
         }
-        if (mTemplate.getPic() != null) ImageLoader.image(this, mTemplate.getPic(), this);
+        if (mTemplate.getPic() != null)
+            ImageLoader.image(this, Uri.parse(mTemplate.getPic()), this);
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
         binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));
@@ -347,7 +348,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 
             } else if (requestCode == REQUEST_PHOTORESOULT) {
                 if (tempFile != null) {
-                    final String url = Uri.fromFile(tempFile).toString();
+                    final Uri url = Uri.fromFile(tempFile);
                     int height = binding.skillPic.getHeight();
                     int width = binding.skillPic.getWidth();
                     if (width > 0 && height > 0) {
@@ -355,7 +356,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                     } else {
                         ImageLoader.image(this, url, this, 108, height);
                     }
-                    binding.getTemplate().setPic(url);
+                    binding.getTemplate().setPic(url.toString());
                     toggle();
                     tempFile.deleteOnExit();
                 }

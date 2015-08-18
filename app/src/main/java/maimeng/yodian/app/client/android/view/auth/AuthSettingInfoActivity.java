@@ -35,7 +35,7 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
@@ -161,7 +161,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
 
     private void setDefaultInfo(String nickname, String headUrl) {
         if (headUrl == null) return;
-        ImageLoader.image(this, headUrl, this);
+        ImageLoader.image(this, Uri.parse(headUrl), this);
         mUserImg.setTag(headUrl);
         mNickname.setText(nickname);
     }

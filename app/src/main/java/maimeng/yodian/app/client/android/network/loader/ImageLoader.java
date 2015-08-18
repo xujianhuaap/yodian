@@ -1,9 +1,10 @@
-package maimeng.yodian.app.client.android.network;
+package maimeng.yodian.app.client.android.network.loader;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.widget.ImageView;
 
@@ -46,7 +47,7 @@ public class ImageLoader {
         loader.setIndicatorsEnabled(BuildConfig.DEBUG || DEBUG);
     }
 
-    public static Bitmap image(final Context context, final String uri, final int width, final int height) {
+    public static Bitmap image(final Context context, final Uri uri, final int width, final int height) {
         final CountDownLatch latch = new CountDownLatch(1);
         final Bitmap[] bitmaps = {null};
         new Thread() {
@@ -76,32 +77,32 @@ public class ImageLoader {
 
     }
 
-    public static Bitmap image(final Context context, final String uri) {
+    public static Bitmap image(final Context context, final Uri uri) {
 
         return image(context, uri, 0, 0);
 
     }
 
-    public static void image(Context context, String uri, Target target) {
+    public static void image(Context context, Uri uri, Target target) {
         image(context, uri, -1, target);
 
     }
 
-    public static void image(Context context, String uri, int placeHolderDrawable, Target target) {
+    public static void image(Context context, Uri uri, int placeHolderDrawable, Target target) {
         image(context, uri, placeHolderDrawable, -1, target);
     }
 
-    public static void image(Context context, String uri, Target target, int width, int height) {
+    public static void image(Context context, Uri uri, Target target, int width, int height) {
         image(context, uri, -1, -1, target, width, height);
 
     }
 
-    public static void image(Context context, String uri, int placeHolderDrawable, Target target, int width, int height) {
+    public static void image(Context context, Uri uri, int placeHolderDrawable, Target target, int width, int height) {
         image(context, uri, placeHolderDrawable, -1, target, width, height);
 
     }
 
-    public static void image(Context context, String uri, int placeHolderDrawable, int errorDrawable, Target target, int width, int height) {
+    public static void image(Context context, Uri uri, int placeHolderDrawable, int errorDrawable, Target target, int width, int height) {
         ImageLoader one = getOne(context);
         RequestCreator load = one.loader.load(uri);
         load.resize(width, height);
@@ -111,13 +112,13 @@ public class ImageLoader {
         load.into(target);
     }
 
-    public static void image(Context context, String uri, int placeHolderDrawable, int errorDrawable, Target target) {
+    public static void image(Context context, Uri uri, int placeHolderDrawable, int errorDrawable, Target target) {
         image(context, uri, placeHolderDrawable, errorDrawable, target, getOne(context).screenWidth, getOne(context).screenHeight);
     }
 
     @BindingAdapter("bind:imgUrl")
     public static void image(ImageView iv, String url) {
-        image(iv, url, -1, -1);
+        image(iv, url, null);
     }
 
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder"})
@@ -127,8 +128,16 @@ public class ImageLoader {
 
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder", "bind:errorImage"})
     public static void image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable) {
+        if (url != null) {
+            image(iv, Uri.parse(url), placeHolderDrawable, errorDrawable);
+        } else {
+            image(iv, Uri.EMPTY, placeHolderDrawable, errorDrawable);
+        }
+    }
+
+    public static void image(ImageView iv, Uri uri, Drawable placeHolderDrawable, Drawable errorDrawable) {
         ImageLoader one = getOne(iv.getContext());
-        RequestCreator load = one.loader.load(url);
+        RequestCreator load = one.loader.load(uri);
         int width = one.screenWidth;
         int height = one.screenHeight;
         int width1 = iv.getWidth();
@@ -149,7 +158,7 @@ public class ImageLoader {
         load.into(iv);
     }
 
-    public static void image(ImageView iv, String url, int placeHolderDrawable) {
+    public static void image(ImageView iv, Uri url, int placeHolderDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             image(iv, url, iv.getResources().getDrawable(placeHolderDrawable, iv.getContext().getTheme()), null);
         } else {
@@ -157,7 +166,7 @@ public class ImageLoader {
         }
     }
 
-    public static void image(ImageView iv, String url, int placeHolderDrawable, int errorDrawable) {
+    public static void image(ImageView iv, Uri url, int placeHolderDrawable, int errorDrawable) {
         Drawable place = placeHolderDrawable == -1 ? null : iv.getResources().getDrawable(placeHolderDrawable);
         Drawable error = errorDrawable == -1 ? null : iv.getResources().getDrawable(errorDrawable);
         image(iv, url, place, error);

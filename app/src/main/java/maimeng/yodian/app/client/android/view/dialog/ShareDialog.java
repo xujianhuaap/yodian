@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
-import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.User;
@@ -232,7 +232,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         targetNickname = args.getString("targetNickname");
         if (skill.getPic() != null && (skill.getPic().startsWith("http") || skill.getPic().startsWith("ftp"))) {
             Toast.makeText(getActivity(), "正在分享路上...", Toast.LENGTH_SHORT).show();
-            ImageLoader.image(getActivity(), skill.getPic(), this);
+            ImageLoader.image(getActivity(), Uri.parse(skill.getPic()), this);
         } else {
             end = true;
         }
