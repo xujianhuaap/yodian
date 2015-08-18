@@ -117,13 +117,25 @@ public class ImageLoader {
 
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder", "bind:errorImage"})
     public static void image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable) {
-        RequestCreator load = getOne(iv.getContext()).loader.load(url);
+        ImageLoader one = getOne(iv.getContext());
+        RequestCreator load = one.loader.load(url);
+        int width = one.screenWidth;
+        int height = one.screenHeight;
+        int width1 = iv.getWidth();
+        if (width1 > 0) {
+            width = width1;
+        }
+        int height1 = iv.getHeight();
+        if (height1 > 0) {
+            height = height1;
+        }
+        load.resize(width, height);
         load.tag(iv.getContext());
         if (placeHolderDrawable == null)
             placeHolderDrawable = iv.getResources().getDrawable(R.drawable.default_place_holder);
         if (errorDrawable != null) load.error(errorDrawable);
         load.placeholder(placeHolderDrawable);
-        load.fit();
+        load.centerInside();
         load.into(iv);
     }
 
