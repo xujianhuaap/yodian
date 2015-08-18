@@ -59,7 +59,7 @@ import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
-import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.model.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
@@ -266,45 +266,11 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQEUST_RMARK_ADD && resultCode==RESULT_OK){
+        if (requestCode == REQEUST_RMARK_ADD && resultCode == RESULT_OK) {
             binding.refreshLayout.autoRefresh();
         }
     }
 
-    public void setStatuBarColor() {
-        ImageLoader.image(SkillDetailsActivity.this, skill.getPic(), new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                if (bitmap != null) {
-                    new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
-                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                        @Override
-                        public void onGenerated(Palette palette) {
-                            Palette.Swatch vibrant = palette.getVibrantSwatch();
-
-                            if (vibrant != null) {
-                                Window window = getWindow();
-                                // 很明显，这两货是新API才有的。
-                                window.setStatusBarColor(colorBurn(vibrant.getRgb()));
-                                window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
-                            }
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        });
-    }
 
     private void setTitleAlpha(float alpha) {
         findViewById(R.id.btn_contect_circle).setAlpha(alpha);
@@ -465,7 +431,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     public void onClick(View v) {
         if (v == binding.headerLogo || v == binding.headerLogoBg) {
             if (isMe) {
-                RmarkPublishActivity.show(this, skill,binding.btnBack,REQEUST_RMARK_ADD);
+                RmarkPublishActivity.show(this, skill, binding.btnBack, REQEUST_RMARK_ADD);
             } else {
                 Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
                 intent.putExtra("skill", skill);

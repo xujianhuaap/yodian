@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,19 +20,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-import com.squareup.picasso.Target;
-
 import org.henjue.library.hnet.Response;
 
 import java.io.File;
-import java.io.IOException;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityRmarkPublishBinding;
 import maimeng.yodian.app.client.android.model.Skill;
-import maimeng.yodian.app.client.android.network.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -94,7 +87,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
 
     private void refresh(Skill skill) {
 
-        if (mBitmap!= null) {
+        if (mBitmap != null) {
             TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap, 360, 360).build();
             mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
                 @Override
@@ -218,16 +211,15 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            String uri = null;
+            Uri uri = null;
             if (requestCode == REQUEST_CODE_ALBUM) {
-                uri = data.getData().toString();
+                uri = data.getData();
             } else {
-                uri = mTempUri.toString();
+                uri = mTempUri;
             }
 
             mBinding.cheSelectPhoto.setChecked(false);
-            mBitmap = ImageLoader.image(this, uri,1020,1020);
-            mBinding.skillPic.setImageBitmap(mBitmap);
+            mBitmap = ImageLoader.image(this, uri, 1020, 1020);
 
         }
     }
