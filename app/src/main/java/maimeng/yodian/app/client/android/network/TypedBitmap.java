@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.network;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 
 import org.henjue.library.hnet.typed.TypedInput;
 import org.henjue.library.hnet.typed.TypedOutput;
@@ -143,7 +144,8 @@ public class TypedBitmap implements TypedInput, TypedOutput {
             if (maxW > 0 || maxH > 0) {
                 this.maxWidth = maxW;
                 this.maxHeight = maxH;
-                bytes = getBytes(compress(mBitmap.getWidth(), mBitmap.getHeight(), bytes));
+                this.mBitmap = ThumbnailUtils.extractThumbnail(this.mBitmap, this.maxWidth, this.maxHeight);
+                bytes = getBytes(this.mBitmap);
             } else {
                 //throw new IllegalArgumentException("maxWidth > 0 and maxHeight > 0");
             }
@@ -170,32 +172,6 @@ public class TypedBitmap implements TypedInput, TypedOutput {
         } else {
             return new ByteArrayInputStream(new byte[]{0});
         }
-    }
-
-//    private Bitmap compress(int width, int height, byte[] bytes) {
-//        Bitmap.createScaledBitmap(mBitmap, 540, 540, true)
-//    }
-
-    private Bitmap compress(int width, int height, byte[] bytes) {
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inJustDecodeBounds = false;
-        //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
-        float hh = maxHeight;//这里设置高度为800f
-        float ww = maxWidth;//这里设置宽度为480f
-        //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
-        int be = 1;//be=1表示不缩放
-        if (width > height && width > ww) {//如果宽度大的话根据宽度固定大小缩放
-            be = (int) (opts.outWidth / ww);
-        } else if (width < height && height > hh) {//如果高度高的话根据宽度固定大小缩放
-            be = (int) (opts.outHeight / hh);
-        }
-        if (be <= 0)
-            be = 1;
-        opts.inSampleSize = be;//设置缩放比例
-        //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
-        opts.inTempStorage = new byte[300 * 1024];
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
-        return bitmap;
     }
 
     private byte[] getBytes(Bitmap image) {
