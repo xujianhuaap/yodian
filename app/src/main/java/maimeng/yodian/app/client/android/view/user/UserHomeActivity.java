@@ -71,7 +71,7 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     }
 
     private void report() {
-        AlertDialog alert = AlertDialog.newInstance("提示", "确定要举报该恋用户吗？");
+        AlertDialog alert = AlertDialog.newInstance("提示", getString(R.string.lable_alert_report_user));
         alert.setNegativeListener(new AlertDialog.NegativeListener() {
             @Override
             public void onNegativeClick(DialogInterface dialog) {

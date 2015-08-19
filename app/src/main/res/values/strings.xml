@@ -6,6 +6,7 @@
     <string name="lable_nickname">用户昵称</string>
     <string name="lable_report">举报</string>
     <string name="lable_update_avatar">上传头像</string>
+    <string name="lable_alert_report_user">确定要举报该用户吗？</string>
     <string name="lable_wechat">微信帐号</string>
     <string name="hint_nickname">您的昵称</string>
     <string name="hint_wechat">您的微信</string>
