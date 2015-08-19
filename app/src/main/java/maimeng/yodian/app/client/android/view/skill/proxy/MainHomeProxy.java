@@ -289,7 +289,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
                 @Override
                 public void onBitmapFailed(Drawable errorDrawable) {
-                    
+
                 }
 
                 @Override
@@ -535,7 +535,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     @Override
     public void onClick(final View v) {
-        if (User.read(mActivity).getWechat() == null) {
+        if (TextUtils.isEmpty(User.read(mActivity).getWechat())) {
             AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
                 @Override
                 public void onPositiveClick(DialogInterface dialog) {
