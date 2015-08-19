@@ -57,7 +57,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     private UserService service;
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
-    private boolean changed = false;
     private WaitDialog dialog;
     private File tempFile;
 
@@ -187,10 +186,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (!changed) {
-            Toast.makeText(this, R.string.not_changed, Toast.LENGTH_SHORT).show();
-            return;
-        }
         binding.invalidateAll();
         if (TextUtils.isEmpty(user.getNickname())) {
             binding.nickname.setError(getText(R.string.nickname_input_empty_message));
@@ -264,7 +259,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 Uri uri = Uri.fromFile(tempFile);
                 ImageLoader.image(this, uri, this);
                 binding.getUser().setAvatar(uri.toString());
-                changed = true;
                 tempFile.deleteOnExit();
             }
 
@@ -296,10 +290,8 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         @Override
         public void afterTextChanged(Editable s) {
             if (mText == binding.wechat) {
-                changed = true;
                 user.setWechat(s.toString());
             } else if (mText == binding.nickname) {
-                changed = true;
                 user.setNickname(s.toString());
             }
         }
