@@ -27,6 +27,7 @@
 
 
     <eat-comment />
+    
     <dimen name="skill_list_item_share_margin">5dp</dimen>
     <dimen name="skill_list_item_img_size">240dp</dimen>
     <dimen name="skill_list_item_swipe_width">75dp</dimen>

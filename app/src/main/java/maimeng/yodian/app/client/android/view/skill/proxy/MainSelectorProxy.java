@@ -318,6 +318,7 @@ public class MainSelectorProxy implements ActivityProxy,
     public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
         if (mCategoryContainer != null && mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)) {
             categoryEnterAndDismissAnim();
+            return;
         }
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
             mFloatButton.show();
@@ -376,6 +377,7 @@ public class MainSelectorProxy implements ActivityProxy,
 
         if (mCategoryContainer != null && mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)) {
             categoryEnterAndDismissAnim();
+            return;
         }
 
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {

@@ -219,7 +219,9 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
             }
 
             mBinding.cheSelectPhoto.setChecked(false);
-            mBitmap = ImageLoader.image(this, uri, 1020, 1020);
+            mBitmap =ImageLoader.image(this,uri,1020,1020);
+            mBinding.skillPic.setImageBitmap(mBitmap);
+
 
         }
     }

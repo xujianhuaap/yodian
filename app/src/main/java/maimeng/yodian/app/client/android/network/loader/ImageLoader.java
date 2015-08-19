@@ -117,25 +117,29 @@ public class ImageLoader {
     }
 
     @BindingAdapter("bind:imgUrl")
-    public static void image(ImageView iv, String url) {
-        image(iv, url, null);
+    public static ImageLoader image(ImageView iv, String url) {
+        return image(iv, url, null);
     }
 
+
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder"})
-    public static void image(ImageView iv, String url, Drawable placeHolderDrawable) {
-        image(iv, url, placeHolderDrawable, null);
+    public static ImageLoader image(ImageView iv, String url, Drawable placeHolderDrawable) {
+        return image(iv, url, placeHolderDrawable, null);
     }
 
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder", "bind:errorImage"})
-    public static void image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable) {
+    public static ImageLoader image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable) {
+        ImageLoader one=null;
         if (url != null) {
-            image(iv, Uri.parse(url), placeHolderDrawable, errorDrawable);
+            one=image(iv, Uri.parse(url), placeHolderDrawable, errorDrawable);
         } else {
-            image(iv, Uri.EMPTY, placeHolderDrawable, errorDrawable);
+            one=image(iv, Uri.EMPTY, placeHolderDrawable, errorDrawable);
         }
+        return one;
     }
 
-    public static void image(ImageView iv, Uri uri, Drawable placeHolderDrawable, Drawable errorDrawable) {
+
+    public static ImageLoader image(ImageView iv, Uri uri, Drawable placeHolderDrawable, Drawable errorDrawable) {
         ImageLoader one = getOne(iv.getContext());
         RequestCreator load = one.loader.load(uri);
         int width = one.screenWidth;
@@ -156,6 +160,7 @@ public class ImageLoader {
         load.placeholder(placeHolderDrawable);
         load.centerInside();
         load.into(iv);
+        return one;
     }
 
     public static void image(ImageView iv, Uri url, int placeHolderDrawable) {
