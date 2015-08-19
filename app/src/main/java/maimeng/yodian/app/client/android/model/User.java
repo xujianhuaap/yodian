@@ -43,6 +43,17 @@ public class User extends UserBaseColum {
 
     @SerializedName("uid")
     private long uid;
+    @SerializedName("id")
+    private long id;
+
+    public long getId() {
+        return id == 0 ? uid : id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     private String t_nickname;//第三方昵称
     private String t_img;//第三方头像
 
@@ -80,7 +91,7 @@ public class User extends UserBaseColum {
     }
 
     public long getUid() {
-        return uid;
+        return uid == 0 ? id : uid;
     }
 
     public void setUid(long uid) {
@@ -202,7 +213,26 @@ public class User extends UserBaseColum {
         if (info != null) info.setWechat(wechat);
     }
 
-    public static class Info {
+    public void update(User user) {
+        final String avatar = user.getAvatar();
+        final String chatLoginName = user.getChatLoginName();
+        final String nickname = user.getNickname();
+        final String wecaht = user.getWechat();
+        if (!TextUtils.isEmpty(avatar)) {
+            this.avatar = avatar;
+        }
+        if (!TextUtils.isEmpty(chatLoginName)) {
+            this.chatLoginName = chatLoginName;
+        }
+        if (!TextUtils.isEmpty(nickname)) {
+            this.nickname = nickname;
+        }
+        if (!TextUtils.isEmpty(wecaht)) {
+            this.setWechat(wecaht);
+        }
+    }
+
+    public static class Info extends User {
         private static final String KEY_MOBILE = "_key_mobile";
         private static final String KEY_WECHAT = "_key_wechat";
         private String mobile;

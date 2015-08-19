@@ -114,7 +114,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                app:imgUrl="@{skill.avatar}" />
+                app:imgUrl="@{skill.avatar80}" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -70,6 +70,21 @@ public class Skill extends BaseObservable implements Parcelable {
     private int status = 0;//2下架状态，0上架状态
     private Date createtime;//技能添加时间戳
     private String nickname = "";//用户昵称
+
+    public String getAvatar80() {
+        if (avatar == null) {
+            return "";
+        } else {
+            final int i = avatar.lastIndexOf(".");
+            if (i != -1) {
+                String url = avatar.substring(0, i);
+                String suffix = avatar.substring(i, avatar.length());
+                return url + "_80x80" + suffix;
+            }
+            return avatar;
+        }
+    }
+
     private String avatar;//用户头像数据
 
     public long getId() {

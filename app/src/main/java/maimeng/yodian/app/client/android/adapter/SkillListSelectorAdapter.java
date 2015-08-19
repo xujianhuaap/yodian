@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -218,6 +220,12 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         private SwipeItemLayout swipeItemLayout;
         private boolean isMe;
 
+        public Bitmap getDefaultAvatar() {
+            return defaultAvatar;
+        }
+
+        private Bitmap defaultAvatar;
+
         public Skill getData() {
             return data;
         }
@@ -235,6 +243,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
             swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             binding.root.setOnClickListener(this);
             this.binding = binding;
+            binding.userAvatar.setOnClickListener(this);
             binding.btnBottom.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);
@@ -259,7 +268,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 binding.btnContect.setVisibility(View.VISIBLE);
                 binding.btnEdit.setVisibility(View.GONE);
             }
-
+            defaultAvatar = ImageLoader.image(mContext, Uri.parse(item.getAvatar80()));
             binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(), item.getUnit())));
         }
 

@@ -16,9 +16,13 @@ public interface ActivityProxy {
 
     void onTitleChanged(CharSequence title, int color);
 
-    void show(FloatingActionButton button);
+    void show(final FloatingActionButton button);
 
-    void hide(FloatingActionButton button);
+    void show(final FloatingActionButton button, boolean anima);
+
+    void hide(final FloatingActionButton button);
+
+    void hide(final FloatingActionButton button, boolean anima);
 
     boolean isShow();
 

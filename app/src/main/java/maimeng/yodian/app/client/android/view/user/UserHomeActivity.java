@@ -1,9 +1,14 @@
 package maimeng.yodian.app.client.android.view.user;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
@@ -36,8 +41,53 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     private MainHomeProxy proxy;
     private int page = 1;
     private View mBtnSettings;
-    private WaitDialog dialog;
     private User user;
+
+    public static void show(Activity activity, long uid, View btnBack, View avatar, View nickname) {
+        show(activity, uid, null, "", btnBack, avatar, nickname);
+    }
+
+    public static void show(Activity activity, long uid, Bitmap avatar, String nickname, View btnBackView, View avatarView, View nicknameView) {
+        UserIntent intent = create(activity, uid);
+        intent.putExtra("avatar", avatar);
+        intent.putExtra("nickname", nickname);
+        ActivityOptionsCompat activityOptionsCompat = null;
+        if (btnBackView != null) {
+            activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(btnBackView, "back"));
+        }
+        if (avatarView != null) {
+            if (activityOptionsCompat != null) {
+                activityOptionsCompat.update(ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(avatarView, "avatar")));
+            } else {
+                activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(avatarView, "avatar"));
+            }
+        }
+        if (nicknameView != null) {
+            if (activityOptionsCompat != null) {
+                activityOptionsCompat.update(ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(nicknameView, "nickname")));
+            } else {
+                activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(nicknameView, "nickname"));
+            }
+        }
+        if (activityOptionsCompat != null) {
+            final Bundle options = activityOptionsCompat.toBundle();
+            ActivityCompat.startActivity(activity, intent, options);
+        } else {
+            activity.startActivity(intent);
+        }
+    }
+
+    @Deprecated
+    public static UserIntent create(Context context, long uid) {
+        return new UserIntent(context, uid);
+    }
+
+    public static class UserIntent extends Intent {
+        public UserIntent(Context context, long uid) {
+            super(context, UserHomeActivity.class);
+            putExtra("uid", uid);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +95,17 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
         service = Network.getService(SkillService.class);
         setContentView(R.layout.activity_user_home, false);
         final View btnBack = findViewById(R.id.btn_back);
+        final View avatar = findViewById(R.id.user_avatar);
+        final View nickname = findViewById(R.id.user_nickname);
         ViewCompat.setTransitionName(btnBack, "back");
+        ViewCompat.setTransitionName(avatar, "avatar");
+        ViewCompat.setTransitionName(nickname, "nickname");
         final View root = findViewById(R.id.home_root);
-        proxy = new MainHomeProxy(this, root);
+        proxy = new MainHomeProxy(this, root, (Bitmap) getIntent().getParcelableExtra("avatar"), getIntent().getStringExtra("nickname"));
         ((View) findViewById(R.id.btn_createskill).getParent()).setVisibility(View.GONE);
         findViewById(R.id.btn_chat).setVisibility(View.GONE);
         findViewById(R.id.btn_settings).setVisibility(View.GONE);
         findViewById(R.id.user_avatar).setOnClickListener(null);
-        service.list(getIntent().getLongExtra("uid", 0), page, this);
         root.setVisibility(View.VISIBLE);
         final View btnReport = findViewById(R.id.btn_report);
         btnReport.setVisibility(View.VISIBLE);
@@ -68,6 +121,12 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
                 report();
             }
         });
+        root.postDelayed(new Thread() {
+            @Override
+            public void run() {
+                service.list(getIntent().getLongExtra("uid", 0), page, UserHomeActivity.this);
+            }
+        }, 500);
     }
 
     private void report() {
@@ -99,7 +158,6 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
 
     @Override
     public void start() {
-        dialog = WaitDialog.show(this);
     }
 
     @Override
@@ -108,7 +166,7 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
             final SkillUserResponse.DataNode data = res.getData();
             this.user = data.getUser();
             proxy.init(user);
-            proxy.show((FloatingActionButton) findViewById(R.id.btn_back));
+            proxy.show((FloatingActionButton) findViewById(R.id.btn_back),false);
         } else {
             res.showMessage(this);
         }
@@ -121,6 +179,5 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
 
     @Override
     public void end() {
-        dialog.dismiss();
     }
 }
