@@ -111,6 +111,7 @@ import maimeng.yodian.app.client.android.chat.adapter.ExpressionAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.ExpressionPagerAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.MessageAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.VoicePlayClickListener;
+import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
@@ -1042,7 +1043,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     /**
      * 事件监听
-     * <p>
+     * <p/>
      * see {@link EMNotifierEvent}
      */
     @Override
@@ -1114,7 +1115,19 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     }
 
     private void onNewMessage(EMMessage message) {
-
+        try {
+            User user = User.parse(message);
+            RobotUser robot = RobotUser.parse(message);
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user.getUsername(), user);
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), robot);
+            UserDao dao = new UserDao(this);
+            dao.saveOrUpdate(user);
+            dao.saveOrUpdate(robot);
+            setTitle(user.getNick());
+            refreshUIWithNewMessage();
+        } catch (EaseMobException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handlerSkillBanner(EMMessage message) {

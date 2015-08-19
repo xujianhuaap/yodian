@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.chat.utils;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -39,7 +40,7 @@ public class UserUtils {
      */
     public static void setUserAvatar(Context context, String username, ImageView imageView) {
         User user = getUserInfo(username);
-        if (user != null) {
+        if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
             ImageLoader.image(imageView, Uri.parse(user.getAvatar()));
             Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(imageView);
         } else {

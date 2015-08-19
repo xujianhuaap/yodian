@@ -150,18 +150,17 @@ public class User extends UserBaseColum {
             String t_img = pref.getString(KEY_T_IMG, "");
             String token = pref.getString(KEY_TOKEN, "");
             String chatname = pref.getString(KEY_CHATNAME, "");
-
+            int type = pref.getInt(KEY_TYPE, 0);
+            User user = new User(t_nickname, t_img, type, token, "".equals(uid) ? 0 : Long.parseLong(uid), nickname, chatname, img);
+            user.setInfo(Info.read(pref));
+            user.pushOn = pref.getBoolean(KEY_PUSH, true);
             maimeng.yodian.app.client.android.chat.domain.User u = new maimeng.yodian.app.client.android.chat.domain.User();
             u.setAvatar(img);
             u.setUsername(chatname);
             u.setNick(nickname);
             u.setId(uid);
+            u.setWechat(user.getWechat());
             YApplication.getInstance().setCurrentUser(u);
-
-            int type = pref.getInt(KEY_TYPE, 0);
-            User user = new User(t_nickname, t_img, type, token, "".equals(uid) ? 0 : Long.parseLong(uid), nickname, chatname, img);
-            user.setInfo(Info.read(pref));
-            user.pushOn = pref.getBoolean(KEY_PUSH, true);
             return user;
         }
     }
