@@ -129,11 +129,11 @@ public class ImageLoader {
 
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder", "bind:errorImage"})
     public static ImageLoader image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable) {
-        ImageLoader one=null;
+        ImageLoader one = null;
         if (url != null) {
-            one=image(iv, Uri.parse(url), placeHolderDrawable, errorDrawable);
+            one = image(iv, Uri.parse(url), placeHolderDrawable, errorDrawable);
         } else {
-            one=image(iv, Uri.EMPTY, placeHolderDrawable, errorDrawable);
+            one = image(iv, Uri.EMPTY, placeHolderDrawable, errorDrawable);
         }
         return one;
     }
@@ -177,7 +177,7 @@ public class ImageLoader {
         image(iv, url, place, error);
     }
 
-    private static class ImageTarget implements Target {
+    public static class ImageTarget implements Target {
         private final ImageView mImageView;
 
         public ImageTarget(ImageView iv) {

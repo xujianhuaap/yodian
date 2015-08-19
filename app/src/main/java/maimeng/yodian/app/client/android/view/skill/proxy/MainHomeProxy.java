@@ -5,6 +5,9 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
@@ -13,17 +16,21 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.AdapterViewAnimator;
 import android.widget.TextView;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.henjue.library.hnet.typed.TypedString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +88,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     private final View mBtnCreateSkill;
     private final View mBtnSettings;
     private final View mBtnChat;
+    private Bitmap defaultAvatar;
     private boolean inited = false;
     private final SkillListHomeAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
@@ -92,8 +100,11 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     ValueAnimator animator = new ValueAnimator();
 
     public MainHomeProxy(Activity activity, View view) {
-        this.mView = (CoordinatorLayout) view;
+        this(activity, view, null, "");
+    }
 
+    public MainHomeProxy(Activity activity, View view, Bitmap avatar, String nickname) {
+        this.mView = (CoordinatorLayout) view;
         handler = new Handler(Looper.getMainLooper());
         this.mActivity = activity;
         view.setVisibility(View.GONE);
@@ -157,6 +168,13 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
                 ((View) mBtnCreateSkill.getParent()).setBackgroundColor(Integer.parseInt(animation.getAnimatedValue().toString()));
             }
         });
+        if (avatar != null) {
+            mUserAvatar.setImageBitmap(avatar);
+            this.defaultAvatar = avatar;
+        }
+        if (!TextUtils.isEmpty(nickname)) {
+            mUserNickname.setText(nickname);
+        }
     }
 
     public void syncRequest() {
@@ -191,38 +209,51 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     @Override
     public void init() {
-        init(User.read(this.mActivity));
+        final User read = User.read(this.mActivity);
+        init(read);
     }
 
     public void init(User user) {
+        if (this.user == null) {
+            this.user = user;
+        }
         inited = true;
-        this.user = user;
-        Network.getService(UserService.class).info(new Callback<UserInfoResponse>() {
-            @Override
-            public void start() {
+        final User read = User.read(mActivity);
+        if (read.getUid() == user.getUid()) {
+            Network.getService(UserService.class).info(new Callback<UserInfoResponse>() {
+                @Override
+                public void start() {
 
-            }
-
-            @Override
-            public void success(UserInfoResponse res, Response response) {
-                if (res.isSuccess()) {
-                    User.read(mActivity).setInfo(res.getData()).write(mActivity);
-                    initUsrInfo();
-                    initSkillInfo();
                 }
-            }
 
-            @Override
-            public void failure(HNetError hNetError) {
-                ErrorUtils.checkError(mActivity, hNetError);
-            }
+                @Override
+                public void success(UserInfoResponse res, Response response) {
+                    if (res.isSuccess()) {
+                        final User.Info data = res.getData();
+                        MainHomeProxy.this.user.update(data);
+                        MainHomeProxy.this.user.setInfo(data);
+                        if (read.getUid() == data.getUid()) {
+                            read.write(mActivity);
+                        }
+                        initUsrInfo();
+                        initSkillInfo();
+                    }
+                }
 
-            @Override
-            public void end() {
+                @Override
+                public void failure(HNetError hNetError) {
+                    ErrorUtils.checkError(mActivity, hNetError);
+                }
 
-            }
-        });
+                @Override
+                public void end() {
 
+                }
+            });
+        } else {
+            initUsrInfo();
+            initSkillInfo();
+        }
     }
 
     private void initSkillInfo() {
@@ -241,7 +272,17 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     private void initUsrInfo() {
         mUserNickname.setText(user.getNickname());
-        ImageLoader.image(mUserAvatar, user.getAvatar());
+        if (defaultAvatar != null) {
+            ImageLoader.image(mUserAvatar, user.getAvatar(), new BitmapDrawable(defaultAvatar));
+        } else {
+            ImageLoader.image(mActivity, Uri.parse(user.getAvatar()), new ImageLoader.ImageTarget(mUserAvatar) {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    super.onBitmapLoaded(bitmap, from);
+                    defaultAvatar = bitmap;
+                }
+            });
+        }
     }
 
     @Override
@@ -249,53 +290,65 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     }
 
     @Override
-    public void show(FloatingActionButton button) {
+    public void show(FloatingActionButton button, boolean anima) {
         this.mFloatButton = button;
         button.attachToRecyclerView(mRecyclerView);
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-        alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
-        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+        if (anima) {
+            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+            alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
+            alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
-            }
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mView.setVisibility(View.VISIBLE);
-            }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mView.setVisibility(View.VISIBLE);
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
-        this.mView.startAnimation(alphaAnimation);
+                }
+            });
+            this.mView.startAnimation(alphaAnimation);
+        } else {
+            mView.setVisibility(View.VISIBLE);
+        }
 
     }
 
     @Override
     public void hide(FloatingActionButton button) {
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-        alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
-        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+        hide(button, true);
+    }
 
-            }
+    @Override
+    public void hide(FloatingActionButton button, boolean anima) {
+        if (anima) {
+            AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+            alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
+            alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mView.setVisibility(View.GONE);
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mView.setVisibility(View.GONE);
+                }
 
-            }
-        });
-        this.mView.startAnimation(alphaAnimation);
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
+                }
+            });
+            this.mView.startAnimation(alphaAnimation);
+        } else {
+            mView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -436,6 +489,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
             List<Skill> list = res.getData().getList();
             adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
+            init(res.getData().getUser());
         } else {
             res.showMessage(mActivity);
             if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
@@ -492,4 +546,8 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
 
     }
 
+    @Override
+    public void show(FloatingActionButton viewById) {
+        show(viewById, true);
+    }
 }

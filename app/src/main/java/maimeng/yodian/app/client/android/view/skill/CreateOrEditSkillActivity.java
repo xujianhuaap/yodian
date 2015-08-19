@@ -378,6 +378,16 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mBitmap != null && !mBitmap.isRecycled()) {
+            mBitmap.recycle();
+            mBitmap = null;
+            System.gc();
+        }
+    }
+
+    @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
 
     }

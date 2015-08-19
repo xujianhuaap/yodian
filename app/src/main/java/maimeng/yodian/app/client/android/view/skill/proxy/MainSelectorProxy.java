@@ -6,6 +6,8 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
@@ -55,6 +57,7 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
@@ -247,71 +250,89 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void show(final FloatingActionButton button) {
-        mFloatButton = button;
-        button.attachToRecyclerView(mRecyclerView);
-        mActivity.setTitle("优点精选");
-        button.setImageResource(R.drawable.btn_home_change_normal);
-        int type = TranslateAnimation.RELATIVE_TO_SELF;
-        TranslateAnimation animation = new TranslateAnimation(type, 0, type, 0, type, 1f, type, 0);
-        animation.setInterpolator(new AccelerateInterpolator());
-        animation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                button.setEnabled(false);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                button.setEnabled(true);
-                mView.setVisibility(View.VISIBLE);
-//                setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimary));
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        this.mView.startAnimation(animation);
+        show(button, true);
 
     }
 
     @Override
+    public void show(final FloatingActionButton button, boolean anima) {
+        if (anima) {
+            mFloatButton = button;
+            button.attachToRecyclerView(mRecyclerView);
+            mActivity.setTitle("优点精选");
+            button.setImageResource(R.drawable.btn_home_change_normal);
+            int type = TranslateAnimation.RELATIVE_TO_SELF;
+            TranslateAnimation animation = new TranslateAnimation(type, 0, type, 0, type, 1f, type, 0);
+            animation.setInterpolator(new AccelerateInterpolator());
+            animation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    button.setEnabled(false);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    button.setEnabled(true);
+                    mView.setVisibility(View.VISIBLE);
+//                setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            this.mView.startAnimation(animation);
+        } else {
+            mView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     public void hide(final FloatingActionButton button) {
-        if (!mActivity.getProxyHome().isInited()) mActivity.getProxyHome().init();
-        mActivity.setTitle("首页");
-        button.setImageResource(R.drawable.btn_selected_normal);
-        int type = TranslateAnimation.RELATIVE_TO_SELF;
-        AnimationSet animationSet = new AnimationSet(true);
-        animationSet.setDuration(mActivity.getResources().getInteger(R.integer.duration));
-        animationSet.setInterpolator(new AccelerateInterpolator());
-        animationSet.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                button.setEnabled(false);
-            }
+        hide(button, true);
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                button.setEnabled(true);
-                mView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hide(final FloatingActionButton button, boolean anima) {
+        if (anima) {
+            if (!mActivity.getProxyHome().isInited()) mActivity.getProxyHome().init();
+            mActivity.setTitle("首页");
+            button.setImageResource(R.drawable.btn_selected_normal);
+            int type = TranslateAnimation.RELATIVE_TO_SELF;
+            AnimationSet animationSet = new AnimationSet(true);
+            animationSet.setDuration(mActivity.getResources().getInteger(R.integer.duration));
+            animationSet.setInterpolator(new AccelerateInterpolator());
+            animationSet.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    button.setEnabled(false);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    button.setEnabled(true);
+                    mView.setVisibility(View.GONE);
 //                    setStatusBarColor(mActivity.getResources().getColor(R.color.colorPrimaryGreen));
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
+                }
+            });
 
 
-        TranslateAnimation animation = new TranslateAnimation(type, 0, type, 0, type, 0, type, 1f);
-        int[] xy = new int[2];
-        button.getLocationOnScreen(xy);
-        animationSet.addAnimation(animation);
-        this.mView.startAnimation(animationSet);
-
+            TranslateAnimation animation = new TranslateAnimation(type, 0, type, 0, type, 0, type, 1f);
+            int[] xy = new int[2];
+            button.getLocationOnScreen(xy);
+            animationSet.addAnimation(animation);
+            this.mView.startAnimation(animationSet);
+        } else {
+            mView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -393,6 +414,9 @@ public class MainSelectorProxy implements ActivityProxy,
             if (clickItem == holder.getBinding().btnShare) {
                 Skill data = skill;
                 ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
+            } else if (clickItem == holder.getBinding().userAvatar) {
+                UserHomeActivity.show(mActivity, skill.getUid(), holder.getDefaultAvatar(), skill.getNickname(), mFloatButton, null,
+                        holder.getBinding().userNickname);
             } else if (clickItem == holder.getBinding().btnUpdate) {
                 Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
                 intent.putExtra("skill", skill);
