@@ -169,35 +169,35 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark, RmarkAdapter.View
 
         @Override
         public void onClick(View v) {
-            if (v == binding.btnMenuMore) {
-                if (opened) {
-                    opened = false;
-                    close.start();
-                } else {
-                    opened = true;
-                    open.start();
-                }
-            } else if (v == binding.btnMenuDelete) {
-                mViewHolderClickListener.onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
-
-                if (opened) {
-                    opened = false;
-                    close.start();
-                } else {
-                    opened = true;
-                    open.start();
-                }
-            } else if (v == binding.btnMenuReport) {
-                mViewHolderClickListener
-                        .onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
-                if (opened) {
-                    opened = false;
-                    close.start();
-                } else {
-                    opened = true;
-                    open.start();
-                }
-            }
+//            if (v == binding.btnMenuMore) {
+//                if (opened) {
+//                    opened = false;
+//                    close.start();
+//                } else {
+//                    opened = true;
+//                    open.start();
+//                }
+//            } else if (v == binding.btnMenuDelete) {
+//                mViewHolderClickListener.onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
+//
+//                if (opened) {
+//                    opened = false;
+//                    close.start();
+//                } else {
+//                    opened = true;
+//                    open.start();
+//                }
+//            } else if (v == binding.btnMenuReport) {
+//                mViewHolderClickListener
+//                        .onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
+//                if (opened) {
+//                    opened = false;
+//                    close.start();
+//                } else {
+//                    opened = true;
+//                    open.start();
+//                }
+//            }
         }
     }
 

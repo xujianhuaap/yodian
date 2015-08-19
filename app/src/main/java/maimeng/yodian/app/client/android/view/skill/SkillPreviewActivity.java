@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -18,6 +19,8 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import maimeng.yodian.app.client.android.R;
@@ -52,6 +55,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
 
     private int page = 1;
     private boolean append;
+    private boolean isEnd;
     private int mEditStatus;
 
     private Skill mSkill;
@@ -62,6 +66,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
     private ActivitySkillPreviewBinding mBinding;
     private WaitDialog dialog;
     private ShareDialog mShareDialog;
+    private Toast toast;
 
     /***
      * @param skill
@@ -101,6 +106,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                     public void onLoadMore() {
                         page++;
                         append = true;
+                        isEnd=true;
                         refresh(mSkill);
                     }
                 };
@@ -134,12 +140,14 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
     public void onRefresh() {
         page = 1;
         append = false;
+        mBinding.swipeLayout.setRefreshing(true);
         refresh(mSkill);
     }
 
     private void refresh(Skill skill) {
 
         mSkillService.rmark_list(skill.getId(), page, mCallBackProxy);
+
     }
 
     @Override
@@ -199,6 +207,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public void end() {
                     super.end();
+
                     if (dialog != null) dialog.dismiss();
                 }
             });
@@ -245,6 +254,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
 
         @Override
         public void end() {
+            isEnd=false;
             mBinding.swipeLayout.setRefreshing(false);
         }
 
@@ -256,13 +266,23 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
 
         @Override
         public void start() {
-            mBinding.swipeLayout.setRefreshing(true);
+
         }
 
         @Override
         public void success(RmarkListResponse rmarkListResponse, Response response) {
             if (rmarkListResponse.isSuccess()) {
                 List<Rmark> rmarks = rmarkListResponse.getData().getList();
+                if(rmarks.size()==0&&isEnd&&toast==null){
+                    toast = Toast.makeText(SkillPreviewActivity.this, "已经到底部", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        toast=null;
+                    }
+                },2000);
                 mAdapter.reload(rmarks, append);
                 mAdapter.notifyDataSetChanged();
             }
@@ -285,12 +305,12 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
 
             } else {
 
-                RmarkAdapter.NormalViewHolder normalViewHolder = (RmarkAdapter.NormalViewHolder) holder;
-                if (normalViewHolder.binding.btnMenuDelete == clickItem) {
-                    mSkillService.delete_rmark(normalViewHolder.binding.getRmark().getId(), new ToastCallback(SkillPreviewActivity.this));
-                } else if (normalViewHolder.binding.btnMenuReport == clickItem) {
-
-                }
+//                RmarkAdapter.NormalViewHolder normalViewHolder = (RmarkAdapter.NormalViewHolder) holder;
+//                if (normalViewHolder.binding.btnMenuDelete == clickItem) {
+//                    mSkillService.delete_rmark(normalViewHolder.binding.getRmark().getId(), new ToastCallback(SkillPreviewActivity.this));
+//                } else if (normalViewHolder.binding.btnMenuReport == clickItem) {
+//
+//                }
             }
 
         }
