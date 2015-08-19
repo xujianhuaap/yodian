@@ -1,4 +1,4 @@
-include ':app',':PhotoPicker'
+include ':app', ':PhotoPicker', ':BGABanner'
 def app=project(':app')
 app.name='yodian_app'
 app.projectDir=new File(settingsDir,'app')

@@ -35,7 +35,8 @@
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_gravity="right|top"
-                    android:src="@drawable/miss_msg_count" />
+                    android:src="@drawable/miss_msg_count"
+                    android:visibility="invisible" />
             </FrameLayout>
 
             <LinearLayout

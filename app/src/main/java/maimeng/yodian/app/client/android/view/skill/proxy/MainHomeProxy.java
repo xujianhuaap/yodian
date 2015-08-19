@@ -244,10 +244,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 public void success(UserInfoResponse res, Response response) {
                     if (res.isSuccess()) {
                         final User.Info data = res.getData();
-                        MainHomeProxy.this.user.update(data);
                         MainHomeProxy.this.user.setInfo(data);
-                        if (read.getUid() == data.getUid()) {
-                            read.write(mActivity);
+                        if (MainHomeProxy.this.user.getUid() == data.getUid()) {
+                            MainHomeProxy.this.user.write(mActivity);
                         }
                         initUsrInfo();
                     }

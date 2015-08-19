@@ -27,7 +27,6 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
  * Created by android on 2015/7/31.
  */
 public class ImageLoader {
-    public static final boolean DEBUG = true;
     private static ImageLoader network;
     private final Picasso loader;
 
@@ -44,8 +43,8 @@ public class ImageLoader {
 
     private ImageLoader(Context app) {
         loader = Picasso.with(app);
-        loader.setLoggingEnabled(BuildConfig.DEBUG || DEBUG);
-        loader.setIndicatorsEnabled(BuildConfig.DEBUG || DEBUG);
+        loader.setLoggingEnabled(BuildConfig.DEBUG);
+        loader.setIndicatorsEnabled(BuildConfig.DEBUG);
     }
 
     public static Bitmap image(final Context context, final Uri uri, final int width, final int height) {

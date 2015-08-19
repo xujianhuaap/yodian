@@ -203,6 +203,7 @@ public class User extends UserBaseColum {
 
     public User setInfo(Info info) {
         this.info = info;
+        update(info);
         return this;
     }
 
