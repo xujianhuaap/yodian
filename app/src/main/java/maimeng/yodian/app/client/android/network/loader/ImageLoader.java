@@ -128,9 +128,16 @@ public class ImageLoader {
         return image(iv, url, null);
     }
 
+    public static ImageLoader image(ImageView iv, Uri url) {
+        return image(iv, url, null);
+    }
 
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder"})
     public static ImageLoader image(ImageView iv, String url, Drawable placeHolderDrawable) {
+        return image(iv, url, placeHolderDrawable, null);
+    }
+
+    public static ImageLoader image(ImageView iv, Uri url, Drawable placeHolderDrawable) {
         return image(iv, url, placeHolderDrawable, null);
     }
 
@@ -160,16 +167,20 @@ public class ImageLoader {
             placeHolderDrawable = iv.getResources().getDrawable(R.drawable.default_place_holder);
         if (errorDrawable != null) load.error(errorDrawable);
         if (iv instanceof RoundImageView) {
-            Transformation transformation = new RoundedTransformationBuilder()
-                    .borderColor(Color.WHITE)
-                    .borderWidthDp(2)
-                    .oval(true)
-                    .build();
-            load.transform(transformation);
+
+            load.transform(createTransformation());
         }
         load.placeholder(placeHolderDrawable);
         load.into(iv);
         return one;
+    }
+
+    public static Transformation createTransformation() {
+        return new RoundedTransformationBuilder()
+                .borderColor(Color.WHITE)
+                .borderWidthDp(2)
+                .oval(true)
+                .build();
     }
 
     public static void cancel(ImageView iv) {
