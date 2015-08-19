@@ -114,12 +114,14 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        controller.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+        controller.onPause();
     }
 
     @Override

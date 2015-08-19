@@ -23,7 +23,11 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
 import com.easemob.applib.controller.HXSDKHelper;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMMessage;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.henjue.library.hnet.Callback;
@@ -61,6 +65,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
@@ -79,7 +84,7 @@ import maimeng.yodian.app.client.android.widget.PagerRecyclerView;
  * Created by android on 15-7-13.
  */
 
-public class MainSelectorProxy implements ActivityProxy,
+public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.BaseViewHolder>,
         PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryView.CategoryClickListener {
 
@@ -152,7 +157,7 @@ public class MainSelectorProxy implements ActivityProxy,
         adapter = new SkillListSelectorAdapter(mActivity, this, mRefreshLayout);
         mRecyclerView.setAdapter(adapter);
 
-        animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION,0,420);
+        animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 0, 420);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -215,10 +220,10 @@ public class MainSelectorProxy implements ActivityProxy,
 
     private void categoryEnterAndDismissAnim() {
         mCategoryContainer.initAnimator(mActivity.getResources().getInteger(R.integer.duration_long), mToolBar.getHeight());
-        if(dgree%2==0){
-            animator.setFloatValues(0,420);
-        }else{
-            animator.setFloatValues(420,840);
+        if (dgree % 2 == 0) {
+            animator.setFloatValues(0, 420);
+        } else {
+            animator.setFloatValues(420, 840);
         }
         dgree++;
         if (animator != null && !animator.isRunning()) {
@@ -250,6 +255,7 @@ public class MainSelectorProxy implements ActivityProxy,
         mRefreshLayout.autoRefresh();
     }
 
+
     @Override
     public void onTitleChanged(CharSequence title, int color) {
     }
@@ -262,6 +268,12 @@ public class MainSelectorProxy implements ActivityProxy,
 
     @Override
     public void show(final FloatingActionButton button, boolean anima) {
+        int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+        if (unread > 0) {
+            mView.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
+        } else {
+            mView.findViewById(R.id.miss_msg_count).setVisibility(View.INVISIBLE);
+        }
         if (anima) {
             mFloatButton = button;
             button.attachToRecyclerView(mRecyclerView);
@@ -597,6 +609,42 @@ public class MainSelectorProxy implements ActivityProxy,
                 adapter.notifyItemChanged(mEditPostion);
                 mEditPostion = -1;
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        EMChatManager.getInstance().registerEventListener(this);
+        refreshMissMsgIcon();
+    }
+
+    @Override
+    public void onPause() {
+        EMChatManager.getInstance().unregisterEventListener(this);
+    }
+
+    private void refreshMissMsgIcon() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+                if (unread > 0) {
+                    mView.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
+                } else {
+                    mView.findViewById(R.id.miss_msg_count).setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void onEvent(EMNotifierEvent event) {
+        switch (event.getEvent()) {
+            case EventNewMessage:
+            case EventReadAck:
+                refreshMissMsgIcon();
+                break;
         }
     }
 }

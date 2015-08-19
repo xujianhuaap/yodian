@@ -25,7 +25,10 @@ import android.view.animation.Animation;
 import android.widget.AdapterViewAnimator;
 import android.widget.TextView;
 
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
 import com.easemob.applib.controller.HXSDKHelper;
+import com.easemob.chat.EMChatManager;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
@@ -78,7 +81,7 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
     private static final String LOG_TAG = MainHomeProxy.class.getSimpleName();
     private final CoordinatorLayout mView;
@@ -218,6 +221,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         init(read);
     }
 
+
     public void init(User user) {
         if (this.user == null) {
             this.user = user;
@@ -307,8 +311,24 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     public void onTitleChanged(CharSequence title, int color) {
     }
 
+    private void refreshMissMsgIcon() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+                if (unread > 0) {
+                    mView.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
+                } else {
+                    mView.findViewById(R.id.miss_msg_count).setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
+    }
+
     @Override
     public void show(FloatingActionButton button, boolean anima) {
+        refreshMissMsgIcon();
         this.mFloatButton = button;
         button.attachToRecyclerView(mRecyclerView);
         if (anima) {
@@ -568,5 +588,26 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
     @Override
     public void show(FloatingActionButton viewById) {
         show(viewById, true);
+    }
+
+    @Override
+    public void onResume() {
+        EMChatManager.getInstance().registerEventListener(this);
+        refreshMissMsgIcon();
+    }
+
+    @Override
+    public void onPause() {
+        EMChatManager.getInstance().unregisterEventListener(this);
+    }
+
+    @Override
+    public void onEvent(EMNotifierEvent event) {
+        switch (event.getEvent()) {
+            case EventNewMessage:
+            case EventReadAck:
+                refreshMissMsgIcon();
+                break;
+        }
     }
 }

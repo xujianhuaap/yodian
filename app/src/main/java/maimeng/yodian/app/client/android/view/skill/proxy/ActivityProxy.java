@@ -4,6 +4,7 @@ package maimeng.yodian.app.client.android.view.skill.proxy;
 import android.content.Intent;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by android on 15-7-13.
@@ -13,6 +14,9 @@ public interface ActivityProxy {
 
     void init();
 
+    void onResume();
+
+    void onPause();
 
     void onTitleChanged(CharSequence title, int color);
 

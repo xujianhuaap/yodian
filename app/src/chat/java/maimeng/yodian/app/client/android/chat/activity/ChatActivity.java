@@ -628,6 +628,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         // 初始化db时，每个conversation加载数目是getChatOptions().getNumberOfMessagesLoaded
         // 这个数目如果比用户期望进入会话界面时显示的个数不一样，就多加载一些
         final List<EMMessage> msgs = conversation.getAllMessages();
+        boolean handlerSkill = false;
         int msgCount = msgs != null ? msgs.size() : 0;
         if (msgCount < conversation.getAllMsgCount() && msgCount < pagesize) {
             String msgId = null;
@@ -642,7 +643,28 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 conversation.loadMoreGroupMsgFromDB(msgId, pagesize);
             }
         }
-
+        final EMMessage msg = conversation.getMessage(0);
+        if (msg != null) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        JSONObject skillJson = msg.getJSONObjectAttribute("skill");
+                        if (skillJson != null) {
+                            skill = new Skill();
+                            skill.setName(skillJson.getString("name"));
+                            skill.setId(skillJson.getLong("sid"));
+                            skill.setPrice(skillJson.getString("price"));
+                            skill.setUnit(skillJson.getString("unit"));
+                            skill.setPic(skillJson.getString("pic"));
+                            showSkill();
+                        }
+                    } catch (EaseMobException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
         EMChatManager.getInstance().addChatRoomChangeListener(new EMChatRoomChangeListener() {
 
             @Override
@@ -1015,8 +1037,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     }
 
     private void showSkill() {
-        //这里有问题，banner不显示
-        LogUtil.d("henjue", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         final boolean show = skill != null;
         if (show) {
             runOnUiThread(new Runnable() {
@@ -1038,7 +1058,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 }
             });
         }
-        LogUtil.d("henjue", "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
     /**
@@ -1130,23 +1149,29 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
     }
 
-    private void handlerSkillBanner(EMMessage message) {
-        try {
-            JSONObject skillJson = message.getJSONObjectAttribute("skill");
-            if (skillJson != null) {
-                skill = new Skill();
-                skill.setName(skillJson.getString("name"));
-                skill.setId(skillJson.getLong("sid"));
-                skill.setPrice(skillJson.getString("price"));
-                skill.setUnit(skillJson.getString("unit"));
-                skill.setPic(skillJson.getString("pic"));
-                initView();
-                setUpView();
-                showSkill();
+    private void handlerSkillBanner(final EMMessage message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject skillJson = message.getJSONObjectAttribute("skill");
+                    if (skillJson != null) {
+                        skill = new Skill();
+                        skill.setName(skillJson.getString("name"));
+                        skill.setId(skillJson.getLong("sid"));
+                        skill.setPrice(skillJson.getString("price"));
+                        skill.setUnit(skillJson.getString("unit"));
+                        skill.setPic(skillJson.getString("pic"));
+                        initView();
+                        setUpView();
+                        showSkill();
+                    }
+                } catch (EaseMobException | JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (EaseMobException | JSONException e) {
-            e.printStackTrace();
-        }
+        });
+
     }
 
 

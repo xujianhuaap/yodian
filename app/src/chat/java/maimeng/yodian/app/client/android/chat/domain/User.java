@@ -117,7 +117,7 @@ public class User extends EMContact {
         try {
             wechat = message.getStringAttribute("weChat");
         } catch (EaseMobException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         user.setAvatar(avatar);
         user.setId(uid);
