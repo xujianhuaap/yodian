@@ -33,14 +33,26 @@
                 android:layout_marginTop="40dp"
                 android:orientation="vertical">
 
-                <maimeng.yodian.app.client.android.widget.RoundImageView
-                    android:id="@+id/user_avatar"
+                <FrameLayout
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/default_avatar"
-                    app:borderSize="2dp"
-                    app:insideColor="#ffffff" />
+                    android:layout_gravity="center_horizontal">
+
+                    <maimeng.yodian.app.client.android.widget.RoundImageView
+                        android:id="@+id/user_avatar"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/default_avatar" />
+
+                    <ImageView
+                        android:id="@+id/ic_edit_avatar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom"
+                        android:src="@drawable/ic_edit_avatar" />
+                </FrameLayout>
+
 
                 <TextView
                     android:id="@+id/user_nickname"

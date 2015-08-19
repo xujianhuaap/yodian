@@ -40,8 +40,8 @@ public class RoundImageView extends ImageView {
     }
 
     public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context,attrs,defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.RoundImageView);
+        super(context, attrs, defStyleAttr);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView);
         mBorderThickness = a.getDimensionPixelSize(R.styleable.RoundImageView_borderSize, 0);
         mBorderOutsideColor = a.getColor(R.styleable.RoundImageView_outsideColor, defaultColor);
         mBorderInsideColor = a.getColor(R.styleable.RoundImageView_insideColor, defaultColor);
@@ -51,7 +51,7 @@ public class RoundImageView extends ImageView {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.RoundImageView,defStyleAttr,defStyleRes);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyleAttr, defStyleRes);
         mBorderThickness = a.getDimensionPixelSize(R.styleable.RoundImageView_borderSize, 0);
         mBorderOutsideColor = a.getColor(R.styleable.RoundImageView_outsideColor, defaultColor);
         mBorderInsideColor = a.getColor(R.styleable.RoundImageView_insideColor, defaultColor);
@@ -122,8 +122,7 @@ public class RoundImageView extends ImageView {
     /**
      * 获取裁剪后的圆形图片
      *
-     * @param radius
-     *            半径
+     * @param radius 半径
      */
     public Bitmap getCroppedRoundBitmap(Bitmap bmp, int radius) {
         Bitmap scaledSrcBmp;
@@ -192,7 +191,7 @@ public class RoundImageView extends ImageView {
      */
     private void drawCircleBorder(Canvas canvas, int radius, int color) {
         Paint paint = new Paint();
-		/* 去锯齿 */
+        /* 去锯齿 */
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         paint.setDither(true);

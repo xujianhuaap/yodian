@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import android.widget.AdapterViewAnimator;
 import android.widget.TextView;
 
 import com.easemob.applib.controller.HXSDKHelper;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -171,6 +173,7 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
             }
         });
         if (avatar != null) {
+
             mUserAvatar.setImageBitmap(avatar);
             this.defaultAvatar = avatar;
         }

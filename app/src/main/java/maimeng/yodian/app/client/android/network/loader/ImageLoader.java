@@ -3,20 +3,25 @@ package maimeng.yodian.app.client.android.network.loader;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.widget.ImageView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 /**
  * Created by android on 2015/7/31.
@@ -24,8 +29,6 @@ import maimeng.yodian.app.client.android.R;
 public class ImageLoader {
     public static final boolean DEBUG = true;
     private static ImageLoader network;
-    private final int screenWidth;
-    private final int screenHeight;
     private final Picasso loader;
 
     synchronized static ImageLoader getOne(Context app) {
@@ -40,8 +43,6 @@ public class ImageLoader {
     }
 
     private ImageLoader(Context app) {
-        screenWidth = app.getResources().getDisplayMetrics().widthPixels;
-        screenHeight = app.getResources().getDisplayMetrics().heightPixels;
         loader = Picasso.with(app);
         loader.setLoggingEnabled(BuildConfig.DEBUG || DEBUG);
         loader.setIndicatorsEnabled(BuildConfig.DEBUG || DEBUG);
@@ -105,6 +106,12 @@ public class ImageLoader {
     public static void image(Context context, Uri uri, int placeHolderDrawable, int errorDrawable, Target target, int width, int height) {
         ImageLoader one = getOne(context);
         RequestCreator load = one.loader.load(uri);
+        if (width <= 0) {
+            width = 640;
+        }
+        if (height <= 0) {
+            height = 640;
+        }
         load.resize(width, height);
         if (placeHolderDrawable <= 0) placeHolderDrawable = R.drawable.default_place_holder;
         if (errorDrawable != -1) load.error(errorDrawable);
@@ -113,7 +120,7 @@ public class ImageLoader {
     }
 
     public static void image(Context context, Uri uri, int placeHolderDrawable, int errorDrawable, Target target) {
-        image(context, uri, placeHolderDrawable, errorDrawable, target, getOne(context).screenWidth, getOne(context).screenHeight);
+        image(context, uri, placeHolderDrawable, errorDrawable, target, -1, -1);
     }
 
     @BindingAdapter("bind:imgUrl")
@@ -142,25 +149,31 @@ public class ImageLoader {
     public static ImageLoader image(ImageView iv, Uri uri, Drawable placeHolderDrawable, Drawable errorDrawable) {
         ImageLoader one = getOne(iv.getContext());
         RequestCreator load = one.loader.load(uri);
-        int width = one.screenWidth;
-        int height = one.screenHeight;
-        int width1 = iv.getWidth();
-        if (width1 > 0) {
-            width = width1;
+        int width = iv.getWidth();
+        int height = iv.getHeight();
+        if (width <= 0 || height <= 0) {
+            load.fit();
+        } else {
+            load.resize(width, height);
         }
-        int height1 = iv.getHeight();
-        if (height1 > 0) {
-            height = height1;
-        }
-        load.resize(width, height);
-        load.tag(iv.getContext());
         if (placeHolderDrawable == null)
             placeHolderDrawable = iv.getResources().getDrawable(R.drawable.default_place_holder);
         if (errorDrawable != null) load.error(errorDrawable);
+        if (iv instanceof RoundImageView) {
+            Transformation transformation = new RoundedTransformationBuilder()
+                    .borderColor(Color.WHITE)
+                    .borderWidthDp(2)
+                    .oval(true)
+                    .build();
+            load.transform(transformation);
+        }
         load.placeholder(placeHolderDrawable);
-        load.centerInside();
         load.into(iv);
         return one;
+    }
+
+    public static void cancel(ImageView iv) {
+        getOne(iv.getContext()).loader.cancelRequest(iv);
     }
 
     public static void image(ImageView iv, Uri url, int placeHolderDrawable) {

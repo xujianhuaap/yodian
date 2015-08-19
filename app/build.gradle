@@ -101,7 +101,7 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.10'
     compile 'com.j256.ormlite:ormlite-android:4.46'
     compile 'cn.bingoogolapple:bga-banner:2.0.3'
-
+    compile 'com.makeramen:roundedimageview:2.1.2'
 
     compile('net.glxn.qrgen:android:2.0')
 //    compile('org.henjue.library:sharesdk:1.0.2_beta3') {
