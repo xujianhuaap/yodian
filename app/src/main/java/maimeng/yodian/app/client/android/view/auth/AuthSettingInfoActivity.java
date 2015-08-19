@@ -213,12 +213,14 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
             this.bitmap = bitmap;
             mUserImg.setImageBitmap(bitmap);
         } else {
+            Toast.makeText(this, "获取第三方头像失败", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onBitmapFailed(Drawable errorDrawable) {
         System.out.println("onBitmapFailed");
+        Toast.makeText(this, "获取第三方头像失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
