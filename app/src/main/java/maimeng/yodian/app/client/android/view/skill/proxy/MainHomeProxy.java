@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -218,6 +220,11 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
             this.user = user;
         }
         inited = true;
+//        showUserInfo();
+        initSkillInfo();
+    }
+
+    private void showUserInfo() {
         final User read = User.read(mActivity);
         if (read.getUid() == user.getUid()) {
             Network.getService(UserService.class).info(new Callback<UserInfoResponse>() {
@@ -236,7 +243,6 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
                             read.write(mActivity);
                         }
                         initUsrInfo();
-                        initSkillInfo();
                     }
                 }
 
@@ -252,7 +258,6 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
             });
         } else {
             initUsrInfo();
-            initSkillInfo();
         }
     }
 
@@ -275,11 +280,21 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
         if (defaultAvatar != null) {
             ImageLoader.image(mUserAvatar, user.getAvatar(), new BitmapDrawable(defaultAvatar));
         } else {
-            ImageLoader.image(mActivity, Uri.parse(user.getAvatar()), new ImageLoader.ImageTarget(mUserAvatar) {
+            ImageLoader.image(mUserAvatar, user.getAvatar());
+            ImageLoader.image(mActivity, Uri.parse(user.getAvatar()), new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    super.onBitmapLoaded(bitmap, from);
                     defaultAvatar = bitmap;
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
                 }
             });
         }
@@ -489,7 +504,8 @@ public class MainHomeProxy implements ActivityProxy, AbstractAdapter.ViewHolderC
             List<Skill> list = res.getData().getList();
             adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
-            init(res.getData().getUser());
+            this.user.update(res.getData().getUser());
+            showUserInfo();
         } else {
             res.showMessage(mActivity);
             if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
