@@ -111,7 +111,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="添加新技能"
+                android:text="添加新技能 + "
                 android:textSize="16sp" />
 
             <View

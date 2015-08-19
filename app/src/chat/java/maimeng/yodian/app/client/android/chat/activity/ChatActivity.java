@@ -349,7 +349,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             public View getView(int position, View convertView, ViewGroup parent) {
                 ViewHolder holder;
                 if (convertView == null) {
-                    convertView = new TextView(ChatActivity.this);
+                    final TextView textView = new TextView(ChatActivity.this);
+                    textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    convertView = textView;
+
                     holder = new ViewHolder((TextView) convertView);
                     convertView.setTag(holder);
                 } else {
