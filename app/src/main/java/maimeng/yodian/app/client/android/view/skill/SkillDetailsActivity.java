@@ -11,8 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -75,6 +77,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
+import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
 /**
  * Created by android on 2015/7/22.
@@ -98,6 +101,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     private boolean isMe;
     private WaitDialog dialog;
     private FrameLayout noSkillRmark;
+    private Bitmap defaultAvatar;
 
     public int getTitleBarHeight() {
         if (mActionBarHeight != 0) {
@@ -111,6 +115,16 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     }
 
     private boolean inited = false;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (defaultAvatar != null && !defaultAvatar.isRecycled()) {
+            defaultAvatar.recycle();
+            defaultAvatar = null;
+            System.gc();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +163,13 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             @Override
             public void onClick(View v) {
                 ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""), 1);
+            }
+        });
+        headBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserHomeActivity.show(SkillDetailsActivity.this, skill.getUid(), defaultAvatar, skill.getNickname(), binding.btnBack, null,
+                        headBinding.userNickname);
             }
         });
         mPlaceHolderView = headBinding.getRoot();
@@ -242,6 +263,22 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
         if (getIntent().hasExtra("skill")) {
             Skill skill = getIntent().getParcelableExtra("skill");
+            ImageLoader.image(SkillDetailsActivity.this, Uri.parse(skill.getAvatar80()), new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    SkillDetailsActivity.this.defaultAvatar = bitmap;
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            }, 80, 80);
             sid = skill.getId();
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
@@ -369,6 +406,22 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 }
                 headBinding.setSkill(skill);
                 binding.setSkill(skill);
+                ImageLoader.image(SkillDetailsActivity.this, Uri.parse(skill.getAvatar80()), new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        SkillDetailsActivity.this.defaultAvatar = bitmap;
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                }, 80, 80);
                 Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
                 headBinding.price.setText(text);
                 binding.price.setText(text);
