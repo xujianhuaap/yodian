@@ -319,10 +319,10 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
         intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-//        intent.putExtra("aspectX", 1);
-//        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
+//         aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 3);
+        intent.putExtra("aspectY", 2);
+//         outputX outputY 是裁剪图片宽高
         final int width = binding.skillPic.getWidth();
         final int height = binding.skillPic.getHeight();
         intent.putExtra("outputX", width);

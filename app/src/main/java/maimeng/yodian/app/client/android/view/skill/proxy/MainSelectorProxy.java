@@ -95,7 +95,7 @@ public class MainSelectorProxy implements ActivityProxy,
     private final View mBtnChat;
     private boolean inited = false;
     private User user;
-    private int dgree = 1;
+    private int dgree = 0;
     private int page = 1;
     private int scid = 0;
     private final SkillListSelectorAdapter adapter;
@@ -152,7 +152,7 @@ public class MainSelectorProxy implements ActivityProxy,
         adapter = new SkillListSelectorAdapter(mActivity, this, mRefreshLayout);
         mRecyclerView.setAdapter(adapter);
 
-        animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180 * dgree);
+        animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION,0,420);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -167,6 +167,7 @@ public class MainSelectorProxy implements ActivityProxy,
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
+                dgree++;
                 mCategoryContainer.setVisibility(View.VISIBLE);
             }
 
@@ -214,9 +215,14 @@ public class MainSelectorProxy implements ActivityProxy,
 
     private void categoryEnterAndDismissAnim() {
         mCategoryContainer.initAnimator(mActivity.getResources().getInteger(R.integer.duration_long), mToolBar.getHeight());
-
+        if(dgree%2==0){
+            animator.setFloatValues(0,420);
+        }else{
+            animator.setFloatValues(420,840);
+        }
+        dgree++;
         if (animator != null && !animator.isRunning()) {
-
+            animator.setupStartValues();
             animator.start();
             dgree++;
         }
