@@ -42,7 +42,6 @@ public class Network {
 
     public void init(Application app) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(TypeData.class, new GsonConverter.TypeDataAdapter());
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Date.class, new GsonConverter.DateAdapter());
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(String.class, new GsonConverter.StringAdapter());
         net = new HNet.Builder()

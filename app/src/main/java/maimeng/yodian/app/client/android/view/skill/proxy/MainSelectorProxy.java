@@ -6,14 +6,11 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -27,7 +24,6 @@ import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMMessage;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.henjue.library.hnet.Callback;
@@ -51,7 +47,9 @@ import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
 import maimeng.yodian.app.client.android.common.PullHeadView;
-import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.model.skill.Banner;
+import maimeng.yodian.app.client.android.model.skill.DataNode;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
@@ -61,11 +59,9 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
@@ -383,7 +379,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 
     private void clickBanner(SkillListSelectorAdapter.BannerViewHolder holder) {
         int current = holder.currentPage % holder.list.banners.size();
-        SkillResponse.DataNode.Banner banner = holder.list.banners.get(current);
+        Banner banner = holder.list.banners.get(current);
         if (banner.getType() == 3) {
             Pair<View, String> back = Pair.create((View) mFloatButton, "back");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
@@ -557,7 +553,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     @Override
     public void success(SkillResponse res, Response response) {
         if (res.isSuccess()) {
-            SkillResponse.DataNode data = res.getData();
+            DataNode data = res.getData();
             List<Skill> list = data.getList();
             final List<ViewEntry> entries;
             if (page == 1) {

@@ -3,12 +3,14 @@ package maimeng.yodian.app.client.android.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import maimeng.yodian.app.client.android.network.response.TypeData;
+
 /**
  * Created by android on 15-8-10.
  */
-public class Theme implements Parcelable{
-    private  long scid;
-    private  String name;
+public class Theme implements Parcelable, TypeData {
+    private long scid;
+    private String name;
 
     protected Theme(Parcel in) {
         scid = in.readLong();

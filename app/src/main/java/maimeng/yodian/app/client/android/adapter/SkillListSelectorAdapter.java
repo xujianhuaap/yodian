@@ -22,8 +22,9 @@ import java.util.Random;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.network.loader.ImageLoader;
-import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.SkillListItemHeadBinding;
 import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
@@ -154,7 +155,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         public void bind(BannerViewEntry item) {
             this.list = item;
             List<View> views = new ArrayList<>();
-            for (SkillResponse.DataNode.Banner banner : item.banners) {
+            for (Banner banner : item.banners) {
                 ImageView iv = new ImageView(mContext);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 views.add(iv);

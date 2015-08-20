@@ -2,7 +2,6 @@ package maimeng.yodian.app.client.android.adapter;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -19,7 +18,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.RmarkListItemBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPreviewDiaryBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
-import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.User;
 
 /**

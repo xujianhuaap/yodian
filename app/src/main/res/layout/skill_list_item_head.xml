@@ -6,11 +6,11 @@
 
         <variable
             name="skill"
-            type="maimeng.yodian.app.client.android.network.response.SkillResponse.DataNode.Head" />
+            type="maimeng.yodian.app.client.android.model.skill.Head" />
 
         <variable
             name="user"
-            type="maimeng.yodian.app.client.android.network.response.SkillResponse.DataNode.Head" />
+            type="maimeng.yodian.app.client.android.model.skill.Head" />
     </data>
 
     <LinearLayout

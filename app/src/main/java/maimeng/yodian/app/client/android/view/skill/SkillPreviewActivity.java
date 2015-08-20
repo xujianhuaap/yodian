@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
-import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;

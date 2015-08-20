@@ -16,22 +16,19 @@
 #   public *;
 #}
 
-
 -keep class com.facebook.** { *;}
--keep class com.tencent.open.TDialog$*
--keep class com.tencent.open.TDialog$* {*;}
--keep class com.tencent.open.PKDialog
--keep class com.tencent.open.PKDialog {*;}
--keep class com.tencent.open.PKDialog$*
--keep class com.tencent.open.PKDialog$* {*;}
-
+-dontwarn com.facebook.**
+-keep class com.tencent.**
+-keep class com.tencent.** {*;}
+-dontwarn com.tencent.**
+#-keep class com.tencent.open.PKDialog
+#-keep class com.tencent.open.PKDialog {*;}
+#-keep class com.tencent.open.PKDialog$*
+#-keep class com.tencent.open.PKDialog$* {*;}
 -keep class butterknife.** { *; }
 -keep class **$$ViewInjector { *; }
-
 -keep class com.google.gson.** {*;}
-
--keep class com.tencent.mm.sdk.** {*;}
--dontwarn com.tencent.mm.sdk.**
+-dontwarn com.google.gson.**
 
 -keep class retrofit.** {*;}
 -dontwarn retrofit.**
@@ -52,21 +49,15 @@
 
 -dontwarn butterknife.internal.**
 -dontwarn java.lang.invoke.*
--dontwarn com.facebook.**
--dontwarn com.google.gson.**
--dontwarn maimeng.ketie.app.client.android.model.**
--keep class maimeng.ketie.app.client.android.model.** { *; }
+-dontwarn maimeng.yodian.app.client.android.model.**
+-keep class maimeng.yodian.app.client.android.model.** { *; }
 
--dontwarn maimeng.ketie.app.client.android.common.model.**
--keep class maimeng.ketie.app.client.android.common.model.** { *; }
+-dontwarn maimeng.yodian.app.client.android.common.model.**
+-keep class maimeng.yodian.app.client.android.common.model.** { *; }
+-keep class maimeng.yodian.app.client.android.network.response.** {*;}
+-dontwarn maimeng.yodian.app.client.android.network.response.**
 
--keep class maimeng.ketie.app.client.android.network.response.** {*;}
--dontwarn maimeng.ketie.app.client.android.network.response.**
-
--keep class maimeng.ketie.app.client.android.network2.response.** {*;}
--dontwarn maimeng.ketie.app.client.android.network2.response.**
-
--keep public class com.tencent.** {*;}
+#-keep public class * implements maimeng.yodian.app.client.android.network.response.TypeData{*;}
 
 -keepclasseswithmembernames class * {
     @butterknife.* <fields>;
@@ -130,10 +121,9 @@
 
 -keep class **.R$* { *;}
 
-#-keep class * extends android.support.v4.app.Fragment{*;}
-#-keep class * extends android.app.Activity{*;}
-#-keep class * extends android.support.v7.app.AppCompatActivity{*;}
-
+-keep class * extends android.support.v4.app.Fragment{*;}
+-keep class * extends android.app.Activity{*;}
+-keep class * extends android.support.v7.app.AppCompatActivity{*;}
 -keep class * extends android.app.Service{*;}
 -keep class * implements org.henjue.library.hnet.RequestFilter {*;}
 
@@ -152,13 +142,24 @@
 -keep class com.baidu.**{*;}
 -dontwarn com.baidu.**
 
-# baidu
--keep class com.tencent.**{*;}
--dontwarn com.tencent.**
+-keep class org.android.agoo.net.async.**{*;}
+-dontwarn org.android.agoo.net.async.**
 
+-keep class org.apache.**{*;}
+-dontwarn org.apache.**
+
+-keep class com.ta.utdid2.aid.**{*;}
+-dontwarn com.ta.utdid2.aid.**
+
+-keep class com.ument.**{*;}
+-dontwarn com.ument.**
+
+
+-keep class u.aly.bw.**{*;}
+-dontwarn u.aly.bw.**
 
 # 保持自定义控件类不被混淆
--keep class maimeng.ketie.app.client.android.widget.**{ *;}
+-keep class * extends android.view.View{*;}
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {

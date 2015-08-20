@@ -6,7 +6,7 @@
 
         <variable
             name="skill"
-            type="maimeng.yodian.app.client.android.model.Skill" />
+            type="maimeng.yodian.app.client.android.model.skill.Skill" />
     </data>
 
     <LinearLayout

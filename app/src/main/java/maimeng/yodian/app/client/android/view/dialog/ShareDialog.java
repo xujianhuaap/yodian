@@ -27,7 +27,6 @@ import com.squareup.picasso.Target;
 
 import net.glxn.qrgen.android.QRCode;
 
-import org.henjue.library.share.ShareListener;
 import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.IShareManager;
 import org.henjue.library.share.manager.QQShareManager;
@@ -48,7 +47,7 @@ import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.model.Rmark;
-import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;

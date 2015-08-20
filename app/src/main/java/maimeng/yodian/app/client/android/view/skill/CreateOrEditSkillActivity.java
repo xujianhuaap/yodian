@@ -28,14 +28,12 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.Skill;
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.model.User;

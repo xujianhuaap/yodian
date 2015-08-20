@@ -26,7 +26,7 @@ import java.io.File;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityRmarkPublishBinding;
-import maimeng.yodian.app.client.android.model.Skill;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;

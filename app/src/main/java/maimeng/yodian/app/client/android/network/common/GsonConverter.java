@@ -126,22 +126,7 @@ public class GsonConverter implements Converter {
             return new JsonPrimitive(src == null ? "" : src);
         }
     }
-
-    public static class TypeDataAdapter implements JsonDeserializer<TypeData> {
-        private final Gson gson;
-
-        public TypeDataAdapter() {
-            gson = new Gson();
-        }
-
-        @Override
-        public TypeData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            if (json instanceof JsonArray) {
-                return new ObjectTypeData();
-            }
-            return gson.fromJson(json, typeOfT);
-        }
-    }
+    
 
     public static class DateAdapter implements JsonDeserializer<java.util.Date>, JsonSerializer<java.util.Date> {
 

@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.model;
+package maimeng.yodian.app.client.android.model.skill;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -11,12 +11,13 @@ import java.util.Date;
 
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.BuildConfig;
+import maimeng.yodian.app.client.android.network.response.TypeData;
 
 
 /**
  * Created by android on 15-7-14.
  */
-public class Skill extends BaseObservable implements Parcelable {
+public class Skill extends BaseObservable implements Parcelable, TypeData {
 
     @SerializedName("sid")
     private long id;//技能id
