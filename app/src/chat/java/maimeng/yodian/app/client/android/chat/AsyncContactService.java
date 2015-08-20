@@ -60,7 +60,8 @@ public class AsyncContactService extends Service {
             }
         }
         UserDao userDao=new UserDao(this);
-        DemoApplication.getInstance().setContactList(userDao.getContactList());
+        Map<String, User> contactList = userDao.getContactList();
+        DemoApplication.getInstance().setContactList(contactList);
 //		asyncGetRobotNamesFromServer(new EMValueCallBack<List<EMContact>>() {
 //
 //			@Override

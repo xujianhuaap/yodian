@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -518,13 +518,15 @@ public class MessageAdapter extends BaseAdapter {
                         final String wechat = message.getStringAttribute("weChat");
                         holder.vcard_wechat.setText(wechat);
                         holder.vcard_nickname.setText(nickName);
+                        if (avatar != null) {
+                            ImageLoader.image(holder.vcard_avatar, Uri.parse(avatar));
+                        }
                         holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 v.getContext().startActivity(new Intent(v.getContext(), ContactDialog.class).putExtra("wechat", wechat));
                             }
                         });
-                        ImageLoader.image(holder.vcard_avatar, avatar);
                         if (message.direct == EMMessage.Direct.SEND) {
                             switch (message.status) {
                                 case SUCCESS: // 发送成功
@@ -1512,7 +1514,7 @@ public class MessageAdapter extends BaseAdapter {
         EMLog.d("###", "local = " + localFullSizePath + " remote: " + remote);
         // first check if the thumbnail image already loaded into cache
         Bitmap bitmap = ImageCache.getInstance().get(thumbernailPath);
-        if (bitmap != null) {
+        if (bitmap != null && false) {
             // thumbnail image is already loaded, reuse the drawable
             iv.setImageBitmap(bitmap);
             iv.setClickable(true);

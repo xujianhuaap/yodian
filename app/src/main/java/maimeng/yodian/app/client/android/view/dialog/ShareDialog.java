@@ -27,8 +27,10 @@ import com.squareup.picasso.Target;
 
 import net.glxn.qrgen.android.QRCode;
 
+import org.henjue.library.share.ShareListener;
 import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.IShareManager;
+import org.henjue.library.share.manager.QQShareManager;
 import org.henjue.library.share.manager.ShareFactory;
 import org.henjue.library.share.manager.WechatShareManager;
 import org.henjue.library.share.manager.WeiboShareManager;
@@ -362,11 +364,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     @OnClick(R.id.qqRoom)
     public void qzone(final View v) {
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.QQ);
-        String imgPath = skill.getPic();
-        if (imgPath != null && imgPath.startsWith("file://")) {
-            imgPath = Uri.parse(skill.getPic()).getPath();
-        }
-        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), 0/*,this*/);
+        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), QQShareManager.SHARE_TYPE_QZONE);
     }
 
     @OnClick(R.id.report)

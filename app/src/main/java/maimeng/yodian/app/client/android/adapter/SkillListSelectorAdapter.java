@@ -249,8 +249,8 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
-            binding.btnDelete.setTextColor(Color.parseColor("#000000"));
-            binding.btnDelete.setBackgroundColor(Color.parseColor("#44cccccc"));
+//            binding.btnDelete.setTextColor(Color.parseColor("#000000"));
+            binding.btnDelete.setBackgroundColor(Color.parseColor("#99000000"));
             binding.btnUpdate.setOnClickListener(this);
             //create by xu 08-06
             binding.btnReview.setOnClickListener(this);

@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -15,6 +16,8 @@ import java.lang.reflect.Method;
  */
 public class BGAViewPager extends ViewPager {
     private boolean mScrollable = true;
+    private float mDownX;
+    private float mDownY;
 
     public BGAViewPager(Context context) {
         super(context);
@@ -108,5 +111,27 @@ public class BGAViewPager extends ViewPager {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                mDownX = ev.getX();
+                mDownY = ev.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (Math.abs(getX() - mDownX) > Math.abs(ev.getY() - mDownY)) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                } else {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                getParent().requestDisallowInterceptTouchEvent(false);
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }
