@@ -5,11 +5,15 @@ import android.content.SharedPreferences;
 import android.databinding.Bindable;
 import android.text.TextUtils;
 
+import com.easemob.applib.controller.HXSDKHelper;
 import com.google.gson.annotations.SerializedName;
 
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
+import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
+import maimeng.yodian.app.client.android.chat.db.UserDao;
+import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 
 
 /**
@@ -160,7 +164,23 @@ public class User extends UserBaseColum {
             u.setNick(nickname);
             u.setId(uid);
             u.setWechat(user.getWechat());
+
+            RobotUser rotot = new RobotUser();
+            rotot.setAvatar(img);
+            rotot.setUsername(chatname);
+            rotot.setNick(nickname);
+            rotot.setId(uid);
+            rotot.setWechat(user.getWechat());
+
+
             YApplication.getInstance().setCurrentUser(u);
+            // 存入内存
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(u.getUsername(), u);
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(u.getUsername(), rotot);
+            // 存入db
+            UserDao dao = new UserDao(context);
+            dao.saveOrUpdate(u);
+            dao.saveOrUpdate(rotot);
             return user;
         }
     }

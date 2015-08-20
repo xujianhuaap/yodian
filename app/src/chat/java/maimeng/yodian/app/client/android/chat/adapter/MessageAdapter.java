@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -524,7 +524,6 @@ public class MessageAdapter extends BaseAdapter {
                                 v.getContext().startActivity(new Intent(v.getContext(), ContactDialog.class).putExtra("wechat", wechat));
                             }
                         });
-                        ImageLoader.image(holder.vcard_avatar, avatar);
                         if (message.direct == EMMessage.Direct.SEND) {
                             switch (message.status) {
                                 case SUCCESS: // 发送成功

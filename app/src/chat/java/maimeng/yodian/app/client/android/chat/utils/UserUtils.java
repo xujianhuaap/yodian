@@ -42,7 +42,6 @@ public class UserUtils {
         User user = getUserInfo(username);
         if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
             ImageLoader.image(imageView, Uri.parse(user.getAvatar()));
-            Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(imageView);
         } else {
             Picasso.with(context).load(R.drawable.default_avatar).transform(ImageLoader.createTransformation()).into(imageView);
         }
