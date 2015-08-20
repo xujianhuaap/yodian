@@ -78,11 +78,12 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         service = Network.getService(UserService.class);
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_setting_user_info, null, false);
         setContentView(binding.getRoot());
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.setHomeButtonEnabled(true);
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//        }
+        setTitle("");
         ViewCompat.setTransitionName(binding.userAvatar, "avatar");
         ViewCompat.setTransitionName(binding.btnBack, "back");
         user = User.read(this);
