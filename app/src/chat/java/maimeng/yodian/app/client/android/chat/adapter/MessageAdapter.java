@@ -1514,7 +1514,7 @@ public class MessageAdapter extends BaseAdapter {
         EMLog.d("###", "local = " + localFullSizePath + " remote: " + remote);
         // first check if the thumbnail image already loaded into cache
         Bitmap bitmap = ImageCache.getInstance().get(thumbernailPath);
-        if (bitmap != null) {
+        if (bitmap != null && false) {
             // thumbnail image is already loaded, reuse the drawable
             iv.setImageBitmap(bitmap);
             iv.setClickable(true);

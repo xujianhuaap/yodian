@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -60,7 +60,7 @@ public class LoadImageTask extends AsyncTask<Object, Void, Bitmap> {
         File file = new File(thumbnailPath);
         Context context = (Context) args[7];
         //final int dimensionPixelSize = context.getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
-        final int dimensionPixelSize = 160;
+        final int dimensionPixelSize = 220;
         if (file.exists()) {
             return ImageUtils.decodeScaleImage(thumbnailPath, dimensionPixelSize, dimensionPixelSize);
         } else {
