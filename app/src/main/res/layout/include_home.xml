@@ -62,7 +62,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|bottom"
-                        android:src="@drawable/ic_edit_avatar" />
+                        android:src="@drawable/ic_edit_avatar"
+                        android:visibility="gone" />
                 </FrameLayout>
 
 

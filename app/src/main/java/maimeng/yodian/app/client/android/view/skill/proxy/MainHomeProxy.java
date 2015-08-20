@@ -229,6 +229,11 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         inited = true;
 //        showUserInfo();
         initSkillInfo();
+        if (user.getUid() != User.read(mActivity).getUid()) {
+            mView.findViewById(R.id.ic_edit_avatar).setVisibility(View.GONE);
+        } else {
+            mView.findViewById(R.id.ic_edit_avatar).setVisibility(View.VISIBLE);
+        }
     }
 
     private void showUserInfo() {
