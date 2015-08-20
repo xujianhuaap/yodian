@@ -238,7 +238,7 @@ public class User extends UserBaseColum {
         final String chatLoginName = user.getChatLoginName();
         final String nickname = user.getNickname();
         final String wecaht = user.getWechat();
-        if (!TextUtils.isEmpty(avatar)) {
+        if (!TextUtils.isEmpty(avatar) && !"http://".equalsIgnoreCase(avatar)) {
             this.avatar = avatar;
         }
         if (!TextUtils.isEmpty(chatLoginName)) {
