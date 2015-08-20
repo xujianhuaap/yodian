@@ -518,6 +518,9 @@ public class MessageAdapter extends BaseAdapter {
                         final String wechat = message.getStringAttribute("weChat");
                         holder.vcard_wechat.setText(wechat);
                         holder.vcard_nickname.setText(nickName);
+                        if (avatar != null) {
+                            ImageLoader.image(holder.vcard_avatar, Uri.parse(avatar));
+                        }
                         holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
