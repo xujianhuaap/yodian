@@ -8,17 +8,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tencent.mm.sdk.constants.ConstantsAPI;
-import com.tencent.mm.sdk.modelmsg.WXAppLaunchData;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
-
-import org.henjue.library.share.ShareSDK;
 import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.AuthFactory;
-import org.henjue.library.share.manager.IAuthManager;
 import org.henjue.library.share.manager.WechatAuthManager;
 
-import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.R;
 import pl.droidsonroids.gif.GifImageView;
 
