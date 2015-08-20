@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -248,6 +249,8 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
+            binding.btnDelete.setTextColor(Color.parseColor("#000000"));
+            binding.btnDelete.setBackgroundColor(Color.parseColor("#44cccccc"));
             binding.btnUpdate.setOnClickListener(this);
             //create by xu 08-06
             binding.btnReview.setOnClickListener(this);

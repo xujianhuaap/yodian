@@ -146,6 +146,15 @@
 
 # 新浪微博
 -keep class com.sina.**{*;}
+-dontwarn com.sina.**
+
+# baidu
+-keep class com.baidu.**{*;}
+-dontwarn com.baidu.**
+
+# baidu
+-keep class com.tencent.**{*;}
+-dontwarn com.tencent.**
 
 
 # 保持自定义控件类不被混淆
