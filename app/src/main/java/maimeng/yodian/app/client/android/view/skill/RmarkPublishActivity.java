@@ -88,7 +88,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     private void refresh(Skill skill) {
 
         if (mBitmap != null) {
-            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap, 360, 360).build();
+            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap,360,720).build();
             mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
@@ -219,7 +219,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
             }
 
             mBinding.cheSelectPhoto.setChecked(false);
-            mBitmap =ImageLoader.image(this,uri,1020,1020);
+            mBitmap =ImageLoader.image(this,uri,720,1080);
             mBinding.skillPic.setImageBitmap(mBitmap);
 
 

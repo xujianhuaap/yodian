@@ -17,7 +17,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:layout_marginTop="3dp">
@@ -32,7 +32,7 @@
                 android:gravity="bottom"
                 android:text="@{rmark.createtime}" />
 
-            <FrameLayout
+            `<FrameLayout
                 android:id="@+id/fra_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,8 +68,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp"
                 android:layout_below="@id/fra_container"
-                android:scaleType="centerCrop"
-                app:imgUrl="@{rmark.pic}" />
+                android:scaleType="centerInside"
+                app:imgUrl="@{rmark.pic}"
+                />
 
             <TextView
                 android:id="@+id/content"

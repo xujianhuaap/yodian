@@ -89,7 +89,7 @@
                 android:id="@+id/sina"
                 android:drawableTop="@drawable/ic_share_weibo"
                 android:gravity="center"
-                android:text="新浪"
+                android:text="微博"
                 android:padding="@dimen/dialog_share_item_padding"
                 android:textColor="#fff"
                 android:layout_marginLeft="10dp"
