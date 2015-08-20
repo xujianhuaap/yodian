@@ -113,6 +113,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     private ImageView mTitleIndicator;
     private android.support.v7.widget.Toolbar mToolBar;
     private TextView mTitle;
+    private View mTitleBar;
     private ObjectAnimator animator;
 
 
@@ -133,10 +134,11 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         mToolBar = (android.support.v7.widget.Toolbar) view.findViewById(R.id.toolbar);
         mCategoryView = (CategoryView) mCategoryContainer.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);
+        mTitleBar=view.findViewById(R.id.ll_title);
         mTitleIndicator = (ImageView) view.findViewById(R.id.title_logo);
         mTitle = (TextView) view.findViewById(R.id.list_title);
-        mTitle.setOnClickListener(this);
-        mTitle.setTag(CATEGORY_ANIM_ENTER);
+        mTitleBar.setOnClickListener(this);
+        mTitleBar.setTag(CATEGORY_ANIM_ENTER);
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (PagerRecyclerView) view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
@@ -162,7 +164,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
 
-                if (mTitle.getTag().equals(CATEGORY_ANIM_ENTER)) {
+                if (mTitleBar.getTag().equals(CATEGORY_ANIM_ENTER)) {
                     mCategoryContainer.enterAnimator.setCurrentPlayTime(animation.getCurrentPlayTime());
                 } else {
                     mCategoryContainer.dismissAnimator.setCurrentPlayTime(animation.getCurrentPlayTime());
@@ -179,10 +181,10 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             @Override
             public void onAnimationEnd(Animator animation) {
 
-                if (mTitle.getTag().equals(CATEGORY_ANIM_ENTER)) {
-                    mTitle.setTag(CATEGORY_ANIM_DISMISS);
+                if (mTitleBar.getTag().equals(CATEGORY_ANIM_ENTER)) {
+                    mTitleBar.setTag(CATEGORY_ANIM_DISMISS);
                 } else {
-                    mTitle.setTag(CATEGORY_ANIM_ENTER);
+                    mTitleBar.setTag(CATEGORY_ANIM_ENTER);
                 }
             }
 
@@ -360,7 +362,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 
     @Override
     public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
-        if (mCategoryContainer != null && mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)) {
+        if (mCategoryContainer != null && mTitleBar.getTag().equals(CATEGORY_ANIM_DISMISS)) {
             categoryEnterAndDismissAnim();
             return;
         }
@@ -421,7 +423,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     @Override
     public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, final int postion) {
 
-        if (mCategoryContainer != null && mTitle.getTag().equals(CATEGORY_ANIM_DISMISS)) {
+        if (mCategoryContainer != null && mTitleBar.getTag().equals(CATEGORY_ANIM_DISMISS)) {
             categoryEnterAndDismissAnim();
             return;
         }

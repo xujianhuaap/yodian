@@ -79,28 +79,10 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/top_icon_margin">
 
-                <ImageView
-                    android:id="@+id/btn_chat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:src="@drawable/ic_msg" />
-
-                <ImageView
-                    android:id="@+id/miss_msg_count"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="top|right"
-                    android:src="@drawable/miss_msg_count"
-                    android:visibility="invisible" />
-            </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/ll_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -126,6 +108,27 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_triangle_indicator" />
             </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/top_icon_margin">
+
+                <ImageView
+                    android:id="@+id/btn_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:src="@drawable/ic_msg" />
+
+                <ImageView
+                    android:id="@+id/miss_msg_count"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="top|right"
+                    android:src="@drawable/miss_msg_count"
+                    android:visibility="invisible" />
+            </FrameLayout>
         </FrameLayout>
 
 
