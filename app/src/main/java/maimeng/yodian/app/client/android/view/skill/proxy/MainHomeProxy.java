@@ -430,6 +430,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                             super.success(res, response);
                             if (res.isSuccess()) {
                                 adapter.remove(postion);
+                                if (adapter.getItemCount() <= 0) {
+                                    mFloatButton.show(true);
+                                }
                             }
                         }
 
