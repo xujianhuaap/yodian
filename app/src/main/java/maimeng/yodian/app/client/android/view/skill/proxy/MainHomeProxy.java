@@ -62,7 +62,10 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
+import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
+import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -77,7 +80,7 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener, AlertDialog.PositiveListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
     private static final String LOG_TAG = MainHomeProxy.class.getSimpleName();
     private final CoordinatorLayout mView;
@@ -182,6 +185,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     }
 
     public void syncRequest() {
+        LogUtil.i(LOG_TAG, "syncRequest().user.id:%d,user.id:%d", user.getId(), user.getId());
         service.list(user.getUid(), page, this);
     }
 
@@ -222,6 +226,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         if (this.user == null) {
             this.user = user;
         }
+        LogUtil.i(LOG_TAG, "init().uid:%d,token:%s", user.getId(), user.getToken());
         inited = true;
 //        showUserInfo();
         initSkillInfo();
@@ -234,6 +239,8 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
     private void showUserInfo() {
         final User read = User.read(mActivity);
+        LogUtil.i(LOG_TAG, "showUserInfo().read.id:%d,user.id:%d", read.getId(), user.getId());
+        LogUtil.i(LOG_TAG, "showUserInfo().read.token:%s,user.token:%s", read.getToken(), user.getToken());
         if (read.getUid() == user.getUid()) {
             Network.getService(UserService.class).info(new Callback<UserInfoResponse>() {
                 @Override
@@ -248,6 +255,13 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                         MainHomeProxy.this.user.setInfo(data);
                         if (MainHomeProxy.this.user.getUid() == data.getUid()) {
                             MainHomeProxy.this.user.write(mActivity);
+                            mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
+                            if (TextUtils.isEmpty(user.getNickname()) || TextUtils.isEmpty(user.getAvatar())) {
+                                AlertDialog dialog = AlertDialog.newInstance("资料补全", "你的资料不完整，请补全资料!");
+                                dialog.setCancelable(false);
+                                dialog.setPositiveListener(MainHomeProxy.this);
+                                dialog.show(mActivity.getFragmentManager(), "dialog");
+                            }
                         }
                         initUsrInfo();
                     }
@@ -266,6 +280,16 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         } else {
             initUsrInfo();
         }
+    }
+
+    @Override
+    public void onPositiveClick(DialogInterface dialog) {
+        mActivity.startActivityForResult(new Intent(mActivity, AuthSettingInfoActivity.class), REQUEST_UPDATEINFO);
+    }
+
+    @Override
+    public String positiveText() {
+        return "是";
     }
 
     private void initSkillInfo() {

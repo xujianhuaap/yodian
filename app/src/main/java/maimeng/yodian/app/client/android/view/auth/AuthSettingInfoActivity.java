@@ -181,15 +181,10 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
                     startPhotoZoom(Uri.fromFile(new File(paths.get(0))));
                     break;
                 case REQUEST_PHOTORESOULT:
-                    try {
-                        bitmap = BitmapFactory.decodeFileDescriptor(new FileInputStream(tempFile).getFD());
-                        onBitmapLoaded(bitmap, null);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        if (window != null) {
-                            window.dismiss();
-                        }
+                    Uri uri = Uri.fromFile(tempFile);
+                    ImageLoader.image(this, uri, this);
+                    if (window != null) {
+                        window.dismiss();
                     }
 
                     break;

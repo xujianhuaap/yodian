@@ -2,14 +2,17 @@ package maimeng.yodian.app.client.android.network.common;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.JsonWriter;
 
 import org.henjue.library.hnet.RequestFacade;
 import org.json.JSONObject;
 
+import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
+
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.utils.LogUtil;
@@ -21,10 +24,11 @@ import maimeng.yodian.app.client.android.utils.MD5Util;
 public class RequestIntercept implements org.henjue.library.hnet.RequestIntercept {
     private final Context mContext;
 
-    public RequestIntercept(Context context){
-        this.mContext=context;
+    public RequestIntercept(Context context) {
+        this.mContext = context;
 
     }
+
     private ConcurrentHashMap<String, String> params = new ConcurrentHashMap<>();
 
     @Override
@@ -34,14 +38,19 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
          * 添加一些任何任何接口都必须有的参数
          */
         request.add("versionName", String.valueOf(YApplication.versionCode));
-//        request.add("sign", "maimengkeji@4c6a32ac439d8a355215f9c956bdf72c");
-        request.add("clientType",2);
+        request.add("clientType", 2);
         request.add("channelType", YApplication.channelId);
-        if(mContext!=null){
+        if (mContext != null) {
             User auth = User.read(mContext);
             String token = auth.getToken();
-            if(auth!=null && !TextUtils.isEmpty(token) && !params.containsKey("SN_KEY_API")){
-                request.add("SN_KEY_API", token);
+            if (!TextUtils.isEmpty(token)) {
+                if (!params.containsKey("SN_KEY_API")) {
+                    request.add("SN_KEY_API", token);
+                } else {
+                    LogUtil.i("RequestIntercept", "SN_KEY_API exists for params,%s", params.get("SN_KEY_API"));
+                }
+            } else {
+                LogUtil.i("RequestIntercept", "local token is null");
             }
         }
 
@@ -51,7 +60,11 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
 //            params.put("key", key);
 //        }
 //        request.add("key", key);
-        LogUtil.i("RequestIntercept", new JSONObject(params).toString());
+        LogUtil.i("RequestIntercept", "Print %s Params Start:", request.getPath());
+        for (String key : params.keySet()) {
+            LogUtil.i("RequestIntercept", "%s:%s", key, params.get(key));
+        }
+        LogUtil.i("RequestIntercept", "Print Params End.\n");
     }
 
     private String getKey(Map<String, String> params) {

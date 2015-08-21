@@ -34,19 +34,21 @@ public class SettingsActivity extends AbstractActivity {
     private TextView mCurrentVersion;
     PopupWindow window;
     User user;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             ActivityCompat.finishAfterTransition(SettingsActivity.this);
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null) {
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.mm_title_back);
@@ -107,7 +109,7 @@ public class SettingsActivity extends AbstractActivity {
                     }
                 });
                 tvAccountName.setText(getString(R.string.currentAccount, user.getNickname()));
-                window.showAtLocation(findViewById(android.R.id.content), Gravity.BOTTOM, 0, 0);
+                window.showAtLocation(findViewById(R.id.root), Gravity.BOTTOM, 0, 0);
             }
         });
         mBtnCleanCache.setOnClickListener(new View.OnClickListener() {
