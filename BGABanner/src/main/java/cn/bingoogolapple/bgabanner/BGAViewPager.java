@@ -113,6 +113,16 @@ public class BGAViewPager extends ViewPager {
         }
     }
 
+    private BGABanner.OnFlipListener onFlipListener;
+
+    BGABanner.OnFlipListener getOnFlipListener() {
+        return onFlipListener;
+    }
+
+    void setOnFlipListener(BGABanner.OnFlipListener onFlipListener) {
+        this.onFlipListener = onFlipListener;
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getActionMasked()) {
@@ -122,14 +132,14 @@ public class BGAViewPager extends ViewPager {
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (Math.abs(getX() - mDownX) > Math.abs(ev.getY() - mDownY)) {
-                    getParent().requestDisallowInterceptTouchEvent(true);
+                    if (onFlipListener != null) onFlipListener.onFlip();
                 } else {
-                    getParent().requestDisallowInterceptTouchEvent(false);
+                    if (onFlipListener != null) onFlipListener.onCancel();
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                getParent().requestDisallowInterceptTouchEvent(false);
+                if (onFlipListener != null) onFlipListener.onCancel();
                 break;
         }
         return super.dispatchTouchEvent(ev);

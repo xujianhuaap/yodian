@@ -125,7 +125,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         }
     }
 
-    public class BannerViewHolder extends BaseViewHolder implements ViewPager.OnPageChangeListener {
+    public class BannerViewHolder extends BaseViewHolder implements ViewPager.OnPageChangeListener, BGABanner.OnFlipListener {
         public BGABanner banner;
         private final BGABanner.TransitionEffect[] types;
         public int currentPage;
@@ -148,6 +148,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                     BGABanner.TransitionEffect.Depth,
                     BGABanner.TransitionEffect.Zoom};
             banner.addOnPageChangeListener(this);
+            banner.setOnFlipListener(this);
 
 
         }
@@ -189,6 +190,16 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         @Override
         public void onPageScrollStateChanged(int state) {
 
+        }
+
+        @Override
+        public void onFlip() {
+            refreshLayout.setEnabled(false);
+        }
+
+        @Override
+        public void onCancel() {
+            refreshLayout.setEnabled(true);
         }
     }
 
