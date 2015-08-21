@@ -64,6 +64,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/skill_list_item_img_size"
                         android:layout_below="@+id/user_nickname"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
                         app:imgUrl="@{skill.pic}" />
@@ -73,6 +75,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/skill_list_item_img_size"
                         android:layout_below="@+id/user_nickname"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
                         android:src="@drawable/pic_skill_state_xiajia"
@@ -147,7 +151,6 @@
                 android:id="@+id/user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
                 app:imgUrl="@{skill.avatar80}" />
         </FrameLayout>
 

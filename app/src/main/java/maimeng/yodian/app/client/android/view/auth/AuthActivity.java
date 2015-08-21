@@ -1,6 +1,8 @@
 package maimeng.yodian.app.client.android.view.auth;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.umeng.message.UmengRegistrar;
@@ -16,12 +19,16 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
@@ -33,6 +40,9 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     private AuthService service;
     private EditText mMobile;
     private WaitDialog dialog;
+    private Handler mHanlder;
+    private int mTotalTime=0;
+    private TextView mCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +53,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         mMobile = (EditText) findViewById(R.id.mobile);
 //        setTitle("登录");
         mBtnLogin = findViewById(R.id.btn_login);
-        findViewById(R.id.btn_getcode).setOnClickListener(this);
+        mCode = (TextView)findViewById(R.id.btn_getcode);
+        mCode.setOnClickListener(this);
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +68,15 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 mMobile.setText("");
             }
         });
+
+        mHanlder = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mCode.setText((mTotalTime - msg.arg1) + "");
+                mTotalTime=-msg.arg1;
+            }
+        };
     }
 
     @Override
@@ -64,7 +84,44 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         Editable text = mMobile.getText();
         if (text != null) {
             if (v.getId() == R.id.btn_getcode) {
-                service.getCode(text.toString(), new ToastCallback(v.getContext()));
+                service.getCode(text.toString(), new Callback<ToastResponse>() {
+                    @Override
+                    public void start() {
+
+                    }
+
+                    @Override
+                    public void success(ToastResponse toastResponse, Response response) {
+                        if(toastResponse.isSuccess()){
+
+
+                            mHanlder.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mCode.setText("剩余"+(60-mTotalTime)+"秒");
+                                    mTotalTime++;
+                                    if(mTotalTime<60){
+                                        mHanlder.postDelayed(this,1000);
+                                    }else {
+                                        mCode.setText("获取验证码");
+                                        mTotalTime=0;
+                                    }
+                                }
+                            },1000);
+
+                        }
+                    }
+
+                    @Override
+                    public void failure(HNetError hNetError) {
+
+                    }
+
+                    @Override
+                    public void end() {
+
+                    }
+                });
             } else if (v.getId() == R.id.btn_login) {
                 Editable code = ((EditText) findViewById(R.id.code)).getText();
                 if(TextUtils.isEmpty(code)){

@@ -11,6 +11,7 @@ import org.henjue.library.hnet.anntoation.Post;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 /**
  * Created by android on 15-7-13.
@@ -49,7 +50,7 @@ public interface AuthService {
      * @param callback
      */
     @Post(ApiConfig.Api.AUTH_GETCODE)
-    void getCode(@Param("mobile") String mobile, ToastCallback callback);
+    void getCode(@Param("mobile") String mobile, Callback<ToastResponse> callback);
 
 
     class LoginThirdPartyFilter implements RequestFilter {

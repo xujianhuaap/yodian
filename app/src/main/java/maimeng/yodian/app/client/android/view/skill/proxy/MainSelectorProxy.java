@@ -223,11 +223,10 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         } else {
             animator.setFloatValues(420, 840);
         }
-        dgree++;
+
         if (animator != null && !animator.isRunning()) {
             animator.setupStartValues();
             animator.start();
-            dgree++;
         }
 
 
