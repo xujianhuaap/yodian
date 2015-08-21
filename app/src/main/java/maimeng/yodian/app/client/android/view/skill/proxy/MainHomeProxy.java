@@ -80,7 +80,7 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener, AlertDialog.PositiveListener {
+public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
     private static final String LOG_TAG = MainHomeProxy.class.getSimpleName();
     private final CoordinatorLayout mView;
@@ -256,12 +256,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                         if (MainHomeProxy.this.user.getUid() == data.getUid()) {
                             MainHomeProxy.this.user.write(mActivity);
                             mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
-                            if (TextUtils.isEmpty(user.getNickname()) || TextUtils.isEmpty(user.getAvatar())) {
-                                AlertDialog dialog = AlertDialog.newInstance("资料补全", "你的资料不完整，请补全资料!");
-                                dialog.setCancelable(false);
-                                dialog.setPositiveListener(MainHomeProxy.this);
-                                dialog.show(mActivity.getFragmentManager(), "dialog");
-                            }
                         }
                         initUsrInfo();
                     }
@@ -280,16 +274,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         } else {
             initUsrInfo();
         }
-    }
-
-    @Override
-    public void onPositiveClick(DialogInterface dialog) {
-        mActivity.startActivityForResult(new Intent(mActivity, AuthSettingInfoActivity.class), REQUEST_UPDATEINFO);
-    }
-
-    @Override
-    public String positiveText() {
-        return "是";
     }
 
     private void initSkillInfo() {
