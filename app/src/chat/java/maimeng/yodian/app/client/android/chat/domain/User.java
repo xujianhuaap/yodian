@@ -99,19 +99,19 @@ public class User extends EMContact {
         try {
             nickname = message.getStringAttribute("nickName");
         } catch (EaseMobException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         String avatar = null;
         try {
             avatar = message.getStringAttribute("avatar");
         } catch (EaseMobException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         String uid = null;
         try {
             uid = message.getStringAttribute("uid");
         } catch (EaseMobException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         String wechat = null;
         try {

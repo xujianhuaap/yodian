@@ -158,6 +158,16 @@
 -keep class u.aly.bw.**{*;}
 -dontwarn u.aly.bw.**
 
+
+# OrmLite uses reflection
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+
+
 # 保持自定义控件类不被混淆
 -keep class * extends android.view.View{*;}
 
