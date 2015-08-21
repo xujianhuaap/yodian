@@ -181,15 +181,10 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
                     startPhotoZoom(Uri.fromFile(new File(paths.get(0))));
                     break;
                 case REQUEST_PHOTORESOULT:
-                    try {
-                        bitmap = BitmapFactory.decodeFileDescriptor(new FileInputStream(tempFile).getFD());
-                        onBitmapLoaded(bitmap, null);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        if (window != null) {
-                            window.dismiss();
-                        }
+                    Uri uri = Uri.fromFile(tempFile);
+                    ImageLoader.image(this, uri, this);
+                    if (window != null) {
+                        window.dismiss();
                     }
 
                     break;
@@ -258,6 +253,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
 
                     @Override
                     public void success(ModifyUserResponse res, Response response) {
+                        res.showMessage(AuthSettingInfoActivity.this);
                         if (res.isSuccess()) {
                             user = new User(user.getT_nickname(), user.getT_img(), user.loginType, user.getToken(), user.getUid(), text.toString(), user.getChatLoginName(), res.getData().getAvatar());
                             user.write(AuthSettingInfoActivity.this);

@@ -74,8 +74,8 @@ public class WaitDialog extends android.app.DialogFragment {
             tv.setVisibility(View.GONE);
         }
         android.app.AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCanceledOnTouchOutside(false);
         return dialog;
     }
 }

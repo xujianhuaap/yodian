@@ -64,14 +64,28 @@ public class BGABanner extends RelativeLayout {
     private int mTipTextColor = Color.WHITE;
     private int mPointDrawableResId = R.drawable.selector_bgabanner_point;
     private Drawable mPointContainerBackgroundDrawable;
-
-    private Handler mAutoPlayHandler = new Handler() {
+    private final Handler mAutoPlayHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
             mAutoPlayHandler.sendEmptyMessageDelayed(WHAT_AUTO_PLAY, mAutoPlayInterval);
         }
     };
+
+    public interface OnFlipListener {
+        void onFlip();
+
+        void onCancel();
+    }
+
+
+    public OnFlipListener getOnFlipListener() {
+        return mViewPager.getOnFlipListener();
+    }
+
+    public void setOnFlipListener(OnFlipListener onFlipListener) {
+        mViewPager.setOnFlipListener(onFlipListener);
+    }
 
     public BGABanner(Context context, AttributeSet attrs) {
         this(context, attrs, 0);

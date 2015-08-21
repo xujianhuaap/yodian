@@ -24,6 +24,6 @@ public class DefaultActivity extends AbsSplashActivity {
 
     @Override
     protected Drawable splash() {
-        return getResources().getDrawable(R.drawable.splash_baidu);
+        return getResources().getDrawable(R.drawable.splash_default);
     }
 }

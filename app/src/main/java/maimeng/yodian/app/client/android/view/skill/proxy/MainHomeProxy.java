@@ -62,7 +62,10 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
+import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
+import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -182,6 +185,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     }
 
     public void syncRequest() {
+        LogUtil.i(LOG_TAG, "syncRequest().user.id:%d,user.id:%d", user.getId(), user.getId());
         service.list(user.getUid(), page, this);
     }
 
@@ -222,18 +226,23 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         if (this.user == null) {
             this.user = user;
         }
+        LogUtil.i(LOG_TAG, "init().uid:%d,token:%s", user.getId(), user.getToken());
         inited = true;
 //        showUserInfo();
         initSkillInfo();
         if (user.getUid() != User.read(mActivity).getUid()) {
             mView.findViewById(R.id.ic_edit_avatar).setVisibility(View.GONE);
+            mView.findViewById(R.id.miss_msg_count).setVisibility(View.GONE);
         } else {
             mView.findViewById(R.id.ic_edit_avatar).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
         }
     }
 
     private void showUserInfo() {
         final User read = User.read(mActivity);
+        LogUtil.i(LOG_TAG, "showUserInfo().read.id:%d,user.id:%d", read.getId(), user.getId());
+        LogUtil.i(LOG_TAG, "showUserInfo().read.token:%s,user.token:%s", read.getToken(), user.getToken());
         if (read.getUid() == user.getUid()) {
             Network.getService(UserService.class).info(new Callback<UserInfoResponse>() {
                 @Override
@@ -248,6 +257,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                         MainHomeProxy.this.user.setInfo(data);
                         if (MainHomeProxy.this.user.getUid() == data.getUid()) {
                             MainHomeProxy.this.user.write(mActivity);
+                            mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
                         }
                         initUsrInfo();
                     }
@@ -430,6 +440,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                             super.success(res, response);
                             if (res.isSuccess()) {
                                 adapter.remove(postion);
+                                if (adapter.getItemCount() <= 0) {
+                                    mFloatButton.show(true);
+                                }
                             }
                         }
 

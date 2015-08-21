@@ -128,7 +128,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         public void onComplete(AuthInfo authInfo) {
             AuthSeletorActivity.authInfo = authInfo;
             service.thirdParty(typeValue, authInfo.token, authInfo.id, UmengRegistrar.getRegistrationId(AuthSeletorActivity.this), this);
-            LogUtil.d(AuthSeletorActivity.class.getName(), "onComplete->token:%s,nickname:%s", authInfo.token, authInfo.nickname);
+            LogUtil.d(AuthSeletorActivity.class.getSimpleName(), "onComplete->token:%s,nickname:%s", authInfo.token, authInfo.nickname);
         }
 
         @Override
@@ -149,11 +149,13 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         @Override
         public void success(AuthResponse res, Response response) {
             if (res.isSuccess()) {
+                User.clear(AuthSeletorActivity.this);
                 User data = res.getData();
                 data.setLoginType(typeValue);
                 data.setT_nickname(authInfo.nickname);
                 data.setT_img(authInfo.headimgurl);
                 data.write(AuthSeletorActivity.this);
+                LogUtil.i("henjue", "login success:%s", data.getToken());
                 handlerFinsh();
             } else {
                 res.showMessage(AuthSeletorActivity.this);

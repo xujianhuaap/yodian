@@ -34,7 +34,7 @@ android {
             // 不显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
             //混淆
-            minifyEnabled false
+            minifyEnabled true
             //Zipalign优化
             zipAlignEnabled true
             // 移除无用的resource文件
@@ -67,6 +67,7 @@ repositories {
 }
 dependencies {
     compile(name: 'sharesdk-release', ext: 'aar')
+    compile(name: 'hnet-release', ext: 'aar')
     compile(name: 'fb-5.3.0', ext: 'aar') {
         exclude module: 'message', group: 'com.umeng'
     }
@@ -92,7 +93,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.7'
-    compile 'org.henjue.library:hnet:1.0.0_beta2'
+//    compile 'org.henjue.library:hnet:1.0.0_beta2'
 
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.jakewharton:butterknife:7.0.1'

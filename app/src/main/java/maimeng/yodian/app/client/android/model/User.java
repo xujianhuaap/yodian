@@ -70,7 +70,7 @@ public class User extends UserBaseColum {
     }
 
     public String getAvatar() {
-        return TextUtils.isEmpty(avatar) ? "http://" : avatar;
+        return avatar;
     }
 
     public void setAvatar(String avatar) {
@@ -146,6 +146,10 @@ public class User extends UserBaseColum {
 
     public static synchronized User read(Context context) {
         synchronized (User.class) {
+            User authUser = YApplication.getInstance().getAuthUser();
+            if (authUser != null) {
+                return authUser;
+            }
             SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
             String uid = pref.getString(KEY_UID, "");
             String nickname = pref.getString(KEY_NICK, "");
@@ -156,6 +160,7 @@ public class User extends UserBaseColum {
             String chatname = pref.getString(KEY_CHATNAME, "");
             int type = pref.getInt(KEY_TYPE, 0);
             User user = new User(t_nickname, t_img, type, token, "".equals(uid) ? 0 : Long.parseLong(uid), nickname, chatname, img);
+            YApplication.getInstance().setAuthUser(user);
             user.setInfo(Info.read(pref));
             user.pushOn = pref.getBoolean(KEY_PUSH, true);
             maimeng.yodian.app.client.android.chat.domain.User u = new maimeng.yodian.app.client.android.chat.domain.User();
@@ -185,8 +190,9 @@ public class User extends UserBaseColum {
         }
     }
 
-    public synchronized void write(Context context) {
+    public synchronized boolean write(Context context) {
         synchronized (User.class) {
+            YApplication.getInstance().setAuthUser(this);
             SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString(KEY_T_IMG, t_img == null ? "" : t_img);
@@ -201,13 +207,14 @@ public class User extends UserBaseColum {
             editor.putInt(KEY_TYPE, loginType);
             if (info != null) info.write(editor);
             editor.apply();
+            return true;
         }
     }
 
 
-    public static void clear(Context context) {
+    public static boolean clear(Context context) {
         if (null == context) {
-            return;
+            return false;
         }
         SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
         SharedPreferences.Editor editor = pref.edit();
@@ -215,6 +222,8 @@ public class User extends UserBaseColum {
         editor.apply();
         // 登陆成功，保存用户名密码
         DemoApplication.getInstance().setUserName("");
+        YApplication.getInstance().setAuthUser(null);
+        return true;
     }
 
     public Info getInfo() {
@@ -250,6 +259,7 @@ public class User extends UserBaseColum {
         if (!TextUtils.isEmpty(wecaht)) {
             this.setWechat(wecaht);
         }
+        YApplication.getInstance().setAuthUser(this);
     }
 
     public static class Info extends User {
@@ -275,10 +285,11 @@ public class User extends UserBaseColum {
             this.wechat = wechat;
         }
 
-        public synchronized void write(SharedPreferences.Editor editor) {
+        public synchronized boolean write(SharedPreferences.Editor editor) {
             synchronized (User.class) {
                 editor.putString(KEY_MOBILE, this.mobile == null ? "" : this.mobile);
                 editor.putString(KEY_WECHAT, this.wechat == null ? "" : this.wechat);
+                return true;
             }
         }
 

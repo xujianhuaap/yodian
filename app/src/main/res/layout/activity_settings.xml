@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary">
@@ -36,9 +37,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/top_icon_margin"
-            android:gravity="center_vertical|left"
             android:drawableLeft="@drawable/ic_cleancache"
             android:drawablePadding="@dimen/top_icon_margin"
+            android:gravity="center_vertical|left"
             android:text="@string/lable_cleancache"
             android:textColor="@color/black_40" />
 
@@ -51,8 +52,8 @@
             android:id="@+id/current_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_version"
             android:layout_margin="@dimen/top_icon_margin"
+            android:drawableLeft="@drawable/ic_version"
             android:drawablePadding="@dimen/top_icon_margin"
             android:gravity="center_vertical|left"
             android:textColor="@color/black_40" />
@@ -65,8 +66,8 @@
         <TextView
             android:id="@+id/btn_change_account"
             android:layout_width="match_parent"
-            android:layout_margin="@dimen/top_icon_margin"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_icon_margin"
             android:drawableLeft="@drawable/ic_change_account"
             android:drawablePadding="@dimen/top_icon_margin"
             android:gravity="center_vertical|left"
@@ -88,5 +89,5 @@
         android:src="@drawable/btn_back"
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
-        app:fab_colorRipple="@color/float_colorRipple"/>
+        app:fab_colorRipple="@color/float_colorRipple" />
 </FrameLayout>
