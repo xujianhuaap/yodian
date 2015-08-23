@@ -7,7 +7,7 @@ import maimeng.yodian.app.client.android.BuildConfig;
 
 /**
  * Version 1.0
- * <p/>
+ * <p>
  * Date: 2015-03-27 17:16
  * Author: henjue@ketie.me
  */
@@ -28,7 +28,7 @@ public class ApiConfig {
 
 
     static {
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             API_HOST = "http://skilltest.maiquanshop.com/";
         } else {
             API_HOST = "http://skillapi.maiquanshop.com/";
