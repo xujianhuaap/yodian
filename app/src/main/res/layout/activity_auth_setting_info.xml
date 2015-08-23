@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="#0000"
+                android:digits="@string/text_digits"
                 android:gravity="center_horizontal"
                 android:hint="@string/input_nickname_hint"
                 android:maxLength="11"

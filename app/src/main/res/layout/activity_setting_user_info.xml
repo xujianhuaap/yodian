@@ -135,6 +135,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/btn_clean"
                     android:background="#0000"
+                    android:digits="@string/text_digits"
                     android:gravity="center_horizontal"
                     android:hint="@string/hint_wechat"
                     android:maxLength="32"
