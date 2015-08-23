@@ -133,6 +133,9 @@ public class YApplication extends DemoApplication {
 
     public void setAuthUser(User authUser) {
         this.authUser = authUser;
+        if (!BuildConfig.DEBUG) {
+            CrashReport.setUserId(authUser.getNickname());
+        }
     }
 
     private User authUser;
