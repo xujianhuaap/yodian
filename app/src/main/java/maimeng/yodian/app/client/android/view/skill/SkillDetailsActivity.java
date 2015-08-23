@@ -80,6 +80,7 @@ import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler, AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>, AbstractHeaderAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener, RmarkListAdapter.ActionListener {
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
     private static final int REQEUST_RMARK_ADD = 0x1001;
+    private static final int REQEUST_RMARK_AUTH = 0x1002;
     private SkillService service;
     private long sid;
     private int page = 1;
@@ -298,7 +299,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQEUST_RMARK_ADD && resultCode == RESULT_OK) {
+        if ((requestCode == REQEUST_RMARK_ADD || requestCode == REQEUST_RMARK_ADD) && resultCode == RESULT_OK) {
             binding.refreshLayout.autoRefresh();
         }
     }
@@ -438,6 +439,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
         } else {
+            res.isValidateAuth(this, REQEUST_RMARK_AUTH);
             res.showMessage(this);
         }
     }

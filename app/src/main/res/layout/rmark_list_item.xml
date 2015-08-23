@@ -10,80 +10,83 @@
     </data>
 
     <!--<FrameLayout-->
-        <!--android:descendantFocusability="blocksDescendants"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:padding="10dp">-->
+    <!--android:descendantFocusability="blocksDescendants"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:padding="10dp">-->
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="30dp"
+            android:gravity="bottom"
+            android:text="@{rmark.createtime}"
+            android:textSize="14sp" />
+
+        `
+
+        <FrameLayout
+            android:id="@+id/fra_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_marginTop="3dp">
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_marginTop="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:textSize="14sp"
-                android:gravity="bottom"
-                android:text="@{rmark.createtime}" />
-
-            `<FrameLayout
-                android:id="@+id/fra_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/time"
-                android:layout_toRightOf="@id/time">
-                <ImageView
-                    android:id="@+id/btn_menu_delete"
-                    android:layout_gravity="right|center_vertical"
-                    android:alpha="0"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/ic_menu_delete"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/btn_menu_report"
-                    android:layout_gravity="right|center_vertical"
-                    android:alpha="0"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/ic_menu_report"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/btn_menu_more"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/ic_menu_more"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/time"
+            android:layout_toRightOf="@id/time">
 
             <ImageView
-                android:id="@+id/pic"
-                android:layout_width="match_parent"
+                android:id="@+id/btn_menu_delete"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="2dp"
-                android:layout_below="@id/fra_container"
-                android:scaleType="centerInside"
-                app:imgUrl="@{rmark.pic}"
-                />
+                android:layout_gravity="right|center_vertical"
+                android:alpha="0"
+                android:src="@drawable/ic_menu_delete" />
 
-            <TextView
-                android:id="@+id/content"
-                android:background="#fff"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:lineSpacingExtra="3dp"
-                android:lineSpacingMultiplier="1"
-                android:textColor="#000"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/btn_menu_report"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pic"
-                android:text="@{rmark.content}" />
-        </RelativeLayout>
+                android:layout_gravity="right|center_vertical"
+                android:alpha="0"
+                android:src="@drawable/ic_menu_report" />
+
+            <ImageView
+                android:id="@+id/btn_menu_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/ic_menu_more" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/pic"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fra_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:scaleType="matrix"
+            app:imgUrl="@{rmark.pic}" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pic"
+            android:background="#fff"
+            android:lineSpacingExtra="3dp"
+            android:lineSpacingMultiplier="1"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="@{rmark.content}"
+            android:textColor="#000" />
+    </RelativeLayout>
     <!--</FrameLayout>-->
 </layout>

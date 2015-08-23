@@ -157,10 +157,11 @@ public class ImageLoader {
         RequestCreator load = one.loader.load(uri);
         int width = iv.getWidth();
         int height = iv.getHeight();
-        if (width <= 0 || height <= 0) {
-            load.fit();
+        if (width <= 0 && height <= 0) {
+
         } else {
-            load.resize(width, height);
+            //如果没有指定了宽就按宽的比例去缩放宽和高
+            load.transform(new ResizeTransform(uri.toString(), width));
         }
         if (placeHolderDrawable == null)
             placeHolderDrawable = iv.getResources().getDrawable(R.drawable.default_place_holder);
