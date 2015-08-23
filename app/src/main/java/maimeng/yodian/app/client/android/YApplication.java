@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.easemob.chat.EMChat;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -134,7 +135,12 @@ public class YApplication extends DemoApplication {
     public void setAuthUser(User authUser) {
         this.authUser = authUser;
         if (!BuildConfig.DEBUG) {
-            CrashReport.setUserId(authUser.getNickname());
+            if (authUser != null) {
+                final String nickname = authUser.getNickname();
+                if (!TextUtils.isEmpty(nickname)) {
+                    CrashReport.setUserId(nickname);
+                }
+            }
         }
     }
 
