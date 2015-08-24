@@ -79,6 +79,10 @@
     @butterknife.* <fields>;
 }
 
+#auto-scroll-viewpager
+-keep class cn.trinea.android.** { *; }
+-keepclassmembers class cn.trinea.android.** { *; }
+-dontwarn cn.trinea.android.**
 
 -keepattributes Exceptions,InnerClasses,Signature
 -keepattributes *Annotation*

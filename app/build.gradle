@@ -49,7 +49,7 @@ android {
         }
         debug {
             //混淆
-            minifyEnabled true
+            minifyEnabled false
             //Zipalign优化
             zipAlignEnabled true
             // 移除无用的resource文件
@@ -72,7 +72,7 @@ dependencies {
     compile(name: 'sharesdk-release', ext: 'aar')
     compile(name: 'hnet-release', ext: 'aar')
     compile project(':PhotoPicker')
-    compile project(':BGABanner')
+    compile project(':ViewPagerIndicator')
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -88,11 +88,16 @@ dependencies {
     /**
      * Image Loader Libraries
      */
-
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.7'
+
+
+
+    compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
+        exclude module: 'support-v4'
+    }
 //    compile 'org.henjue.library:hnet:1.0.0_beta2'
 
     compile 'com.umeng.analytics:analytics:latest.integration'

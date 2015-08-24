@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<cn.bingoogolapple.bgabanner.BGABanner xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/banner_pager"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/skill_list_banner_height"
-    app:banner_pageChangeDuration="@integer/banner_duration"
-    app:banner_pointAutoPlayAble="true"
-    app:banner_pointAutoPlayInterval="@integer/banner_interval"
-    app:banner_pointContainerBackground="#0000"
-    app:banner_pointDrawable="@drawable/point"
-    app:banner_pointTopBottomMargin="5dp"
-    app:banner_transitionEffect="defaultEffect" />
+    android:layout_height="@dimen/skill_list_banner_height">
+
+    <maimeng.yodian.app.client.android.widget.ViewPager
+        android:id="@+id/banner_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.viewpagerindicator.IconPageIndicator
+        android:id="@+id/titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+</FrameLayout>

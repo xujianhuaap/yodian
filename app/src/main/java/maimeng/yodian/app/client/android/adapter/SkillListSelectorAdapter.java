@@ -7,25 +7,23 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+
+import com.viewpagerindicator.IconPageIndicator;
+import com.viewpagerindicator.IconPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import cn.bingoogolapple.bgabanner.BGABanner;
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.skill.Banner;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
-import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.SkillListItemHeadBinding;
 import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
@@ -33,9 +31,12 @@ import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.User;
-import maimeng.yodian.app.client.android.network.response.SkillResponse;
+import maimeng.yodian.app.client.android.model.skill.Banner;
+import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
+import maimeng.yodian.app.client.android.widget.ViewPager;
 
 /**
  * Created by android on 15-7-13.
@@ -130,37 +131,34 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         }
     }
 
-    public class BannerViewHolder extends BaseViewHolder implements ViewPager.OnPageChangeListener, BGABanner.OnFlipListener {
-        public BGABanner banner;
-        private final BGABanner.TransitionEffect[] types;
+    public class BannerViewHolder extends BaseViewHolder implements ViewPager.OnPageChangeListener, ViewPager.OnFlipListener {
+        private final ViewPagerAdapter adapter;
+        private final IconPageIndicator indicator;
+        public ViewPager banner;
         public int currentPage;
         public BannerViewEntry list;
 
         public BannerViewHolder(View root) {
             super(root);
-            banner = (cn.bingoogolapple.bgabanner.BGABanner) root.findViewById(R.id.banner_pager);
-            types = new BGABanner.TransitionEffect[]{BGABanner.TransitionEffect.Default,
-                    BGABanner.TransitionEffect.Alpha,
-                    BGABanner.TransitionEffect.Rotate,
-                    BGABanner.TransitionEffect.Cube,
-                    BGABanner.TransitionEffect.Flip,
-                    BGABanner.TransitionEffect.Accordion,
-                    BGABanner.TransitionEffect.ZoomFade,
-                    BGABanner.TransitionEffect.Fade,
-                    BGABanner.TransitionEffect.ZoomCenter,
-                    BGABanner.TransitionEffect.ZoomStack,
-                    BGABanner.TransitionEffect.Stack,
-                    BGABanner.TransitionEffect.Depth,
-                    BGABanner.TransitionEffect.Zoom};
-            banner.addOnPageChangeListener(this);
-            banner.setOnFlipListener(this);
+            banner = (ViewPager) root.findViewById(R.id.banner_pager);
 
+            banner.addOnPageChangeListener(this);
+            banner.setCycle(true);
+            banner.setInterval(3000);
+            banner.setOnFlipListener(this);
+            adapter = new ViewPagerAdapter(new ArrayList<View>(), banner);
+            banner.setAdapter(adapter);
+            banner.setStopScrollWhenTouch(true);
+            banner.setSlideBorderMode(AutoScrollViewPager.SLIDE_BORDER_MODE_CYCLE);
+            indicator = (com.viewpagerindicator.IconPageIndicator) root.findViewById(R.id.titles);
+            indicator.setViewPager(banner);
 
         }
 
         public void bind(BannerViewEntry item) {
+            banner.stopAutoScroll();
             this.list = item;
-            List<View> views = new ArrayList<>();
+            final List<View> views = new ArrayList<>();
             for (Banner banner : item.banners) {
                 ImageView iv = new ImageView(mContext);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -168,12 +166,16 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 iv.setOnClickListener(this);
                 ImageLoader.image(iv, banner.getPic());
             }
-            banner.setViews(views);
-            int type = new Random().nextInt(types.length);
-            if (type == types.length) {
-                type = types.length - 1;
-            }
-            banner.setTransitionEffect(types[type]);
+            adapter.setViews(views);
+            adapter.notifyDataSetChanged();
+            indicator.notifyDataSetChanged();
+            banner.startAutoScroll();
+//            banner.setViews(views);
+//            int type = new Random().nextInt(types.length);
+//            if (type == types.length) {
+//                type = types.length - 1;
+//            }
+//            banner.setTransitionEffect(types[type]);
         }
 
         @Override
@@ -200,11 +202,13 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         @Override
         public void onFlip() {
             refreshLayout.setEnabled(false);
+            banner.stopAutoScroll();
         }
 
         @Override
         public void onCancel() {
             refreshLayout.setEnabled(true);
+            banner.startAutoScroll();
         }
     }
 
@@ -321,6 +325,48 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
             } else {
                 mViewHolderClickListener.onClick(this, v, getLayoutPosition());
             }
+        }
+    }
+
+    class ViewPagerAdapter extends PagerAdapter implements IconPagerAdapter {
+        private final ViewPager viewPager;
+
+        public void setViews(List<View> views) {
+            this.views = views;
+        }
+
+        private List<View> views;
+
+        public ViewPagerAdapter(List<View> views, ViewPager viewPager) {
+            this.views = views;
+            this.viewPager = viewPager;
+        }
+
+        @Override
+        public int getIconResId(int index) {
+            return R.drawable.point;
+        }
+
+        @Override
+        public int getCount() {
+            return views.size();
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            final View child = views.get(position);
+            container.addView(child);
+            return child;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
         }
     }
 }
