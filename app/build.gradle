@@ -36,8 +36,6 @@ android {
     }
     buildTypes {
         release {
-            // 不显示Log
-            buildConfigField "boolean", "LOG_DEBUG", "false"
             //混淆
             minifyEnabled true
             //Zipalign优化
@@ -48,10 +46,8 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            // 显示Log
-            buildConfigField "boolean", "LOG_DEBUG", "true"
             //混淆
-            minifyEnabled false
+            minifyEnabled true
             //Zipalign优化
             zipAlignEnabled true
             // 移除无用的resource文件
@@ -73,9 +69,6 @@ repositories {
 dependencies {
     compile(name: 'sharesdk-release', ext: 'aar')
     compile(name: 'hnet-release', ext: 'aar')
-    compile(name: 'fb-5.3.0', ext: 'aar') {
-        exclude module: 'message', group: 'com.umeng'
-    }
     compile project(':PhotoPicker')
     compile project(':BGABanner')
 }
@@ -110,6 +103,9 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.1.2'
 
     compile('net.glxn.qrgen:android:2.0')
+    compile('com.umeng:fb:5.4.0') {
+        exclude module: 'message', group: 'com.umeng'
+    }
 //    compile('org.henjue.library:sharesdk:1.0.2_beta3') {
 //        exclude module: 'hnet', group: 'org.henjue.library'
 //    }

@@ -13,13 +13,13 @@ import maimeng.yodian.app.client.android.BuildConfig;
  */
 public class LogUtil {
     // TODO ***********************SDK发布时请将此变量设置为私有的 **********************************
-    private final static boolean isPrint = BuildConfig.LOG_DEBUG;
+    private final static boolean isPrint = BuildConfig.DEBUG;
     // 增加丿تtest属瀧Ԩ于防止测试代码因疏忽导致没有关闿
     public final static boolean test = isPrint;
 
     // TODO ***********************SDK发布时请将上面变量设置为私有皿**********************************
     public static void i(String tag, String message) {
-        if (isPrint ) {
+        if (isPrint) {
             if (tag != null && message != null && !"".equals(tag.trim())
                     && !"".equals(message.trim())) {
                 android.util.Log.i(tag, message);
@@ -32,7 +32,7 @@ public class LogUtil {
     }
 
     public static void d(String tag, String message) {
-        if (isPrint ) {
+        if (isPrint) {
             if (tag != null && message != null && !"".equals(tag.trim())
                     && !"".equals(message.trim())) {
                 android.util.Log.d(tag, message);
@@ -45,7 +45,7 @@ public class LogUtil {
     }
 
     public static void e(String tag, Throwable e, String message) {
-        if (isPrint ) {
+        if (isPrint) {
             if (tag != null && message != null && !"".equals(tag.trim())
                     && !"".equals(message.trim())) {
                 android.util.Log.e(tag, message, e);
@@ -62,7 +62,7 @@ public class LogUtil {
     }
 
     public static void w(String tag, String message) {
-        if (isPrint ) {
+        if (isPrint) {
             if (tag != null && message != null && !"".equals(tag.trim())
                     && !"".equals(message.trim())) {
                 android.util.Log.w(tag, message);

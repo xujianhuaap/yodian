@@ -57,7 +57,7 @@
 -keep class maimeng.yodian.app.client.android.network.response.** {*;}
 -dontwarn maimeng.yodian.app.client.android.network.response.**
 
--keep maimeng.yodian.app.client.android.javascripts.** {*;}
+-keep class maimeng.yodian.app.client.android.javascripts.** {*;}
 -dontwarn maimeng.yodian.app.client.android.javascripts.**
 
 #-keep public class * implements maimeng.yodian.app.client.android.network.response.TypeData{*;}

@@ -49,7 +49,7 @@ public class Network {
                 .setIntercept(new RequestIntercept(app.getApplicationContext()))
                 .setConverter(new GsonConverter(gsonBuilder.create()))
                 .build();
-        if (BuildConfig.LOG_DEBUG) {
+        if (BuildConfig.DEBUG) {
             net.setLogLevel(HNet.LogLevel.FULL);
         }
     }
