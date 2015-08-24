@@ -46,6 +46,8 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     private static final String LOG_TAG = RmarkPublishActivity.class.getName();
     private ActivityRmarkPublishBinding mBinding;
 
+    private int mScreenWidth;
+
     private final int REQUEST_CODE_CAMMRA = 0x23;
     private final int REQUEST_CODE_CLIPPING = 0x24;
     private final int REQUEST_CODE_ALBUM = 0x25;
@@ -55,6 +57,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     private Skill mSkill;
     private WaitDialog dialog;
     private Bitmap mBitmap;
+    private int mScreenHeight;
 
     public static void show(Activity context, Skill skill, View backView, int requestCode) {
         Intent intent = new Intent();
@@ -68,6 +71,8 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mScreenWidth =getResources().getDisplayMetrics().widthPixels;
+        mScreenHeight =getResources().getDisplayMetrics().heightPixels;
         mBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_rmark_publish);
         mSkill = getIntent().getParcelableExtra("skill");
@@ -88,7 +93,8 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     private void refresh(Skill skill) {
 
         if (mBitmap != null) {
-            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap,360,720).build();
+            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap,mScreenWidth,mScreenHeight).build();
+
             mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
@@ -219,7 +225,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
             }
 
             mBinding.cheSelectPhoto.setChecked(false);
-            mBitmap =ImageLoader.image(this,uri,720,1080);
+            mBitmap =ImageLoader.image(this,uri,mScreenWidth,mScreenHeight);
             mBinding.skillPic.setImageBitmap(mBitmap);
 
 

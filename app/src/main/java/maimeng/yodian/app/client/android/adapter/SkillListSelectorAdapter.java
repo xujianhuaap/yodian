@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,21 +42,22 @@ import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
  */
 public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillListSelectorAdapter.BaseViewHolder> {
     private final PtrFrameLayout refreshLayout;
-
+    private int mScreenWidth;
     public SkillListSelectorAdapter(Context context, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(context, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
+        mScreenWidth=context.getResources().getDisplayMetrics().widthPixels;
     }
 
     public SkillListSelectorAdapter(Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(fragment, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
-    }
+        mScreenWidth=fragment.getResources().getDisplayMetrics().widthPixels;    }
 
     public SkillListSelectorAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(fragment, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
-    }
+        mScreenWidth=fragment.getResources().getDisplayMetrics().widthPixels;    }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -256,6 +258,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
             swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             binding.root.setOnClickListener(this);
             this.binding = binding;
+            binding.pic.setLayoutParams(new RelativeLayout.LayoutParams(mScreenWidth,mScreenWidth*2/3));
             binding.userAvatar.setOnClickListener(this);
             binding.btnBottom.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);

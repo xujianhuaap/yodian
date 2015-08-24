@@ -571,12 +571,14 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
 
-
-            mCategory = res.getData().getCategory();
-            if (mCategory == null) {
-                mCategory = new ArrayList<Theme>();
+            if(page==1){
+                mCategory = res.getData().getCategory();
+                if (mCategory == null) {
+                    mCategory = new ArrayList<Theme>();
+                }
+                mCategoryView.bindData(mActivity, mCategory);
             }
-            mCategoryView.bindData(mActivity, mCategory);
+
 
         } else {
             res.showMessage(mActivity);
