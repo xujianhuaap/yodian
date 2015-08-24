@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.adapter;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -21,16 +23,20 @@ import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
  * Created by android on 15-7-13.
  */
 public class SkillListHomeAdapter extends AbstractAdapter<Skill, SkillListHomeAdapter.ViewHolder> {
+    private int mScreenWidth;
     public SkillListHomeAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
+        mScreenWidth=context.getResources().getDisplayMetrics().widthPixels;
     }
 
     public SkillListHomeAdapter(Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(fragment, viewHolderClickListener);
+        mScreenWidth=fragment.getResources().getDisplayMetrics().widthPixels;
     }
 
     public SkillListHomeAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(fragment, viewHolderClickListener);
+        mScreenWidth=fragment.getResources().getDisplayMetrics().widthPixels;
     }
 
     @Override
@@ -68,6 +74,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill, SkillListHomeAd
             swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             binding.root.setOnClickListener(this);
             this.binding = binding;
+            binding.pic.setLayoutParams(new RelativeLayout.LayoutParams(mScreenWidth,mScreenWidth*2/3));
             binding.btnBottom.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);
