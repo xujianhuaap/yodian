@@ -23,7 +23,7 @@ public class ListLayoutManager extends LinearLayoutManager {
 
     @Override
     protected int getExtraLayoutSpace(RecyclerView.State state) {
-        //return super.getExtraLayoutSpace(state);
-        return 5;
+//        return super.getExtraLayoutSpace(state);
+        return 500;
     }
 }

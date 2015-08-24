@@ -18,7 +18,6 @@
 
 -keep class com.facebook.** { *;}
 -dontwarn com.facebook.**
--keep class com.tencent.**
 -keep class com.tencent.** {*;}
 -dontwarn com.tencent.**
 #-keep class com.tencent.open.PKDialog

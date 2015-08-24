@@ -36,7 +36,7 @@ public class YApplication extends DemoApplication {
     public static int channelId = -1;
     public static String channelName;
     public static int versionCode;
-    public static String versionName;
+    public static String versionName = "";
     private List<Activity> activityList = new ArrayList<>();
     private static YApplication instance;
 

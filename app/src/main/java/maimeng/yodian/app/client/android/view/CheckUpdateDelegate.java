@@ -54,7 +54,15 @@ public class CheckUpdateDelegate implements Callback<VersionResponse>, AlertDial
     @Override
     public void success(VersionResponse res, Response response) {
         if (res.isSuccess()) {
-            if (res.getData().getVersion().compareTo(YApplication.versionName) > 0) {
+            final String version = res.getData().getVersion();
+            if (version == null) {
+                if (showMsg) {
+                    Toast.makeText(mContext, R.string.no_newversion, Toast.LENGTH_SHORT).show();
+                }
+                return;
+
+            }
+            if (version.compareTo(YApplication.versionName) > 0) {
                 final String string = res.getData().getUrl();
                 final AlertDialog dialog;
                 final StringBuffer sb;
