@@ -1,11 +1,19 @@
 package maimeng.yodian.app.client.android.network.service;
 
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.RequestFacade;
+import org.henjue.library.hnet.RequestFilter;
+import org.henjue.library.hnet.anntoation.Filter;
 import org.henjue.library.hnet.anntoation.FormUrlEncoded;
+import org.henjue.library.hnet.anntoation.Get;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
+import java.util.Map;
+
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.response.VersionResponse;
 
 /**
  * Created by android on 2015/7/30.
@@ -23,4 +31,26 @@ public interface CommonService {
      */
     @Post(ApiConfig.Api.REPORT)
     void report(@Param("type") int type, @Param("sid") long sid, @Param("scid") long scid, @Param("ruid") long ruid, ToastCallback callback);
+
+    @Get(ApiConfig.Api.CHECK_VERSION)
+    @Filter(CheckVersion.class)
+    void checkVersion(Callback<VersionResponse> callback);
+
+    class CheckVersion implements RequestFilter {
+
+        @Override
+        public void onComplite(RequestFacade requestFacade) {
+            requestFacade.add("os", 2);
+        }
+
+        @Override
+        public void onStart(RequestFacade requestFacade) {
+
+        }
+
+        @Override
+        public void onAdd(String s, Object o) {
+
+        }
+    }
 }

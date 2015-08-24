@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.view.dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 
 
 /**
@@ -34,7 +35,7 @@ public class AlertDialog extends android.app.DialogFragment {
     @Override
     public android.app.Dialog onCreateDialog(Bundle savedInstanceState) {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-        builder.setMessage(getArguments().getString("alert-message"));
+        builder.setMessage(Html.fromHtml(getArguments().getString("alert-message")));
         builder.setTitle(getArguments().getString("alert-title"));
         if (this.pListener != null) {
             builder.setPositiveButton(pListener.positiveText(), new DialogInterface.OnClickListener() {

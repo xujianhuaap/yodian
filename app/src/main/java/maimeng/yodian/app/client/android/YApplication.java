@@ -36,6 +36,7 @@ public class YApplication extends DemoApplication {
     public static int channelId = -1;
     public static String channelName;
     public static int versionCode;
+    public static String versionName;
     private List<Activity> activityList = new ArrayList<>();
     private static YApplication instance;
 
@@ -109,6 +110,7 @@ public class YApplication extends DemoApplication {
         try {
             ApplicationInfo appInfo = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
             versionCode = this.getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            versionName = this.getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             channelId = appInfo.metaData.getInt("CHANNEL_ID");
             channelName = appInfo.metaData.getString("UMENG_CHANNEL", "unspecified");
         } catch (PackageManager.NameNotFoundException e) {

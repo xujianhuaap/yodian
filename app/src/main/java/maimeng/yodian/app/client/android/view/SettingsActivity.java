@@ -59,6 +59,19 @@ public class SettingsActivity extends AbstractActivity {
         mBtnChangeAccount = findViewById(R.id.btn_change_account);
         mBtnCleanCache = findViewById(R.id.btn_cleancache);
         mCurrentVersion = (TextView) findViewById(R.id.current_version);
+        mCurrentVersion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!CheckUpdateDelegate.checking) {
+                    Toast.makeText(v.getContext(), R.string.toast_checkversion, Toast.LENGTH_SHORT).show();
+                    new CheckUpdateDelegate(SettingsActivity.this, true).checkUpdate();
+                } else {
+                    Toast.makeText(v.getContext(), R.string.checkversion_ing, Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
         ViewCompat.setTransitionName(mBtnBack, "back");
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);

@@ -37,9 +37,16 @@ public class RequestIntercept implements org.henjue.library.hnet.RequestIntercep
         /**
          * 添加一些任何任何接口都必须有的参数
          */
-        request.add("versionName", String.valueOf(YApplication.versionCode));
+        if (!params.containsKey("versionName")) {
+            request.add("versionName", String.valueOf(YApplication.versionName));
+        }
+        if (!params.containsKey("versionCode")) {
+            request.add("versionCode", String.valueOf(YApplication.versionCode));
+        }
+        if (!params.containsKey("channelType")) {
+            request.add("channelType", YApplication.channelId);
+        }
         request.add("clientType", 2);
-        request.add("channelType", YApplication.channelId);
         if (mContext != null) {
             User auth = User.read(mContext);
             String token = auth.getToken();

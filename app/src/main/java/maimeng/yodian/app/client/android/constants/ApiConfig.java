@@ -7,7 +7,7 @@ import maimeng.yodian.app.client.android.BuildConfig;
 
 /**
  * Version 1.0
- * <p>
+ * <p/>
  * Date: 2015-03-27 17:16
  * Author: henjue@ketie.me
  */
@@ -54,6 +54,7 @@ public class ApiConfig {
         public static final String RMARK_DELETE = "/skillcontent/delete";//删除技能日记
         public static final String RMARK_ADD = "/skillcontent/add";//添加日记
         public static final String REPORT = "/index/report";//举报
+        public static final String CHECK_VERSION = "/index/checkupdate";//检查更新
         public static final String USER_INFO = "/user/info";//用户信息
         public static final String QRODE_URL = "http://share.yodian.me/";
 

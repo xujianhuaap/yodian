@@ -150,7 +150,7 @@ public class User extends UserBaseColum {
             if (authUser != null) {
                 return authUser;
             }
-            SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
             String uid = pref.getString(KEY_UID, "");
             String nickname = pref.getString(KEY_NICK, "");
             String img = pref.getString(KEY_IMG, "");
@@ -193,7 +193,7 @@ public class User extends UserBaseColum {
     public synchronized boolean write(Context context) {
         synchronized (User.class) {
             YApplication.getInstance().setAuthUser(this);
-            SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString(KEY_T_IMG, t_img == null ? "" : t_img);
             editor.putString(KEY_T_NICK, t_nickname == null ? "" : t_nickname);
@@ -216,7 +216,7 @@ public class User extends UserBaseColum {
         if (null == context) {
             return false;
         }
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
+        SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
         editor.apply();

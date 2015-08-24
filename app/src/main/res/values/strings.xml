@@ -16,7 +16,7 @@
     <string name="lable_cleancache">清除缓存</string>
     <string name="lable_changeaccount">切换账号</string>
     <string name="lable_price"><![CDATA[<b>%1$s</b>元/%2$s]]></string>
-    <string name="currentVersion">当前版本:%s</string>
+    <string name="currentVersion">当前版本:v%s</string>
     <string name="currentAccount">当前账号:%s</string>
     <string name="title_activity_web_launcher">WebLauncher</string>
     <string name="btn_contact_ta">联系TA</string>
@@ -53,6 +53,10 @@
     <string name="status_shangjia">上架</string>
     <string name="feedback_item_user_lable">您说:</string>
     <string name="feedback_item_dev_lable">:官方</string>
+    <string name="toast_checkversion">检查更新中....</string>
+    <string name="checkversion_ing">检查更新中,请稍后!</string>
+    <string name="check_newversion_faild">检查版本更新失败!</string>
+    <string name="no_newversion">没有新版本!</string>
 
     <!--日記預覽-->
     <string name="skill_preview_title_bar"> 预 览</string>

@@ -23,7 +23,6 @@ import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainSelectorProxy;
-import maimeng.yodian.app.client.android.view.splash.BaiduActivity;
 
 
 public class MainTabActivity extends AbstractActivity implements AlertDialog.PositiveListener {
@@ -67,6 +66,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
                 controller.onFloatClick((FloatingActionButton) v);
             }
         });
+        new CheckUpdateDelegate(this, false).checkUpdate();
         onNewIntent(getIntent());
     }
 

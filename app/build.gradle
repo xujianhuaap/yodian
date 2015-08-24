@@ -27,12 +27,14 @@ android {
         exclude 'LICENSE.txt'
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
+
+
     defaultConfig {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1020
-        versionName "v1.0.2"
+        versionName "1.0.2"
     }
     buildTypes {
         release {
