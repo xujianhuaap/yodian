@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -15,6 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,6 +31,8 @@ import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.javascripts.YoDianJavaScript;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.utils.WebLauncherUtils;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
@@ -61,6 +70,7 @@ public class WebViewActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 //        ActionBar actionBar = getSupportActionBar();
@@ -95,43 +105,31 @@ public class WebViewActivity extends AbstractActivity {
                 super.onPageStarted(view, url, favicon);
             }
 
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
             }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                Toast.makeText(WebViewActivity.this, error.getDescription(), Toast.LENGTH_SHORT).show();
+            }
+
+
         };
         web.addJavascriptInterface(new YoDianJavaScript(this, web), "yodian");
         web.setWebViewClient(webViewClient);
+        web.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                WebViewActivity.this.setProgress(newProgress * 1000);
+            }
+        });
+        web.getSettings().setAllowFileAccess(true);
         web.loadUrl(imgth);
     }
 
-    public static class YoDianJavaScript {
-        private final Activity mContext;
-        private final WebView web;
-
-        public YoDianJavaScript(Activity context, WebView web) {
-            this.mContext = context;
-            this.web = web;
-        }
-
-        @android.webkit.JavascriptInterface
-        public boolean startActivity(final String url) {
-            return WebLauncherUtils.handler(mContext, url);
-        }
-
-        @android.webkit.JavascriptInterface
-        public boolean canBack() {
-            return web.canGoBack();
-        }
-
-        @android.webkit.JavascriptInterface
-        public void back() {
-            web.goBack();
-        }
-
-        @android.webkit.JavascriptInterface
-        public void close() {
-            mContext.finish();
-        }
-    }
 }
