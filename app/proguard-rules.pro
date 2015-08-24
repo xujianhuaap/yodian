@@ -24,7 +24,6 @@
 #-keep class com.tencent.open.PKDialog {*;}
 #-keep class com.tencent.open.PKDialog$*
 #-keep class com.tencent.open.PKDialog$* {*;}
--keep class butterknife.** { *; }
 -keep class **$$ViewInjector { *; }
 -keep class com.google.gson.** {*;}
 -dontwarn com.google.gson.**
@@ -46,7 +45,6 @@
 -dontwarn com.squareup.**
 
 
--dontwarn butterknife.internal.**
 -dontwarn java.lang.invoke.*
 -dontwarn maimeng.yodian.app.client.android.model.**
 -keep class maimeng.yodian.app.client.android.model.** { *; }
@@ -61,21 +59,12 @@
 
 #-keep public class * implements maimeng.yodian.app.client.android.network.response.TypeData{*;}
 
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
 -keepclassmembers class * {
    public <init>(org.json.JSONObject);
 }
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
-}
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
 }
 
 #auto-scroll-viewpager
@@ -209,5 +198,17 @@
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
     **[] $VALUES;
     public *;
+}
+
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
 }
 #-libraryjars libs/easemobchat_2.2.1.jar
