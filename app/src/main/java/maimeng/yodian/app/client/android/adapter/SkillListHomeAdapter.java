@@ -24,19 +24,20 @@ import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
  */
 public class SkillListHomeAdapter extends AbstractAdapter<Skill, SkillListHomeAdapter.ViewHolder> {
     private int mScreenWidth;
+
     public SkillListHomeAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
-        mScreenWidth=context.getResources().getDisplayMetrics().widthPixels;
+        mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
     }
 
     public SkillListHomeAdapter(Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(fragment, viewHolderClickListener);
-        mScreenWidth=fragment.getResources().getDisplayMetrics().widthPixels;
+        mScreenWidth = fragment.getResources().getDisplayMetrics().widthPixels;
     }
 
     public SkillListHomeAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(fragment, viewHolderClickListener);
-        mScreenWidth=fragment.getResources().getDisplayMetrics().widthPixels;
+        mScreenWidth = fragment.getResources().getDisplayMetrics().widthPixels;
     }
 
     @Override
@@ -74,7 +75,6 @@ public class SkillListHomeAdapter extends AbstractAdapter<Skill, SkillListHomeAd
             swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             binding.root.setOnClickListener(this);
             this.binding = binding;
-            binding.pic.setLayoutParams(new RelativeLayout.LayoutParams(mScreenWidth,mScreenWidth*2/3));
             binding.btnBottom.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);

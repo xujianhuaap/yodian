@@ -61,8 +61,8 @@
 
                     <ImageView
                         android:id="@+id/pic"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/skill_list_item_img_size"
+                        android:layout_width="@dimen/skill_list_item_img_width"
+                        android:layout_height="@dimen/skill_list_item_img_height"
                         android:layout_below="@+id/user_nickname"
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
@@ -70,8 +70,8 @@
 
                     <ImageView
                         android:id="@+id/pic_xiajia"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/skill_list_item_img_size"
+                        android:layout_width="@dimen/skill_list_item_img_width"
+                        android:layout_height="@dimen/skill_list_item_img_height"
                         android:layout_below="@+id/user_nickname"
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
@@ -147,6 +147,7 @@
                 android:id="@+id/user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
                 app:imgUrl="@{skill.avatar80}" />
         </FrameLayout>
 

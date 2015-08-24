@@ -28,7 +28,7 @@
                 <ImageView
                     android:id="@+id/pic"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/skill_list_item_img_size"
+                    android:layout_height="@dimen/skill_list_item_img_height"
                     android:adjustViewBounds="false"
                     android:scaleType="fitXY"
                     app:imgUrl="@{skill.pic}" />

@@ -241,7 +241,10 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         if (User.read(getActivity()).getUid() != targetUid) {
             mReport.setVisibility(View.VISIBLE);
         } else {
-            ((View) mReport.getParent()).setVisibility(View.GONE);
+            final View parent = (View) mReport.getParent();
+            if (parent != null) {
+                parent.setVisibility(View.GONE);
+            }
             mContent.setRowCount(1);
         }
 
@@ -296,7 +299,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     /**
      * @param drawableId Type.Platform.WeiBo drawableId为R.drawble.ic_market_sina
-     *                   <p/>
+     *                   <p>
      *                   Type.Platform.WEIXIN  drawableId为R.drawble.ic_market_wechat
      */
     private Bitmap generatePlatformBitmap(int drawableId) {
