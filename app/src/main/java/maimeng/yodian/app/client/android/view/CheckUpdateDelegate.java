@@ -100,6 +100,9 @@ public class CheckUpdateDelegate implements Callback<VersionResponse>, AlertDial
                     dialog.setCancelable(false);
                 }
                 dialog.show(mContext.getFragmentManager(), "updateDialog");
+            } else {
+                if (showMsg)
+                    Toast.makeText(mContext, R.string.no_newversion, Toast.LENGTH_SHORT).show();
             }
         } else {
             showFaild();
