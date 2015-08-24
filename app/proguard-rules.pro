@@ -211,5 +211,4 @@
     **[] $VALUES;
     public *;
 }
-
 #-libraryjars libs/easemobchat_2.2.1.jar

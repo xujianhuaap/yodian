@@ -259,7 +259,12 @@ public class User extends UserBaseColum {
         if (!TextUtils.isEmpty(wecaht)) {
             this.setWechat(wecaht);
         }
-        YApplication.getInstance().setAuthUser(this);
+        final User currentUser = YApplication.getInstance().getAuthUser();
+        if (currentUser != null) {
+            if (currentUser.getUid() == this.getUid()) {
+                YApplication.getInstance().setAuthUser(this);
+            }
+        }
     }
 
     public static class Info extends User {
