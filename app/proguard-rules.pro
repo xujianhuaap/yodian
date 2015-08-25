@@ -45,6 +45,10 @@
 -dontwarn com.squareup.**
 
 
+-keep class maimeng.yodian.app.client.android.chat.utils.SmileUtils{ *;}
+-dontwarn maimeng.yodian.app.client.android.chat.domain.**
+-keep class maimeng.yodian.app.client.android.chat.domain.** { *; }
+
 -dontwarn java.lang.invoke.*
 -dontwarn maimeng.yodian.app.client.android.model.**
 -keep class maimeng.yodian.app.client.android.model.** { *; }
