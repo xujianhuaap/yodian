@@ -20,6 +20,13 @@
 -dontwarn com.facebook.**
 -keep class com.tencent.** {*;}
 -dontwarn com.tencent.**
+
+
+-keep class com.easemob.** {*;}
+-dontwarn com.easemob.**
+
+
+
 #-keep class com.tencent.open.PKDialog
 #-keep class com.tencent.open.PKDialog {*;}
 #-keep class com.tencent.open.PKDialog$*

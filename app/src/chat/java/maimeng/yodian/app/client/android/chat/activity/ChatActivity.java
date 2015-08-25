@@ -15,6 +15,7 @@ package maimeng.yodian.app.client.android.chat.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -30,6 +31,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -124,6 +128,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
+import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
 import static maimeng.yodian.app.client.android.model.UserBaseColum.*;
 
@@ -1275,6 +1280,20 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (sendVcard) {
                 SharedPreferences pref = getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
                 String wechat = pref.getString(KEY_WECHAT, "");
+                if(TextUtils.isEmpty(wechat)){
+                    maimeng.yodian.app.client.android.view.dialog.AlertDialog.newInstance("提示","请完善信息").setNegativeListener(new maimeng.yodian.app.client.android.view.dialog.AlertDialog.NegativeListener() {
+                        @Override
+                        public void onNegativeClick(DialogInterface dialog) {
+                            startActivity( new Intent(ChatActivity.this, SettingUserInfo.class));
+                        }
+
+                        @Override
+                        public String negativeText() {
+                            return "确定";
+                        }
+                    }).show(getFragmentManager(),"dialog");
+                 return;
+                }
                 message.setAttribute("weChat", wechat);
             }
             final TextMessageBody txtBody = new TextMessageBody(content);
