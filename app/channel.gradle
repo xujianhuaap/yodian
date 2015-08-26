@@ -1,16 +1,9 @@
+apply from: 'channel_mini.gradle'
+apply from: 'channel_home.gradle'
 android {
     productFlavors {
-        home {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "home", CHANNEL_ID: 0, LAUNCHER_ACTIVITY: "DefaultActivity"]
-        }
         xiaomi {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi", CHANNEL_ID: 1, LAUNCHER_ACTIVITY: "DefaultActivity"]
-        }
-        baidu {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu", CHANNEL_ID: 2, LAUNCHER_ACTIVITY: "BaiduActivity"]
-        }
-        _360 {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360", CHANNEL_ID: 3, LAUNCHER_ACTIVITY: "_360Activity"]
         }
         yingyongbao {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao", CHANNEL_ID: 4, LAUNCHER_ACTIVITY: "DefaultActivity"]
@@ -32,12 +25,6 @@ android {
         }
         anzhi {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhi", CHANNEL_ID: 10, LAUNCHER_ACTIVITY: "DefaultActivity"]
-        }
-        anzhuo {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhuo", CHANNEL_ID: 11, LAUNCHER_ACTIVITY: "DefaultActivity"]
-        }
-        _91 {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_91", CHANNEL_ID: 12, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         wandoujia {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia", CHANNEL_ID: 13, LAUNCHER_ACTIVITY: "DefaultActivity"]
