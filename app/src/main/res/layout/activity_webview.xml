@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
@@ -15,9 +20,4 @@
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
         app:fab_colorRipple="@color/float_colorRipple" />
-
-    <WebView
-        android:id="@+id/web"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </FrameLayout>

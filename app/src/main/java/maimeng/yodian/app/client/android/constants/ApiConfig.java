@@ -28,7 +28,7 @@ public class ApiConfig {
 
 
     static {
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             API_HOST = "http://skilltest.maiquanshop.com/";
         } else {
             API_HOST = "http://skillapi.maiquanshop.com/";

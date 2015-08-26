@@ -104,6 +104,7 @@ public class ImageLoader {
 
     public static void image(Context context, Uri uri, int placeHolderDrawable, int errorDrawable, Target target, int width, int height) {
         ImageLoader one = getOne(context);
+        one.loader.cancelRequest(target);
         RequestCreator load = one.loader.load(uri);
         if (width <= 0) {
             width = 640;
@@ -154,6 +155,7 @@ public class ImageLoader {
 
     public static ImageLoader image(ImageView iv, Uri uri, Drawable placeHolderDrawable, Drawable errorDrawable) {
         ImageLoader one = getOne(iv.getContext());
+        one.loader.cancelRequest(iv);
         RequestCreator load = one.loader.load(uri);
         int width = iv.getWidth();
         int height = iv.getHeight();

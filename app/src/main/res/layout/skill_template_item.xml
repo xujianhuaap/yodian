@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/skill_list_template_item_height"
                 android:adjustViewBounds="false"
+                android:background="#0000"
                 android:scaleType="fitXY" />
 
 

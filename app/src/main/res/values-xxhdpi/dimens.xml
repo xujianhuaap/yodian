@@ -29,12 +29,12 @@
     <eat-comment />
 
     <dimen name="skill_list_item_share_margin">5dp</dimen>
-    <dimen name="skill_list_item_img_width">340dp</dimen>
+    <dimen name="skill_list_item_img_width">372dp</dimen>
     <dimen name="skill_list_item_img_height">270dp</dimen>
     <dimen name="skill_list_item_swipe_width">75dp</dimen>
     <dimen name="skill_list_template_item_height">110dp</dimen>
-    <dimen name="skill_list_banner_height">90dp</dimen>
-    <dimen name="skill_list_head_height">90dp</dimen>
+    <dimen name="skill_list_banner_height">100dp</dimen>
+    <dimen name="skill_list_head_height">100dp</dimen>
 
 
     <eat-comment />
@@ -42,12 +42,12 @@
 
     <eat-comment />
     <dimen name="qrcode_size">74dp</dimen>
-    <dimen name="qrcode_left">210dp</dimen>2
+    <dimen name="qrcode_left">210dp</dimen>
     <dimen name="qrcode_top">10dp</dimen>
 
 
     <eat-comment />
-    <dimen name="skill_detail_head_height">250dp</dimen>
+    <dimen name="skill_detail_head_height">270dp</dimen>
     <!--<dimen name="skill_detail_head_overlay_height">650dp</dimen>-->
 
     <!-- activity_preview_skill-->
