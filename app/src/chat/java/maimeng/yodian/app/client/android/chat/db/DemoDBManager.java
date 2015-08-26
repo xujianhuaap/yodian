@@ -67,10 +67,13 @@ public class DemoDBManager {
                     user.setHeader("#");
                 } else {
                     if (headerName.length() > 0) {
-                        user.setHeader(HanziToPinyin.getInstance().get(headerName.substring(0, 1))
-                                .get(0).target.substring(0, 1).toUpperCase());
+                        ArrayList<HanziToPinyin.Token>lists=HanziToPinyin.getInstance().get(headerName.substring(0, 1));
+                        if(lists.size()>0){
+                            user.setHeader(lists.get(0).target.substring(0, 1).toUpperCase());
+                        }
+
                         char header = user.getHeader().toLowerCase().charAt(0);
-                        if (header < 'a' || header > 'z') {
+                        if (header < 'a' || header > 'z'||lists.size()==0) {
                             user.setHeader("#");
                         }
                     }
