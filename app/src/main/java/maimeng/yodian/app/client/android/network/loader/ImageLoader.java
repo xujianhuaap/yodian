@@ -160,14 +160,13 @@ public class ImageLoader {
 
 
         //如果没有指定了宽就按宽的比例去缩放宽和高
-        if(width>0&&height==0){
-            load.transform(new ResizeTransform(uri.toString(), width));
-        }else{
-            if(width>0&&height>0){
-                load.resize(width,height);
+        if (width > 0 && height == 0) {
+            load.transform(new ResizeTransform(iv, uri.toString(), width));
+        } else {
+            if (width > 0 && height > 0) {
+                load.resize(width, height);
             }
         }
-
 
 
         if (placeHolderDrawable == null)

@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.network.loader;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.squareup.picasso.Transformation;
@@ -14,10 +15,12 @@ import java.util.Arrays;
 public class ResizeTransform implements Transformation {
     private final String url;
     private final int size;
+    private final ImageView mImageView;
 
-    public ResizeTransform(String url, int size) {
+    public ResizeTransform(ImageView iv, String url, int size) {
         this.url = url;
         this.size = size;
+        this.mImageView = iv;
     }
 
     @Override
@@ -30,6 +33,11 @@ public class ResizeTransform implements Transformation {
         matrix.postScale(scale, scale);
         Bitmap result = Bitmap.createBitmap(source, 0, 0, width, height, matrix, true);
         source.recycle();
+        if (result.getHeight() > 2048) {
+            Bitmap clipBitmap = Bitmap.createBitmap(result, 0, 0, result.getWidth(), 2048);
+            result.recycle();
+            return clipBitmap;
+        }
         return result;
     }
 

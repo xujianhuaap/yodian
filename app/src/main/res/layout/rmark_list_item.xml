@@ -67,12 +67,13 @@
 
         <ImageView
             android:id="@+id/pic"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/skill_list_item_img_width"
             android:layout_height="wrap_content"
             android:layout_below="@id/fra_container"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="2dp"
-            android:scaleType="fitCenter"
+            android:maxHeight="2048px"
+            android:scaleType="fitXY"
             app:imgUrl="@{rmark.pic}" />
 
         <TextView

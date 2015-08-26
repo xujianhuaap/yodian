@@ -1,7 +1,7 @@
 android {
     productFlavors {
         baidu {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu", CHANNEL_ID: 2, LAUNCHER_ACTIVITY: "DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu", CHANNEL_ID: 2, LAUNCHER_ACTIVITY: "BaiduActivity"]
         }
         anzhuo {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhuo", CHANNEL_ID: 11, LAUNCHER_ACTIVITY: "DefaultActivity"]
@@ -10,7 +10,7 @@ android {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_91", CHANNEL_ID: 12, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         _360 {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360", CHANNEL_ID: 3, LAUNCHER_ACTIVITY: "_360Activity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360", CHANNEL_ID: 3, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
     }
 //    productFlavors.all {

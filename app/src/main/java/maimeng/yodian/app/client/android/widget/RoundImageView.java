@@ -117,6 +117,8 @@ public class RoundImageView extends ImageView {
         Bitmap roundBitmap = getCroppedRoundBitmap(bitmap, radius);
         canvas.drawBitmap(roundBitmap, defaultWidth / 2 - radius, defaultHeight
                 / 2 - radius, null);
+        bitmap.recycle();
+        roundBitmap.recycle();
     }
 
     /**
@@ -177,12 +179,8 @@ public class RoundImageView extends ImageView {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(scaledSrcBmp, rect, rect, paint);
         // bitmap回收(recycle导致在布局文件XML看不到效果)
-        // bmp.recycle();
-        // squareBitmap.recycle();
-        // scaledSrcBmp.recycle();
-        bmp = null;
-        squareBitmap = null;
-        scaledSrcBmp = null;
+        squareBitmap.recycle();
+        scaledSrcBmp.recycle();
         return output;
     }
 
@@ -196,9 +194,9 @@ public class RoundImageView extends ImageView {
         paint.setFilterBitmap(true);
         paint.setDither(true);
         paint.setColor(color);
-		/* 设置paint的　style　为STROKE：空心 */
+        /* 设置paint的　style　为STROKE：空心 */
         paint.setStyle(Paint.Style.STROKE);
-		/* 设置paint的外框宽度 */
+        /* 设置paint的外框宽度 */
         paint.setStrokeWidth(mBorderThickness);
         canvas.drawCircle(defaultWidth / 2, defaultHeight / 2, radius, paint);
     }
