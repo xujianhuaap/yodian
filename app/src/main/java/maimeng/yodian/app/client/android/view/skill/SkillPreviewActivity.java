@@ -212,36 +212,41 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                 }
             });
         } else {
-            mSkillService.add(mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), new Callback<SkillAllResponse>() {
-                @Override
-                public void success(SkillAllResponse res, Response response) {
-                    if (res.isSuccess()) {
-                        setResult(RESULT_OK);
-                        String qurode = mSkill.getQrcodeUrl();
-                        if (qurode.equals("")) mSkill.setQrcodeUrl(ApiConfig.Api.QRODE_URL);
-                        ShareDialog.ShareParams params = new ShareDialog.ShareParams(mSkill, mSkill.getQrcodeUrl(),
-                                mSkill.getId(), mSkill.getNickname(), "");
-                        ShareDialog.show(SkillPreviewActivity.this, params, true, 1);
+            if(mBitmap!=null){
+                mSkillService.add(mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), new Callback<SkillAllResponse>() {
+                    @Override
+                    public void success(SkillAllResponse res, Response response) {
+                        if (res.isSuccess()) {
+                            setResult(RESULT_OK);
+                            String qurode = mSkill.getQrcodeUrl();
+                            if (qurode.equals("")) mSkill.setQrcodeUrl(ApiConfig.Api.QRODE_URL);
+                            ShareDialog.ShareParams params = new ShareDialog.ShareParams(mSkill, mSkill.getQrcodeUrl(),
+                                    mSkill.getId(), mSkill.getNickname(), "");
+                            ShareDialog.show(SkillPreviewActivity.this, params, true, 1);
 
-                    } else if (res.isValidateAuth(SkillPreviewActivity.this, REQUEST_AUTH)) ;
-                }
+                        } else if (res.isValidateAuth(SkillPreviewActivity.this, REQUEST_AUTH)) ;
+                    }
 
-                @Override
-                public void failure(HNetError hNetError) {
-                    ErrorUtils.checkError(SkillPreviewActivity.this, hNetError);
-                }
+                    @Override
+                    public void failure(HNetError hNetError) {
+                        ErrorUtils.checkError(SkillPreviewActivity.this, hNetError);
+                    }
 
-                @Override
-                public void start() {
-                    dialog = WaitDialog.show(SkillPreviewActivity.this);
+                    @Override
+                    public void start() {
+                        dialog = WaitDialog.show(SkillPreviewActivity.this);
 
-                }
+                    }
 
-                @Override
-                public void end() {
-                    if (dialog != null) dialog.dismiss();
-                }
-            });
+                    @Override
+                    public void end() {
+                        if (dialog != null) dialog.dismiss();
+                    }
+                });
+            }else{
+
+            }
+
         }
     }
 
