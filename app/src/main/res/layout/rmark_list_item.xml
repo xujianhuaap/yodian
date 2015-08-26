@@ -72,6 +72,7 @@
             android:layout_below="@id/fra_container"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="2dp"
+            android:maxHeight="2048px"
             android:scaleType="fitCenter"
             app:imgUrl="@{rmark.pic}" />
 
