@@ -39,7 +39,7 @@ import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 /**
  * 日记发布
  */
-public class RmarkPublishActivity extends AppCompatActivity implements View.OnClickListener,
+public class   RmarkPublishActivity extends AppCompatActivity implements View.OnClickListener,
         CheckBox.OnCheckedChangeListener {
 
     private static final String IMAGE_UNSPECIFIED = "image/*";
@@ -93,7 +93,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     private void refresh(Skill skill) {
 
         if (mBitmap != null) {
-            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap,mScreenWidth,mScreenHeight).build();
+            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap,720,720*mScreenHeight/mScreenWidth).build();
 
             mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
                 @Override
@@ -225,7 +225,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
             }
 
             mBinding.cheSelectPhoto.setChecked(false);
-            mBitmap =ImageLoader.image(this,uri,mScreenWidth,mScreenHeight);
+            mBitmap =ImageLoader.image(this,uri,720,720*mScreenHeight/mScreenWidth);
             mBinding.skillPic.setImageBitmap(mBitmap);
 
 

@@ -258,46 +258,51 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 }
             });
         } else {
-            service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new Callback<SkillAllResponse>() {
-                @Override
-                public void success(SkillAllResponse res, Response response) {
-                    if (res.isSuccess()) {
-                        final Skill newSkill = res.getData();
-                        if (mShareDialog == null) {
-                            ShareDialog.ShareParams shareParams = new ShareDialog.ShareParams(newSkill,
-                                    newSkill.getQrcodeUrl(), newSkill.getUid(), newSkill.getNickname(), "");
-                            mShareDialog = ShareDialog.show(CreateOrEditSkillActivity.this, shareParams, 1);
-                            mShareDialog.setListener(new ShareDialog.Listener() {
-                                @Override
-                                public void onClose() {
-                                    setResult(RESULT_OK, new Intent().putExtra("skill", newSkill));
-                                    finish();
-                                }
-                            });
+            if(mBitmap!=null){
+                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new Callback<SkillAllResponse>() {
+                    @Override
+                    public void success(SkillAllResponse res, Response response) {
+                        if (res.isSuccess()) {
+                            final Skill newSkill = res.getData();
+                            if (mShareDialog == null) {
+                                ShareDialog.ShareParams shareParams = new ShareDialog.ShareParams(newSkill,
+                                        newSkill.getQrcodeUrl(), newSkill.getUid(), newSkill.getNickname(), "");
+                                mShareDialog = ShareDialog.show(CreateOrEditSkillActivity.this, shareParams, 1);
+                                mShareDialog.setListener(new ShareDialog.Listener() {
+                                    @Override
+                                    public void onClose() {
+                                        setResult(RESULT_OK, new Intent().putExtra("skill", newSkill));
+                                        finish();
+                                    }
+                                });
+                            }
+                        } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) {
+
+                        } else {
+                            res.showMessage(CreateOrEditSkillActivity.this);
                         }
-                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) {
-
-                    } else {
-                        res.showMessage(CreateOrEditSkillActivity.this);
                     }
-                }
 
-                @Override
-                public void failure(HNetError hNetError) {
-                    ErrorUtils.checkError(CreateOrEditSkillActivity.this, hNetError);
-                }
+                    @Override
+                    public void failure(HNetError hNetError) {
+                        ErrorUtils.checkError(CreateOrEditSkillActivity.this, hNetError);
+                    }
 
-                @Override
-                public void start() {
-                    dialog = WaitDialog.show(CreateOrEditSkillActivity.this);
+                    @Override
+                    public void start() {
+                        dialog = WaitDialog.show(CreateOrEditSkillActivity.this);
 
-                }
+                    }
 
-                @Override
-                public void end() {
-                    if (dialog != null) dialog.dismiss();
-                }
-            });
+                    @Override
+                    public void end() {
+                        if (dialog != null) dialog.dismiss();
+                    }
+                });
+            }else{
+
+            }
+
         }
     }
 
