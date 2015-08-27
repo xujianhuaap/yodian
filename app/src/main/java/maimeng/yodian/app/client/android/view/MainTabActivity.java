@@ -15,7 +15,6 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
-import maimeng.yodian.app.client.android.service.UmengPushMessageService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
@@ -50,7 +49,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
             startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
         }
         PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setPushIntentServiceClass(UmengPushMessageService.class);
+//        mPushAgent.setPushIntentServiceClass(UmengPushMessageService.class);
         mPushAgent.enable();
         mPushAgent.onAppStart();
         setContentView(R.layout.activity_yodian_main, false);

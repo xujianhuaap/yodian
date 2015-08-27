@@ -198,9 +198,25 @@
                 <action android:name="org.android.agoo.client.ElectionReceiverService" />
             </intent-filter>
         </service>
+        <service
+            android:name="com.umeng.message.UmengMessageCallbackHandlerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.umeng.messge.registercallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.unregistercallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.message.handler.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.autoupdate.handler.action" />
+            </intent-filter>
+        </service>
         <!-- V1.3.0添加的service，负责下载通知的资源 -->
         <service android:name="com.umeng.message.UmengDownloadResourceService" />
-        <service android:name=".service.UmengPushMessageService" />
+        <!--<service android:name=".service.UmengPushMessageService" />-->
         <!--umeng push end-->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
