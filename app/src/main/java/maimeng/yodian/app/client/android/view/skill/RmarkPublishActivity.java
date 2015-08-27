@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -164,7 +165,7 @@ public class   RmarkPublishActivity extends AppCompatActivity implements View.On
         } else if (v == mBinding.btnDone) {
             if (mFile != null) {
                 Editable text = mBinding.editDiary.getText();
-                if (text != null) {
+                if (!TextUtils.isEmpty(text)) {
                     String content = text.toString();
                     String path = mFile.getAbsolutePath();
                     Skill skill = new Skill();
