@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UmengRegistrar;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
@@ -25,6 +26,7 @@ import maimeng.yodian.app.client.android.view.skill.proxy.MainSelectorProxy;
 
 
 public class MainTabActivity extends AbstractActivity implements AlertDialog.PositiveListener {
+    private static final String TAG =MainTabActivity.class.getName() ;
     private ActivityProxyController controller;
     private static final int REQUEST_AUTH = 0x1001;//登陆
     private static final int REQUEST_UPDATEINFO = 0x1002;//更新个人信息
