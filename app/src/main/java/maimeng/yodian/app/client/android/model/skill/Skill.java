@@ -23,6 +23,25 @@ public class Skill extends BaseObservable implements Parcelable, TypeData {
     private long id;//技能id
     private long uid;//用户id
     private String weichat = "";//微信号
+    private String qq = "";
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    private String contact = "";
     private String qrcode;//二维码图片
     private String qrcodeUrl = "";//二维码地址
     @SerializedName("hxname")

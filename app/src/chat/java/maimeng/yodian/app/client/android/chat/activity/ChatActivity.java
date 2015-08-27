@@ -1280,19 +1280,19 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (sendVcard) {
                 SharedPreferences pref = getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
                 String wechat = pref.getString(KEY_WECHAT, "");
-                if(TextUtils.isEmpty(wechat)){
-                    maimeng.yodian.app.client.android.view.dialog.AlertDialog.newInstance("提示","请完善信息").setNegativeListener(new maimeng.yodian.app.client.android.view.dialog.AlertDialog.NegativeListener() {
+                if (TextUtils.isEmpty(wechat)) {
+                    maimeng.yodian.app.client.android.view.dialog.AlertDialog.newInstance("提示", "请完善信息").setNegativeListener(new maimeng.yodian.app.client.android.view.dialog.AlertDialog.NegativeListener() {
                         @Override
                         public void onNegativeClick(DialogInterface dialog) {
-                            startActivity( new Intent(ChatActivity.this, SettingUserInfo.class));
+                            startActivity(new Intent(ChatActivity.this, SettingUserInfo.class));
                         }
 
                         @Override
                         public String negativeText() {
                             return "确定";
                         }
-                    }).show(getFragmentManager(),"dialog");
-                 return;
+                    }).show(getFragmentManager(), "dialog");
+                    return;
                 }
                 message.setAttribute("weChat", wechat);
             }
@@ -1336,7 +1336,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         message.setAttribute("uid", id);
         if (skill != null && intoSkill) {
             try {
-                message.setAttribute("skill", new JSONObject(new Gson().toJson(skill)));
+                JSONObject jsonObject = new JSONObject(new Gson().toJson(skill));
+//                jsonObject.put("qq", "");
+//                jsonObject.put("contact", "");
+                message.setAttribute("skill", jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
