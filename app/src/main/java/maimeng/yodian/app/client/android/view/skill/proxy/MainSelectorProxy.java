@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -155,7 +156,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         adapter = new SkillListSelectorAdapter(mActivity, this, mRefreshLayout);
         mRecyclerView.setAdapter(adapter);
 
-        animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 0, 420);
+        animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -195,6 +196,19 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             }
         });
         animator.setDuration(mActivity.getResources().getInteger(R.integer.duration_long));
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+
+                    if(!animator.isRunning()&&animator!=null){
+                        categoryEnterAndDismissAnim();
+                    }
+
+
+                return false;
+            }
+        });
         ItemTouchHelper swipeTouchHelper = new ItemTouchHelper(new DefaultItemTouchHelperCallback());
         //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
     }
@@ -218,12 +232,8 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 
     private void categoryEnterAndDismissAnim() {
         mCategoryContainer.initAnimator(mActivity.getResources().getInteger(R.integer.duration_long), mToolBar.getHeight());
-        if (dgree % 2 == 0) {
-            animator.setFloatValues(0, 420);
-        } else {
-            animator.setFloatValues(420, 840);
-        }
 
+        animator.setFloatValues(180 * (dgree + 1));
         if (animator != null && !animator.isRunning()) {
             animator.setupStartValues();
             animator.start();
