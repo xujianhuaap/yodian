@@ -786,7 +786,7 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
 //            // clear up global variables
 //            try {
 //                if (conflictBuilder == null)
-//                    conflictBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
+//                    conflictBuilder = new android.app.AlertDialog.Loader(MainActivity.this);
 //                conflictBuilder.setTitle(st);
 //                conflictBuilder.setMessage(R.string.connect_conflict);
 //                conflictBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

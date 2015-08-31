@@ -28,10 +28,10 @@ import java.io.File;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityRmarkPublishBinding;
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
@@ -40,7 +40,7 @@ import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 /**
  * 日记发布
  */
-public class   RmarkPublishActivity extends AppCompatActivity implements View.OnClickListener,
+public class RmarkPublishActivity extends AppCompatActivity implements View.OnClickListener,
         CheckBox.OnCheckedChangeListener {
 
     private static final String IMAGE_UNSPECIFIED = "image/*";
@@ -72,8 +72,8 @@ public class   RmarkPublishActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mScreenWidth =getResources().getDisplayMetrics().widthPixels;
-        mScreenHeight =getResources().getDisplayMetrics().heightPixels;
+        mScreenWidth = getResources().getDisplayMetrics().widthPixels;
+        mScreenHeight = getResources().getDisplayMetrics().heightPixels;
         mBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_rmark_publish);
         mSkill = getIntent().getParcelableExtra("skill");
@@ -94,7 +94,7 @@ public class   RmarkPublishActivity extends AppCompatActivity implements View.On
     private void refresh(Skill skill) {
 
         if (mBitmap != null) {
-            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap,720,720*mScreenHeight/mScreenWidth).build();
+            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap, 720, 720 * mScreenHeight / mScreenWidth).build();
 
             mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
                 @Override
@@ -224,10 +224,18 @@ public class   RmarkPublishActivity extends AppCompatActivity implements View.On
             } else {
                 uri = mTempUri;
             }
-
             mBinding.cheSelectPhoto.setChecked(false);
-            mBitmap =ImageLoader.image(this,uri,720,720*mScreenHeight/mScreenWidth);
-            mBinding.skillPic.setImageBitmap(mBitmap);
+            new ImageLoaderManager.Loader(mBinding.skillPic, uri).width(720).height(720 * mScreenHeight / mScreenWidth).callback(new ImageLoaderManager.Callback() {
+                @Override
+                public void onImageLoaded(Bitmap bitmap) {
+                    RmarkPublishActivity.this.mBitmap = bitmap;
+                }
+
+                @Override
+                public void onLoadEnd() {
+
+                }
+            }).start();
 
 
         }

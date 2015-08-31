@@ -17,9 +17,18 @@ import java.io.OutputStream;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 
 public class TypedBitmap implements TypedInput, TypedOutput {
-    private final int maxW;
-    private final int maxH;
-    private final int maxSize;
+    /**
+     * 图片最大大小
+     */
+    private int maxSize = -1;
+    /**
+     * 图片宽
+     */
+    private int maxWidth = -1;
+    /**
+     * 图片高
+     */
+    private int maxHeight = -1;
     private Bitmap mBitmap;
 
     public static class Builder {
@@ -92,22 +101,14 @@ public class TypedBitmap implements TypedInput, TypedOutput {
     private final String name;
     private final Bitmap.CompressFormat format;
     private byte[] bytes;
-    /**
-     * 图片宽
-     */
-    private int maxWidth = -1;
-    /**
-     * 图片高
-     */
-    private int maxHeight = -1;
 
 
     private TypedBitmap(int maxW, int maxH, int maxSize, Bitmap bitmap, String name, Bitmap.CompressFormat format) {
         this.name = name;
         this.format = format;
         this.mBitmap = bitmap;
-        this.maxW = maxW;
-        this.maxH = maxW;
+        this.maxWidth = maxW;
+        this.maxHeight = maxW;
         this.maxSize = maxSize;
     }
 
@@ -141,11 +142,11 @@ public class TypedBitmap implements TypedInput, TypedOutput {
     public long length() {
         if (bytes == null) {
             bytes = getBytes(this.mBitmap);
-            if (maxW > 0 || maxH > 0) {
-                this.maxWidth = maxW;
-                this.maxHeight = maxH;
+            if (maxWidth > 0 || maxHeight > 0) {
                 this.mBitmap = ThumbnailUtils.extractThumbnail(this.mBitmap, this.maxWidth, this.maxHeight);
-                bytes = getBytes(this.mBitmap);
+                if(mBitmap!=null) {
+                    bytes = getBytes(this.mBitmap);
+                }
             } else {
                 //throw new IllegalArgumentException("maxWidth > 0 and maxHeight > 0");
             }

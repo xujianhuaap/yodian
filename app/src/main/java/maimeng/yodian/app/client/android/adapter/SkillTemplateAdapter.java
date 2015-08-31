@@ -15,11 +15,11 @@ import com.bumptech.glide.request.target.Target;
 import com.squareup.picasso.Picasso;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.databinding.SkillTemplateItemBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 
 public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTemplateAdapter.ViewHolder> {
     public SkillTemplateAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
@@ -82,7 +82,7 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTempla
         public void bind(SkillTemplate template) {
             binding.setTemplate(template);
             this.template = template;
-            ImageLoader.image(binding.skillImg, template.getPic());
+            ImageLoaderManager.image(binding.skillImg, template.getPic());
         }
     }
 

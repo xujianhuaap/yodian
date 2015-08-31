@@ -56,7 +56,6 @@ import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
@@ -64,6 +63,7 @@ import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
@@ -259,22 +259,17 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
         if (getIntent().hasExtra("skill")) {
             Skill skill = getIntent().getParcelableExtra("skill");
-            ImageLoader.image(SkillDetailsActivity.this, Uri.parse(skill.getAvatar80()), new Target() {
+            new ImageLoaderManager.Loader(SkillDetailsActivity.this, Uri.parse(skill.getAvatar80())).width(80).height(80).callback(new ImageLoaderManager.Callback() {
                 @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                public void onImageLoaded(Bitmap bitmap) {
                     SkillDetailsActivity.this.defaultAvatar = bitmap;
                 }
 
                 @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
+                public void onLoadEnd() {
 
                 }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                }
-            }, 80, 80);
+            }).start();
             sid = skill.getId();
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
@@ -402,22 +397,17 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 }
                 headBinding.setSkill(skill);
                 binding.setSkill(skill);
-                ImageLoader.image(SkillDetailsActivity.this, Uri.parse(skill.getAvatar80()), new Target() {
+                new ImageLoaderManager.Loader(SkillDetailsActivity.this, Uri.parse(skill.getAvatar80())).width(80).height(80).callback(new ImageLoaderManager.Callback() {
                     @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    public void onImageLoaded(Bitmap bitmap) {
                         SkillDetailsActivity.this.defaultAvatar = bitmap;
                     }
 
                     @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
+                    public void onLoadEnd() {
 
                     }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                }, 80, 80);
+                }).start();
                 Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
                 headBinding.price.setText(text);
                 binding.price.setText(text);

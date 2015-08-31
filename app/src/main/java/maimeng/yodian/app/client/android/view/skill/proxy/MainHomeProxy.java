@@ -6,8 +6,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,8 +26,6 @@ import com.easemob.EMNotifierEvent;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -54,9 +50,9 @@ import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
@@ -65,7 +61,6 @@ import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
-import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -287,7 +282,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     public void reset() {
         inited = false;
         mUserNickname.setText(R.string.NA);
-        mUserAvatar.setImageResource(R.drawable.default_avatar);
         adapter.reload(new ArrayList<Skill>(), false);
         adapter.notifyDataSetChanged();
     }
@@ -295,25 +289,29 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     private void initUsrInfo() {
         mUserNickname.setText(user.getNickname());
         if (defaultAvatar != null) {
-            ImageLoader.image(mUserAvatar, user.getAvatar(), new BitmapDrawable(defaultAvatar));
-        } else {
-            ImageLoader.image(mUserAvatar, user.getAvatar());
-            ImageLoader.image(mActivity, Uri.parse(user.getAvatar()), new Target() {
+            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).circle().placeHolder(defaultAvatar)/*.callback(new ImageLoaderManager.Callback() {
                 @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                public void onImageLoaded(Bitmap bitmap) {
                     defaultAvatar = bitmap;
                 }
 
                 @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
+                public void onLoadEnd() {
 
+                }
+            })*/.start();
+        } else {
+            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle()/*.callback(new ImageLoaderManager.Callback() {
+                @Override
+                public void onImageLoaded(Bitmap bitmap) {
+                    defaultAvatar = bitmap;
                 }
 
                 @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                public void onLoadEnd() {
 
                 }
-            });
+            })*/.start();
         }
     }
 

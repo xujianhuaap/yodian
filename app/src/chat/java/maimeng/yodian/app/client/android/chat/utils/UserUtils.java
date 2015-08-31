@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 
 public class UserUtils {
     /**
@@ -41,9 +41,9 @@ public class UserUtils {
     public static void setUserAvatar(Context context, String username, ImageView imageView) {
         User user = getUserInfo(username);
         if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
-            ImageLoader.image(imageView, Uri.parse(user.getAvatar()));
+            new ImageLoaderManager.Loader(imageView, Uri.parse(user.getAvatar())).start();
         } else {
-            Picasso.with(context).load(R.drawable.default_avatar).transform(ImageLoader.createTransformation()).into(imageView);
+            new ImageLoaderManager.Loader(imageView, Uri.parse("http://www.ketie.me/default.png")).placeHolder(R.drawable.default_avatar).circle().start();
         }
     }
 

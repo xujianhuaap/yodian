@@ -94,7 +94,7 @@ import maimeng.yodian.app.client.android.chat.utils.ImageCache;
 import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 
 public class MessageAdapter extends BaseAdapter {
@@ -519,7 +519,7 @@ public class MessageAdapter extends BaseAdapter {
                         holder.vcard_wechat.setText(wechat);
                         holder.vcard_nickname.setText(nickName);
                         if (avatar != null) {
-                            ImageLoader.image(holder.vcard_avatar, Uri.parse(avatar));
+                            new ImageLoaderManager.Loader(holder.vcard_avatar, Uri.parse(avatar)).start();
                         }
                         holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
                             @Override
@@ -1496,7 +1496,7 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     /**
-     * load image into image view
+     * start image into image view
      *
      * @param thumbernailPath
      * @param iv

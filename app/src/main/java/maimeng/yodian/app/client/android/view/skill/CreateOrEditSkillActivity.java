@@ -33,15 +33,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
@@ -53,7 +53,7 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 /**
  *
  */
-public class CreateOrEditSkillActivity extends AppCompatActivity implements Target {
+public class CreateOrEditSkillActivity extends AppCompatActivity {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private static final int REQUEST_DONE = 0x1003;
@@ -94,8 +94,23 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             }
 
         }
-        if (mTemplate.getPic() != null)
-            ImageLoader.image(this, Uri.parse(mTemplate.getPic()), this);
+        if (mTemplate.getPic() != null) {
+            new ImageLoaderManager.Loader(this, Uri.parse(mTemplate.getPic())).callback(new ImageLoaderManager.Callback() {
+                @Override
+                public void onImageLoaded(Bitmap bitmap) {
+                    if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
+                        CreateOrEditSkillActivity.this.mBitmap.recycle();
+                        CreateOrEditSkillActivity.this.mBitmap = null;
+                    }
+                    CreateOrEditSkillActivity.this.mBitmap = bitmap;
+                }
+
+                @Override
+                public void onLoadEnd() {
+
+                }
+            }).start();
+        }
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
         binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));
@@ -258,7 +273,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 }
             });
         } else {
-            if(mBitmap!=null){
+            if (mBitmap != null) {
                 service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
@@ -299,7 +314,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                         if (dialog != null) dialog.dismiss();
                     }
                 });
-            }else{
+            } else {
 
             }
 
@@ -354,11 +369,21 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                     final Uri url = Uri.fromFile(tempFile);
                     int height = binding.skillPic.getHeight();
                     int width = binding.skillPic.getWidth();
-                    if (width > 0 && height > 0) {
-                        ImageLoader.image(this, url, this, height, height);
-                    } else {
-                        ImageLoader.image(this, url, this, 108, height);
-                    }
+                    new ImageLoaderManager.Loader(this, url).callback(new ImageLoaderManager.Callback() {
+                        @Override
+                        public void onImageLoaded(Bitmap bitmap) {
+                            if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
+                                CreateOrEditSkillActivity.this.mBitmap.recycle();
+                                CreateOrEditSkillActivity.this.mBitmap = null;
+                            }
+                            CreateOrEditSkillActivity.this.mBitmap = bitmap;
+                        }
+
+                        @Override
+                        public void onLoadEnd() {
+
+                        }
+                    }).width(width).height(height).start();
                     binding.getTemplate().setPic(url.toString());
                     toggle();
                     tempFile.deleteOnExit();
@@ -370,15 +395,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 
     }
 
-    @Override
-    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        this.mBitmap = bitmap;
-    }
-
-    @Override
-    public void onBitmapFailed(Drawable errorDrawable) {
-
-    }
 
     @Override
     protected void onDestroy() {
@@ -388,11 +404,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             mBitmap = null;
             System.gc();
         }
-    }
-
-    @Override
-    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
     }
 
     class EditTextChangeListener implements TextWatcher {

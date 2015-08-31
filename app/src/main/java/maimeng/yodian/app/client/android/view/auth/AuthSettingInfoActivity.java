@@ -3,7 +3,6 @@ package maimeng.yodian.app.client.android.view.auth;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,8 +25,6 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,9 +32,9 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -161,7 +158,17 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
 
     private void setDefaultInfo(String nickname, String headUrl) {
         if (headUrl == null) return;
-        ImageLoader.image(this, Uri.parse(headUrl), this);
+        new ImageLoaderManager.Loader(this.mUserImg, Uri.parse(headUrl)).callback(new ImageLoaderManager.Callback() {
+            @Override
+            public void onImageLoaded(Bitmap bitmap) {
+                AuthSettingInfoActivity.this.bitmap = bitmap;
+            }
+
+            @Override
+            public void onLoadEnd() {
+
+            }
+        }).start();
         mUserImg.setTag(headUrl);
         mNickname.setText(nickname);
     }
@@ -182,7 +189,17 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
                     break;
                 case REQUEST_PHOTORESOULT:
                     Uri uri = Uri.fromFile(tempFile);
-                    ImageLoader.image(this, uri, this);
+                    new ImageLoaderManager.Loader(this.mUserImg, uri).callback(new ImageLoaderManager.Callback() {
+                        @Override
+                        public void onImageLoaded(Bitmap bitmap) {
+                            AuthSettingInfoActivity.this.bitmap = bitmap;
+                        }
+
+                        @Override
+                        public void onLoadEnd() {
+
+                        }
+                    }).start();
                     if (window != null) {
                         window.dismiss();
                     }

@@ -242,7 +242,7 @@ public class ImageGridFragment extends Fragment implements OnItemClickListener {
 				holder.imageView.setLayoutParams(mImageViewLayoutParams);
 			}
 
-			// Finally load the image asynchronously into the ImageView, this
+			// Finally start the image asynchronously into the ImageView, this
 			// also takes care of
 			// setting a placeholder image while the background thread runs
 			String st1 = getResources().getString(R.string.Video_footage);

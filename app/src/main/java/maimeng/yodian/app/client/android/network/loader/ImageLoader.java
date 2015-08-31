@@ -26,7 +26,8 @@ import maimeng.yodian.app.client.android.widget.RoundImageView;
 /**
  * Created by android on 2015/7/31.
  */
-public class ImageLoader {
+@Deprecated
+class ImageLoader {
     private static ImageLoader network;
     private final Picasso loader;
 
@@ -47,6 +48,7 @@ public class ImageLoader {
         loader.setIndicatorsEnabled(BuildConfig.DEBUG);
     }
 
+    @Deprecated
     public static Bitmap image(final Context context, final Uri uri, final int width, final int height) {
         final CountDownLatch latch = new CountDownLatch(1);
         final Bitmap[] bitmaps = {null};
@@ -77,31 +79,37 @@ public class ImageLoader {
 
     }
 
+    @Deprecated
     public static Bitmap image(final Context context, final Uri uri) {
 
         return image(context, uri, 0, 0);
 
     }
 
+    @Deprecated
     public static void image(Context context, Uri uri, Target target) {
         image(context, uri, -1, target);
 
     }
 
+    @Deprecated
     public static void image(Context context, Uri uri, int placeHolderDrawable, Target target) {
         image(context, uri, placeHolderDrawable, -1, target);
     }
 
+    @Deprecated
     public static void image(Context context, Uri uri, Target target, int width, int height) {
         image(context, uri, -1, -1, target, width, height);
 
     }
 
+    @Deprecated
     public static void image(Context context, Uri uri, int placeHolderDrawable, Target target, int width, int height) {
         image(context, uri, placeHolderDrawable, -1, target, width, height);
 
     }
 
+    @Deprecated
     public static void image(Context context, Uri uri, int placeHolderDrawable, int errorDrawable, Target target, int width, int height) {
         ImageLoader one = getOne(context);
         one.loader.cancelRequest(target);
@@ -119,8 +127,14 @@ public class ImageLoader {
         load.into(target);
     }
 
+    @Deprecated
     public static void image(Context context, Uri uri, int placeHolderDrawable, int errorDrawable, Target target) {
         image(context, uri, placeHolderDrawable, errorDrawable, target, -1, -1);
+    }
+
+
+    public static ImageLoader image(ImageView iv, Uri url) {
+        return image(iv, url, null);
     }
 
     @BindingAdapter("bind:imgUrl")
@@ -128,16 +142,8 @@ public class ImageLoader {
         return image(iv, url, null);
     }
 
-    public static ImageLoader image(ImageView iv, Uri url) {
-        return image(iv, url, null);
-    }
-
     @BindingAdapter({"bind:imgUrl", "bind:placeHolder"})
     public static ImageLoader image(ImageView iv, String url, Drawable placeHolderDrawable) {
-        return image(iv, url, placeHolderDrawable, null);
-    }
-
-    public static ImageLoader image(ImageView iv, Uri url, Drawable placeHolderDrawable) {
         return image(iv, url, placeHolderDrawable, null);
     }
 
@@ -152,7 +158,12 @@ public class ImageLoader {
         return one;
     }
 
+    @Deprecated
+    public static ImageLoader image(ImageView iv, Uri url, Drawable placeHolderDrawable) {
+        return image(iv, url, placeHolderDrawable, null);
+    }
 
+    @Deprecated
     public static ImageLoader image(ImageView iv, Uri uri, Drawable placeHolderDrawable, Drawable errorDrawable) {
         ImageLoader one = getOne(iv.getContext());
         one.loader.cancelRequest(iv);
@@ -191,10 +202,12 @@ public class ImageLoader {
                 .build();
     }
 
+    @Deprecated
     public static void cancel(ImageView iv) {
         getOne(iv.getContext()).loader.cancelRequest(iv);
     }
 
+    @Deprecated
     public static void image(ImageView iv, Uri url, int placeHolderDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             image(iv, url, iv.getResources().getDrawable(placeHolderDrawable, iv.getContext().getTheme()), null);
@@ -203,12 +216,14 @@ public class ImageLoader {
         }
     }
 
+    @Deprecated
     public static void image(ImageView iv, Uri url, int placeHolderDrawable, int errorDrawable) {
         Drawable place = placeHolderDrawable == -1 ? null : iv.getResources().getDrawable(placeHolderDrawable);
         Drawable error = errorDrawable == -1 ? null : iv.getResources().getDrawable(errorDrawable);
         image(iv, url, place, error);
     }
 
+    @Deprecated
     public static class ImageTarget implements Target {
         private final ImageView mImageView;
 

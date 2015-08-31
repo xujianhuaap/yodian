@@ -33,7 +33,7 @@ import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 import maimeng.yodian.app.client.android.widget.ViewPager;
@@ -164,7 +164,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 views.add(iv);
                 iv.setOnClickListener(this);
-                ImageLoader.image(iv, banner.getPic());
+                ImageLoaderManager.image(iv, banner.getPic());
             }
             adapter.setViews(views);
             adapter.notifyDataSetChanged();
@@ -292,7 +292,18 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 binding.btnContect.setVisibility(View.VISIBLE);
                 binding.btnEdit.setVisibility(View.GONE);
             }
-            defaultAvatar = ImageLoader.image(mContext, Uri.parse(item.getAvatar80()));
+//            defaultAvatar = ImageLoaderManager.image(mContext, Uri.parse(item.getAvatar80()));
+            new ImageLoaderManager.Loader(mContext, Uri.parse(item.getAvatar80())).callback(new ImageLoaderManager.Callback() {
+                @Override
+                public void onImageLoaded(Bitmap bitmap) {
+                    defaultAvatar = bitmap;
+                }
+
+                @Override
+                public void onLoadEnd() {
+
+                }
+            }).start();
             binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(), item.getUnit())));
         }
 
