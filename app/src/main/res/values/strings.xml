@@ -12,6 +12,7 @@
     <string name="hint_wechat">您的微信</string>
     <string name="clearSuccess">清除成功</string>
     <string name="lable_feedback">意见反馈</string>
+    <string name="lable_remark">评分</string>
     <string name="lable_chat">消息</string>
     <string name="lable_cleancache">清除缓存</string>
     <string name="lable_changeaccount">切换账号</string>
@@ -62,5 +63,6 @@
     <string name="skill_preview_title_bar"> 预 览</string>
     <string name="skill_preview_connect">联系Ta</string>
     <string name="skill_preview_add_skill">添加技能</string>
+    <string name="skill_date_format">MM-dd HH:mm</string>
 
 </resources>

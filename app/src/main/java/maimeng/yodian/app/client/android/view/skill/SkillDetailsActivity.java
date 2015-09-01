@@ -385,10 +385,12 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         if (res.isSuccess()) {
             List<Rmark> list = res.getData().getList();
 
-//            Rmark rmark=list.get(0);
-//            Date date=rmark.getCreatetime();
-//            LogUtil.d("SkillDetailsActivity",""+date);
-//            LogUtil.d("SkillDetailsActivity",""+date.getTime());
+            if(list.size()>0){
+                Rmark rmark=list.get(0);
+                Date date=rmark.getCreatetime();
+                LogUtil.d("SkillDetailsActivity","TT"+date);
+                LogUtil.d("SkillDetailsActivity","TRTTT"+date.getTime());
+            }
 
             if (skill == null) {
                 binding.headerLogoBg.postDelayed(new Runnable() {

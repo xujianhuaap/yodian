@@ -54,7 +54,7 @@
             <TextView
                 android:id="@+id/weixin"
                 android:padding="@dimen/dialog_share_item_padding"
-                android:drawableTop="@drawable/ic_share_weixin_friend"
+                android:drawableTop="@drawable/ic_share_wechat"
                 android:gravity="center"
                 android:text="微信"
                 android:textColor="#fff"
@@ -62,20 +62,11 @@
                 android:layout_marginRight="10dp"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/qqRoom"
-                android:drawableTop="@drawable/ic_share_qqroom"
-                android:gravity="center"
-                android:text="QQ空间"
-                android:textColor="#fff"
-                android:padding="@dimen/dialog_share_item_padding"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="16sp" />
+
 
             <TextView
                 android:id="@+id/fridens"
-                android:drawableTop="@drawable/ic_share_weixin_circle"
+                android:drawableTop="@drawable/ic_share_friends"
                 android:gravity="center"
                 android:text="朋友圈"
                 android:textColor="#fff"
@@ -87,11 +78,22 @@
 
             <TextView
                 android:id="@+id/sina"
-                android:drawableTop="@drawable/ic_share_weibo"
+                android:drawableTop="@drawable/ic_share_sina"
                 android:gravity="center"
                 android:text="微博"
                 android:padding="@dimen/dialog_share_item_padding"
                 android:textColor="#fff"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/qqRoom"
+                android:drawableTop="@drawable/ic_share_qq_room"
+                android:gravity="center"
+                android:text="QQ空间"
+                android:textColor="#fff"
+                android:padding="@dimen/dialog_share_item_padding"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:textSize="16sp" />

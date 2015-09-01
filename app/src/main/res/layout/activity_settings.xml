@@ -26,6 +26,21 @@
             android:gravity="center_vertical|left"
             android:text="@string/lable_feedback"
             android:textColor="@color/black_40" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/div_line" />
+
+        <TextView
+            android:id="@+id/btn_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_icon_margin"
+            android:drawableLeft="@drawable/ic_rmark"
+            android:drawablePadding="@dimen/top_icon_margin"
+            android:gravity="center_vertical|left"
+            android:text="@string/lable_remark"
+            android:textColor="@color/black_40" />
 
         <View
             android:layout_width="match_parent"

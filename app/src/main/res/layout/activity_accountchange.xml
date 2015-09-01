@@ -2,37 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#550e0e2a"
+    android:background="@android:color/transparent"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvAccountName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#fff"
-        android:gravity="center"
-        android:textSize="18sp" />
+        android:paddingTop="8dp"
+        android:background="@drawable/round_corner_white"
+        android:gravity="top|center_horizontal"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tvChangeAccount"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="#fff"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/round_corner_white"
         android:gravity="center"
-        android:text="切换账号"
-        android:textColor="@color/colorPrimary"
+        android:text="退出登录"
+        android:textColor="@android:color/holo_blue_bright"
         android:textSize="22sp" />
 
     <TextView
         android:id="@+id/tvCancel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="#fff"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_corner_white"
         android:gravity="center"
         android:text="取消"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@android:color/holo_blue_bright"
         android:textSize="22sp" />
 
 </LinearLayout>

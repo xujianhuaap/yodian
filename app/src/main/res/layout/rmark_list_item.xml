@@ -30,9 +30,11 @@
             android:layout_marginTop="30dp"
             android:gravity="bottom"
             android:text="@{rmark.createtime}"
+            app:dateFormat="@{@string/skill_date_format}"
             android:textSize="14sp" />
 
-        `
+
+
 
         <FrameLayout
             android:id="@+id/fra_container"

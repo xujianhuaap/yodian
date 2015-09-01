@@ -29,7 +29,12 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <service android:name=".chat.AsyncContactService" />
+        <activity android:name=".view.dialog.ChangeAccountActivity"
+            android:theme="@style/account_change_dialog"
+            android:label=""
+            >
 
+        </activity>
         <activity
             android:name=".view.splash.DefaultActivity"
             android:screenOrientation="nosensor" />

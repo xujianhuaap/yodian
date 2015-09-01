@@ -257,6 +257,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+
+
         }
     }
 

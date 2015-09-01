@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.view;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -22,6 +23,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.DataCleanManager;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.view.dialog.ChangeAccountActivity;
 
 /**
  * Created by android on 2015/7/21.
@@ -55,6 +57,7 @@ public class SettingsActivity extends AbstractActivity {
         }
         user = User.read(SettingsActivity.this);
         mBtnBack = findViewById(R.id.btn_back);
+        mBtnBack.setVisibility(View.INVISIBLE);
         mBtnYijian = findViewById(R.id.btn_yijian);
         mBtnChangeAccount = findViewById(R.id.btn_change_account);
         mBtnCleanCache = findViewById(R.id.btn_cleancache);
@@ -97,32 +100,7 @@ public class SettingsActivity extends AbstractActivity {
         mBtnChangeAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(v.getContext(), R.layout.activity_accountchange, null);
-                window = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
-                window.setAnimationStyle(R.style.Base_Animation_AppCompat_DropDownUp);
-                window.setBackgroundDrawable(new BitmapDrawable(getResources()));
-                TextView tvAccountName = (TextView) view.findViewById(R.id.tvAccountName);
-                TextView changeAccount = (TextView) view.findViewById(R.id.tvChangeAccount);
-                changeAccount.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        User.clear(SettingsActivity.this);
-                        Intent intent = new Intent(SettingsActivity.this, MainTabActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                });
-                TextView cancleChange = (TextView) view.findViewById(R.id.tvCancel);
-                cancleChange.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (window != null) {
-                            window.dismiss();
-                        }
-                    }
-                });
-                tvAccountName.setText(getString(R.string.currentAccount, user.getNickname()));
-                window.showAtLocation(findViewById(R.id.root), Gravity.BOTTOM, 0, 0);
+                ChangeAccountActivity.show(SettingsActivity.this);
             }
         });
         mBtnCleanCache.setOnClickListener(new View.OnClickListener() {

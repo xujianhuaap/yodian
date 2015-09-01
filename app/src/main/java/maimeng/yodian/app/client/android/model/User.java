@@ -3,10 +3,15 @@ package maimeng.yodian.app.client.android.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.Bindable;
+import android.databinding.Observable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.YApplication;
@@ -309,4 +314,7 @@ public class User extends UserBaseColum {
             }
         }
     }
+
+
+
 }

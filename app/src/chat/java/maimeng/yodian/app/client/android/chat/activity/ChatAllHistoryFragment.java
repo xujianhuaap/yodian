@@ -23,6 +23,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -95,6 +96,13 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 
         conversationList.addAll(loadConversationsWithRecentChat());
         listView = (ListView) getView().findViewById(R.id.list);
+        ImageView noNews=(ImageView)getView().findViewById(R.id.no_news);
+        if(conversationList.size()==0){
+            noNews.setVisibility(View.VISIBLE);
+            noNews.setImageResource(R.drawable.ic_no_news);
+        }else{
+            noNews.setVisibility(View.GONE);
+        }
         adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList);
         // 设置adapter
         listView.setAdapter(adapter);

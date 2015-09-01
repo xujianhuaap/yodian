@@ -367,10 +367,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 
     @Override
     public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
-        if (mCategoryContainer != null && mTitleBar.getTag().equals(CATEGORY_ANIM_DISMISS)) {
-            categoryEnterAndDismissAnim();
-            return;
-        }
+
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
             mFloatButton.show();
             handler.postDelayed(new Runnable() {
@@ -428,10 +425,6 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     @Override
     public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, final int postion) {
 
-        if (mCategoryContainer != null && mTitleBar.getTag().equals(CATEGORY_ANIM_DISMISS)) {
-            categoryEnterAndDismissAnim();
-            return;
-        }
 
         if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
             final SkillListSelectorAdapter.ItemViewHolder holder = (SkillListSelectorAdapter.ItemViewHolder) h;
