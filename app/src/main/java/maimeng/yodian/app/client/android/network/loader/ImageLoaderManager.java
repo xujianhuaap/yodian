@@ -2,28 +2,25 @@ package maimeng.yodian.app.client.android.network.loader;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.BitmapTypeRequest;
 import com.bumptech.glide.DrawableTypeRequest;
+import com.bumptech.glide.GifTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.concurrent.CountDownLatch;
-
-import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 /**
  * Created by android on 2015/8/31.
@@ -39,6 +36,7 @@ public final class ImageLoaderManager {
 
     private ImageLoaderManager(Context app) {
         mRequest = Glide.with(app);
+//        Glide.get(app).register(GlideUrl.class, InputStream.class, new HnetLoaderFactory());
     }
 
     private static synchronized ImageLoaderManager getInstance(Context app) {
@@ -50,24 +48,6 @@ public final class ImageLoaderManager {
         return instance;
     }
 
-    @Deprecated
-    @BindingAdapter("bind:imgUrl")
-    public static void image(ImageView iv, String url) {
-        if (TextUtils.isEmpty(url)) return;
-        new Loader(iv, url).start();
-    }
-
-    @Deprecated
-    @BindingAdapter({"bind:imgUrl", "bind:placeHolder"})
-    public static void image(ImageView iv, String url, Drawable placeHolderDrawable) {
-        new Loader(iv, url).placeHolder(placeHolderDrawable).start();
-    }
-
-    @Deprecated
-    @BindingAdapter({"bind:imgUrl", "bind:placeHolder", "bind:errorImage"})
-    public static void image(ImageView iv, String url, Drawable placeHolderDrawable, Drawable errorDrawable) {
-        new Loader(iv, url).placeHolder(placeHolderDrawable).error(errorDrawable).start();
-    }
 
     private static Bitmap image(final Context context, final Uri uri) {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -105,6 +85,7 @@ public final class ImageLoaderManager {
         }
     }
 
+
     public static final class Loader {
         private final Uri uri;
         private final Context mContext;
@@ -113,10 +94,10 @@ public final class ImageLoaderManager {
         private Drawable placeHolderDrawable;
         private Drawable errorDrawable;
         private boolean gif = false;
-        private boolean circle = false;
+        private Circle circle;
 
-        public Loader circle() {
-            this.circle = true;
+        public Loader circle(Circle circle) {
+            this.circle = circle;
             return this;
         }
 
@@ -127,6 +108,11 @@ public final class ImageLoaderManager {
 
         private Callback callback;
 
+        /**
+         * if call this methos than callback will not call!
+         *
+         * @return
+         */
         public Loader gif() {
             this.gif = true;
             return this;
@@ -170,9 +156,6 @@ public final class ImageLoaderManager {
             if (this.errorDrawable != null) {
                 loader.error(errorDrawable);
             }
-            if (circle) {
-                loader.transform(new GlideCircleTransform(this.mContext));
-            }
             if (gif) {
                 loadGif(loader);
             } else {
@@ -183,14 +166,15 @@ public final class ImageLoaderManager {
 
         private void loadBitmap(DrawableTypeRequest<Uri> loader) {
             BitmapTypeRequest<Uri> bitmapRequest = loader.asBitmap();
+            if (circle != null) {
+                bitmapRequest.transform(new GlideCircleTransform(this.mContext, circle));
+            }
             if (this.iv != null) {
-//                if (iv instanceof RoundImageView && !this.circle) {
-//                    bitmapRequest.transform(new GlideCircleTransform(this.mContext));
-//                }
                 if (callback != null) {
-                    bitmapRequest.into(new ImageViewTarget<Bitmap>(iv) {
+                    bitmapRequest.into(new BitmapImageViewTarget(iv) {
                         @Override
                         protected void setResource(Bitmap resource) {
+                            super.setResource(resource);
                             callback.onImageLoaded(resource);
                             callback.onLoadEnd();
                         }
@@ -226,6 +210,10 @@ public final class ImageLoaderManager {
         }
 
         private void loadGif(DrawableTypeRequest<Uri> request) {
+            GifTypeRequest<Uri> gifRequest = request.asGif();
+            if (this.iv != null) {
+                gifRequest.into(iv);
+            }
         }
 
         private void ensureSaneDefaults() {

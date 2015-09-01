@@ -6,7 +6,6 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -34,6 +33,7 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
+import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 import maimeng.yodian.app.client.android.widget.ViewPager;
@@ -164,7 +164,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 views.add(iv);
                 iv.setOnClickListener(this);
-                ImageLoaderManager.image(iv, banner.getPic());
+                ImageAdapter.image(iv, banner.getPic());
             }
             adapter.setViews(views);
             adapter.notifyDataSetChanged();
@@ -293,7 +293,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 binding.btnEdit.setVisibility(View.GONE);
             }
 //            defaultAvatar = ImageLoaderManager.image(mContext, Uri.parse(item.getAvatar80()));
-            new ImageLoaderManager.Loader(mContext, Uri.parse(item.getAvatar80())).callback(new ImageLoaderManager.Callback() {
+            new ImageLoaderManager.Loader(mContext, item.getAvatar80().getUri()).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     defaultAvatar = bitmap;

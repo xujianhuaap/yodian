@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easemob.EMEventListener;
@@ -52,6 +53,7 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.Circle;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
@@ -70,7 +72,6 @@ import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
-import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 /**
  * Created by android on 15-7-13.
@@ -84,7 +85,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     private final PtrFrameLayout mRefreshLayout;
     private final SkillService service;
     private final AppBarLayout appBar;
-    private final RoundImageView mUserAvatar;
+    private final ImageView mUserAvatar;
     private final TextView mUserNickname;
     private final View mBtnCreateSkill;
     private final View mBtnSettings;
@@ -129,7 +130,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         });
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        mUserAvatar = (RoundImageView) view.findViewById(R.id.user_avatar);
+        mUserAvatar = (ImageView) view.findViewById(R.id.user_avatar);
         mUserAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -288,8 +289,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
     private void initUsrInfo() {
         mUserNickname.setText(user.getNickname());
+        Circle circle = Circle.obtain().setBorderSize(10);
         if (defaultAvatar != null) {
-            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).circle().placeHolder(defaultAvatar)/*.callback(new ImageLoaderManager.Callback() {
+            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     defaultAvatar = bitmap;
@@ -299,9 +301,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 public void onLoadEnd() {
 
                 }
-            })*/.start();
+            }).start();
         } else {
-            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle()/*.callback(new ImageLoaderManager.Callback() {
+            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     defaultAvatar = bitmap;
@@ -311,7 +313,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 public void onLoadEnd() {
 
                 }
-            })*/.start();
+            }).start();
         }
     }
 

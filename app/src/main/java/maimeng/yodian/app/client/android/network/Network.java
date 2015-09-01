@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.network.common.GsonConverter;
 import maimeng.yodian.app.client.android.network.common.RequestIntercept;
 import maimeng.yodian.app.client.android.network.response.TypeData;
@@ -44,6 +45,8 @@ public class Network {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Date.class, new GsonConverter.DateAdapter());
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(String.class, new GsonConverter.StringAdapter());
+        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(ImageBindable.class, new GsonConverter.ImageBindableAdapter());
+
         net = new HNet.Builder()
                 .setEndpoint(ApiConfig.API_HOST)
                 .setIntercept(new RequestIntercept(app.getApplicationContext()))

@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,9 +20,6 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import net.glxn.qrgen.android.QRCode;
 
@@ -53,8 +49,6 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 
 /**
@@ -267,7 +261,7 @@ public class ShareDialog extends DialogFragment {
 
         shareView = view.findViewById(R.id.share);
 
-        RoundImageView avater = (RoundImageView) shareView.findViewById(R.id.avatar);
+        ImageView avater = (ImageView) shareView.findViewById(R.id.avatar);
         ImageView contentPic = (ImageView) shareView.findViewById(R.id.contenPic);
 
 

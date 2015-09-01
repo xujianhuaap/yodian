@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -38,13 +39,12 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
-import maimeng.yodian.app.client.android.widget.RoundImageView;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 
 public class AuthSettingInfoActivity extends AppCompatActivity implements Target, View.OnClickListener {
     private static final String LOG_TAG = AuthSettingInfoActivity.class.getName();
-    private RoundImageView mUserImg;
+    private ImageView mUserImg;
     private EditText mNickname;
     private Bitmap bitmap;
     private User user;
@@ -62,7 +62,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
         user = User.read(this);
         service = Network.getService(UserService.class);
         setContentView(R.layout.activity_auth_setting_info);
-        mUserImg = (RoundImageView) findViewById(R.id.img_avatar);
+        mUserImg = (ImageView) findViewById(R.id.img_avatar);
         findViewById(R.id.btn_album).setOnClickListener(this);
         findViewById(R.id.btn_camera).setOnClickListener(this);
         findViewById(R.id.btn_done).setOnClickListener(this);

@@ -259,7 +259,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
         if (getIntent().hasExtra("skill")) {
             Skill skill = getIntent().getParcelableExtra("skill");
-            new ImageLoaderManager.Loader(SkillDetailsActivity.this, Uri.parse(skill.getAvatar80())).width(80).height(80).callback(new ImageLoaderManager.Callback() {
+            new ImageLoaderManager.Loader(SkillDetailsActivity.this, skill.getAvatar80().getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     SkillDetailsActivity.this.defaultAvatar = bitmap;
@@ -397,7 +397,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 }
                 headBinding.setSkill(skill);
                 binding.setSkill(skill);
-                new ImageLoaderManager.Loader(SkillDetailsActivity.this, Uri.parse(skill.getAvatar80())).width(80).height(80).callback(new ImageLoaderManager.Callback() {
+                new ImageLoaderManager.Loader(SkillDetailsActivity.this, skill.getAvatar80().getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
                     @Override
                     public void onImageLoaded(Bitmap bitmap) {
                         SkillDetailsActivity.this.defaultAvatar = bitmap;
