@@ -94,10 +94,14 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             }
 
         }
-        if (mTemplate.getPic() != null)
+        if (mTemplate.getPic() != null){
             ImageLoader.image(this, Uri.parse(mTemplate.getPic()), this);
+        }else{
+        }
+
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
+
         binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));
         binding.skillPrice.addTextChangedListener(new EditTextChangeListener(binding.skillPrice, binding, mTemplate));
         binding.skillUnit.addTextChangedListener(new EditTextChangeListener(binding.skillUnit, binding, mTemplate));
@@ -213,15 +217,11 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             return;
         }
 
-
-        final Skill skill = new Skill();
-        skill.setPic(template.getPic());
-        skill.setId(template.getId());
-        skill.setName(template.getName());
-        skill.setContent(template.getContent());
-        skill.setPrice(template.getPrice());
-        skill.setUnit(template.getUnit());
-        skill.setNickname(User.read(this).getT_nickname());
+        String price=template.getPrice();
+        if(!price.contains(".")){
+            price=price+".00";
+            binding.getTemplate().setPrice(price);
+        }
 
         if (isEdit) {
             service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
@@ -267,7 +267,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                             if (mShareDialog == null) {
                                 ShareDialog.ShareParams shareParams = new ShareDialog.ShareParams(newSkill,
                                         newSkill.getQrcodeUrl(), newSkill.getUid(), newSkill.getNickname(), "");
-                                mShareDialog = ShareDialog.show(CreateOrEditSkillActivity.this, shareParams, 1);
+                                mShareDialog = ShareDialog.show(CreateOrEditSkillActivity.this, shareParams,true, 1);
                                 mShareDialog.setListener(new ShareDialog.Listener() {
                                     @Override
                                     public void onClose() {

@@ -90,7 +90,9 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 bindHead(holder, getItem(position));
                 break;
             case ViewEntry.VIEW_TYPE_BANNER:
-                bindBanner(holder, getItem(position));
+                BannerViewEntry viewEntry=(BannerViewEntry)getItem(position);
+
+                bindBanner(holder,viewEntry );
                 break;
         }
 
@@ -158,6 +160,11 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         public void bind(BannerViewEntry item) {
             banner.stopAutoScroll();
             this.list = item;
+            if(list.banners.size()<2){
+                indicator.setVisibility(View.INVISIBLE);
+            }else {
+                indicator.setVisibility(View.VISIBLE);
+            }
             final List<View> views = new ArrayList<>();
             for (Banner banner : item.banners) {
                 ImageView iv = new ImageView(mContext);

@@ -38,6 +38,7 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -130,7 +131,8 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         noSkillRmark.setPadding(0, 50, 0, 0);
         final ImageView iv = new ImageView(this);
         iv.setImageResource(R.drawable.pic_no_skill_rmark);
-        final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
         noSkillRmark.addView(iv, params);
         service = Network.getService(SkillService.class);
@@ -382,6 +384,12 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     public void success(RmarkListResponse res, Response response) {
         if (res.isSuccess()) {
             List<Rmark> list = res.getData().getList();
+
+//            Rmark rmark=list.get(0);
+//            Date date=rmark.getCreatetime();
+//            LogUtil.d("SkillDetailsActivity",""+date);
+//            LogUtil.d("SkillDetailsActivity",""+date.getTime());
+
             if (skill == null) {
                 binding.headerLogoBg.postDelayed(new Runnable() {
                     @Override

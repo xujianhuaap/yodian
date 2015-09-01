@@ -201,7 +201,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             public boolean onTouch(View v, MotionEvent event)
             {
 
-                    if(!animator.isRunning()&&animator!=null){
+                    if(!animator.isRunning()&&animator!=null&&mTitleBar.getTag()==CATEGORY_ANIM_DISMISS){
                         categoryEnterAndDismissAnim();
                     }
 
@@ -569,7 +569,8 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             final List<ViewEntry> entries;
             if (page == 1) {
                 entries = new ArrayList<>(list.size() + 2);
-                entries.add(new BannerViewEntry(data.getBanner()));
+                List<Banner>banners=data.getBanner();
+                entries.add(new BannerViewEntry(banners));
                 entries.add(new HeadViewEntry(data.getHeadSkill(), data.getHeadUser()));
             } else {
                 entries = new ArrayList<>(list.size());

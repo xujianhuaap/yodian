@@ -200,4 +200,6 @@ public class RoundImageView extends ImageView {
         paint.setStrokeWidth(mBorderThickness);
         canvas.drawCircle(defaultWidth / 2, defaultHeight / 2, radius, paint);
     }
+
+
 }

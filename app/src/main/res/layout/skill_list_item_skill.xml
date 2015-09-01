@@ -149,7 +149,7 @@
                 android:id="@+id/user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="3dp"
                 app:imgUrl="@{skill.avatar80}" />
         </FrameLayout>
 
