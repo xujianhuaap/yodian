@@ -238,6 +238,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     }
 
     @Override
+    public void onLoadFaild() {
+
+    }
+
+    @Override
     public void end() {
         binding.btnSubmit.setEnabled(true);
         dialog.dismiss();

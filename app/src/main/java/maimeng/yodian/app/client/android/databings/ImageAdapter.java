@@ -23,6 +23,7 @@ public class ImageAdapter {
 
     @android.databinding.BindingAdapter("app:imgUrl")
     public static void image(ImageView iv, ImageBindable url) {
+        if (url == null) return;
         Uri uri = url.getUri();
         if (uri == null) return;
         image(iv, uri.toString(), null, null, url.getCircle());

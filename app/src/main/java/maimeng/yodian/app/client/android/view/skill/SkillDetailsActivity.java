@@ -269,6 +269,11 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 public void onLoadEnd() {
 
                 }
+
+                @Override
+                public void onLoadFaild() {
+
+                }
             }).start();
             sid = skill.getId();
             isMe = skill.getUid() == user.getUid();
@@ -405,6 +410,11 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
                     @Override
                     public void onLoadEnd() {
+
+                    }
+
+                    @Override
+                    public void onLoadFaild() {
 
                     }
                 }).start();

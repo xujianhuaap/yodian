@@ -244,6 +244,11 @@ public class ShareDialog extends DialogFragment {
                 public void onLoadEnd() {
 
                 }
+
+                @Override
+                public void onLoadFaild() {
+                    
+                }
             }).start();
         } else {
             end = true;

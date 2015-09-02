@@ -235,6 +235,11 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
                 public void onLoadEnd() {
 
                 }
+
+                @Override
+                public void onLoadFaild() {
+
+                }
             }).start();
 
 

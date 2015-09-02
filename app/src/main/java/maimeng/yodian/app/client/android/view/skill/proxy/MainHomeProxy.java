@@ -301,6 +301,11 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 public void onLoadEnd() {
 
                 }
+
+                @Override
+                public void onLoadFaild() {
+
+                }
             }).start();
         } else {
             new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
@@ -311,6 +316,11 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
                 @Override
                 public void onLoadEnd() {
+
+                }
+
+                @Override
+                public void onLoadFaild() {
 
                 }
             }).start();

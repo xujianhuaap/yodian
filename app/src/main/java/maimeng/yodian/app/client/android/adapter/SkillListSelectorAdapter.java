@@ -303,6 +303,11 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 public void onLoadEnd() {
 
                 }
+
+                @Override
+                public void onLoadFaild() {
+
+                }
             }).start();
             binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(), item.getUnit())));
         }

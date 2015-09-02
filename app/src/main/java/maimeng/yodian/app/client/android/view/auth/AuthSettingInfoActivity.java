@@ -168,6 +168,11 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
             public void onLoadEnd() {
 
             }
+
+            @Override
+            public void onLoadFaild() {
+
+            }
         }).start();
         mUserImg.setTag(headUrl);
         mNickname.setText(nickname);
@@ -197,6 +202,11 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
 
                         @Override
                         public void onLoadEnd() {
+
+                        }
+
+                        @Override
+                        public void onLoadFaild() {
 
                         }
                     }).start();

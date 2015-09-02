@@ -95,7 +95,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
         }
         if (mTemplate.getPic() != null) {
-            new ImageLoaderManager.Loader(this, Uri.parse(mTemplate.getPic())).callback(new ImageLoaderManager.Callback() {
+            new ImageLoaderManager.Loader(binding.skillPic, Uri.parse(mTemplate.getPic())).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
@@ -107,7 +107,12 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
                 @Override
                 public void onLoadEnd() {
+                    System.out.println("onLoadEnd");
+                }
 
+                @Override
+                public void onLoadFaild() {
+                    System.out.println("onLoadFaild");
                 }
             }).start();
         }
@@ -369,7 +374,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                     final Uri url = Uri.fromFile(tempFile);
                     int height = binding.skillPic.getHeight();
                     int width = binding.skillPic.getWidth();
-                    new ImageLoaderManager.Loader(this, url).callback(new ImageLoaderManager.Callback() {
+                    new ImageLoaderManager.Loader(binding.skillPic, url).callback(new ImageLoaderManager.Callback() {
                         @Override
                         public void onImageLoaded(Bitmap bitmap) {
                             if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
@@ -383,8 +388,12 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                         public void onLoadEnd() {
 
                         }
+
+                        @Override
+                        public void onLoadFaild() {
+
+                        }
                     }).width(width).height(height).start();
-                    binding.getTemplate().setPic(url.toString());
                     toggle();
                     tempFile.deleteOnExit();
                 }

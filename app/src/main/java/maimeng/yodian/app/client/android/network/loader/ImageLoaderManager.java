@@ -62,6 +62,11 @@ public final class ImageLoaderManager {
             public void onLoadEnd() {
                 latch.countDown();
             }
+
+            @Override
+            public void onLoadFaild() {
+
+            }
         }).start();
         try {
             latch.await();
@@ -75,6 +80,8 @@ public final class ImageLoaderManager {
         void onImageLoaded(Bitmap bitmap);
 
         void onLoadEnd();
+
+        void onLoadFaild();
     }
 
     public static final class LoaderRequest {
@@ -184,6 +191,7 @@ public final class ImageLoaderManager {
                             super.onLoadFailed(e, errorDrawable);
                             e.printStackTrace();
                             callback.onLoadEnd();
+                            callback.onLoadFaild();
                         }
                     });
                 } else {
