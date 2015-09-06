@@ -9,8 +9,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
@@ -31,8 +29,6 @@ import android.widget.ImageView;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.melnykov.fab.ScrollDirectionListener;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -57,11 +53,11 @@ import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
-import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
@@ -385,11 +381,11 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         if (res.isSuccess()) {
             List<Rmark> list = res.getData().getList();
 
-            if(list.size()>0){
-                Rmark rmark=list.get(0);
-                Date date=rmark.getCreatetime();
-                LogUtil.d("SkillDetailsActivity","TT"+date);
-                LogUtil.d("SkillDetailsActivity","TRTTT"+date.getTime());
+            if (list.size() > 0) {
+                Rmark rmark = list.get(0);
+                Date date = rmark.getCreatetime();
+                LogUtil.d("SkillDetailsActivity", "TT" + date);
+                LogUtil.d("SkillDetailsActivity", "TRTTT" + date.getTime());
             }
 
             if (skill == null) {

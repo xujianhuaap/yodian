@@ -5,13 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.squareup.picasso.Transformation;
-
-import java.util.Arrays;
 
 /**
  * Created by android on 2015/8/23.

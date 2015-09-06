@@ -3,7 +3,6 @@ package maimeng.yodian.app.client.android.view.auth;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,9 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -42,7 +38,7 @@ import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 
-public class AuthSettingInfoActivity extends AppCompatActivity implements Target, View.OnClickListener {
+public class AuthSettingInfoActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String LOG_TAG = AuthSettingInfoActivity.class.getName();
     private ImageView mUserImg;
     private EditText mNickname;
@@ -228,27 +224,6 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements Target
         return super.onKeyDown(keyCode, event);
     }
 
-
-    @Override
-    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        if (bitmap != null) {
-            this.bitmap = bitmap;
-            mUserImg.setImageBitmap(bitmap);
-        } else {
-            Toast.makeText(this, "获取第三方头像失败", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onBitmapFailed(Drawable errorDrawable) {
-        System.out.println("onBitmapFailed");
-        Toast.makeText(this, "获取第三方头像失败", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPrepareLoad(Drawable placeHolderDrawable) {
-        System.out.println("onPrepareLoad");
-    }
 
     @Override
     protected void onStop() {

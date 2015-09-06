@@ -5,14 +5,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import maimeng.yodian.app.client.android.BuildConfig;
-import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.network.loader.Circle;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
