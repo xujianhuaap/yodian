@@ -265,11 +265,22 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
         if (path != null) {
 
-            ImageLoader.image(contentPic, path);
+            Bitmap bitmap=ImageLoader.image(getActivity(), Uri.parse(path));
+            if(bitmap==null){
+                Toast.makeText(getActivity(),"分享失败",Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
+            contentPic.setImageBitmap(bitmap);
+
         }
 
         if (avaterPath != null) {
-            ImageLoader.image(avater, avaterPath);
+            Bitmap avaterBitmap=ImageLoader.image(getActivity(), Uri.parse(avaterPath));
+            if(avaterBitmap==null){
+                Toast.makeText(getActivity(),"分享失败",Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
+            avater.setImageBitmap(avaterBitmap);
         }
 
         title.setText(skill.getName());

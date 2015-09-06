@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
+
         <in.srain.cube.views.ptr.PtrFrameLayout
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
@@ -28,37 +29,140 @@
             </android.support.v7.widget.RecyclerView>
         </in.srain.cube.views.ptr.PtrFrameLayout>
         <View android:layout_width="match_parent" android:layout_height="1px" android:background="#000"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:background="#fff"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:layout_height="70dp">-->
+            <!--<EditText-->
+                <!--android:id="@+id/feedback_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="#0000"-->
+                <!--android:gravity="center_vertical|left"-->
+                <!--android:hint="@string/input_feedback_hint"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textColorHint="#606060"-->
+                <!--android:paddingLeft="75dp"-->
+                <!--android:paddingRight="@dimen/auth_input_edit_paddingEnd"-->
+                <!--android:textColor="#000" />-->
+            <!--<Button-->   <!--android:id="@+id/btn_feedback"-->
+        <!--android:text="反馈"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent" />-->
+        <!--</LinearLayout>-->
         <LinearLayout
+        android:id="@+id/bar_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:paddingBottom="2dip"
+        android:paddingTop="2dip">
+        <LinearLayout
+            android:id="@+id/rl_bottom"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#aaffffff"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="#fff"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_height="70dp">
-            <EditText
-                android:id="@+id/feedback_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#0000"
-                android:gravity="center_vertical|left"
-                android:hint="@string/input_feedback_hint"
-                android:layout_weight="1"
-                android:textColorHint="#606060"
-                android:paddingLeft="75dp"
-                android:paddingRight="@dimen/auth_input_edit_paddingEnd"
-                android:textColor="#000" />
+            android:paddingTop="4dp">
+
             <Button
-                android:id="@+id/btn_feedback"
-                android:text="反馈"
+                android:id="@+id/btn_set_mode_voice"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/chatting_setmode_voice_btn"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/btn_press_to_speak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/chat_press_speak_btn"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/button_pushtotalk"
+                    android:textColor="#666666"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/edittext_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:gravity="bottom">
+
+                <EditText
+                    android:id="@+id/et_sendmessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dip"
+                    android:background="@android:drawable/editbox_background"
+                    android:maxLines="1"
+                    android:minHeight="40dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="1dp"
+                    android:paddingTop="3dp"
+                    android:textColor="#000"
+                    android:hint="用户反馈"
+                    android:textColorHint="#55000000"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_more"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/type_select_btn"
+                 />
+
+            <Button
+                android:id="@+id/btn_send"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:layout_height="32dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/chat_send_btn_selector"
+                android:onClick="onClick"
+                android:text="@string/button_send"
+                android:textColor="#666666"
+                android:textSize="16sp"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
+
+
+
+    </LinearLayout>
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
+        android:visibility="gone"
         android:layout_margin="@dimen/floating_btn_margin"
         android:src="@drawable/btn_back"
         app:fab_colorNormal="@color/float_colorNormal"

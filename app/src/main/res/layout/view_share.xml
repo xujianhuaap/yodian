@@ -85,13 +85,13 @@
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:layout_gravity="center" />
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_share_welcome"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_share_welcome"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:padding="10dp"
         android:textSize="24sp"/>
     <FrameLayout
         android:layout_width="match_parent"
