@@ -72,7 +72,7 @@ public abstract class ImageWorker {
      * disk cache will be used if an {@link ImageCache} has been added using
      * {@link ImageWorker#addImageCache(android.support.v4.app.FragmentManager, ImageCache.ImageCacheParams)}. If the
      * image is found in the memory cache, it is set immediately, otherwise an {@link AsyncTask}
-     * will be created to asynchronously load the bitmap.
+     * will be created to asynchronously start the bitmap.
      *
      * @param data The URL of the image to download.
      * @param imageView The ImageView to bind the downloaded image to.

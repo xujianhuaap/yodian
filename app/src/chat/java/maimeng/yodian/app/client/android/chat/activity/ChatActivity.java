@@ -124,8 +124,8 @@ import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
@@ -846,7 +846,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     }
                     bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, 3);
                     if (bitmap == null) {
-                        EMLog.d("chatactivity", "problem load video thumbnail bitmap,use default icon");
+                        EMLog.d("chatactivity", "problem start video thumbnail bitmap,use default icon");
                         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.app_panel_video_icon);
                     }
                     fos = new FileOutputStream(file);
@@ -1055,7 +1055,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 public void run() {
                     skillContainer.setVisibility(View.VISIBLE);
                     final String pic = skill.getPic();
-                    ImageLoader.image(skillPic, pic);
+                    new ImageLoaderManager.Loader(skillPic, Uri.parse(pic)).start();
                     skillName.setText(skill.getName());
                     skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
                 }

@@ -23,14 +23,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <maimeng.yodian.app.client.android.widget.RoundImageView
+                <ImageView
                     android:id="@+id/user_avatar"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    app:borderSize="2dp"
-                    app:imgUrl="@{user.avatar}"
-                    app:insideColor="#ffffff" />
+                    app:imgUrl="@{user.avatar}" />
 
                 <LinearLayout
                     android:id="@+id/button_container"

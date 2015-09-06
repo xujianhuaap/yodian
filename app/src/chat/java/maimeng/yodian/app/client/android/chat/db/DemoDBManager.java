@@ -297,7 +297,7 @@ public class DemoDBManager {
     }
 
     /**
-     * load robot list
+     * start robot list
      */
     synchronized public Map<String, RobotUser> getRobotList() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();

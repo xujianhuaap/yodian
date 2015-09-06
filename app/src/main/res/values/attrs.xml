@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--<attr name="borderSize" format="dimension" />-->
+    <!--<attr name="borderColor" format="color" />-->
     <declare-styleable name="FloatActionButton">
-        <attr name="text" format="string"/>
-    </declare-styleable>
-    <declare-styleable name="RoundImageView">
-        <attr name="outsideColor" format="color"/>
-        <attr name="insideColor" format="color"/>
-        <attr name="borderSize" format="dimension"/>
+        <attr name="text" format="string" />
     </declare-styleable>
     <declare-styleable name="SwipeItemLayout">
         <!--拖动方向-->
@@ -22,8 +19,8 @@
         <!--滑动距离-->
         <attr name="springDistance" format="dimension" />
         <!--启动滑动-->
-        <attr name="enableSlide" format="boolean"/>
+        <attr name="enableSlide" format="boolean" />
         <!--使用透明动画-->
-        <attr name="enableAlpha" format="boolean"/>
+        <attr name="enableAlpha" format="boolean" />
     </declare-styleable>
 </resources>
