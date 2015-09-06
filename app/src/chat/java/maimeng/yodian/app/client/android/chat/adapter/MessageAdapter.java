@@ -660,8 +660,6 @@ public class MessageAdapter extends BaseAdapter {
 //	        UserUtils.setUserAvatar(context, message.getFrom(), imageView);
 //	    }
         String from = message.getFrom();
-        if (BuildConfig.DEBUG)
-            Log.i(MessageAdapter.class.getName(), "setUserAvatar(),username:" + from);
         UserUtils.setUserAvatar(context, from, imageView);
     }
 

@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.network.loader;
 
 import android.annotation.TargetApi;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,24 +33,34 @@ public final class ImageLoaderManager {
         return mRequest;
     }
 
-    private final RequestManager mRequest;
+    private RequestManager mRequest;
 
-    private ImageLoaderManager(Context app) {
-        mRequest = Glide.with(app);
+    private ImageLoaderManager() {
+
 //        Glide.get(app).register(GlideUrl.class, InputStream.class, new HnetLoaderFactory());
     }
 
-    private static synchronized ImageLoaderManager getInstance(Context app) {
+    private boolean inited = false;
+
+    private static synchronized ImageLoaderManager getInstance() {
         synchronized (ImageLoaderManager.class) {
             if (instance == null) {
-                instance = new ImageLoaderManager(app);
+                instance = new ImageLoaderManager();
             }
         }
         return instance;
     }
 
+    public synchronized static void init(Application app) {
+        if (getInstance().inited) {
+            Log.w("ImageLoaderManager", "ImageLoaderManager has been initialized!");
+        } else {
+            getInstance().mRequest = Glide.with(app);
+            getInstance().inited = true;
+        }
+    }
 
-    private static Bitmap image(final Context context, final Uri uri) {
+    public static Bitmap image(final Context context, final Uri uri) {
         final CountDownLatch latch = new CountDownLatch(1);
         final Bitmap[] bitmaps = new Bitmap[1];
         new Loader(context, uri).callback(new Callback() {
@@ -151,32 +162,67 @@ public final class ImageLoaderManager {
         private boolean loaded = false;
 
         public void start() {
+            check();
             ensureSaneDefaults();
             Log.w(ImageLoaderManager.class.getName(), String.format("start Reqeust Image:%s", this.uri.toString()));
-            DrawableTypeRequest<Uri> loader = ImageLoaderManager.getInstance(this.mContext).getRequest().load(this.uri);
+            DrawableTypeRequest<Uri> loader = ImageLoaderManager.getInstance().getRequest().load(this.uri);
             if (width > 0 && height > 0) {
                 loader.override(width, height);
             }
-            if (this.placeHolderDrawable != null) {
+
+            if (this.placeHolderDrawable != null)
+
+            {
                 loader.placeholder(placeHolderDrawable);
             }
-            if (this.errorDrawable != null) {
+
+            if (this.errorDrawable != null)
+
+            {
                 loader.error(errorDrawable);
             }
-            if (gif) {
+
+            if (gif)
+
+            {
                 loadGif(loader);
-            } else {
+            } else
+
+            {
                 loadBitmap(loader);
             }
+
             loaded = true;
+        }
+
+        private void check() {
+            if (!getInstance().inited) {
+                RuntimeException e = new RuntimeException("Must be initialized in appliacation![ImageLoaderManager.init(Appliacation app)]");
+                Log.e("ImageLoaderManager", "start loader error!", e);
+            }
         }
 
         private void loadBitmap(DrawableTypeRequest<Uri> loader) {
             BitmapTypeRequest<Uri> bitmapRequest = loader.asBitmap();
+            int width = iv != null ? iv.getWidth() : 0;
+            int height = iv != null ? iv.getHeight() : 0;
+            int resizeWidth = width > 0 ? width : this.width;
+            int resizeHeight = height > 0 ? height : this.height;
             if (circle != null) {
-                bitmapRequest.transform(new GlideCircleTransform(this.mContext, circle));
+                if (resizeWidth > 0 && resizeHeight <= 0) {
+                    if (iv != null) iv.setScaleType(ImageView.ScaleType.FIT_START);
+//                    bitmapRequest.centerCrop();
+//                    bitmapRequest.transform(new ResizeTransform(iv, this.uri.toString(), width), new GlideCircleTransform(this.mContext, circle));
+                } else {
+                    bitmapRequest.transform(new GlideCircleTransform(this.mContext, circle));
+                }
             }
             if (this.iv != null) {
+                if (resizeWidth > 0 && resizeHeight <= 0) {
+                    if (iv != null) iv.setScaleType(ImageView.ScaleType.FIT_START);
+//                    bitmapRequest.centerCrop();
+//                    bitmapRequest.transform(new ResizeTransform(iv, this.uri.toString(), resizeWidth));
+                }
                 if (callback != null) {
                     bitmapRequest.into(new BitmapImageViewTarget(iv) {
                         @Override
