@@ -2,8 +2,8 @@
 <resources>
     <item name="loading_duration" type="integer">90</item>
     <item name="duration" type="integer">300</item>
-    <item name="duration_long" type="integer">600</item>
-    <item name="splash_duration" type="integer">5000</item>
+    <item name="duration_long" type="integer">500</item>
+    <item name="splash_duration" type="integer">2000</item>
     <item name="banner_duration" type="integer">1500</item>
     <item name="banner_interval" type="integer">3000</item>
     <string name="text_digits">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>

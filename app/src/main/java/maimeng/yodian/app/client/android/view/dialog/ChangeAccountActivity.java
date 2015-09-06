@@ -1,12 +1,15 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.widget.photoview.Compat;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 
@@ -24,10 +28,11 @@ import maimeng.yodian.app.client.android.view.MainTabActivity;
  */
 public class ChangeAccountActivity extends AppCompatActivity implements View.OnClickListener{
     private User user;
-    public static void show(Context context){
+    public static void show(Activity context){
         Intent intent=new Intent();
         intent.setClass(context, ChangeAccountActivity.class);
-        context.startActivity(intent);
+        ActivityOptionsCompat options=ActivityOptionsCompat.makeCustomAnimation(context,R.anim.fade_in,R.anim.fade_out);
+        ActivityCompat.startActivity(context,intent,options.toBundle());
     }
 
     @Override
@@ -44,6 +49,7 @@ public class ChangeAccountActivity extends AppCompatActivity implements View.OnC
             actionBar.hide();
             actionBar.setTitle("");
         }
+
 
         window.setGravity(Gravity.BOTTOM);
         TextView tvAccountName = (TextView) findViewById(R.id.tvAccountName);
@@ -73,6 +79,6 @@ public class ChangeAccountActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        
+
     }
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.umeng.message.UmengRegistrar;
@@ -46,6 +47,8 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window=getWindow();
+
         if (LauncherCheck.isFirstRun(this)) {
             startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
         }
@@ -53,6 +56,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
             startActivity(new Intent(this, MainTabActivity.class));
             finish();
         } else {
+
             service = Network.getService(AuthService.class);
             setContentView(R.layout.activity_auth_selector);
             findViewById(R.id.btn_loginwechat).setOnClickListener(this);

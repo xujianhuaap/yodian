@@ -17,12 +17,14 @@ import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainSelectorProxy;
+import maimeng.yodian.app.client.android.view.user.LauncherGuideActivity;
 
 
 public class MainTabActivity extends AbstractActivity implements AlertDialog.PositiveListener {
@@ -49,27 +51,29 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
         super.onCreate(savedInstanceState);
         
         if (LauncherCheck.isFirstRun(this)) {
-            startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
-        }
-        PushAgent mPushAgent = PushAgent.getInstance(this);
+
+        }else{
+            PushAgent mPushAgent = PushAgent.getInstance(this);
 //        mPushAgent.setPushIntentServiceClass(UmengPushMessageService.class);
-        mPushAgent.enable();
-        mPushAgent.onAppStart();
-        setContentView(R.layout.activity_yodian_main, false);
-        mListProxy = new MainSelectorProxy(this, findViewById(R.id.list_root));
-        mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
-        controller = new ActivityProxyController(mListProxy, mHomeProxy);
-        floatButton = (FloatingActionButton) findViewById(R.id.btn_float);
-        floatButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mListProxy.isInited()) mListProxy.init();
-                if (!mHomeProxy.isInited()) mHomeProxy.init();
-                controller.onFloatClick((FloatingActionButton) v);
-            }
-        });
-        new CheckUpdateDelegate(this, false).checkUpdate();
-        onNewIntent(getIntent());
+            mPushAgent.enable();
+            mPushAgent.onAppStart();
+            setContentView(R.layout.activity_yodian_main, false);
+            mListProxy = new MainSelectorProxy(this, findViewById(R.id.list_root));
+            mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
+            controller = new ActivityProxyController(mListProxy, mHomeProxy);
+            floatButton = (FloatingActionButton) findViewById(R.id.btn_float);
+            floatButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!mListProxy.isInited()) mListProxy.init();
+                    if (!mHomeProxy.isInited()) mHomeProxy.init();
+                    controller.onFloatClick((FloatingActionButton) v);
+                }
+            });
+            new CheckUpdateDelegate(this, false).checkUpdate();
+            onNewIntent(getIntent());
+        }
+
     }
 
     private void showDefault() {
@@ -101,7 +105,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
             } else {
                 finish();
             }
-        } else {
+        } else  {
             controller.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -115,6 +119,10 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     @Override
     public void onResume() {
         super.onResume();
+
+        if(TextUtils.isEmpty(User.read(this).getToken())){
+            AuthRedirect.toAuth(this);
+        }
         MobclickAgent.onResume(this);
         controller.onResume();
     }

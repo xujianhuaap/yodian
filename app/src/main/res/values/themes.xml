@@ -8,7 +8,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
+
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+
+
         <!--<item name="android:textColorPrimary">#ffff</item>-->
         <!--<item name="android:textColorSecondary">#ffff</item>-->
         <!--<item name="android:textColorTertiary">#ffff</item>-->
@@ -19,11 +26,20 @@
     <style name="AppThemeSettings" parent="AppTheme">
         <item name="colorPrimary">@android:color/white</item>
         <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:windowAnimationStyle">@style/SettingActivityAnim</item>
         <!--<item name="android:windowFullscreen">true</item>-->
     </style>
     <style name="AppThemeWhite" parent="AppTheme">
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorPrimary">@android:color/white</item>
+
+        <item name="android:windowAnimationStyle">@style/AuthActivityAnim</item>
+
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
         <!--<item name="android:windowFullscreen">true</item>-->
     </style>
 
@@ -59,18 +75,38 @@
         <!--<item name="android:windowExitAnimation">@anim/push_bottom_out</item>-->
     </style>
 
-    <style name="contact_dialog" parent="Theme.AppCompat.Dialog">
+    <style name="contact_dialog" parent="Theme.AppCompat.Dialog" mce_bogus="1">
     <item name="android:windowMinWidthMajor">98%</item>
     <item name="android:windowMinWidthMinor">98%</item>
     <item name="windowFixedWidthMajor">98%</item>
     <item name="windowFixedWidthMinor">98%</item>
     </style>
 
-    <style name="account_change_dialog" parent="Theme.AppCompat.Dialog">
+    <style name="account_change_dialog" parent="Theme.AppCompat.Dialog" mce_bogus="1">
 
         <item name="android:windowEnterAnimation">@anim/alpha_to1</item>
         <item name="android:windowExitAnimation">@anim/alpha_to0</item>
-        <!--<item name="android:windowAnimationStyle">@style/ShareDialogAnimation</item>-->
+        <item name="android:windowShowAnimation">@anim/alpha_to1</item>
+        <item name="android:windowHideAnimation">@anim/alpha_to0</item>
+
+        <item name="android:activityOpenEnterAnimation">@anim/alpha_to1</item>
+        <item name="android:activityOpenExitAnimation">@anim/alpha_to0</item>
+        <item name="android:activityCloseEnterAnimation">@anim/alpha_to1</item>
+        <item name="android:activityCloseExitAnimation">@anim/alpha_to0</item>
+
+        <item name="android:fragmentFadeEnterAnimation">@anim/alpha_to1</item>
+        <item name="android:fragmentFadeExitAnimation">@anim/alpha_to1</item>
+        <item name="android:fragmentCloseEnterAnimation">@anim/alpha_to1</item>
+        <item name="android:fragmentCloseExitAnimation">@anim/alpha_to1</item>
+        <item name="android:fragmentOpenEnterAnimation">@anim/alpha_to1</item>
+        <item name="android:fragmentOpenExitAnimation">@anim/alpha_to1</item>
+
+        <item name="android:inAnimation">@anim/alpha_to1</item>
+        <item name="android:outAnimation">@anim/alpha_to0</item>
+
+        <item name="android:animation">@anim/alpha_to1</item>
+        <item name="android:popupAnimationStyle">@style/AnimFade3</item>
+        <item name="android:windowAnimationStyle">@style/AnimFade3</item>
 
         <item name="android:windowMinWidthMajor">98%</item>
         <item name="android:windowMinWidthMinor">98%</item>
@@ -82,6 +118,25 @@
         <item name="android:windowBackground">@android:color/transparent</item>
 
 
+    </style>
+
+    <style name="AnimFade3" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/alpha_translate_to1</item>
+        <item name="android:windowExitAnimation">@anim/alpha_translate_to0</item>
+    </style>
+
+    <style name="SettingActivityAnim" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/alpha_translate_to0 </item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
+    </style>
+
+    <style name="AuthActivityAnim" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_left </item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_right</item>
     </style>
 
 </resources>

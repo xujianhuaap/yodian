@@ -292,8 +292,10 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
             QRCodeBitmap = generatePlatformBitmap(R.drawable.ic_market_wechat);
         }
         ImageView shareBrand = (ImageView) shareView.findViewById(R.id.share_brand);
+
         shareBrand.setImageBitmap(QRCodeBitmap);
         Bitmap shareBitmap = convertViewToBitmap(shareView);
+
         return shareBitmap;
     }
 
@@ -327,7 +329,8 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
     }
 
 
-    public static Bitmap convertViewToBitmap(View view) {
+    public static Bitmap
+    convertViewToBitmap(View view) {
 
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
