@@ -24,6 +24,7 @@ import maimeng.yodian.app.client.android.common.DataCleanManager;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.view.dialog.ChangeAccountActivity;
+import maimeng.yodian.app.client.android.view.user.TransActivity;
 
 /**
  * Created by android on 2015/7/21.
@@ -91,9 +92,10 @@ public class SettingsActivity extends AbstractActivity {
         mBtnYijian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Pair<View, String> back = Pair.create((View) mBtnBack, "back");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingsActivity.this, back);
-                ActivityCompat.startActivity(SettingsActivity.this, new Intent(SettingsActivity.this, FeedBackActivity.class), options.toBundle());
+                startActivity(new Intent(SettingsActivity.this, TransActivity.class));
+//                Pair<View, String> back = Pair.create((View) mBtnBack, "back");
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingsActivity.this, back);
+//                ActivityCompat.startActivity(SettingsActivity.this, new Intent(SettingsActivity.this, FeedBackActivity.class), options.toBundle());
             }
 
         });

@@ -83,6 +83,8 @@
         <activity android:name=".view.skill.RmarkPublishActivity">
 
         </activity>
+        <activity android:name=".view.user.TransActivity"
+            android:theme="@style/account_change_dialog"></activity>
         <activity
             android:name=".view.FeedBackActivity"
             android:label="@string/lable_feedback" />

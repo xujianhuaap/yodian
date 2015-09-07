@@ -279,31 +279,13 @@ public class ShareDialog extends DialogFragment {
         String avaterPath = skill.getAvatar();
 
         if (path != null) {
-<<<<<<< HEAD
 
-            Bitmap bitmap=ImageLoader.image(getActivity(), Uri.parse(path));
-            if(bitmap==null){
-                Toast.makeText(getActivity(),"分享失败",Toast.LENGTH_SHORT).show();
-                dismiss();
-            }
-            contentPic.setImageBitmap(bitmap);
-
-        }
-
-        if (avaterPath != null) {
-            Bitmap avaterBitmap=ImageLoader.image(getActivity(), Uri.parse(avaterPath));
-            if(avaterBitmap==null){
-                Toast.makeText(getActivity(),"分享失败",Toast.LENGTH_SHORT).show();
-                dismiss();
-            }
-            avater.setImageBitmap(avaterBitmap);
-=======
             new ImageLoaderManager.Loader(contentPic, Uri.parse(path)).start();
         }
 
         if (avaterPath != null) {
             new ImageLoaderManager.Loader(avater, Uri.parse(avaterPath)).start();
->>>>>>> a3d4cf132b6444fe53f29d64e83c12ce795d8200
+
         }
 
         title.setText(skill.getName());

@@ -92,6 +92,24 @@
 
     </style>
 
+    <style name="activity_trans" parent="Theme.AppCompat.Dialog" mce_bogus="1">
+
+
+        <item name="android:windowAnimationStyle">@style/ChangeAccountAnim</item>
+
+        <item name="android:windowMinWidthMajor">98%</item>
+        <item name="android:windowMinWidthMinor">98%</item>
+        <item name="windowFixedWidthMajor">98%</item>
+        <item name="windowFixedWidthMinor">98%</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+
+    </style>
+
+
     <style name="AnimFade3" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/alpha_translate_to1</item>
         <item name="android:windowExitAnimation">@anim/alpha_translate_to0</item>
