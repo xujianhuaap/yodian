@@ -92,7 +92,7 @@ public class SettingsActivity extends AbstractActivity {
         mBtnYijian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SettingsActivity.this, TransActivity.class));
+                TransActivity.show(SettingsActivity.this,0x1);
 //                Pair<View, String> back = Pair.create((View) mBtnBack, "back");
 //                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingsActivity.this, back);
 //                ActivityCompat.startActivity(SettingsActivity.this, new Intent(SettingsActivity.this, FeedBackActivity.class), options.toBundle());
@@ -102,7 +102,7 @@ public class SettingsActivity extends AbstractActivity {
         mBtnChangeAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChangeAccountActivity.show(SettingsActivity.this);
+                TransActivity.show(SettingsActivity.this,0x2);
             }
         });
         mBtnCleanCache.setOnClickListener(new View.OnClickListener() {
