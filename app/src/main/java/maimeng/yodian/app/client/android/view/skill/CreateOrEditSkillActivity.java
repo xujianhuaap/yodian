@@ -3,7 +3,6 @@ package maimeng.yodian.app.client.android.view.skill;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,9 +19,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -33,15 +29,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
@@ -53,7 +48,7 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 /**
  *
  */
-public class CreateOrEditSkillActivity extends AppCompatActivity implements Target {
+public class CreateOrEditSkillActivity extends AppCompatActivity {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private static final int REQUEST_DONE = 0x1003;
@@ -94,11 +89,29 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             }
 
         }
-        if (mTemplate.getPic() != null){
-            ImageLoader.image(this, Uri.parse(mTemplate.getPic()), this);
-        }else{
-        }
 
+        if (mTemplate.getPic() != null) {
+            new ImageLoaderManager.Loader(binding.skillPic, Uri.parse(mTemplate.getPic())).callback(new ImageLoaderManager.Callback() {
+                @Override
+                public void onImageLoaded(Bitmap bitmap) {
+                    if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
+                        CreateOrEditSkillActivity.this.mBitmap.recycle();
+                        CreateOrEditSkillActivity.this.mBitmap = null;
+                    }
+                    CreateOrEditSkillActivity.this.mBitmap = bitmap;
+                }
+
+                @Override
+                public void onLoadEnd() {
+                    System.out.println("onLoadEnd");
+                }
+
+                @Override
+                public void onLoadFaild() {
+                    System.out.println("onLoadFaild");
+                }
+            }).start();
+        }
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
 
@@ -217,9 +230,9 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             return;
         }
 
-        String price=template.getPrice();
-        if(!price.contains(".")){
-            price=price+".00";
+        String price = template.getPrice();
+        if (!price.contains(".")) {
+            price = price + ".00";
             binding.getTemplate().setPrice(price);
         }
 
@@ -258,7 +271,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                 }
             });
         } else {
-            if(mBitmap!=null){
+            if (mBitmap != null) {
                 service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
@@ -267,7 +280,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                             if (mShareDialog == null) {
                                 ShareDialog.ShareParams shareParams = new ShareDialog.ShareParams(newSkill,
                                         newSkill.getQrcodeUrl(), newSkill.getUid(), newSkill.getNickname(), "");
-                                mShareDialog = ShareDialog.show(CreateOrEditSkillActivity.this, shareParams,true, 1);
+                                mShareDialog = ShareDialog.show(CreateOrEditSkillActivity.this, shareParams, true, 1);
                                 mShareDialog.setListener(new ShareDialog.Listener() {
                                     @Override
                                     public void onClose() {
@@ -299,7 +312,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                         if (dialog != null) dialog.dismiss();
                     }
                 });
-            }else{
+            } else {
 
             }
 
@@ -354,12 +367,26 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
                     final Uri url = Uri.fromFile(tempFile);
                     int height = binding.skillPic.getHeight();
                     int width = binding.skillPic.getWidth();
-                    if (width > 0 && height > 0) {
-                        ImageLoader.image(this, url, this, height, height);
-                    } else {
-                        ImageLoader.image(this, url, this, 108, height);
-                    }
-                    binding.getTemplate().setPic(url.toString());
+                    new ImageLoaderManager.Loader(binding.skillPic, url).callback(new ImageLoaderManager.Callback() {
+                        @Override
+                        public void onImageLoaded(Bitmap bitmap) {
+                            if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
+                                CreateOrEditSkillActivity.this.mBitmap.recycle();
+                                CreateOrEditSkillActivity.this.mBitmap = null;
+                            }
+                            CreateOrEditSkillActivity.this.mBitmap = bitmap;
+                        }
+
+                        @Override
+                        public void onLoadEnd() {
+
+                        }
+
+                        @Override
+                        public void onLoadFaild() {
+
+                        }
+                    }).width(width).height(height).start();
                     toggle();
                     tempFile.deleteOnExit();
                 }
@@ -370,15 +397,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
 
     }
 
-    @Override
-    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        this.mBitmap = bitmap;
-    }
-
-    @Override
-    public void onBitmapFailed(Drawable errorDrawable) {
-
-    }
 
     @Override
     protected void onDestroy() {
@@ -388,11 +406,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity implements Targ
             mBitmap = null;
             System.gc();
         }
-    }
-
-    @Override
-    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
     }
 
     class EditTextChangeListener implements TextWatcher {

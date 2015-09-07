@@ -3,23 +3,17 @@ package maimeng.yodian.app.client.android.adapter;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.request.target.ImageViewTarget;
-import com.bumptech.glide.request.target.Target;
-import com.squareup.picasso.Picasso;
-
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.databinding.SkillTemplateItemBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
+import maimeng.yodian.app.client.android.databings.ImageAdapter;
 
 public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTemplateAdapter.ViewHolder> {
     public SkillTemplateAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
@@ -82,7 +76,7 @@ public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTempla
         public void bind(SkillTemplate template) {
             binding.setTemplate(template);
             this.template = template;
-            ImageLoader.image(binding.skillImg, template.getPic());
+            ImageAdapter.image(binding.skillImg, template.getPic());
         }
     }
 

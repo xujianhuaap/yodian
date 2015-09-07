@@ -11,5 +11,5 @@
     <color name="chat_textColor">#ccc</color>
 
     <color name="colorPrimaryDarkTransparent">#bbFFA739</color>
-
+    <color name="circle_border_color">#ffffff</color>
 </resources>

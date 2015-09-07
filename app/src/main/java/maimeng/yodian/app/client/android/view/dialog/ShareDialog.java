@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,9 +20,6 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import net.glxn.qrgen.android.QRCode;
 
@@ -51,16 +47,14 @@ import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.widget.RoundImageView;
 
 
 /**
  * Created by android on 2015/5/26.
  */
-public class ShareDialog extends DialogFragment implements Target/*, ShareListener*/ {
+public class ShareDialog extends DialogFragment {
 
     @Bind(R.id.report)
     TextView mReport;
@@ -234,7 +228,28 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         targetNickname = args.getString("targetNickname");
         if (skill.getPic() != null && (skill.getPic().startsWith("http") || skill.getPic().startsWith("ftp"))) {
             Toast.makeText(getActivity(), "正在分享路上...", Toast.LENGTH_SHORT).show();
-            ImageLoader.image(getActivity(), Uri.parse(skill.getPic()), this);
+            new ImageLoaderManager.Loader(getActivity(), Uri.parse(skill.getPic())).callback(new ImageLoaderManager.Callback() {
+                @Override
+                public void onImageLoaded(Bitmap bitmap) {
+                    try {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(tempFile));
+                        skill.setPic(tempFile.toString());
+                        end = true;
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onLoadEnd() {
+
+                }
+
+                @Override
+                public void onLoadFaild() {
+                    
+                }
+            }).start();
         } else {
             end = true;
         }
@@ -251,7 +266,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
         shareView = view.findViewById(R.id.share);
 
-        RoundImageView avater = (RoundImageView) shareView.findViewById(R.id.avatar);
+        ImageView avater = (ImageView) shareView.findViewById(R.id.avatar);
         ImageView contentPic = (ImageView) shareView.findViewById(R.id.contenPic);
 
 
@@ -264,6 +279,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         String avaterPath = skill.getAvatar();
 
         if (path != null) {
+<<<<<<< HEAD
 
             Bitmap bitmap=ImageLoader.image(getActivity(), Uri.parse(path));
             if(bitmap==null){
@@ -281,6 +297,13 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
                 dismiss();
             }
             avater.setImageBitmap(avaterBitmap);
+=======
+            new ImageLoaderManager.Loader(contentPic, Uri.parse(path)).start();
+        }
+
+        if (avaterPath != null) {
+            new ImageLoaderManager.Loader(avater, Uri.parse(avaterPath)).start();
+>>>>>>> a3d4cf132b6444fe53f29d64e83c12ce795d8200
         }
 
         title.setText(skill.getName());
@@ -312,7 +335,7 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
 
     /**
      * @param drawableId Type.Platform.WeiBo drawableId为R.drawble.ic_market_sina
-     *                   <p>
+     *                   <p/>
      *                   Type.Platform.WEIXIN  drawableId为R.drawble.ic_market_wechat
      */
     private Bitmap generatePlatformBitmap(int drawableId) {
@@ -464,25 +487,4 @@ public class ShareDialog extends DialogFragment implements Target/*, ShareListen
         showMessage(context, message);
     }
 
-    @Override
-    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        try {
-
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(tempFile));
-            skill.setPic(tempFile.toString());
-            end = true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onBitmapFailed(Drawable errorDrawable) {
-        LogUtil.e(ShareDialog.class.getSimpleName(), "onBitmapFailed");
-    }
-
-    @Override
-    public void onPrepareLoad(Drawable placeHolderDrawable) {
-        LogUtil.e(ShareDialog.class.getSimpleName(), "onPrepareLoad");
-    }
 }

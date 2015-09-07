@@ -3,14 +3,12 @@ package maimeng.yodian.app.client.android.view.user;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,9 +18,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -38,9 +33,9 @@ import maimeng.yodian.app.client.android.chat.AbstractActivity;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -50,7 +45,7 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 /**
  * Created by android on 15-7-20.
  */
-public class SettingUserInfo extends AbstractActivity implements View.OnClickListener, Target, Callback<ModifyUserResponse> {
+public class SettingUserInfo extends AbstractActivity implements View.OnClickListener, Callback<ModifyUserResponse>, ImageLoaderManager.Callback {
     private ActivitySettingUserInfoBinding binding;
     private Bitmap mBitmap = null;
     private User user;
@@ -138,7 +133,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
-        ImageLoader.image(this, Uri.parse(user.getAvatar()), this);
+        new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start();
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
     }
@@ -206,21 +201,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     }
 
     @Override
-    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        this.mBitmap = bitmap;
-    }
-
-    @Override
-    public void onBitmapFailed(Drawable errorDrawable) {
-        Toast.makeText(this, "加载头像失败", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-    }
-
-    @Override
     public void start() {
         binding.btnSubmit.setEnabled(false);
         dialog = WaitDialog.show(this);
@@ -243,6 +223,21 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     }
 
     @Override
+    public void onImageLoaded(Bitmap bitmap) {
+        this.mBitmap = bitmap;
+    }
+
+    @Override
+    public void onLoadEnd() {
+
+    }
+
+    @Override
+    public void onLoadFaild() {
+
+    }
+
+    @Override
     public void end() {
         binding.btnSubmit.setEnabled(true);
         dialog.dismiss();
@@ -258,7 +253,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         } else if (requestCode == REQUEST_PHOTORESOULT && RESULT_OK == resultCode) {
             if (tempFile != null) {
                 Uri uri = Uri.fromFile(tempFile);
-                ImageLoader.image(this, uri, this);
+                new ImageLoaderManager.Loader(this, uri).callback(this).start();
                 binding.getUser().setAvatar(uri.toString());
                 tempFile.deleteOnExit();
             }

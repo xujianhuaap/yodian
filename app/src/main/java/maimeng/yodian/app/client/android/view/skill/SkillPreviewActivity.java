@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -26,15 +23,15 @@ import butterknife.ButterKnife;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
-import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.loader.ImageLoader;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
@@ -106,7 +103,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                     public void onLoadMore() {
                         page++;
                         append = true;
-                        isEnd=true;
+                        isEnd = true;
                         refresh(mSkill);
                     }
                 };
@@ -132,7 +129,23 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         }
 
         refresh(mSkill);
-        ImageLoader.image(this, Uri.parse(mSkill.getPic()), new TargetProxy(), 240, 240);
+        new ImageLoaderManager.Loader(this, Uri.parse(mSkill.getPic())).callback(new ImageLoaderManager.Callback() {
+            @Override
+            public void onImageLoaded(Bitmap bitmap) {
+                mBitmap = Bitmap.createScaledBitmap(bitmap, 720, 720, false);
+            }
+
+            @Override
+            public void onLoadEnd() {
+
+            }
+
+            @Override
+            public void onLoadFaild() {
+
+            }
+        }).width(240).height(240).start();
+
     }
 
 
@@ -212,7 +225,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                 }
             });
         } else {
-            if(mBitmap!=null){
+            if (mBitmap != null) {
                 mSkillService.add(mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
@@ -243,7 +256,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                         if (dialog != null) dialog.dismiss();
                     }
                 });
-            }else{
+            } else {
 
             }
 
@@ -259,7 +272,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
 
         @Override
         public void end() {
-            isEnd=false;
+            isEnd = false;
             mBinding.swipeLayout.setRefreshing(false);
         }
 
@@ -278,16 +291,16 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         public void success(RmarkListResponse rmarkListResponse, Response response) {
             if (rmarkListResponse.isSuccess()) {
                 List<Rmark> rmarks = rmarkListResponse.getData().getList();
-                if(rmarks.size()==0&&isEnd&&toast==null){
+                if (rmarks.size() == 0 && isEnd && toast == null) {
                     toast = Toast.makeText(SkillPreviewActivity.this, "已经到底部", Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        toast=null;
+                        toast = null;
                     }
-                },2000);
+                }, 2000);
                 mAdapter.reload(rmarks, append);
                 mAdapter.notifyDataSetChanged();
             }
@@ -321,23 +334,6 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private class TargetProxy implements com.squareup.picasso.Target {
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            mBitmap = Bitmap.createScaledBitmap(bitmap, 720, 720, false);
-
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

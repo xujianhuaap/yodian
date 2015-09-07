@@ -1,5 +1,7 @@
 package maimeng.yodian.app.client.android.network.common;
 
+import android.net.Uri;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -25,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.Date;
 
+import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.TypeData;
 import maimeng.yodian.app.client.android.utils.LogUtil;
@@ -126,7 +129,19 @@ public class GsonConverter implements Converter {
             return new JsonPrimitive(src == null ? "" : src);
         }
     }
-    
+
+    public static class ImageBindableAdapter implements JsonDeserializer<ImageBindable>, JsonSerializer<ImageBindable> {
+
+        @Override
+        public ImageBindable deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return new ImageBindable().setUri(Uri.parse(json.getAsString()));
+        }
+
+        @Override
+        public JsonElement serialize(ImageBindable src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src == null ? "" : src.getUri().toString());
+        }
+    }
 
     public static class DateAdapter implements JsonDeserializer<java.util.Date>, JsonSerializer<java.util.Date> {
 
