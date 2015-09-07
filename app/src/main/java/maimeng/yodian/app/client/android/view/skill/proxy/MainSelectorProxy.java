@@ -131,7 +131,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         mToolBar = (android.support.v7.widget.Toolbar) view.findViewById(R.id.toolbar);
         mCategoryView = (CategoryView) mCategoryContainer.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);
-        mTitleBar=view.findViewById(R.id.ll_title);
+        mTitleBar = view.findViewById(R.id.ll_title);
         mTitleIndicator = (ImageView) view.findViewById(R.id.title_logo);
         mTitle = (TextView) view.findViewById(R.id.list_title);
         mTitleBar.setOnClickListener(this);
@@ -198,17 +198,17 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         animator.setDuration(mActivity.getResources().getInteger(R.integer.duration_long));
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
+            public boolean onTouch(View v, MotionEvent event) {
 
-                    if(!animator.isRunning()&&animator!=null&&mTitleBar.getTag()==CATEGORY_ANIM_DISMISS){
-                        categoryEnterAndDismissAnim();
-                    }
+                if (!animator.isRunning() && animator != null && (Integer) mTitleBar.getTag() == CATEGORY_ANIM_DISMISS) {
+                    categoryEnterAndDismissAnim();
+                }
 
 
                 return false;
             }
         });
+
         ItemTouchHelper swipeTouchHelper = new ItemTouchHelper(new DefaultItemTouchHelperCallback());
         //swipeTouchHelper.attachToRecyclerView(mRecyclerView);
     }
@@ -562,7 +562,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             final List<ViewEntry> entries;
             if (page == 1) {
                 entries = new ArrayList<>(list.size() + 2);
-                List<Banner>banners=data.getBanner();
+                List<Banner> banners = data.getBanner();
                 entries.add(new BannerViewEntry(banners));
                 entries.add(new HeadViewEntry(data.getHeadSkill(), data.getHeadUser()));
             } else {
@@ -575,7 +575,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
 
-            if(page==1){
+            if (page == 1) {
                 mCategory = res.getData().getCategory();
                 if (mCategory == null) {
                     mCategory = new ArrayList<Theme>();
