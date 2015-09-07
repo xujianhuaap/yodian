@@ -50,7 +50,7 @@
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal">
 
-                    <ImageView
+                    <maimeng.yodian.app.client.android.widget.CircleImageView
                         android:id="@+id/user_avatar"
                         android:layout_width="100dp"
                         android:layout_height="100dp"

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingTop="13dp">
 
     <TextView
         android:id="@+id/timestamp"
@@ -15,9 +15,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_activity">
 
-        <ImageView
+        <maimeng.yodian.app.client.android.widget.CircleImageView
             android:id="@+id/iv_userhead"
             android:layout_width="@dimen/size_avatar"
             android:layout_height="@dimen/size_avatar"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin_chat_activity"
             android:layout_toLeftOf="@id/iv_userhead"
-            android:background="@drawable/chatto_bg" >
+            android:background="@drawable/chatto_bg">
 
             <TextView
                 android:id="@+id/tv_location"
@@ -54,18 +54,17 @@
             android:clickable="true"
             android:src="@drawable/msg_state_failed_resend"
             android:visibility="gone" />
-        
+
         <TextView
             android:id="@+id/tv_ack"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/ll_location"
             android:text="@string/text_ack_msg"
             android:textSize="12sp"
-            android:layout_toLeftOf="@id/ll_location"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tv_delivered"
@@ -73,12 +72,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/tv_chatcontent"
             android:text="@string/text_delivered_msg"
             android:textSize="12sp"
-            android:layout_toLeftOf="@id/tv_chatcontent"
-            android:visibility="invisible"
-            />
-        
+            android:visibility="invisible" />
+
         <ProgressBar
             android:id="@+id/pb_sending"
             android:layout_width="25dp"
