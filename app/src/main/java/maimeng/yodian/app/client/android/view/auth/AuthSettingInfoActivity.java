@@ -250,7 +250,10 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
                 service.modifyInfo(text.toString(), new TypedBitmap.Builder(bitmap).setMaxSize(300).setAutoMatch(getResources()).build(), new Callback<ModifyUserResponse>() {
                     @Override
                     public void start() {
-                        dialog = WaitDialog.show(AuthSettingInfoActivity.this);
+                       if(!isFinishing()&&!isDestroyed()){
+                           dialog = WaitDialog.show(AuthSettingInfoActivity.this);
+                       }
+
                     }
 
                     @Override
