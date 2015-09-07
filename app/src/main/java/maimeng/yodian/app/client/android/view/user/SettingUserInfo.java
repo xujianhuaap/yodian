@@ -133,7 +133,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
-        new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start();
+        new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
     }
@@ -253,7 +253,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         } else if (requestCode == REQUEST_PHOTORESOULT && RESULT_OK == resultCode) {
             if (tempFile != null) {
                 Uri uri = Uri.fromFile(tempFile);
-                new ImageLoaderManager.Loader(this, uri).callback(this).start();
+                new ImageLoaderManager.Loader(this, uri).callback(this).start(this);
                 binding.getUser().setAvatar(uri.toString());
                 tempFile.deleteOnExit();
             }

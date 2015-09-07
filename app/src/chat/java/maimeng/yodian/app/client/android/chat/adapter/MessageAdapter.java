@@ -519,7 +519,7 @@ public class MessageAdapter extends BaseAdapter {
                         holder.vcard_wechat.setText(wechat);
                         holder.vcard_nickname.setText(nickName);
                         if (avatar != null) {
-                            new ImageLoaderManager.Loader(holder.vcard_avatar, Uri.parse(avatar)).start();
+                            new ImageLoaderManager.Loader(holder.vcard_avatar, Uri.parse(avatar)).start(activity);
                         }
                         holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
                             @Override

@@ -33,9 +33,9 @@ public class ImageAdapter {
         if (TextUtils.isEmpty(url)) return;
         ImageLoaderManager.Loader loader = new ImageLoaderManager.Loader(iv, Uri.parse(url)).placeHolder(placeHolderDrawable).error(errorDrawable);
         if (circle != null) {
-            loader.circle(circle).start();
+            loader.circle(circle).start(iv.getContext());
         } else {
-            loader.start();
+            loader.start(iv.getContext());
         }
     }
 }

@@ -69,7 +69,7 @@ public class UserUtils {
             public void onLoadFaild() {
 
             }
-        }).start();
+        }).start(context);
     }
 
 }

@@ -110,7 +110,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 public void onLoadFaild() {
                     System.out.println("onLoadFaild");
                 }
-            }).start();
+            }).start(this);
         }
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
@@ -386,7 +386,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                         public void onLoadFaild() {
 
                         }
-                    }).width(width).height(height).start();
+                    }).width(width).height(height).start(this);
                     toggle();
                     tempFile.deleteOnExit();
                 }

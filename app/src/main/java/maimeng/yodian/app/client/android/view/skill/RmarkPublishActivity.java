@@ -240,7 +240,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
                 public void onLoadFaild() {
 
                 }
-            }).start();
+            }).start(this);
 
 
         }

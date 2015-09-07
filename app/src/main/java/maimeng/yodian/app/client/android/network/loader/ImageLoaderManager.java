@@ -1,7 +1,8 @@
 package maimeng.yodian.app.client.android.network.loader;
 
 import android.annotation.TargetApi;
-import android.app.Application;
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.util.Log;
+import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.bumptech.glide.BitmapTypeRequest;
@@ -42,7 +44,6 @@ public final class ImageLoaderManager {
 //        Glide.get(app).register(GlideUrl.class, InputStream.class, new HnetLoaderFactory());
     }
 
-    private boolean inited = false;
 
     private static synchronized ImageLoaderManager getInstance() {
         synchronized (ImageLoaderManager.class) {
@@ -53,13 +54,18 @@ public final class ImageLoaderManager {
         return instance;
     }
 
-    public synchronized static void init(Application app) {
-        if (getInstance().inited) {
-            Log.w("ImageLoaderManager", "ImageLoaderManager has been initialized!");
-        } else {
-            getInstance().mRequest = Glide.with(app);
-            getInstance().inited = true;
-        }
+    private void addRequest(RequestManager request, Object context) {
+        requests.put(context, request);
+    }
+
+    private LruCache<Object, RequestManager> requests = new LruCache<>(5);
+
+    private RequestManager getRequest(Context context) {
+        return requests.get(context);
+    }
+
+    private RequestManager getRequest(Fragment fragment) {
+        return requests.get(fragment);
     }
 
     public static Bitmap image(final Context context, final Uri uri) {
@@ -80,7 +86,7 @@ public final class ImageLoaderManager {
             public void onLoadFaild() {
 
             }
-        }).start();
+        }).start(context);
         try {
             latch.await();
         } catch (InterruptedException e) {
@@ -104,7 +110,6 @@ public final class ImageLoaderManager {
             this.loader = loader;
         }
     }
-
 
     public static final class Loader {
         private final Uri uri;
@@ -161,13 +166,18 @@ public final class ImageLoaderManager {
             this.mContext = context;
         }
 
-        private boolean loaded = false;
 
-        public void start() {
-            check();
+        public void start(Context context) {
             ensureSaneDefaults();
             Log.w(ImageLoaderManager.class.getName(), String.format("start Reqeust Image:%s", this.uri.toString()));
-            DrawableTypeRequest<Uri> loader = ImageLoaderManager.getInstance().getRequest().load(this.uri);
+
+            ImageLoaderManager instance = ImageLoaderManager.getInstance();
+            RequestManager request = instance.getRequest(context);
+            if (request == null) {
+                request = Glide.with(context);
+                instance.addRequest(request, context);
+            }
+            DrawableTypeRequest<Uri> loader = request.load(this.uri);
             if (width > 0 && height > 0) {
                 loader.override(width, height);
             }
@@ -194,13 +204,81 @@ public final class ImageLoaderManager {
                 loadBitmap(loader);
             }
 
-            loaded = true;
         }
 
-        private void check() {
-            if (!getInstance().inited) {
-                RuntimeException e = new RuntimeException("Must be initialized in appliacation![ImageLoaderManager.init(Appliacation app)]");
-                Log.e("ImageLoaderManager", "start loader error!", e);
+        public void start(Activity activity) {
+            if (activity.isFinishing()) return;
+            ensureSaneDefaults();
+            Log.w(ImageLoaderManager.class.getName(), String.format("start Reqeust Image:%s", this.uri.toString()));
+            ImageLoaderManager instance = ImageLoaderManager.getInstance();
+            RequestManager request = instance.getRequest(activity);
+            if (request == null) {
+                request = Glide.with(activity);
+                instance.addRequest(request, activity);
+            }
+            DrawableTypeRequest<Uri> loader = request.load(this.uri);
+            if (width > 0 && height > 0) {
+                loader.override(width, height);
+            }
+
+            if (this.placeHolderDrawable != null)
+
+            {
+                loader.placeholder(placeHolderDrawable);
+            }
+
+            if (this.errorDrawable != null)
+
+            {
+                loader.error(errorDrawable);
+            }
+
+            if (gif)
+
+            {
+                loadGif(loader);
+            } else
+
+            {
+                loadBitmap(loader);
+            }
+        }
+
+        public void start(Fragment fragment) {
+            ensureSaneDefaults();
+            Log.w(ImageLoaderManager.class.getName(), String.format("start Reqeust Image:%s", this.uri.toString()));
+
+            ImageLoaderManager instance = ImageLoaderManager.getInstance();
+            RequestManager request = instance.getRequest(fragment);
+            if (request == null) {
+                request = Glide.with(fragment);
+                instance.addRequest(request, fragment);
+            }
+            DrawableTypeRequest<Uri> loader = request.load(this.uri);
+            if (width > 0 && height > 0) {
+                loader.override(width, height);
+            }
+
+            if (this.placeHolderDrawable != null)
+
+            {
+                loader.placeholder(placeHolderDrawable);
+            }
+
+            if (this.errorDrawable != null)
+
+            {
+                loader.error(errorDrawable);
+            }
+
+            if (gif)
+
+            {
+                loadGif(loader);
+            } else
+
+            {
+                loadBitmap(loader);
             }
         }
 
@@ -280,11 +358,6 @@ public final class ImageLoaderManager {
         }
 
         private void ensureSaneDefaults() {
-            if (loaded) {
-                Log.w(ImageLoaderManager.class.getName(), String.format("Image Url: %s exist Request", this.uri.toString()));
-            } else {
-
-            }
         }
 
         public Loader width(int width) {

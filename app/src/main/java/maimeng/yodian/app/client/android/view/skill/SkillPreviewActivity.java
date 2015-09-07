@@ -144,7 +144,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
             public void onLoadFaild() {
 
             }
-        }).width(240).height(240).start();
+        }).width(240).height(240).start(this);
 
     }
 

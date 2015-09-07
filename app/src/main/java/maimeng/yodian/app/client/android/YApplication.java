@@ -124,7 +124,6 @@ public class YApplication extends DemoApplication {
             strategy.setAppReportDelay(5000);
             CrashReport.initCrashReport(this, "900004839", BuildConfig.DEBUG, strategy);  //初始化SDK
         }
-        ImageLoaderManager.init(this);
         FeedbackPush.getInstance(this).init(true);
         Network.getOne().init(this);
         ShareSDK.getInstance().initShare(ApiConfig.WEIXIN_APP_KEY, ApiConfig.WEIBO_APP_KEY, ApiConfig.QQ_APP_KEY, ApiConfig.WEIXIN_APP_SECRET, ApiConfig.REDIRECT_URL);

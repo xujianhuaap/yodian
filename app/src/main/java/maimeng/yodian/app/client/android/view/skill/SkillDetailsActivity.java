@@ -272,7 +272,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 public void onLoadFaild() {
 
                 }
-            }).start();
+            }).start(this);
             sid = skill.getId();
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
@@ -423,7 +423,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                     public void onLoadFaild() {
 
                     }
-                }).start();
+                }).start(this);
                 Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
                 headBinding.price.setText(text);
                 binding.price.setText(text);

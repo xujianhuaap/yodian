@@ -169,7 +169,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
             public void onLoadFaild() {
 
             }
-        }).start();
+        }).start(this);
         mUserImg.setTag(headUrl);
         mNickname.setText(nickname);
     }
@@ -205,7 +205,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
                         public void onLoadFaild() {
 
                         }
-                    }).start();
+                    }).start(this);
                     if (window != null) {
                         window.dismiss();
                     }
@@ -250,9 +250,9 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
                 service.modifyInfo(text.toString(), new TypedBitmap.Builder(bitmap).setMaxSize(300).setAutoMatch(getResources()).build(), new Callback<ModifyUserResponse>() {
                     @Override
                     public void start() {
-                       if(!isFinishing()&&!isDestroyed()){
-                           dialog = WaitDialog.show(AuthSettingInfoActivity.this);
-                       }
+                        if (!isFinishing() && !isDestroyed()) {
+                            dialog = WaitDialog.show(AuthSettingInfoActivity.this);
+                        }
 
                     }
 

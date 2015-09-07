@@ -90,9 +90,9 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 bindHead(holder, getItem(position));
                 break;
             case ViewEntry.VIEW_TYPE_BANNER:
-                BannerViewEntry viewEntry=(BannerViewEntry)getItem(position);
+                BannerViewEntry viewEntry = (BannerViewEntry) getItem(position);
 
-                bindBanner(holder,viewEntry );
+                bindBanner(holder, viewEntry);
                 break;
         }
 
@@ -160,9 +160,9 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         public void bind(BannerViewEntry item) {
             banner.stopAutoScroll();
             this.list = item;
-            if(list.banners.size()<2){
+            if (list.banners.size() < 2) {
                 indicator.setVisibility(View.INVISIBLE);
-            }else {
+            } else {
                 indicator.setVisibility(View.VISIBLE);
             }
             final List<View> views = new ArrayList<>();
@@ -315,7 +315,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 public void onLoadFaild() {
 
                 }
-            }).start();
+            }).start(mContext);
             binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(), item.getUnit())));
         }
 

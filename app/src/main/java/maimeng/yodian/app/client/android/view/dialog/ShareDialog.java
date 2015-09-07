@@ -247,9 +247,9 @@ public class ShareDialog extends DialogFragment {
 
                 @Override
                 public void onLoadFaild() {
-                    
+
                 }
-            }).start();
+            }).start(this);
         } else {
             end = true;
         }
@@ -280,11 +280,11 @@ public class ShareDialog extends DialogFragment {
 
         if (path != null) {
 
-            new ImageLoaderManager.Loader(contentPic, Uri.parse(path)).start();
+            new ImageLoaderManager.Loader(contentPic, Uri.parse(path)).start(this);
         }
 
         if (avaterPath != null) {
-            new ImageLoaderManager.Loader(avater, Uri.parse(avaterPath)).start();
+            new ImageLoaderManager.Loader(avater, Uri.parse(avaterPath)).start(this);
 
         }
 

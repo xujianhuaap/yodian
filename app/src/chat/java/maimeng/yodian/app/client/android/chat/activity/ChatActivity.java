@@ -526,13 +526,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (chatType == CHATTYPE_SINGLE) {
-            menu.findItem(R.id.menu_chat_clear).setVisible(true);
-        } else {
-            menu.findItem(R.id.menu_chat_clear).setVisible(false);
+        if (menu != null) {
+            if (chatType == CHATTYPE_SINGLE) {
+                menu.findItem(R.id.menu_chat_clear).setVisible(true);
+            } else {
+                menu.findItem(R.id.menu_chat_clear).setVisible(false);
+            }
+            MenuItem item = menu.findItem(R.id.menu_chat_clear);
+            item.setVisible(false);
         }
-        MenuItem item = menu.findItem(R.id.menu_chat_clear);
-        item.setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -1055,7 +1057,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 public void run() {
                     skillContainer.setVisibility(View.VISIBLE);
                     final String pic = skill.getPic();
-                    new ImageLoaderManager.Loader(skillPic, Uri.parse(pic)).start();
+                    new ImageLoaderManager.Loader(skillPic, Uri.parse(pic)).start(ChatActivity.this);
                     skillName.setText(skill.getName());
                     skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
                 }
@@ -1082,7 +1084,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             case EventNewMessage: {
                 LogUtil.d("henjue", "onEvent.%s", "EventNewMessage");
                 //获取到message
-                EMMessage message = (EMMessage) event.getData();
+                final EMMessage message = (EMMessage) event.getData();
                 String username = null;
                 //群组消息
                 if (message.getChatType() == ChatType.GroupChat || message.getChatType() == ChatType.ChatRoom) {
@@ -1101,8 +1103,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     //如果消息不是和当前聊天ID的消息
                     HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
                 }
-                onNewMessage(message);
-                handlerSkillBanner(message);//处理技能banner信息
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onNewMessage(message);
+                        handlerSkillBanner(message);//处理技能banner信息
+                    }
+                });
                 break;
             }
             case EventDeliveryAck: {
