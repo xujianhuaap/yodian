@@ -33,8 +33,8 @@ android {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1020
-        versionName "1.0.2"
+        versionCode 1030
+        versionName "1.0.3"
     }
     buildTypes {
         release {

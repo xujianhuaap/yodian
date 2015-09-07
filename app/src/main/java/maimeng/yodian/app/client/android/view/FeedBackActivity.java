@@ -59,13 +59,12 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
     private Button mBtnMore;
     private InputMethodManager mInputMethodmanagr;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setWindowAnimations(R.style.FeedBackAnim);
         setContentView(R.layout.activity_feedback);
-        mBtnBack=findViewById(R.id.btn_back);
+        mBtnBack = findViewById(R.id.btn_back);
         ViewCompat.setTransitionName(mBtnBack, "back");
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,19 +72,20 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
                 ActivityCompat.finishAfterTransition(FeedBackActivity.this);
             }
         });
-        mRecyclerView=(RecyclerView)findViewById(R.id.recyclerView);
-        mRefreshLayout=(PtrFrameLayout)findViewById(R.id.refresh_layout);
-        mFeedBackContent=(EditText)findViewById(R.id.et_sendmessage);
-        mBtnFeedBack=findViewById(R.id.btn_send);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRefreshLayout = (PtrFrameLayout) findViewById(R.id.refresh_layout);
+        mFeedBackContent = (EditText) findViewById(R.id.et_sendmessage);
+        mBtnFeedBack = findViewById(R.id.btn_send);
         mBtnFeedBack.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (mFeedBackContent == null) return;
                 String content = mFeedBackContent.getText().toString();
                 mFeedBackContent.getEditableText().clear();
 
 
-                mInputMethodmanagr.hideSoftInputFromWindow(mFeedBackContent.getWindowToken(),0);
+                mInputMethodmanagr.hideSoftInputFromWindow(mFeedBackContent.getWindowToken(), 0);
 
 
                 if (!TextUtils.isEmpty(content)) {
@@ -97,9 +97,9 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
             }
         });
 
-        mBtnMore=(Button)findViewById(R.id.btn_more);
+        mBtnMore = (Button) findViewById(R.id.btn_more);
         mRefreshLayout.setPtrHandler(this);
-        StoreHouseHeader header=new StoreHouseHeader(this);
+        StoreHouseHeader header = new StoreHouseHeader(this);
         header.setPadding(0, (int) getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
         header.initWithString("YoDian");
         mRefreshLayout.addPtrUIHandler(header);
@@ -107,7 +107,7 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
         LinearLayoutManager layout = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layout);
 
-        adapter=new Adapter(this,null);
+        adapter = new Adapter(this, null);
         mRecyclerView.setAdapter(adapter);
         mAgent = new FeedbackAgent(this);
         UserInfo userinfo = mAgent.getUserInfo();
@@ -147,8 +147,8 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
 
             @Override
             public void afterTextChanged(Editable s) {
-                  mBtnMore.setVisibility(View.GONE);
-                  mBtnFeedBack.setVisibility(View.VISIBLE);
+                mBtnMore.setVisibility(View.GONE);
+                mBtnFeedBack.setVisibility(View.VISIBLE);
 
 
             }
@@ -156,6 +156,7 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
 
 
     }
+
     // 数据同步
     private void sync() {
 
@@ -163,6 +164,7 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
             @Override
             public void onSendUserReply(List<Reply> replyList) {
             }
+
             @Override
             public void onReceiveDevReply(List<Reply> replyList) {
                 mRefreshLayout.refreshComplete();
@@ -172,7 +174,7 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
                 }
                 adapter.reload(data, false);
                 adapter.notifyDataSetChanged();
-                mRecyclerView.scrollToPosition(adapter.getItemCount()-1);
+                mRecyclerView.scrollToPosition(adapter.getItemCount() - 1);
             }
         });
     }
@@ -188,25 +190,28 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
         sync();
     }
 
-    class Adapter extends AbstractAdapter<Reply,ViewHolder> {
-        public static final int VIEW_TYPE_DEV=1;
-        public static final int VIEW_TYPE_USER=2;
+    class Adapter extends AbstractAdapter<Reply, ViewHolder> {
+        public static final int VIEW_TYPE_DEV = 1;
+        public static final int VIEW_TYPE_USER = 2;
         final SimpleDateFormat format;
+
         public Adapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
             super(context, viewHolderClickListener);
-            format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         }
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return viewType==VIEW_TYPE_USER?new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_feedback_item_user,parent,false)):new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_feedback_item_dev,parent,false));
+            return viewType == VIEW_TYPE_USER ? new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_feedback_item_user, parent, false)) : new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_feedback_item_dev, parent, false));
         }
+
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Reply data = getItem(position);
-            if(holder.getItemViewType()==VIEW_TYPE_USER){
+            if (holder.getItemViewType() == VIEW_TYPE_USER) {
                 holder.mContent.setText(data.content);
                 holder.mDateTime.setText(format.format(new Date(data.created_at)));
-            }else{
+            } else {
                 holder.mContent.setText(data.content);
                 holder.mDateTime.setText(format.format(new Date(data.created_at)));
             }
@@ -214,38 +219,35 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
 
         @Override
         public int getItemViewType(int position) {
-            return Reply.TYPE_DEV_REPLY.endsWith(getItem(position).type)?VIEW_TYPE_DEV:VIEW_TYPE_USER;
+            return Reply.TYPE_DEV_REPLY.endsWith(getItem(position).type) ? VIEW_TYPE_DEV : VIEW_TYPE_USER;
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mDateTime;
         public final TextView mContent;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            mContent=(TextView)itemView.findViewById(R.id.content);
-            mDateTime=(TextView)itemView.findViewById(R.id.datetime);
+            mContent = (TextView) itemView.findViewById(R.id.content);
+            mDateTime = (TextView) itemView.findViewById(R.id.datetime);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0,010,1001,"关闭").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 010, 1001, "关闭").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()== 010){
+        if (item.getItemId() == 010) {
             finish();
 
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 
 
 }

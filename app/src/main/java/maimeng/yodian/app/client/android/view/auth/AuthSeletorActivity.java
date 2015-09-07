@@ -47,7 +47,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window window=getWindow();
+        Window window = getWindow();
 
         if (LauncherCheck.isFirstRun(this)) {
             startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
@@ -173,7 +173,9 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
 
         @Override
         public void end() {
-            if (dialog != null) dialog.dismiss();
+            if (dialog != null) {
+                dialog.dismiss();
+            }
         }
     }
 }
