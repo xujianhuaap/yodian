@@ -23,6 +23,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.concurrent.CountDownLatch;
 
+import maimeng.yodian.app.client.android.widget.CircleImageView;
+
 /**
  * Created by android on 2015/8/31.
  */
@@ -214,7 +216,14 @@ public final class ImageLoaderManager {
 //                    bitmapRequest.centerCrop();
 //                    bitmapRequest.transform(new ResizeTransform(iv, this.uri.toString(), width), new GlideCircleTransform(this.mContext, circle));
                 } else {
-                    bitmapRequest.transform(new GlideCircleTransform(this.mContext, circle));
+                    if (iv != null) {
+                        if (iv instanceof CircleImageView) {
+
+                        } else {
+//                            bitmapRequest.transform(new GlideCircleTransform(this.mContext, circle));
+                        }
+                    }
+
                 }
             }
             if (this.iv != null) {

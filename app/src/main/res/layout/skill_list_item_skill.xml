@@ -145,7 +145,7 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <ImageView
+            <maimeng.yodian.app.client.android.widget.CircleImageView
                 android:id="@+id/user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
