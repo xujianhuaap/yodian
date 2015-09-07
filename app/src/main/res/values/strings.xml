@@ -11,7 +11,7 @@
     <string name="hint_nickname">您的昵称</string>
     <string name="hint_wechat">您的微信</string>
     <string name="clearSuccess">清除成功</string>
-    <string name="lable_feedback">意见反馈</string>
+    <string name="lable_feedback">用户反馈</string>
     <string name="lable_remark">评分</string>
     <string name="lable_chat">消息</string>
     <string name="lable_cleancache">清除缓存</string>

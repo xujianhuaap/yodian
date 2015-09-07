@@ -279,11 +279,13 @@ public class ShareDialog extends DialogFragment {
         String avaterPath = skill.getAvatar();
 
         if (path != null) {
+
             new ImageLoaderManager.Loader(contentPic, Uri.parse(path)).start();
         }
 
         if (avaterPath != null) {
             new ImageLoaderManager.Loader(avater, Uri.parse(avaterPath)).start();
+
         }
 
         title.setText(skill.getName());

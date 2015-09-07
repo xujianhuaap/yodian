@@ -1,15 +1,24 @@
 package maimeng.yodian.app.client.android.view;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
@@ -31,6 +41,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
+import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.model.User;
 
 /**
@@ -45,10 +56,13 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
     private FeedbackAgent mAgent;
     private Conversation mComversation;
     private Adapter adapter;
+    private Button mBtnMore;
+    private InputMethodManager mInputMethodmanagr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setWindowAnimations(R.style.FeedBackAnim);
         setContentView(R.layout.activity_feedback);
         mBtnBack = findViewById(R.id.btn_back);
         ViewCompat.setTransitionName(mBtnBack, "back");
@@ -60,8 +74,8 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
         });
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRefreshLayout = (PtrFrameLayout) findViewById(R.id.refresh_layout);
-        mFeedBackContent = (EditText) findViewById(R.id.feedback_content);
-        mBtnFeedBack = findViewById(R.id.btn_feedback);
+        mFeedBackContent = (EditText) findViewById(R.id.et_sendmessage);
+        mBtnFeedBack = findViewById(R.id.btn_send);
         mBtnFeedBack.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -69,13 +83,21 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
                 if (mFeedBackContent == null) return;
                 String content = mFeedBackContent.getText().toString();
                 mFeedBackContent.getEditableText().clear();
+
+
+                mInputMethodmanagr.hideSoftInputFromWindow(mFeedBackContent.getWindowToken(), 0);
+
+
                 if (!TextUtils.isEmpty(content)) {
                     mComversation.addUserReply(content);//添加到会话列表
                     sync();
                 }
-
+                mBtnFeedBack.setVisibility(View.GONE);
+                mBtnMore.setVisibility(View.VISIBLE);
             }
         });
+
+        mBtnMore = (Button) findViewById(R.id.btn_more);
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header = new StoreHouseHeader(this);
         header.setPadding(0, (int) getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
@@ -102,6 +124,36 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
             }
         });
         sync();
+
+        mInputMethodmanagr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        mFeedBackContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean
+            onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return false;
+            }
+        });
+
+        mFeedBackContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mBtnMore.setVisibility(View.GONE);
+                mBtnFeedBack.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+
 
     }
 
@@ -181,4 +233,21 @@ public class FeedBackActivity extends AbstractActivity implements PtrHandler {
             mDateTime = (TextView) itemView.findViewById(R.id.datetime);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 010, 1001, "关闭").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == 010) {
+            finish();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
