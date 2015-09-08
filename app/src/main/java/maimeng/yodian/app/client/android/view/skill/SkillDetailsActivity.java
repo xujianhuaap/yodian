@@ -407,6 +407,11 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                     binding.btnContect.setText(R.string.btn_contact_ta);
                 }
                 headBinding.setSkill(skill);
+                if(skill.getStatus()!=0){
+                    headBinding.skillStatus.setVisibility(View.VISIBLE);
+                }else {
+                    headBinding.skillStatus.setVisibility(View.INVISIBLE);
+                }
                 binding.setSkill(skill);
                 new ImageLoaderManager.Loader(SkillDetailsActivity.this, skill.getAvatar80().getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
                     @Override

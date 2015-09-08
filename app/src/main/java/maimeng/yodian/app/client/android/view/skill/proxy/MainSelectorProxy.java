@@ -395,12 +395,12 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         } else if (banner.getType() == 2) {
             Pair<View, String> back = Pair.create((View) mFloatButton, "back");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-            ActivityCompat.startActivity(mActivity, new Intent(mActivity, UserHomeActivity.class).putExtra("uid", banner.getValue()), options.toBundle());
+            ActivityCompat.startActivity(mActivity, new Intent(mActivity, UserHomeActivity.class).putExtra("uid", Long.parseLong(banner.getValue())), options.toBundle());
         } else if (banner.getType() == 1) {
             Pair<View, String> back = Pair.create((View) mFloatButton, "back");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-            ActivityCompat.startActivity(mActivity, WebViewActivity.newIntent(mActivity, banner.getValue()), options.toBundle())
-            ;
+            ActivityCompat.startActivity(mActivity, WebViewActivity.newIntent(mActivity, banner.getValue()), options.toBundle());
+
         }
     }
 

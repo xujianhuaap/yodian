@@ -171,6 +171,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 views.add(iv);
                 iv.setOnClickListener(this);
+
                 ImageAdapter.image(iv, banner.getPic());
             }
             adapter.setViews(views);

@@ -140,6 +140,14 @@
             </RelativeLayout>
 
         </LinearLayout>
+        <ImageView
+            android:id="@+id/skill_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/pic_skill_state_xiajia"
+            android:background="#55000000"
+            android:visibility="invisible"/>
 
     </FrameLayout>
 </layout>
