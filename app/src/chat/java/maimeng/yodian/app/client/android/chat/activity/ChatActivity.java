@@ -248,7 +248,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         skill = getIntent().getParcelableExtra("skill");
-        uid=getIntent().getLongExtra("uid",0);
         intoSkill = true;
         activityInstance = this;
         initView();
@@ -715,7 +714,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     protected void onListViewCreation() {
         adapter = new MessageAdapter(ChatActivity.this, toChatUsername, chatType);
-        adapter.setUid(uid);
         // 显示消息
         listView.setAdapter(adapter);
 
