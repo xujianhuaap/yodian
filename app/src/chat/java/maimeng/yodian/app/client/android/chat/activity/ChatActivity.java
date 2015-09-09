@@ -233,7 +233,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public Skill getSkill() {
         return skill;
     }
-
+    private long uid=0;
     private Skill skill;
     private LinearLayout skillContainer;
     private View btnShowSkill;
@@ -248,6 +248,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         skill = getIntent().getParcelableExtra("skill");
+        uid=getIntent().getLongExtra("uid",0);
         intoSkill = true;
         activityInstance = this;
         initView();
@@ -714,6 +715,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     protected void onListViewCreation() {
         adapter = new MessageAdapter(ChatActivity.this, toChatUsername, chatType);
+        adapter.setUid(uid);
         // 显示消息
         listView.setAdapter(adapter);
 
@@ -1313,6 +1315,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setReceipt(toChatUsername);
             // 把messgage加到conversation中
             conversation.addMessage(message);
+            onNewMessage(message);
+            //
+            onNewMessage(message);
             // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
             adapter.refreshSelectLast();
             mEditTextContent.setText("");
@@ -1385,6 +1390,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             }
             setExtAttribute(message);
             conversation.addMessage(message);
+            onNewMessage(message);
             adapter.refreshSelectLast();
             setResult(RESULT_OK);
             // send file
@@ -1420,7 +1426,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setAttribute("em_robot_message", true);
         }
         conversation.addMessage(message);
-
+        onNewMessage(message);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
         setResult(RESULT_OK);
@@ -1452,6 +1458,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 message.setAttribute("em_robot_message", true);
             }
             conversation.addMessage(message);
+            onNewMessage(message);
             listView.setAdapter(adapter);
             adapter.refreshSelectLast();
             setResult(RESULT_OK);
@@ -1522,6 +1529,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setAttribute("em_robot_message", true);
         }
         conversation.addMessage(message);
+        onNewMessage(message);
+
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
         setResult(RESULT_OK);
@@ -1581,6 +1590,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setAttribute("em_robot_message", true);
         }
         conversation.addMessage(message);
+        onNewMessage(message);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
         setResult(RESULT_OK);

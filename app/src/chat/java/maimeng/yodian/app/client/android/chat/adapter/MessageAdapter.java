@@ -96,6 +96,7 @@ import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
+import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
 public class MessageAdapter extends BaseAdapter {
 
@@ -140,6 +141,11 @@ public class MessageAdapter extends BaseAdapter {
     EMMessage[] messages = null;
 
     private Context context;
+    private long uid;
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
 
     private Map<String, Timer> timers = new Hashtable<String, Timer>();
 
@@ -456,7 +462,12 @@ public class MessageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if(itemViewType==MESSAGE_TYPE_RECV_TXT||itemViewType==MESSAGE_TYPE_RECV_VOICE){
+            if(uid!=0){
+                UserHomeActivity.show(activity,uid);
+            }
 
+        }
         // 群聊时，显示接收的消息的发送人的名称
         if ((chatType == ChatType.GroupChat || chatType == chatType.ChatRoom) && message.direct == EMMessage.Direct.RECEIVE) {
             //demo里使用username代码nick
