@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.IconPagerAdapter;
@@ -143,6 +144,12 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         public BannerViewHolder(View root) {
             super(root);
             banner = (ViewPager) root.findViewById(R.id.banner_pager);
+            root.findViewById(R.id.banner).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewHolderClickListener.onClick(BannerViewHolder.this, v, getLayoutPosition());
+                }
+            });
 
             banner.addOnPageChangeListener(this);
             banner.setCycle(true);
@@ -170,7 +177,8 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 ImageView iv = new ImageView(mContext);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 views.add(iv);
-                iv.setOnClickListener(this);
+
+//                iv.setOnClickListener(this);
 
                 ImageAdapter.image(iv, banner.getPic());
             }

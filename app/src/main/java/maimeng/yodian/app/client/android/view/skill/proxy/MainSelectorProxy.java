@@ -20,6 +20,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
@@ -534,6 +535,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         } else if (SkillListSelectorAdapter.BannerViewHolder.class.isInstance(h)) {
             clickBanner(((SkillListSelectorAdapter.BannerViewHolder) h));
         }
+        
     }
 
     @Override
