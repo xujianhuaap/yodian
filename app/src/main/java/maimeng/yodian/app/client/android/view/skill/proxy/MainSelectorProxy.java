@@ -535,7 +535,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         } else if (SkillListSelectorAdapter.BannerViewHolder.class.isInstance(h)) {
             clickBanner(((SkillListSelectorAdapter.BannerViewHolder) h));
         }
-        
+
     }
 
     @Override
