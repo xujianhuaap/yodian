@@ -134,6 +134,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
                     } else {
                         // it is single chat
                         intent.putExtra("userId", username);
+
                     }
                     startActivity(intent);
                 }
