@@ -72,7 +72,7 @@ import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 
 
-public abstract class MainActivity extends BaseActivity implements EMEventListener {
+public abstract class  MainActivity extends BaseActivity implements EMEventListener {
 
     protected static final String TAG = "MainActivity";
     // 未读消息textview

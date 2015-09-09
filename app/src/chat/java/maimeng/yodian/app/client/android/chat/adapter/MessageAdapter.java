@@ -468,7 +468,10 @@ public class MessageAdapter extends BaseAdapter {
 
                     try {
                         String uid = message.getStringAttribute("uid");
-                        UserHomeActivity.show(activity,Long.parseLong(uid));
+                        if(!TextUtils.isEmpty(uid)){
+                            UserHomeActivity.show(activity,Long.parseLong(uid));
+                        }
+
                     } catch (EaseMobException e) {
                         e.printStackTrace();
                     }

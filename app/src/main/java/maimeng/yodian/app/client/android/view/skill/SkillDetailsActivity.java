@@ -9,6 +9,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
@@ -55,6 +56,7 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
+import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -257,22 +259,31 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
         if (getIntent().hasExtra("skill")) {
             Skill skill = getIntent().getParcelableExtra("skill");
-            new ImageLoaderManager.Loader(SkillDetailsActivity.this, skill.getAvatar80().getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
-                @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    SkillDetailsActivity.this.defaultAvatar = bitmap;
+            ImageBindable imageBindable=skill.getAvatar80();
+            if(imageBindable!=null&&imageBindable.getUri()!=null){
+                new ImageLoaderManager.Loader(SkillDetailsActivity.this,imageBindable.getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
+                    @Override
+                    public void onImageLoaded(Bitmap bitmap) {
+                        SkillDetailsActivity.this.defaultAvatar = bitmap;
+                    }
+
+                    @Override
+                    public void onLoadEnd() {
+
+                    }
+
+                    @Override
+                    public void onLoadFaild() {
+
+                    }
+                }).start(this);
+            }else {
+                if(skill.getAvatar()!=null){
+                    SkillDetailsActivity.this.defaultAvatar= ImageLoaderManager.image(SkillDetailsActivity.this, Uri.parse(skill.getAvatar()));
                 }
 
-                @Override
-                public void onLoadEnd() {
+            }
 
-                }
-
-                @Override
-                public void onLoadFaild() {
-
-                }
-            }).start(this);
             sid = skill.getId();
             isMe = skill.getUid() == user.getUid();
             if (isMe) {

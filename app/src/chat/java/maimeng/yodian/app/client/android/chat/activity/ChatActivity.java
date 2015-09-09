@@ -666,7 +666,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                         JSONObject skillJson = msg.getJSONObjectAttribute("skill");
                         if (skillJson != null) {
                             skill = new Skill();
-                            skill.setAvatar(msg.getStringAttribute("avatar"));
                             skill.setName(skillJson.getString("name"));
                             skill.setId(skillJson.getLong("sid"));
                             skill.setPrice(skillJson.getString("price"));
