@@ -186,11 +186,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         binding.invalidateAll();
-        if (TextUtils.isEmpty(user.getNickname())) {
+        if (TextUtils.isEmpty(binding.nickname.getText().toString())) {
             binding.nickname.setError(getText(R.string.nickname_input_empty_message));
             return;
         }
-        if (TextUtils.isEmpty(user.getWechat())) {
+        if (TextUtils.isEmpty(binding.wechat.getText().toString())) {
             binding.wechat.setError(getText(R.string.wechat_input_empty_message));
             return;
         }
@@ -293,12 +293,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
-//            if(mText==binding.nickname){
-//                user.setNickname(s.toString());
-//            }
-//            if(mText==binding.wechat){
-//                user.setWechat(s.toString());
-//            }
+
         }
     }
 
