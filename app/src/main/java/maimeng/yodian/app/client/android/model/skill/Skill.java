@@ -219,6 +219,7 @@ public class Skill extends BaseObservable implements Parcelable, TypeData {
 
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -229,8 +230,11 @@ public class Skill extends BaseObservable implements Parcelable, TypeData {
         dest.writeLong(this.id);
         dest.writeLong(this.uid);
         dest.writeString(this.weichat);
+        dest.writeString(this.qq);
+        dest.writeString(this.contact);
         dest.writeString(this.qrcode);
         dest.writeString(this.qrcodeUrl);
+        dest.writeString(this.chatLoginName);
         dest.writeString(this.name);
         dest.writeString(this.pic);
         dest.writeString(this.content);
@@ -246,8 +250,11 @@ public class Skill extends BaseObservable implements Parcelable, TypeData {
         this.id = in.readLong();
         this.uid = in.readLong();
         this.weichat = in.readString();
+        this.qq = in.readString();
+        this.contact = in.readString();
         this.qrcode = in.readString();
         this.qrcodeUrl = in.readString();
+        this.chatLoginName = in.readString();
         this.name = in.readString();
         this.pic = in.readString();
         this.content = in.readString();
