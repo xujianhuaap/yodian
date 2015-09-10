@@ -62,7 +62,7 @@
                 android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                 android:singleLine="true"
                 android:textColor="#000"
-                android:textColorHint="#606060" />
+                android:textColorHint="#55000000" />
 
             <ImageView
                 android:id="@+id/btn_clean"

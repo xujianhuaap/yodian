@@ -94,9 +94,8 @@
                     android:paddingLeft="@dimen/auth_input_edit_paddingStart"
                     android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                     android:singleLine="true"
-                    android:text="@{user.nickname}"
                     android:textColor="#000"
-                    android:textColorHint="#606060" />
+                    android:textColorHint="#55000000" />
 
                 <ImageView
                     android:id="@+id/btn_clean_name"
@@ -140,9 +139,8 @@
                     android:paddingLeft="@dimen/auth_input_edit_paddingStart"
                     android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                     android:singleLine="true"
-                    android:text="@{user.wechat}"
                     android:textColor="#000"
-                    android:textColorHint="#606060" />
+                    android:textColorHint="#55000000" />
 
                 <ImageView
                     android:id="@+id/btn_clean_wechat"

@@ -136,7 +136,9 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         });
         new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
+        binding.nickname.setText(user.getNickname());
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
+        binding.wechat.setText(user.getWechat());
     }
 
     private void toggle() {
@@ -291,7 +293,12 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
-
+//            if(mText==binding.nickname){
+//                user.setNickname(s.toString());
+//            }
+//            if(mText==binding.wechat){
+//                user.setWechat(s.toString());
+//            }
         }
     }
 

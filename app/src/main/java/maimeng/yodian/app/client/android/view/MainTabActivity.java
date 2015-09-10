@@ -50,9 +50,9 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        if (LauncherCheck.isFirstRun(this)) {
-
-        }else{
+//        if (LauncherCheck.isFirstRun(this)) {
+//
+//        }else{
             PushAgent mPushAgent = PushAgent.getInstance(this);
 //        mPushAgent.setPushIntentServiceClass(UmengPushMessageService.class);
             mPushAgent.enable();
@@ -72,7 +72,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
             });
             new CheckUpdateDelegate(this, false).checkUpdate();
             onNewIntent(getIntent());
-        }
+//        }
 
     }
 
