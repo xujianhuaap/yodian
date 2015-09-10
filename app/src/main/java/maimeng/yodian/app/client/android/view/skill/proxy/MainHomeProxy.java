@@ -43,6 +43,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListHomeAdapter;
+import maimeng.yodian.app.client.android.adapter.SkillListSelectorAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
@@ -420,8 +421,12 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             @Override
             public void run() {
                 Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", holder.getData()), options.toBundle());
+                Skill skill=holder.getData();
+                if(skill.getStatus()==0){
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill",skill) , options.toBundle());
+                }
+               
             }
         }, 200);
 

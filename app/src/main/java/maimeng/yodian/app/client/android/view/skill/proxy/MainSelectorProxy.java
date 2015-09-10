@@ -381,8 +381,12 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 //                Pair<View, String> nick = Pair.create((View) holder.getBinding().userNickname, "nick");
 //                Pair<View, String> avatar = Pair.create((View) holder.getBinding().userAvatar, "avatar");
                     //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back, contact, avatar);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", ((SkillListSelectorAdapter.ItemViewHolder) h).getData()), options.toBundle());
+                    Skill skill=((SkillListSelectorAdapter.ItemViewHolder) h).getData();
+                    if(skill.getStatus()==0){
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill",skill) , options.toBundle());
+                    }
+
                 }
             }, 200);
         }
