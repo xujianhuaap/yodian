@@ -54,8 +54,7 @@
                         android:id="@+id/user_avatar"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/default_avatar" />
+                        android:scaleType="centerInside" />
 
                     <ImageView
                         android:id="@+id/ic_edit_avatar"
