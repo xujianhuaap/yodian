@@ -236,7 +236,7 @@ public final class ImageLoaderManager {
             if (gif)
 
             {
-                loadGif(loader);
+//                loadGif(loader);
             } else
 
             {

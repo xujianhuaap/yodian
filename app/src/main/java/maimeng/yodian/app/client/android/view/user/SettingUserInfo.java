@@ -81,7 +81,8 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         setTitle("");
         ViewCompat.setTransitionName(binding.userAvatar, "avatar");
         ViewCompat.setTransitionName(binding.btnBack, "back");
-        user = User.read(this);
+        final User currentUser=User.read(this);
+        user = currentUser;
         binding.setUser(user);
         binding.executePendingBindings();
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +197,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             return;
         }
 
+
+        user.setWechat(binding.wechat.getText().toString());
+        user.setNickname(binding.nickname.getText().toString());
+
+
 //                service.modifyInfo(user.getNickname(),user.getWechat(),new TypeBitmap(BitmapUtils.compress(mBitmap,540,540,false)),this);
         service.modifyInfo(user.getNickname(), user.getWechat(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), this);
     }
@@ -285,11 +291,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (mText == binding.wechat) {
-                user.setWechat(s.toString());
-            } else if (mText == binding.nickname) {
-                user.setNickname(s.toString());
-            }
+
         }
     }
 

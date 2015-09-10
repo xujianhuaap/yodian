@@ -173,8 +173,8 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         });
         if (avatar != null) {
 
-            mUserAvatar.setImageBitmap(avatar);
-            this.defaultAvatar = avatar;
+//            mUserAvatar.setImageBitmap(avatar);
+//            this.defaultAvatar = avatar;
         }
         if (!TextUtils.isEmpty(nickname)) {
             mUserNickname.setText(nickname);
@@ -291,6 +291,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     private void initUsrInfo() {
         mUserNickname.setText(user.getNickname());
         Circle circle = Circle.obtain().setBorderSize(10);
+
         if (defaultAvatar != null) {
             new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
                 @Override

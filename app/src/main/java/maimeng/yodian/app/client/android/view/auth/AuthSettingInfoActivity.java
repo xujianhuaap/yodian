@@ -62,6 +62,8 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
         findViewById(R.id.btn_album).setOnClickListener(this);
         findViewById(R.id.btn_camera).setOnClickListener(this);
         findViewById(R.id.btn_done).setOnClickListener(this);
+        findViewById(R.id.btn_clean).setOnClickListener(this);
+        findViewById(R.id.btn_back).setOnClickListener(this);
         mNickname = (EditText) findViewById(R.id.nickname);
         pull();
     }
@@ -219,7 +221,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return true;
+            return false;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -278,6 +280,10 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
                     }
                 });
             }
+        }else if(v.getId()==R.id.btn_clean){
+            mNickname.setText("");
+        }else if(v.getId()==R.id.btn_back){
+            finish();
         }
     }
 }
