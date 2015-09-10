@@ -25,7 +25,7 @@ public class UserUtils {
     public static User getUserInfo(String username) {
         User user = DemoApplication.getInstance().getContactList().get(username);
         if (user == null) {
-            user = new User(username);
+            return null;
         }
 //
 //        if(user != null){
@@ -41,7 +41,7 @@ public class UserUtils {
      *
      * @param username
      */
-    public static void setUserAvatar(Context context, String username, ImageView imageView) {
+    public static void setUserAvatar(Context context, String username, final ImageView imageView) {
         User user = getUserInfo(username);
         final String avatar;
         if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
@@ -58,6 +58,7 @@ public class UserUtils {
             public void onImageLoaded(Bitmap bitmap) {
                 if (BuildConfig.DEBUG)
                     LogUtil.i(UserUtils.class.getName(), "onImageLoaded");
+                imageView.setImageBitmap(bitmap);
             }
 
             @Override

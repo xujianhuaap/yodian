@@ -666,6 +666,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                         JSONObject skillJson = msg.getJSONObjectAttribute("skill");
                         if (skillJson != null) {
                             skill = new Skill();
+                            String avatar=User.parse(msg).getAvatar();
+                            if(!TextUtils.isEmpty(avatar)){
+                                skill.setAvatar(avatar);
+                            }
                             skill.setName(skillJson.getString("name"));
                             skill.setId(skillJson.getLong("sid"));
                             skill.setPrice(skillJson.getString("price"));
@@ -1176,6 +1180,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     JSONObject skillJson = message.getJSONObjectAttribute("skill");
                     if (skillJson != null) {
                         skill = new Skill();
+                        String avatar=User.parse(message).getAvatar();
+                        if(!TextUtils.isEmpty(avatar)){
+                            skill.setAvatar(avatar);
+                        }
+
                         skill.setName(skillJson.getString("name"));
                         skill.setId(skillJson.getLong("sid"));
                         skill.setPrice(skillJson.getString("price"));
@@ -1314,8 +1323,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setReceipt(toChatUsername);
             // 把messgage加到conversation中
             conversation.addMessage(message);
-            onNewMessage(message);
-            //
             onNewMessage(message);
             // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
             adapter.refreshSelectLast();

@@ -219,7 +219,9 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     public void onClickListener(View v, Theme theme) {
 
         scid = (int) theme.getScid();
+        page=1;
         syncRequest();
+        mRecyclerView.scrollToPosition(0);
         mTitle.setText(theme.getName());
 
         categoryEnterAndDismissAnim();
@@ -497,6 +499,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
                     intent.putExtra("userId", chatLoginName);
                     mActivity.startActivity(intent);
                 } else {
+
                     RobotUser robot = new RobotUser();
                     robot.setId(skill.getUid() + "");
                     robot.setUsername(chatLoginName);
