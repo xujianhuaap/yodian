@@ -69,8 +69,9 @@ public class ThemeAdapter extends AbstractListAdapter<Theme> {
             this.mTheme=theme;
             mPosition=position;
             TextView tv=(TextView)mConvertView.findViewById(R.id.theme_name);
+            View containter=mConvertView.findViewById(R.id.container);
             tv.setText(theme.getName());
-            tv.setOnClickListener(this);
+            containter.setOnClickListener(this);
         }
 
         @Override
