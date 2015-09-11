@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.henjue.library.hnet.Response;
@@ -59,6 +60,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     private WaitDialog dialog;
     private Bitmap mBitmap;
     private int mScreenHeight;
+    private ImageView mPic;
 
     public static void show(Activity context, Skill skill, View backView, int requestCode) {
         Intent intent = new Intent();
@@ -81,10 +83,12 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
         ViewCompat.setTransitionName(mBinding.btnBack, "back");
         EditTextProxy editTextProxy = new EditTextProxy();
 
+        mBinding.ivPic.setOnClickListener(this);
         mBinding.btnBack.setOnClickListener(this);
         mBinding.btnDone.setOnClickListener(this);
         mBinding.btnCamera.setOnClickListener(this);
         mBinding.btnAlbum.setOnClickListener(this);
+        mBinding.skillPic.setOnClickListener(this);
         mBinding.cheSelectPhoto.setOnCheckedChangeListener(this);
         mBinding.editDiary.addTextChangedListener(editTextProxy);
         mBinding.editDiary.setOnKeyListener(editTextProxy);
@@ -181,7 +185,16 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
             }
 
 
-        } else {
+        } else if(v==mBinding.ivPic){
+            mBinding.ivPic.setVisibility(View.GONE);
+            mBinding.pulishRmark.setVisibility(View.VISIBLE);
+        }else if(v==mBinding.skillPic){
+            if(mBinding.buttonContainer.getVisibility()==View.INVISIBLE&&mBitmap!=null){
+                mBinding.ivPic.setVisibility(View.VISIBLE);
+                mBinding.pulishRmark.setVisibility(View.GONE);
+            }
+
+        }else {
 
             Intent intent = new Intent();
             mFile = maimeng.yodian.app.client.android.utils.FileUtils.createFile("temp.jpg");
@@ -224,11 +237,13 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
             } else {
                 uri = mTempUri;
             }
+
             mBinding.cheSelectPhoto.setChecked(false);
             new ImageLoaderManager.Loader(mBinding.skillPic, uri).width(720).height(720 * mScreenHeight / mScreenWidth).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     RmarkPublishActivity.this.mBitmap = bitmap;
+                    mBinding.ivPic.setImageBitmap(bitmap);
                 }
 
                 @Override
