@@ -50,9 +50,9 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-//        if (LauncherCheck.isFirstRun(this)) {
-//
-//        }else{
+        if (LauncherCheck.isFirstRun(this)) {
+                finish();
+        }else{
             PushAgent mPushAgent = PushAgent.getInstance(this);
 //        mPushAgent.setPushIntentServiceClass(UmengPushMessageService.class);
             mPushAgent.enable();
@@ -71,8 +71,9 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
                 }
             });
             new CheckUpdateDelegate(this, false).checkUpdate();
-            onNewIntent(getIntent());
-//        }
+//            initProxy();
+        }
+
 
     }
 
@@ -147,6 +148,11 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        initProxy();
+        LogUtil.i(MainTabActivity.class.getName(), "onNewIntent");
+    }
+
+    private void initProxy() {
         user = User.read(this);
         if (TextUtils.isEmpty(user.getToken())) {
             AuthSeletorActivity.start(this, REQUEST_AUTH);
@@ -161,7 +167,6 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
                 showDefault();
             }
         }
-        LogUtil.i(MainTabActivity.class.getName(), "onNewIntent");
     }
 
     @Override
