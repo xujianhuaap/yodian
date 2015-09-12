@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -65,6 +66,26 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
         findViewById(R.id.btn_clean).setOnClickListener(this);
         findViewById(R.id.btn_back).setOnClickListener(this);
         mNickname = (EditText) findViewById(R.id.nickname);
+        mNickname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(TextUtils.isEmpty(s.toString())){
+                    mNickname.setVisibility(View.INVISIBLE);
+                }else {
+                    mNickname.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         pull();
     }
 
@@ -174,6 +195,9 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
         }).start(this);
         mUserImg.setTag(headUrl);
         mNickname.setText(nickname);
+        if(TextUtils.isEmpty(nickname)){
+            mNickname.setVisibility(View.INVISIBLE);
+        }
     }
 
 

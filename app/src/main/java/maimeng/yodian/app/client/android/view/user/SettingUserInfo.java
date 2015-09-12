@@ -95,12 +95,14 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             @Override
             public void onClick(View v) {
                 binding.nickname.setText("");
+                binding.btnCleanName.setVisibility(View.INVISIBLE);
             }
         });
         binding.btnCleanWechat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.wechat.setText("");
+                binding.btnCleanWechat.setVisibility(View.INVISIBLE);
             }
         });
         binding.btnSubmit.setOnClickListener(this);
@@ -139,6 +141,12 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         binding.nickname.setText(user.getNickname());
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
         binding.wechat.setText(user.getWechat());
+        if(TextUtils.isEmpty(binding.nickname.getText().toString())){
+            binding.btnCleanName.setVisibility(View.INVISIBLE);
+        }
+        if(TextUtils.isEmpty(binding.wechat.getText().toString())){
+            binding.btnCleanWechat.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void toggle() {
@@ -293,7 +301,16 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
-
+            if(TextUtils.isEmpty(binding.nickname.getText().toString())){
+                binding.btnCleanName.setVisibility(View.INVISIBLE);
+            }else {
+                binding.btnCleanName.setVisibility(View.VISIBLE);
+            }
+            if(TextUtils.isEmpty(binding.wechat.getText().toString())){
+                binding.btnCleanWechat.setVisibility(View.INVISIBLE);
+            }else {
+                binding.btnCleanWechat.setVisibility(View.VISIBLE);
+            }
         }
     }
 

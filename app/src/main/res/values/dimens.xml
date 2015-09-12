@@ -16,7 +16,7 @@
     <dimen name="auth_input_marginStart">30dp</dimen>
     <dimen name="auth_input_space_height">20dp</dimen>
     <dimen name="auth_input_marginEnd">30dp</dimen>
-    <dimen name="auth_input_edit_paddingStart">2dp</dimen>
+    <dimen name="auth_input_edit_paddingStart">10dp</dimen>
     <dimen name="auth_input_edit_paddingEnd">35dp</dimen>
     <dimen name="auth_input_clean_size">30dp</dimen>
     <dimen name="auth_input_clean_marginLeft">0dp</dimen>
