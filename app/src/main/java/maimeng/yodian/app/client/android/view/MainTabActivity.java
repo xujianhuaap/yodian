@@ -71,6 +71,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
                 }
             });
             new CheckUpdateDelegate(this, false).checkUpdate();
+            showDefault();
 //            initProxy();
         }
 
