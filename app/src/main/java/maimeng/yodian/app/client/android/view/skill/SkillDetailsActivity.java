@@ -164,8 +164,11 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         headBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserHomeActivity.show(SkillDetailsActivity.this, skill.getUid(), defaultAvatar, skill.getNickname(), binding.btnBack, null,
-                        headBinding.userNickname);
+                if(!isMe){
+                    UserHomeActivity.show(SkillDetailsActivity.this, skill.getUid(), defaultAvatar, skill.getNickname(), binding.btnBack, null,
+                            headBinding.userNickname);
+                }
+
             }
         });
         mPlaceHolderView = headBinding.getRoot();

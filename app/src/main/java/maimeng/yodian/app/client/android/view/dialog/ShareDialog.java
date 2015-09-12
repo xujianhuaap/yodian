@@ -233,7 +233,7 @@ public class ShareDialog extends DialogFragment {
                 public void onImageLoaded(Bitmap bitmap) {
                     try {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(tempFile));
-                        skill.setPic(tempFile.toString());
+//                        skill.setPic(tempFile.toString());
                         end = true;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -369,10 +369,7 @@ public class ShareDialog extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (tempFile != null) tempFile.deleteOnExit();
-        if (this.listener != null) {
-            this.listener.onClose();
-        }
+
     }
 
     @Override
@@ -452,7 +449,8 @@ public class ShareDialog extends DialogFragment {
 
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIXIN);
         if (v.getId() == R.id.weixin) {
-            iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.toString()), WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
+           iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.toString()), WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
+
         } else {
             Bitmap bitmap = getShareBitmap(2, shareView);
             iShareManager.share(new MessagePic(bitmap), WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
@@ -469,4 +467,12 @@ public class ShareDialog extends DialogFragment {
         showMessage(context, message);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (tempFile != null) tempFile.deleteOnExit();
+        if (this.listener != null) {
+            this.listener.onClose();
+        }
+    }
 }
