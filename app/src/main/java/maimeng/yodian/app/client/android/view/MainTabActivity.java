@@ -58,9 +58,6 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
             mPushAgent.enable();
             mPushAgent.onAppStart();
             setContentView(R.layout.activity_yodian_main, false);
-            mListProxy = new MainSelectorProxy(this, findViewById(R.id.list_root));
-            mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
-            controller = new ActivityProxyController(mListProxy, mHomeProxy);
             floatButton = (FloatingActionButton) findViewById(R.id.btn_float);
             floatButton.setOnClickListener(new OnClickListener() {
                 @Override
@@ -70,9 +67,13 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
                     controller.onFloatClick((FloatingActionButton) v);
                 }
             });
+
+            mListProxy = new MainSelectorProxy(this, findViewById(R.id.list_root));
+            mHomeProxy = new MainHomeProxy(this, findViewById(R.id.home_root));
+            controller = new ActivityProxyController(mListProxy, mHomeProxy);
             new CheckUpdateDelegate(this, false).checkUpdate();
-            showDefault();
-//            initProxy();
+//            showDefault();
+            initProxy();
         }
 
 
@@ -149,8 +150,8 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        initProxy();
-        LogUtil.i(MainTabActivity.class.getName(), "onNewIntent");
+//        initProxy();
+//        LogUtil.i(MainTabActivity.class.getName(), "onNewIntent");
     }
 
     private void initProxy() {

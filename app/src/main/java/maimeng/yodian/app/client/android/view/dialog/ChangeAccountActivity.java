@@ -22,6 +22,8 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.widget.photoview.Compat;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
+import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
+import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 
 /**
  * Created by xujianhua on 9/1/15.
@@ -60,9 +62,7 @@ public class ChangeAccountActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View v) {
                 User.clear(ChangeAccountActivity.this);
-                Intent intent = new Intent(ChangeAccountActivity.this, MainTabActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                AuthRedirect.toHome(ChangeAccountActivity.this);
             }
         });
         TextView cancleChange = (TextView) findViewById(R.id.tvCancel);
