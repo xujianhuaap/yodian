@@ -3,13 +3,16 @@ package maimeng.yodian.app.client.android.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
 /**
  * Created by android on 2015/8/24.
  */
 public class ViewPager extends AutoScrollViewPager {
+    public interface OnClickListener{
+        void onClickListener(View v);
+    }
     public interface OnFlipListener {
         void onFlip();
 
@@ -25,6 +28,12 @@ public class ViewPager extends AutoScrollViewPager {
     }
 
     private OnFlipListener onFlipListener;
+    private OnClickListener onClickListener;
+
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
     public OnFlipListener getOnFlipListener() {
         return onFlipListener;
@@ -36,7 +45,10 @@ public class ViewPager extends AutoScrollViewPager {
 
     private float mDownX;
     private float mDownY;
-
+    private float mUpForClickX;
+    private float mUPForClickY;
+    private float mDownForClickX;
+    private float mDownForClickY;
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getActionMasked()) {
@@ -57,6 +69,26 @@ public class ViewPager extends AutoScrollViewPager {
                 break;
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (ev.getActionMasked()==MotionEvent.ACTION_DOWN){
+
+            mDownForClickX=ev.getX();
+            mDownForClickY=ev.getY();
+            stopAutoScroll();
+        }
+        if(ev.getActionMasked()==MotionEvent.ACTION_UP){
+            mUpForClickX=ev.getX();
+            mUPForClickY=ev.getY();
+            if(mUpForClickX==mDownForClickX&&mUPForClickY==mDownForClickY){
+                onClickListener.onClickListener(this);
+            }
+
+        }
+
+        return super.onTouchEvent(ev);
     }
 
 

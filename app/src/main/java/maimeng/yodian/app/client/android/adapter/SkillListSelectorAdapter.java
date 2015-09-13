@@ -21,7 +21,6 @@ import com.viewpagerindicator.IconPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.SkillListItemHeadBinding;
@@ -36,6 +35,7 @@ import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
+import maimeng.yodian.app.client.android.widget.AutoScrollViewPager;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 import maimeng.yodian.app.client.android.widget.ViewPager;
 
@@ -144,12 +144,14 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         public BannerViewHolder(View root) {
             super(root);
             banner = (ViewPager) root.findViewById(R.id.banner_pager);
-            root.findViewById(R.id.banner).setOnClickListener(new View.OnClickListener() {
+            banner.setOnClickListener(new ViewPager.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClickListener(View v) {
                     mViewHolderClickListener.onClick(BannerViewHolder.this, v, getLayoutPosition());
                 }
+
             });
+
 
             banner.addOnPageChangeListener(this);
             banner.setCycle(true);
@@ -177,7 +179,6 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 ImageView iv = new ImageView(mContext);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 views.add(iv);
-
 //                iv.setOnClickListener(this);
 
                 ImageAdapter.image(iv, banner.getPic());
@@ -360,7 +361,7 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         }
     }
 
-    class ViewPagerAdapter extends PagerAdapter implements IconPagerAdapter {
+    class  ViewPagerAdapter extends PagerAdapter implements IconPagerAdapter {
         private final ViewPager viewPager;
 
         public void setViews(List<View> views) {
