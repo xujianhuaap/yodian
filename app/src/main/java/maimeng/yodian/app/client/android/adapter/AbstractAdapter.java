@@ -8,6 +8,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import maimeng.yodian.app.client.android.model.skill.Skill;
+
 /**
  * @param <IT> 数据类型，JavaBean
  * @param <VH> ViewHolder
@@ -56,7 +58,9 @@ public abstract class AbstractAdapter<IT, VH extends RecyclerView.ViewHolder > e
     private final ArrayList<IT> datas = new ArrayList<>();
     public void reload(final List<IT> datas, boolean append) {
         if (!append) {
-            this.datas.clear();
+            int cnt=datas.size();
+            List<IT>skills=datas.subList(0,cnt-1);
+            this.datas.removeAll(skills);
         }
         this.datas.addAll(datas);
         sort(this.datas);

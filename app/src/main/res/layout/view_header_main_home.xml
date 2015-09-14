@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+      <data>
+          <variable
+              name="user"
+              type="maimeng.yodian.app.client.android.model.User">
+
+          </variable>
+      </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="@dimen/top_icon_margin"
+                android:layout_marginTop="12dp">
+
+                <ImageView
+                    android:id="@+id/btn_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:src="@drawable/ic_msg" />
+
+                <ImageView
+                    android:id="@+id/miss_msg_count"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/miss_msg_count"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <maimeng.yodian.app.client.android.widget.CircleImageView
+                        android:id="@+id/user_avatar"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/default_avatar"
+                        />
+
+                    <ImageView
+                        android:id="@+id/ic_edit_avatar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom"
+                        android:src="@drawable/ic_edit_avatar"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+
+                <TextView
+                    android:id="@+id/user_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="123"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btn_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginRight="@dimen/top_icon_margin"
+                android:layout_marginTop="@dimen/top_icon_margin"
+                android:paddingBottom="5dp"
+                android:paddingLeft="16dp"
+                android:src="@drawable/ic_report_userhome"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginLeft="@dimen/top_icon_margin"
+                android:layout_marginTop="@dimen/top_icon_margin"
+                android:paddingBottom="5dp"
+                android:paddingRight="16dp"
+                android:src="@drawable/ic_settings" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?colorPrimaryDark"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/btn_createskill"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="添加新技能 + "
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/div_line"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="我的订单"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/div_line"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="我的余额"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

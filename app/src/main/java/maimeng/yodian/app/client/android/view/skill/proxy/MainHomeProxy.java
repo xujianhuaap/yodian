@@ -49,6 +49,10 @@ import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.databinding.ViewHeaderMainHomeBinding;
+import maimeng.yodian.app.client.android.entry.skillseletor.HeaderViewEntry;
+import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
+import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -77,7 +81,7 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 /**
  * Created by android on 15-7-13.
  */
-public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
     private static final String LOG_TAG = MainHomeProxy.class.getSimpleName();
     private final CoordinatorLayout mView;
@@ -85,12 +89,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     private final RecyclerView mRecyclerView;
     private final PtrFrameLayout mRefreshLayout;
     private final SkillService service;
-    private final AppBarLayout appBar;
-    private final ImageView mUserAvatar;
-    private final TextView mUserNickname;
-    private final View mBtnCreateSkill;
-    private final View mBtnSettings;
-    private final View mBtnChat;
     private Bitmap defaultAvatar;
     private boolean inited = false;
     private final SkillListHomeAdapter adapter;
@@ -101,6 +99,8 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     private int mEditPostion;
     private final Handler handler;
     ValueAnimator animator = new ValueAnimator();
+    private ViewHeaderMainHomeBinding headerMainHomeBinding;
+    private List<ViewEntry> viewEntries;
 
     public MainHomeProxy(Activity activity, View view) {
         this(activity, view, null, "");
@@ -112,39 +112,10 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         this.mActivity = activity;
         view.setVisibility(View.GONE);
         service = Network.getService(SkillService.class);
-        appBar = (AppBarLayout) view.findViewById(R.id.appBarLayout);
-        mBtnSettings = view.findViewById(R.id.btn_settings);
-        mBtnChat = view.findViewById(R.id.btn_chat);
-        mBtnChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
-            }
-        });
-        mBtnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                ActivityCompat.startActivity(mActivity, new Intent(mActivity, SettingsActivity.class), options.toBundle());
-            }
-        });
+
+
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        mUserAvatar = (ImageView) view.findViewById(R.id.user_avatar);
-        mUserAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Pair<View, String> avatar = Pair.create(v, "avatar");
-                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
-                ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
-            }
-        });
-        mUserNickname = (TextView) view.findViewById(R.id.user_nickname);
-        mBtnCreateSkill = view.findViewById(R.id.btn_createskill);
-        mBtnCreateSkill.setOnClickListener(this);
-        appBar.addOnOffsetChangedListener(this);
         mRefreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(mActivity);
 
@@ -165,20 +136,22 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         animator.setIntValues(activity.getResources().getColor(R.color.colorPrimaryDark), activity.getResources().getColor(R.color.colorPrimary));
         animator.setEvaluator(new ArgbEvaluator());
         animator.setDuration(10000);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                ((View) mBtnCreateSkill.getParent()).setBackgroundColor(Integer.parseInt(animation.getAnimatedValue().toString()));
-            }
-        });
         if (avatar != null) {
 
 //            mUserAvatar.setImageBitmap(avatar);
 //            this.defaultAvatar = avatar;
         }
-        if (!TextUtils.isEmpty(nickname)) {
-            mUserNickname.setText(nickname);
+        viewEntries = new ArrayList<>();
+        user=User.read(activity);
+        if(user!=null){
+            viewEntries.add(0, new HeaderViewEntry(ViewEntry.VIEW_TYPE_HEAD, user));
+            adapter.reload(viewEntries,true);
+            adapter.notifyDataSetChanged();
         }
+
+
+
+
     }
 
     public void syncRequest() {
@@ -197,13 +170,18 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             } else if (requestCode == ActivityProxyController.REQUEST_EDIT_SKILL) {
                 Skill skill = data.getParcelableExtra("skill");
                 if (mEditPostion != -1 && skill != null) {
-                    adapter.getItem(mEditPostion).update(skill);
+                   ViewEntry entry= adapter.getItem(mEditPostion);
+                    if(entry instanceof ItemViewEntry){
+                        ItemViewEntry itemViewEntry=(ItemViewEntry)entry;
+                        itemViewEntry.skill.update(skill);
+                    }
+
                     adapter.notifyItemChanged(mEditPostion);
                     mEditPostion = -1;
                 }
             } else if (requestCode == REQUEST_UPDATEINFO) {
                 user = User.read(this.mActivity);
-                initUsrInfo();
+//                initUsrInfo();
             }
         }
     }
@@ -227,13 +205,16 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         inited = true;
 //        showUserInfo();
         initSkillInfo();
-        if (user.getUid() != User.read(mActivity).getUid()) {
-            mView.findViewById(R.id.ic_edit_avatar).setVisibility(View.GONE);
-            mView.findViewById(R.id.miss_msg_count).setVisibility(View.GONE);
-        } else {
-            mView.findViewById(R.id.ic_edit_avatar).setVisibility(View.VISIBLE);
-            mView.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
+        if(headerMainHomeBinding!=null){
+            if (user.getUid() != User.read(mActivity).getUid()) {
+                headerMainHomeBinding.icEditAvatar.setVisibility(View.GONE);
+                headerMainHomeBinding.missMsgCount.setVisibility(View.GONE);
+            } else {
+                headerMainHomeBinding.icEditAvatar.setVisibility(View.VISIBLE);
+                headerMainHomeBinding.missMsgCount.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
+            }
         }
+
     }
 
     private void showUserInfo() {
@@ -256,7 +237,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                             MainHomeProxy.this.user.write(mActivity);
                             mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
                         }
-                        initUsrInfo();
+//                        initUsrInfo();
                     }
                 }
 
@@ -271,7 +252,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 }
             });
         } else {
-            initUsrInfo();
+//            initUsrInfo();
         }
     }
 
@@ -283,51 +264,51 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     @Override
     public void reset() {
         inited = false;
-        mUserNickname.setText(R.string.NA);
-        adapter.reload(new ArrayList<Skill>(), false);
+//        mUserNickname.setText(R.string.NA);
+        adapter.reload(new ArrayList<ViewEntry>(), false);
         adapter.notifyDataSetChanged();
     }
 
-    private void initUsrInfo() {
-        mUserNickname.setText(user.getNickname());
-        Circle circle = Circle.obtain().setBorderSize(10);
-
-        if (defaultAvatar != null) {
-            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
-                @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    defaultAvatar = bitmap;
-                }
-
-                @Override
-                public void onLoadEnd() {
-
-                }
-
-                @Override
-                public void onLoadFaild() {
-
-                }
-            }).start(mActivity);
-        } else {
-            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
-                @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    defaultAvatar = bitmap;
-                }
-
-                @Override
-                public void onLoadEnd() {
-
-                }
-
-                @Override
-                public void onLoadFaild() {
-
-                }
-            }).start(mActivity);
-        }
-    }
+//    private void initUsrInfo() {
+////        mUserNickname.setText(user.getNickname());
+//        Circle circle = Circle.obtain().setBorderSize(10);
+//
+//        if (defaultAvatar != null) {
+//            new ImageLoaderManager.Loader(, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
+//                @Override
+//                public void onImageLoaded(Bitmap bitmap) {
+//                    defaultAvatar = bitmap;
+//                }
+//
+//                @Override
+//                public void onLoadEnd() {
+//
+//                }
+//
+//                @Override
+//                public void onLoadFaild() {
+//
+//                }
+//            }).start(mActivity);
+//        } else {
+//            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
+//                @Override
+//                public void onImageLoaded(Bitmap bitmap) {
+//                    defaultAvatar = bitmap;
+//                }
+//
+//                @Override
+//                public void onLoadEnd() {
+//
+//                }
+//
+//                @Override
+//                public void onLoadFaild() {
+//
+//                }
+//            }).start(mActivity);
+//        }
+//    }
 
     @Override
     public void onTitleChanged(CharSequence title, int color) {
@@ -337,12 +318,19 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                int unread = EMChatManager.getInstance().getUnreadMsgsCount();
-                if (unread > 0) {
-                    mView.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
-                } else {
-                    mView.findViewById(R.id.miss_msg_count).setVisibility(View.INVISIBLE);
+                if(headerMainHomeBinding!=null){
+                    View view=headerMainHomeBinding.missMsgCount;
+                    if(view!=null){
+                        int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+                        if (unread > 0) {
+                            view.setVisibility(View.VISIBLE);
+                        } else {
+                            view.setVisibility(View.INVISIBLE);
+                        }
+                    }
                 }
+
+
 
             }
         });
@@ -418,119 +406,175 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
     @Override
     public void onItemClick(final SkillListHomeAdapter.ViewHolder holder, int postion) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                Skill skill=holder.getData();
-                if(skill.getStatus()==0){
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill",skill) , options.toBundle());
+        if(holder instanceof SkillListHomeAdapter.ItemViewHolder){
+            final SkillListHomeAdapter.ItemViewHolder itemViewHolder=(SkillListHomeAdapter.ItemViewHolder)holder;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                    Skill skill=itemViewHolder.getData();
+                    if(skill.getStatus()==0){
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill",skill) , options.toBundle());
+                    }
+
                 }
-               
-            }
-        }, 200);
+            }, 200);
+        }
+
 
     }
 
     @Override
-    public void onClick(final SkillListHomeAdapter.ViewHolder holder, View clickItem, final int postion) {
-        final Skill skill = holder.getData();
-        if (clickItem == holder.getBinding().btnShare) {
-            Skill data = skill;
-            ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
-        } else if (clickItem == holder.getBinding().btnUpdate) {
-            Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
-            intent.putExtra("skill", skill);
-            mActivity.startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
-            mEditPostion = postion;
-            holder.closeWithAnim();
-        } else if (clickItem == holder.getBinding().btnDelete) {
-            AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
-                @Override
-                public void onPositiveClick(final DialogInterface dialog) {
-                    dialog.dismiss();
-                    service.delete(skill.getId(), new ToastCallback(mActivity) {
-                        @Override
-                        public void success(ToastResponse res, Response response) {
-                            super.success(res, response);
-                            if (res.isSuccess()) {
-                                adapter.remove(postion);
-                                if (adapter.getItemCount() <= 0) {
-                                    mFloatButton.show(true);
+    public void onClick(final SkillListHomeAdapter.ViewHolder holder, final View clickItem, final int postion) {
+
+        if(holder instanceof SkillListHomeAdapter.ItemViewHolder){
+            final SkillListHomeAdapter.ItemViewHolder itemViewHolder=(SkillListHomeAdapter.ItemViewHolder)holder;
+            final Skill skill = itemViewHolder.getData();
+            if (clickItem == itemViewHolder.getBinding().btnShare) {
+                Skill data = skill;
+                ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
+            } else if (clickItem == itemViewHolder.getBinding().btnUpdate) {
+                Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
+                intent.putExtra("skill", skill);
+                mActivity.startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
+                mEditPostion = postion;
+                itemViewHolder.closeWithAnim();
+            } else if (clickItem == itemViewHolder.getBinding().btnDelete) {
+                AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
+                    @Override
+                    public void onPositiveClick(final DialogInterface dialog) {
+                        dialog.dismiss();
+                        service.delete(skill.getId(), new ToastCallback(mActivity) {
+                            @Override
+                            public void success(ToastResponse res, Response response) {
+                                super.success(res, response);
+                                if (res.isSuccess()) {
+                                    adapter.remove(postion);
+                                    if (adapter.getItemCount() <= 0) {
+                                        mFloatButton.show(true);
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void end() {
-                            super.end();
-                        }
-                    });
+                            @Override
+                            public void end() {
+                                super.end();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public String positiveText() {
+                        return mActivity.getResources().getString(android.R.string.ok);
+                    }
+                }).setNegativeListener(new AlertDialog.NegativeListener() {
+                    @Override
+                    public void onNegativeClick(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public String negativeText() {
+                        return mActivity.getResources().getString(android.R.string.cancel);
+                    }
+                }).show(mActivity.getFragmentManager(), "delete_dialog");
+
+            } else if (clickItem == itemViewHolder.getBinding().btnChangeState) {
+                service.up(skill.getId(), skill.getStatus(), new ToastCallback(mActivity) {
+                    @Override
+                    public void success(ToastResponse res, Response response) {
+                        super.success(res, response);
+                        skill.setStatus(skill.getStatus() == 0 ? 1 : 0);
+                        itemViewHolder.closeWithAnim();
+                    }
+                });
+            } else if (clickItem == itemViewHolder.getBinding().btnBottom) {
+                Intent intent = new Intent(mActivity, ChatActivity.class);
+                intent.putExtra("skill", itemViewHolder.getData());
+                Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
+                String chatLoginName = skill.getChatLoginName();
+                if (robotMap.containsKey(chatLoginName)) {
+                    intent.putExtra("userId", chatLoginName);
+                    mActivity.startActivity(intent);
+                } else {
+                    RobotUser robot = new RobotUser();
+                    robot.setId(skill.getUid() + "");
+                    robot.setUsername(chatLoginName);
+                    robot.setNick(skill.getNickname());
+                    robot.setAvatar(skill.getAvatar());
+                    robot.setWechat(skill.getWeichat());
+
+
+                    maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
+                    user.setId(skill.getUid() + "");
+                    user.setUsername(chatLoginName);
+                    user.setNick(skill.getNickname());
+                    user.setAvatar(skill.getAvatar());
+                    user.setWechat(skill.getWeichat());
+
+
+                    // 存入内存
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
+                    // 存入db
+                    UserDao dao = new UserDao(mActivity);
+                    dao.saveOrUpdate(user);
+                    dao.saveOrUpdate(robot);
+                    intent.putExtra("userId", chatLoginName);
+                    intent.putExtra("userNickname", skill.getNickname());
+                    mActivity.startActivity(intent);
                 }
+            }
+        }else{
+            if(holder instanceof SkillListHomeAdapter.HeaderViewHolder){
+                SkillListHomeAdapter.HeaderViewHolder viewHolder=(SkillListHomeAdapter.HeaderViewHolder)holder;
+                User user=viewHolder.getData();
+                headerMainHomeBinding = viewHolder.getHeaderMainHomeBinding();
+                if(clickItem== headerMainHomeBinding.btnChat){
+                    mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
+                } else if(clickItem== headerMainHomeBinding.userAvatar){
 
-                @Override
-                public String positiveText() {
-                    return mActivity.getResources().getString(android.R.string.ok);
+                    Pair<View, String> avatar = Pair.create(clickItem, "avatar");
+                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
+                    ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+                } else  if(clickItem== headerMainHomeBinding.btnSettings){
+                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
+                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SettingsActivity.class), options.toBundle());
+
+                }else if(clickItem== headerMainHomeBinding.btnReport){
+
+                }else if(clickItem== headerMainHomeBinding.btnCreateskill){
+                    if (TextUtils.isEmpty(User.read(mActivity).getWechat())) {
+                        AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
+                            @Override
+                            public void onPositiveClick(DialogInterface dialog) {
+                                Pair<View, String> avatar = Pair.create(clickItem, "avatar");
+                                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
+                                ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+                            }
+
+                            @Override
+                            public String positiveText() {
+                                return "前往";
+                            }
+                        }).show(mActivity.getFragmentManager(), "");
+
+                    } else {
+
+                        Pair<View, String> top = Pair.create(clickItem, "top");
+                        Pair<View, String> floatbutton = Pair.create((View) mFloatButton, "floatbutton");
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
+                        ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
+                    }
+
                 }
-            }).setNegativeListener(new AlertDialog.NegativeListener() {
-                @Override
-                public void onNegativeClick(DialogInterface dialog) {
-                    dialog.dismiss();
-                }
-
-                @Override
-                public String negativeText() {
-                    return mActivity.getResources().getString(android.R.string.cancel);
-                }
-            }).show(mActivity.getFragmentManager(), "delete_dialog");
-
-        } else if (clickItem == holder.getBinding().btnChangeState) {
-            service.up(skill.getId(), skill.getStatus(), new ToastCallback(mActivity) {
-                @Override
-                public void success(ToastResponse res, Response response) {
-                    super.success(res, response);
-                    skill.setStatus(skill.getStatus() == 0 ? 1 : 0);
-                    holder.closeWithAnim();
-                }
-            });
-        } else if (clickItem == holder.getBinding().btnBottom) {
-            Intent intent = new Intent(mActivity, ChatActivity.class);
-            intent.putExtra("skill", holder.getData());
-            Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
-            String chatLoginName = skill.getChatLoginName();
-            if (robotMap.containsKey(chatLoginName)) {
-                intent.putExtra("userId", chatLoginName);
-                mActivity.startActivity(intent);
-            } else {
-                RobotUser robot = new RobotUser();
-                robot.setId(skill.getUid() + "");
-                robot.setUsername(chatLoginName);
-                robot.setNick(skill.getNickname());
-                robot.setAvatar(skill.getAvatar());
-                robot.setWechat(skill.getWeichat());
-
-
-                maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                user.setId(skill.getUid() + "");
-                user.setUsername(chatLoginName);
-                user.setNick(skill.getNickname());
-                user.setAvatar(skill.getAvatar());
-                user.setWechat(skill.getWeichat());
-
-
-                // 存入内存
-                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
-                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
-                // 存入db
-                UserDao dao = new UserDao(mActivity);
-                dao.saveOrUpdate(user);
-                dao.saveOrUpdate(robot);
-                intent.putExtra("userId", chatLoginName);
-                intent.putExtra("userNickname", skill.getNickname());
-                mActivity.startActivity(intent);
             }
         }
+
     }
 
     @Override
@@ -554,7 +598,11 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     public void success(SkillUserResponse res, Response response) {
         if (res.isSuccess()) {
             List<Skill> list = res.getData().getList();
-            adapter.reload(list, page != 1);
+
+            for(int i=0;i<list.size();i++){
+                viewEntries.add(new ItemViewEntry(list.get(i)));
+            }
+            adapter.reload(viewEntries, page != 1);
             adapter.notifyDataSetChanged();
             this.user.update(res.getData().getUser());
             showUserInfo();
@@ -585,34 +633,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         animator.setCurrentPlayTime(playTime);
     }
 
-    @Override
-    public void onClick(final View v) {
-        if (TextUtils.isEmpty(User.read(mActivity).getWechat())) {
-            AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
-                @Override
-                public void onPositiveClick(DialogInterface dialog) {
-                    Pair<View, String> avatar = Pair.create(v, "avatar");
-                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
-                    ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
-                }
 
-                @Override
-                public String positiveText() {
-                    return "前往";
-                }
-            }).show(mActivity.getFragmentManager(), "");
-
-        } else {
-
-            Pair<View, String> top = Pair.create(v, "top");
-            Pair<View, String> floatbutton = Pair.create((View) mFloatButton, "floatbutton");
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
-            ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
-        }
-
-
-    }
 
     @Override
     public void show(FloatingActionButton viewById) {

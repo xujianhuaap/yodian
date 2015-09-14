@@ -399,6 +399,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 Rmark rmark = list.get(0);
                 Date date = rmark.getCreatetime();
                 LogUtil.d("SkillDetailsActivity", "TT" + date);
+
                 LogUtil.d("SkillDetailsActivity", "TRTTT" + date.getTime());
             }
 
