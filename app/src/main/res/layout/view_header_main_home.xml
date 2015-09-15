@@ -14,7 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffc600"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        >
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -59,7 +61,7 @@
                         android:layout_height="100dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/default_avatar"
-                        />
+                        app:imgUrl="@{user.avatar}" />
 
                     <ImageView
                         android:id="@+id/ic_edit_avatar"
@@ -77,7 +79,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:text="@{user.nickname}"/>
             </LinearLayout>
 
             <ImageView

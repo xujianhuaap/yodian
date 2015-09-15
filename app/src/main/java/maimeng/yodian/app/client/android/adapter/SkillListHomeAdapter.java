@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderMainHomeBinding;
@@ -42,6 +43,7 @@ import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHomeAdapter.ViewHolder> {
     private int mScreenWidth;
     private ViewHeaderMainHomeBinding mHeaderBinding;
+    private HeaderViewEntry mHeaderViewEntry;
 
     public ViewHeaderMainHomeBinding getHeaderBinding() {
         return mHeaderBinding;
@@ -165,58 +167,56 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                 mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
                 mHeaderBinding.bottom.setVisibility(View.VISIBLE);
             }
-            initUsrInfo();
+//            initUsrInfo();
         }
 
 
         /***
          *
          */
-        private void initUsrInfo() {
-
-            LogUtil.d("ceshi","nickname"+user.getNickname());
-            LogUtil.d("ceshi","avatar"+user.getAvatar());
-            mHeaderBinding.userNickname.setText(user.getNickname());
-            Circle circle = Circle.obtain().setBorderSize(10);
-
-            if (defaultAvatar != null) {
-                new ImageLoaderManager.Loader( mHeaderBinding.userAvatar, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
-                    @Override
-                    public void onImageLoaded(Bitmap bitmap) {
-                        defaultAvatar = bitmap;
-                        mHeaderBinding.userAvatar.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onLoadEnd() {
-
-                    }
-
-                    @Override
-                    public void onLoadFaild() {
-
-                    }
-                }).start(mContext);
-            } else {
-                new ImageLoaderManager.Loader( mHeaderBinding.userAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
-                    @Override
-                    public void onImageLoaded(Bitmap bitmap) {
-                        defaultAvatar = bitmap;
-                        mHeaderBinding.userAvatar.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onLoadEnd() {
-
-                    }
-
-                    @Override
-                    public void onLoadFaild() {
-
-                    }
-                }).start(mContext);
-            }
-        }
+//        private void initUsrInfo() {
+//
+//            mHeaderBinding.userNickname.setText(user.getNickname());
+//            Circle circle = Circle.obtain().setBorderSize(10);
+//
+//            if (defaultAvatar != null) {
+//                new ImageLoaderManager.Loader( mHeaderBinding.userAvatar, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
+//                    @Override
+//                    public void onImageLoaded(Bitmap bitmap) {
+//                        defaultAvatar = bitmap;
+//                        mHeaderBinding.userAvatar.setImageBitmap(bitmap);
+//                    }
+//
+//                    @Override
+//                    public void onLoadEnd() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onLoadFaild() {
+//
+//                    }
+//                }).start(mContext);
+//            } else {
+//                new ImageLoaderManager.Loader( mHeaderBinding.userAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
+//                    @Override
+//                    public void onImageLoaded(Bitmap bitmap) {
+//                        defaultAvatar = bitmap;
+//                        mHeaderBinding.userAvatar.setImageBitmap(bitmap);
+//                    }
+//
+//                    @Override
+//                    public void onLoadEnd() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onLoadFaild() {
+//
+//                    }
+//                }).start(mContext);
+//            }
+//        }
     }
 
     /***
@@ -304,13 +304,21 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
         }
     }
     public void reload(final List<ViewEntry> datas, boolean append) {
-        if (!append) {
-            int cnt=datas.size();
-            List<ViewEntry>skills=datas.subList(0,cnt-1);
-            this.datas.removeAll(skills);
+
+        if(!append){
+            this.datas.clear();
+            this.datas.add(0,mHeaderViewEntry);
         }
         this.datas.addAll(datas);
         sort(this.datas);
+    }
+
+    public void reload(final HeaderViewEntry headerViewEntry){
+        if(this.datas.size()>0){
+            this.datas.remove(0);
+        }
+        mHeaderViewEntry=headerViewEntry;
+        this.datas.add(headerViewEntry);
     }
 
 

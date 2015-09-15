@@ -101,7 +101,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     private final Handler handler;
     ValueAnimator animator = new ValueAnimator();
     private ViewHeaderMainHomeBinding headerMainHomeBinding;
-    private List<ViewEntry> viewEntries;
 
     public MainHomeProxy(Activity activity, View view) {
         this(activity, view, null, "");
@@ -137,8 +136,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         animator.setIntValues(activity.getResources().getColor(R.color.colorPrimaryDark), activity.getResources().getColor(R.color.colorPrimary));
         animator.setEvaluator(new ArgbEvaluator());
         animator.setDuration(10000);
-        viewEntries = new ArrayList<>();
-
 
 
     }
@@ -191,8 +188,8 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             this.user = user;
         }
         if(user!=null){
-            viewEntries.add(0, new HeaderViewEntry(user));
-            adapter.reload(viewEntries,true);
+
+            adapter.reload(new HeaderViewEntry(user));
             adapter.notifyDataSetChanged();
         }
 
@@ -485,10 +482,10 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                     mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
                 } else if(clickItem== headerMainHomeBinding.userAvatar){
 
-//                    Pair<View, String> avatar = Pair.create(clickItem, "avatar");
-//                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-//                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
-//                    ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+                    Pair<View, String> avatar = Pair.create(clickItem, "avatar");
+                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
+                    ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
                 } else  if(clickItem== headerMainHomeBinding.btnSettings){
                     Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
@@ -548,11 +545,12 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     public void success(SkillUserResponse res, Response response) {
         if (res.isSuccess()) {
             List<Skill> list = res.getData().getList();
-
+            List<ViewEntry> entries=new ArrayList<>();
             for(int i=0;i<list.size();i++){
-                viewEntries.add(new ItemViewEntry(list.get(i)));
+                entries.add(new ItemViewEntry(list.get(i)));
             }
-            adapter.reload(viewEntries, page != 1);
+
+            adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
             this.user.update(res.getData().getUser());
             showUserInfo();
