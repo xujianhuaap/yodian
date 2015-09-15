@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.easemob.chat.EMChat;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.push.FeedbackPush;
@@ -129,6 +131,8 @@ public class YApplication extends DemoApplication {
         ShareSDK.getInstance().initShare(ApiConfig.WEIXIN_APP_KEY, ApiConfig.WEIBO_APP_KEY, ApiConfig.QQ_APP_KEY, ApiConfig.WEIXIN_APP_SECRET, ApiConfig.REDIRECT_URL);
 //        EMChat.getInstance().init(this);
         EMChat.getInstance().setDebugMode(BuildConfig.DEBUG);
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
     }
 
     public User getAuthUser() {

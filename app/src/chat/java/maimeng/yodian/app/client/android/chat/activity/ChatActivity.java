@@ -124,6 +124,7 @@ import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
+import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.utils.LogUtil;
@@ -233,7 +234,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public Skill getSkill() {
         return skill;
     }
-    private long uid=0;
+
+    private long uid = 0;
     private Skill skill;
     private LinearLayout skillContainer;
     private View btnShowSkill;
@@ -248,7 +250,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         skill = getIntent().getParcelableExtra("skill");
-        uid=getIntent().getLongExtra("uid",0);
+        uid = getIntent().getLongExtra("uid", 0);
         intoSkill = true;
         activityInstance = this;
         initView();
@@ -1059,7 +1061,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 public void run() {
                     skillContainer.setVisibility(View.VISIBLE);
                     final String pic = skill.getPic();
-                    new ImageLoaderManager.Loader(skillPic, Uri.parse(pic)).start(ChatActivity.this);
+                    ImageAdapter.image(skillPic, pic);
                     skillName.setText(skill.getName());
                     skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
                 }
