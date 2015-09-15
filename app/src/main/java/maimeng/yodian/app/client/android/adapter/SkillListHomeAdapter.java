@@ -158,13 +158,11 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                 mHeaderBinding.userAvatar.setOnClickListener(null);
                 mHeaderBinding.btnChat.setVisibility(View.GONE);
                 mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
-                mHeaderBinding.missMsgCount.setVisibility(View.GONE);
                 mHeaderBinding.bottom.setVisibility(View.GONE);
                 mHeaderBinding.btnReport.setVisibility(View.VISIBLE);
 
             }else {
                 mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
-                mHeaderBinding.missMsgCount.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
                 mHeaderBinding.bottom.setVisibility(View.VISIBLE);
             }
             initUsrInfo();

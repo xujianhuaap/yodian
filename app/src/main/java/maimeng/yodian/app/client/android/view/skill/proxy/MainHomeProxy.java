@@ -250,7 +250,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     @Override
     public void reset() {
         inited = false;
-//        mUserNickname.setText(R.string.NA);
         adapter.reload(new ArrayList<ViewEntry>(), false);
         adapter.notifyDataSetChanged();
     }
