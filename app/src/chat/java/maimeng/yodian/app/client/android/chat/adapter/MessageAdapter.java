@@ -94,7 +94,6 @@ import maimeng.yodian.app.client.android.chat.utils.ImageCache;
 import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
-import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
@@ -142,9 +141,13 @@ public class MessageAdapter extends BaseAdapter {
     EMMessage[] messages = null;
 
     private Context context;
+    private long uid;
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
 
     private Map<String, Timer> timers = new Hashtable<String, Timer>();
-
 
     public MessageAdapter(Context context, String username, int chatType) {
         this.username = username;
@@ -459,30 +462,12 @@ public class MessageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        holder.iv_avatar.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(message.direct== EMMessage.Direct.RECEIVE){
-
-                    try {
-                        String uid = message.getStringAttribute("uid");
-                        if(!TextUtils.isEmpty(uid)){
-                            UserHomeActivity.show(activity,Long.parseLong(uid));
-                        }
-
-                    } catch (EaseMobException e) {
-                        e.printStackTrace();
-                    }
-
-
-
-                }
+        if(itemViewType==MESSAGE_TYPE_RECV_TXT||itemViewType==MESSAGE_TYPE_RECV_VOICE){
+            if(uid!=0){
+                UserHomeActivity.show(activity,uid);
             }
-        });
 
-
+        }
         // 群聊时，显示接收的消息的发送人的名称
         if ((chatType == ChatType.GroupChat || chatType == chatType.ChatRoom) && message.direct == EMMessage.Direct.RECEIVE) {
             //demo里使用username代码nick
@@ -1682,7 +1667,5 @@ public class MessageAdapter extends BaseAdapter {
         }
 
     }
-
-
 
 }

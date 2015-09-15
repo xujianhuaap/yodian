@@ -248,6 +248,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         skill = getIntent().getParcelableExtra("skill");
+        uid=getIntent().getLongExtra("uid",0);
         intoSkill = true;
         activityInstance = this;
         initView();
@@ -638,7 +639,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         // 把此会话的未读数置为0
         conversation.markAllMessagesAsRead();
 
-
         // 初始化db时，每个conversation加载数目是getChatOptions().getNumberOfMessagesLoaded
         // 这个数目如果比用户期望进入会话界面时显示的个数不一样，就多加载一些
         final List<EMMessage> msgs = conversation.getAllMessages();
@@ -663,14 +663,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 @Override
                 public void run() {
                     try {
-
                         JSONObject skillJson = msg.getJSONObjectAttribute("skill");
                         if (skillJson != null) {
                             skill = new Skill();
-                            String avatar=User.parse(msg).getAvatar();
-                            if(!TextUtils.isEmpty(avatar)){
-                                skill.setAvatar(avatar);
-                            }
                             skill.setName(skillJson.getString("name"));
                             skill.setId(skillJson.getLong("sid"));
                             skill.setPrice(skillJson.getString("price"));
@@ -720,6 +715,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     protected void onListViewCreation() {
         adapter = new MessageAdapter(ChatActivity.this, toChatUsername, chatType);
+        adapter.setUid(uid);
         // 显示消息
         listView.setAdapter(adapter);
 
@@ -1181,11 +1177,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     JSONObject skillJson = message.getJSONObjectAttribute("skill");
                     if (skillJson != null) {
                         skill = new Skill();
-                        String avatar=User.parse(message).getAvatar();
-                        if(!TextUtils.isEmpty(avatar)){
-                            skill.setAvatar(avatar);
-                        }
-
                         skill.setName(skillJson.getString("name"));
                         skill.setId(skillJson.getLong("sid"));
                         skill.setPrice(skillJson.getString("price"));
@@ -1324,6 +1315,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setReceipt(toChatUsername);
             // 把messgage加到conversation中
             conversation.addMessage(message);
+            onNewMessage(message);
+            //
             onNewMessage(message);
             // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
             adapter.refreshSelectLast();
