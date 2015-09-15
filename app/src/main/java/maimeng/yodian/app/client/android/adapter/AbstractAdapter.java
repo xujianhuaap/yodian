@@ -28,6 +28,12 @@ public abstract class AbstractAdapter<IT, VH extends RecyclerView.ViewHolder > e
         notifyItemRemoved(postion);
     }
 
+    public void update(int position,IT item){
+        this.datas.remove(position);
+        this.datas.add(position,item);
+        notifyDataSetChanged();
+    }
+
     /**
      * ViewHolder点击监听
      *
@@ -55,12 +61,10 @@ public abstract class AbstractAdapter<IT, VH extends RecyclerView.ViewHolder > e
 
 
 
-    private final ArrayList<IT> datas = new ArrayList<>();
+    protected final ArrayList<IT> datas = new ArrayList<>();
     public void reload(final List<IT> datas, boolean append) {
         if (!append) {
-            int cnt=datas.size();
-            List<IT>skills=datas.subList(0,cnt-1);
-            this.datas.removeAll(skills);
+            this.datas.clear();
         }
         this.datas.addAll(datas);
         sort(this.datas);

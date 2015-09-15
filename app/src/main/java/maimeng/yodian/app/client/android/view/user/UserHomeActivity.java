@@ -107,25 +107,14 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
         ViewCompat.setTransitionName(nickname, "nickname");
         final View root = findViewById(R.id.home_root);
         proxy = new MainHomeProxy(this, root, (Bitmap) getIntent().getParcelableExtra("avatar"), getIntent().getStringExtra("nickname"));
-        ((View) findViewById(R.id.btn_createskill).getParent()).setVisibility(View.GONE);
-        findViewById(R.id.btn_chat).setVisibility(View.GONE);
-        findViewById(R.id.btn_settings).setVisibility(View.GONE);
-        findViewById(R.id.user_avatar).setOnClickListener(null);
         root.setVisibility(View.VISIBLE);
-        final View btnReport = findViewById(R.id.btn_report);
-        btnReport.setVisibility(View.VISIBLE);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityCompat.finishAfterTransition(UserHomeActivity.this);
             }
         });
-        btnReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                report();
-            }
-        });
+
         root.postDelayed(new Thread() {
             @Override
             public void run() {
@@ -134,32 +123,6 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
         }, 500);
     }
 
-    private void report() {
-        AlertDialog alert = AlertDialog.newInstance("提示", getString(R.string.lable_alert_report_user));
-        alert.setNegativeListener(new AlertDialog.NegativeListener() {
-            @Override
-            public void onNegativeClick(DialogInterface dialog) {
-                dialog.dismiss();
-            }
-
-            @Override
-            public String negativeText() {
-                return getString(android.R.string.cancel);
-            }
-        });
-        alert.setPositiveListener(new AlertDialog.PositiveListener() {
-            @Override
-            public void onPositiveClick(DialogInterface dialog) {
-                Network.getService(CommonService.class).report(3, 0, 0, user.getUid(), new ToastCallback(UserHomeActivity.this));
-            }
-
-            @Override
-            public String positiveText() {
-                return getString(R.string.lable_report);
-            }
-        });
-        alert.show(getFragmentManager(), "alert");
-    }
 
     @Override
     public void start() {

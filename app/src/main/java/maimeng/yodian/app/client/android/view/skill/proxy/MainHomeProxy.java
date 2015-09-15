@@ -63,6 +63,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
+import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
@@ -136,19 +137,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         animator.setIntValues(activity.getResources().getColor(R.color.colorPrimaryDark), activity.getResources().getColor(R.color.colorPrimary));
         animator.setEvaluator(new ArgbEvaluator());
         animator.setDuration(10000);
-        if (avatar != null) {
-
-//            mUserAvatar.setImageBitmap(avatar);
-//            this.defaultAvatar = avatar;
-        }
         viewEntries = new ArrayList<>();
-        user=User.read(activity);
-        if(user!=null){
-            viewEntries.add(0, new HeaderViewEntry(ViewEntry.VIEW_TYPE_HEAD, user));
-            adapter.reload(viewEntries,true);
-            adapter.notifyDataSetChanged();
-        }
-
 
 
 
@@ -181,7 +170,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 }
             } else if (requestCode == REQUEST_UPDATEINFO) {
                 user = User.read(this.mActivity);
-//                initUsrInfo();
+                initUsrInfo();
             }
         }
     }
@@ -201,19 +190,16 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         if (this.user == null) {
             this.user = user;
         }
+        if(user!=null){
+            viewEntries.add(0, new HeaderViewEntry(user));
+            adapter.reload(viewEntries,true);
+            adapter.notifyDataSetChanged();
+        }
+
         LogUtil.i(LOG_TAG, "init().uid:%d,token:%s", user.getId(), user.getToken());
         inited = true;
-//        showUserInfo();
         initSkillInfo();
-        if(headerMainHomeBinding!=null){
-            if (user.getUid() != User.read(mActivity).getUid()) {
-                headerMainHomeBinding.icEditAvatar.setVisibility(View.GONE);
-                headerMainHomeBinding.missMsgCount.setVisibility(View.GONE);
-            } else {
-                headerMainHomeBinding.icEditAvatar.setVisibility(View.VISIBLE);
-                headerMainHomeBinding.missMsgCount.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
-            }
-        }
+
 
     }
 
@@ -237,7 +223,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                             MainHomeProxy.this.user.write(mActivity);
                             mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
                         }
-//                        initUsrInfo();
+                        initUsrInfo();
                     }
                 }
 
@@ -252,7 +238,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 }
             });
         } else {
-//            initUsrInfo();
+            initUsrInfo();
         }
     }
 
@@ -269,46 +255,10 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         adapter.notifyDataSetChanged();
     }
 
-//    private void initUsrInfo() {
-////        mUserNickname.setText(user.getNickname());
-//        Circle circle = Circle.obtain().setBorderSize(10);
-//
-//        if (defaultAvatar != null) {
-//            new ImageLoaderManager.Loader(, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
-//                @Override
-//                public void onImageLoaded(Bitmap bitmap) {
-//                    defaultAvatar = bitmap;
-//                }
-//
-//                @Override
-//                public void onLoadEnd() {
-//
-//                }
-//
-//                @Override
-//                public void onLoadFaild() {
-//
-//                }
-//            }).start(mActivity);
-//        } else {
-//            new ImageLoaderManager.Loader(mUserAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
-//                @Override
-//                public void onImageLoaded(Bitmap bitmap) {
-//                    defaultAvatar = bitmap;
-//                }
-//
-//                @Override
-//                public void onLoadEnd() {
-//
-//                }
-//
-//                @Override
-//                public void onLoadFaild() {
-//
-//                }
-//            }).start(mActivity);
-//        }
-//    }
+
+    private void initUsrInfo() {
+        adapter.update(0,new HeaderViewEntry(user));
+    }
 
     @Override
     public void onTitleChanged(CharSequence title, int color) {
@@ -318,6 +268,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                headerMainHomeBinding=adapter.getHeaderBinding();
                 if(headerMainHomeBinding!=null){
                     View view=headerMainHomeBinding.missMsgCount;
                     if(view!=null){
@@ -545,7 +496,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                     ActivityCompat.startActivity(mActivity, new Intent(mActivity, SettingsActivity.class), options.toBundle());
 
                 }else if(clickItem== headerMainHomeBinding.btnReport){
-
+                            report();
                 }else if(clickItem== headerMainHomeBinding.btnCreateskill){
                     if (TextUtils.isEmpty(User.read(mActivity).getWechat())) {
                         AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
@@ -660,4 +611,33 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 break;
         }
     }
+    private void report() {
+        AlertDialog alert = AlertDialog.newInstance("提示", mActivity.getString(R.string.lable_alert_report_user));
+        alert.setNegativeListener(new AlertDialog.NegativeListener() {
+            @Override
+            public void onNegativeClick(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public String negativeText() {
+                return mActivity.getString(android.R.string.cancel);
+            }
+        });
+        alert.setPositiveListener(new AlertDialog.PositiveListener() {
+            @Override
+            public void onPositiveClick(DialogInterface dialog) {
+                Network.getService(CommonService.class).report(3, 0, 0, user.getUid(), new ToastCallback(mActivity));
+            }
+
+            @Override
+            public String positiveText() {
+                return mActivity.getString(R.string.lable_report);
+            }
+        });
+        alert.show(mActivity.getFragmentManager(), "alert");
+    }
+
+
+
 }

@@ -8,8 +8,8 @@ import maimeng.yodian.app.client.android.model.User;
 public class HeaderViewEntry extends ViewEntry{
     public User user;
 
-    public HeaderViewEntry(int viewType, User user) {
-        super(viewType);
+    public HeaderViewEntry( User user) {
+        super(ViewEntry.VIEW_TYPE_HEAD);
         this.user = user;
     }
 }

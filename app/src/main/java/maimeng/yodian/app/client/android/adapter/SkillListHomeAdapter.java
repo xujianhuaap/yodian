@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.util.List;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderMainHomeBinding;
 import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
@@ -23,9 +26,13 @@ import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.loader.Circle;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
+import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 
@@ -34,6 +41,12 @@ import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
  */
 public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHomeAdapter.ViewHolder> {
     private int mScreenWidth;
+    private ViewHeaderMainHomeBinding mHeaderBinding;
+
+    public ViewHeaderMainHomeBinding getHeaderBinding() {
+        return mHeaderBinding;
+    }
+
     public SkillListHomeAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
         mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
@@ -110,10 +123,10 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
 
         private  User user;
         private Bitmap defaultAvatar;
-        private final ViewHeaderMainHomeBinding headerMainHomeBinding;
+
 
         public ViewHeaderMainHomeBinding getHeaderMainHomeBinding() {
-            return headerMainHomeBinding;
+            return mHeaderBinding;
         }
 
         public User getData(){
@@ -122,12 +135,12 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
         @Override
         public void onClick(View v) {
             super.onClick(v);
-            mViewHolderClickListener.onClick(HeaderViewHolder.this,v,getLayoutPosition());
+            mViewHolderClickListener.onClick(HeaderViewHolder.this, v, getLayoutPosition());
         }
 
         public HeaderViewHolder(ViewHeaderMainHomeBinding headerMainHomeBinding) {
             super(headerMainHomeBinding.getRoot());
-            this.headerMainHomeBinding=headerMainHomeBinding;
+            mHeaderBinding=headerMainHomeBinding;
             headerMainHomeBinding.btnChat.setOnClickListener(this);
             headerMainHomeBinding.btnCreateskill.setOnClickListener(this);
             headerMainHomeBinding.btnSettings.setOnClickListener(this);
@@ -137,25 +150,42 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
 
         public void bind(User user){
             this.user=user;
-            this.headerMainHomeBinding.setUser(user);
-            this.headerMainHomeBinding.executePendingBindings();
+            mHeaderBinding.setUser(user);
+            mHeaderBinding.executePendingBindings();
+            if(user.getUid()!=User.read(mContext).getUid()){
+                mHeaderBinding.btnSettings.setVisibility(View.INVISIBLE);
+                mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
+                mHeaderBinding.userAvatar.setOnClickListener(null);
+                mHeaderBinding.btnChat.setVisibility(View.GONE);
+                mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
+                mHeaderBinding.missMsgCount.setVisibility(View.GONE);
+                mHeaderBinding.bottom.setVisibility(View.GONE);
+
+            }else {
+                mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
+                mHeaderBinding.missMsgCount.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
+                mHeaderBinding.bottom.setVisibility(View.VISIBLE);
+            }
             initUsrInfo();
         }
 
 
+        /***
+         *
+         */
         private void initUsrInfo() {
 
             LogUtil.d("ceshi","nickname"+user.getNickname());
             LogUtil.d("ceshi","avatar"+user.getAvatar());
-            headerMainHomeBinding.userNickname.setText(user.getNickname());
+            mHeaderBinding.userNickname.setText(user.getNickname());
             Circle circle = Circle.obtain().setBorderSize(10);
 
             if (defaultAvatar != null) {
-                new ImageLoaderManager.Loader(headerMainHomeBinding.userAvatar, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
+                new ImageLoaderManager.Loader( mHeaderBinding.userAvatar, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
                     @Override
                     public void onImageLoaded(Bitmap bitmap) {
                         defaultAvatar = bitmap;
-                        headerMainHomeBinding.userAvatar.setImageBitmap(bitmap);
+                        mHeaderBinding.userAvatar.setImageBitmap(bitmap);
                     }
 
                     @Override
@@ -169,11 +199,11 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                     }
                 }).start(mContext);
             } else {
-                new ImageLoaderManager.Loader(headerMainHomeBinding.userAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
+                new ImageLoaderManager.Loader( mHeaderBinding.userAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
                     @Override
                     public void onImageLoaded(Bitmap bitmap) {
                         defaultAvatar = bitmap;
-                        headerMainHomeBinding.userAvatar.setImageBitmap(bitmap);
+                        mHeaderBinding.userAvatar.setImageBitmap(bitmap);
                     }
 
                     @Override
@@ -274,6 +304,18 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             }
         }
     }
+    public void reload(final List<ViewEntry> datas, boolean append) {
+        if (!append) {
+            int cnt=datas.size();
+            List<ViewEntry>skills=datas.subList(0,cnt-1);
+            this.datas.removeAll(skills);
+        }
+        this.datas.addAll(datas);
+        sort(this.datas);
+    }
+
+
+
 
 
 
