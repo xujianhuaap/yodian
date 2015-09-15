@@ -486,10 +486,10 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                     mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
                 } else if(clickItem== headerMainHomeBinding.userAvatar){
 
-                    Pair<View, String> avatar = Pair.create(clickItem, "avatar");
-                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
-                    ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+//                    Pair<View, String> avatar = Pair.create(clickItem, "avatar");
+//                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+//                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
+//                    ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
                 } else  if(clickItem== headerMainHomeBinding.btnSettings){
                     Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);

@@ -90,7 +90,7 @@
                 android:paddingBottom="5dp"
                 android:paddingLeft="16dp"
                 android:src="@drawable/ic_report_userhome"
-                android:visibility="gone" />
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/btn_settings"

@@ -160,6 +160,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                 mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
                 mHeaderBinding.missMsgCount.setVisibility(View.GONE);
                 mHeaderBinding.bottom.setVisibility(View.GONE);
+                mHeaderBinding.btnReport.setVisibility(View.VISIBLE);
 
             }else {
                 mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);

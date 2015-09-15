@@ -102,9 +102,6 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
         final View btnBack = findViewById(R.id.btn_back);
         final View avatar = findViewById(R.id.user_avatar);
         final View nickname = findViewById(R.id.user_nickname);
-        ViewCompat.setTransitionName(btnBack, "back");
-        ViewCompat.setTransitionName(avatar, "avatar");
-        ViewCompat.setTransitionName(nickname, "nickname");
         final View root = findViewById(R.id.home_root);
         proxy = new MainHomeProxy(this, root, (Bitmap) getIntent().getParcelableExtra("avatar"), getIntent().getStringExtra("nickname"));
         root.setVisibility(View.VISIBLE);
