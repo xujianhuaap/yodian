@@ -528,6 +528,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
                     dao.saveOrUpdate(user);
                     dao.saveOrUpdate(robot);
                     intent.putExtra("userId", chatLoginName);
+                    intent.putExtra("uid",skill.getUid());
                     intent.putExtra("userNickname", skill.getNickname());
                     mActivity.startActivity(intent);
                 }
