@@ -94,6 +94,7 @@ import maimeng.yodian.app.client.android.chat.utils.ImageCache;
 import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
+import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
@@ -462,9 +463,9 @@ public class MessageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(itemViewType==MESSAGE_TYPE_RECV_TXT||itemViewType==MESSAGE_TYPE_RECV_VOICE){
-            if(uid!=0){
-                UserHomeActivity.show(activity,uid);
+        if (itemViewType == MESSAGE_TYPE_RECV_TXT || itemViewType == MESSAGE_TYPE_RECV_VOICE) {
+            if (uid != 0) {
+                UserHomeActivity.show(activity, uid);
             }
 
         }
@@ -530,7 +531,7 @@ public class MessageAdapter extends BaseAdapter {
                         holder.vcard_wechat.setText(wechat);
                         holder.vcard_nickname.setText(nickName);
                         if (avatar != null) {
-                            new ImageLoaderManager.Loader(holder.vcard_avatar, Uri.parse(avatar)).start(activity);
+                            ImageAdapter.image(holder.vcard_avatar, avatar);
                         }
                         holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
                             @Override

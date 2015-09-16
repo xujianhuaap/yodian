@@ -88,6 +88,7 @@ dependencies {
     /**
      * Image Loader Libraries
      */
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
 //    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'
 //    compile 'jp.wasabeef:glide-transformations:1.1.0'
@@ -95,8 +96,6 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.7'
-
-
 
 //    compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
 //        exclude module: 'support-v4'
