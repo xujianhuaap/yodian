@@ -3,61 +3,61 @@ apply from: 'channel_home.gradle'
 android {
     productFlavors {
         xiaomi {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi", CHANNEL_ID: 1, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi", CHANNEL_ID: 1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         yingyongbao {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao", CHANNEL_ID: 4, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao", CHANNEL_ID: 4, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         google {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "google", CHANNEL_ID: 5, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "google", CHANNEL_ID: 5, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         souhu {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "souhu", CHANNEL_ID: 6, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "oppo", CHANNEL_ID: 6, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         sina {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sina", CHANNEL_ID: 7, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sina", CHANNEL_ID: 7, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         Gfan {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Gfan", CHANNEL_ID: 8, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Gfan", CHANNEL_ID: 8, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         appchina {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "appchina", CHANNEL_ID: 9, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "appchina", CHANNEL_ID: 9, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         anzhi {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhi", CHANNEL_ID: 10, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhi", CHANNEL_ID: 10, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         wandoujia {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia", CHANNEL_ID: 13, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia", CHANNEL_ID: 13, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         Nduo {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Nduo", CHANNEL_ID: 14, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Nduo", CHANNEL_ID: 14, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         mumayi {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "mumayi", CHANNEL_ID: 15, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "mumayi", CHANNEL_ID: 15, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         lenovo {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "lenovo", CHANNEL_ID: 16, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "lenovo", CHANNEL_ID: 16, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         samsung {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "samsung", CHANNEL_ID: 17, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "samsung", CHANNEL_ID: 17, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         huawei {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "huawei", CHANNEL_ID: 18, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "huawei", CHANNEL_ID: 18, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         _10010 {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "10010", CHANNEL_ID: 19, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "10010", CHANNEL_ID: 19, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         _10000 {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "10000", CHANNEL_ID: 20, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "10000", CHANNEL_ID: 20, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         amazon {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "amazon", CHANNEL_ID: 21, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "amazon", CHANNEL_ID: 21, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         _163 {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "163", CHANNEL_ID: 22, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "163", CHANNEL_ID: 22, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         meizu {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "meizu", CHANNEL_ID: 23, LAUNCHER_ACTIVITY: "maimeng.yodian.app.client.android.view.splash.DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "meizu", CHANNEL_ID: 23, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
     }
 //    productFlavors.all {

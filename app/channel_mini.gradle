@@ -1,5 +1,6 @@
 android {
     productFlavors {
+
         baidu {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu", CHANNEL_ID: 2, LAUNCHER_ACTIVITY: "BaiduActivity"]
         }
