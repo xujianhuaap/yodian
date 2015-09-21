@@ -60,7 +60,6 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/default_avatar"
                         app:imgUrl="@{user.avatar}" />
 
                     <ImageView
