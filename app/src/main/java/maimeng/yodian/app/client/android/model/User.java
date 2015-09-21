@@ -26,6 +26,11 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
  */
 
 public class User extends UserBaseColum {
+
+    @SerializedName("mobilenum")
+    private String mobilenum;
+    @SerializedName("qqaccount")
+    private String qqaccount;
     @SerializedName("nickname")
     private String nickname;
     @SerializedName("avatar")
@@ -36,6 +41,7 @@ public class User extends UserBaseColum {
 
     @SerializedName("hxname")
     private String chatLoginName;
+
 
     public String getChatLoginName() {
         return chatLoginName;
@@ -129,6 +135,22 @@ public class User extends UserBaseColum {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getMobilenum() {
+        return mobilenum;
+    }
+
+    public void setMobilenum(String mobilenum) {
+        this.mobilenum = mobilenum;
+    }
+
+    public String getQQAccount() {
+        return qqaccount;
+    }
+
+    public void setQQAccount(String qqaccount) {
+        this.qqaccount = qqaccount;
     }
 
     public boolean pushOn = true;

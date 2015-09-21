@@ -8,8 +8,12 @@
     <string name="lable_update_avatar">上传头像</string>
     <string name="lable_alert_report_user">确定要举报该用户吗？</string>
     <string name="lable_wechat">微信帐号</string>
+    <string name="lable_qq">qq号</string>
+    <string name="lable_phone">电话号</string>
     <string name="hint_nickname">您的昵称</string>
     <string name="hint_wechat">您的微信</string>
+    <string name="hint_phone">您的手机号</string>
+    <string name="hint_qq"> 你的QQ号</string>
     <string name="clearSuccess">清除成功</string>
     <string name="lable_feedback">用户反馈</string>
     <string name="lable_remark">评分</string>

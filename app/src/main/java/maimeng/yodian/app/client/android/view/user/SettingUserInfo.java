@@ -198,7 +198,10 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             binding.nickname.setError(getText(R.string.nickname_input_empty_message));
             return;
         }
-        if (TextUtils.isEmpty(binding.wechat.getText().toString())) {
+        boolean wechatIsEmpty=TextUtils.isEmpty(binding.wechat.getText().toString());
+        boolean qqIsEmpty=TextUtils.isEmpty(binding.qq.getText().toString());
+        boolean phoneIsEmpty=TextUtils.isEmpty(binding.phone.getText().toString());
+        if (wechatIsEmpty) {
             binding.wechat.setError(getText(R.string.wechat_input_empty_message));
             return;
         }
@@ -206,7 +209,12 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             Toast.makeText(this, R.string.avatar_input_empty_message, Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if(!qqIsEmpty){
+            user.setQQAccount(binding.qq.getText().toString());
+        }
+        if(!phoneIsEmpty){
+            user.setMobilenum(binding.phone.getText().toString());
+        }
 
         user.setWechat(binding.wechat.getText().toString());
         user.setNickname(binding.nickname.getText().toString());

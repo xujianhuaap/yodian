@@ -8,6 +8,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
@@ -43,6 +45,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     private Handler mHanlder;
     private int mTotalTime=0;
     private TextView mCode;
+    private EditText mValidateCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         mMobile = (EditText) findViewById(R.id.mobile);
 //        setTitle("登录");
         mBtnLogin = findViewById(R.id.btn_login);
+        mValidateCode = ((EditText) findViewById(R.id.code));
         mCode = (TextView)findViewById(R.id.btn_getcode);
         mCode.setOnClickListener(this);
         mBtnLogin.setOnClickListener(this);
@@ -84,6 +88,9 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         Editable text = mMobile.getText();
         if (text != null) {
             if (v.getId() == R.id.btn_getcode) {
+                mValidateCode.setFocusable(true);
+                mValidateCode.setFocusableInTouchMode(true);
+                mValidateCode.requestFocus();
                 service.getCode(text.toString(), new Callback<ToastResponse>() {
                     @Override
                     public void start() {
@@ -92,9 +99,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void success(ToastResponse toastResponse, Response response) {
+                        LogUtil.d(AuthActivity.class.getName(),"response"+response);
                         if(toastResponse.isSuccess()){
-
-
                             mHanlder.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -123,12 +129,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
             } else if (v.getId() == R.id.btn_login) {
-                Editable code = ((EditText) findViewById(R.id.code)).getText();
-                if(TextUtils.isEmpty(code)){
+
+                if(TextUtils.isEmpty(mValidateCode.getText())){
                     Toast.makeText(this,R.string.code_input_empty_message,Toast.LENGTH_SHORT).show();
                 }else {
                     String device_token = UmengRegistrar.getRegistrationId(this);
-                    service.login(text.toString(),code.toString(),device_token, this);
+                    service.login(text.toString(), mValidateCode.toString(),device_token, this);
                 }
             }
         } else {
