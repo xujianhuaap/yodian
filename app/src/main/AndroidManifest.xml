@@ -130,6 +130,10 @@
         <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
 
         <service android:name=".service.ChatServiceLoginService" />
+
+        <activity android:name=".view.deal.MyRemainderActivity"
+
+            android:label=""></activity>
         <!--umeng push start-->
         <activity android:name="com.umeng.fb.ConversationActivity" />
 

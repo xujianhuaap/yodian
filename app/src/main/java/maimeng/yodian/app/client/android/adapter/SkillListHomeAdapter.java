@@ -144,10 +144,14 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             super(headerMainHomeBinding.getRoot());
             mHeaderBinding=headerMainHomeBinding;
             headerMainHomeBinding.btnChat.setOnClickListener(this);
-            headerMainHomeBinding.btnCreateskill.setOnClickListener(this);
             headerMainHomeBinding.btnSettings.setOnClickListener(this);
             headerMainHomeBinding.btnReport.setOnClickListener(this);
             headerMainHomeBinding.userAvatar.setOnClickListener(this);
+
+            //我的订单 我的余额 添加技能
+            headerMainHomeBinding.myOrder.setOnClickListener(this);
+            headerMainHomeBinding.myRemainder.setOnClickListener(this);
+            headerMainHomeBinding.btnCreateskill.setOnClickListener(this);
         }
 
         public void bind(User user){

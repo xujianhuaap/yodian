@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
@@ -19,8 +18,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
@@ -43,7 +40,6 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListHomeAdapter;
-import maimeng.yodian.app.client.android.adapter.SkillListSelectorAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
@@ -58,8 +54,6 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.loader.Circle;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
@@ -70,6 +64,7 @@ import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
+import maimeng.yodian.app.client.android.view.deal.MyRemainderActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
@@ -517,6 +512,11 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
                         ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
                     }
+
+                }else if(clickItem==headerMainHomeBinding.myRemainder){
+                    MyRemainderActivity.show(mActivity);
+
+                }if(clickItem==headerMainHomeBinding.myOrder){
 
                 }
             }

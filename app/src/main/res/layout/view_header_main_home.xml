@@ -115,44 +115,48 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <TextView
+            <ImageView
                 android:id="@+id/btn_createskill"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="添加新技能 + "
+                android:src="@drawable/ic_add_skill"
+                android:scaleType="centerInside"
                 android:textSize="16sp" />
 
             <View
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="@color/div_line"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
-            <TextView
+            <ImageView
+                android:id="@+id/my_order"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="我的订单"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_my_order"
                 android:textSize="16sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <View
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="@color/div_line"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
-            <TextView
+            <ImageView
+                android:id="@+id/my_remainder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="我的余额"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:src="@drawable/ic_my_remainder"
+                android:scaleType="centerInside"
+                android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
 
