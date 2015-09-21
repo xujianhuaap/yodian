@@ -22,7 +22,7 @@ import java.util.TimerTask;
 import butterknife.ButterKnife;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
-import maimeng.yodian.app.client.android.adapter.RmarkAdapter;
+import maimeng.yodian.app.client.android.adapter.RmarkReviewListAdapter;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
@@ -57,7 +57,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
 
     private Skill mSkill;
     private Bitmap mBitmap;
-    private RmarkAdapter mAdapter;
+    private RmarkReviewListAdapter mAdapter;
     private CallBackProxy mCallBackProxy;
     private SkillService mSkillService;
     private ActivitySkillPreviewBinding mBinding;
@@ -109,7 +109,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                 };
 
         ViewHolderClickListenerProxy viewHolderClickListenerProxy = new ViewHolderClickListenerProxy();
-        mAdapter = new RmarkAdapter(this, mSkill, viewHolderClickListenerProxy);
+        mAdapter = new RmarkReviewListAdapter(this, mSkill, viewHolderClickListenerProxy);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_skill_preview);
         mBinding.setSkill(mSkill);
@@ -310,20 +310,20 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
     /***
      * RecyclerView 的点击事件
      */
-    private class ViewHolderClickListenerProxy implements AbstractHeaderAdapter.ViewHolderClickListener<RmarkAdapter.ViewHolder> {
+    private class ViewHolderClickListenerProxy implements AbstractHeaderAdapter.ViewHolderClickListener<RmarkReviewListAdapter.ViewHolder> {
 
         @Override
-        public void onItemClick(RmarkAdapter.ViewHolder holder, int postion) {
+        public void onItemClick(RmarkReviewListAdapter.ViewHolder holder, int postion) {
 
         }
 
         @Override
-        public void onClick(RmarkAdapter.ViewHolder holder, View clickItem, int postion) {
+        public void onClick(RmarkReviewListAdapter.ViewHolder holder, View clickItem, int postion) {
             if (postion == 0) {
 
             } else {
 
-//                RmarkAdapter.NormalViewHolder normalViewHolder = (RmarkAdapter.NormalViewHolder) holder;
+//                RmarkReviewListAdapter.NormalViewHolder normalViewHolder = (RmarkReviewListAdapter.NormalViewHolder) holder;
 //                if (normalViewHolder.binding.btnMenuDelete == clickItem) {
 //                    mSkillService.delete_rmark(normalViewHolder.binding.getRmark().getId(), new ToastCallback(SkillPreviewActivity.this));
 //                } else if (normalViewHolder.binding.btnMenuReport == clickItem) {

@@ -24,8 +24,8 @@ import maimeng.yodian.app.client.android.model.User;
 /**
  * Created by android on 15-8-7.
  */
-public class RmarkAdapter extends AbstractHeaderAdapter<Rmark, RmarkAdapter.ViewHolder> {
-    private ViewHolderClickListener<RmarkAdapter.ViewHolder> mViewHolderClickListener;
+public class RmarkReviewListAdapter extends AbstractHeaderAdapter<Rmark, RmarkReviewListAdapter.ViewHolder> {
+    private ViewHolderClickListener<RmarkReviewListAdapter.ViewHolder> mViewHolderClickListener;
     private Skill mSkill;
     private User me;
     private final int TYPE_HEADER = 232;
@@ -34,7 +34,7 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark, RmarkAdapter.View
     private Spanned priceText = null;
 
 
-    public RmarkAdapter(Context context, Skill skill, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
+    public RmarkReviewListAdapter(Context context, Skill skill, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
         me = User.read(mContext);
         SCREEN_WIDTH = mContext.getResources().getDisplayMetrics().widthPixels;
@@ -42,11 +42,11 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark, RmarkAdapter.View
         mSkill = skill;
     }
 
-    public RmarkAdapter(Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
+    public RmarkReviewListAdapter(Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(fragment, viewHolderClickListener);
     }
 
-    public RmarkAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
+    public RmarkReviewListAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(fragment, viewHolderClickListener);
     }
 
@@ -177,7 +177,7 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark, RmarkAdapter.View
 //                    open.start();
 //                }
 //            } else if (v == binding.btnMenuDelete) {
-//                mViewHolderClickListener.onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
+//                mViewHolderClickListener.onClick(RmarkReviewListAdapter.NormalViewHolder.this, v, getLayoutPosition());
 //
 //                if (opened) {
 //                    opened = false;
@@ -188,7 +188,7 @@ public class RmarkAdapter extends AbstractHeaderAdapter<Rmark, RmarkAdapter.View
 //                }
 //            } else if (v == binding.btnMenuReport) {
 //                mViewHolderClickListener
-//                        .onClick(RmarkAdapter.NormalViewHolder.this, v, getLayoutPosition());
+//                        .onClick(RmarkReviewListAdapter.NormalViewHolder.this, v, getLayoutPosition());
 //                if (opened) {
 //                    opened = false;
 //                    close.start();
