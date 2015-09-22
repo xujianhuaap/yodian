@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -35,6 +36,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     private MoneyService service;
     private AcitivityRemainderMainBinding binding;
     private Remainder defaultValue;
+    private static final int REQUEST_SHOW_DURING = 0x1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +107,21 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     @Override
     public void onClick(View v) {
         if (v == binding.btnRemainder) {
-            startActivity(new Intent(this, RemainderInfoActivity.class).putExtra(RemainderInfoActivity.KEY_REMAINDER, binding.getRemainder()));
+            startActivityForResult(new Intent(this, RemainderInfoActivity.class).putExtra(RemainderInfoActivity.KEY_REMAINDER, binding.getRemainder()), REQUEST_SHOW_DURING);
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_SHOW_DURING) {
+                Remainder remainder = data.getParcelableExtra(RemainderInfoActivity.KEY_REMAINDER);
+                if (remainder != null) {
+                    binding.setRemainder(remainder);
+                }
+            }
         }
     }
 

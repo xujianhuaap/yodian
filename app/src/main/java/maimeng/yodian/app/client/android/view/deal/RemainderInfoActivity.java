@@ -1,24 +1,37 @@
 package maimeng.yodian.app.client.android.view.deal;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityRemainderInfoBinding;
 import maimeng.yodian.app.client.android.model.Remainder;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
+import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 
 /**
  * Created by android on 2015/9/22.
  * 我的余额详细信息
  */
-public class RemainderInfoActivity extends AbstractActivity {
+public class RemainderInfoActivity extends AbstractActivity implements View.OnClickListener {
     public static final String KEY_REMAINDER = "_remainder";
     private ActivityRemainderInfoBinding binding;
+    private MoneyService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +41,8 @@ public class RemainderInfoActivity extends AbstractActivity {
         setContentView(binding.getRoot());
         binding.htmlComment.setText(Html.fromHtml(getResources().getString(R.string.during_comment3)));
         binding.setRemainder(remainder);
+        binding.btnDuring.setOnClickListener(this);
+        service = Network.getService(MoneyService.class);
     }
 
     @Override
@@ -52,5 +67,70 @@ public class RemainderInfoActivity extends AbstractActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == binding.btnDuring) {
+            if (binding.getRemainder().getCardStatus() == 0) {
+                showDuringDialog();
+            } else {
+                Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     * 显示提现对话框
+     */
+    private void showDuringDialog() {
+        if (binding.getRemainder().getMoney() < 50) {
+            AlertDialog.newInstance("提示", "余额少于50元不能提现").setNegativeListener(new AlertDialog.NegativeListener() {
+                @Override
+                public void onNegativeClick(DialogInterface dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public String negativeText() {
+                    return getString(android.R.string.ok);
+                }
+            }).show(getFragmentManager(), "_dialog");
+        } else {
+            DuringDialog.show(this, binding.getRemainder().getMoney());
+        }
+    }
+
+    /**
+     * 是否有成功操作提现功能
+     */
+    private boolean moneyChanged = false;
+
+    @Override
+    public void finish() {
+        if (moneyChanged) {
+            setResult(RESULT_OK, new Intent().putExtra(KEY_REMAINDER, binding.getRemainder()));
+        }
+        super.finish();
+    }
+
+    public void onInputDuring(final double during) {
+        service.withdraw(during, new ToastCallback(this) {
+            @Override
+            public void success(ToastResponse res, Response response) {
+                super.success(res, response);
+                if (res.isSuccess()) {
+                    moneyChanged = true;
+                    final Remainder remainder = binding.getRemainder();
+                    remainder.setMoney(remainder.getMoney() - during);
+                    binding.setRemainder(remainder);
+                }
+            }
+
+            @Override
+            public void failure(HNetError hNetError) {
+                super.failure(hNetError);
+            }
+        });
     }
 }

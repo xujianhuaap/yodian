@@ -66,6 +66,7 @@
     <string name="my_remainder_lb">我的余额(元)</string>
     <string name="withdraw_lb">已提现金额(元)</string>
     <string name="bind_bank_card">绑定银行卡</string>
+    <string name="toast_bind_bank_card">没有绑定银行卡或绑定未审核通过</string>
     <string name="apply_vouch">申请担保交易</string>
     <string name="remainder_lb">余额(元)</string>
     <string name="duringing_lb">提现中</string>
@@ -73,7 +74,7 @@
     <string name="look_order_lb">查看订单</string>
     <string name="during_comment"><![CDATA[最多7个工作日到帐,节假日顺延]]></string>
     <string name="during_comment2"><![CDATA[(每次提现≥50元)]]></string>
-    <string name="during_comment3"><![CDATA[担保交易金额，需<font color="#00acff">买家确认后</font>可提现为<font color="#00acff">余额</font>]]></string>
+    <string name="during_comment3"><![CDATA[担保交易金额，需<font color="#00acff">买家确认后</font>可提为<font color="#00acff">余额</font>]]></string>
     <string name="prompt_lb">提示</string>
 
     <!--日記預覽-->
@@ -81,5 +82,12 @@
     <string name="skill_preview_connect">联系Ta</string>
     <string name="skill_preview_add_skill">添加技能</string>
     <string name="skill_date_format">MM-dd HH:mm</string>
+
+
+    <!--余额-->
+    <string name="during_dialog_title"> 本次提现(元):</string>
+    <string name="during_dialog_title_error"><![CDATA[<font color="#ff0000">单词提现金额不得低于50元</font>]]></string>
+    <string name="during_dialog_edit_hint">本次要提现的余额</string>
+    <string name="during_dialog_sumit">提现</string>
 
 </resources>

@@ -54,6 +54,8 @@ public object ApiConfig {
 
         public val MONEY_MY: String = "/money/my"//我的余额
 
+        public val MONEY_WITHDRAW: String = "/money/withdraw"//提现申请
+
         public val QRODE_URL: String = "http://share.yodian.me/"
 
 
