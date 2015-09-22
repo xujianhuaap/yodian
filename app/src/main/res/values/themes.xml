@@ -10,24 +10,31 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-
+        <!--<item name="homeAsUpIndicator">@drawable/ic_go_back</item>-->
         <!--<item name="android:textColorPrimary">#ffff</item>-->
         <!--<item name="android:textColorSecondary">#ffff</item>-->
         <!--<item name="android:textColorTertiary">#ffff</item>-->
     </style>
 
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">#fff</item>
+        <item name="android:windowAnimationStyle">@style/SlideAnimStyle</item>
+    </style>
+
     <style name="NoAnimTheme" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/NoAnim</item>
     </style>
+
     <style name="AppThemeTransparent" parent="AppTheme">
         <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
-    <style name="AppThemeSettings" parent="AppTheme">
-        <item name="colorPrimary">@android:color/white</item>
-        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
-        <item name="android:windowAnimationStyle">@style/SettingActivityAnim</item>
-        <!--<item name="android:windowFullscreen">true</item>-->
-    </style>
+
+
     <style name="AppThemeWhite" parent="AppTheme">
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorPrimary">@android:color/white</item>
@@ -53,6 +60,7 @@
         <!--<item name="android:windowEnterAnimation">@anim/push_bottom_in</item>-->
         <!--<item name="android:windowExitAnimation">@anim/push_bottom_out</item>-->
     </style>
+
     <style name="ShareDialogStyle" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
         <!--<item name="android:backgroundDimEnabled">false</item>-->
@@ -61,10 +69,12 @@
         <!--<item name="android:windowEnterAnimation">@anim/push_bottom_in</item>-->
         <!--<item name="android:windowExitAnimation">@anim/push_bottom_out</item>-->
     </style>
-    <style name="ShareDialogAnimation" parent="android:Animation" mce_bogus="1">
+
+    <style name="ShareDialogAnimation" mce_bogus="1" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/push_bottom_in2</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out2</item>
     </style>
+
     <style name="WaitDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">true</item>
@@ -74,14 +84,14 @@
         <!--<item name="android:windowExitAnimation">@anim/push_bottom_out</item>-->
     </style>
 
-    <style name="contact_dialog" parent="Theme.AppCompat.Dialog" mce_bogus="1">
-    <item name="android:windowMinWidthMajor">98%</item>
-    <item name="android:windowMinWidthMinor">98%</item>
-    <item name="windowFixedWidthMajor">98%</item>
-    <item name="windowFixedWidthMinor">98%</item>
+    <style name="contact_dialog" mce_bogus="1" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowMinWidthMajor">98%</item>
+        <item name="android:windowMinWidthMinor">98%</item>
+        <item name="windowFixedWidthMajor">98%</item>
+        <item name="windowFixedWidthMinor">98%</item>
     </style>
 
-    <style name="account_change_dialog" parent="Theme.AppCompat.Dialog" mce_bogus="1">
+    <style name="account_change_dialog" mce_bogus="1" parent="Theme.AppCompat.Dialog">
 
 
         <item name="android:windowAnimationStyle">@style/ChangeAccountAnim</item>
@@ -98,7 +108,7 @@
 
     </style>
 
-    <style name="activity_trans" parent="Theme.AppCompat.Dialog" mce_bogus="1">
+    <style name="activity_trans" mce_bogus="1" parent="Theme.AppCompat.Dialog">
 
 
         <item name="android:windowAnimationStyle">@style/FeedBackAnim</item>
@@ -121,7 +131,7 @@
         <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
     </style>
 
-    <style name="SettingActivityAnim" parent="@android:style/Animation.Activity">
+    <style name="SlideAnimStyle" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
         <item name="android:activityCloseExitAnimation">@anim/no_anim</item>
@@ -131,7 +141,7 @@
     <style name="AuthActivityAnim" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
-        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_left </item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_right</item>
     </style>
 

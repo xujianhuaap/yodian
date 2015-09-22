@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.chat.AbstractActivity;
+import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;

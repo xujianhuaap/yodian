@@ -69,7 +69,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.PreviewActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
-import maimeng.yodian.app.client.android.view.deal.MyRemainderActivity;
+import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
@@ -154,9 +154,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             } else if (requestCode == ActivityProxyController.REQUEST_EDIT_SKILL) {
                 Skill skill = data.getParcelableExtra("skill");
                 if (mEditPostion != -1 && skill != null) {
-                   ViewEntry entry= adapter.getItem(mEditPostion);
-                    if(entry instanceof ItemViewEntry){
-                        ItemViewEntry itemViewEntry=(ItemViewEntry)entry;
+                    ViewEntry entry = adapter.getItem(mEditPostion);
+                    if (entry instanceof ItemViewEntry) {
+                        ItemViewEntry itemViewEntry = (ItemViewEntry) entry;
                         itemViewEntry.skill.update(skill);
                     }
 
@@ -185,7 +185,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         if (this.user == null) {
             this.user = user;
         }
-        if(user!=null){
+        if (user != null) {
 
             adapter.reload(new HeaderViewEntry(user));
             adapter.notifyDataSetChanged();
@@ -262,10 +262,10 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                headerMainHomeBinding=adapter.getHeaderBinding();
-                if(headerMainHomeBinding!=null){
-                    View view=headerMainHomeBinding.missMsgCount;
-                    if(view!=null){
+                headerMainHomeBinding = adapter.getHeaderBinding();
+                if (headerMainHomeBinding != null) {
+                    View view = headerMainHomeBinding.missMsgCount;
+                    if (view != null) {
                         int unread = EMChatManager.getInstance().getUnreadMsgsCount();
                         if(!User.read(mActivity).isPushOn()){
                             unread=0;
@@ -277,7 +277,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                         }
                     }
                 }
-
 
 
             }
@@ -354,16 +353,16 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
     @Override
     public void onItemClick(final SkillListHomeAdapter.ViewHolder holder, int postion) {
-        if(holder instanceof SkillListHomeAdapter.ItemViewHolder){
-            final SkillListHomeAdapter.ItemViewHolder itemViewHolder=(SkillListHomeAdapter.ItemViewHolder)holder;
+        if (holder instanceof SkillListHomeAdapter.ItemViewHolder) {
+            final SkillListHomeAdapter.ItemViewHolder itemViewHolder = (SkillListHomeAdapter.ItemViewHolder) holder;
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                    Skill skill=itemViewHolder.getData();
-                    if(skill.getStatus()==0){
+                    Skill skill = itemViewHolder.getData();
+                    if (skill.getStatus() == 0) {
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill",skill) , options.toBundle());
+                        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", skill), options.toBundle());
                     }
 
                 }
@@ -376,8 +375,8 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     @Override
     public void onClick(final SkillListHomeAdapter.ViewHolder holder, final View clickItem, final int postion) {
 
-        if(holder instanceof SkillListHomeAdapter.ItemViewHolder){
-            final SkillListHomeAdapter.ItemViewHolder itemViewHolder=(SkillListHomeAdapter.ItemViewHolder)holder;
+        if (holder instanceof SkillListHomeAdapter.ItemViewHolder) {
+            final SkillListHomeAdapter.ItemViewHolder itemViewHolder = (SkillListHomeAdapter.ItemViewHolder) holder;
             final Skill skill = itemViewHolder.getData();
             if (clickItem == itemViewHolder.getBinding().btnShare) {
                 Skill data = skill;
@@ -440,7 +439,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             } else if (clickItem == itemViewHolder.getBinding().btnBottom) {
                 Intent intent = new Intent(mActivity, ChatActivity.class);
                 intent.putExtra("skill", itemViewHolder.getData());
-                intent.putExtra("uid",skill.getUid());
+                intent.putExtra("uid", skill.getUid());
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
                 if (robotMap.containsKey(chatLoginName)) {
@@ -475,31 +474,31 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                     mActivity.startActivity(intent);
                 }
             }
-        }else{
-            if(holder instanceof SkillListHomeAdapter.HeaderViewHolder){
-                SkillListHomeAdapter.HeaderViewHolder viewHolder=(SkillListHomeAdapter.HeaderViewHolder)holder;
-                User user=viewHolder.getData();
+        } else {
+            if (holder instanceof SkillListHomeAdapter.HeaderViewHolder) {
+                SkillListHomeAdapter.HeaderViewHolder viewHolder = (SkillListHomeAdapter.HeaderViewHolder) holder;
+                User user = viewHolder.getData();
                 headerMainHomeBinding = viewHolder.getHeaderMainHomeBinding();
-                if(clickItem== headerMainHomeBinding.btnChat){
+                if (clickItem == headerMainHomeBinding.btnChat) {
                     mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
-                } else if(clickItem== headerMainHomeBinding.userAvatar){
-                    if(!(user.getUid()==User.read(mActivity).getUid())){
-                        PreviewActivity.show(mActivity,user);
-                    }else {
+                } else if (clickItem == headerMainHomeBinding.userAvatar) {
+                    if (!(user.getUid() == User.read(mActivity).getUid())) {
+                        PreviewActivity.show(mActivity, user);
+                    } else {
                         Pair<View, String> avatar = Pair.create(clickItem, "avatar");
                         Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
                         ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
                     }
 
-                } else  if(clickItem== headerMainHomeBinding.btnSettings){
+                } else if (clickItem == headerMainHomeBinding.btnSettings) {
                     Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
                     ActivityCompat.startActivity(mActivity, new Intent(mActivity, SettingsActivity.class), options.toBundle());
 
-                }else if(clickItem== headerMainHomeBinding.btnReport){
-                            report();
-                }else if(clickItem== headerMainHomeBinding.btnCreateskill){
+                } else if (clickItem == headerMainHomeBinding.btnReport) {
+                    report();
+                } else if (clickItem == headerMainHomeBinding.btnCreateskill) {
                     if (TextUtils.isEmpty(User.read(mActivity).getWechat())) {
                         AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
                             @Override
@@ -524,11 +523,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                         ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
                     }
 
-                }else if(clickItem==headerMainHomeBinding.myRemainder){
-                    MyRemainderActivity.show(mActivity);
-
-
-                }else  if(clickItem==headerMainHomeBinding.myOrder){
+                } else if (clickItem == headerMainHomeBinding.myRemainder) {
+                    Intent intent = new Intent(mActivity, RemainderMainActivity.class);
+                    mActivity.startActivity(intent);
 
                 }
             }
@@ -557,8 +554,8 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     public void success(SkillUserResponse res, Response response) {
         if (res.isSuccess()) {
             List<Skill> list = res.getData().getList();
-            List<ViewEntry> entries=new ArrayList<>();
-            for(int i=0;i<list.size();i++){
+            List<ViewEntry> entries = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
                 entries.add(new ItemViewEntry(list.get(i)));
             }
 
@@ -594,7 +591,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     }
 
 
-
     @Override
     public void show(FloatingActionButton viewById) {
         show(viewById, true);
@@ -624,6 +620,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         }
 
     }
+
     private void report() {
         AlertDialog alert = AlertDialog.newInstance("提示", mActivity.getString(R.string.lable_alert_report_user));
         alert.setNegativeListener(new AlertDialog.NegativeListener() {
@@ -650,12 +647,8 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         });
         alert.show(mActivity.getFragmentManager(), "alert");
     }
-
-
+    
     public void removeEMlistener(){
         EMChatManager.getInstance().unregisterEventListener(this);
     }
-
-
-
 }

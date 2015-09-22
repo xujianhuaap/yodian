@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.android.databinding'
 apply from: 'signing_config.gradle'
 apply from: 'apk.gradle'
@@ -9,10 +10,12 @@ bugly {
     appKey = 'E3iqZTUe7N6FfTto'  //注册时分配的App Key
 }
 android {
+
     sourceSets {
         main.java.srcDirs += 'src/chat/java'
         main.res.srcDirs += 'src/chat/res'
         main.jniLibs.srcDirs += 'src/chat/jniLibs'
+        main.java.srcDirs += 'src/main/kotlin'
     }
     compileSdkVersion 23
     buildToolsVersion "23"
@@ -27,10 +30,13 @@ android {
         exclude 'LICENSE.txt'
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
-
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 
     defaultConfig {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "DefaultActivity"]
+        multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1031
@@ -67,15 +73,18 @@ repositories {
     flatDir {
         dirs 'libs' //this way we can find the .aar file in libs folder
     }
+    mavenCentral()
 }
 dependencies {
     compile(name: 'sharesdk-release', ext: 'aar')
     compile(name: 'hnet-release', ext: 'aar')
     compile project(':PhotoPicker')
     compile project(':ViewPagerIndicator')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:multidex:1.0.1'
     /**
      * Android Support Libraries
      */
@@ -118,4 +127,13 @@ dependencies {
 //    compile('org.henjue.library:sharesdk:1.0.2_beta3') {
 //        exclude module: 'hnet', group: 'org.henjue.library'
 //    }
+}
+buildscript {
+    ext.kotlin_version = '0.13.1514'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }

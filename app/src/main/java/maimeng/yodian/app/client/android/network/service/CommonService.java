@@ -9,8 +9,6 @@ import org.henjue.library.hnet.anntoation.Get;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
-import java.util.Map;
-
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;

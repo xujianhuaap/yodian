@@ -16,14 +16,16 @@ import com.easemob.chat.EMChatManager;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.User;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 
 /**
  * Created by android on 15-7-13.
  */
-public abstract class AbstractActivity extends maimeng.yodian.app.client.android.chat.AbstractActivity implements EMConnectionListener {
+public abstract class AbstractActivity extends AppCompatActivity implements EMConnectionListener {
+    private FrameLayout mContent;
+    protected TextView mTitle;
+    protected Toolbar mToolBar;
     private AlertDialog dialog;
 
     @SuppressWarnings("ConstantConditions")
@@ -36,16 +38,13 @@ public abstract class AbstractActivity extends maimeng.yodian.app.client.android
     @Override
     protected void onResume() {
         super.onResume();
-
         EMChatManager.getInstance().addConnectionListener(this);
-        LogUtil.d(AbstractActivity.class.getSimpleName(), this.getClass().getSimpleName() + ":%onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         EMChatManager.getInstance().removeConnectionListener(this);
-        LogUtil.d(AbstractActivity.class.getSimpleName(), this.getClass().getSimpleName() + ":%onPause");
     }
 
     @Override
@@ -98,5 +97,65 @@ public abstract class AbstractActivity extends maimeng.yodian.app.client.android
 
     }
 
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged(title, color);
+        if (mTitle != null) mTitle.setText(title);
+    }
 
+    public void setContentView(View view, boolean showTitle) {
+        if (showTitle) {
+            setContentView(view);
+        } else {
+            super.setContentView(view);
+        }
+    }
+
+    public void setContentView(int layoutResID, boolean showTitle) {
+        if (showTitle) {
+            setContentView(layoutResID);
+        } else {
+            super.setContentView(layoutResID);
+        }
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(R.layout.activity_base);
+        mContent = (FrameLayout) findViewById(R.id.base_content);
+        mTitle = (TextView) findViewById(R.id.base_title);
+        mToolBar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolBar != null) {
+            mToolBar.setTitle("");
+            setSupportActionBar(mToolBar);
+            initToolBar(mToolBar);
+
+        }
+        mContent.removeAllViews();
+        mContent.addView(view);
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(R.layout.activity_base);
+        mContent = (FrameLayout) findViewById(R.id.base_content);
+        mTitle = (TextView) findViewById(R.id.base_title);
+        mToolBar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolBar != null) {
+            mToolBar.setTitle("");
+            setSupportActionBar(mToolBar);
+            initToolBar(mToolBar);
+
+        }
+        getLayoutInflater().inflate(layoutResID, mContent, true);
+    }
+
+    /**
+     * toolbar初始化完成时调用
+     *
+     * @param toolbar
+     */
+    protected void initToolBar(Toolbar toolbar) {
+
+    }
 }

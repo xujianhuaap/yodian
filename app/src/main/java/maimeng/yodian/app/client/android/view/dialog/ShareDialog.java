@@ -449,7 +449,7 @@ public class ShareDialog extends DialogFragment {
 
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIXIN);
         if (v.getId() == R.id.weixin) {
-           iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.toString()), WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
+            iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.toString()), WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
 
         } else {
             Bitmap bitmap = getShareBitmap(2, shareView);

@@ -29,16 +29,17 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <service android:name=".chat.AsyncContactService" />
-        <activity android:name=".view.dialog.ChangeAccountActivity"
-            android:theme="@style/account_change_dialog"
+
+        <activity
+            android:name=".view.dialog.ChangeAccountActivity"
             android:label=""
-            >
+            android:theme="@style/account_change_dialog">
 
         </activity>
         <activity
             android:name=".view.splash.DefaultActivity"
-            android:theme="@style/AppThemeWhite"
-            android:screenOrientation="nosensor" />
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppThemeWhite" />
         <activity
             android:name=".view.splash.BaiduActivity"
             android:screenOrientation="nosensor" />
@@ -57,14 +58,16 @@
             android:launchMode="singleTask">
 
         </activity>
-        <activity android:name=".view.user.LauncherGuideActivity"
+        <activity
+            android:name=".view.user.LauncherGuideActivity"
             android:theme="@style/AppThemeWhite"></activity>
         <activity android:name=".chat.activity.ChatActivity" />
         <activity android:name=".view.dialog.ContactDialog" />
         <activity android:name=".view.auth.AuthActivity" />
         <activity android:name=".view.WebViewActivity" />
-        <activity android:name=".view.user.UserHomeActivity"
-            android:theme="@style/NoAnimTheme"/>
+        <activity
+            android:name=".view.user.UserHomeActivity"
+            android:theme="@style/NoAnimTheme" />
         <activity
             android:name=".view.skill.CreateOrEditSkillActivity"
             android:theme="@style/AppThemeTransparent"
@@ -84,16 +87,17 @@
         <activity android:name=".view.skill.RmarkPublishActivity">
 
         </activity>
-        <activity android:name=".view.user.TransActivity"
-            android:theme="@style/activity_trans"
-            android:label=""></activity>
+        <activity
+            android:name=".view.user.TransActivity"
+            android:label=""
+            android:theme="@style/activity_trans" />
         <activity
             android:name=".view.FeedBackActivity"
             android:label="@string/lable_feedback" />
         <activity
             android:name=".view.SettingsActivity"
             android:label="@string/action_settings"
-            android:theme="@style/AppThemeSettings" />
+            android:theme="@style/AppTheme.Light" />
         <activity
             android:name=".view.chat.ChatMainActivity"
             android:label="@string/lable_chat"
@@ -132,20 +136,25 @@
 
         <service android:name=".service.ChatServiceLoginService" />
 
-        <activity android:name=".view.deal.MyRemainderActivity"
-
-            android:label=""></activity>
-
-        <activity android:name=".view.PreviewActivity"
-            android:theme="@style/NoAnimTheme"
-            android:label=""></activity>
+        <activity
+            android:name=".view.deal.RemainderMainActivity"
+            android:label="@string/my_remainder"
+            android:theme="@style/AppTheme.Light" />
+        <activity
+            android:name=".view.deal.RemainderInfoActivity"
+            android:label="@string/my_remainder"
+            android:theme="@style/AppTheme.Light" />
+        <activity
+            android:name=".view.PreviewActivity"
+            android:label=""
+            android:theme="@style/NoAnimTheme" />
         <!--umeng push start-->
         <activity android:name="com.umeng.fb.ConversationActivity" />
 
         <receiver
             android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
             android:exported="false"
-            android:process=":push"></receiver>
+            android:process=":push" />
         <receiver
             android:name="com.umeng.message.SystemReceiver"
             android:process=":push">
@@ -267,7 +276,7 @@
             android:value="55a3c89567e58e19e2003146" />
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="96b2203b2eb5a412f4173a170de0afc9"></meta-data>
+            android:value="96b2203b2eb5a412f4173a170de0afc9" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
@@ -276,21 +285,21 @@
         <activity
             android:name=".chat.activity.ShowBigImage"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
+            android:theme="@style/horizontal_slide" />
         <!-- 下载文件 -->
         <activity
             android:name=".chat.activity.ShowNormalFileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
+            android:theme="@style/horizontal_slide" />
         <!-- 自定义的contextmenu -->
         <activity
             android:name=".chat.activity.ContextMenu"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".chat.activity.AlertDialog"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
     </application>
 </manifest>

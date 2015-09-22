@@ -5,7 +5,6 @@ import android.app.Application;
 import com.google.gson.GsonBuilder;
 
 import org.henjue.library.hnet.HNet;
-import org.henjue.library.hnet.http.ClientStack;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,7 +14,6 @@ import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.network.common.GsonConverter;
 import maimeng.yodian.app.client.android.network.common.RequestIntercept;
-import maimeng.yodian.app.client.android.network.response.TypeData;
 
 
 /**

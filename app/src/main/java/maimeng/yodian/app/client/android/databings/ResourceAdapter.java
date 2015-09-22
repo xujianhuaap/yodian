@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.databings;
 
 import android.databinding.BindingAdapter;
 import android.databinding.BindingConversion;
+import android.text.Html;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -10,6 +11,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import maimeng.yodian.app.client.android.utils.MoneyUtils;
+
 /**
  * Created by android on 15-7-22.
  */
@@ -17,6 +20,11 @@ public class ResourceAdapter {
     @BindingAdapter("android:text")
     public static void spanText(TextView iv, CharSequence text) {
         iv.setText(text, TextView.BufferType.SPANNABLE);
+    }
+
+    @BindingAdapter("android:text")
+    public static void spanText(TextView iv, double text) {
+        iv.setText(MoneyUtils.format(text));
     }
 
     @BindingAdapter("android:text")

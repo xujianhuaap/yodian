@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="#edecec" />
+    </item>
+    <item>
+        <bitmap
+            android:gravity="top|center_horizontal"
+            android:src="@drawable/ic_triangle_white" />
+    </item>
+</layer-list>
