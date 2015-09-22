@@ -497,6 +497,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             } else if (clickItem == holder.getBinding().btnBottom) {
                 Intent intent = new Intent(mActivity, ChatActivity.class);
                 intent.putExtra("skill", holder.getData());
+                intent.putExtra("uid",skill.getUid());
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
                 if (robotMap.containsKey(chatLoginName)) {

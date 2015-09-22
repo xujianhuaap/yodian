@@ -48,6 +48,7 @@
             app:layout_marginLeftPercent="5%h"
             app:layout_marginRightPercent="5%h">
 
+
             <EditText
                 android:id="@+id/nickname"
                 android:layout_width="match_parent"

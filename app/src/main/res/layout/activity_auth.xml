@@ -39,11 +39,11 @@
                 android:hint="@string/mobile_input_empty_message"
                 android:inputType="phone"
                 android:maxLength="11"
-                android:textColorHint="#606060"
+                android:textColorHint="@color/hint_color"
                 android:paddingLeft="@dimen/auth_input_edit_paddingStart"
                 android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                 android:singleLine="true"
-                android:textColor="#000" />
+                android:textColor="@android:color/black" />
 
             <ImageView
                 android:id="@+id/btn_clean"
@@ -72,13 +72,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:background="#0000"
                 android:layout_toLeftOf="@+id/btn_getcode"
                 android:gravity="center_horizontal"
                 android:hint="@string/input_valicode_hint"
                 android:inputType="phone"
                 android:maxLength="11"
-                android:textColorHint="#606060"
+                android:textColorHint="@color/hint_color"
                 android:paddingLeft="@dimen/auth_input_edit_paddingStart"
                 android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                 android:singleLine="true"
