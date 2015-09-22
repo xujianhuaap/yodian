@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
+
+
     <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
@@ -22,6 +24,10 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColorPrimary">#fff</item>
         <item name="android:windowAnimationStyle">@style/SlideAnimStyle</item>
+    </style>
+
+    <style name="NoAnimTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/NoAnim</item>
     </style>
 
     <style name="AppThemeTransparent" parent="AppTheme">
@@ -151,6 +157,13 @@
         <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
+    </style>
+
+    <style name="NoAnim">
+        <item name="android:activityOpenEnterAnimation">@anim/no_anim</item>
+        <item name="android:activityOpenExitAnimation">@anim/no_anim</item>
+        <item name="android:activityCloseExitAnimation">@anim/no_anim</item>
+        <item name="android:activityCloseEnterAnimation">@anim/no_anim</item>
     </style>
 
 </resources>

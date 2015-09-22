@@ -16,6 +16,7 @@
     <string name="hint_qq"> 你的QQ号</string>
     <string name="clearSuccess">清除成功</string>
     <string name="lable_feedback">用户反馈</string>
+    <string name="lable_news">消息推送</string>
     <string name="lable_remark">评分</string>
     <string name="lable_chat">消息</string>
     <string name="lable_cleancache">清除缓存</string>

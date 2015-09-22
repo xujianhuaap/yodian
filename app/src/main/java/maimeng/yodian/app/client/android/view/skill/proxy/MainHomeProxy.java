@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
@@ -18,6 +19,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
@@ -54,6 +57,7 @@ import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
@@ -62,6 +66,7 @@ import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.PreviewActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
@@ -80,7 +85,7 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener {
     private static final int REQUEST_UPDATEINFO = 0x5005;
     private static final String LOG_TAG = MainHomeProxy.class.getSimpleName();
-    private final CoordinatorLayout mView;
+    private final FrameLayout mView;
     private final Activity mActivity;
     private final RecyclerView mRecyclerView;
     private final PtrFrameLayout mRefreshLayout;
@@ -102,13 +107,11 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     }
 
     public MainHomeProxy(Activity activity, View view, Bitmap avatar, String nickname) {
-        this.mView = (CoordinatorLayout) view;
+        this.mView = (FrameLayout) view;
         handler = new Handler(Looper.getMainLooper());
         this.mActivity = activity;
         view.setVisibility(View.GONE);
         service = Network.getService(SkillService.class);
-
-
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
@@ -433,6 +436,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             } else if (clickItem == itemViewHolder.getBinding().btnBottom) {
                 Intent intent = new Intent(mActivity, ChatActivity.class);
                 intent.putExtra("skill", itemViewHolder.getData());
+                intent.putExtra("uid", skill.getUid());
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
                 if (robotMap.containsKey(chatLoginName)) {
@@ -475,11 +479,15 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 if (clickItem == headerMainHomeBinding.btnChat) {
                     mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
                 } else if (clickItem == headerMainHomeBinding.userAvatar) {
+                    if (!(user.getUid() == User.read(mActivity).getUid())) {
+                        PreviewActivity.show(mActivity, user);
+                    } else {
+                        Pair<View, String> avatar = Pair.create(clickItem, "avatar");
+                        Pair<View, String> back = Pair.create((View) mFloatButton, "back");
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
+                        ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+                    }
 
-                    Pair<View, String> avatar = Pair.create(clickItem, "avatar");
-                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
-                    ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
                 } else if (clickItem == headerMainHomeBinding.btnSettings) {
                     Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
@@ -515,9 +523,6 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 } else if (clickItem == headerMainHomeBinding.myRemainder) {
                     Intent intent = new Intent(mActivity, RemainderMainActivity.class);
                     mActivity.startActivity(intent);
-
-                }
-                if (clickItem == headerMainHomeBinding.myOrder) {
 
                 }
             }

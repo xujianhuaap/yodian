@@ -25,7 +25,7 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
  * Created by henjue on 2015/4/7.
  */
 
-public class User extends UserBaseColum {
+public class User extends UserBaseColum implements Parcelable{
 
     @SerializedName("mobilenum")
     private String mobilenum;
@@ -338,5 +338,51 @@ public class User extends UserBaseColum {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mobilenum);
+        dest.writeString(this.qqaccount);
+        dest.writeString(this.nickname);
+        dest.writeString(this.avatar);
+        dest.writeString(this.token);
+        dest.writeString(this.chatLoginName);
+        dest.writeLong(this.uid);
+        dest.writeLong(this.id);
+        dest.writeString(this.t_nickname);
+        dest.writeString(this.t_img);
+        dest.writeByte(pushOn ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.loginType);
+        dest.writeParcelable(this.info, 0);
+    }
+
+    protected User(Parcel in) {
+        this.mobilenum = in.readString();
+        this.qqaccount = in.readString();
+        this.nickname = in.readString();
+        this.avatar = in.readString();
+        this.token = in.readString();
+        this.chatLoginName = in.readString();
+        this.uid = in.readLong();
+        this.id = in.readLong();
+        this.t_nickname = in.readString();
+        this.t_img = in.readString();
+        this.pushOn = in.readByte() != 0;
+        this.loginType = in.readInt();
+        this.info = in.readParcelable(Info.class.getClassLoader());
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

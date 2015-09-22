@@ -9,7 +9,6 @@ import org.henjue.library.hnet.anntoation.Post;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 /**
  * Created by android on 2015/9/21.

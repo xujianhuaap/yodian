@@ -16,14 +16,28 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.PopupWindow;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
+import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
+
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.DataCleanManager;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
+import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.view.dialog.ChangeAccountActivity;
 import maimeng.yodian.app.client.android.view.user.TransActivity;
 
@@ -35,9 +49,11 @@ public class SettingsActivity extends AbstractActivity {
     private View mBtnYijian;
     private View mBtnChangeAccount;
     private View mBtnCleanCache;
+    private Switch mPush;
     private TextView mCurrentVersion;
     PopupWindow window;
     User user;
+    private CommonService mPushService;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -63,6 +79,48 @@ public class SettingsActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         user = User.read(SettingsActivity.this);
+        mPushService = Network.getService(CommonService.class);
+        mPush=(Switch)findViewById(R.id.push);
+        mPush.setChecked(user.isPushOn());
+        mPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+
+                EMChatManager emChatManager=EMChatManager.getInstance();
+                emChatManager.unregisterEventListener(new EMEventListener() {
+                    @Override
+                    public void onEvent(EMNotifierEvent emNotifierEvent) {
+
+                    }
+                });
+
+
+                mPushService.push(isChecked? "0" : "1", new Callback<ToastResponse>() {
+                    @Override
+                    public void start() {
+
+                    }
+
+                    @Override
+                    public void success(ToastResponse toastResponse, Response response) {
+                        user.setPushOn(isChecked);
+                        user.write(SettingsActivity.this);
+                        Toast.makeText(SettingsActivity.this, "isChecked" + toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void failure(HNetError hNetError) {
+
+                    }
+
+                    @Override
+                    public void end() {
+
+                    }
+                });
+
+            }
+        });
         mBtnBack = findViewById(R.id.btn_back);
         mBtnBack.setVisibility(View.INVISIBLE);
         mBtnYijian = findViewById(R.id.btn_yijian);

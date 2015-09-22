@@ -37,6 +37,7 @@ public object ApiConfig {
         public val AUTH_LOGIN: String = "/login/login"//手机号登录
         public val AUTH_GETCODE: String = "/login/getcode"//获取验证码
         public val USER_INFO_UPDATE: String = "/user/info"//上传头像和昵称
+        public val PUSH: String = "/user/push"//消息开关设置
 
         public val SKILL_LIST: String = "/skill/list"//我/他的技能列表
         public val SKILL_CHOICE: String = "/choice/index"//精选技能列表
@@ -51,12 +52,9 @@ public object ApiConfig {
         public val REPORT: String = "/index/report"//举报
         public val CHECK_VERSION: String = "/index/checkupdate"//检查更新
         public val USER_INFO: String = "/user/info"//用户信息
-
-        public val MONEY_MY: String = "/money/my"//我的余额
-
-        public val MONEY_WITHDRAW: String = "/money/withdraw"//提现申请
-
         public val QRODE_URL: String = "http://share.yodian.me/"
+        public val MONEY_MY: String = "/money/my"//我的余额
+        public val MONEY_WITHDRAW: String = "/money/withdraw"//提现申请
 
 
     }

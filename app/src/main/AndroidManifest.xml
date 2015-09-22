@@ -65,7 +65,9 @@
         <activity android:name=".view.dialog.ContactDialog" />
         <activity android:name=".view.auth.AuthActivity" />
         <activity android:name=".view.WebViewActivity" />
-        <activity android:name=".view.user.UserHomeActivity" />
+        <activity
+            android:name=".view.user.UserHomeActivity"
+            android:theme="@style/NoAnimTheme" />
         <activity
             android:name=".view.skill.CreateOrEditSkillActivity"
             android:theme="@style/AppThemeTransparent"
@@ -142,13 +144,17 @@
             android:name=".view.deal.RemainderInfoActivity"
             android:label="@string/my_remainder"
             android:theme="@style/AppTheme.Light" />
+        <activity
+            android:name=".view.PreviewActivity"
+            android:label=""
+            android:theme="@style/NoAnimTheme" />
         <!--umeng push start-->
         <activity android:name="com.umeng.fb.ConversationActivity" />
 
         <receiver
             android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
             android:exported="false"
-            android:process=":push"></receiver>
+            android:process=":push" />
         <receiver
             android:name="com.umeng.message.SystemReceiver"
             android:process=":push">

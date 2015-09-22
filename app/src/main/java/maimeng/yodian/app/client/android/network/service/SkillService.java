@@ -15,7 +15,6 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 @FormUrlEncoded
 public interface SkillService {
