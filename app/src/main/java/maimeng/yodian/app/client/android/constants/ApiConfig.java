@@ -39,6 +39,7 @@ public class ApiConfig {
     public static class Api {
         public static final String AUTH_LOGIN = "/login/login";//手机号登录
         public static final String AUTH_GETCODE = "/login/getcode";//获取验证码
+        public static final String PUSH="/user/push";//消息开关设置
 
 
         public static final String USER_INFO_UPDATE = "/user/info";//上传头像和昵称

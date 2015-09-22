@@ -13,6 +13,7 @@ import java.util.Map;
 
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.VersionResponse;
 
 /**
@@ -53,4 +54,7 @@ public interface CommonService {
 
         }
     }
+
+    @Post(ApiConfig.Api.PUSH)
+    void push(@Param("eclose")String eclose,Callback<ToastResponse> callback);
 }

@@ -161,7 +161,6 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             if(user.getUid()!=User.read(mContext).getUid()){
                 mHeaderBinding.btnSettings.setVisibility(View.INVISIBLE);
                 mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
-                mHeaderBinding.userAvatar.setOnClickListener(null);
                 mHeaderBinding.btnChat.setVisibility(View.GONE);
                 mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
                 mHeaderBinding.bottom.setVisibility(View.GONE);

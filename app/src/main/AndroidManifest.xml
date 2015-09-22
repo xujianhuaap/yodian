@@ -63,7 +63,8 @@
         <activity android:name=".view.dialog.ContactDialog" />
         <activity android:name=".view.auth.AuthActivity" />
         <activity android:name=".view.WebViewActivity" />
-        <activity android:name=".view.user.UserHomeActivity" />
+        <activity android:name=".view.user.UserHomeActivity"
+            android:theme="@style/NoAnimTheme"/>
         <activity
             android:name=".view.skill.CreateOrEditSkillActivity"
             android:theme="@style/AppThemeTransparent"
@@ -133,6 +134,10 @@
 
         <activity android:name=".view.deal.MyRemainderActivity"
 
+            android:label=""></activity>
+
+        <activity android:name=".view.PreviewActivity"
+            android:theme="@style/NoAnimTheme"
             android:label=""></activity>
         <!--umeng push start-->
         <activity android:name="com.umeng.fb.ConversationActivity" />
