@@ -4,12 +4,11 @@ package maimeng.yodian.app.client.android;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.easemob.chat.EMChat;
@@ -25,11 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.common.Action;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 
 /**
@@ -53,6 +50,12 @@ public class YApplication extends DemoApplication {
         }
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
     public void logout() {
         Intent intent = new Intent(this, AuthSeletorActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -71,8 +74,6 @@ public class YApplication extends DemoApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        IntentFilter filter = new IntentFilter(Action.ACTION_LOGOUT);
-        registerReceiver(new ConnectionConflictBroadcastReceiver(), filter);
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

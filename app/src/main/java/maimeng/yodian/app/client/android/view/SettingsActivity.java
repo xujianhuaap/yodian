@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,15 +48,20 @@ public class SettingsActivity extends AbstractActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.mm_title_back);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
         user = User.read(SettingsActivity.this);
         mBtnBack = findViewById(R.id.btn_back);
         mBtnBack.setVisibility(View.INVISIBLE);
@@ -92,7 +98,7 @@ public class SettingsActivity extends AbstractActivity {
         mBtnYijian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TransActivity.show(SettingsActivity.this,0x1);
+                TransActivity.show(SettingsActivity.this, 0x1);
 //                Pair<View, String> back = Pair.create((View) mBtnBack, "back");
 //                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingsActivity.this, back);
 //                ActivityCompat.startActivity(SettingsActivity.this, new Intent(SettingsActivity.this, FeedBackActivity.class), options.toBundle());
@@ -102,7 +108,7 @@ public class SettingsActivity extends AbstractActivity {
         mBtnChangeAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TransActivity.show(SettingsActivity.this,0x2);
+                TransActivity.show(SettingsActivity.this, 0x2);
             }
         });
         mBtnCleanCache.setOnClickListener(new View.OnClickListener() {

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="remainder"
+            type="maimeng.yodian.app.client.android.model.Remainder" />
+    </data>
+
+    <in.srain.cube.views.ptr.PtrFrameLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/chat_textColor"
+        app:ptr_duration_to_close="300"
+        app:ptr_duration_to_close_header="1000"
+        app:ptr_keep_header_when_refresh="true"
+        app:ptr_pull_to_fresh="false"
+        app:ptr_ratio_of_header_height_to_refresh="1.2"
+        app:ptr_resistance="1.7">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#fff"
+                android:orientation="vertical"
+                android:padding="@dimen/normal_padding">
+
+                <LinearLayout
+                    android:id="@+id/btn_remainder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/normal_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_remainder_lb" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{remainder.money}"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/remainder_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#ccc" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/normal_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/withdraw_lb" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{remainder.withdraw}"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/remainder_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/chat_textColor"
+                    android:drawableLeft="@drawable/ic_bank"
+                    android:drawablePadding="@dimen/normal_padding"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/normal_cell_row_mini_height"
+                    android:padding="@dimen/normal_padding"
+                    android:text="@string/bind_bank_card"
+                    android:textColor="#4e4c4c"
+                    android:textSize="@dimen/btn_text_size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#bbb" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/chat_textColor"
+                    android:drawableLeft="@drawable/ic_money"
+                    android:drawablePadding="@dimen/normal_padding"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/normal_cell_row_mini_height"
+                    android:padding="@dimen/normal_padding"
+                    android:text="@string/apply_vouch"
+                    android:textColor="#4e4c4c"
+                    android:textSize="@dimen/btn_text_size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#bbb" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </in.srain.cube.views.ptr.PtrFrameLayout>
+</layout>

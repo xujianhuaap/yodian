@@ -58,6 +58,19 @@
     <string name="checkversion_ing">检查更新中,请稍后!</string>
     <string name="check_newversion_faild">检查版本更新失败!</string>
     <string name="no_newversion">没有新版本!</string>
+    <string name="my_remainder">我的余额</string>
+    <string name="my_remainder_lb">我的余额(元)</string>
+    <string name="withdraw_lb">已提现金额(元)</string>
+    <string name="bind_bank_card">绑定银行卡</string>
+    <string name="apply_vouch">申请担保交易</string>
+    <string name="remainder_lb">余额(元)</string>
+    <string name="duringing_lb">提现中</string>
+    <string name="during_lb">提现</string>
+    <string name="look_order_lb">查看订单</string>
+    <string name="during_comment"><![CDATA[最多7个工作日到帐,节假日顺延]]></string>
+    <string name="during_comment2"><![CDATA[(每次提现≥50元)]]></string>
+    <string name="during_comment3"><![CDATA[担保交易金额，需<font color="#00acff">买家确认后</font>可提现为<font color="#00acff">余额</font>]]></string>
+    <string name="prompt_lb">提示</string>
 
     <!--日記預覽-->
     <string name="skill_preview_title_bar"> 预 览</string>

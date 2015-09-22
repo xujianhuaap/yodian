@@ -66,11 +66,11 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-       LayoutInflater inflater= LayoutInflater.from(parent.getContext());
-        if(viewType==ViewEntry.VIEW_TYPE_HEAD){
-            ViewHeaderMainHomeBinding headerBinding=DataBindingUtil.inflate(inflater,R.layout.view_header_main_home,parent,false);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == ViewEntry.VIEW_TYPE_HEAD) {
+            ViewHeaderMainHomeBinding headerBinding = DataBindingUtil.inflate(inflater, R.layout.view_header_main_home, parent, false);
             return new HeaderViewHolder(headerBinding);
-        }else{
+        } else {
             SkillListItemSkillBinding binding = DataBindingUtil.inflate(inflater, R.layout.skill_list_item_skill, parent, false);
             return new ItemViewHolder(binding);
         }
@@ -80,15 +80,15 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ViewEntry item = getItem(position);
-        if(position==0){
-            if(item instanceof HeaderViewEntry){
-                User user=((HeaderViewEntry) item).user;
+        if (position == 0) {
+            if (item instanceof HeaderViewEntry) {
+                User user = ((HeaderViewEntry) item).user;
                 ((HeaderViewHolder) holder).bind(user);
             }
-        }else {
-            if(holder instanceof ItemViewHolder){
-                if(item instanceof ItemViewEntry){
-                    Skill skill=((ItemViewEntry) item).skill;
+        } else {
+            if (holder instanceof ItemViewHolder) {
+                if (item instanceof ItemViewEntry) {
+                    Skill skill = ((ItemViewEntry) item).skill;
                     ((ItemViewHolder) holder).bind(skill);
                 }
 
@@ -101,13 +101,13 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
 
     @Override
     public int getItemViewType(int position) {
-        if(position==0){
+        if (position == 0) {
             return ViewEntry.VIEW_TYPE_HEAD;
         }
         return ViewEntry.VIEW_TYPE_ITEM;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Override
         public void onClick(View v) {
 
@@ -121,9 +121,9 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
     /***
      *
      */
-    public class HeaderViewHolder extends SkillListHomeAdapter.ViewHolder{
+    public class HeaderViewHolder extends SkillListHomeAdapter.ViewHolder {
 
-        private  User user;
+        private User user;
         private Bitmap defaultAvatar;
 
 
@@ -131,9 +131,10 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             return mHeaderBinding;
         }
 
-        public User getData(){
+        public User getData() {
             return user;
         }
+
         @Override
         public void onClick(View v) {
             super.onClick(v);
@@ -142,7 +143,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
 
         public HeaderViewHolder(ViewHeaderMainHomeBinding headerMainHomeBinding) {
             super(headerMainHomeBinding.getRoot());
-            mHeaderBinding=headerMainHomeBinding;
+            mHeaderBinding = headerMainHomeBinding;
             headerMainHomeBinding.btnChat.setOnClickListener(this);
             headerMainHomeBinding.btnSettings.setOnClickListener(this);
             headerMainHomeBinding.btnReport.setOnClickListener(this);
@@ -154,11 +155,11 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             headerMainHomeBinding.btnCreateskill.setOnClickListener(this);
         }
 
-        public void bind(User user){
-            this.user=user;
+        public void bind(User user) {
+            this.user = user;
             mHeaderBinding.setUser(user);
             mHeaderBinding.executePendingBindings();
-            if(user.getUid()!=User.read(mContext).getUid()){
+            if (user.getUid() != User.read(mContext).getUid()) {
                 mHeaderBinding.btnSettings.setVisibility(View.INVISIBLE);
                 mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
                 mHeaderBinding.userAvatar.setOnClickListener(null);
@@ -167,66 +168,19 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                 mHeaderBinding.bottom.setVisibility(View.GONE);
                 mHeaderBinding.btnReport.setVisibility(View.VISIBLE);
 
-            }else {
+            } else {
                 mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
                 mHeaderBinding.bottom.setVisibility(View.VISIBLE);
             }
-//            initUsrInfo();
         }
 
 
-        /***
-         *
-         */
-//        private void initUsrInfo() {
-//
-//            mHeaderBinding.userNickname.setText(user.getNickname());
-//            Circle circle = Circle.obtain().setBorderSize(10);
-//
-//            if (defaultAvatar != null) {
-//                new ImageLoaderManager.Loader( mHeaderBinding.userAvatar, Uri.parse(user.getAvatar())).circle(circle).placeHolder(defaultAvatar).callback(new ImageLoaderManager.Callback() {
-//                    @Override
-//                    public void onImageLoaded(Bitmap bitmap) {
-//                        defaultAvatar = bitmap;
-//                        mHeaderBinding.userAvatar.setImageBitmap(bitmap);
-//                    }
-//
-//                    @Override
-//                    public void onLoadEnd() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onLoadFaild() {
-//
-//                    }
-//                }).start(mContext);
-//            } else {
-//                new ImageLoaderManager.Loader( mHeaderBinding.userAvatar, Uri.parse(user.getAvatar())).placeHolder(R.drawable.default_avatar).circle(circle).callback(new ImageLoaderManager.Callback() {
-//                    @Override
-//                    public void onImageLoaded(Bitmap bitmap) {
-//                        defaultAvatar = bitmap;
-//                        mHeaderBinding.userAvatar.setImageBitmap(bitmap);
-//                    }
-//
-//                    @Override
-//                    public void onLoadEnd() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onLoadFaild() {
-//
-//                    }
-//                }).start(mContext);
-//            }
-//        }
     }
 
     /***
      *
      */
-    public class ItemViewHolder extends SkillListHomeAdapter.ViewHolder  {
+    public class ItemViewHolder extends SkillListHomeAdapter.ViewHolder {
         private final User user;
         private SwipeItemLayout swipeItemLayout;
         private boolean isMe;
@@ -307,27 +261,24 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             }
         }
     }
+
     public void reload(final List<ViewEntry> datas, boolean append) {
 
-        if(!append){
+        if (!append) {
             this.datas.clear();
-            this.datas.add(0,mHeaderViewEntry);
+            this.datas.add(0, mHeaderViewEntry);
         }
         this.datas.addAll(datas);
         sort(this.datas);
     }
 
-    public void reload(final HeaderViewEntry headerViewEntry){
-        if(this.datas.size()>0){
+    public void reload(final HeaderViewEntry headerViewEntry) {
+        if (this.datas.size() > 0) {
             this.datas.remove(0);
         }
-        mHeaderViewEntry=headerViewEntry;
+        mHeaderViewEntry = headerViewEntry;
         this.datas.add(headerViewEntry);
     }
-
-
-
-
 
 
 }
