@@ -381,10 +381,10 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 //                Pair<View, String> nick = Pair.create((View) holder.getBinding().userNickname, "nick");
 //                Pair<View, String> avatar = Pair.create((View) holder.getBinding().userAvatar, "avatar");
                     //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back, contact, avatar);
-                    Skill skill=((SkillListSelectorAdapter.ItemViewHolder) h).getData();
-                    if(skill.getStatus()==0){
+                    Skill skill = ((SkillListSelectorAdapter.ItemViewHolder) h).getData();
+                    if (skill.getStatus() == 0) {
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill",skill) , options.toBundle());
+                        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", skill), options.toBundle());
                     }
 
                 }
@@ -628,7 +628,12 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 
     @Override
     public void onResume() {
-        EMChatManager.getInstance().registerEventListener(this);
+        if(User.read(mActivity).isPushOn()){
+            EMChatManager.getInstance().registerEventListener(this);
+        }else {
+            EMChatManager.getInstance().unregisterEventListener(this);
+        }
+
         refreshMissMsgIcon();
     }
 
@@ -642,6 +647,9 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             @Override
             public void run() {
                 int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+                if(!User.read(mActivity).isPushOn()){
+                    unread=0;
+                }
                 if (unread > 0) {
                     mView.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
                 } else {
@@ -654,11 +662,15 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 
     @Override
     public void onEvent(EMNotifierEvent event) {
+
         switch (event.getEvent()) {
             case EventNewMessage:
             case EventReadAck:
                 refreshMissMsgIcon();
                 break;
         }
+
+
+
     }
 }

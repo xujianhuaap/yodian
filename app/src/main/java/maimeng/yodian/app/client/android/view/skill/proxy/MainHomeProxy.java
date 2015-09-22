@@ -251,7 +251,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
 
     private void initUsrInfo() {
-        adapter.update(0,new HeaderViewEntry(user));
+        adapter.update(0, new HeaderViewEntry(user));
     }
 
     @Override
@@ -267,6 +267,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                     View view=headerMainHomeBinding.missMsgCount;
                     if(view!=null){
                         int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+                        if(!User.read(mActivity).isPushOn()){
+                            unread=0;
+                        }
                         if (unread > 0) {
                             view.setVisibility(View.VISIBLE);
                         } else {
@@ -605,17 +608,21 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
     @Override
     public void onPause() {
-        EMChatManager.getInstance().unregisterEventListener(this);
+       removeEMlistener();
     }
 
     @Override
     public void onEvent(EMNotifierEvent event) {
-        switch (event.getEvent()) {
-            case EventNewMessage:
-            case EventReadAck:
-                refreshMissMsgIcon();
-                break;
+        LogUtil.d(MainHomeProxy.class.getName(),"isPushON"+User.read(mActivity).isPushOn());
+        if(User.read(mActivity).isPushOn()){
+            switch (event.getEvent()) {
+                case EventNewMessage:
+                case EventReadAck:
+                    refreshMissMsgIcon();
+                    break;
+            }
         }
+
     }
     private void report() {
         AlertDialog alert = AlertDialog.newInstance("提示", mActivity.getString(R.string.lable_alert_report_user));
@@ -642,6 +649,11 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             }
         });
         alert.show(mActivity.getFragmentManager(), "alert");
+    }
+
+
+    public void removeEMlistener(){
+        EMChatManager.getInstance().unregisterEventListener(this);
     }
 
 

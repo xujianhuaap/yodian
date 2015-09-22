@@ -38,6 +38,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.view.dialog.ChangeAccountActivity;
+import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
 import maimeng.yodian.app.client.android.view.user.TransActivity;
 
 /**
@@ -79,15 +80,6 @@ public class SettingsActivity extends AbstractActivity {
         mPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-
-                EMChatManager emChatManager=EMChatManager.getInstance();
-                emChatManager.unregisterEventListener(new EMEventListener() {
-                    @Override
-                    public void onEvent(EMNotifierEvent emNotifierEvent) {
-
-                    }
-                });
-
 
                 mPushService.push(isChecked? "0" : "1", new Callback<ToastResponse>() {
                     @Override
@@ -182,4 +174,6 @@ public class SettingsActivity extends AbstractActivity {
         user.write(SettingsActivity.this);
         LauncherCheck.updateFirstRun(this, false);
     }
+
+
 }
