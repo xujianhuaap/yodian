@@ -71,6 +71,7 @@ public abstract class DemoApplication extends Application implements HXSDKHelper
          * }
          */
         hxSDKHelper.onInit(applicationContext, this);
+
     }
 
     public static DemoApplication getInstance() {

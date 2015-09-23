@@ -22,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easemob.EMCallBack;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChat;
@@ -86,6 +87,29 @@ public class SettingsActivity extends AbstractActivity {
         mPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+                if(!isChecked){
+                    EMChatManager.getInstance().logout();
+                }else {
+                    String userName=user.getChatLoginName();
+                    String passWord="hx123456";
+                    EMChatManager.getInstance().login(userName, passWord, new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                        }
+
+                        @Override
+                        public void onProgress(int i, String s) {
+
+                        }
+                    });
+
+                }
 
                 mPushService.push(isChecked? "0" : "1", new Callback<ToastResponse>() {
                     @Override

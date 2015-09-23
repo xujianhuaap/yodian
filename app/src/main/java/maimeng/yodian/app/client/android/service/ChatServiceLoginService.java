@@ -53,75 +53,79 @@ public class ChatServiceLoginService extends Service {
         if (TextUtils.isEmpty(currentUsername)) {
             return super.onStartCommand(intent, flags, startId);
         }
-        EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+        if(read.isPushOn()){
 
-            @Override
-            public void onSuccess() {
-                // 登陆成功，保存用户名密码
-                DemoApplication.getInstance().setUserName(currentUsername);
-                try {
+            EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
 
-                    UserDao userDao = new UserDao(ChatServiceLoginService.this);
-                    RobotUser robotUser = new RobotUser();
-                    maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                    robotUser.setAvatar(read.getAvatar());
-                    robotUser.setId(read.getUid() + "");
-                    robotUser.setUsername(read.getChatLoginName());
-                    robotUser.setNick(read.getNickname());
+                @Override
+                public void onSuccess() {
+                    // 登陆成功，保存用户名密码
+                    DemoApplication.getInstance().setUserName(currentUsername);
+                    try {
 
-                    user.setAvatar(read.getAvatar());
-                    user.setId(read.getUid() + "");
-                    user.setUsername(read.getChatLoginName());
-                    user.setNick(read.getNickname());
-                    userDao.saveOrUpdate(robotUser);
-                    userDao.saveOrUpdate(user);
+                        UserDao userDao = new UserDao(ChatServiceLoginService.this);
+                        RobotUser robotUser = new RobotUser();
+                        maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
+                        robotUser.setAvatar(read.getAvatar());
+                        robotUser.setId(read.getUid() + "");
+                        robotUser.setUsername(read.getChatLoginName());
+                        robotUser.setNick(read.getNickname());
+
+                        user.setAvatar(read.getAvatar());
+                        user.setId(read.getUid() + "");
+                        user.setUsername(read.getChatLoginName());
+                        user.setNick(read.getNickname());
+                        userDao.saveOrUpdate(robotUser);
+                        userDao.saveOrUpdate(user);
 
 
-                    // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
-                    // ** manually start all local groups and
-                    EMGroupManager.getInstance().loadAllGroups();
-                    EMChatManager.getInstance().loadAllConversations(new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            System.out.println("onSuccess");
-                        }
+                        // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                        // ** manually start all local groups and
+                        EMGroupManager.getInstance().loadAllGroups();
+                        EMChatManager.getInstance().loadAllConversations(new EMCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                System.out.println("onSuccess");
+                            }
 
-                        @Override
-                        public void onError(int i, String s) {
-                            System.out.println("onError");
-                        }
+                            @Override
+                            public void onError(int i, String s) {
+                                System.out.println("onError");
+                            }
 
-                        @Override
-                        public void onProgress(int i, String s) {
-                            System.out.println("onProgress");
-                        }
-                    });
-                    EMChatManager.getInstance().updateCurrentUserNick(User.read(ChatServiceLoginService.this).getNickname());
-                    // 处理好友和群组
-                    startService(new Intent(ChatServiceLoginService.this, AsyncContactService.class));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DemoApplication.getInstance().logout(null);
-                    log(maimeng.yodian.app.client.android.R.string.login_failure_failed);
-                    return;
+                            @Override
+                            public void onProgress(int i, String s) {
+                                System.out.println("onProgress");
+                            }
+                        });
+                        EMChatManager.getInstance().updateCurrentUserNick(User.read(ChatServiceLoginService.this).getNickname());
+                        // 处理好友和群组
+                        startService(new Intent(ChatServiceLoginService.this, AsyncContactService.class));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        DemoApplication.getInstance().logout(null);
+                        log(maimeng.yodian.app.client.android.R.string.login_failure_failed);
+                        return;
+                    }
+                    // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
+                    boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
+                            DemoApplication.currentUserNick.trim());
+                    if (!updatenick) {
+                        Log.i("ChatServiceLoginService", "update current user nick fail");
+                    }
                 }
-                // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
-                boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
-                        DemoApplication.currentUserNick.trim());
-                if (!updatenick) {
-                    Log.i("ChatServiceLoginService", "update current user nick fail");
+
+                @Override
+                public void onProgress(int progress, String status) {
                 }
-            }
 
-            @Override
-            public void onProgress(int progress, String status) {
-            }
+                @Override
+                public void onError(final int code, final String message) {
+                    log(maimeng.yodian.app.client.android.R.string.login_failure_failed, message);
+                }
+            });
+        }
 
-            @Override
-            public void onError(final int code, final String message) {
-                log(maimeng.yodian.app.client.android.R.string.login_failure_failed, message);
-            }
-        });
 
 
         return super.onStartCommand(intent, flags, startId);
