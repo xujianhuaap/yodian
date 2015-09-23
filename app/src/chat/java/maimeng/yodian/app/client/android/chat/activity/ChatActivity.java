@@ -243,7 +243,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private TextView skillName;
     private TextView skillPrice;
     private boolean intoSkill = false;
-
+    private User mCurrentUser;
+    private String mCurrentUserLogName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,6 +257,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         initView();
         setUpView();
         showSkill();
+        mCurrentUser=DemoApplication.getInstance().getCurrentUser();
+        mCurrentUserLogName=DemoApplication.getInstance().getUserName();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -673,6 +676,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                             skill.setPrice(skillJson.getString("price"));
                             skill.setUnit(skillJson.getString("unit"));
                             skill.setPic(skillJson.getString("pic"));
+                            skill.setAvatar(skillJson.getString("avatar"));
                             showSkill();
                         }
                     } catch (EaseMobException | JSONException e) {
@@ -1184,6 +1188,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                         skill.setPrice(skillJson.getString("price"));
                         skill.setUnit(skillJson.getString("unit"));
                         skill.setPic(skillJson.getString("pic"));
+                        skill.setAvatar(skillJson.getString("avatar"));
                         initView();
                         setUpView();
                         showSkill();
@@ -1315,10 +1320,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.addBody(txtBody);
             // 设置要发给谁,用户username或者群聊groupid
             message.setReceipt(toChatUsername);
+            //设置头像
+            message.setAttribute("avatar", mCurrentUser.getAvatar());
+            //设置from
+            message.setFrom(mCurrentUserLogName);
+
+
+
             // 把messgage加到conversation中
             conversation.addMessage(message);
-            onNewMessage(message);
-            //
             onNewMessage(message);
             // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
             adapter.refreshSelectLast();
@@ -1391,6 +1401,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 message.setAttribute("em_robot_message", true);
             }
             setExtAttribute(message);
+            message.setAttribute("avatar", mCurrentUser.getAvatar());
+            //设置from
+            message.setFrom(mCurrentUserLogName);
             conversation.addMessage(message);
             onNewMessage(message);
             adapter.refreshSelectLast();
@@ -1427,6 +1440,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (isRobot) {
             message.setAttribute("em_robot_message", true);
         }
+        message.setAttribute("avatar",mCurrentUser.getAvatar());
+        //设置from
+        message.setFrom(mCurrentUserLogName);
         conversation.addMessage(message);
         onNewMessage(message);
         listView.setAdapter(adapter);
@@ -1459,6 +1475,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (isRobot) {
                 message.setAttribute("em_robot_message", true);
             }
+            message.setAttribute("avatar",mCurrentUser.getAvatar());
+            //设置from
+            message.setFrom(mCurrentUserLogName);
             conversation.addMessage(message);
             onNewMessage(message);
             listView.setAdapter(adapter);
@@ -1530,6 +1549,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (isRobot) {
             message.setAttribute("em_robot_message", true);
         }
+        message.setAttribute("avatar",mCurrentUser.getAvatar());
+        //设置from
+        message.setFrom(mCurrentUserLogName);
         conversation.addMessage(message);
         onNewMessage(message);
 
@@ -1591,6 +1613,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (isRobot) {
             message.setAttribute("em_robot_message", true);
         }
+        //设置头像
+        message.setAttribute("avatar",mCurrentUser.getAvatar());
+        //设置from
+        message.setFrom(mCurrentUserLogName);
         conversation.addMessage(message);
         onNewMessage(message);
         listView.setAdapter(adapter);

@@ -1,4 +1,4 @@
-apply from: 'channel_mini.gradle'
+//apply from: 'channel_mini.gradle'
 //apply from: 'channel.gradle'
 android {
     applicationVariants.all { variant ->
