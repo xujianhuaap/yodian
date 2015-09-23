@@ -1,8 +1,19 @@
 <resources>
+
     <style name="CatogoryWindowAnimation">
         <item name="android:windowExitAnimation">@anim/push_top_out3</item>
         <item name="android:windowEnterAnimation">@anim/push_top_in3</item>
     </style>
 
+    <style name="bank_form_item_bg">
+        <item name="android:background">@drawable/bank_form_item_bg</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginTop">@dimen/normal_padding</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">@dimen/normal_padding</item>
+        <item name="android:textColorHint">#8c8b8b</item>
+    </style>
 
 </resources>

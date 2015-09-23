@@ -16,7 +16,7 @@ import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityRemainderInfoBinding;
-import maimeng.yodian.app.client.android.model.Remainder;
+import maimeng.yodian.app.client.android.model.remainder.Remainder;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;

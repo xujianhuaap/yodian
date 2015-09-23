@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="bank"
+            type="maimeng.yodian.app.client.android.model.remainder.BindBank" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical"
+            android:padding="@dimen/normal_padding">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bind_bank_card_title_hint"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/bank"
+                style="@style/bank_form_item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bind_bank_select_bank_hint"
+                android:text="@{bank.name}" />
+
+            <EditText
+                android:id="@+id/branch"
+                style="@style/bank_form_item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bind_bank_input_bank_hint"
+                android:text="@{bank.branch}" />
+
+            <EditText
+                android:id="@+id/number"
+                style="@style/bank_form_item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bind_bank_card_number_hint"
+                android:inputType="number"
+                android:text="@{bank.number}" />
+
+            <EditText
+                android:id="@+id/number2"
+                style="@style/bank_form_item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bind_bank_card_number2_hint"
+                android:inputType="number"
+                android:text="@{bank.number2}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/bind_bank_user_title_hint"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/username"
+                style="@style/bank_form_item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bind_bank_user_name_hint"
+                android:text="@{bank.username}" />
+
+            <EditText
+                android:id="@+id/idcard"
+                style="@style/bank_form_item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bind_bank_idcard_number_hint"
+                android:inputType="number"
+                android:text="@{bank.idcard}" />
+
+            <EditText
+                android:id="@+id/phone"
+                style="@style/bank_form_item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bind_bank_phone_number_hint"
+                android:inputType="phone"
+                android:text="@{bank.phone}" />
+
+            <RelativeLayout
+                style="@style/bank_form_item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:addStatesFromChildren="true"
+                android:padding="0dp">
+
+                <EditText
+                    android:id="@+id/valicode"
+                    style="@style/bank_form_item_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="0dp"
+                    android:layout_toLeftOf="@+id/btn_getcode"
+                    android:background="#0000"
+                    android:digits="@string/digits"
+                    android:hint="@string/bind_bank_valicode_hint"
+                    android:text="@{bank.valicode}" />
+
+
+                <TextView
+                    android:id="@id/btn_getcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/normal_padding"
+                    android:background="@drawable/btn_oval_bg_yellow_drawable"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/bind_bank_btn_getvalicode"
+                    android:textColor="#fff" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:background="#cccccc" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/normal_padding"
+                android:text="@string/bind_bank_notice"
+                android:textColor="#f00" />
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_background_yellow"
+                android:enabled="false"
+                android:text="@string/btn_submit" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

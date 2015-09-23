@@ -5,7 +5,7 @@
 
         <variable
             name="remainder"
-            type="maimeng.yodian.app.client.android.model.Remainder" />
+            type="maimeng.yodian.app.client.android.model.remainder.Remainder" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
