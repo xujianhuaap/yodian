@@ -53,9 +53,15 @@ public object ApiConfig {
         public val CHECK_VERSION: String = "/index/checkupdate"//检查更新
         public val USER_INFO: String = "/user/info"//用户信息
         public val QRODE_URL: String = "http://share.yodian.me/"
+
+
         public val MONEY_MY: String = "/money/my"//我的余额
         public val MONEY_WITHDRAW: String = "/money/withdraw"//提现申请
 
+        //bank
+        public val BANK_LIST: String = "/card/getbank"//获取银行列表
+        public val BANK_GETCODE: String = "/card/getcode"//获取验证码
+        public val BANK_BIND: String = "/card/bind"//获取验证码
 
     }
 }

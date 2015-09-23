@@ -26,7 +26,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/bank"
                 style="@style/bank_form_item_bg"
                 android:layout_width="match_parent"
@@ -112,6 +112,7 @@
                     android:background="#0000"
                     android:digits="@string/digits"
                     android:hint="@string/bind_bank_valicode_hint"
+                    android:inputType="number"
                     android:text="@{bank.valicode}" />
 
 

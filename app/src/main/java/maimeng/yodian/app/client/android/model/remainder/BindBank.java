@@ -23,8 +23,7 @@ public class BindBank {
         this.name = name;
     }
 
-    private String number;
-
+    private String number = "6214830296846172";
     private String branch;
     private String number2;
     private String username;
