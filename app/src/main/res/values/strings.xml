@@ -1,6 +1,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">优点</string>
     <string name="NA">N/A</string>
+    <string name="btn_submit">提交</string>
+    <string name="digits">0123456789abcdefghijklmnopqrstuvwxyZABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="title_settings_user_info">设置信息</string>
     <string name="action_settings">设置</string>
     <string name="lable_nickname">用户昵称</string>
@@ -90,5 +92,19 @@
     <string name="during_dialog_title_error"><![CDATA[<font color="#ff0000">单词提现金额不得低于50元</font>]]></string>
     <string name="during_dialog_edit_hint">本次要提现的余额</string>
     <string name="during_dialog_sumit">提现</string>
+    <string name="activity_bind_bank">绑定银行卡</string>
+    <string name="bind_bank_card_title_hint">请填写银行卡信息</string>
+    <string name="bind_bank_select_bank_hint">选择开户银行</string>
+    <string name="bind_bank_input_bank_hint">输入银行支行</string>
+    <string name="bind_bank_card_number_hint">请输入银行卡号</string>
+    <string name="bind_bank_card_number2_hint">请再次输入银行卡号</string>
+    <string name="bind_bank_user_title_hint">请填写实名认证信息</string>
+    <string name="bind_bank_user_name_hint">请输入持卡人姓名</string>
+    <string name="bind_bank_idcard_number_hint">请输入持卡身份证号码</string>
+    <string name="bind_bank_phone_number_hint">请输入绑定手机号码</string>
+    <string name="bind_bank_valicode_hint">请输入验证码</string>
+    <string name="bind_bank_btn_getvalicode">获取验证码</string>
+    <string name="bind_bank_notice">"注意:\n1：请正确的填写银行卡和姓名，否则会导致提现失败\n2：仅支持大陆储蓄卡，请勿填写信用卡信息\n3：我们会严格保密客户信息，银行卡信息仅作为提现使用\n4：如果有任何问题，请及时联系优点客服：kf@ketie.me"</string>
+
 
 </resources>

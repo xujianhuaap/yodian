@@ -1,6 +1,6 @@
 package maimeng.yodian.app.client.android.network.response;
 
-import maimeng.yodian.app.client.android.model.Remainder;
+import maimeng.yodian.app.client.android.model.remainder.Remainder;
 
 /**
  * Created by android on 2015/9/21.

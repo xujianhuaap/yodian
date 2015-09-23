@@ -2,14 +2,11 @@ package maimeng.yodian.app.client.android.view.deal;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -22,7 +19,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.AcitivityRemainderMainBinding;
-import maimeng.yodian.app.client.android.model.Remainder;
+import maimeng.yodian.app.client.android.model.remainder.Remainder;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
@@ -47,7 +44,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         service = Network.getService(MoneyService.class);
         service.remanider(this);
         binding.btnRemainder.setOnClickListener(this);
-
+        binding.btnBindBank.setOnClickListener(this);
 
         binding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
@@ -74,8 +71,6 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setDisplayUseLogoEnabled(true);
-//            actionBar.setLogo(R.drawable.ic_go_back);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
         }
     }
@@ -108,7 +103,8 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     public void onClick(View v) {
         if (v == binding.btnRemainder) {
             startActivityForResult(new Intent(this, RemainderInfoActivity.class).putExtra(RemainderInfoActivity.KEY_REMAINDER, binding.getRemainder()), REQUEST_SHOW_DURING);
-
+        } else if (v == binding.btnBindBank) {
+            startActivity(new Intent(this, BindBankActivity.class));
         }
     }
 

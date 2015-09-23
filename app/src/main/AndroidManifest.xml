@@ -145,6 +145,11 @@
             android:label="@string/my_remainder"
             android:theme="@style/AppTheme.Light" />
         <activity
+            android:name=".view.deal.BindBankActivity"
+            android:label="@string/activity_bind_bank"
+            android:theme="@style/AppTheme.Light" />
+
+        <activity
             android:name=".view.PreviewActivity"
             android:label=""
             android:theme="@style/NoAnimTheme" />

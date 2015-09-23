@@ -6,7 +6,7 @@
 
         <variable
             name="remainder"
-            type="maimeng.yodian.app.client.android.model.Remainder" />
+            type="maimeng.yodian.app.client.android.model.remainder.Remainder" />
     </data>
 
     <in.srain.cube.views.ptr.PtrFrameLayout
@@ -93,6 +93,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/btn_bind_bank"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/chat_textColor"
