@@ -60,7 +60,7 @@
         </activity>
         <activity
             android:name=".view.user.LauncherGuideActivity"
-            android:theme="@style/AppThemeWhite"></activity>
+            android:theme="@style/AppThemeWhite"/>
         <activity android:name=".chat.activity.ChatActivity" />
         <activity android:name=".view.dialog.ContactDialog" />
         <activity android:name=".view.auth.AuthActivity" />
