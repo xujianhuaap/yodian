@@ -243,7 +243,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private TextView skillName;
     private TextView skillPrice;
     private boolean intoSkill = false;
-    private User mCurrentUser;
+    private  maimeng.yodian.app.client.android.model.User mCurrentUser;
     private String mCurrentUserLogName;
 
     @Override
@@ -257,7 +257,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         initView();
         setUpView();
         showSkill();
-        mCurrentUser=DemoApplication.getInstance().getCurrentUser();
+        mCurrentUser= maimeng.yodian.app.client.android.model.User.read(this);
         mCurrentUserLogName=DemoApplication.getInstance().getUserName();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -1320,10 +1320,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.addBody(txtBody);
             // 设置要发给谁,用户username或者群聊groupid
             message.setReceipt(toChatUsername);
-            //设置头像
-            message.setAttribute("avatar", mCurrentUser.getAvatar());
-            //设置from
-            message.setFrom(mCurrentUserLogName);
+
+
 
 
 
@@ -1354,10 +1352,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      * @param message
      */
     private void setExtAttribute(EMMessage message) {
-        User currentUser = DemoApplication.getInstance().getCurrentUser();
-        String nick = currentUser.getNick();
+        maimeng.yodian.app.client.android.model.User currentUser =mCurrentUser;
+        String nick = currentUser.getNickname();
         String avatar = currentUser.getAvatar();
-        String id = currentUser.getId();
+        String id = currentUser.getUid()+"";
         message.setAttribute("nickName", nick);
         message.setAttribute("avatar", avatar);
         message.setAttribute("uid", id);
@@ -1401,9 +1399,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 message.setAttribute("em_robot_message", true);
             }
             setExtAttribute(message);
-            message.setAttribute("avatar", mCurrentUser.getAvatar());
-            //设置from
-            message.setFrom(mCurrentUserLogName);
+
             conversation.addMessage(message);
             onNewMessage(message);
             adapter.refreshSelectLast();
@@ -1440,9 +1436,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (isRobot) {
             message.setAttribute("em_robot_message", true);
         }
-        message.setAttribute("avatar",mCurrentUser.getAvatar());
-        //设置from
-        message.setFrom(mCurrentUserLogName);
         conversation.addMessage(message);
         onNewMessage(message);
         listView.setAdapter(adapter);
@@ -1475,9 +1468,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (isRobot) {
                 message.setAttribute("em_robot_message", true);
             }
-            message.setAttribute("avatar",mCurrentUser.getAvatar());
-            //设置from
-            message.setFrom(mCurrentUserLogName);
             conversation.addMessage(message);
             onNewMessage(message);
             listView.setAdapter(adapter);
@@ -1549,9 +1539,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (isRobot) {
             message.setAttribute("em_robot_message", true);
         }
-        message.setAttribute("avatar",mCurrentUser.getAvatar());
-        //设置from
-        message.setFrom(mCurrentUserLogName);
         conversation.addMessage(message);
         onNewMessage(message);
 
@@ -1606,6 +1593,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setChatType(ChatType.ChatRoom);
         }
 
+
         message.setReceipt(toChatUsername);
         // add message body
         NormalFileMessageBody body = new NormalFileMessageBody(new File(filePath));
@@ -1613,10 +1601,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (isRobot) {
             message.setAttribute("em_robot_message", true);
         }
-        //设置头像
-        message.setAttribute("avatar",mCurrentUser.getAvatar());
-        //设置from
-        message.setFrom(mCurrentUserLogName);
         conversation.addMessage(message);
         onNewMessage(message);
         listView.setAdapter(adapter);
