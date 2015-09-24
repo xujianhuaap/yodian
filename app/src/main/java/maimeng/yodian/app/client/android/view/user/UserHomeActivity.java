@@ -43,11 +43,12 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     private View mBtnSettings;
     private User user;
 
-    public static void show(Context context,long uid){
-        Intent intent=new Intent(context,UserHomeActivity.class);
-        intent.putExtra("uid",uid);
+    public static void show(Context context, long uid) {
+        Intent intent = new Intent(context, UserHomeActivity.class);
+        intent.putExtra("uid", uid);
         context.startActivity(intent);
     }
+
     public static void show(Activity activity, long uid, View btnBack, View avatar, View nickname) {
         show(activity, uid, null, "", btnBack, avatar, nickname);
     }
@@ -131,7 +132,7 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
             final SkillUserResponse.DataNode data = res.getData();
             this.user = data.getUser();
             proxy.init(user);
-            proxy.show((FloatingActionButton) findViewById(R.id.btn_back),false);
+            proxy.show((FloatingActionButton) findViewById(R.id.btn_back), false);
         } else {
             res.showMessage(this);
         }

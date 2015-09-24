@@ -647,7 +647,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         });
         alert.show(mActivity.getFragmentManager(), "alert");
     }
-    
+
     public void removeEMlistener(){
         EMChatManager.getInstance().unregisterEventListener(this);
     }

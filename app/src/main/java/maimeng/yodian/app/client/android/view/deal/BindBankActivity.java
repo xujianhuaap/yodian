@@ -35,6 +35,7 @@ import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.databinding.ActivityBindBankBinding;
 import maimeng.yodian.app.client.android.model.remainder.Bank;
 import maimeng.yodian.app.client.android.model.remainder.BindBank;
+import maimeng.yodian.app.client.android.model.remainder.Remainder;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -56,9 +57,9 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(ViewHolder holder, int postion) {
-        this.bank.setName(holder.getBank().getName());
+        this.bank.setBankName(holder.getBank().getName());
         this.bank.setId(holder.getBank().getId());
-        binding.bank.setText(this.bank.getName());
+        binding.bank.setText(this.bank.getBankName());
         hideBankList();
     }
 
@@ -106,7 +107,7 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
         }
 
         private boolean checkNotNull() {
-            if (TextUtils.isEmpty(bank.getName()) || bank.getId() <= 0) {
+            if (TextUtils.isEmpty(bank.getBankName()) || bank.getBankId() <= 0) {
                 return false;
             }
             if (TextUtils.isEmpty(bank.getBranch())) {
@@ -214,10 +215,8 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
                             public void success(ToastResponse res, Response response) {
                                 super.success(res, response);
                                 if (res.isSuccess()) {
-                                    startActivity(new Intent(BindBankActivity.this, BindBankSuccessActivity.class));
+                                    startActivity(new Intent(BindBankActivity.this, BindBankCompliteActivity.class));
                                     finish();
-                                } else {
-                                    startActivity(new Intent(BindBankActivity.this, BindBankFaildActivity.class));
                                 }
                             }
                         });

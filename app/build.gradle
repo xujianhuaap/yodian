@@ -18,7 +18,7 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     compileSdkVersion 23
-    buildToolsVersion "23"
+    buildToolsVersion "23.0.1"
     lintOptions {
         abortOnError false
         disable 'InvalidPackage'
@@ -78,6 +78,7 @@ repositories {
 dependencies {
     compile(name: 'sharesdk-release', ext: 'aar')
     compile(name: 'hnet-release', ext: 'aar')
+    compile(name: 'j99-md', ext: 'aar')
     compile project(':PhotoPicker')
     compile project(':ViewPagerIndicator')
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -94,10 +95,11 @@ dependencies {
     compile 'com.android.support:palette-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
+
     /**
      * Image Loader Libraries
      */
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+//    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
 //    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'
 //    compile 'jp.wasabeef:glide-transformations:1.1.0'

@@ -28,9 +28,11 @@ import java.lang.reflect.Type;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.databings.ImageBindable;
+import maimeng.yodian.app.client.android.model.remainder.BindBank;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.TypeData;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.deal.BindStatus;
 
 
 public class GsonConverter implements Converter {
@@ -140,6 +142,19 @@ public class GsonConverter implements Converter {
         @Override
         public JsonElement serialize(ImageBindable src, Type typeOfSrc, JsonSerializationContext context) {
             return new JsonPrimitive(src == null ? "" : src.getUri().toString());
+        }
+    }
+
+    public static class BindStatusAdapter implements JsonDeserializer<BindStatus>, JsonSerializer<BindStatus> {
+        @Override
+        public BindStatus deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            int asInt = json.getAsInt();
+            return BindStatus.create(asInt);
+        }
+
+        @Override
+        public JsonElement serialize(BindStatus src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.getValue());
         }
     }
 

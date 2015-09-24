@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/bind_bank_select_bank_hint"
-                android:text="@{bank.name}" />
+                android:text="@{bank.bankName}" />
 
             <EditText
                 android:id="@+id/branch"
@@ -143,11 +143,18 @@
                 android:text="@string/bind_bank_notice"
                 android:textColor="#f00" />
 
-            <Button
+            <!--<Button-->
+            <!--android:id="@+id/btn_submit"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/btn_background_yellow"-->
+            <!--android:enabled="false"-->
+            <!--android:text="@string/btn_submit" />-->
+            <io.j99.md.views.ButtonRectangle
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_background_yellow"
+                android:background="@color/colorPrimary"
                 android:enabled="false"
                 android:text="@string/btn_submit" />
         </LinearLayout>

@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import maimeng.yodian.app.client.android.view.deal.BindStatus;
+
 /**
  * Created by android on 2015/9/21.
  */
@@ -42,7 +44,7 @@ public class Remainder implements Parcelable {
     @SerializedName("vouch_status")
     private int vouchStatus;//申请担保交易状态 0 待审核 2 审核通过 3 拒绝 4 用户取消绑定
     @SerializedName("card_status")
-    private int cardStatus;//绑定银行卡状态 0 待审核 2 审核通过 3拒绝 4 用户取消申请
+    private BindStatus cardStatus;
 
     public int getBankMsg() {
         return bankMsg;
@@ -69,14 +71,17 @@ public class Remainder implements Parcelable {
         this.vouchStatus = vouchStatus;
     }
 
-    public int getCardStatus() {
+
+    public BindStatus getCardStatus() {
         return cardStatus;
     }
 
-    public void setCardStatus(int cardStatus) {
+    public void setCardStatus(BindStatus cardStatus) {
         this.cardStatus = cardStatus;
     }
 
+    public Remainder() {
+    }
 
     @Override
     public int describeContents() {
@@ -91,20 +96,18 @@ public class Remainder implements Parcelable {
         dest.writeDouble(this.during);
         dest.writeInt(this.vouchMsg);
         dest.writeInt(this.vouchStatus);
-        dest.writeInt(this.cardStatus);
+        dest.writeInt(this.cardStatus == null ? -1 : this.cardStatus.ordinal());
     }
 
-    public Remainder() {
-    }
-
-    protected Remainder(Parcel in) {
+    public Remainder(Parcel in) {
         this.money = in.readDouble();
         this.withdraw = in.readDouble();
         this.bankMsg = in.readInt();
         this.during = in.readDouble();
         this.vouchMsg = in.readInt();
         this.vouchStatus = in.readInt();
-        this.cardStatus = in.readInt();
+        int tmpCardStatus = in.readInt();
+        this.cardStatus = tmpCardStatus == -1 ? null : BindStatus.values()[tmpCardStatus];
     }
 
     public static final Creator<Remainder> CREATOR = new Creator<Remainder>() {

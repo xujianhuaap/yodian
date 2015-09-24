@@ -8,6 +8,7 @@ import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.response.BankBindInfoResponse;
 import maimeng.yodian.app.client.android.network.response.BankListResponse;
 
 @FormUrlEncoded
@@ -41,5 +42,13 @@ public interface BankService {
               @Param("mobile") String mobile, @Param("real_name") String username,
               @Param("code") String code, ToastCallback response);
 
+    /**
+     * 绑定详情
+     *
+     * @param response
+     */
+    @Post(ApiConfig.Api.BANK_BIND_INFO)
+    @NoneEncoded
+    void bindInfo(Callback<BankBindInfoResponse> response);
 
 }

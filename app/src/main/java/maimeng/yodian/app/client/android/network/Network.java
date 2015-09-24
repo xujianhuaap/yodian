@@ -14,6 +14,7 @@ import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.network.common.GsonConverter;
 import maimeng.yodian.app.client.android.network.common.RequestIntercept;
+import maimeng.yodian.app.client.android.view.deal.BindStatus;
 
 
 /**
@@ -44,6 +45,7 @@ public class Network {
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Date.class, new GsonConverter.DateAdapter());
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(String.class, new GsonConverter.StringAdapter());
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(ImageBindable.class, new GsonConverter.ImageBindableAdapter());
+        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(BindStatus.class, new GsonConverter.BindStatusAdapter());
 
         net = new HNet.Builder()
                 .setEndpoint(ApiConfig.API_HOST)

@@ -72,7 +72,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v == binding.btnDuring) {
-            if (binding.getRemainder().getCardStatus() == 0) {
+            if (binding.getRemainder().getCardStatus() == BindStatus.PASS) {
                 showDuringDialog();
             } else {
                 Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();

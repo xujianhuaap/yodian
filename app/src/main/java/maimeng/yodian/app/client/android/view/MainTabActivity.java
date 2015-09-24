@@ -49,7 +49,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         if (LauncherCheck.isFirstRun(this)) {
                 finish();
         }else{

@@ -34,6 +34,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     private AcitivityRemainderMainBinding binding;
     private Remainder defaultValue;
     private static final int REQUEST_SHOW_DURING = 0x1001;
+    private static final int REQUEST_BIND_BANK = 0x1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,11 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         if (v == binding.btnRemainder) {
             startActivityForResult(new Intent(this, RemainderInfoActivity.class).putExtra(RemainderInfoActivity.KEY_REMAINDER, binding.getRemainder()), REQUEST_SHOW_DURING);
         } else if (v == binding.btnBindBank) {
-            startActivity(new Intent(this, BindBankActivity.class));
+            if (binding.getRemainder().getCardStatus() == BindStatus.NO_CARD) {
+                startActivity(new Intent(this, BindBankActivity.class));
+            } else {
+                startActivityForResult(new Intent(this, BindBankCompliteActivity.class).putExtra("remainder", binding.getRemainder()), REQUEST_BIND_BANK);
+            }
         }
     }
 
@@ -117,7 +122,10 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
                 if (remainder != null) {
                     binding.setRemainder(remainder);
                 }
+            } else if (requestCode == REQUEST_BIND_BANK) {
+                binding.getRemainder().setCardStatus(BindStatus.WAITCONFIRM);
             }
+
         }
     }
 
