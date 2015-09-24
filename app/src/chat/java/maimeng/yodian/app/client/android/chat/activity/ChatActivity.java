@@ -243,7 +243,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private TextView skillName;
     private TextView skillPrice;
     private boolean intoSkill = false;
-
+    private  maimeng.yodian.app.client.android.model.User mCurrentUser;
+    private String mCurrentUserLogName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,6 +257,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         initView();
         setUpView();
         showSkill();
+        mCurrentUser= maimeng.yodian.app.client.android.model.User.read(this);
+        mCurrentUserLogName=DemoApplication.getInstance().getUserName();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -673,6 +676,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                             skill.setPrice(skillJson.getString("price"));
                             skill.setUnit(skillJson.getString("unit"));
                             skill.setPic(skillJson.getString("pic"));
+                            skill.setAvatar(skillJson.getString("avatar"));
                             showSkill();
                         }
                     } catch (EaseMobException | JSONException e) {
@@ -1184,6 +1188,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                         skill.setPrice(skillJson.getString("price"));
                         skill.setUnit(skillJson.getString("unit"));
                         skill.setPic(skillJson.getString("pic"));
+                        skill.setAvatar(skillJson.getString("avatar"));
                         initView();
                         setUpView();
                         showSkill();
@@ -1315,10 +1320,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.addBody(txtBody);
             // 设置要发给谁,用户username或者群聊groupid
             message.setReceipt(toChatUsername);
+
+
+
+
+
             // 把messgage加到conversation中
             conversation.addMessage(message);
-            onNewMessage(message);
-            //
             onNewMessage(message);
             // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
             adapter.refreshSelectLast();
@@ -1344,10 +1352,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      * @param message
      */
     private void setExtAttribute(EMMessage message) {
-        User currentUser = DemoApplication.getInstance().getCurrentUser();
-        String nick = currentUser.getNick();
+        maimeng.yodian.app.client.android.model.User currentUser =mCurrentUser;
+        String nick = currentUser.getNickname();
         String avatar = currentUser.getAvatar();
-        String id = currentUser.getId();
+        String id = currentUser.getUid()+"";
         message.setAttribute("nickName", nick);
         message.setAttribute("avatar", avatar);
         message.setAttribute("uid", id);
@@ -1391,6 +1399,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 message.setAttribute("em_robot_message", true);
             }
             setExtAttribute(message);
+
             conversation.addMessage(message);
             onNewMessage(message);
             adapter.refreshSelectLast();
@@ -1583,6 +1592,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         } else if (chatType == CHATTYPE_CHATROOM) {
             message.setChatType(ChatType.ChatRoom);
         }
+
 
         message.setReceipt(toChatUsername);
         // add message body

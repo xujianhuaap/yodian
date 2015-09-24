@@ -12,7 +12,8 @@ android {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "google", CHANNEL_ID: 5, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
         souhu {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "souhu", CHANNEL_ID: 6, LAUNCHER_ACTIVITY: "DefaultActivity"]
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "oppo", CHANNEL_ID: 6, LAUNCHER_ACTIVITY: "DefaultActivity"]
+
         }
         sina {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sina", CHANNEL_ID: 7, LAUNCHER_ACTIVITY: "DefaultActivity"]
