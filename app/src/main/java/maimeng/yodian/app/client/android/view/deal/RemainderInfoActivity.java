@@ -123,6 +123,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
                     moneyChanged = true;
                     final Remainder remainder = binding.getRemainder();
                     remainder.setMoney(remainder.getMoney() - during);
+                    remainder.setWithdraw(remainder.getWithdraw() + during);
                     binding.setRemainder(remainder);
                 }
             }
