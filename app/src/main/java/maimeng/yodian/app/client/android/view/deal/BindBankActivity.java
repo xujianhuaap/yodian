@@ -142,8 +142,7 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_bind_bank, null, false);
-        setContentView(binding.getRoot());
+        binding = bindView(R.layout.activity_bind_bank);
         binding.setBank(bank);
         binding.btnGetcode.setOnClickListener(this);
         binding.btnSubmit.setOnClickListener(this);
@@ -215,7 +214,11 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
                             public void success(ToastResponse res, Response response) {
                                 super.success(res, response);
                                 if (res.isSuccess()) {
-                                    startActivity(new Intent(BindBankActivity.this, BindBankCompliteActivity.class));
+                                    if (getIntent().getBooleanExtra("result", false)) {
+                                        setResult(RESULT_OK);
+                                    } else {
+                                        startActivity(new Intent(BindBankActivity.this, BindBankCompliteActivity.class));
+                                    }
                                     finish();
                                 }
                             }

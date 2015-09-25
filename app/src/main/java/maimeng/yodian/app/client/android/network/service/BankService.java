@@ -51,4 +51,13 @@ public interface BankService {
     @NoneEncoded
     void bindInfo(Callback<BankBindInfoResponse> response);
 
+
+    /**
+     * 解除绑定
+     *
+     * @param response
+     */
+    @Post(ApiConfig.Api.BANK_UNBIND)
+    @NoneEncoded
+    void unbind(ToastCallback response);
 }

@@ -51,7 +51,7 @@ public class SettingsActivity extends AbstractActivity {
     private View mBtnYijian;
     private View mBtnChangeAccount;
     private View mBtnCleanCache;
-    private Switch mPush;
+    private io.j99.md.views.Switch mPush;
     private TextView mCurrentVersion;
     PopupWindow window;
     User user;
@@ -82,16 +82,16 @@ public class SettingsActivity extends AbstractActivity {
         setContentView(R.layout.activity_settings);
         user = User.read(SettingsActivity.this);
         mPushService = Network.getService(CommonService.class);
-        mPush=(Switch)findViewById(R.id.push);
+        mPush = (io.j99.md.views.Switch) findViewById(R.id.push);
         mPush.setChecked(user.isPushOn());
-        mPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mPush.setOncheckListener(new io.j99.md.views.Switch.OnCheckListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-                if(!isChecked){
+            public void onCheck(io.j99.md.views.Switch aSwitch, final boolean isChecked) {
+                if (!isChecked) {
                     EMChatManager.getInstance().logout();
-                }else {
-                    String userName=user.getChatLoginName();
-                    String passWord="hx123456";
+                } else {
+                    String userName = user.getChatLoginName();
+                    String passWord = "hx123456";
                     EMChatManager.getInstance().login(userName, passWord, new EMCallBack() {
                         @Override
                         public void onSuccess() {
@@ -111,7 +111,7 @@ public class SettingsActivity extends AbstractActivity {
 
                 }
 
-                mPushService.push(isChecked? "0" : "1", new Callback<ToastResponse>() {
+                mPushService.push(isChecked ? "0" : "1", new Callback<ToastResponse>() {
                     @Override
                     public void start() {
 
@@ -134,7 +134,6 @@ public class SettingsActivity extends AbstractActivity {
 
                     }
                 });
-
             }
         });
         mBtnBack = findViewById(R.id.btn_back);

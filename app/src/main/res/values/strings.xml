@@ -142,11 +142,16 @@
     <string name="vouch_detail_tip">去编辑技能，开通网上支付功能</string>
     <string name="vouch_detail_status">审核中...</string>
 
-
-
+    
     <string name="btn_name">确定</string>
 
 
-
+    <string name="bind_bank_info_bankname">开&#160;&#160;户&#160;&#160;行：</string>
+    <string name="bind_bank_info_branch">支&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;行：</string>
+    <string name="bind_bank_info_number">卡&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;号：</string>
+    <string name="bind_bank_info_username">持&#160;&#160;卡&#160;&#160;人：</string>
+    <string name="bind_bank_info_phonenumber">绑定手机：</string>
+    <string name="bind_bank_info_rebind">重新认证</string>
+    <string name="bind_bank_info_unbind">解除绑定</string>
 
 </resources>
