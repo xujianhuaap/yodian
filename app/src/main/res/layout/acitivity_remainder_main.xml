@@ -112,6 +112,7 @@
                     android:background="#bbb" />
 
                 <TextView
+                    android:id="@+id/vouch_apply"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/chat_textColor"

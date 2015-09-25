@@ -13,4 +13,7 @@
     <color name="colorPrimaryDarkTransparent">#bbFFA739</color>
     <color name="circle_border_color">#ffffff</color>
     <color name="hint_color">#55000000</color>
+    <color name="edit_color">#33000000</color>
+    <color name="text_red_color">#c1e40c3a</color>
+    <color name="text_blue_color">#c10c25e4</color>
 </resources>

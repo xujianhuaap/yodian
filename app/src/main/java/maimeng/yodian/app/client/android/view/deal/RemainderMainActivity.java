@@ -17,6 +17,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.AcitivityRemainderMainBinding;
 import maimeng.yodian.app.client.android.model.remainder.Remainder;
@@ -24,6 +25,7 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 
 /**
@@ -35,6 +37,8 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     private Remainder defaultValue;
     private static final int REQUEST_SHOW_DURING = 0x1001;
     private static final int REQUEST_BIND_BANK = 0x1002;
+    private static final int REQUEST_VOUCH_APPLY = 0x1003;
+    private boolean isObtainRemainder=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         service.remanider(this);
         binding.btnRemainder.setOnClickListener(this);
         binding.btnBindBank.setOnClickListener(this);
+        binding.vouchApply.setOnClickListener(this);
 
         binding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
@@ -85,6 +90,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     public void success(RemainderResponse res, Response response) {
         if (res.isSuccess()) {
             binding.setRemainder(res.getData());
+            isObtainRemainder=true;
         } else {
             res.showMessage(this);
         }
@@ -110,6 +116,24 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
             } else {
                 startActivityForResult(new Intent(this, BindBankCompliteActivity.class).putExtra("remainder", binding.getRemainder()), REQUEST_BIND_BANK);
             }
+        }else if(binding.vouchApply==v){
+            //必须获得Remainder之后binding.getRemainder()才有效
+            if(isObtainRemainder){
+                int status= binding.getRemainder().getVouchStatus();
+                LogUtil.d(RemainderMainActivity.class.getName(),"status"+status);
+                LogUtil.d(RemainderMainActivity.class.getName(),"BindStatus.NO_CARD"+BindStatus.NO_CARD.getValue());
+                if(status==BindStatus.NO_CARD.getValue()){
+                    //未申请担保
+                    Intent intent=new Intent(this,VouchApplyActivity.class);
+                    intent.putExtra("status",status);
+                    startActivityForResult(intent, REQUEST_VOUCH_APPLY);
+
+                }else {
+                    VouchDetailActivity.show(this);
+                }
+            }
+
+
         }
     }
 
@@ -124,6 +148,13 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
                 }
             } else if (requestCode == REQUEST_BIND_BANK) {
                 binding.getRemainder().setCardStatus(BindStatus.WAITCONFIRM);
+            }else if(requestCode==REQUEST_VOUCH_APPLY){
+                //申请完成
+                int applyStatus=data.getIntExtra("apply",0x12);
+                if(applyStatus==BindStatus.WAITCONFIRM.getValue()){
+                    AlertDialog.show(this,"",getString(R.string.apply_alertdialog_tip),getString(R.string.btn_name));
+                }
+
             }
 
         }

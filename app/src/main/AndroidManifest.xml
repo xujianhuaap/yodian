@@ -135,7 +135,10 @@
         <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
 
         <service android:name=".service.ChatServiceLoginService" />
-
+        <activity android:name=".view.deal.VouchApplyActivity"
+            android:label="@string/apply_title"></activity>
+        <activity android:name=".view.deal.VouchDetailActivity"
+            android:label="@string/apply_title"></activity>
         <activity
             android:name=".view.deal.RemainderMainActivity"
             android:label="@string/my_remainder"

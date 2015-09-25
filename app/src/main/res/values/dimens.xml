@@ -71,4 +71,22 @@
 
     <dimen name="remainder_text_size">50sp</dimen>
 
+    <!-- VouchApply-->
+    <dimen name="clear_text_width">40dp</dimen>
+    <dimen name="clear_text_margie">5dp</dimen>
+    <dimen name="apply_edit_height">40dp</dimen>
+    <dimen name="apply_edit_padding_left">5dp</dimen>
+    <dimen name="apply_edit_margin">10dp</dimen>
+    <dimen name="apply_edit_margin_top">15dp</dimen>
+    <dimen name="apply_reason_height">120dp</dimen>
+    <dimen name="apply_tip_height">30dp</dimen>
+
+
+    <!--vouchDetail -->
+    <dimen name="vouch_detail_status_height">60dp</dimen>
+    <dimen name="vouch_detail_info_height">60dp</dimen>
+    <dimen name="vouch_detail_form_title_width">80dp</dimen>
+    <dimen name="divider_line">1dp</dimen>
+
+
 </resources>

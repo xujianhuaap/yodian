@@ -88,6 +88,7 @@
 
 
     <!--余额-->
+
     <string name="during_dialog_title"> 本次提现(元):</string>
     <string name="during_dialog_title_error"><![CDATA[<font color="#ff0000">单词提现金额不得低于50元</font>]]></string>
     <string name="during_dialog_edit_hint">本次要提现的余额</string>
@@ -105,6 +106,47 @@
     <string name="bind_bank_valicode_hint">请输入验证码</string>
     <string name="bind_bank_btn_getvalicode">获取验证码</string>
     <string name="bind_bank_notice">"注意:\n1：请正确的填写银行卡和姓名，否则会导致提现失败\n2：仅支持大陆储蓄卡，请勿填写信用卡信息\n3：我们会严格保密客户信息，银行卡信息仅作为提现使用\n4：如果有任何问题，请及时联系优点客服：kf@ketie.me"</string>
+
+    <!-- DeallApply-->
+    <string name="apply_title"> 申请担保交易</string>
+    <string name="apply_tip"> 请填写申请信息</string>
+    <string name="apply_hint_nickname">请输入您的称呼</string>
+    <string name="apply_hint_phone"> 请输入您的电话</string>
+    <string name="apply_hint_qq"> 请输入您的QQ</string>
+    <string name="apply_hint_email">请输入您的邮箱</string>
+    <string name="apply_hint_reason">请输入您的理由</string>
+    <string name="apply_notification">注意：\n1:卖家可以自由选择是否需要平台担保交易\n2:申请成功后，平台会作为担保方，在客户确认收货后放款给卖家\n3:担保交易货款需要申请提现</string>
+
+    <string name="apply_button_submit">提交</string>
+    <string name="apply_button_reedit">重新编辑</string>
+    <string name="apply_button_cancel">取消申请</string>
+    <string name="apply_button_edit">编辑技能</string>
+
+    <string name="apply_nickname">称呼：</string>
+    <string name="apply_phone"> 电话：</string>
+    <string name="apply_qq"> QQ：</string>
+    <string name="apply_email">邮箱：</string>
+    <string name="apply_reason">原因：</string>
+    <string name="apply_reason_number">0/500</string>
+
+    <string name="apply_nickname_null">称呼不能为空</string>
+    <string name="apply_phone_null">手机不能为空</string>
+    <string name="apply_qq_null">qq不能为空</string>
+    <string name="apply_email_null">邮箱不能为空</string>
+    <string name="apply_reason_null">理由不能为空</string>
+    <string name="apply_alertdialog_tip">提交成功，请耐心等待结果</string>
+
+
+    <!-- vouchDetail-->
+
+    <string name="vouch_detail_tip">去编辑技能，开通网上支付功能</string>
+    <string name="vouch_detail_status">审核中...</string>
+
+
+
+    <string name="btn_name">确定</string>
+
+
 
 
 </resources>

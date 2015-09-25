@@ -13,9 +13,11 @@
  */
 package maimeng.yodian.app.client.android.chat.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +40,15 @@ public class AlertDialog extends BaseActivity {
 	private ImageView imageView;
 	private EditText editText;
 	private boolean isEditextShow;
+	private Button mBtnPositive;
+
+	public static void show(Context context,String title,String msg,String btnPositiveText){
+		Intent intent=new Intent(context,AlertDialog.class);
+		intent.putExtra("title",title);
+		intent.putExtra("msg",msg);
+		intent.putExtra("btnpositive",btnPositiveText);
+		context.startActivity(intent);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +58,9 @@ public class AlertDialog extends BaseActivity {
 		mButton = (Button) findViewById(R.id.btn_cancel);
 		imageView = (ImageView) findViewById(R.id.image);
 		editText = (EditText) findViewById(R.id.edit);
+		mBtnPositive=(Button)findViewById(R.id.btn_positive);
+		//Positive的标题
+		String btnPositiveStr=getIntent().getStringExtra("btnpositive");
 		//提示内容
 		String msg = getIntent().getStringExtra("msg");
 		//提示标题
@@ -90,6 +104,10 @@ public class AlertDialog extends BaseActivity {
 		if(isEditextShow){
 			editText.setVisibility(View.VISIBLE);
 			editText.setText(edit_text);
+		}
+
+		if(!TextUtils.isEmpty(btnPositiveStr)){
+			mBtnPositive.setText(btnPositiveStr);
 		}
 	}
 	

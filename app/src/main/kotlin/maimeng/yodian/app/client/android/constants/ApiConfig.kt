@@ -64,5 +64,10 @@ public object ApiConfig {
         public val BANK_BIND: String = "/card/bind"//获取验证码
         public val BANK_BIND_INFO: String = "/card/detail"//绑定详情
 
+        //担保交易
+        public val VOUCH_APPLY: String = "/vouch/apply"//申请担保
+        public val VOUCH_DETAIL: String = "/vouch/detail"//获取担保详情
+        public val VOUCH_CANCEL: String = "/vouch/cancel"//取消担保
+
     }
 }
