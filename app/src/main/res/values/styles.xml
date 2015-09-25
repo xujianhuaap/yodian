@@ -16,4 +16,32 @@
         <item name="android:textColorHint">#8c8b8b</item>
     </style>
 
+    <style name="Bank" />
+
+    <style name="Bank.Bind" />
+
+    <style name="Bank.Bind.Info" />
+
+    <style name="Text" />
+
+    <style name="Text.Bank" />
+
+    <style name="Text.Bank.Bind" />
+
+    <style name="Text.Bank.Bind.Info" />
+
+    <style name="Bank.Bind.Info.Item">
+        <item name="android:layout_marginTop">1px</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">@dimen/normal_padding_2x</item>
+        <item name="android:paddingLeft">@dimen/normal_padding</item>
+        <item name="android:paddingRight">@dimen/normal_padding</item>
+        <item name="android:paddingTop">@dimen/normal_padding_2x</item>
+    </style>
+
+    <style name="Text.Bank.Bind.Info.Item">
+        <item name="android:textColor">#8b8a8a</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginLeft">@dimen/normal_padding</item>
+    </style>
 </resources>

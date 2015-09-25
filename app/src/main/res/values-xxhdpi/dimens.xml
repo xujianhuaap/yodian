@@ -10,8 +10,8 @@
     <dimen name="pull_refresh_paddingTop">20dp</dimen>
     <dimen name="dialog_share_item_padding">5dp</dimen>
     <dimen name="radius">15dp</dimen>
-    <dimen name="normal_padding">10dp</dimen>
-    <dimen name="normal_padding_2x">20dp</dimen>
+    <dimen name="normal_padding">8dp</dimen>
+    <dimen name="normal_padding_2x">16dp</dimen>
     <dimen name="normal_cell_row_mini_height">60dp</dimen>
     <dimen name="btn_text_size">18sp</dimen>
     <eat-comment />
@@ -64,7 +64,7 @@
     <dimen name="pic_width">360dp</dimen>
     <dimen name="pic_height">220dp</dimen>
 
-   <!--activity_setting_user_info -->
+    <!--activity_setting_user_info -->
     <dimen name="user_avatar_dimen">100dp</dimen>
     <dimen name="user_avatar_margin_top">30dp</dimen>
     <dimen name="user_container_height">100dp</dimen>

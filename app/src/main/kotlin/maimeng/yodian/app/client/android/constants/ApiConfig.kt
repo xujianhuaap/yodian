@@ -63,6 +63,7 @@ public object ApiConfig {
         public val BANK_GETCODE: String = "/card/getcode"//获取验证码
         public val BANK_BIND: String = "/card/bind"//获取验证码
         public val BANK_BIND_INFO: String = "/card/detail"//绑定详情
+        public val BANK_UNBIND: String = "/card/unbind"//解除绑定
 
     }
 }

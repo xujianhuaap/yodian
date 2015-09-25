@@ -105,6 +105,12 @@
     <string name="bind_bank_valicode_hint">请输入验证码</string>
     <string name="bind_bank_btn_getvalicode">获取验证码</string>
     <string name="bind_bank_notice">"注意:\n1：请正确的填写银行卡和姓名，否则会导致提现失败\n2：仅支持大陆储蓄卡，请勿填写信用卡信息\n3：我们会严格保密客户信息，银行卡信息仅作为提现使用\n4：如果有任何问题，请及时联系优点客服：kf@ketie.me"</string>
-
+    <string name="bind_bank_info_bankname">开&#160;&#160;户&#160;&#160;行：</string>
+    <string name="bind_bank_info_branch">支&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;行：</string>
+    <string name="bind_bank_info_number">卡&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;号：</string>
+    <string name="bind_bank_info_username">持&#160;&#160;卡&#160;&#160;人：</string>
+    <string name="bind_bank_info_phonenumber">绑定手机：</string>
+    <string name="bind_bank_info_rebind">重新认证</string>
+    <string name="bind_bank_info_unbind">解除绑定</string>
 
 </resources>
