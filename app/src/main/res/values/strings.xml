@@ -145,7 +145,6 @@
     <string name="vouch_detail_cancel">申请取消</string>
     <string name="vouch_detail_deny">拒绝申请</string>
 
-
     <string name="btn_name">确定</string>
 
 
@@ -156,5 +155,10 @@
     <string name="bind_bank_info_phonenumber">绑定手机：</string>
     <string name="bind_bank_info_rebind">重新认证</string>
     <string name="bind_bank_info_unbind">解除绑定</string>
+
+    <!-- orderListActivity-->
+    <string name="order_list_btn_saled">已出售订单</string>
+    <string name="order_list_btn_ordered">已购买订单</string>
+    <string name="order_item_bnt_accept">接单</string>
 
 </resources>

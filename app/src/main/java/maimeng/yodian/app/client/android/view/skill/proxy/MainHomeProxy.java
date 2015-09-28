@@ -69,6 +69,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.PreviewActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
+import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
 import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -525,6 +526,10 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
                 } else if (clickItem == headerMainHomeBinding.myRemainder) {
                     Intent intent = new Intent(mActivity, RemainderMainActivity.class);
+                    mActivity.startActivity(intent);
+
+                }else if(clickItem==headerMainHomeBinding.myOrder){
+                    Intent intent=new Intent(mActivity,OrderListActivity.class);
                     mActivity.startActivity(intent);
 
                 }

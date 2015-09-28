@@ -89,4 +89,8 @@
     <dimen name="divider_line">1dp</dimen>
 
 
+    <!-- item_order_list-->
+    <dimen name="padding_normal">10dp</dimen>
+
+
 </resources>

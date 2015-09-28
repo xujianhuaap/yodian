@@ -70,5 +70,10 @@ public object ApiConfig {
         public val VOUCH_DETAIL: String = "/vouch/detail"//获取担保详情
         public val VOUCH_CANCEL: String = "/vouch/cancel"//取消担保
 
+        //订单
+        public val ORDER_LIST_BUYER: String = "/order/buylist"//获取买家列表
+        public val ORDER_LIST_DETAIL: String = "/order/selllist"//获取卖家列表
+        public val ORDER_ACCEPT:String="/order/accept";
+
     }
 }
