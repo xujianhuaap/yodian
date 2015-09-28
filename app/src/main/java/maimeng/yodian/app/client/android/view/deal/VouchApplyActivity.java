@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.deal;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import org.henjue.library.hnet.exception.HNetError;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.model.Vouch;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
@@ -71,6 +73,12 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
         contenxt.startActivity(intent);
     }
 
+    public static void show(Activity contenxt,Vouch vouch,int requestCode){
+        Intent intent=new Intent(contenxt,VouchApplyActivity.class);
+        intent.putExtra("vouch",vouch);
+        contenxt.startActivityForResult(intent,requestCode);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +100,14 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
 
         mService= Network.getService(MoneyService.class);
 
+        if(getIntent().hasExtra("vouch")){
+            Vouch vouch=getIntent().getParcelableExtra("vouch");
+            mNickName.setText(vouch.getName());
+            mPhone.setText(vouch.getTelephone());
+            mEmail.setText(vouch.getEmail());
+            mQQ.setText(vouch.getQq());
+            mReason.setText(vouch.getContent());
+        }
 
 
     }
@@ -145,7 +161,7 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
         @Override
         public void afterTextChanged(Editable s) {
             freshApplyInfo();
-            mReasonNum.setText(mReasonStr.length()+"/500");
+            mReasonNum.setText(mReasonStr.length() + "/500");
 
             if(TextUtils.isEmpty(mNicknameStr)){
                 mClearNickName.setVisibility(View.INVISIBLE);
@@ -229,8 +245,9 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
 
         @Override
         public void success(ToastResponse toastResponse, Response response) {
-                if(toastResponse.getCode()==200){
+                if(toastResponse.getCode()==20000){
                     getIntent().putExtra("apply",BindStatus.WAITCONFIRM.getValue());
+                    setResult(RESULT_OK);
                     finish();
                 }
         }

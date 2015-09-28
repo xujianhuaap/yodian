@@ -14,7 +14,7 @@ import maimeng.yodian.app.client.android.model.skill.Skill;
  * @param <IT> 数据类型，JavaBean
  * @param <VH> ViewHolder
  */
-public abstract class AbstractAdapter<IT, VH extends RecyclerView.ViewHolder > extends RecyclerView.Adapter<VH> {
+public abstract class   AbstractAdapter<IT, VH extends RecyclerView.ViewHolder > extends RecyclerView.Adapter<VH> {
     protected final ViewHolderClickListener<VH> mViewHolderClickListener;
     protected final Context mContext;
 

@@ -43,10 +43,20 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     private View mBtnSettings;
     private User user;
 
-    public static void show(Context context, long uid) {
+
+    public static void show(Context context, long uid, boolean isSingleTask) {
         Intent intent = new Intent(context, UserHomeActivity.class);
+        if(isSingleTask){
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+
         intent.putExtra("uid", uid);
         context.startActivity(intent);
+    }
+
+
+    public static void show(Context context, long uid) {
+      show(context,uid,false);
     }
 
     public static void show(Activity activity, long uid, View btnBack, View avatar, View nickname) {

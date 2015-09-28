@@ -19,7 +19,7 @@ private long id;
     private String content;
     private long bwid;
     private String back_detail;
-    private int statuas;
+    private int status;
     private long createtime;
 
     public long getId() {
@@ -94,12 +94,12 @@ private long id;
         this.back_detail = back_detail;
     }
 
-    public int getStatuas() {
-        return statuas;
+    public int getStatus() {
+        return status;
     }
 
-    public void setStatuas(int statuas) {
-        this.statuas = statuas;
+    public void setStatus(int statuas) {
+        this.status = status;
     }
 
     public long getCreatetime() {
@@ -127,7 +127,7 @@ private long id;
         dest.writeString(this.content);
         dest.writeLong(this.bwid);
         dest.writeString(this.back_detail);
-        dest.writeInt(this.statuas);
+        dest.writeInt(this.status);
         dest.writeLong(this.createtime);
     }
 
@@ -144,7 +144,7 @@ private long id;
         this.content = in.readString();
         this.bwid = in.readLong();
         this.back_detail = in.readString();
-        this.statuas = in.readInt();
+        this.status = in.readInt();
         this.createtime = in.readLong();
     }
 

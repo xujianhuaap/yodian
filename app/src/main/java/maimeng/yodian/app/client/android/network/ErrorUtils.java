@@ -33,7 +33,10 @@ public class ErrorUtils {
                 Toast.makeText(context, "不能处理服务器返回给我的数据....", Toast.LENGTH_SHORT).show();
             } else {
                 postCatchedException(error);
-                LogUtil.e(ErrorUtils.class.getName(), error, "%s\n%d\n", error.getUrl(), error.getResponse().getStatus());
+                if(error.getResponse()!=null){
+                    LogUtil.e(ErrorUtils.class.getName(), error, "%s\n%d\n", error.getUrl(), error.getResponse().getStatus());
+                }
+
                 Toast.makeText(context, "运行出错啦...", Toast.LENGTH_SHORT).show();
             }
 

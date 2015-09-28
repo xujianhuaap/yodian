@@ -59,6 +59,7 @@ public interface MoneyService {
     void vouchDetail(Callback<VouchResponse>callback);
 
     @Post(ApiConfig.Api.VOUCH_CANCEL)
-    void vouchCancel(ToastCallback callback);
+    @NoneEncoded
+    void vouchCancel(Callback<ToastResponse> callback);
 
 }

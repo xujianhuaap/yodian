@@ -140,9 +140,12 @@
     <!-- vouchDetail-->
 
     <string name="vouch_detail_tip">去编辑技能，开通网上支付功能</string>
-    <string name="vouch_detail_status">审核中...</string>
+    <string name="vouch_detail_during">审核中...</string>
+    <string name="vouch_detail_success">申请通过</string>
+    <string name="vouch_detail_cancel">申请取消</string>
+    <string name="vouch_detail_deny">拒绝申请</string>
 
-    
+
     <string name="btn_name">确定</string>
 
 
