@@ -6,7 +6,7 @@
 
         <variable
             name="user"
-            type="maimeng.yodian.app.client.android.model.User" />
+            type="maimeng.yodian.app.client.android.model.user.User" />
     </data>
 
 

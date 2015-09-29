@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <variable
+            name="order"
+            type="maimeng.yodian.app.client.android.model.OrderInfo"></variable>
+        <variable
+            name="buyer"
+            type="maimeng.yodian.app.client.android.model.user.Buyer"></variable>
+        <variable
+            name="skill"
+            type="maimeng.yodian.app.client.android.model.skill.UpperSkill"></variable>
     </data>
 
     <LinearLayout
@@ -16,7 +25,8 @@
                 android:id="@+id/avatar"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:scaleType="centerInside"/>
+                android:scaleType="centerInside"
+                app:imgUrl="@{skill.avatar}"/>
             <TextView
                 android:id="@+id/nickname"
                 android:layout_width="wrap_content"
@@ -25,7 +35,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/tex_size_large"
                 android:padding="@dimen/padding_normal"
-                android:text="www"/>
+                android:text="@{skill.nickname}"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -56,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_launcher"
+                app:imgUrl="@{skill.pic}"
                 android:scaleType="centerInside"/>
 
             <LinearLayout
@@ -71,7 +81,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/tex_size_large"
                     android:padding="@dimen/padding_normal"
-                    android:text="www"/>
+                    android:text="@{skill.name}"/>
 
                 <TextView
                     android:id="@+id/skill_content"
@@ -81,7 +91,9 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/tex_size_large"
                     android:padding="@dimen/padding_normal"
-                    android:text="www"/>
+                    android:maxLength="@integer/text_max_len"
+                    android:singleLine="true"
+                    android:text="@{skill.content}"/>
 
                 <TextView
                     android:id="@+id/skill_price"
@@ -91,7 +103,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/tex_size_large"
                     android:padding="@dimen/padding_normal"
-                    android:text="www"/>
+                    android:text="@{skill.price}"/>
 
 
             </LinearLayout>
@@ -111,7 +123,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/tex_size_large"
                 android:padding="@dimen/padding_normal"
-                android:text="30"/>
+                android:text="@{order.total_fee}"/>
 
             <TextView
                 android:layout_width="0dp"

@@ -2,19 +2,16 @@ package maimeng.yodian.app.client.android.network.common;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.JsonWriter;
 
 import org.henjue.library.hnet.RequestFacade;
-import org.json.JSONObject;
 
-import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import maimeng.yodian.app.client.android.YApplication;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.utils.MD5Util;
 

@@ -6,29 +6,16 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.easemob.EMCallBack;
-import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroupManager;
-import com.easemob.chat.EMMessage;
-import com.easemob.exceptions.EaseMobException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
 
 import maimeng.yodian.app.client.android.chat.AsyncContactService;
-import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**

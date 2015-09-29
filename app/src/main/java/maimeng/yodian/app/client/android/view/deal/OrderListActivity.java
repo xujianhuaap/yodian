@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -20,6 +21,8 @@ import maimeng.yodian.app.client.android.view.AbstractActivity;
  * Created by xujianhua on 9/28/15.
  */
 public class OrderListActivity extends AbstractActivity{
+    private View mOrderSaled;
+    private View mOrderBuyed;
 
     @Override
     protected void initToolBar(Toolbar toolbar) {
@@ -44,28 +47,21 @@ public class OrderListActivity extends AbstractActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
-
-        OrderService orderService= Network.getService(OrderService.class);
-        orderService.buyers(1, new Callback<ToastResponse>() {
+        mOrderSaled=findViewById(R.id.btn_saled);
+        mOrderBuyed=findViewById(R.id.btn_buyed);
+        mOrderSaled.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void start() {
-
-            }
-
-            @Override
-            public void success(ToastResponse toastResponse, Response response) {
-
-            }
-
-            @Override
-            public void failure(HNetError hNetError) {
-
-            }
-
-            @Override
-            public void end() {
-
+            public void onClick(View v) {
+                OrderFragment.show(OrderListActivity.this,true,R.id.content);
             }
         });
+        mOrderBuyed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderFragment.show(OrderListActivity.this,false,R.id.content);
+            }
+        });
+
+
     }
 }

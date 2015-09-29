@@ -23,7 +23,7 @@ import java.util.List;
 
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.constants.ApiConfig;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 

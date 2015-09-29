@@ -1,6 +1,6 @@
 package maimeng.yodian.app.client.android.entry.skillseletor;
 
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 
 /**
  * Created by xujianhua on 9/14/15.

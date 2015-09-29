@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.model;
+package maimeng.yodian.app.client.android.model.user;
 
 /**
  * Created by android on 15-7-14.

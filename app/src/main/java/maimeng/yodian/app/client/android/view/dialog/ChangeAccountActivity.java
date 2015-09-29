@@ -2,10 +2,8 @@ package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import android.support.v4.app.ActivityCompat;
@@ -14,16 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.chat.widget.photoview.Compat;
-import maimeng.yodian.app.client.android.model.User;
-import maimeng.yodian.app.client.android.view.MainTabActivity;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
-import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 
 /**
  * Created by xujianhua on 9/1/15.

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="text_lenght" type="integer">15</item>
     <item name="loading_duration" type="integer">90</item>
     <item name="duration" type="integer">300</item>
     <item name="duration_short" type="integer">100</item>

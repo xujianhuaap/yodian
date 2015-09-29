@@ -1,9 +1,8 @@
-package maimeng.yodian.app.client.android.model;
+package maimeng.yodian.app.client.android.model.user;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.Bindable;
-import android.databinding.Observable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -11,14 +10,13 @@ import android.text.TextUtils;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
+import maimeng.yodian.app.client.android.model.UserBaseColum;
 
 
 /**

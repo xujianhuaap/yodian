@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.umeng.message.UmengRegistrar;
@@ -27,7 +26,7 @@ import org.henjue.library.share.model.AuthInfo;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
@@ -36,7 +35,6 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
 import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
-import maimeng.yodian.app.client.android.view.splash.BaiduActivity;
 
 public class AuthSeletorActivity extends AppCompatActivity implements View.OnClickListener {
     private static AuthInfo authInfo;

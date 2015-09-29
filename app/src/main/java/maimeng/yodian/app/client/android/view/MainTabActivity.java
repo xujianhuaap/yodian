@@ -10,13 +10,11 @@ import android.view.View.OnClickListener;
 import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
-import com.umeng.message.UmengRegistrar;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
@@ -24,7 +22,6 @@ import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainSelectorProxy;
-import maimeng.yodian.app.client.android.view.user.LauncherGuideActivity;
 
 
 public class MainTabActivity extends AbstractActivity implements AlertDialog.PositiveListener {

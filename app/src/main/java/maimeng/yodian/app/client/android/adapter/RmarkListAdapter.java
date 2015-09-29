@@ -2,19 +2,16 @@ package maimeng.yodian.app.client.android.adapter;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.app.ActionBar;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.RelativeLayout;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.RmarkListItemBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 
 /**
  * Created by android on 2015/7/28.

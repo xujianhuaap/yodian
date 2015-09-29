@@ -31,9 +31,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -126,7 +123,6 @@ import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
@@ -243,7 +239,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private TextView skillName;
     private TextView skillPrice;
     private boolean intoSkill = false;
-    private  maimeng.yodian.app.client.android.model.User mCurrentUser;
+    private maimeng.yodian.app.client.android.model.user.User mCurrentUser;
     private String mCurrentUserLogName;
 
     @Override
@@ -257,7 +253,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         initView();
         setUpView();
         showSkill();
-        mCurrentUser= maimeng.yodian.app.client.android.model.User.read(this);
+        mCurrentUser= maimeng.yodian.app.client.android.model.user.User.read(this);
         mCurrentUserLogName=DemoApplication.getInstance().getUserName();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -1352,7 +1348,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      * @param message
      */
     private void setExtAttribute(EMMessage message) {
-        maimeng.yodian.app.client.android.model.User currentUser =mCurrentUser;
+        maimeng.yodian.app.client.android.model.user.User currentUser =mCurrentUser;
         String nick = currentUser.getNickname();
         String avatar = currentUser.getAvatar();
         String id = currentUser.getUid()+"";

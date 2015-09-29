@@ -1,31 +1,19 @@
 package maimeng.yodian.app.client.android.view;
 
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.PopupWindow;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.EMCallBack;
-import com.easemob.EMEventListener;
-import com.easemob.EMNotifierEvent;
-import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 
 import org.henjue.library.hnet.Callback;
@@ -35,12 +23,10 @@ import org.henjue.library.hnet.exception.HNetError;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.DataCleanManager;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
-import maimeng.yodian.app.client.android.view.dialog.ChangeAccountActivity;
-import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
 import maimeng.yodian.app.client.android.view.user.TransActivity;
 
 /**

@@ -1,39 +1,26 @@
 package maimeng.yodian.app.client.android.adapter;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderMainHomeBinding;
-import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.HeaderViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
-import maimeng.yodian.app.client.android.model.User;
-import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.loader.Circle;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
-import maimeng.yodian.app.client.android.network.service.CommonService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 

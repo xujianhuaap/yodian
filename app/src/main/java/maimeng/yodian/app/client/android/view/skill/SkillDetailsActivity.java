@@ -58,7 +58,7 @@ import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.model.Rmark;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;

@@ -22,7 +22,6 @@ import android.widget.Toast;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -32,7 +31,7 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;

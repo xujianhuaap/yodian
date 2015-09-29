@@ -2,14 +2,12 @@ package maimeng.yodian.app.client.android.view.user;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -19,18 +17,12 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
-import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
-import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
-import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
 
 /**

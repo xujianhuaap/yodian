@@ -1,6 +1,6 @@
 package maimeng.yodian.app.client.android.network.response;
 
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 
 /**
  * Created by android on 15-7-13.

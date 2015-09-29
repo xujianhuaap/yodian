@@ -17,7 +17,7 @@ import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.User;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 

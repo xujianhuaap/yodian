@@ -72,7 +72,7 @@ public object ApiConfig {
 
         //订单
         public val ORDER_LIST_BUYER: String = "/order/buylist"//获取买家列表
-        public val ORDER_LIST_DETAIL: String = "/order/selllist"//获取卖家列表
+        public val ORDER_LIST_SELLER: String = "/order/selllist"//获取卖家列表
         public val ORDER_ACCEPT:String="/order/accept";
 
     }

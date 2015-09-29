@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,17 +18,14 @@ import org.henjue.library.hnet.exception.HNetError;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.User;
 import maimeng.yodian.app.client.android.model.Vouch;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.VouchResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.MainTabActivity;
-import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
 /**
  * Created by xujianhua on 9/25/15.
