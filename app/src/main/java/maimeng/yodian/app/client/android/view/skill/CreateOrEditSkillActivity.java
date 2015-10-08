@@ -365,7 +365,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
             } else if (requestCode == REQUEST_PHOTORESOULT) {
                 if (tempFile != null) {
                     final Uri url = Uri.fromFile(tempFile);
-                    int height = binding.skillPic.getHeight();
                     int width = binding.skillPic.getWidth();
                     new ImageLoaderManager.Loader(binding.skillPic, url).callback(new ImageLoaderManager.Callback() {
                         @Override
@@ -386,7 +385,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                         public void onLoadFaild() {
 
                         }
-                    }).width(width).height(height).start(this);
+                    }).width(width).height(width*2/3).start(this);
                     toggle();
                     tempFile.deleteOnExit();
                 }

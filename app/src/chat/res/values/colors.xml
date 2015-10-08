@@ -37,4 +37,6 @@
     <color name="btn_answer_pressed">#4ebcd3</color>
     <color name="btn_answer_normal">#2dafa3</color>
 
+    <color name="order_background">#eef2f1</color>
+
 </resources>

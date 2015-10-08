@@ -161,4 +161,12 @@
     <string name="order_list_btn_ordered">已购买订单</string>
     <string name="order_item_bnt_accept">接单</string>
 
+    <string name="order_status_unpay">未支付</string>
+    <string name="order_status_delete">已删除</string>
+    <string name="order_status_payed">已支付</string>
+    <string name="order_status_accept">已接单</string>
+    <string name="order_status_send_goods">已发货 </string>
+    <string name="order_status_confirm_deal">交易完成</string>
+    <string name="order_total_fee"><![CDATA[<font color="#000000">合计：</font><b><font color="#FFA739">%1$s</font></b><font color="#000000">元</font>]]></string>
+
 </resources>

@@ -14,44 +14,44 @@
     </data>
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:layout_marginBottom="@dimen/margin_normal">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/gray_normal"
             >
             <maimeng.yodian.app.client.android.widget.CircleImageView
                 android:id="@+id/avatar"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/seller_avatar"
+                android:layout_height="@dimen/seller_avatar"
                 android:scaleType="centerInside"
+                android:layout_margin="@dimen/margin_small"
                 app:imgUrl="@{skill.avatar}"/>
             <TextView
                 android:id="@+id/nickname"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/tex_size_large"
+                android:textSize="@dimen/text_size_small"
                 android:padding="@dimen/padding_normal"
                 android:text="@{skill.nickname}"/>
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content" />
-
-            <TextView
                 android:id="@+id/order_status"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/tex_size_large"
-                android:padding="@dimen/padding_normal"
-                android:text="www"/>
+                android:padding="@dimen/padding_normal" />
 
 
         </LinearLayout>
@@ -66,50 +66,61 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_small"
                 app:imgUrl="@{skill.pic}"
                 android:scaleType="centerInside"/>
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/margin_normal"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/skill_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="@dimen/tex_size_large"
-                    android:padding="@dimen/padding_normal"
+                    android:padding="@dimen/padding_small"
+                    android:singleLine="true"
+                    android:textStyle="bold"
                     android:text="@{skill.name}"/>
 
                 <TextView
                     android:id="@+id/skill_content"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/tex_size_large"
-                    android:padding="@dimen/padding_normal"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_normal"
                     android:maxLength="@integer/text_max_len"
-                    android:singleLine="true"
+                    android:maxLines="@integer/skill_content_len"
                     android:text="@{skill.content}"/>
 
                 <TextView
                     android:id="@+id/skill_price"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/tex_size_large"
-                    android:padding="@dimen/padding_normal"
-                    android:text="@{skill.price}"/>
+                    android:padding="@dimen/padding_small" />
 
 
             </LinearLayout>
 
 
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_height="@dimen/divider_line"
+            android:layout_gravity="center_vertical"
+            android:background="@color/div_line"
+            android:padding="@dimen/padding_normal" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -117,21 +128,10 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/order_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/tex_size_large"
-                android:padding="@dimen/padding_normal"
-                android:text="@{order.total_fee}"/>
-
-            <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/tex_size_large"
                 android:padding="@dimen/padding_normal" />
 
             <TextView
@@ -143,6 +143,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/tex_size_large"
                 android:padding="@dimen/padding_normal"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@drawable/ic_oval_orange"
                 android:text="@string/order_item_bnt_accept"/>
 
@@ -151,10 +152,12 @@
 
         <TextView
             android:id="@+id/order_time"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="@android:color/white"
+            android:background="@color/order_background"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textSize="@dimen/tex_size_large"
             android:padding="@dimen/padding_normal"
             android:text="2014-5"/>
