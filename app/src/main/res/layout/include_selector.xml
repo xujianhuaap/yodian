@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_root"
     android:layout_width="match_parent"
@@ -6,18 +6,12 @@
     android:background="#fff"
     android:orientation="horizontal">
 
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:background="#fff"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical">-->
     <in.srain.cube.views.ptr.PtrFrameLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
         android:layout_gravity="bottom"
-        android:layout_marginTop="?attr/actionBarSize"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:ptr_duration_to_close="300"
         app:ptr_duration_to_close_header="1000"
@@ -39,6 +33,7 @@
         android:id="@+id/categoryContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal|top"
         android:background="@color/colorPrimaryDarkTransparent"
         android:numColumns="3"
@@ -66,74 +61,84 @@
     <!--</LinearLayout>-->
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
-        android:background="?attr/colorPrimary"
         android:gravity="center"
         android:minHeight="?attr/actionBarSize">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-
-
-            <LinearLayout
-                android:id="@+id/ll_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/list_title"
-                    style="@style/Base.TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="优点精选"
-                    android:textColor="?android:attr/textColorPrimary" />
-
-                <ImageView
-                    android:id="@+id/title_logo"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:padding="10dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_triangle_indicator" />
-            </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/top_icon_margin">
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:gravity="center_vertical">
 
-                <ImageView
-                    android:id="@+id/btn_chat"
+                <LinearLayout
+                    android:id="@+id/ll_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/list_title"
+                        style="@style/Base.TextAppearance.AppCompat.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="优点精选"
+                        android:textColor="?android:attr/textColorPrimary" />
+
+                    <ImageView
+                        android:id="@+id/title_logo"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_triangle_indicator" />
+                </LinearLayout>
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:src="@drawable/ic_msg" />
+                    android:layout_marginRight="@dimen/top_icon_margin">
 
-                <ImageView
-                    android:id="@+id/miss_msg_count"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="top|right"
-                    android:src="@drawable/miss_msg_count"
-                    android:visibility="invisible" />
+                    <ImageView
+                        android:id="@+id/btn_chat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|left"
+                        android:src="@drawable/ic_msg" />
+
+                    <ImageView
+                        android:id="@+id/miss_msg_count"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="top|right"
+                        android:src="@drawable/miss_msg_count"
+                        android:visibility="invisible" />
+                </FrameLayout>
             </FrameLayout>
-        </FrameLayout>
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_nav"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="#f00">
 
+            </android.support.design.widget.TabLayout>
+        </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
-</FrameLayout>
+</RelativeLayout>
 
 

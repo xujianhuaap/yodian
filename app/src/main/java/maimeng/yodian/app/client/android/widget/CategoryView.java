@@ -6,12 +6,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.GridView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.ThemeAdapter;
-import maimeng.yodian.app.client.android.model.Theme;
+import maimeng.yodian.app.client.android.model.skill.Theme;
 
 
 /**

@@ -39,23 +39,23 @@ import maimeng.yodian.app.client.android.widget.ViewPager;
 /**
  * Created by android on 15-7-13.
  */
-public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillListSelectorAdapter.BaseViewHolder> {
+public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListIndexAdapter.BaseViewHolder> {
     private final PtrFrameLayout refreshLayout;
     private int mScreenWidth;
 
-    public SkillListSelectorAdapter(Context context, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
+    public SkillListIndexAdapter(Context context, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(context, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
         mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
     }
 
-    public SkillListSelectorAdapter(Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
+    public SkillListIndexAdapter(Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(fragment, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
         mScreenWidth = fragment.getResources().getDisplayMetrics().widthPixels;
     }
 
-    public SkillListSelectorAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
+    public SkillListIndexAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(fragment, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
         mScreenWidth = fragment.getResources().getDisplayMetrics().widthPixels;
