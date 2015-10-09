@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ItemOrderListBinding;
 import maimeng.yodian.app.client.android.model.OrderInfo;
@@ -107,9 +110,12 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
                 mBinding.orderStatus.setText(statusStr);
                 Spanned html=Html.fromHtml(mContext.getString(R.string.order_total_fee));
                 mBinding.orderPrice.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee,
-                         mOrder.getTotal_fee())));
+                        mOrder.getTotal_fee())));
                 mBinding.skillPrice.setText(Html.fromHtml(mContext.getString(R.string.lable_price,
                         skill.getPrice(), skill.getUnit())));
+                SimpleDateFormat format=new SimpleDateFormat("yyyy年MM月 HH:mm");
+                String dateStr= format.format(new java.util.Date(Long.parseLong(mOrder.getCreatetime())*1000));;
+                mBinding.orderTime.setText(dateStr);
             }
 
         }

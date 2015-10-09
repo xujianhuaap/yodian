@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
@@ -32,11 +34,11 @@ import maimeng.yodian.app.client.android.widget.PagerRecyclerView;
 /**
  * Created by xujianhua on 9/29/15.
  */
-public class OrderFragment extends Fragment{
+public class OrderFragment extends Fragment implements PtrHandler{
     private boolean isSaled;
     private int mPage=1;
     private PtrFrameLayout mRefreshLayout;
-    private PagerRecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
     private EndlessRecyclerOnScrollListener mEndlessRecyclerOnScrollListener;
     private OrderListAdapter mAdapter;
     private OrderService mService;
@@ -69,11 +71,12 @@ public class OrderFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
-        mRecyclerView = (PagerRecyclerView) view.findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         StoreHouseHeader header = PullHeadView.create(getActivity());
         header.setTextColor(0x000000);
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
+        mRefreshLayout.setPtrHandler(this);
         ListLayoutManager layout = new ListLayoutManager(getActivity());
         mEndlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
             @Override
@@ -82,6 +85,8 @@ public class OrderFragment extends Fragment{
                 mIsAppend= true;
                 freshData();
             }
+
+
         };
         mAdapter=new OrderListAdapter(getActivity(),new ViewHolderClickListenerProxy());
         mRecyclerView.setLayoutManager(layout);
@@ -91,6 +96,23 @@ public class OrderFragment extends Fragment{
         mService= Network.getService(OrderService.class);
         freshData();
 
+    }
+
+
+    /***
+     * 滑到顶部 数据刷新
+     * @param ptrFrameLayout
+     */
+    @Override
+    public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+        mPage=1;
+        mIsAppend= false;
+        freshData();
+    }
+
+    @Override
+    public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view1) {
+        return false;
     }
 
     /***

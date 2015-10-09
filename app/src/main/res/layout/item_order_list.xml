@@ -19,6 +19,16 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:layout_marginBottom="@dimen/margin_normal">
+
+        <TextView
+            android:id="@+id/order_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_small"
+            android:paddingTop="@dimen/padding_normal" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -41,6 +51,8 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
                 android:padding="@dimen/padding_normal"
+                android:singleLine="true"
+                android:maxLength="@integer/text_lenght"
                 android:text="@{skill.nickname}"/>
 
             <TextView
@@ -49,8 +61,9 @@
                 android:layout_weight="0.6"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="right|center_vertical"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/tex_size_large"
+                android:textSize="@dimen/text_size_small"
                 android:padding="@dimen/padding_normal" />
 
 
@@ -60,20 +73,21 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:background="@color/order_background">
             <ImageView
                 android:id="@+id/skill_pic"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_small"
                 app:imgUrl="@{skill.pic}"
-                android:scaleType="centerInside"/>
+                android:scaleType="fitCenter"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.6"
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:layout_height="wrap_content">
                 <TextView
@@ -83,7 +97,7 @@
                     android:layout_gravity="center_vertical"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/tex_size_large"
-                    android:padding="@dimen/padding_small"
+                    android:paddingTop="@dimen/padding_normal"
                     android:singleLine="true"
                     android:textStyle="bold"
                     android:text="@{skill.name}"/>
@@ -96,7 +110,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size_normal"
                     android:maxLength="@integer/text_max_len"
-                    android:maxLines="@integer/skill_content_len"
+                    android:singleLine="true"
                     android:text="@{skill.content}"/>
 
                 <TextView
@@ -125,7 +139,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/order_background">
             <TextView
                 android:id="@+id/order_price"
                 android:layout_width="0dp"
@@ -142,25 +157,18 @@
                 android:layout_gravity="center_vertical"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/tex_size_large"
-                android:padding="@dimen/padding_normal"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_large"
+                android:layout_marginRight="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:background="@drawable/ic_oval_orange"
                 android:text="@string/order_item_bnt_accept"/>
 
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/order_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@android:color/white"
-            android:background="@color/order_background"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:textSize="@dimen/tex_size_large"
-            android:padding="@dimen/padding_normal"
-            android:text="2014-5"/>
+
 
 
     </LinearLayout>
