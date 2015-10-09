@@ -378,9 +378,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                                 CreateOrEditSkillActivity.this.mBitmap = null;
                             }
                             CreateOrEditSkillActivity.this.mBitmap = bitmap;
-
-                            LogUtil.d(CreateOrEditSkillActivity.class.getName(),"Bitmap  width"+mBitmap.getWidth());
-                            LogUtil.d(CreateOrEditSkillActivity.class.getName(),"Bitmap  heigth"+mBitmap.getHeight());
                         }
 
                         @Override
@@ -392,12 +389,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                         public void onLoadFaild() {
 
                         }
-<<<<<<< HEAD
                     }).width(width).height(width*2/3).start(this);
-=======
-                    }).width(width).height(width*2/3
-                    ).start(this);
->>>>>>> 70b013b... v1.0.5
                     toggle();
                     tempFile.deleteOnExit();
                 }

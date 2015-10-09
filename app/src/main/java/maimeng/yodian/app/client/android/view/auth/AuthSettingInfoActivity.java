@@ -52,6 +52,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
     public static final int REQUEST_PHOTOZOOM = 0x1002; // 缩放
     public static final int REQUEST_PHOTORESOULT = 0x1003;// 结果
     private UserService service;
+    private ImageView mCleanText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +61,11 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
         service = Network.getService(UserService.class);
         setContentView(R.layout.activity_auth_setting_info);
         mUserImg = (ImageView) findViewById(R.id.img_avatar);
+        mCleanText = (ImageView)findViewById(R.id.btn_clean);
         findViewById(R.id.btn_album).setOnClickListener(this);
         findViewById(R.id.btn_camera).setOnClickListener(this);
         findViewById(R.id.btn_done).setOnClickListener(this);
-        findViewById(R.id.btn_clean).setOnClickListener(this);
+        mCleanText.setOnClickListener(this);
         findViewById(R.id.btn_back).setOnClickListener(this);
         mNickname = (EditText) findViewById(R.id.nickname);
         mNickname.addTextChangedListener(new TextWatcher() {
@@ -80,9 +82,9 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
             @Override
             public void afterTextChanged(Editable s) {
                 if(TextUtils.isEmpty(s.toString())){
-                    mNickname.setVisibility(View.INVISIBLE);
+                    mCleanText.setVisibility(View.INVISIBLE);
                 }else {
-                    mNickname.setVisibility(View.VISIBLE);
+                    mCleanText.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -306,6 +308,8 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
             }
         }else if(v.getId()==R.id.btn_clean){
             mNickname.setText("");
+            mCleanText.setVisibility(View.VISIBLE);
+
         }else if(v.getId()==R.id.btn_back){
             finish();
         }
