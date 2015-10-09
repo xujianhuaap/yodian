@@ -48,12 +48,11 @@ import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.DataNode;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
-import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
-import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.Theme;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -410,22 +409,6 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         }
     }
 
-    /**
-     * @param type 1:skill,2:user
-     * @param data
-     */
-    private void clickHead(int type, HeadViewEntry data) {
-        if (type == 1) {
-            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-            ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", data.skill.getValue()), options.toBundle());
-        } else {
-            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-            ActivityCompat.startActivity(mActivity, new Intent(mActivity, UserHomeActivity.class).putExtra("uid", data.user.getValue()), options.toBundle());
-        }
-    }
-
     private int mEditPostion;
 
     @Override
@@ -532,13 +515,6 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
                     mActivity.startActivity(intent);
                 }
             }
-        } else if (SkillListSelectorAdapter.HeadViewHolder.class.isInstance(h)) {
-            SkillListSelectorAdapter.HeadViewHolder holder = (SkillListSelectorAdapter.HeadViewHolder) h;
-            if (clickItem == holder.binding.headSkill) {
-                clickHead(1, holder.data);
-            } else if (clickItem == holder.binding.headUser) {
-                clickHead(2, holder.data);
-            }
         } else if (SkillListSelectorAdapter.BannerViewHolder.class.isInstance(h)) {
             clickBanner(((SkillListSelectorAdapter.BannerViewHolder) h));
         }
@@ -573,7 +549,6 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
                 entries = new ArrayList<>(list.size() + 2);
                 List<Banner> banners = data.getBanner();
                 entries.add(new BannerViewEntry(banners));
-                entries.add(new HeadViewEntry(data.getHeadSkill(), data.getHeadUser()));
             } else {
                 entries = new ArrayList<>(list.size());
             }
