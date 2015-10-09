@@ -32,7 +32,7 @@
 
     <dimen name="skill_list_item_share_margin">5dp</dimen>
     <dimen name="skill_list_item_img_width">372dp</dimen>
-    <dimen name="skill_list_item_img_height">270dp</dimen>
+    <dimen name="skill_list_item_img_height">248dp</dimen>
     <dimen name="skill_list_item_swipe_width">75dp</dimen>
     <dimen name="skill_list_template_item_height">110dp</dimen>
     <dimen name="skill_list_banner_height">100dp</dimen>

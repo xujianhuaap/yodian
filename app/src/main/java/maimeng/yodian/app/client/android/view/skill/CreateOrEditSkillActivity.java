@@ -40,6 +40,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
@@ -110,7 +111,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 public void onLoadFaild() {
                     System.out.println("onLoadFaild");
                 }
-            }).start(this);
+            }).width((int) getResources().getDimension(R.dimen.skill_list_item_img_width)).height((int) getResources().getDimension(R.dimen.skill_list_item_img_width) * 2 / 3).start(this);
         }
         binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
@@ -237,7 +238,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         }
 
         if (isEdit) {
-            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
+            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -270,9 +271,11 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                     if (dialog != null) dialog.dismiss();
                 }
             });
+
+
         } else {
             if (mBitmap != null) {
-                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), template.getPrice(), template.getUnit(), new Callback<SkillAllResponse>() {
+                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
                         if (res.isSuccess()) {
@@ -312,6 +315,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                         if (dialog != null) dialog.dismiss();
                     }
                 });
+
             } else {
 
             }
@@ -374,6 +378,9 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                                 CreateOrEditSkillActivity.this.mBitmap = null;
                             }
                             CreateOrEditSkillActivity.this.mBitmap = bitmap;
+
+                            LogUtil.d(CreateOrEditSkillActivity.class.getName(),"Bitmap  width"+mBitmap.getWidth());
+                            LogUtil.d(CreateOrEditSkillActivity.class.getName(),"Bitmap  heigth"+mBitmap.getHeight());
                         }
 
                         @Override
@@ -385,7 +392,12 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                         public void onLoadFaild() {
 
                         }
+<<<<<<< HEAD
                     }).width(width).height(width*2/3).start(this);
+=======
+                    }).width(width).height(width*2/3
+                    ).start(this);
+>>>>>>> 70b013b... v1.0.5
                     toggle();
                     tempFile.deleteOnExit();
                 }
