@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -67,10 +68,10 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        StoreHouseHeader header = PullHeadView.create(getActivity());
-        header.setTextColor(0x000000);
-        mRefreshLayout.addPtrUIHandler(header);
-        mRefreshLayout.setHeaderView(header);
+//        StoreHouseHeader header = PullHeadView.create(getActivity());
+//        header.setTextColor(0x000000);
+//        mRefreshLayout.addPtrUIHandler(header);
+//        mRefreshLayout.setHeaderView(header);
         mRefreshLayout.setPtrHandler(this);
         ListLayoutManager layout = new ListLayoutManager(getActivity());
         mEndlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
