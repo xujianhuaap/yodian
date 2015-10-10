@@ -6,7 +6,7 @@ import org.henjue.library.hnet.anntoation.NoneEncoded;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.BankBindInfoResponse;
 import maimeng.yodian.app.client.android.network.response.BankListResponse;
@@ -18,7 +18,7 @@ public interface BankService {
      *
      * @param response
      */
-    @Post(ApiConfig.Api.BANK_LIST)
+    @Post(Api.BANK_LIST)
     @NoneEncoded
     void list(Callback<BankListResponse> response);
 
@@ -28,7 +28,7 @@ public interface BankService {
      *
      * @param response
      */
-    @Post(ApiConfig.Api.BANK_GETCODE)
+    @Post(Api.BANK_GETCODE)
     void getcode(@Param("mobile") String mobile, ToastCallback response);
 
     /**
@@ -36,7 +36,7 @@ public interface BankService {
      *
      * @param response
      */
-    @Post(ApiConfig.Api.BANK_BIND)
+    @Post(Api.BANK_BIND)
     void bind(@Param("bank_id") long bank_id, @Param("card_no") String number,
               @Param("sub_branch_name") String branch, @Param("certif_no") String Id8,
               @Param("mobile") String mobile, @Param("real_name") String username,
@@ -47,7 +47,7 @@ public interface BankService {
      *
      * @param response
      */
-    @Post(ApiConfig.Api.BANK_BIND_INFO)
+    @Post(Api.BANK_BIND_INFO)
     @NoneEncoded
     void bindInfo(Callback<BankBindInfoResponse> response);
 
@@ -57,7 +57,7 @@ public interface BankService {
      *
      * @param response
      */
-    @Post(ApiConfig.Api.BANK_UNBIND)
+    @Post(Api.BANK_UNBIND)
     @NoneEncoded
     void unbind(ToastCallback response);
 }

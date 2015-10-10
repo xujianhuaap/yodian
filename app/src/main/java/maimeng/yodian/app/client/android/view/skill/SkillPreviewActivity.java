@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkReviewListAdapter;
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -232,7 +232,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                         if (res.isSuccess()) {
                             setResult(RESULT_OK);
                             String qurode = mSkill.getQrcodeUrl();
-                            if (qurode.equals("")) mSkill.setQrcodeUrl(ApiConfig.Api.QRODE_URL);
+                            if (qurode.equals("")) mSkill.setQrcodeUrl(Api.QRODE_URL);
                             ShareDialog.ShareParams params = new ShareDialog.ShareParams(mSkill, mSkill.getQrcodeUrl(),
                                     mSkill.getId(), mSkill.getNickname(), "");
                             ShareDialog.show(SkillPreviewActivity.this, params, true, 1);

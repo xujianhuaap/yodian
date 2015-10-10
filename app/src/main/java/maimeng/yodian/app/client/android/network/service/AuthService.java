@@ -8,7 +8,7 @@ import org.henjue.library.hnet.anntoation.FormUrlEncoded;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
@@ -25,7 +25,7 @@ public interface AuthService {
      * @param pushtoken
      * @param callback
      */
-    @Post(ApiConfig.Api.AUTH_LOGIN)
+    @Post(Api.AUTH_LOGIN)
     @Filter(LoginPhoneFilter.class)
     void login(@Param("mobile") String mobile, @Param("code") String code, @Param("etoken") String pushtoken, Callback<AuthResponse> callback);
 
@@ -38,7 +38,7 @@ public interface AuthService {
      * @param pushtoken 推送token
      * @param callback
      */
-    @Post(ApiConfig.Api.AUTH_LOGIN)
+    @Post(Api.AUTH_LOGIN)
     @Filter(LoginThirdPartyFilter.class)
     void thirdParty(@Param("type") int type, @Param("token") String token, @Param("usid") String usid, @Param("etoken") String pushtoken, Callback<AuthResponse> callback);
 
@@ -48,7 +48,7 @@ public interface AuthService {
      * @param mobile
      * @param callback
      */
-    @Post(ApiConfig.Api.AUTH_GETCODE)
+    @Post(Api.AUTH_GETCODE)
     void getCode(@Param("mobile") String mobile, Callback<ToastResponse> callback);
 
 

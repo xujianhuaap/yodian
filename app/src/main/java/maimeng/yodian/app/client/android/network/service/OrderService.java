@@ -5,9 +5,8 @@ import org.henjue.library.hnet.anntoation.FormUrlEncoded;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.response.OrderRepsonse;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 /**
  * Created by xujianhua on 9/28/15.
@@ -15,8 +14,8 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 @FormUrlEncoded
 public interface OrderService {
-    @Post(ApiConfig.Api.ORDER_LIST_BUYER)
+    @Post(Api.ORDER_LIST_BUYER)
     void buyers(@Param("P")int p,Callback<OrderRepsonse>callback);
-    @Post(ApiConfig.Api.ORDER_LIST_SELLER)
+    @Post(Api.ORDER_LIST_SELLER)
     void seller(@Param("p")int p,Callback<OrderRepsonse>callback);
 }

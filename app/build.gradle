@@ -35,13 +35,17 @@ android {
     }
 
     defaultConfig {
+        buildConfigField "String", "REDIRECT_URL", "\"http://sns.whalecloud.com/sina2/callback\""
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1032
-
         versionName "1.0.3"
+        buildConfigField "String", "WEIXIN_APP_KEY", "\"wxa8accb138107c861\""
+        buildConfigField "String", "WEIXIN_APP_SECRET", "\"030bc9daa9b842fd44fc67ca166b125a\""
+        buildConfigField "String", "WEIBO_APP_KEY", "\"1846400889\""
+        buildConfigField "String", "QQ_APP_KEY", "\"1104669989\""
     }
     buildTypes {
         release {
@@ -53,6 +57,8 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            buildConfigField "String", "API_HOST", "\"http://skillpre.maiquanshop.com\""
+
         }
         debug {
             //混淆
@@ -63,6 +69,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
+            buildConfigField "String", "API_HOST", "\"http://skilltest.maiquanshop.com/\""
         }
     }
     compileOptions {

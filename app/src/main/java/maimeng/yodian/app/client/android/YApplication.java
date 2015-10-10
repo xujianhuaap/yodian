@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.constants.ApiConfig;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
@@ -127,7 +126,7 @@ public class YApplication extends DemoApplication {
         }
         FeedbackPush.getInstance(this).init(true);
         Network.getOne().init(this);
-        ShareSDK.getInstance().initShare(ApiConfig.WEIXIN_APP_KEY, ApiConfig.WEIBO_APP_KEY, ApiConfig.QQ_APP_KEY, ApiConfig.WEIXIN_APP_SECRET, ApiConfig.REDIRECT_URL);
+        ShareSDK.getInstance().initShare(BuildConfig.WEIXIN_APP_KEY, BuildConfig.WEIBO_APP_KEY, BuildConfig.QQ_APP_KEY, BuildConfig.WEIXIN_APP_SECRET, BuildConfig.REDIRECT_URL);
         EMChat.getInstance().setDebugMode(BuildConfig.DEBUG);
 
     }

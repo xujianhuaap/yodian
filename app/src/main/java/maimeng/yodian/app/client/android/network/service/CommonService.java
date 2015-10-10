@@ -9,7 +9,7 @@ import org.henjue.library.hnet.anntoation.Get;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.VersionResponse;
@@ -28,10 +28,10 @@ public interface CommonService {
      * @param ruid     用户id，type=3
      * @param callback
      */
-    @Post(ApiConfig.Api.REPORT)
+    @Post(Api.REPORT)
     void report(@Param("type") int type, @Param("sid") long sid, @Param("scid") long scid, @Param("ruid") long ruid, ToastCallback callback);
 
-    @Get(ApiConfig.Api.CHECK_VERSION)
+    @Get(Api.CHECK_VERSION)
     @Filter(CheckVersion.class)
     void checkVersion(Callback<VersionResponse> callback);
 
@@ -53,6 +53,6 @@ public interface CommonService {
         }
     }
 
-    @Post(ApiConfig.Api.PUSH)
+    @Post(Api.PUSH)
     void push(@Param("eclose")String eclose,Callback<ToastResponse> callback);
 }
