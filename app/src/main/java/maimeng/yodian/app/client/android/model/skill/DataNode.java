@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import maimeng.yodian.app.client.android.model.Theme;
-
 /**
  * Created by android on 8/20/15.
  */

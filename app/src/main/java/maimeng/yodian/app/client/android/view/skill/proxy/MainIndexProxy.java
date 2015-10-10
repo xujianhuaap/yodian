@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -41,21 +42,20 @@ import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.SkillListSelectorAdapter;
+import maimeng.yodian.app.client.android.adapter.SkillListIndexAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.DefaultItemTouchHelperCallback;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.DataNode;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
-import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
-import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
-import maimeng.yodian.app.client.android.model.Theme;
+import maimeng.yodian.app.client.android.model.skill.Theme;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -81,11 +81,11 @@ import maimeng.yodian.app.client.android.widget.PagerRecyclerView;
  * Created by android on 15-7-13.
  */
 
-public class MainSelectorProxy implements ActivityProxy, EMEventListener,
-        AbstractAdapter.ViewHolderClickListener<SkillListSelectorAdapter.BaseViewHolder>,
+public class MainIndexProxy implements ActivityProxy, EMEventListener,
+        AbstractAdapter.ViewHolderClickListener<SkillListIndexAdapter.BaseViewHolder>,
         PtrHandler, Callback<SkillResponse>, View.OnClickListener, CategoryView.CategoryClickListener {
 
-    private static final String LOG_TAG = MainSelectorProxy.class.getName();
+    private static final String LOG_TAG = MainIndexProxy.class.getName();
     private static final int CATEGORY_ANIM_ENTER = 0x37;
     private static final int CATEGORY_ANIM_DISMISS = 0x32;
     private final View mView;
@@ -100,7 +100,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     private int dgree = 0;
     private int page = 1;
     private int scid = 0;
-    private final SkillListSelectorAdapter adapter;
+    private final SkillListIndexAdapter adapter;
     private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private FloatingActionButton mFloatButton;
     private final Handler handler;
@@ -114,7 +114,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     private ObjectAnimator animator;
 
 
-    public MainSelectorProxy(MainTabActivity activity, View view) {
+    public MainIndexProxy(MainTabActivity activity, View view) {
         this.mView = view;
         handler = new Handler(Looper.getMainLooper());
         view.setVisibility(View.GONE);
@@ -131,6 +131,13 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         mToolBar = (android.support.v7.widget.Toolbar) view.findViewById(R.id.toolbar);
         mCategoryView = (CategoryView) mCategoryContainer.findViewById(R.id.category);
         mCategoryView.setCategoryClickListener(this);
+
+
+        TabLayout mTabNavcation = (TabLayout) view.findViewById(R.id.tab_nav);
+        mTabNavcation.setTabMode(TabLayout.MODE_FIXED);
+        mTabNavcation.setTabTextColors(0xffcccccc, 0xff000000);
+
+
         mTitleBar = view.findViewById(R.id.ll_title);
         mTitleIndicator = (ImageView) view.findViewById(R.id.title_logo);
         mTitle = (TextView) view.findViewById(R.id.list_title);
@@ -153,7 +160,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter = new SkillListSelectorAdapter(mActivity, this, mRefreshLayout);
+        adapter = new SkillListIndexAdapter(mActivity, this, mRefreshLayout);
         mRecyclerView.setAdapter(adapter);
 
         animator = ObjectAnimator.ofFloat(mTitleIndicator, View.ROTATION, 180);
@@ -218,7 +225,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     public void onClickListener(View v, Theme theme) {
 
         scid = (int) theme.getScid();
-        page=1;
+        page = 1;
         syncRequest();
         mRecyclerView.scrollToPosition(0);
         mTitle.setText(theme.getName());
@@ -368,9 +375,9 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
     }
 
     @Override
-    public void onItemClick(final SkillListSelectorAdapter.BaseViewHolder h, int postion) {
+    public void onItemClick(final SkillListIndexAdapter.BaseViewHolder h, int postion) {
 
-        if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
+        if (h instanceof SkillListIndexAdapter.ItemViewHolder) {
             mFloatButton.show();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -380,7 +387,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 //                Pair<View, String> nick = Pair.create((View) holder.getBinding().userNickname, "nick");
 //                Pair<View, String> avatar = Pair.create((View) holder.getBinding().userAvatar, "avatar");
                     //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back, contact, avatar);
-                    Skill skill = ((SkillListSelectorAdapter.ItemViewHolder) h).getData();
+                    Skill skill = ((SkillListIndexAdapter.ItemViewHolder) h).getData();
                     if (skill.getStatus() == 0) {
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
                         ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", skill), options.toBundle());
@@ -391,7 +398,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         }
     }
 
-    private void clickBanner(SkillListSelectorAdapter.BannerViewHolder holder) {
+    private void clickBanner(SkillListIndexAdapter.BannerViewHolder holder) {
         int current = holder.currentPage % holder.list.banners.size();
         Banner banner = holder.list.banners.get(current);
         if (banner.getType() == 3) {
@@ -410,30 +417,14 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
         }
     }
 
-    /**
-     * @param type 1:skill,2:user
-     * @param data
-     */
-    private void clickHead(int type, HeadViewEntry data) {
-        if (type == 1) {
-            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-            ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("sid", data.skill.getValue()), options.toBundle());
-        } else {
-            Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-            ActivityCompat.startActivity(mActivity, new Intent(mActivity, UserHomeActivity.class).putExtra("uid", data.user.getValue()), options.toBundle());
-        }
-    }
-
     private int mEditPostion;
 
     @Override
-    public void onClick(SkillListSelectorAdapter.BaseViewHolder h, View clickItem, final int postion) {
+    public void onClick(SkillListIndexAdapter.BaseViewHolder h, View clickItem, final int postion) {
 
 
-        if (h instanceof SkillListSelectorAdapter.ItemViewHolder) {
-            final SkillListSelectorAdapter.ItemViewHolder holder = (SkillListSelectorAdapter.ItemViewHolder) h;
+        if (h instanceof SkillListIndexAdapter.ItemViewHolder) {
+            final SkillListIndexAdapter.ItemViewHolder holder = (SkillListIndexAdapter.ItemViewHolder) h;
             final Skill skill = holder.getData();
             if (clickItem == holder.getBinding().btnShare) {
                 Skill data = skill;
@@ -496,7 +487,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             } else if (clickItem == holder.getBinding().btnBottom) {
                 Intent intent = new Intent(mActivity, ChatActivity.class);
                 intent.putExtra("skill", holder.getData());
-                intent.putExtra("uid",holder.getData().getUid());
+                intent.putExtra("uid", holder.getData().getUid());
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
                 if (robotMap.containsKey(chatLoginName)) {
@@ -532,15 +523,8 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
                     mActivity.startActivity(intent);
                 }
             }
-        } else if (SkillListSelectorAdapter.HeadViewHolder.class.isInstance(h)) {
-            SkillListSelectorAdapter.HeadViewHolder holder = (SkillListSelectorAdapter.HeadViewHolder) h;
-            if (clickItem == holder.binding.headSkill) {
-                clickHead(1, holder.data);
-            } else if (clickItem == holder.binding.headUser) {
-                clickHead(2, holder.data);
-            }
-        } else if (SkillListSelectorAdapter.BannerViewHolder.class.isInstance(h)) {
-            clickBanner(((SkillListSelectorAdapter.BannerViewHolder) h));
+        } else if (SkillListIndexAdapter.BannerViewHolder.class.isInstance(h)) {
+            clickBanner(((SkillListIndexAdapter.BannerViewHolder) h));
         }
 
     }
@@ -573,7 +557,6 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
                 entries = new ArrayList<>(list.size() + 2);
                 List<Banner> banners = data.getBanner();
                 entries.add(new BannerViewEntry(banners));
-                entries.add(new HeadViewEntry(data.getHeadSkill(), data.getHeadUser()));
             } else {
                 entries = new ArrayList<>(list.size());
             }
@@ -589,6 +572,7 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
                 if (mCategory == null) {
                     mCategory = new ArrayList<Theme>();
                 }
+                initNavcation(mCategory);
                 mCategoryView.bindData(mActivity, mCategory);
             }
 
@@ -598,6 +582,10 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
             }
         }
+
+    }
+
+    private void initNavcation(List<Theme> mCategory) {
 
     }
 
@@ -626,9 +614,9 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
 
     @Override
     public void onResume() {
-        if(User.read(mActivity).isPushOn()){
+        if (User.read(mActivity).isPushOn()) {
             EMChatManager.getInstance().registerEventListener(this);
-        }else {
+        } else {
             EMChatManager.getInstance().unregisterEventListener(this);
         }
 
@@ -645,8 +633,8 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
             @Override
             public void run() {
                 int unread = EMChatManager.getInstance().getUnreadMsgsCount();
-                if(!User.read(mActivity).isPushOn()){
-                    unread=0;
+                if (!User.read(mActivity).isPushOn()) {
+                    unread = 0;
                 }
                 if (unread > 0) {
                     mView.findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
@@ -667,7 +655,6 @@ public class MainSelectorProxy implements ActivityProxy, EMEventListener,
                 refreshMissMsgIcon();
                 break;
         }
-
 
 
     }

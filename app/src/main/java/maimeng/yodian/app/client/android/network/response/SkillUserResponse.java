@@ -3,7 +3,7 @@ package maimeng.yodian.app.client.android.network.response;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.model.Theme;
+import maimeng.yodian.app.client.android.model.skill.Theme;
 import maimeng.yodian.app.client.android.model.user.User;
 
 

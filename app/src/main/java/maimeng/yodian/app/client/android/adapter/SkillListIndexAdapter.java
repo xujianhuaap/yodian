@@ -22,10 +22,8 @@ import java.util.List;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.databinding.SkillListItemHeadBinding;
 import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
-import maimeng.yodian.app.client.android.entry.skillseletor.HeadViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -41,23 +39,23 @@ import maimeng.yodian.app.client.android.widget.ViewPager;
 /**
  * Created by android on 15-7-13.
  */
-public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillListSelectorAdapter.BaseViewHolder> {
+public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListIndexAdapter.BaseViewHolder> {
     private final PtrFrameLayout refreshLayout;
     private int mScreenWidth;
 
-    public SkillListSelectorAdapter(Context context, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
+    public SkillListIndexAdapter(Context context, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(context, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
         mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
     }
 
-    public SkillListSelectorAdapter(Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
+    public SkillListIndexAdapter(Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(fragment, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
         mScreenWidth = fragment.getResources().getDisplayMetrics().widthPixels;
     }
 
-    public SkillListSelectorAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
+    public SkillListIndexAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<BaseViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(fragment, viewHolderClickListener);
         this.refreshLayout = refreshLayout;
         mScreenWidth = fragment.getResources().getDisplayMetrics().widthPixels;
@@ -71,9 +69,6 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
                 return new ItemViewHolder(binding);
             case ViewEntry.VIEW_TYPE_BANNER:
                 return new BannerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.skill_list_item_banner, parent, false));
-            case ViewEntry.VIEW_TYPE_HEAD:
-                SkillListItemHeadBinding headBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.skill_list_item_head, parent, false);
-                return new HeadViewHolder(headBinding);
             default:
                 throw new RuntimeException("Error ViewType");
         }
@@ -85,9 +80,6 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         switch (getItemViewType(position)) {
             case ViewEntry.VIEW_TYPE_ITEM:
                 bindItem(holder, getItem(position));
-                break;
-            case ViewEntry.VIEW_TYPE_HEAD:
-                bindHead(holder, getItem(position));
                 break;
             case ViewEntry.VIEW_TYPE_BANNER:
                 BannerViewEntry viewEntry = (BannerViewEntry) getItem(position);
@@ -101,11 +93,6 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
     private void bindBanner(BaseViewHolder h, ViewEntry item) {
         BannerViewHolder holder = (BannerViewHolder) h;
         holder.bind(((BannerViewEntry) item));
-    }
-
-    private void bindHead(BaseViewHolder h, ViewEntry item) {
-        HeadViewHolder holder = (HeadViewHolder) h;
-        holder.bind(((HeadViewEntry) item));
     }
 
     @Override
@@ -225,31 +212,6 @@ public class SkillListSelectorAdapter extends AbstractAdapter<ViewEntry, SkillLi
         public void onCancel() {
             refreshLayout.setEnabled(true);
             banner.startAutoScroll();
-        }
-    }
-
-    public class HeadViewHolder extends BaseViewHolder {
-        public final SkillListItemHeadBinding binding;
-        public HeadViewEntry data;
-
-        public HeadViewHolder(SkillListItemHeadBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-
-            binding.headSkill.setOnClickListener(this);
-            binding.headUser.setOnClickListener(this);
-        }
-
-        public void bind(HeadViewEntry item) {
-            this.data = item;
-            binding.setSkill(item.skill);
-            binding.setUser(item.user);
-        }
-
-        @Override
-        public void onClick(View v) {
-            super.onClick(v);
-            mViewHolderClickListener.onClick(this, v, getLayoutPosition());
         }
     }
 

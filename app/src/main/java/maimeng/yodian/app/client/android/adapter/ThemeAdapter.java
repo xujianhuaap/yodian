@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import java.util.List;
-
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.Theme;
+import maimeng.yodian.app.client.android.model.skill.Theme;
 
 /**
  * Created by android on 15-8-10.

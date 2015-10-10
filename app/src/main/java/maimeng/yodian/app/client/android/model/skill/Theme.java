@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.model;
+package maimeng.yodian.app.client.android.model.skill;
 
 import android.os.Parcel;
 import android.os.Parcelable;
