@@ -6,7 +6,7 @@ import org.henjue.library.hnet.anntoation.NoneEncoded;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
@@ -22,7 +22,7 @@ public interface MoneyService {
      *
      * @param response
      */
-    @Post(ApiConfig.Api.MONEY_MY)
+    @Post(Api.MONEY_MY)
     @NoneEncoded
     void remanider(Callback<RemainderResponse> response);
 
@@ -32,7 +32,7 @@ public interface MoneyService {
      *
      * @param response
      */
-    @Post(ApiConfig.Api.MONEY_WITHDRAW)
+    @Post(Api.MONEY_WITHDRAW)
     void withdraw(@Param("money") double money, ToastCallback response);
 
     /***
@@ -44,7 +44,7 @@ public interface MoneyService {
      * @param Content
      * @param callback
      */
-    @Post(ApiConfig.Api.VOUCH_APPLY)
+    @Post(Api.VOUCH_APPLY)
     void vouchApply(@Param("name")String name,@Param("telephone")String phone,
                     @Param("qq")String qq,@Param("email")String email,
                     @Param("content")String Content,Callback<ToastResponse> callback);
@@ -54,11 +54,11 @@ public interface MoneyService {
      * @param callback
      */
 
-    @Post(ApiConfig.Api.VOUCH_DETAIL)
+    @Post(Api.VOUCH_DETAIL)
     @NoneEncoded
     void vouchDetail(Callback<VouchResponse>callback);
 
-    @Post(ApiConfig.Api.VOUCH_CANCEL)
+    @Post(Api.VOUCH_CANCEL)
     @NoneEncoded
     void vouchCancel(Callback<ToastResponse> callback);
 

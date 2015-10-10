@@ -7,7 +7,7 @@ import org.henjue.library.hnet.anntoation.Multipart;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
@@ -25,7 +25,7 @@ public interface SkillService {
      * @param p
      * @param callback
      */
-    @Post(ApiConfig.Api.SKILL_LIST)
+    @Post(Api.SKILL_LIST)
     void list(@Param("uid") long uid, @Param("p") int p, Callback<SkillUserResponse> callback);
 
     /**
@@ -34,7 +34,7 @@ public interface SkillService {
      * @param p
      * @param callback
      */
-    @Post(ApiConfig.Api.SKILL_CHOICE)
+    @Post(Api.SKILL_CHOICE)
     void choose(@Param("p") int p, @Param("scid") int scid, Callback<SkillResponse> callback);
 
     /**
@@ -42,7 +42,7 @@ public interface SkillService {
      *
      * @param callback
      */
-    @Get(ApiConfig.Api.SKILL_TEMPLATE)
+    @Get(Api.SKILL_TEMPLATE)
     void template(Callback<SkillTemplateResponse> callback);
 
     /**
@@ -52,7 +52,7 @@ public interface SkillService {
      * @param callback
      */
     @Multipart
-    @Post(ApiConfig.Api.SKILL_ADD)
+    @Post(Api.SKILL_ADD)
     void add(@Param("name") String name, @Param("content") String content, @Param("pic") TypedBitmap pic, @Param("price") String price, @Param("unit") String unit, Callback<SkillAllResponse> callback);
 
     /**
@@ -67,7 +67,7 @@ public interface SkillService {
      * @param callback
      */
     @Multipart
-    @Post(ApiConfig.Api.SKILL_UPDATE)
+    @Post(Api.SKILL_UPDATE)
     void update(@Param("sid") long sid, @Param("name") String name, @Param("content") String content, @Param("pic") TypedBitmap pic, @Param("price") String price, @Param("unit") String unit, ToastCallback callback);
 
 
@@ -77,7 +77,7 @@ public interface SkillService {
      * @param sid
      * @param callback
      */
-    @Post(ApiConfig.Api.SKILL_DELETE)
+    @Post(Api.SKILL_DELETE)
     void delete(@Param("sid") long sid, ToastCallback callback);
 
     /**
@@ -87,7 +87,7 @@ public interface SkillService {
      * @param up       1上架，0下架
      * @param callback
      */
-    @Post(ApiConfig.Api.SKILL_UP)
+    @Post(Api.SKILL_UP)
     void up(@Param("sid") long sid, @Param("up") int up, ToastCallback callback);
 
     /**
@@ -96,7 +96,7 @@ public interface SkillService {
      * @param sid
      * @param callback
      */
-    @Post(ApiConfig.Api.RMARK_LIST)
+    @Post(Api.RMARK_LIST)
     void rmark_list(@Param("sid") long sid, @Param("p") int page, Callback<RmarkListResponse> callback);
 
     /**
@@ -105,7 +105,7 @@ public interface SkillService {
      * @param id
      * @param callback
      */
-    @Post(ApiConfig.Api.RMARK_DELETE)
+    @Post(Api.RMARK_DELETE)
     void delete_rmark(@Param("scid") long id, ToastCallback callback);
 
     /***
@@ -117,13 +117,13 @@ public interface SkillService {
      * @param callback
      */
     @Multipart
-    @Post(ApiConfig.Api.RMARK_ADD)
+    @Post(Api.RMARK_ADD)
     void add_rmark(@Param("sid") long sid, @Param("content") String content,
                    @Param("pic") TypedBitmap pic,
                    ToastCallback callback);
 
 
-    @Post(ApiConfig.Api.REPORT)
+    @Post(Api.REPORT)
     void report(@Param("type") int type, @Param("scid") long scid,
                 @Param("sid") long sid, @Param("rid") long rid,
                 ToastCallback callback);

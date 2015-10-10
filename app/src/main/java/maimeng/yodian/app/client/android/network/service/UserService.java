@@ -7,7 +7,7 @@ import org.henjue.library.hnet.anntoation.Multipart;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
-import maimeng.yodian.app.client.android.constants.ApiConfig;
+import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
@@ -25,7 +25,7 @@ public interface UserService {
      * @param callback
      */
     @Multipart
-    @Post(ApiConfig.Api.USER_INFO_UPDATE)
+    @Post(Api.USER_INFO_UPDATE)
     void modifyInfo(@Param("nickname") String nickname, @Param("avatar") TypedBitmap avatar,
                     Callback<ModifyUserResponse> callback);
 
@@ -36,12 +36,12 @@ public interface UserService {
      * @param callback
      */
     @Multipart
-    @Post(ApiConfig.Api.USER_INFO_UPDATE)
+    @Post(Api.USER_INFO_UPDATE)
     void modifyInfo(@Param("nickname") String nickname, @Param("weichat") String wechat,
                     @Param("avatar") TypedBitmap avatar, @Param("qq")String qq,
                     @Param("contact")String phone,Callback<ModifyUserResponse> callback);
 
-    @Get(ApiConfig.Api.USER_INFO)
+    @Get(Api.USER_INFO)
     void info(Callback<UserInfoResponse> callback);
 
 }
