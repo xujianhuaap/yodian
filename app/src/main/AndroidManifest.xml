@@ -140,6 +140,8 @@
             android:label="@string/order_list_btn_ordered">
 
         </activity>
+        <activity android:name=".view.deal.OrderDetailActivity"
+            android:label="@string/order_detail_title"></activity>
         <activity android:name=".view.deal.VouchApplyActivity"
             android:label="@string/apply_title"></activity>
         <activity android:name=".view.deal.VouchDetailActivity"

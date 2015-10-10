@@ -20,6 +20,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.OrderListAdapter;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderRepsonse;
@@ -85,6 +86,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
         };
         mAdapter=new OrderListAdapter(getActivity(),new ViewHolderClickListenerProxy());
+        mAdapter.setIsSaled(isSaled);
         mRecyclerView.setLayoutManager(layout);
         mRecyclerView.addOnScrollListener(mEndlessRecyclerOnScrollListener);
         mRecyclerView.setAdapter(mAdapter);
@@ -134,7 +136,8 @@ public class OrderFragment extends Fragment implements PtrHandler{
     public final class ViewHolderClickListenerProxy implements OrderListAdapter.ViewHolderClickListener<OrderListAdapter.ViewHolder> {
         @Override
         public void onItemClick(OrderListAdapter.ViewHolder holder, int postion) {
-
+            OrderInfo orderInfo=mAdapter.getItem(postion);
+            OrderDetailActivity.show(getActivity(),orderInfo,mAdapter.isSaled());
         }
 
         @Override

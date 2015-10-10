@@ -100,5 +100,9 @@
 
     <dimen name="seller_avatar">60dp</dimen>
 
+    <!-- order_detail-->
+    <dimen name="order_skill_pic_width">100dp</dimen>
+    <dimen name="order_status_height">40dp</dimen>
+
 
 </resources>

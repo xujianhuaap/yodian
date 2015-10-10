@@ -37,15 +37,15 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
         super(fragment, viewHolderClickListener);
     }
 
-    private boolean isBuyer=true;
+    private boolean isSaled;
 
 
-    public boolean isBuyer() {
-        return isBuyer;
+    public boolean isSaled() {
+        return isSaled;
     }
 
-    public void setIsBuyer(boolean isBuyer) {
-        this.isBuyer = isBuyer;
+    public void setIsSaled(boolean isSaled) {
+        this.isSaled = isSaled;
     }
 
     @Override
@@ -81,15 +81,25 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
      *
      */
 
-    public final class ViewHolder extends RecyclerView.ViewHolder{
+    public final class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private OrderInfo mOrder;
         private final ItemOrderListBinding mBinding;
 
         public ViewHolder(ItemOrderListBinding listBinding) {
             super(listBinding.getRoot());
             mBinding=listBinding;
+            mBinding.getRoot().setOnClickListener(this);
+            mBinding.acceptOrder.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            if(v==mBinding.getRoot()){
+                mViewHolderClickListener.onItemClick(this,getLayoutPosition());
+            }else{
+                mViewHolderClickListener.onClick(this,v,getLayoutPosition());
+            }
+        }
 
         /****
          *
@@ -104,39 +114,32 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
                 String operatorStr=null;
                 switch (Integer.parseInt(status)){
                     case 0:
-                        if(isBuyer){
-                            statusStr=mContext.getString(R.string.order_status_unpay);
+                        statusStr=mContext.getString(R.string.order_status_unpay);
+                        if(!isSaled){
                             operatorStr=mContext.getString(R.string.buyer_operator_pay);
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_orange));
                         }else {
-                            statusStr=mContext.getString(R.string.order_status_wait_accept);
-                            operatorStr=mContext.getString(R.string.seller_operator_wait_pay);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_gray));
+                           mBinding.acceptOrder.setVisibility(View.INVISIBLE);
                         }
                         break;
                     case 1:
+                        //后台预留
                         statusStr=mContext.getString(R.string.order_status_delete);
-                        if(isBuyer){
 
-                        }else {
-
-                        }
                         break;
                     case 2:
-
-                        if(isBuyer){
-                            statusStr=mContext.getString(R.string.order_status_payed);
+                        statusStr=mContext.getString(R.string.order_status_payed);
+                        if(!isSaled){
                             operatorStr=mContext.getString(R.string.buyer_operator_wait_accept);
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_gray));
                         }else {
-                            statusStr=mContext.getString(R.string.order_status_payed);
                             operatorStr=mContext.getString(R.string.seller_operator_accept);
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_orange));
                         }
                         break;
                     case 3:
                         statusStr=mContext.getString(R.string.order_status_accept);
-                        if(isBuyer){
+                        if(!isSaled){
                             operatorStr=mContext.getString(R.string.buyer_operator_wait_send);
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_gray));
                         }else {
@@ -146,12 +149,12 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
                         break;
                     case 4:
                         statusStr=mContext.getString(R.string.order_status_send_goods);
-                        if(isBuyer){
+                        if(!isSaled){
                             operatorStr=mContext.getString(R.string.buyer_operator_confirm);
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_orange));
                         }else {
-                          
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_orange));
+
+                            mBinding.acceptOrder.setVisibility(View.INVISIBLE);
                         }
                         break;
                     case 5:
