@@ -51,7 +51,12 @@
             android:name=".SplashActivity"
             android:targetActivity=".view.splash.${LAUNCHER_ACTIVITY}" />
 
+        <activity
+            android:name=".view.MainTab2Activity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
 
+        </activity>
         <activity
             android:name=".view.MainTabActivity"
             android:label="@string/app_name"
@@ -136,13 +141,16 @@
 
         <service android:name=".service.ChatServiceLoginService" />
 
-        <activity android:name=".view.deal.OrderListActivity"
+        <activity
+            android:name=".view.deal.OrderListActivity"
             android:label="@string/order_list_btn_ordered">
 
         </activity>
-        <activity android:name=".view.deal.VouchApplyActivity"
+        <activity
+            android:name=".view.deal.VouchApplyActivity"
             android:label="@string/apply_title"></activity>
-        <activity android:name=".view.deal.VouchDetailActivity"
+        <activity
+            android:name=".view.deal.VouchDetailActivity"
             android:label="@string/apply_title"></activity>
         <activity
             android:name=".view.deal.RemainderMainActivity"

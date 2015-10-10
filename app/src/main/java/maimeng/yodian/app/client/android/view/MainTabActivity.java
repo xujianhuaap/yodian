@@ -25,7 +25,7 @@ import maimeng.yodian.app.client.android.view.skill.proxy.MainIndexProxy;
 
 
 public class MainTabActivity extends AbstractActivity implements AlertDialog.PositiveListener {
-    private static final String TAG =MainTabActivity.class.getName() ;
+    private static final String TAG = MainTabActivity.class.getName();
     private ActivityProxyController controller;
     private static final int REQUEST_AUTH = 0x1001;//登陆
     private static final int REQUEST_UPDATEINFO = 0x1002;//更新个人信息
@@ -46,12 +46,12 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        startActivity(new Intent(this, MainTab2Activity.class));
+//        finish();
         if (LauncherCheck.isFirstRun(this)) {
-                finish();
-        }else{
+            finish();
+        } else {
             PushAgent mPushAgent = PushAgent.getInstance(this);
-//        mPushAgent.setPushIntentServiceClass(UmengPushMessageService.class);
             mPushAgent.enable();
             mPushAgent.onAppStart();
             setContentView(R.layout.activity_yodian_main, false);
@@ -72,7 +72,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
 //            showDefault();
             initProxy();
 
-            if(getIntent().hasExtra("home")){
+            if (getIntent().hasExtra("home")) {
                 floatButton.callOnClick();
             }
         }
@@ -109,7 +109,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
             } else {
                 finish();
             }
-        } else  {
+        } else {
             controller.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -124,7 +124,7 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     public void onResume() {
         super.onResume();
 
-        if(TextUtils.isEmpty(User.read(this).getToken())){
+        if (TextUtils.isEmpty(User.read(this).getToken())) {
             AuthRedirect.toAuth(this);
         }
         MobclickAgent.onResume(this);

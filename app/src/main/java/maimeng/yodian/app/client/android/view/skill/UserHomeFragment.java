@@ -1,23 +1,20 @@
-package maimeng.yodian.app.client.android.view.skill.proxy;
+package maimeng.yodian.app.client.android.view.skill;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.AppBarLayout;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
@@ -62,6 +59,8 @@ import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.BaseFragment;
+import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.PreviewActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
@@ -69,54 +68,59 @@ import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
 import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
-import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
-import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
-import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
+import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
 /**
- * Created by android on 15-7-13.
+ * Created by android on 15-10-10.
  */
-public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, PtrHandler, Callback<SkillUserResponse>, AppBarLayout.OnOffsetChangedListener {
-    private static final int REQUEST_UPDATEINFO = 0x5005;
-    private static final String LOG_TAG = MainHomeProxy.class.getSimpleName();
-    private final FrameLayout mView;
-    private final Activity mActivity;
-    private final RecyclerView mRecyclerView;
-    private final PtrFrameLayout mRefreshLayout;
-    private final SkillService service;
-    private Bitmap defaultAvatar;
-    private boolean inited = false;
-    private final SkillListHomeAdapter adapter;
-    private final EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
-    private User user;
-    private int page = 1;
+public class UserHomeFragment extends BaseFragment implements EMEventListener, PtrHandler, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, Callback<SkillUserResponse> {
+    private MainTab2Activity mActivity;
     private FloatingActionButton mFloatButton;
-    private int mEditPostion;
-    private final Handler handler;
-    ValueAnimator animator = new ValueAnimator();
-    private ViewHeaderMainHomeBinding headerMainHomeBinding;
 
-    public MainHomeProxy(Activity activity, View view) {
-        this(activity, view, null, "");
+    public static UserHomeFragment newInstance() {
+        return new UserHomeFragment();
     }
 
-    public MainHomeProxy(Activity activity, View view, Bitmap avatar, String nickname) {
-        this.mView = (FrameLayout) view;
+    private static final String LOG_TAG = UserHomeFragment.class.getSimpleName();
+    private int page = 1;
+    private static final int REQUEST_UPDATEINFO = 0x5005;
+    private static final int REQUEST_AUTH = 0x8001;
+    private User user;
+    private int mEditPostion;
+    private ViewHeaderMainHomeBinding headerMainHomeBinding;
+    private RecyclerView mRecyclerView;
+    private PtrFrameLayout mRefreshLayout;
+    private SkillService service;
+    private SkillListHomeAdapter adapter;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
+    private Handler handler;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.include_home, container, false);
+        mActivity = (MainTab2Activity) getActivity();
+        mFloatButton = mActivity.getFloatButton();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         handler = new Handler(Looper.getMainLooper());
-        this.mActivity = activity;
-        view.setVisibility(View.GONE);
+        user = User.read(getActivity());
         service = Network.getService(SkillService.class);
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRefreshLayout.setPtrHandler(this);
-        StoreHouseHeader header = PullHeadView.create(mActivity);
+        StoreHouseHeader header = PullHeadView.create(getActivity());
 
         mRefreshLayout.addPtrUIHandler(header);
         mRefreshLayout.setHeaderView(header);
-        ListLayoutManager layout = new ListLayoutManager(mActivity);
+        ListLayoutManager layout = new ListLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layout);
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
             @Override
@@ -126,19 +130,17 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter = new SkillListHomeAdapter(mActivity, this);
+        adapter = new SkillListHomeAdapter(this, this);
         mRecyclerView.setAdapter(adapter);
-        animator.setIntValues(activity.getResources().getColor(R.color.colorPrimaryDark), activity.getResources().getColor(R.color.colorPrimary));
-        animator.setEvaluator(new ArgbEvaluator());
-        animator.setDuration(10000);
-
-
+        if (User.read(mActivity).isPushOn()) {
+            EMChatManager.getInstance().registerEventListener(this);
+        } else {
+            EMChatManager.getInstance().unregisterEventListener(this);
+        }
+        refreshMissMsgIcon();
+        init();
     }
 
-    public void syncRequest() {
-        LogUtil.i(LOG_TAG, "syncRequest().user.id:%d,user.id:%d", user.getId(), user.getId());
-        service.list(user.getUid(), page, this);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -167,14 +169,16 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         }
     }
 
-    public boolean isInited() {
-        return this.inited;
-    }
+    private boolean inited = false;
 
-    @Override
     public void init() {
         final User read = User.read(this.mActivity);
         init(read);
+    }
+
+    private void initSkillInfo() {
+        page = 1;
+        mRefreshLayout.autoRefresh();
     }
 
 
@@ -195,6 +199,65 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
 
     }
 
+    private void initUsrInfo() {
+        adapter.update(0, new HeaderViewEntry(user));
+    }
+
+    @Override
+    public void onEvent(EMNotifierEvent event) {
+        LogUtil.d(LOG_TAG, "isPushON" + User.read(mActivity).isPushOn());
+        if (User.read(mActivity).isPushOn()) {
+            switch (event.getEvent()) {
+                case EventNewMessage:
+                case EventReadAck:
+                    refreshMissMsgIcon();
+                    break;
+            }
+        }
+
+    }
+
+    public void syncRequest() {
+        LogUtil.i(LOG_TAG, "syncRequest().user.id:%d,user.id:%d", user.getId(), user.getId());
+        service.list(user.getUid(), page, this);
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void success(SkillUserResponse res, Response response) {
+        if (res.isSuccess()) {
+            List<Skill> list = res.getData().getList();
+            List<ViewEntry> entries = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                entries.add(new ItemViewEntry(list.get(i)));
+            }
+
+            adapter.reload(entries, page != 1);
+            adapter.notifyDataSetChanged();
+            this.user.update(res.getData().getUser());
+            showUserInfo();
+        } else {
+            res.showMessage(mActivity);
+            if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
+            }
+        }
+
+    }
+
+    @Override
+    public void failure(HNetError hNetError) {
+        ErrorUtils.checkError(mActivity, hNetError);
+    }
+
+    @Override
+    public void end() {
+        mRefreshLayout.refreshComplete();
+    }
+
     private void showUserInfo() {
         final User read = User.read(mActivity);
         LogUtil.i(LOG_TAG, "showUserInfo().read.id:%d,user.id:%d", read.getId(), user.getId());
@@ -210,9 +273,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
                 public void success(UserInfoResponse res, Response response) {
                     if (res.isSuccess()) {
                         final User.Info data = res.getData();
-                        MainHomeProxy.this.user.setInfo(data);
-                        if (MainHomeProxy.this.user.getUid() == data.getUid()) {
-                            MainHomeProxy.this.user.write(mActivity);
+                        UserHomeFragment.this.user.setInfo(data);
+                        if (UserHomeFragment.this.user.getUid() == data.getUid()) {
+                            UserHomeFragment.this.user.write(mActivity);
                             mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
                         }
                         initUsrInfo();
@@ -234,118 +297,17 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         }
     }
 
-    private void initSkillInfo() {
+
+    @Override
+    public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View content, View header) {
+        // 默认实现，根据实际情况做改动
+        return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, content, header);
+    }
+
+    @Override
+    public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
         page = 1;
-        mRefreshLayout.autoRefresh();
-    }
-
-    @Override
-    public void reset() {
-        inited = false;
-        adapter.reload(new ArrayList<ViewEntry>(), false);
-        adapter.notifyDataSetChanged();
-    }
-
-
-    private void initUsrInfo() {
-        adapter.update(0, new HeaderViewEntry(user));
-    }
-
-    @Override
-    public void onTitleChanged(CharSequence title, int color) {
-    }
-
-    private void refreshMissMsgIcon() {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                headerMainHomeBinding = adapter.getHeaderBinding();
-                if (headerMainHomeBinding != null) {
-                    View view = headerMainHomeBinding.missMsgCount;
-                    if (view != null) {
-                        int unread = EMChatManager.getInstance().getUnreadMsgsCount();
-                        if (!User.read(mActivity).isPushOn()) {
-                            unread = 0;
-                        }
-                        if (unread > 0) {
-                            view.setVisibility(View.VISIBLE);
-                        } else {
-                            view.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                }
-
-
-            }
-        });
-    }
-
-    @Override
-    public void show(FloatingActionButton button, boolean anima) {
-        refreshMissMsgIcon();
-        this.mFloatButton = button;
-        button.attachToRecyclerView(mRecyclerView);
-        if (anima) {
-            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-            alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
-            alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mView.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            this.mView.startAnimation(alphaAnimation);
-        } else {
-            mView.setVisibility(View.VISIBLE);
-        }
-
-    }
-
-    @Override
-    public void hide(FloatingActionButton button) {
-        hide(button, true);
-    }
-
-    @Override
-    public void hide(FloatingActionButton button, boolean anima) {
-        if (anima) {
-            AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-            alphaAnimation.setDuration(mActivity.getResources().getInteger(R.integer.duration));
-            alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mView.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            this.mView.startAnimation(alphaAnimation);
-        } else {
-            mView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public boolean isShow() {
-        return false;
+        syncRequest();
     }
 
     @Override
@@ -381,7 +343,7 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
             } else if (clickItem == itemViewHolder.getBinding().btnUpdate) {
                 Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
                 intent.putExtra("skill", skill);
-                mActivity.startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
+                startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
                 mEditPostion = postion;
                 itemViewHolder.closeWithAnim();
             } else if (clickItem == itemViewHolder.getBinding().btnDelete) {
@@ -535,91 +497,9 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
     }
 
     @Override
-    public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View content, View header) {
-        // 默认实现，根据实际情况做改动
-        return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, content, header);
-    }
-
-    @Override
-    public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-        page = 1;
-        syncRequest();
-    }
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void success(SkillUserResponse res, Response response) {
-        if (res.isSuccess()) {
-            List<Skill> list = res.getData().getList();
-            List<ViewEntry> entries = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                entries.add(new ItemViewEntry(list.get(i)));
-            }
-
-            adapter.reload(entries, page != 1);
-            adapter.notifyDataSetChanged();
-            this.user.update(res.getData().getUser());
-            showUserInfo();
-        } else {
-            res.showMessage(mActivity);
-            if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
-            }
-        }
-
-    }
-
-    @Override
-    public void failure(HNetError hNetError) {
-        ErrorUtils.checkError(mActivity, hNetError);
-    }
-
-    @Override
-    public void end() {
-        mRefreshLayout.refreshComplete();
-    }
-
-
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        mRefreshLayout.setEnabled(i == 0);
-        final float ratio = (float) Math.abs(i) / 507f;
-        final int playTime = (int) (ratio * 10000);
-        animator.setCurrentPlayTime(playTime);
-    }
-
-
-    @Override
-    public void show(FloatingActionButton viewById) {
-        show(viewById, true);
-    }
-
-    @Override
     public void onResume() {
-        EMChatManager.getInstance().registerEventListener(this);
+        super.onResume();
         refreshMissMsgIcon();
-    }
-
-    @Override
-    public void onPause() {
-        removeEMlistener();
-    }
-
-    @Override
-    public void onEvent(EMNotifierEvent event) {
-        LogUtil.d(MainHomeProxy.class.getName(), "isPushON" + User.read(mActivity).isPushOn());
-        if (User.read(mActivity).isPushOn()) {
-            switch (event.getEvent()) {
-                case EventNewMessage:
-                case EventReadAck:
-                    refreshMissMsgIcon();
-                    break;
-            }
-        }
-
     }
 
     private void report() {
@@ -649,7 +529,29 @@ public class MainHomeProxy implements ActivityProxy, EMEventListener, AbstractAd
         alert.show(mActivity.getFragmentManager(), "alert");
     }
 
-    public void removeEMlistener() {
-        EMChatManager.getInstance().unregisterEventListener(this);
+    private void refreshMissMsgIcon() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                headerMainHomeBinding = adapter.getHeaderBinding();
+                if (headerMainHomeBinding != null) {
+                    View view = headerMainHomeBinding.missMsgCount;
+                    if (view != null) {
+                        int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+                        if (!User.read(mActivity).isPushOn()) {
+                            unread = 0;
+                        }
+                        if (unread > 0) {
+                            view.setVisibility(View.VISIBLE);
+                        } else {
+                            view.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+
+
+            }
+        });
     }
+
 }
