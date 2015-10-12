@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply plugin: 'com.android.databinding'
-apply from: 'signing_config.gradle'
 apply from: 'apk.gradle'
 apply from: 'check.gradle'
 apply plugin: 'bugly'
@@ -15,10 +13,9 @@ android {
         main.java.srcDirs += 'src/chat/java'
         main.res.srcDirs += 'src/chat/res'
         main.jniLibs.srcDirs += 'src/chat/jniLibs'
-        main.java.srcDirs += 'src/main/kotlin'
     }
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.1"
     lintOptions {
         abortOnError false
         disable 'InvalidPackage'
@@ -33,19 +30,32 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
-
+    signingConfigs {
+        release {
+            keyAlias 'release'
+            keyPassword KEY_RELEASE_PASS
+            storeFile file(KEY_STORE_PATH)
+            storePassword KEY_STORE_PASS
+        }
+        debug {
+            keyAlias 'release'
+            keyPassword KEY_DEBUG_PASS
+            storeFile file(KEY_STORE_PATH)
+            storePassword KEY_STORE_PASS
+        }
+    }
     defaultConfig {
-        buildConfigField "String", "REDIRECT_URL", "\"http://sns.whalecloud.com/sina2/callback\""
+        buildConfigField "String", "REDIRECT_URL", APP_REDIRECT_URL
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1032
         versionName "1.0.3"
-        buildConfigField "String", "WEIXIN_APP_KEY", "\"wxa8accb138107c861\""
-        buildConfigField "String", "WEIXIN_APP_SECRET", "\"030bc9daa9b842fd44fc67ca166b125a\""
-        buildConfigField "String", "WEIBO_APP_KEY", "\"1846400889\""
-        buildConfigField "String", "QQ_APP_KEY", "\"1104669989\""
+        buildConfigField "String", "WEIXIN_APP_KEY", APP_WEIXIN_APP_KEY
+        buildConfigField "String", "WEIXIN_APP_SECRET", APP_WEIXIN_APP_SECRET
+        buildConfigField "String", "WEIBO_APP_KEY", APP_WEIBO_APP_KEY
+        buildConfigField "String", "QQ_APP_KEY", APP_QQ_APP_KEY
     }
     buildTypes {
         release {
@@ -57,7 +67,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            buildConfigField "String", "API_HOST", "\"http://skillpre.maiquanshop.com\""
+            buildConfigField "String", "API_HOST", APP_HOST
 
         }
         debug {
@@ -69,7 +79,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
-            buildConfigField "String", "API_HOST", "\"http://skilltest.maiquanshop.com/\""
+            buildConfigField "String", "API_HOST", APP_HOST_DEV
         }
     }
     compileOptions {
@@ -89,7 +99,6 @@ dependencies {
     compile(name: 'j99-md', ext: 'aar')
     compile project(':PhotoPicker')
     compile project(':ViewPagerIndicator')
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -133,17 +142,5 @@ dependencies {
     compile('net.glxn.qrgen:android:2.0')
     compile('com.umeng:fb:5.4.0') {
         exclude module: 'message', group: 'com.umeng'
-    }
-//    compile('org.henjue.library:sharesdk:1.0.2_beta3') {
-//        exclude module: 'hnet', group: 'org.henjue.library'
-//    }
-}
-buildscript {
-    ext.kotlin_version = '0.13.1514'
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }

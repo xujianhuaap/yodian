@@ -37,6 +37,7 @@ public interface MoneyService {
 
     /***
      * 担保申请
+     *
      * @param name
      * @param phone
      * @param qq
@@ -45,18 +46,19 @@ public interface MoneyService {
      * @param callback
      */
     @Post(Api.VOUCH_APPLY)
-    void vouchApply(@Param("name")String name,@Param("telephone")String phone,
-                    @Param("qq")String qq,@Param("email")String email,
-                    @Param("content")String Content,Callback<ToastResponse> callback);
+    void vouchApply(@Param("name") String name, @Param("telephone") String phone,
+                    @Param("qq") String qq, @Param("email") String email,
+                    @Param("content") String Content, Callback<ToastResponse> callback);
 
     /***
      * 担保详情
+     *
      * @param callback
      */
 
     @Post(Api.VOUCH_DETAIL)
     @NoneEncoded
-    void vouchDetail(Callback<VouchResponse>callback);
+    void vouchDetail(Callback<VouchResponse> callback);
 
     @Post(Api.VOUCH_CANCEL)
     @NoneEncoded
