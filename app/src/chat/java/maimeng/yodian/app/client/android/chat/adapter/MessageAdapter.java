@@ -76,10 +76,9 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import maimeng.yodian.app.client.android.BuildConfig;
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
-import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 import maimeng.yodian.app.client.android.chat.activity.BaiduMapActivity;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
@@ -95,7 +94,6 @@ import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 

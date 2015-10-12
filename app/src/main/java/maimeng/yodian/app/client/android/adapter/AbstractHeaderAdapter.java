@@ -11,13 +11,6 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.app.Fragment;
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by android on 15-8-11.

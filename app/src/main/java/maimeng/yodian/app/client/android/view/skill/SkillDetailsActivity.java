@@ -39,7 +39,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
@@ -153,7 +152,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         binding.headerLogoBg.setOnClickListener(this);
         binding.headerLogo.setOnClickListener(this);
 
-        ButterKnife.bind(this);
         headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, binding.recyclerView, false);
         headBinding.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +162,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         headBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isMe){
+                if (!isMe) {
                     UserHomeActivity.show(SkillDetailsActivity.this, skill.getUid(), defaultAvatar, skill.getNickname(), binding.btnBack, null,
                             headBinding.userNickname);
                 }
@@ -262,9 +260,9 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
         if (getIntent().hasExtra("skill")) {
             Skill skill = getIntent().getParcelableExtra("skill");
-            ImageBindable imageBindable=skill.getAvatar80();
-            if(imageBindable!=null&&imageBindable.getUri()!=null){
-                new ImageLoaderManager.Loader(SkillDetailsActivity.this,imageBindable.getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
+            ImageBindable imageBindable = skill.getAvatar80();
+            if (imageBindable != null && imageBindable.getUri() != null) {
+                new ImageLoaderManager.Loader(SkillDetailsActivity.this, imageBindable.getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
                     @Override
                     public void onImageLoaded(Bitmap bitmap) {
                         SkillDetailsActivity.this.defaultAvatar = bitmap;
@@ -280,9 +278,9 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
                     }
                 }).start(this);
-            }else {
-                if(skill.getAvatar()!=null){
-                    SkillDetailsActivity.this.defaultAvatar= ImageLoaderManager.image(SkillDetailsActivity.this, Uri.parse(skill.getAvatar()));
+            } else {
+                if (skill.getAvatar() != null) {
+                    SkillDetailsActivity.this.defaultAvatar = ImageLoaderManager.image(SkillDetailsActivity.this, Uri.parse(skill.getAvatar()));
                 }
 
             }
@@ -422,9 +420,9 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                     binding.btnContect.setText(R.string.btn_contact_ta);
                 }
                 headBinding.setSkill(skill);
-                if(skill.getStatus()!=0){
+                if (skill.getStatus() != 0) {
                     headBinding.skillStatus.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     headBinding.skillStatus.setVisibility(View.INVISIBLE);
                 }
                 binding.setSkill(skill);

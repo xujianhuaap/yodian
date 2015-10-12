@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.SkillTemplateItemBinding;
-import maimeng.yodian.app.client.android.model.SkillTemplate;
+import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
-import maimeng.yodian.app.client.android.databings.ImageAdapter;
+import maimeng.yodian.app.client.android.model.SkillTemplate;
 
 public class SkillTemplateAdapter extends AbstractAdapter<ViewEntry, SkillTemplateAdapter.ViewHolder> {
     public SkillTemplateAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {

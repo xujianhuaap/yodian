@@ -2,7 +2,6 @@ package maimeng.yodian.app.client.android.view.deal;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -35,7 +34,6 @@ import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.databinding.ActivityBindBankBinding;
 import maimeng.yodian.app.client.android.model.remainder.Bank;
 import maimeng.yodian.app.client.android.model.remainder.BindBank;
-import maimeng.yodian.app.client.android.model.remainder.Remainder;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;

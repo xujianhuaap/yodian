@@ -37,9 +37,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.model.Rmark;
@@ -56,10 +53,6 @@ import maimeng.yodian.app.client.android.network.service.SkillService;
  */
 public class ShareDialog extends DialogFragment {
 
-    @Bind(R.id.report)
-    TextView mReport;
-    @Bind(R.id.content)
-    GridLayout mContent;
     private long targetUid;
     private String reportContent;
     private String targetNickname;
@@ -78,12 +71,18 @@ public class ShareDialog extends DialogFragment {
     private long sid;
     private long rid;
     private View shareView;
+    private ImageView releaseok;
+    private TextView weixin;
+    private TextView fridens;
+    private TextView sina;
+    private TextView qqRoom;
+    private TextView mReport;
+    private GridLayout mContent;
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
 //    @Override
@@ -166,11 +165,47 @@ public class ShareDialog extends DialogFragment {
         }
 //        getDialog().getWindow().getAttributes().windowAnimations = R.style.ShareDialogAnimation;
         View inflate = inflater.inflate(R.layout.pop_share_view, container, false);
+        this.mContent = (GridLayout) inflate.findViewById(R.id.content);
+        this.mReport = (TextView) inflate.findViewById(R.id.report);
+        mReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                report(v);
+            }
+        });
+        this.qqRoom = (TextView) inflate.findViewById(R.id.qqRoom);
+        qqRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                qzone(v);
+            }
+        });
+        this.sina = (TextView) inflate.findViewById(R.id.sina);
+        this.sina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareToWeiBo(v);
+            }
+        });
+        this.fridens = (TextView) inflate.findViewById(R.id.fridens);
+        this.weixin = (TextView) inflate.findViewById(R.id.weixin);
+        weixin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareToWeiXin(v);
+            }
+        });
+        fridens.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareToWeiXin(v);
+            }
+        });
+        this.releaseok = (ImageView) inflate.findViewById(R.id.release_ok);
         if (releaseOk) {
             inflate.findViewById(R.id.release_ok).setVisibility(View.VISIBLE);
         }
 
-        ButterKnife.bind(this, inflate);
         return inflate;
     }
 
@@ -379,13 +414,11 @@ public class ShareDialog extends DialogFragment {
 //        window.setGravity(Gravity.BOTTOM);
     }
 
-    @OnClick(R.id.qqRoom)
     public void qzone(final View v) {
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.QQ);
         iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), QQShareManager.SHARE_TYPE_QZONE);
     }
 
-    @OnClick(R.id.report)
     public void report(View v) {
         scid = 0;
         sid = 0;
@@ -429,7 +462,6 @@ public class ShareDialog extends DialogFragment {
 
     }
 
-    @OnClick(R.id.sina)
     public void ShareToWeiBo(View view) {
 
         Bitmap bitmap = getShareBitmap(1, shareView);
@@ -440,7 +472,6 @@ public class ShareDialog extends DialogFragment {
     }
 
 
-    @OnClick({R.id.fridens, R.id.weixin})
     public void ShareToWeiXin(View v) {
         if (!end) {
             Toast.makeText(getActivity(), "还未准备完成，请稍后...", Toast.LENGTH_SHORT).show();

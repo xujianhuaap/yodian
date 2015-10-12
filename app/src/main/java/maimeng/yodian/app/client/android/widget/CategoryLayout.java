@@ -2,11 +2,8 @@ package maimeng.yodian.app.client.android.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
-import android.provider.ContactsContract;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 
 /**

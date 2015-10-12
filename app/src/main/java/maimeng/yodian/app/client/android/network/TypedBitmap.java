@@ -2,7 +2,6 @@ package maimeng.yodian.app.client.android.network;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 
 import org.henjue.library.hnet.typed.TypedInput;

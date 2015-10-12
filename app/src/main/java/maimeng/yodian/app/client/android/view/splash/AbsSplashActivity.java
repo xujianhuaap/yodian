@@ -1,6 +1,5 @@
 package maimeng.yodian.app.client.android.view.splash;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;

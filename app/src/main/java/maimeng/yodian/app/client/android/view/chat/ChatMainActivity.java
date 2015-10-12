@@ -3,16 +3,10 @@ package maimeng.yodian.app.client.android.view.chat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.AsyncContactService;
-import maimeng.yodian.app.client.android.view.AbstractActivity;
 
 /**
  * Created by android on 2015/7/22.

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.ButterKnife;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkReviewListAdapter;
@@ -92,7 +91,6 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
         mSkill = intent.getParcelableExtra("skill");
         mEditStatus = intent.getIntExtra("editstatus", 0);
-        ButterKnife.bind(this);
         mCallBackProxy = new CallBackProxy();
         mSkillService = Network.getService(SkillService.class);
 

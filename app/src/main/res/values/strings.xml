@@ -1,4 +1,4 @@
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="app_name">优点</string>
     <string name="NA">N/A</string>
     <string name="btn_submit">提交</string>

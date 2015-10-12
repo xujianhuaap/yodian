@@ -105,9 +105,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
-import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.adapter.ExpressionAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.ExpressionPagerAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.MessageAdapter;
@@ -127,7 +127,8 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
-import static maimeng.yodian.app.client.android.model.UserBaseColum.*;
+import static maimeng.yodian.app.client.android.model.UserBaseColum.KEY_WECHAT;
+import static maimeng.yodian.app.client.android.model.UserBaseColum.PREFERENCES_NAME;
 
 /**
  * 聊天页面

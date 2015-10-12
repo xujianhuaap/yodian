@@ -55,9 +55,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.adapter.ContactAdapter;
 import maimeng.yodian.app.client.android.chat.db.InviteMessgeDao;
 import maimeng.yodian.app.client.android.chat.db.UserDao;

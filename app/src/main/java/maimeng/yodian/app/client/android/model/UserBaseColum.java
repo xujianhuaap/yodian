@@ -1,8 +1,6 @@
 package maimeng.yodian.app.client.android.model;
 
 import android.databinding.BaseObservable;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Created by android on 2015/8/17.

@@ -6,11 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.Drawable;
-
-import maimeng.yodian.app.client.android.network.loader.Circle;
 
 /**
  * Created by android on 2015/9/15.

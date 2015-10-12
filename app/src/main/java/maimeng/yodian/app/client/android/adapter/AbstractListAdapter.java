@@ -2,8 +2,6 @@ package maimeng.yodian.app.client.android.adapter;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;

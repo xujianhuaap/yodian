@@ -1,8 +1,6 @@
 package maimeng.yodian.app.client.android.databings;
 
 import android.databinding.BindingAdapter;
-import android.databinding.BindingConversion;
-import android.text.Html;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
