@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -17,7 +18,9 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import maimeng.yodian.app.client.android.R;
@@ -63,6 +66,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         mTabNav.setTabMode(TabLayout.MODE_SCROLLABLE);
         adapter = new FragmentAdapter(getActivity().getSupportFragmentManager());
         mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabNav));
+        mPager.setOffscreenPageLimit(6);
         mPager.setAdapter(adapter);
         mTabNav.setupWithViewPager(mPager);
         service.choose(1, 0, this);
@@ -106,6 +110,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         private final ArrayList<Theme> navs;
         private final ArrayList<Skill> mFristList;
         private final ArrayList<Banner> mBanner;
+        private final Map<Long, Fragment> fragmentMap = new HashMap<>();
 
         public FragmentAdapter(FragmentManager fm) {
             super(fm);
@@ -123,10 +128,19 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
             final Theme theme = navs.get(position);
-            if (position == 0) {
-                return SkillFragment.newInstance(theme.getName(), theme.getScid(), mFristList, mBanner);
+            if (fragmentMap.containsKey(theme.getScid())) {
+                return fragmentMap.get(theme.getScid());
+            } else {
+                if (position == 0) {
+                    Fragment fragment = SkillFragment.newInstance(theme.getName(), theme.getScid(), mFristList, mBanner);
+                    fragmentMap.put(theme.getScid(), fragment);
+                    return fragment;
+                } else {
+                    SkillFragment fragment = SkillFragment.newInstance(theme.getName(), theme.getScid());
+                    fragmentMap.put(theme.getScid(), fragment);
+                    return fragment;
+                }
             }
-            return SkillFragment.newInstance(theme.getName(), theme.getScid());
         }
 
         @Override
