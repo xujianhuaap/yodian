@@ -4,7 +4,6 @@ package maimeng.yodian.app.client.android.view.skill.proxy;
 import android.content.Intent;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by android on 15-7-13.

@@ -29,8 +29,8 @@ import android.widget.Toast;
 
 import com.easemob.chat.EMContactManager;
 
-import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.DemoApplication;
 
 public class AddContactActivity extends BaseActivity{
 	private EditText editText;

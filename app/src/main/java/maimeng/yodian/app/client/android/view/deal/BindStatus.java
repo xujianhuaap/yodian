@@ -6,6 +6,7 @@ package maimeng.yodian.app.client.android.view.deal;
 public enum BindStatus {
     NO_CARD(-1, "未绑定"),
     WAITCONFIRM(0, "待审核"),
+    DELETED(1, "删除"),
     PASS(2, "审核通过"),
     DENY(3, "拒绝"),
     CANCEL(4, "用户取消绑定");
@@ -33,6 +34,9 @@ public enum BindStatus {
             }
             case 0: {
                 return WAITCONFIRM;
+            }
+            case 1: {
+                return DELETED;
             }
             case 2: {
                 return PASS;

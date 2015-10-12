@@ -23,18 +23,17 @@ import java.util.List;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
-import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillTemplateAdapter;
 import maimeng.yodian.app.client.android.db.SQLiteHelper;
+import maimeng.yodian.app.client.android.entry.skilltemplate.AddButtonViewEntry;
+import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
+import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
-import maimeng.yodian.app.client.android.entry.skilltemplate.AddButtonViewEntry;
-import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
-import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
 
 public class SkillTemplateActivity extends AppCompatActivity implements Callback<SkillTemplateResponse>, AbstractAdapter.ViewHolderClickListener<SkillTemplateAdapter.ViewHolder> {
     private SkillService service;

@@ -53,8 +53,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.adapter.ChatHistoryAdapter;
 import maimeng.yodian.app.client.android.chat.db.InviteMessgeDao;
 import maimeng.yodian.app.client.android.chat.domain.User;

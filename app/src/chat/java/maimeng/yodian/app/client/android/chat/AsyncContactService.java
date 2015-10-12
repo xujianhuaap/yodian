@@ -18,10 +18,12 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import maimeng.yodian.app.client.android.BuildConfig;/**
+
+/**
  * Created by android on 2015/7/27.
  */
 public class AsyncContactService extends Service {

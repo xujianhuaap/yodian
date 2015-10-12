@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.LauncherCheck;
-import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.user.LauncherGuideActivity;
 
 

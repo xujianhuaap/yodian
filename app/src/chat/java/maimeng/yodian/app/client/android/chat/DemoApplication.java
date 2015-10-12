@@ -18,7 +18,6 @@ import android.content.Context;
 
 import com.easemob.EMCallBack;
 import com.easemob.applib.controller.HXSDKHelper;
-import com.easemob.chat.EMChatManager;
 
 import java.util.Map;
 

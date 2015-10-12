@@ -1,7 +1,5 @@
 package maimeng.yodian.app.client.android.view;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;

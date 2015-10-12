@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.network.response;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import maimeng.yodian.app.client.android.model.remainder.Bank;
 

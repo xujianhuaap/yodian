@@ -3,8 +3,6 @@ package maimeng.yodian.app.client.android.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.henjue.library.hnet.anntoation.Param;
-
 /**
  * Created by xujianhua on 9/25/15.
  */

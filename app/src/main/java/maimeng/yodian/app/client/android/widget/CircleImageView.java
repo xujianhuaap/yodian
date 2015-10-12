@@ -2,7 +2,6 @@ package maimeng.yodian.app.client.android.widget;
 
 import android.content.Context;
 import android.graphics.Path;
-import android.graphics.RectF;
 import android.graphics.Path.Direction;
 import android.util.AttributeSet;
 

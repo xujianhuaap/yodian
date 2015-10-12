@@ -1,41 +1,24 @@
 package maimeng.yodian.app.client.android.view;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.melnykov.fab.FloatingActionButton;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.javascripts.YoDianJavaScript;
-import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.utils.WebLauncherUtils;
-import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
-import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
 
 /**

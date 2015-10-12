@@ -1,6 +1,5 @@
 package maimeng.yodian.app.client.android;
 
-import android.app.Application;
 import android.test.ApplicationTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 

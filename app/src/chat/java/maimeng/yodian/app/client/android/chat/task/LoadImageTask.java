@@ -32,7 +32,6 @@ import com.easemob.util.ImageUtils;
 
 import java.io.File;
 
-import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.activity.ShowBigImage;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.chat.utils.ImageCache;

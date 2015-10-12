@@ -33,10 +33,10 @@ import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
 
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKModel;
-import maimeng.yodian.app.client.android.R;
 
 /**
  * 设置界面

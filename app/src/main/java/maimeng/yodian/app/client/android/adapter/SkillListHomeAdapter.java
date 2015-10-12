@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderMainHomeBinding;
 import maimeng.yodian.app.client.android.entry.skillhome.HeaderViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ViewEntry;
-import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;

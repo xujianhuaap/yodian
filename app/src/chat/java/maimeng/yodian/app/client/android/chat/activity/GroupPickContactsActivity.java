@@ -33,9 +33,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.adapter.ContactAdapter;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.widget.Sidebar;

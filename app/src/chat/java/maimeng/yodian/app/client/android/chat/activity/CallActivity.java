@@ -11,8 +11,8 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 
-import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.Constant;
 
 public class CallActivity extends BaseActivity {
 

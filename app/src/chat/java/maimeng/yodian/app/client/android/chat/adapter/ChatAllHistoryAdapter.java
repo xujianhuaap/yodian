@@ -42,9 +42,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
-import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;

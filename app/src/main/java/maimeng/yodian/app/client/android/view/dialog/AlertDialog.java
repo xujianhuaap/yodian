@@ -1,6 +1,5 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;

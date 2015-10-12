@@ -31,8 +31,8 @@ import com.easemob.util.EMLog;
 import java.util.ArrayList;
 import java.util.List;
 
-import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 

@@ -9,7 +9,6 @@ import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.response.StringResponse;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 
 public class StringCallback implements Callback<StringResponse> {

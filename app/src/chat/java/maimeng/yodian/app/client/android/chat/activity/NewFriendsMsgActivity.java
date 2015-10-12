@@ -19,9 +19,9 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
-import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.adapter.NewFriendsMsgAdapter;
 import maimeng.yodian.app.client.android.chat.db.InviteMessgeDao;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage;

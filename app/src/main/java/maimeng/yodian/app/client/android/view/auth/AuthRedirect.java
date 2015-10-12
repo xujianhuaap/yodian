@@ -3,8 +3,6 @@ package maimeng.yodian.app.client.android.view.auth;
 import android.content.Context;
 import android.content.Intent;
 
-import maimeng.yodian.app.client.android.view.MainTabActivity;
-
 /**
  * Created by xujianhua on 9/2/15.
  */

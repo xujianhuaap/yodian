@@ -3,9 +3,7 @@ package maimeng.yodian.app.client.android.view;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.os.Handler;
 import android.os.Looper;
-import android.text.Html;
 import android.view.KeyEvent;
 import android.widget.Toast;
 

@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -11,8 +10,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.UUID;
 
 import maimeng.yodian.app.client.android.R;
 

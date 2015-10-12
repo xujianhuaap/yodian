@@ -6,15 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.henjue.library.hnet.Callback;
-import org.henjue.library.hnet.Response;
-import org.henjue.library.hnet.exception.HNetError;
-
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
-import maimeng.yodian.app.client.android.network.service.OrderService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 
 /**
