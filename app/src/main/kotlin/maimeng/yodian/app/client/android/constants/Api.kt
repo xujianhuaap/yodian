@@ -48,5 +48,8 @@ public object Api {
     public val ORDER_ACCEPT: String = "/order/accept";//接单
     public val ORDER_SEND:String="/order/send";//发货
     public val ORDER_CONFIRM:String = "/order/receive";//确认收货
+    //购买
+    public val ORDER_BUY:String="/order/pay";//未付订单购买
+    public val SKILL_BUY:String="/skill/buy";//技能购买
 
 }

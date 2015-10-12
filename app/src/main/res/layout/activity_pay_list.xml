@@ -15,12 +15,12 @@
         android:layout_height="@dimen/divider_line"
         android:background="@color/div_line"/>
     <LinearLayout
+        android:id="@+id/pay_wechat"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white">
         <TextView
-            android:id="@+id/pay_wechat"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,12 +38,12 @@
         android:layout_height="@dimen/divider_line"
         android:background="@color/div_line"/>
     <LinearLayout
+        android:id="@+id/pay_zhifubao"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white">
         <TextView
-            android:id="@+id/pay_zhifubao"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,12 +61,12 @@
         android:layout_height="@dimen/divider_line"
         android:background="@color/div_line"/>
     <LinearLayout
+        android:id="@+id/pay_remainer"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white">
         <TextView
-            android:id="@+id/pay_remainer"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

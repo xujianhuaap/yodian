@@ -103,6 +103,9 @@
     <!-- order_detail-->
     <dimen name="order_skill_pic_width">100dp</dimen>
     <dimen name="order_status_height">40dp</dimen>
+    <dimen name="order_process_width">40dp</dimen>
+    <dimen name="order_process_height">14dp</dimen>
+    <dimen name="order_contact">70dp</dimen>
 
 
 </resources>
