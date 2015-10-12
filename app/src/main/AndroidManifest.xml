@@ -140,7 +140,11 @@
         <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
 
         <service android:name=".service.ChatServiceLoginService" />
+        <activity android:name=".view.deal.PayListActivity"
+            android:label="@null"
+            android:theme="@style/paylistactivity">
 
+        </activity>
         <activity
             android:name=".view.deal.OrderListActivity"
             android:label="@string/order_list_btn_ordered">
