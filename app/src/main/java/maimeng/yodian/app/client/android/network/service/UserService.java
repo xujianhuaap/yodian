@@ -38,8 +38,8 @@ public interface UserService {
     @Multipart
     @Post(Api.USER_INFO_UPDATE)
     void modifyInfo(@Param("nickname") String nickname, @Param("weichat") String wechat,
-                    @Param("avatar") TypedBitmap avatar, @Param("qq")String qq,
-                    @Param("contact")String phone,Callback<ModifyUserResponse> callback);
+                    @Param("avatar") TypedBitmap avatar, @Param("qq") String qq,
+                    @Param("contact") String phone, Callback<ModifyUserResponse> callback);
 
     @Get(Api.USER_INFO)
     void info(Callback<UserInfoResponse> callback);

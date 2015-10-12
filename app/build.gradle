@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply plugin: 'com.android.databinding'
 apply from: 'signing_config.gradle'
 apply from: 'apk.gradle'
@@ -15,10 +14,9 @@ android {
         main.java.srcDirs += 'src/chat/java'
         main.res.srcDirs += 'src/chat/res'
         main.jniLibs.srcDirs += 'src/chat/jniLibs'
-        main.java.srcDirs += 'src/main/kotlin'
     }
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.1"
     lintOptions {
         abortOnError false
         disable 'InvalidPackage'
@@ -89,7 +87,6 @@ dependencies {
     compile(name: 'j99-md', ext: 'aar')
     compile project(':PhotoPicker')
     compile project(':ViewPagerIndicator')
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -133,17 +130,5 @@ dependencies {
     compile('net.glxn.qrgen:android:2.0')
     compile('com.umeng:fb:5.4.0') {
         exclude module: 'message', group: 'com.umeng'
-    }
-//    compile('org.henjue.library:sharesdk:1.0.2_beta3') {
-//        exclude module: 'hnet', group: 'org.henjue.library'
-//    }
-}
-buildscript {
-    ext.kotlin_version = '0.13.1514'
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }

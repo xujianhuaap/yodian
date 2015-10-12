@@ -13,8 +13,8 @@ import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
-import maimeng.yodian.app.client.android.downloads.DonwloadHandler;
 import maimeng.yodian.app.client.android.downloads.DownloadAsyncTask;
+import maimeng.yodian.app.client.android.downloads.DownloadHandler;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.VersionResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
@@ -91,7 +91,7 @@ public class CheckUpdateDelegate implements Callback<VersionResponse>, AlertDial
                                 return false;
                             }
                         });
-                        DonwloadHandler handler = new DonwloadHandler(Looper.getMainLooper(), mContext, dialog1);
+                        DownloadHandler handler = new DownloadHandler(Looper.getMainLooper(), mContext, dialog1);
                         new DownloadAsyncTask(handler).execute(string);
                     }
 

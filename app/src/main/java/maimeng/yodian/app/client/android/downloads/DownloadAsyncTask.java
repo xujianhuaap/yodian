@@ -27,9 +27,9 @@ public class DownloadAsyncTask extends AsyncTask<String, Long, File> {
         Response getFile(@Path("path") String path);
     }
 
-    DonwloadHandler handler;
+    DownloadHandler handler;
 
-    public DownloadAsyncTask(DonwloadHandler handler) {
+    public DownloadAsyncTask(DownloadHandler handler) {
         this.handler = handler;
         service = Network.getService(FileService.class);
     }
@@ -72,7 +72,7 @@ public class DownloadAsyncTask extends AsyncTask<String, Long, File> {
     protected void onProgressUpdate(Long... values) {
         super.onProgressUpdate(values);
         LogUtil.i(DownloadAsyncTask.class.getSimpleName(), "Max:%d,current:%d", values[0], values[1]);
-        handler.sendProgress(values[0], values[1]);
+        handler.sendProgress(values[0].intValue(), values[1].intValue());
     }
 
     @Override
