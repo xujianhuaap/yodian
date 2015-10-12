@@ -167,4 +167,40 @@
         <item name="android:activityCloseEnterAnimation">@anim/no_anim</item>
     </style>
 
+    <style name="paylistactivity" parent="Theme.AppCompat.Dialog">
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowMinWidthMajor">99%</item>
+        <item name="android:windowMinWidthMinor">99%</item>
+        <item name="windowFixedWidthMajor">99%</item>
+        <item name="windowFixedWidthMinor">99%</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_bottom</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_bottom</item>>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_out_to_bottom</item>
+    </style>
+
+    <style name="PayWrapperActivity" mce_bogus="1" parent="Theme.AppCompat.Dialog">
+
+
+        <item name="android:windowAnimationStyle">@style/ChangeAccountAnim</item>
+
+        <item name="android:windowMinWidthMajor">98%</item>
+        <item name="android:windowMinWidthMinor">98%</item>
+        <item name="windowFixedWidthMajor">98%</item>
+        <item name="windowFixedWidthMinor">98%</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+
+    </style>
+
+
+
+
 </resources>

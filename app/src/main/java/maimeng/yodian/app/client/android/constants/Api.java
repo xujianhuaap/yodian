@@ -62,4 +62,8 @@ public class Api {
     public static final String ORDER_CONFIRM
             = "/order/receive";//确认收货
 
+    //购买
+    public static final String ORDER_BUY="/order/pay";//未付订单购买
+    public static final String SKILL_BUY="/skill/buy";//技能购买
+
 }

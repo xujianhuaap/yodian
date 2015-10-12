@@ -159,6 +159,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
                         //购买订单
                         if(status==0){
                             //支付
+                            PayWrapperActivity.show(getActivity(),info);
                         }else if(status==4){
                             //确认发货
                             mService.confirmOrder(oid,proxy);

@@ -77,14 +77,12 @@
                 <CheckBox
                     android:id="@+id/process_pay"
                     android:clickable="false"
-
                     android:layout_alignBaseline="@id/order_status_accept"
                     android:layout_alignParentLeft="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerInside"
+                    android:layout_width="@dimen/order_process_width"
+                    android:layout_height="@dimen/order_process_height"
+                    android:scaleType="fitCenter"
                     android:button="@null"
-                    android:layout_marginBottom="@dimen/order_status_height"
                     android:layout_marginRight="@dimen/apply_edit_margin"
                     android:background="@drawable/selector_order_process"/>
                 <TextView
@@ -101,9 +99,9 @@
                     android:id="@+id/process_accept"
                     android:layout_alignParentRight="true"
                     android:layout_alignBaseline="@id/order_status_accept"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerInside"
+                    android:layout_width="@dimen/order_process_width"
+                    android:layout_height="@dimen/order_process_height"
+                    android:scaleType="fitCenter"
                     android:button="@null"
                     android:clickable="false"
                     android:layout_marginLeft="@dimen/apply_edit_margin"
@@ -158,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:maxLength="@integer/text_lenght_nine"
+                android:maxLength="@integer/text_lenght_six"
                 android:layout_alignTop="@+id/order_skill_pic"
                 android:layout_toRightOf="@+id/order_skill_pic"
                 android:layout_marginRight="@dimen/margin_small"
@@ -220,16 +218,15 @@
                 android:textColor="@color/black_deep"
                 android:background="@android:color/white"/>
 
-            <TextView
+            <ImageView
                 android:id="@+id/contact_buyer"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/order_contact"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_normal"
                 android:layout_marginRight="@dimen/apply_edit_margin"
                 android:layout_alignParentRight="true"
-                android:textSize="@dimen/tex_size_large"
+                android:scaleType="fitXY"
                 android:textColor="@color/black_deep"
-                android:background="@drawable/ic_contact_buyer"/>
+                android:src="@drawable/ic_contact_buyer"/>
 
         </RelativeLayout>
         <TextView
