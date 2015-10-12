@@ -3,6 +3,8 @@ package maimeng.yodian.app.client.android.model.skill;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 import maimeng.yodian.app.client.android.network.response.TypeData;
 
 /**

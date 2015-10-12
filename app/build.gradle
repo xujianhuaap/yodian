@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.android.databinding'
 apply from: 'apk.gradle'
-apply from: 'check.gradle'
+//apply from: 'check.gradle'
 apply plugin: 'bugly'
 bugly {
     appId = '900004839'    //注册时分配的App ID

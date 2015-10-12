@@ -33,15 +33,7 @@ public class SkillUserResponse extends Response {
         }
 
         private List<Skill> list;
-        private List<Theme> category;
 
-        public List<Theme> getCategory() {
-            return category;
-        }
-
-        public void setCategory(List<Theme> category) {
-            this.category = category;
-        }
 
         private User user;
 

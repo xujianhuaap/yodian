@@ -46,8 +46,8 @@ public class MainTabActivity extends AbstractActivity implements AlertDialog.Pos
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        startActivity(new Intent(this, MainTab2Activity.class));
-//        finish();
+        startActivity(new Intent(this, MainTab2Activity.class));
+        finish();
         if (LauncherCheck.isFirstRun(this)) {
             finish();
         } else {
