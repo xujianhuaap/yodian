@@ -2,8 +2,8 @@ package maimeng.yodian.app.client.android.network.response;
 
 import java.util.List;
 
-import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.Rmark;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 
 /**
  * Created by android on 2015/7/28.

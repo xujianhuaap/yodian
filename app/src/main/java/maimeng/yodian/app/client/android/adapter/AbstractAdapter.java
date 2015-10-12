@@ -8,8 +8,6 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import maimeng.yodian.app.client.android.model.skill.Skill;
-
 /**
  * @param <IT> 数据类型，JavaBean
  * @param <VH> ViewHolder

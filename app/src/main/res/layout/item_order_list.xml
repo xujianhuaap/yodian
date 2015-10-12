@@ -10,7 +10,7 @@
             type="maimeng.yodian.app.client.android.model.user.Buyer"></variable>
         <variable
             name="skill"
-            type="maimeng.yodian.app.client.android.model.skill.UpperSkill"></variable>
+            type="maimeng.yodian.app.client.android.model.skill.Skill"></variable>
     </data>
 
     <LinearLayout

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -24,6 +25,7 @@ import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderRepsonse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
@@ -142,12 +144,66 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
         @Override
         public void onClick(OrderListAdapter.ViewHolder holder, View clickItem, int postion) {
+                OrderInfo info=mAdapter.getItem(postion);
+                int status=Integer.parseInt(info.getStatus());
+                String oid=info.getOid();
+                OrderOperatorCallBackProxy proxy=new OrderOperatorCallBackProxy();
+                if(holder.mBinding.acceptOrder==clickItem){
+                    if(mAdapter.isSaled()){
+                        //出售订单
+                        if(status==2){
+                            //接单
+                            mService.acceptOrder(oid,proxy);
+                        }else if(status==3){
+                            //发货
+                            mService.sendGoods(oid,proxy);
+                        }
+                    }else {
+                        //购买订单
+                        if(status==0){
+                            //支付
+                        }else if(status==4){
+                            //确认发货
+                            mService.confirmOrder(oid,proxy);
 
+                        }
+                    }
+                }
         }
     }
 
     /***
      *
+     */
+    public final class OrderOperatorCallBackProxy implements Callback<ToastResponse>{
+        @Override
+        public void start() {
+
+        }
+
+        @Override
+        public void success(ToastResponse toastResponse, Response response) {
+            if(toastResponse.getCode()==20000){
+                Toast.makeText(getActivity(),toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        @Override
+        public void failure(HNetError hNetError) {
+
+        }
+
+        @Override
+        public void end() {
+            mPage=1;
+            mIsAppend= false;
+            freshData();
+        }
+    }
+
+    /***
+     *订单列表信息
      */
     public final class CallBackProxy implements Callback<OrderRepsonse>{
         @Override

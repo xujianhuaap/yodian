@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/padding_normal"
-            android:textSize="@dimen/tex_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/black_deep"
             android:background="@android:color/white"/>
 
@@ -31,43 +31,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <CheckBox
                     android:id="@+id/order_status_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
                     android:button="@null"
-                    android:background="@drawable/ic_unpay"/>
+                    android:clickable="false"
+                    android:background="@drawable/selector_order_pay"/>
                 <TextView
                     android:id="@+id/order_pay_time_content"
                     android:layout_below="@id/order_status_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/order_status_height"
-                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/margin_normal"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/text_size_small"
+                    android:maxLines="@integer/max_lines_two"
                     android:text="1223"/>
-                <CheckBox
-                    android:id="@+id/process_pay"
-                    android:layout_alignBaseline="@id/order_status_pay"
-                    android:layout_toRightOf="@+id/order_status_pay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:scaleType="centerInside"
-                    android:button="@null"
-                    android:layout_marginBottom="@dimen/order_status_height"
-                    android:layout_marginRight="@dimen/apply_edit_margin"
-                    android:layout_marginLeft="@dimen/apply_edit_margin"
-                    android:background="@drawable/ic_process_default"/>
+
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <CheckBox
@@ -76,50 +71,70 @@
                     android:layout_height="wrap_content"
                     android:scaleType="centerInside"
                     android:button="@null"
-                    android:background="@drawable/ic_unaccept_order"/>
+                    android:clickable="false"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/selector_order_accept"/>
+                <CheckBox
+                    android:id="@+id/process_pay"
+                    android:clickable="false"
+
+                    android:layout_alignBaseline="@id/order_status_accept"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:button="@null"
+                    android:layout_marginBottom="@dimen/order_status_height"
+                    android:layout_marginRight="@dimen/apply_edit_margin"
+                    android:background="@drawable/selector_order_process"/>
                 <TextView
                     android:id="@+id/order_accept_time_content"
                     android:layout_below="@id/order_status_accept"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/order_status_height"
-                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/margin_normal"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/text_size_small"
                     android:text="1223"/>
                 <CheckBox
                     android:id="@+id/process_accept"
-                    android:layout_toRightOf="@id/order_status_accept"
+                    android:layout_alignParentRight="true"
                     android:layout_alignBaseline="@id/order_status_accept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:scaleType="centerInside"
                     android:button="@null"
-                    android:layout_marginRight="@dimen/apply_edit_margin"
+                    android:clickable="false"
                     android:layout_marginLeft="@dimen/apply_edit_margin"
-                    android:background="@drawable/ic_process_default"/>
+                    android:background="@drawable/selector_order_process"/>
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <CheckBox
                     android:id="@+id/order_status_confirm"
+                    android:clickable="false"
+                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerInside"
                     android:button="@null"
-                    android:background="@drawable/ic_unconfirm_order"/>
+                    android:background="@drawable/selector_order_confirm"/>
                 <TextView
                     android:id="@+id/order_confirm_time_content"
                     android:layout_below="@+id/order_status_confirm"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/order_status_height"
-                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/margin_normal"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/text_size_small"
+                    android:maxLines="@integer/max_lines_two"
                     android:text="1223"/>
 
             </RelativeLayout>
@@ -143,10 +158,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:maxLength="@integer/text_lenght_nine"
                 android:layout_alignTop="@+id/order_skill_pic"
                 android:layout_toRightOf="@+id/order_skill_pic"
-                android:layout_marginRight="@dimen/apply_edit_margin"
-                android:layout_marginLeft="@dimen/apply_edit_margin"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
                 android:textSize="@dimen/text_size_normal"
                 android:text="@{orderInfo.skill.content}" />
             <TextView
@@ -156,7 +172,6 @@
                 android:singleLine="true"
                 android:layout_alignBottom="@+id/order_skill_pic"
                 android:textSize="@dimen/text_size_normal"
-                android:layout_below="@+id/order_skill_pic"
                 android:layout_toRightOf="@+id/order_skill_pic"
                 android:layout_marginRight="@dimen/apply_edit_margin"
                 android:layout_marginLeft="@dimen/apply_edit_margin" />
@@ -165,6 +180,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
+                android:gravity="center"
                 android:singleLine="true"
                 android:textSize="@dimen/text_size_normal"
                 android:layout_centerVertical="true"
@@ -179,9 +195,9 @@
             android:id="@+id/order_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:padding="@dimen/padding_normal"
-            android:textSize="@dimen/tex_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/black_deep"
             android:background="@android:color/white"/>
         <TextView
@@ -198,9 +214,9 @@
                 android:id="@+id/order_buyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/padding_normal"
-                android:textSize="@dimen/tex_size_large"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/text_size_normal"
                 android:textColor="@color/black_deep"
                 android:background="@android:color/white"/>
 

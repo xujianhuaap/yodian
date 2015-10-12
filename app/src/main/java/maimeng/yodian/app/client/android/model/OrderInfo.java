@@ -3,7 +3,7 @@ package maimeng.yodian.app.client.android.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import maimeng.yodian.app.client.android.model.skill.UpperSkill;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.Buyer;
 
 /**
@@ -49,7 +49,7 @@ public class OrderInfo implements Parcelable{
     private String createtime;
     private String oid;
 
-    private UpperSkill skill;
+    private Skill skill;
     private Buyer buyer;
 
     public String getId() {
@@ -188,11 +188,11 @@ public class OrderInfo implements Parcelable{
         this.oid = oid;
     }
 
-    public UpperSkill getSkill() {
+    public Skill getSkill() {
         return skill;
     }
 
-    public void setSkill(UpperSkill skill) {
+    public void setSkill(Skill skill) {
         this.skill = skill;
     }
 
@@ -254,7 +254,7 @@ public class OrderInfo implements Parcelable{
         this.status = in.readString();
         this.createtime = in.readString();
         this.oid = in.readString();
-        this.skill = in.readParcelable(UpperSkill.class.getClassLoader());
+        this.skill = in.readParcelable(Skill.class.getClassLoader());
         this.buyer = in.readParcelable(Buyer.class.getClassLoader());
     }
 

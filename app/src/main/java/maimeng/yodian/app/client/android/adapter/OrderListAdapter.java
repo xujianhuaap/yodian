@@ -3,23 +3,19 @@ package maimeng.yodian.app.client.android.adapter;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ItemOrderListBinding;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.model.skill.UpperSkill;
 
 /**
  * Created by xujianhua on 9/29/15.
@@ -56,7 +52,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         OrderInfo orderInfo=getItem(position);
-        UpperSkill skill=orderInfo.getSkill();
+        Skill skill=orderInfo.getSkill();
         holder.mBinding.setOrder(orderInfo);
         holder.mBinding.setSkill(skill);
         holder.bind(orderInfo);
@@ -83,7 +79,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
 
     public final class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private OrderInfo mOrder;
-        private final ItemOrderListBinding mBinding;
+        public final ItemOrderListBinding mBinding;
 
         public ViewHolder(ItemOrderListBinding listBinding) {
             super(listBinding.getRoot());
@@ -166,7 +162,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
                         statusStr=null;
                         break;
                 }
-                UpperSkill skill=mOrder.getSkill();
+                Skill skill=mOrder.getSkill();
 
                 mBinding.orderStatus.setText(statusStr);
                 Spanned html=Html.fromHtml(mContext.getString(R.string.order_total_fee));
