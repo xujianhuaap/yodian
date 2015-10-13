@@ -1,7 +1,8 @@
 package maimeng.yodian.app.client.android.view;
 
-import android.app.Fragment;
 import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.View;
 
 /**
@@ -11,4 +12,9 @@ public abstract class BaseFragment extends Fragment {
     protected <T extends View> T findViewById(@IdRes int id) {
         return (T) getView().findViewById(id);
     }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
+    }
+
 }

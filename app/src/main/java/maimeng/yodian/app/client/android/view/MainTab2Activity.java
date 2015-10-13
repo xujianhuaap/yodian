@@ -1,10 +1,11 @@
 package maimeng.yodian.app.client.android.view;
 
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -60,25 +61,33 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             if (getIntent().hasExtra("home")) {
                 floatButton.callOnClick();
             }
-            FragmentTransaction bt = getFragmentManager().beginTransaction();
+            FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
             userHomeFragment = UserHomeFragment.newInstance();
             indexFragment = IndexFragment.newInstance();
             bt.add(R.id.container, userHomeFragment, UserHomeFragment.class.getName());
             bt.add(R.id.container, indexFragment, IndexFragment.class.getName());
-            bt.addToBackStack(null);
+//            bt.addToBackStack(null);
             bt.hide(userHomeFragment).show(indexFragment);
             bt.commitAllowingStateLoss();
             initProxy();
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (indexFragment.onKeyDown(keyCode, event) || userHomeFragment.onKeyDown(keyCode, event)) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     private void toggle() {
-        FragmentTransaction bt = getFragmentManager().beginTransaction();
+        FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
         if (userHomeFragment.isHidden()) {
-            bt.setCustomAnimations(R.animator.translation_to_bottom_in, R.animator.translation_to_bottom_out);
+            bt.setCustomAnimations(R.anim.translation_to_bottom_in, R.anim.translation_to_bottom_out);
             bt.show(userHomeFragment).hide(indexFragment);
         } else {
-            bt.setCustomAnimations(R.animator.translation_to_top_in, R.animator.translation_to_top_out);
+            bt.setCustomAnimations(R.anim.translation_to_top_in, R.anim.translation_to_top_out);
             bt.show(indexFragment).hide(userHomeFragment);
         }
         bt.commitAllowingStateLoss();

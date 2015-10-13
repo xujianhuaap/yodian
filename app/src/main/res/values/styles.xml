@@ -5,6 +5,11 @@
         <item name="android:windowEnterAnimation">@anim/push_top_in3</item>
     </style>
 
+    <style name="index_pop">
+        <item name="android:windowExitAnimation">@anim/index_pop_hide</item>
+        <item name="android:windowEnterAnimation">@anim/index_pop_show</item>
+    </style>
+
     <style name="bank_form_item_bg">
         <item name="android:background">@drawable/bank_form_item_bg</item>
         <item name="android:textSize">18sp</item>

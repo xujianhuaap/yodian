@@ -9,11 +9,11 @@ import maimeng.yodian.app.client.android.network.response.TypeData;
  * Created by android on 15-8-10.
  */
 public class Theme implements Parcelable, TypeData {
-    private long scid;
+    private int scid;
     private String name;
 
     protected Theme(Parcel in) {
-        scid = in.readLong();
+        scid = in.readInt();
         name = in.readString();
     }
 
@@ -29,7 +29,7 @@ public class Theme implements Parcelable, TypeData {
         }
     };
 
-    public long getScid() {
+    public int getScid() {
         return scid;
     }
 
@@ -37,7 +37,7 @@ public class Theme implements Parcelable, TypeData {
         return name;
     }
 
-    public void setScid(long scid) {
+    public void setScid(int scid) {
         this.scid = scid;
     }
 
@@ -56,7 +56,7 @@ public class Theme implements Parcelable, TypeData {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(scid);
+        dest.writeInt(scid);
         dest.writeString(name);
     }
 }

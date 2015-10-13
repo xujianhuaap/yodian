@@ -36,7 +36,9 @@ public class WaitDialog extends android.app.DialogFragment {
         if (waitDialog == null) {
             waitDialog = newInstance(message);
         }
-        waitDialog.show(transaction, activity.hashCode() + "");
+        if (!waitDialog.isVisible()) {
+            waitDialog.show(transaction, activity.hashCode() + "");
+        }
         return waitDialog;
     }
 
