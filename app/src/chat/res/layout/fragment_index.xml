@@ -5,19 +5,92 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_nav"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:gravity="center_vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+
+            android:layout_marginLeft="@dimen/top_icon_margin">
+
+            <ImageView
+                android:id="@+id/btn_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:src="@drawable/ic_msg" />
+
+            <ImageView
+                android:id="@+id/miss_msg_count"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="top|right"
+                android:src="@drawable/miss_msg_count"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/list_title"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+
+            android:singleLine="true"
+            android:text="优点精选"
+            android:textColor="?android:attr/textColorPrimary" />
+    </FrameLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffff"
-        app:tabIndicatorColor="#ff000000"
-        app:tabSelectedTextColor="#ff000000"
-        app:tabTextColor="#ffcccccc" />
+        android:background="#ffff">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:tabIndicatorColor="#ff000000"
+            app:tabSelectedTextColor="#ff000000"
+            app:tabTextColor="#a3a2a2" />
+
+        <ImageView
+            android:id="@+id/btn_pull"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/margin_normal"
+            android:paddingRight="@dimen/margin_normal"
+            android:src="@drawable/ic_index_pull_arrow" />
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#fff" />
+        android:layout_weight="1">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff" />
+
+        <FrameLayout
+            android:id="@+id/pull_overy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#AA000000"
+            android:visibility="invisible">
+
+            <include layout="@layout/index_pull_pop" />
+        </FrameLayout>
+    </FrameLayout>
+
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,6 @@ import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.DataNode;
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.model.skill.Theme;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -343,5 +343,10 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
             ActivityCompat.startActivity(getActivity(), WebViewActivity.newIntent(getActivity(), banner.getValue()), options.toBundle());
 
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
     }
 }
