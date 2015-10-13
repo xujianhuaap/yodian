@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,9 +76,6 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
     private void toggleTypePop(View view) {
         final View root = findViewById(R.id.pop_layout);
         final TranslateAnimation rootAnim;
-        float rotation = view.getRotation();
-
-        final ObjectAnimator btnAnim = ObjectAnimator.ofFloat(view, View.ROTATION, rotation, rotation + 180f);
         if (root.getVisibility() != View.VISIBLE) {
             ((View) root.getParent()).setVisibility(View.VISIBLE);
             rootAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
@@ -126,9 +122,12 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         }
 
         rootAnim.setDuration(300);
-        btnAnim.setDuration(300);
-        root.startAnimation(rootAnim);
+
         if (mBtnPull == view) {
+            float rotation = view.getRotation();
+            final ObjectAnimator btnAnim = ObjectAnimator.ofFloat(view, View.ROTATION, rotation, rotation + 180f);
+            btnAnim.setDuration(300);
+            root.startAnimation(rootAnim);
             btnAnim.start();
         }
         if (root.getVisibility() != View.VISIBLE) {
@@ -163,13 +162,10 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         });
         mTabNav.setTabMode(TabLayout.MODE_SCROLLABLE);
         adapter = new FragmentAdapter(getActivity().getSupportFragmentManager());
-        mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabNav));
         mPager.setOffscreenPageLimit(6);
         mPager.setAdapter(adapter);
         mTabNav.setupWithViewPager(mPager);
-
-
-        mTypeList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        mTypeList.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         typeAdapter = new TypeAdater();
         mTypeList.setAdapter(typeAdapter);
         service.choose(1, 0, this);
@@ -221,6 +217,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
     private final class TypeAdater extends RecyclerView.Adapter<ViewHolder> {
         private final List<Theme> datas;
+        private int offset = 0;
 
         public TypeAdater() {
             datas = new ArrayList<>();
@@ -231,18 +228,17 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
             if (list != null) {
                 datas.addAll(list);
             }
+            int div = datas.size() % 4;
+            offset = div != 0 ? 4 - div : 0;
+            for (int i = 0; i < offset; i++) {
+                datas.add(new Theme());
+            }
             notifyDataSetChanged();
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            int padding = getResources().getDimensionPixelSize(R.dimen.padding_normal);
-            TextView itemView = new TextView((parent.getContext()));
-            itemView.setTextColor(0xFFA3A2A2);
-            itemView.setBackgroundColor(0xFFFFFFFF);
-            itemView.setGravity(Gravity.CENTER);
-            itemView.setPadding(0, padding, 0, padding);
-            return new ViewHolder(itemView);
+            return new ViewHolder(getLayoutInflater(null).inflate(R.layout.index_pull_item, parent, false));
         }
 
         @Override
@@ -267,13 +263,22 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv = (TextView) itemView;
+            tv = (TextView) itemView.findViewById(R.id.name);
             tv.setOnClickListener(this);
         }
 
         public void bind(Theme theme) {
+            if (getLayoutPosition() >= typeAdapter.datas.size() - typeAdapter.offset) {
+                tv.setVisibility(View.INVISIBLE);
+            } else {
+                tv.setVisibility(View.VISIBLE);
+            }
             this.theme = theme;
             this.tv.setText(theme.getName());
+            if (getLayoutPosition() == typeAdapter.datas.size() - 1) {
+                int pdTop = itemView.getPaddingTop();
+                itemView.setPadding(0, pdTop, 0, pdTop);
+            }
         }
 
         @Override

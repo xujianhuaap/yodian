@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
 
 
-    <style name="AppTheme" parent="Theme.AppCompat">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -23,7 +23,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">#fff</item>
+        <item name="android:textColorPrimary">#000</item>
         <item name="android:windowAnimationStyle">@style/SlideAnimStyle</item>
     </style>
 
@@ -199,8 +199,6 @@
 
 
     </style>
-
-
 
 
 </resources>

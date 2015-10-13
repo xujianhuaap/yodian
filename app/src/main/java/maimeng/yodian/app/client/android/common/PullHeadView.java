@@ -11,7 +11,7 @@ import maimeng.yodian.app.client.android.R;
 public class PullHeadView extends StoreHouseHeader {
     public PullHeadView(Context context) {
         super(context);
-        setTextColor(0xFFFFFF);
+        setTextColor(0x000000);
         setPadding(0, (int) getResources().getDimension(R.dimen.pull_refresh_paddingTop), 0, 0);
         initWithString("YoDian");
     }
