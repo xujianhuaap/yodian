@@ -10,16 +10,27 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.GsonConverter;
+import maimeng.yodian.app.client.android.network.common.RequestIntercept;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
+import maimeng.yodian.app.client.android.network.response.WXPayParamResponse;
 import maimeng.yodian.app.client.android.network.service.BuyService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.deal.pay.IPay;
+import maimeng.yodian.app.client.android.view.deal.pay.WXFactory;
 
 /**
  * Created by xujianhua on 10/12/15.
@@ -65,7 +76,12 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.pay_zhifubao).setOnClickListener(this);
         findViewById(R.id.pay_remainer).setOnClickListener(this);
 
-        mService= Network.getService(BuyService.class);
+
+        HNet net = new HNet.Builder()
+                .setEndpoint(BuildConfig.API_HOST)
+                .setIntercept(new RequestIntercept(this))
+                .build();
+        mService= net.create(BuyService.class);
 
     }
 
@@ -78,20 +94,34 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         if(v.getId()==R.id.pay_remainer){
 
         }else if(v.getId()==R.id.pay_wechat){
-            mService.buyOrder(mOrderInfo.getOid(),2,new CallBackProxy());
+            mService.buyOrder(mOrderInfo.getOid(), 2, new CallBackProxy(2));
         }else if(v.getId()==R.id.pay_zhifubao){
-            mService.buyOrder(mOrderInfo.getOid(),1,new CallBackProxy());
+            mService.buyOrder(mOrderInfo.getOid(),1,new CallBackProxy(1));
         }
     }
 
-    public final class CallBackProxy implements Callback<ToastResponse>{
+    public final class CallBackProxy implements Callback<String>{
+        private final int payType;
+
+        public CallBackProxy(int payType) {
+            this.payType = payType;
+        }
+
         @Override
         public void start() {
 
         }
 
         @Override
-        public void success(ToastResponse toastResponse, Response response) {
+        public void success(String s, Response response) {
+            if(payType==1){
+
+            }else if(payType==2){
+                Gson gson=new Gson();
+                WXPayParamResponse paramResponse=gson.fromJson(s, WXPayParamResponse.class);
+                IPay pay= WXFactory.createInstance(PayListActivity.this,paramResponse.getData().getParams());
+                pay.sendReq();
+            }
 
         }
 
