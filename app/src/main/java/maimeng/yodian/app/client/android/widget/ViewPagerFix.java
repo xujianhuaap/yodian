@@ -9,7 +9,7 @@ import android.view.View;
 /**
  * Created by android on 2015/8/24.
  */
-public class ViewPager extends android.support.v4.view.ViewPager {
+public class ViewPagerFix extends AutoScrollViewPager {
     public interface OnClickListener {
         void onClickListener(View v);
     }
@@ -20,11 +20,11 @@ public class ViewPager extends android.support.v4.view.ViewPager {
         void onCancel();
     }
 
-    public ViewPager(Context paramContext) {
+    public ViewPagerFix(Context paramContext) {
         super(paramContext);
     }
 
-    public ViewPager(Context paramContext, AttributeSet paramAttributeSet) {
+    public ViewPagerFix(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
     }
 

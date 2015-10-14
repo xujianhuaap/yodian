@@ -13,10 +13,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/user_header_height"
         android:layout_marginBottom="10dp"
-        android:background="?attr/colorPrimary"
-        android:orientation="vertical">
+        android:background="@drawable/user_bg_pic"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -28,13 +29,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="@dimen/top_icon_margin"
                 android:layout_marginTop="12dp">
-
-                <ImageView
-                    android:id="@+id/btn_chat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:src="@drawable/ic_msg" />
 
                 <ImageView
                     android:id="@+id/miss_msg_count"
@@ -95,23 +89,14 @@
                 android:src="@drawable/ic_report_userhome"
                 android:visibility="invisible" />
 
-            <ImageView
-                android:id="@+id/btn_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|right"
-                android:layout_marginLeft="@dimen/top_icon_margin"
-                android:layout_marginTop="@dimen/top_icon_margin"
-                android:paddingBottom="5dp"
-                android:paddingRight="16dp"
-                android:src="@drawable/ic_settings" />
+
         </FrameLayout>
 
         <LinearLayout
             android:id="@+id/bottom"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?colorPrimaryDark"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -119,40 +104,39 @@
                 android:id="@+id/btn_createskill"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
                 android:layout_weight="1"
+                android:background="@drawable/index_pull_item_background"
                 android:gravity="center"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_add_skill"
                 android:textSize="16sp" />
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:background="@color/div_line"
-                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/my_order"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
                 android:layout_weight="1"
+                android:background="@drawable/index_pull_item_background"
                 android:gravity="center"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_my_order"
                 android:textSize="16sp"
                 android:visibility="visible" />
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:background="@color/div_line"
-                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/my_remainder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
                 android:layout_weight="1"
+                android:background="@drawable/index_pull_item_background"
                 android:gravity="center"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_my_remainder"
