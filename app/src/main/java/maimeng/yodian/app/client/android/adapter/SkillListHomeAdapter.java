@@ -188,7 +188,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             binding.root.setOnClickListener(this);
             this.binding = binding;
-            binding.btnBottom.setOnClickListener(this);
+            binding.btnEdit.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
@@ -207,9 +207,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             isMe = item.getUid() == user.getUid();
             if (isMe) {
                 binding.btnEdit.setVisibility(View.VISIBLE);
-                binding.btnContect.setVisibility(View.GONE);
             } else {
-                binding.btnContect.setVisibility(View.VISIBLE);
                 binding.btnEdit.setVisibility(View.GONE);
             }
 
@@ -227,7 +225,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
         public void onClick(View v) {
             if (v == binding.root) {
                 mViewHolderClickListener.onItemClick(this, getLayoutPosition());
-            } else if (v == binding.btnBottom) {
+            } else if (v == binding.btnEdit) {
                 if (isMe) {
                     if (swipeItemLayout.isClosed()) {
                         swipeItemLayout.openWithAnim();
