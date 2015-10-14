@@ -203,6 +203,6 @@
     <string name="pay_zhifubao">支付宝支付</string>
     <string name="pay_remainer">余额支付</string>
     <string name="pay_list_title"><![CDATA[<font color="#000000">本次交易支付金额</font><font color="#FFA739"><big>%1$s</big></font><font color="#000000">元</font><br/></br><font color="#FFA739"><small><small>请选择支付方式</font>]]></string>
-
-
+    <string name="pay_result_fail"><![CDATA[<font color="#55000000"><big>支付失败</big></font>]]></string>
+    <string name="pay_check_account"><![CDATA[<font color="#55000000"><big>账户不存在</big></font>]]></string>
 </resources>
