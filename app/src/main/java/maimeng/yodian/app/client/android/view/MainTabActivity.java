@@ -11,6 +11,7 @@ import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.user.User;
