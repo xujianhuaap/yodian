@@ -48,7 +48,7 @@ public class ZhiFuBaoPay implements IPay{
                             Toast.makeText(mActivity, "支付成功",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            // 判断resultStatus 为非“9000”则代表可能支付失败
+                            // 判断resultStatus 为非“9000”则代表可能支付ccd
                             // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                             if (TextUtils.equals(resultStatus, "8000")) {
                                 Toast.makeText(mActivity, "支付结果确认中",

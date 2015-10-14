@@ -77,7 +77,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         final View root = findViewById(R.id.pop_layout);
         final TranslateAnimation rootAnim;
         if (root.getVisibility() != View.VISIBLE) {
-            ((View) root.getParent()).setVisibility(View.VISIBLE);
+            findViewById(R.id.pull_overy).setVisibility(View.VISIBLE);
             rootAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                     Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                     -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
@@ -110,7 +110,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    ((View) root.getParent()).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.pull_overy).setVisibility(View.INVISIBLE);
                     LogUtil.d("amin", "close :%s", root.getVisibility() == View.VISIBLE);
                 }
 
@@ -127,9 +127,9 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
             float rotation = view.getRotation();
             final ObjectAnimator btnAnim = ObjectAnimator.ofFloat(view, View.ROTATION, rotation, rotation + 180f);
             btnAnim.setDuration(300);
-            root.startAnimation(rootAnim);
             btnAnim.start();
         }
+        root.startAnimation(rootAnim);
         if (root.getVisibility() != View.VISIBLE) {
             root.setVisibility(View.VISIBLE);
         } else {
