@@ -17,6 +17,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,7 +35,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.task.DownloadImageTask;
 import maimeng.yodian.app.client.android.chat.utils.ImageCache;
 
-public class AlertDialog extends BaseActivity {
+public class AlertDialog extends AppCompatActivity {
 	private TextView mTextView;
 	private Button mButton;
 	private int position;
@@ -42,6 +44,9 @@ public class AlertDialog extends BaseActivity {
 	private boolean isEditextShow;
 	private Button mBtnPositive;
 
+
+
+
 	public static void show(Context context,String title,String msg,String btnPositiveText){
 		Intent intent=new Intent(context,AlertDialog.class);
 		intent.putExtra("title",title);
@@ -49,6 +54,8 @@ public class AlertDialog extends BaseActivity {
 		intent.putExtra("btnpositive",btnPositiveText);
 		context.startActivity(intent);
 	}
+
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +116,7 @@ public class AlertDialog extends BaseActivity {
 		if(!TextUtils.isEmpty(btnPositiveStr)){
 			mBtnPositive.setText(btnPositiveStr);
 		}
+
 	}
 	
 	public void ok(View view){
@@ -130,6 +138,8 @@ public class AlertDialog extends BaseActivity {
 		finish();
 		return true;
 	}
+
+
 
 	 
 

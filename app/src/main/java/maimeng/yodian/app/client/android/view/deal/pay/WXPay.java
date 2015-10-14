@@ -1,29 +1,43 @@
 package maimeng.yodian.app.client.android.view.deal.pay;
 
+import android.app.Activity;
 import android.content.Context;
 
+import com.tencent.mm.sdk.modelbase.BaseReq;
+import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import org.android.Config;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.model.pay.IPayParams;
 import maimeng.yodian.app.client.android.model.pay.WXPayParams;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**
  * Created by xujianhua on 10/13/15.
  */
 public class WXPay implements IPay{
     private final WXPayParams params;
-    private final Context context;
+    private final Activity context;
     private final IWXAPI api;
+    private final IPayStatus mStatus;
     private  PayReq req;
 
-    public WXPay(WXPayParams params, Context context) {
+    public IPayStatus getmStatus() {
+        return mStatus;
+    }
+
+    public WXPay(WXPayParams params, Activity context,IPayStatus status) {
         this.params = params;
         this.context = context;
-        api = WXAPIFactory.createWXAPI(context, null);
+        this.mStatus=status;
+        api = WXAPIFactory.createWXAPI(context, BuildConfig.WEIXIN_APP_KEY);
         api.registerApp(BuildConfig.WEIXIN_APP_KEY);
+
 
     }
 

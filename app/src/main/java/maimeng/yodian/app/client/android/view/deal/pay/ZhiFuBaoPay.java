@@ -3,12 +3,15 @@ package maimeng.yodian.app.client.android.view.deal.pay;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 
 /**
  * Created by xujianhua on 10/14/15.
@@ -16,15 +19,17 @@ import maimeng.yodian.app.client.android.R;
 public class ZhiFuBaoPay implements IPay{
     private final String mPayParams;
     private final Activity mActivity;
+    private final IPayStatus mstatus;
     private Handler mHandler;
 
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_CHECK_FLAG = 2;
 
 
-    public ZhiFuBaoPay(String payParams, Activity activity) {
+    public ZhiFuBaoPay(String payParams, Activity activity,IPayStatus status) {
         this.mPayParams = payParams;
         this.mActivity = activity;
+        this.mstatus=status;
       
     }
 
@@ -45,20 +50,16 @@ public class ZhiFuBaoPay implements IPay{
 
                         // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                         if (TextUtils.equals(resultStatus, "9000")) {
-                            Toast.makeText(mActivity, "支付成功",
-                                    Toast.LENGTH_SHORT).show();
+                            mstatus.sucessPay();
                         } else {
                             // 判断resultStatus 为非“9000”则代表可能支付ccd
                             // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                             if (TextUtils.equals(resultStatus, "8000")) {
-                                Toast.makeText(mActivity, "支付结果确认中",
-                                        Toast.LENGTH_SHORT).show();
+
 
                             } else {
                                 // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                                Toast.makeText(mActivity, "支付失败",
-                                        Toast.LENGTH_SHORT).show();
-
+                                mstatus.failurepay();
                             }
                         }
                         break;
@@ -67,8 +68,9 @@ public class ZhiFuBaoPay implements IPay{
                         if((Boolean)msg.obj){
                             excutePay();
                         }else{
-                            /*Toast.makeText(mActivity,mActivity.getResources().getString(R.string.),
-                                    Toast.LENGTH_SHORT).show(); */
+                            Spanned checkStr=Html.fromHtml(mActivity.getResources().getString(R.string.pay_check_account));
+                            Toast.makeText(mActivity,checkStr,
+                                    Toast.LENGTH_SHORT).show();
                         }
 
                         break;

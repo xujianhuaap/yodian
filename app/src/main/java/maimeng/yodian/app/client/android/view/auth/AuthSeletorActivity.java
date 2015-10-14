@@ -146,7 +146,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
 
         @Override
         public void start() {
-            dialog = WaitDialog.show(AuthSeletorActivity.this);
+                 dialog = WaitDialog.show(AuthSeletorActivity.this);
         }
 
         @Override
