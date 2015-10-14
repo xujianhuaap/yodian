@@ -2,10 +2,12 @@ package maimeng.yodian.app.client.android.view.deal;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -16,9 +18,11 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.json.JSONObject;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -27,10 +31,13 @@ import maimeng.yodian.app.client.android.network.common.GsonConverter;
 import maimeng.yodian.app.client.android.network.common.RequestIntercept;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.WXPayParamResponse;
+import maimeng.yodian.app.client.android.network.response.ZhiFuBaoPayResponse;
 import maimeng.yodian.app.client.android.network.service.BuyService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.pay.IPay;
+import maimeng.yodian.app.client.android.view.deal.pay.IPayStatus;
 import maimeng.yodian.app.client.android.view.deal.pay.WXFactory;
+import maimeng.yodian.app.client.android.view.deal.pay.ZhiFuBaoFactory;
 
 /**
  * Created by xujianhua on 10/12/15.
@@ -85,6 +92,8 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+
+
     /***
      *
      * @param v
@@ -114,14 +123,18 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public void success(String s, Response response) {
+            Gson gson=new Gson();
+            IPay pay=null;
+            IPayStatus status=new PayStatus();
             if(payType==1){
-
+                ZhiFuBaoPayResponse zhiFuBaoPayResponse=gson.fromJson(s, ZhiFuBaoPayResponse.class);
+                 pay= ZhiFuBaoFactory.createInstance(PayListActivity.this,zhiFuBaoPayResponse.getData().getParams(),status);
             }else if(payType==2){
-                Gson gson=new Gson();
+                LogUtil.d(PayListActivity.class.getName(),"S-->"+s);
                 WXPayParamResponse paramResponse=gson.fromJson(s, WXPayParamResponse.class);
-                IPay pay= WXFactory.createInstance(PayListActivity.this,paramResponse.getData().getParams());
-                pay.sendReq();
+                 pay= WXFactory.createInstance(PayListActivity.this,paramResponse.getData().getParams(),status);
             }
+            pay.sendReq();
 
         }
 
@@ -132,6 +145,29 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public void end() {
+
+        }
+    }
+
+    /***
+     * 支付结果
+     */
+    public class PayStatus implements IPayStatus{
+        @Override
+        public void failurepay() {
+            Spanned fail=Html.fromHtml(getResources().getString(R.string.pay_result_fail));
+            String btnTip=getResources().getString(R.string.btn_name);
+            String title=getResources().getString(R.string.pay_deal_tip);
+            AlertDialog.show(PayListActivity.this, title, fail.toString(), btnTip);
+
+        }
+
+        @Override
+        public void sucessPay() {
+            Spanned sucess= Html.fromHtml(getResources().getString(R.string.pay_result_sucess));
+            String btnTip=getResources().getString(R.string.btn_name);
+            String title=getResources().getString(R.string.pay_deal_tip);
+            AlertDialog.show(PayListActivity.this, title, sucess.toString(), btnTip);
 
         }
     }
