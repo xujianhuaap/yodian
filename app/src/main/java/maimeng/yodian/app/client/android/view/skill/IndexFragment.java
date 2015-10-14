@@ -73,7 +73,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         return view;
     }
 
-    private void toggleTypePop(View view) {
+    public void toggleTypePop(View view) {
         final View root = findViewById(R.id.pop_layout);
         final TranslateAnimation rootAnim;
         if (root.getVisibility() != View.VISIBLE) {
@@ -206,9 +206,13 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         if (dialog != null) dialog.dismiss();
     }
 
+    public boolean isShowPop() {
+        return findViewById(R.id.pop_layout).getVisibility() == View.VISIBLE;
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        boolean result = findViewById(R.id.pop_layout).getVisibility() == View.VISIBLE;
+        boolean result = isShowPop();
         if (result) {
             toggleTypePop(mBtnChat);
         }
