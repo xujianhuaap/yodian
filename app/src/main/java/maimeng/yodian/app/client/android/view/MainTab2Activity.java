@@ -69,7 +69,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
 //            bt.addToBackStack(null);
             bt.hide(userHomeFragment).show(indexFragment);
             bt.commitAllowingStateLoss();
-            initProxy();
+            initFragment();
         }
     }
 
@@ -84,6 +84,9 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
     private void toggle() {
         FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
         if (userHomeFragment.isHidden()) {
+            if (indexFragment.isShowPop()) {
+                indexFragment.toggleTypePop(null);
+            }
             bt.setCustomAnimations(R.anim.translation_to_bottom_in, R.anim.translation_to_bottom_out);
             bt.show(userHomeFragment).hide(indexFragment);
         } else {
@@ -118,7 +121,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         return "是";
     }
 
-    private void initProxy() {
+    private void initFragment() {
         user = User.read(this);
         if (TextUtils.isEmpty(user.getToken())) {
             AuthSeletorActivity.start(this, REQUEST_AUTH);

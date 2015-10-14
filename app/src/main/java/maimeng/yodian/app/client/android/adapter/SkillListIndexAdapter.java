@@ -244,7 +244,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
             binding.root.setOnClickListener(this);
             this.binding = binding;
             binding.userAvatar.setOnClickListener(this);
-            binding.btnBottom.setOnClickListener(this);
+            binding.btnEdit.setOnClickListener(this);
             binding.btnShare.setOnClickListener(this);
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
@@ -265,10 +265,12 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
             isMe = item.getUid() == user.getUid();
             if (isMe) {
                 binding.btnEdit.setVisibility(View.VISIBLE);
-                binding.btnContect.setVisibility(View.GONE);
+                binding.btnShare.setVisibility(View.VISIBLE);
+                binding.bottomDiv.setVisibility(View.VISIBLE);
             } else {
-                binding.btnContect.setVisibility(View.VISIBLE);
                 binding.btnEdit.setVisibility(View.GONE);
+                binding.btnShare.setVisibility(View.GONE);
+                binding.bottomDiv.setVisibility(View.GONE);
             }
 //            defaultAvatar = ImageLoaderManager.image(mContext, Uri.parse(item.getAvatar80()));
             new ImageLoaderManager.Loader(mContext, item.getAvatar80().getUri()).callback(new ImageLoaderManager.Callback() {
@@ -301,7 +303,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
         public void onClick(View v) {
             if (v == binding.root) {
                 mViewHolderClickListener.onItemClick(this, getLayoutPosition());
-            } else if (v == binding.btnBottom) {
+            } else if (v == binding.btnEdit) {
                 if (isMe) {
                     if (swipeItemLayout.isClosed()) {
                         swipeItemLayout.openWithAnim();
@@ -322,7 +324,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
         }
     }
 
-    class  ViewPagerAdapter extends PagerAdapter implements IconPagerAdapter {
+    class ViewPagerAdapter extends PagerAdapter implements IconPagerAdapter {
         private final ViewPager viewPager;
 
         public void setViews(List<View> views) {
