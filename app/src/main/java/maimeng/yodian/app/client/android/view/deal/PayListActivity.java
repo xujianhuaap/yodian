@@ -49,11 +49,13 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
 
     private TextView mTitle;
     private OrderInfo mInfo;
+    private Skill mSkill;
     private BuyService mService;
     private OrderInfo mOrderInfo;
+    private boolean isOrderPay;
 
     /***
-     *
+     *订单支付
      * @param context
      */
     public  static void show(Activity context,OrderInfo orderInfo,int requestCode){
@@ -78,13 +80,20 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         getWindow().setGravity(Gravity.BOTTOM);
         setContentView(R.layout.activity_pay_list);
-        mOrderInfo = getIntent().getParcelableExtra("orderInfo");
-        mTitle=(TextView)findViewById(R.id.pay_title);
-        mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, mOrderInfo.getTotal_fee())));
 
+        mTitle=(TextView)findViewById(R.id.pay_title);
         findViewById(R.id.pay_wechat).setOnClickListener(this);
         findViewById(R.id.pay_zhifubao).setOnClickListener(this);
         findViewById(R.id.pay_remainer).setOnClickListener(this);
+
+        Intent intent=getIntent();
+        if(intent.hasExtra("orderInfo")){
+            mOrderInfo = intent.getParcelableExtra("orderInfo");
+            mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, mOrderInfo.getTotal_fee())));
+            isOrderPay=true;
+        }else{
+            mSkill=intent.getParcelableExtra("skill");
+        }
 
 
         HNet net = new HNet.Builder()
@@ -103,17 +112,32 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
      */
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.pay_remainer){
-            IPayStatus status=new PayStatus();
-            IPay pay=RemainderFactory.createInstance(PayListActivity.this, mOrderInfo.getOid(), status);
-            pay.sendReq();
-        }else if(v.getId()==R.id.pay_wechat){
-            mService.buyOrder(mOrderInfo.getOid(), 2, new CallBackProxy(2));
-        }else if(v.getId()==R.id.pay_zhifubao){
-            mService.buyOrder(mOrderInfo.getOid(),1,new CallBackProxy(1));
+        if(isOrderPay){
+            if(v.getId()==R.id.pay_remainer){
+                IPayStatus status=new PayStatus();
+                IPay pay=RemainderFactory.createInstance(PayListActivity.this, mOrderInfo.getOid(), status);
+                pay.sendReq();
+            }else if(v.getId()==R.id.pay_wechat){
+                mService.buyOrder(mOrderInfo.getOid(), 2, new CallBackProxy(2));
+            }else if(v.getId()==R.id.pay_zhifubao){
+                mService.buyOrder(mOrderInfo.getOid(),1,new CallBackProxy(1));
+            }
+        }else {
+            if(v.getId()==R.id.pay_remainer){
+
+            }else if(v.getId()==R.id.pay_wechat){
+                mService.buySkill(mSkill.getId(), 2, new CallBackProxy(2));
+            }else if(v.getId()==R.id.pay_zhifubao){
+                mService.buySkill(mSkill.getId(),1,new CallBackProxy(1));
+            }
         }
+
     }
 
+
+    /***
+     *
+     */
     public final class CallBackProxy implements Callback<String>{
         private final int payType;
 

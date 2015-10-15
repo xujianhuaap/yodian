@@ -20,7 +20,7 @@ public interface BuyService {
      * @param callback
      */
     @Post(Api.SKILL_BUY)
-    void buySkill(@Param("sid")String sid,@Param("paytype")int paytype,Callback<String>callback);
+    void buySkill(@Param("sid")long sid,@Param("paytype")int paytype,Callback<String>callback);
 
     /***
      * 未支付订单支付
