@@ -16,16 +16,12 @@ import android.view.ViewGroup;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderUserFristBinding;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.PreviewActivity;
 import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
 import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
-import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
@@ -65,7 +61,6 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mHeaderBinding.btnReport.setOnClickListener(this);
         mHeaderBinding.userAvatar.setOnClickListener(this);
         //我的订单 我的余额 添加技能
         mHeaderBinding.myOrder.setOnClickListener(this);
@@ -86,8 +81,6 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
                 ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
             }
 
-        } else if (clickItem == mHeaderBinding.btnReport) {
-            report();
         } else if (clickItem == mHeaderBinding.btnCreateskill) {
             if (TextUtils.isEmpty(User.read(getActivity()).getWechat())) {
                 AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
@@ -110,7 +103,7 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
                 Pair<View, String> top = Pair.create(clickItem, "top");
                 Pair<View, String> floatbutton = Pair.create((View) getButton(), "floatbutton");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), top, floatbutton);
-                ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
+                ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SkillTemplateActivity.class), BaseFragment.REQUEST_CREATE_SKILL, options.toBundle());
             }
 
         } else if (clickItem == mHeaderBinding.myRemainder) {
@@ -124,32 +117,6 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void report() {
-        AlertDialog alert = AlertDialog.newInstance("提示", getActivity().getString(R.string.lable_alert_report_user));
-        alert.setNegativeListener(new AlertDialog.NegativeListener() {
-            @Override
-            public void onNegativeClick(DialogInterface dialog) {
-                dialog.dismiss();
-            }
-
-            @Override
-            public String negativeText() {
-                return getActivity().getString(android.R.string.cancel);
-            }
-        });
-        alert.setPositiveListener(new AlertDialog.PositiveListener() {
-            @Override
-            public void onPositiveClick(DialogInterface dialog) {
-                Network.getService(CommonService.class).report(3, 0, 0, user.getUid(), new ToastCallback(getActivity()));
-            }
-
-            @Override
-            public String positiveText() {
-                return getActivity().getString(R.string.lable_report);
-            }
-        });
-        alert.show(getActivity().getFragmentManager(), "alert");
-    }
 
     private void bind(User user) {
         this.user = user;
@@ -159,8 +126,6 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
             mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
             mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
             mHeaderBinding.bottom.setVisibility(View.GONE);
-            mHeaderBinding.btnReport.setVisibility(View.VISIBLE);
-
         } else {
             mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
             mHeaderBinding.bottom.setVisibility(View.VISIBLE);

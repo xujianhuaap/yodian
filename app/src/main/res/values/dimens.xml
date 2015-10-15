@@ -46,7 +46,7 @@
 
     <eat-comment />
     <dimen name="qrcode_size">74dp</dimen>
-    <dimen name="qrcode_left">210dp</dimen>2
+    <dimen name="qrcode_left">210dp</dimen>
     <dimen name="qrcode_top">10dp</dimen>
 
     <dimen name="btn_width">65dp</dimen>

@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.adapter;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import maimeng.yodian.app.client.android.entry.skillhome.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.view.skill.UserHeaderFrist;
 import maimeng.yodian.app.client.android.view.skill.UserHeaderSecond;
@@ -183,6 +185,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             indicator.setViewPager(banner);
             headerMainHomeBinding.btnChat.setOnClickListener(this);
             headerMainHomeBinding.btnSettings.setOnClickListener(this);
+            mHeaderBinding.btnReport.setOnClickListener(this);
         }
 
         public void bind(User user) {
@@ -190,8 +193,13 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             mHeaderBinding.setUser(user);
             mHeaderBinding.executePendingBindings();
             if (user.getUid() != User.read(mContext).getUid()) {
-                mHeaderBinding.btnSettings.setVisibility(View.INVISIBLE);
+                mHeaderBinding.btnSettings.setVisibility(View.GONE);
                 mHeaderBinding.btnChat.setVisibility(View.GONE);
+                mHeaderBinding.btnReport.setVisibility(View.VISIBLE);
+            } else {
+                mHeaderBinding.btnSettings.setVisibility(View.VISIBLE);
+                mHeaderBinding.btnChat.setVisibility(View.VISIBLE);
+                mHeaderBinding.btnReport.setVisibility(View.GONE);
             }
             List<android.support.v4.app.Fragment> fragments = new ArrayList<>(2);
             fragments.add(UserHeaderFrist.newInstance(user));

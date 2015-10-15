@@ -16,7 +16,7 @@
         <!--<item name="android:textColorTertiary">#ffff</item>-->
     </style>
 
-    <style name="MainTab2" parent="AppTheme">
+    <style name="PageIndicator" parent="AppTheme">
         <item name="vpiIconPageIndicatorStyle">@style/vpiIconPageIndicatorStyle</item>
     </style>
 

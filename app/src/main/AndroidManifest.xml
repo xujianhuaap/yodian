@@ -54,13 +54,7 @@
             android:name=".view.MainTab2Activity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:theme="@style/MainTab2">
-
-        </activity>
-        <activity
-            android:name=".view.MainTabActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask">
+            android:theme="@style/PageIndicator">
 
         </activity>
         <activity
@@ -72,7 +66,7 @@
         <activity android:name=".view.WebViewActivity" />
         <activity
             android:name=".view.user.UserHomeActivity"
-            android:theme="@style/NoAnimTheme" />
+            android:theme="@style/PageIndicator" />
         <activity
             android:name=".view.skill.CreateOrEditSkillActivity"
             android:theme="@style/AppThemeTransparent"
@@ -299,7 +293,8 @@
             android:name=".wxapi.WXEntryActivity"
 
             android:exported="true" />
-        <activity android:name=".wxapi.WXPayEntryActivity"
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
             android:exported="true">
 
         </activity>
@@ -339,8 +334,8 @@
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".chat.activity.AlertDialog"
-            android:screenOrientation="portrait"
             android:label=""
+            android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle" />
     </application>
 </manifest>

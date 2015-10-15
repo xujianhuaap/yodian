@@ -10,7 +10,7 @@
 
         </variable>
     </data>
-
+    <!--个人主页顶部ViewPager内的第一页-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/user_header_height"
@@ -23,37 +23,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="@dimen/top_icon_margin"
-                android:layout_marginTop="12dp">
-
-                <ImageView
-                    android:id="@+id/miss_msg_count"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="right|top"
-                    android:src="@drawable/miss_msg_count"
-                    android:visibility="invisible" />
-            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <FrameLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal">
 
                     <maimeng.yodian.app.client.android.widget.CircleImageView
                         android:id="@+id/user_avatar"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:scaleType="centerInside"
                         app:imgUrl="@{user.avatar}" />
 
@@ -74,20 +59,11 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="@{user.nickname}" />
+                    android:text="@{user.nickname}"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/tex_size_large"
+                    android:textStyle="bold" />
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/btn_report"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|right"
-                android:layout_marginRight="@dimen/top_icon_margin"
-                android:layout_marginTop="@dimen/top_icon_margin"
-                android:paddingBottom="5dp"
-                android:paddingLeft="16dp"
-                android:src="@drawable/ic_report_userhome"
-                android:visibility="invisible" />
 
 
         </FrameLayout>
