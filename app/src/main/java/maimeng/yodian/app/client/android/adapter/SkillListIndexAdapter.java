@@ -34,7 +34,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.AutoScrollViewPager;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
-import maimeng.yodian.app.client.android.widget.ViewPager;
+import maimeng.yodian.app.client.android.widget.ViewPagerFix;
 
 /**
  * Created by android on 15-7-13.
@@ -120,17 +120,17 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
         }
     }
 
-    public class BannerViewHolder extends BaseViewHolder implements ViewPager.OnPageChangeListener, ViewPager.OnFlipListener {
+    public class BannerViewHolder extends BaseViewHolder implements ViewPagerFix.OnPageChangeListener, ViewPagerFix.OnFlipListener {
         private final ViewPagerAdapter adapter;
         private final IconPageIndicator indicator;
-        public ViewPager banner;
+        public ViewPagerFix banner;
         public int currentPage;
         public BannerViewEntry list;
 
         public BannerViewHolder(View root) {
             super(root);
-            banner = (ViewPager) root.findViewById(R.id.banner_pager);
-            banner.setOnClickListener(new ViewPager.OnClickListener() {
+            banner = (ViewPagerFix) root.findViewById(R.id.banner_pager);
+            banner.setOnClickListener(new ViewPagerFix.OnClickListener() {
                 @Override
                 public void onClickListener(View v) {
                     mViewHolderClickListener.onClick(BannerViewHolder.this, v, getLayoutPosition());
@@ -325,7 +325,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
     }
 
     class ViewPagerAdapter extends PagerAdapter implements IconPagerAdapter {
-        private final ViewPager viewPager;
+        private final ViewPagerFix viewPager;
 
         public void setViews(List<View> views) {
             this.views = views;
@@ -333,7 +333,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
 
         private List<View> views;
 
-        public ViewPagerAdapter(List<View> views, ViewPager viewPager) {
+        public ViewPagerAdapter(List<View> views, ViewPagerFix viewPager) {
             this.views = views;
             this.viewPager = viewPager;
         }

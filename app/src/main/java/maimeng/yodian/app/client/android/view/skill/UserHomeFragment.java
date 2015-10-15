@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +42,7 @@ import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
-import maimeng.yodian.app.client.android.databinding.ViewHeaderMainHomeBinding;
+import maimeng.yodian.app.client.android.databinding.UserHomeHeaderBinding;
 import maimeng.yodian.app.client.android.entry.skillhome.HeaderViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ViewEntry;
@@ -62,15 +61,11 @@ import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
-import maimeng.yodian.app.client.android.view.PreviewActivity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
-import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
-import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
-import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
@@ -91,7 +86,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     private static final int REQUEST_AUTH = 0x8001;
     private User user;
     private int mEditPostion;
-    private ViewHeaderMainHomeBinding headerMainHomeBinding;
+    private UserHomeHeaderBinding headerMainHomeBinding;
     private RecyclerView mRecyclerView;
     private PtrFrameLayout mRefreshLayout;
     private SkillService service;
@@ -131,7 +126,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-        adapter = new SkillListHomeAdapter(this, this);
+        adapter = new SkillListHomeAdapter(mActivity, this, mRefreshLayout);
         mRecyclerView.setAdapter(adapter);
         if (User.read(mActivity).isPushOn()) {
             EMChatManager.getInstance().registerEventListener(this);
@@ -437,60 +432,13 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         } else {
             if (holder instanceof SkillListHomeAdapter.HeaderViewHolder) {
                 SkillListHomeAdapter.HeaderViewHolder viewHolder = (SkillListHomeAdapter.HeaderViewHolder) holder;
-                User user = viewHolder.getData();
-                headerMainHomeBinding = viewHolder.getHeaderMainHomeBinding();
+                headerMainHomeBinding = viewHolder.getBinding();
                 if (clickItem == headerMainHomeBinding.btnChat) {
                     mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
-                } else if (clickItem == headerMainHomeBinding.userAvatar) {
-                    if (!(user.getUid() == User.read(mActivity).getUid())) {
-                        PreviewActivity.show(mActivity, user);
-                    } else {
-                        Pair<View, String> avatar = Pair.create(clickItem, "avatar");
-                        Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
-                        ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
-                    }
-
                 } else if (clickItem == headerMainHomeBinding.btnSettings) {
                     Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
                     ActivityCompat.startActivity(mActivity, new Intent(mActivity, SettingsActivity.class), options.toBundle());
-
-                } else if (clickItem == headerMainHomeBinding.btnReport) {
-                    report();
-                } else if (clickItem == headerMainHomeBinding.btnCreateskill) {
-                    if (TextUtils.isEmpty(User.read(mActivity).getWechat())) {
-                        AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
-                            @Override
-                            public void onPositiveClick(DialogInterface dialog) {
-                                Pair<View, String> avatar = Pair.create(clickItem, "avatar");
-                                Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, avatar, back);
-                                ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
-                            }
-
-                            @Override
-                            public String positiveText() {
-                                return "前往";
-                            }
-                        }).show(mActivity.getFragmentManager(), "");
-
-                    } else {
-
-                        Pair<View, String> top = Pair.create(clickItem, "top");
-                        Pair<View, String> floatbutton = Pair.create((View) mFloatButton, "floatbutton");
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, top, floatbutton);
-                        ActivityCompat.startActivityForResult(mActivity, new Intent(mActivity, SkillTemplateActivity.class), ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
-                    }
-
-                } else if (clickItem == headerMainHomeBinding.myRemainder) {
-                    Intent intent = new Intent(mActivity, RemainderMainActivity.class);
-                    mActivity.startActivity(intent);
-
-                } else if (clickItem == headerMainHomeBinding.myOrder) {
-                    Intent intent = new Intent(mActivity, OrderListActivity.class);
-                    mActivity.startActivity(intent);
-
                 }
             }
         }

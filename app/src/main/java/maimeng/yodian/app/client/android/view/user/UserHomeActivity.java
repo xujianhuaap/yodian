@@ -38,7 +38,7 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
 
     public static void show(Context context, long uid, boolean isSingleTask) {
         Intent intent = new Intent(context, UserHomeActivity.class);
-        if(isSingleTask){
+        if (isSingleTask) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
 
@@ -48,7 +48,7 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
 
 
     public static void show(Context context, long uid) {
-      show(context,uid,false);
+        show(context, uid, false);
     }
 
     public static void show(Activity activity, long uid, View btnBack, View avatar, View nickname) {
@@ -88,6 +88,10 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     @Deprecated
     public static UserIntent create(Context context, long uid) {
         return new UserIntent(context, uid);
+    }
+
+    public View getFloatButton() {
+        return findViewById(R.id.btn_back);
     }
 
     public static class UserIntent extends Intent {

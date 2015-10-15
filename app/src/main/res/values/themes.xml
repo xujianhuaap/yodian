@@ -16,6 +16,15 @@
         <!--<item name="android:textColorTertiary">#ffff</item>-->
     </style>
 
+    <style name="MainTab2" parent="AppTheme">
+        <item name="vpiIconPageIndicatorStyle">@style/vpiIconPageIndicatorStyle</item>
+    </style>
+
+    <style name="vpiIconPageIndicatorStyle" parent="Widget.IconPageIndicator">
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingRight">3dp</item>
+    </style>
+
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

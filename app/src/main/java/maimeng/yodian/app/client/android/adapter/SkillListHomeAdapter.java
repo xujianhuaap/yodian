@@ -1,62 +1,66 @@
 package maimeng.yodian.app.client.android.adapter;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.viewpagerindicator.IconPageIndicator;
+import com.viewpagerindicator.IconPagerAdapter;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.SkillListItemSkillBinding;
-import maimeng.yodian.app.client.android.databinding.ViewHeaderMainHomeBinding;
+import maimeng.yodian.app.client.android.databinding.UserHomeHeaderBinding;
 import maimeng.yodian.app.client.android.entry.skillhome.HeaderViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
+import maimeng.yodian.app.client.android.view.skill.UserHeaderFrist;
+import maimeng.yodian.app.client.android.view.skill.UserHeaderSecond;
 import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
+import maimeng.yodian.app.client.android.widget.ViewPager;
 
 /**
  * Created by android on 15-7-13.
  */
 public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHomeAdapter.ViewHolder> {
+    private final AppCompatActivity activity;
     private int mScreenWidth;
-    private ViewHeaderMainHomeBinding mHeaderBinding;
+    private UserHomeHeaderBinding mHeaderBinding;
     private HeaderViewEntry mHeaderViewEntry;
+    private final PtrFrameLayout refreshLayout;
 
-    public ViewHeaderMainHomeBinding getHeaderBinding() {
+    public UserHomeHeaderBinding getHeaderBinding() {
         return mHeaderBinding;
     }
 
-    public SkillListHomeAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
+    public SkillListHomeAdapter(AppCompatActivity context, ViewHolderClickListener<ViewHolder> viewHolderClickListener, PtrFrameLayout refreshLayout) {
         super(context, viewHolderClickListener);
+        this.activity = context;
         mScreenWidth = context.getResources().getDisplayMetrics().widthPixels;
+        this.refreshLayout = refreshLayout;
     }
 
-    public SkillListHomeAdapter(Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
-        super(fragment, viewHolderClickListener);
-        mScreenWidth = fragment.getResources().getDisplayMetrics().widthPixels;
-    }
-
-    public SkillListHomeAdapter(android.support.v4.app.Fragment fragment, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
-        super(fragment, viewHolderClickListener);
-        mScreenWidth = fragment.getResources().getDisplayMetrics().widthPixels;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == ViewEntry.VIEW_TYPE_HEAD) {
-            ViewHeaderMainHomeBinding headerBinding = DataBindingUtil.inflate(inflater, R.layout.view_header_main_home, parent, false);
-            return new HeaderViewHolder(headerBinding);
+            UserHomeHeaderBinding headerBinding = DataBindingUtil.inflate(inflater, R.layout.user_home_header, parent, false);
+            return new HeaderViewHolder(headerBinding, activity.getSupportFragmentManager());
         } else {
             SkillListItemSkillBinding binding = DataBindingUtil.inflate(inflater, R.layout.skill_list_item_skill, parent, false);
             return new ItemViewHolder(binding);
@@ -108,13 +112,17 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
     /***
      *
      */
-    public class HeaderViewHolder extends SkillListHomeAdapter.ViewHolder {
+    public class HeaderViewHolder extends SkillListHomeAdapter.ViewHolder implements ViewPager.OnPageChangeListener, ViewPager.OnFlipListener {
 
+        private final ViewPager banner;
+        private final IconPageIndicator indicator;
+        private final ViewPagerAdapter adapter;
         private User user;
         private Bitmap defaultAvatar;
 
+        public int currentPage;
 
-        public ViewHeaderMainHomeBinding getHeaderMainHomeBinding() {
+        public UserHomeHeaderBinding getBinding() {
             return mHeaderBinding;
         }
 
@@ -123,23 +131,58 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
         }
 
         @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            this.currentPage = position;
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+
+        @Override
+        public void onFlip() {
+            refreshLayout.setEnabled(false);
+        }
+
+        @Override
+        public void onCancel() {
+            refreshLayout.setEnabled(true);
+        }
+
+        @Override
         public void onClick(View v) {
             super.onClick(v);
             mViewHolderClickListener.onClick(HeaderViewHolder.this, v, getLayoutPosition());
         }
 
-        public HeaderViewHolder(ViewHeaderMainHomeBinding headerMainHomeBinding) {
+        public HeaderViewHolder(UserHomeHeaderBinding headerMainHomeBinding, FragmentManager manager) {
             super(headerMainHomeBinding.getRoot());
             mHeaderBinding = headerMainHomeBinding;
+            banner = headerMainHomeBinding.bannerPager;
+            indicator = headerMainHomeBinding.titles;
+            banner.setOnClickListener(new ViewPager.OnClickListener() {
+                @Override
+                public void onClickListener(View v) {
+                    mViewHolderClickListener.onClick(HeaderViewHolder.this, v, getLayoutPosition());
+                }
+
+            });
+
+
+            banner.addOnPageChangeListener(this);
+//            banner.setInterval(3000);
+            banner.setOnFlipListener(this);
+            adapter = new ViewPagerAdapter(new ArrayList<android.support.v4.app.Fragment>(), manager);
+            banner.setAdapter(adapter);
+            indicator.setViewPager(banner);
             headerMainHomeBinding.btnChat.setOnClickListener(this);
             headerMainHomeBinding.btnSettings.setOnClickListener(this);
-            headerMainHomeBinding.btnReport.setOnClickListener(this);
-            headerMainHomeBinding.userAvatar.setOnClickListener(this);
-
-            //我的订单 我的余额 添加技能
-            headerMainHomeBinding.myOrder.setOnClickListener(this);
-            headerMainHomeBinding.myRemainder.setOnClickListener(this);
-            headerMainHomeBinding.btnCreateskill.setOnClickListener(this);
         }
 
         public void bind(User user) {
@@ -148,16 +191,15 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             mHeaderBinding.executePendingBindings();
             if (user.getUid() != User.read(mContext).getUid()) {
                 mHeaderBinding.btnSettings.setVisibility(View.INVISIBLE);
-                mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
                 mHeaderBinding.btnChat.setVisibility(View.GONE);
-                mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
-                mHeaderBinding.bottom.setVisibility(View.GONE);
-                mHeaderBinding.btnReport.setVisibility(View.VISIBLE);
-
-            } else {
-                mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
-                mHeaderBinding.bottom.setVisibility(View.VISIBLE);
             }
+            List<android.support.v4.app.Fragment> fragments = new ArrayList<>(2);
+            fragments.add(UserHeaderFrist.newInstance(user));
+            fragments.add(UserHeaderSecond.newInstance(user));
+            adapter.setViews(fragments);
+            adapter.notifyDataSetChanged();
+            indicator.notifyDataSetChanged();
+            banner.setCurrentItem(0);
         }
 
 
@@ -264,6 +306,34 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
         this.datas.add(headerViewEntry);
     }
 
+    class ViewPagerAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
+
+        public void setViews(List<android.support.v4.app.Fragment> views) {
+            this.views = views;
+        }
+
+        private List<android.support.v4.app.Fragment> views;
+
+        public ViewPagerAdapter(List<android.support.v4.app.Fragment> views, FragmentManager manager) {
+            super(manager);
+            this.views = views;
+        }
+
+        @Override
+        public int getIconResId(int index) {
+            return R.drawable.point;
+        }
+
+        @Override
+        public int getCount() {
+            return views.size();
+        }
+
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            return views.get(position);
+        }
+    }
 
 }
 
