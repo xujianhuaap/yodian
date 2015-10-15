@@ -23,12 +23,7 @@ import maimeng.yodian.app.client.android.model.UserBaseColum;
  * Created by henjue on 2015/4/7.
  */
 
-public class User extends UserBaseColum implements Parcelable{
-
-    @SerializedName("mobilenum")
-    private String mobilenum;
-    @SerializedName("qqaccount")
-    private String qqaccount;
+public class User extends UserBaseColum implements Parcelable {
     @SerializedName("nickname")
     private String nickname;
     @SerializedName("avatar")
@@ -36,10 +31,8 @@ public class User extends UserBaseColum implements Parcelable{
     private String avatar;
     @SerializedName("SN_KEY_API")
     private String token;
-
     @SerializedName("hxname")
     private String chatLoginName;
-
 
     public String getChatLoginName() {
         return chatLoginName;
@@ -135,21 +128,6 @@ public class User extends UserBaseColum implements Parcelable{
         this.token = token;
     }
 
-    public String getMobilenum() {
-        return mobilenum;
-    }
-
-    public void setMobilenum(String mobilenum) {
-        this.mobilenum = mobilenum;
-    }
-
-    public String getQQAccount() {
-        return qqaccount;
-    }
-
-    public void setQQAccount(String qqaccount) {
-        this.qqaccount = qqaccount;
-    }
 
     public boolean pushOn = true;
     public int loginType;//0官方,1微信,2微博
@@ -293,11 +271,71 @@ public class User extends UserBaseColum implements Parcelable{
     }
 
     public static class Info extends User {
-        private static final String KEY_MOBILE = "_key_mobile";
-        private static final String KEY_WECHAT = "_key_wechat";
+        public static final String KEY_CONTACT = "_contact";
+        public static final String KEY_QQ = "_qq";
+        public static final String KEY_PROVINCE = "_province";
+        public static final String KEY_CITY = "_city";
+        public static final String KEY_DISTRICT = "_district";
+        public static final String KEY_ADDRESS = "_address";
+
+        public String getContact() {
+            return contact;
+        }
+
+        public void setContact(String contact) {
+            this.contact = contact;
+        }
+
+        public String getQq() {
+            return qq;
+        }
+
+        public void setQq(String qq) {
+            this.qq = qq;
+        }
+
+        public String getProvince() {
+            return province;
+        }
+
+        public void setProvince(String province) {
+            this.province = province;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getDistrict() {
+            return district;
+        }
+
+        public void setDistrict(String district) {
+            this.district = district;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        private String contact;
+        private String qq;
+        private String province;
+        private String city;
+        private String district;
+        private String address;
         private String mobile;
         @SerializedName("weichat")
         private String wechat;
+
 
         public String getMobile() {
             return mobile;
@@ -319,6 +357,12 @@ public class User extends UserBaseColum implements Parcelable{
             synchronized (User.class) {
                 editor.putString(KEY_MOBILE, this.mobile == null ? "" : this.mobile);
                 editor.putString(KEY_WECHAT, this.wechat == null ? "" : this.wechat);
+                editor.putString(KEY_CONTACT, this.contact == null ? "" : this.contact);
+                editor.putString(KEY_QQ, this.qq == null ? "" : this.qq);
+                editor.putString(KEY_PROVINCE, this.province == null ? "" : this.province);
+                editor.putString(KEY_CITY, this.city == null ? "" : this.city);
+                editor.putString(KEY_DISTRICT, this.district == null ? "" : this.district);
+                editor.putString(KEY_ADDRESS, this.address == null ? "" : this.address);
                 return true;
             }
         }
@@ -328,8 +372,20 @@ public class User extends UserBaseColum implements Parcelable{
                 Info info = new Info();
                 String mobile = pref.getString(KEY_MOBILE, "");
                 String wechat = pref.getString(KEY_WECHAT, "");
+                String contact = pref.getString(KEY_CONTACT, "");
+                String qq = pref.getString(KEY_QQ, "");
+                String province = pref.getString(KEY_PROVINCE, "");
+                String city = pref.getString(KEY_CITY, "");
+                String district = pref.getString(KEY_DISTRICT, "");
+                String address = pref.getString(KEY_ADDRESS, "");
                 info.setWechat(wechat);
                 info.setMobile(mobile);
+                info.setContact(contact);
+                info.setQq(qq);
+                info.setProvince(province);
+                info.setCity(city);
+                info.setDistrict(district);
+                info.setAddress(address);
                 return info;
             }
         }
@@ -343,8 +399,6 @@ public class User extends UserBaseColum implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.mobilenum);
-        dest.writeString(this.qqaccount);
         dest.writeString(this.nickname);
         dest.writeString(this.avatar);
         dest.writeString(this.token);
@@ -359,8 +413,6 @@ public class User extends UserBaseColum implements Parcelable{
     }
 
     protected User(Parcel in) {
-        this.mobilenum = in.readString();
-        this.qqaccount = in.readString();
         this.nickname = in.readString();
         this.avatar = in.readString();
         this.token = in.readString();

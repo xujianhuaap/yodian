@@ -13,250 +13,184 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorPrimary">
+        android:background="@color/colorPrimary">
 
+        <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/user_container_height"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/btn_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/btn_camera" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/btn_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/btn_album" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <maimeng.yodian.app.client.android.widget.CircleImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="@dimen/user_avatar_dimen"
+                android:layout_height="@dimen/user_avatar_dimen"
+                android:layout_gravity="center_horizontal"
+                app:imgUrl="@{user.avatar}" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/user_avatar_margin_top"
+                android:gravity="center"
+                android:text="@string/lable_nickname" />
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/auth_input_marginStart"
+                android:layout_marginRight="@dimen/auth_input_marginEnd"
+                android:background="#fff"
+                android:orientation="horizontal">
 
-                    <maimeng.yodian.app.client.android.widget.CircleImageView
-                        android:id="@+id/user_avatar"
-                        android:layout_width="@dimen/user_avatar_dimen"
-                        android:layout_height="@dimen/user_avatar_dimen"
-                        android:layout_gravity="center_horizontal"
-                        app:imgUrl="@{user.avatar}" />
-
-                    <LinearLayout
-                        android:id="@+id/button_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/user_container_height"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="invisible">
-
-                        <ImageView
-                            android:id="@+id/btn_camera"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:src="@drawable/btn_camera" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:visibility="invisible" />
-
-                        <ImageView
-                            android:id="@+id/btn_album"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:src="@drawable/btn_album" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <TextView
+                <EditText
+                    android:id="@+id/nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/lable_update_avatar" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/user_avatar_margin_top"
-                    android:gravity="center"
-                    android:text="@string/lable_nickname" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/auth_input_marginStart"
-                    android:layout_marginRight="@dimen/auth_input_marginEnd"
-                    android:background="#fff"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/nickname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/btn_clean"
-                        android:background="@android:color/white"
-                        android:gravity="center_horizontal"
-                        android:hint="@string/hint_nickname"
-                        android:maxLength="11"
-                        android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                        android:singleLine="true"
-                        android:textColor="#000"
-                        android:textColorHint="@color/hint_color" />
-
-                    <ImageView
-                        android:id="@+id/btn_clean_name"
-                        android:layout_width="@dimen/auth_input_clean_size"
-                        android:layout_height="@dimen/auth_input_clean_size"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
-                        android:layout_marginRight="@dimen/auth_input_clean_marginRight"
-                        android:layout_marginTop="@dimen/auth_input_clean_marginTop"
-                        android:padding="@dimen/auth_input_clean_padding"
-                        android:src="@drawable/ic_clear" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/user_avatar_margin_top"
-                    android:gravity="center"
-                    android:text="@string/lable_wechat" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/auth_input_marginStart"
-                    android:layout_marginRight="@dimen/auth_input_marginEnd"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/btn_clean"
                     android:background="@android:color/white"
-                    android:orientation="horizontal">
+                    android:gravity="center_horizontal"
+                    android:hint="@string/hint_nickname"
+                    android:maxLength="11"
+                    android:paddingLeft="@dimen/auth_input_edit_paddingStart"
+                    android:singleLine="true"
+                    android:textColor="#000"
+                    android:textColorHint="@color/hint_color" />
 
-                    <EditText
-                        android:id="@+id/wechat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/btn_clean"
-                        android:digits="@string/text_digits"
-                        android:gravity="center_horizontal"
-                        android:hint="@string/hint_wechat"
-                        android:maxLength="@integer/text_max_len"
-                        android:background="@android:color/white"
-                        android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                        android:singleLine="true"
-                        android:textColor="#000"
-                        android:textColorHint="@color/hint_color" />
+            </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/btn_clean_wechat"
-                        android:layout_width="@dimen/auth_input_clean_size"
-                        android:layout_height="@dimen/auth_input_clean_size"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
-                        android:layout_marginRight="@dimen/auth_input_clean_marginRight"
-                        android:layout_marginTop="@dimen/auth_input_clean_marginTop"
-                        android:padding="@dimen/auth_input_clean_padding"
-                        android:src="@drawable/ic_clear" />
-                </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_avatar_margin_top"
+                android:gravity="center"
+                android:text="@string/lable_wechat" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/auth_input_marginStart"
+                android:layout_marginRight="@dimen/auth_input_marginEnd"
+                android:background="@android:color/white"
+                android:orientation="horizontal">
 
-                <TextView
+                <EditText
+                    android:id="@+id/wechat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/user_avatar_margin_top"
-                    android:gravity="center"
-                    android:text="@string/lable_qq" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/auth_input_marginStart"
-                    android:layout_marginRight="@dimen/auth_input_marginEnd"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/btn_clean"
                     android:background="@android:color/white"
-                    android:orientation="horizontal">
+                    android:digits="@string/text_digits"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/hint_wechat"
+                    android:maxLength="@integer/text_max_len"
+                    android:paddingLeft="@dimen/auth_input_edit_paddingStart"
+                    android:singleLine="true"
+                    android:textColor="#000"
+                    android:textColorHint="@color/hint_color" />
 
-                    <EditText
-                        android:id="@+id/qq"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/btn_clean"
-                        android:digits="@string/text_digits"
-                        android:gravity="center_horizontal"
-                        android:hint="@string/hint_qq"
-                        android:maxLength="@integer/text_max_len"
-                        android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                        android:singleLine="true"
-                        android:background="@android:color/white"
-                        android:textColor="@android:color/black"
-                        android:textColorHint="@color/hint_color" />
-
-                    <ImageView
-                        android:id="@+id/btn_clean_qq"
-                        android:layout_width="@dimen/auth_input_clean_size"
-                        android:layout_height="@dimen/auth_input_clean_size"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
-                        android:layout_marginRight="@dimen/auth_input_clean_marginRight"
-                        android:layout_marginTop="@dimen/auth_input_clean_marginTop"
-                        android:padding="@dimen/auth_input_clean_padding"
-                        android:src="@drawable/ic_clear" />
-                </RelativeLayout>
+            </RelativeLayout>
 
 
-                <TextView
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_avatar_margin_top"
+                android:gravity="center"
+                android:text="@string/lable_qq" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/auth_input_marginStart"
+                android:layout_marginRight="@dimen/auth_input_marginEnd"
+                android:background="@android:color/white"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/qq"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/user_avatar_margin_top"
-                    android:gravity="center"
-                    android:text="@string/lable_phone" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/auth_input_marginStart"
-                    android:layout_marginRight="@dimen/auth_input_marginEnd"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/btn_clean"
                     android:background="@android:color/white"
-                    android:orientation="horizontal">
+                    android:digits="@string/text_digits"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/hint_qq"
+                    android:maxLength="@integer/text_max_len"
+                    android:paddingLeft="@dimen/auth_input_edit_paddingStart"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/hint_color" />
 
-                    <EditText
-                        android:id="@+id/phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/btn_clean"
-                        android:digits="@string/text_digits"
-                        android:gravity="center_horizontal"
-                        android:hint="@string/hint_phone"
-                        android:maxLength="@integer/text_max_len"
-                        android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                        android:singleLine="true"
-                        android:background="@android:color/white"
-                        android:textColor="@android:color/black"
-                        android:textColorHint="@color/hint_color" />
-
-                    <ImageView
-                        android:id="@+id/btn_clean_phone"
-                        android:layout_width="@dimen/auth_input_clean_size"
-                        android:layout_height="@dimen/auth_input_clean_size"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
-                        android:layout_marginRight="@dimen/auth_input_clean_marginRight"
-                        android:layout_marginTop="@dimen/auth_input_clean_marginTop"
-                        android:padding="@dimen/auth_input_clean_padding"
-                        android:src="@drawable/ic_clear" />
-                </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
 
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
-            android:layout_margin="@dimen/floating_btn_margin"
-            android:src="@drawable/btn_back"
-            app:fab_colorNormal="@color/float_colorNormal"
-            app:fab_colorPressed="@color/float_colorPressed"
-            app:fab_colorRipple="@color/float_colorRipple" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_avatar_margin_top"
+                android:gravity="center"
+                android:text="@string/lable_phone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/auth_input_marginStart"
+                android:layout_marginRight="@dimen/auth_input_marginEnd"
+                android:background="@android:color/white"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/btn_clean"
+                    android:background="@android:color/white"
+                    android:digits="@string/text_digits"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/hint_phone"
+                    android:maxLength="@integer/text_max_len"
+                    android:paddingLeft="@dimen/auth_input_edit_paddingStart"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/hint_color" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/btn_submit"

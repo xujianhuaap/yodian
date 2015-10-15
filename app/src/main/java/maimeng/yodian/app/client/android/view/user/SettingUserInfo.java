@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -64,6 +66,17 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     }
 
     @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!dir.exists()) {
@@ -73,52 +86,8 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         service = Network.getService(UserService.class);
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_setting_user_info, null, false);
         setContentView(binding.getRoot());
-//        ActionBar actionBar = getSupportActionBar();
-//        if (actionBar != null) {
-//            actionBar.setHomeButtonEnabled(true);
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//        }
-        setTitle("");
         ViewCompat.setTransitionName(binding.userAvatar, "avatar");
-        ViewCompat.setTransitionName(binding.btnBack, "back");
-        final User currentUser=User.read(this);
-        user = currentUser;
-        binding.setUser(user);
-        binding.executePendingBindings();
-        binding.btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(SettingUserInfo.this);
-            }
-        });
-        binding.btnCleanName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.nickname.setText("");
-                binding.btnCleanName.setVisibility(View.INVISIBLE);
-            }
-        });
-        binding.btnCleanWechat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.wechat.setText("");
-                binding.btnCleanWechat.setVisibility(View.INVISIBLE);
-            }
-        });
-        binding.btnCleanPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.phone.setText("");
-                binding.btnCleanPhone.setVisibility(View.INVISIBLE);
-            }
-        });
-        binding.btnCleanQq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.qq.setText("");
-                binding.btnCleanQq.setVisibility(View.INVISIBLE);
-            }
-        });
+        user = User.read(this);
         binding.btnSubmit.setOnClickListener(this);
         binding.userAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,27 +120,16 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             }
         });
         new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
-        EditTextChangeListener listener=new EditTextChangeListener(binding.nickname, binding, user);
-        binding.nickname.addTextChangedListener(listener);
+        binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
+        binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
+        binding.qq.addTextChangedListener(new EditTextChangeListener(binding.qq, binding, user));
+        binding.phone.addTextChangedListener(new EditTextChangeListener(binding.phone, binding, user));
         binding.nickname.setText(user.getNickname());
-        binding.wechat.addTextChangedListener(listener);
         binding.wechat.setText(user.getWechat());
-        binding.qq.addTextChangedListener(listener);
-        binding.qq.setText(user.getQQAccount());
-        binding.phone.addTextChangedListener(listener);
-        binding.phone.setText(user.getMobilenum());
-        if(TextUtils.isEmpty(binding.nickname.getText().toString())){
-            binding.btnCleanName.setVisibility(View.INVISIBLE);
-        }
-        if(TextUtils.isEmpty(binding.wechat.getText().toString())){
-            binding.btnCleanWechat.setVisibility(View.INVISIBLE);
-        }
-        if(TextUtils.isEmpty(binding.qq.getText())){
-            binding.btnCleanQq.setVisibility(View.INVISIBLE);
-        }
-        if(TextUtils.isEmpty(binding.phone.getText())){
-            binding.btnCleanPhone.setVisibility(View.INVISIBLE);
-        }
+        binding.qq.setText(user.getInfo().getQq());
+        binding.phone.setText(user.getInfo().getContact());
+        binding.setUser(user);
+        binding.executePendingBindings();
     }
 
     private void toggle() {
@@ -219,30 +177,22 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         binding.invalidateAll();
-        if (TextUtils.isEmpty(binding.nickname.getText().toString())) {
-            binding.nickname.setError(getText(R.string.nickname_input_empty_message));
-            return;
-        }
-        boolean wechatIsEmpty=TextUtils.isEmpty(binding.wechat.getText().toString());
-        boolean qqIsEmpty=TextUtils.isEmpty(binding.qq.getText().toString());
-        boolean phoneIsEmpty=TextUtils.isEmpty(binding.phone.getText().toString());
-        if (wechatIsEmpty) {
-            binding.wechat.setError(getText(R.string.wechat_input_empty_message));
-            return;
-        }
         if (mBitmap == null) {
             Toast.makeText(this, R.string.avatar_input_empty_message, Toast.LENGTH_SHORT).show();
             return;
         }
-
-        user.setQQAccount(binding.qq.getText().toString());
-        user.setMobilenum(binding.phone.getText().toString());
-        user.setWechat(binding.wechat.getText().toString());
-        user.setNickname(binding.nickname.getText().toString());
-
-
-//                service.modifyInfo(user.getNickname(),user.getWechat(),new TypeBitmap(BitmapUtils.compress(mBitmap,540,540,false)),this);
-        service.modifyInfo(user.getNickname(), user.getWechat(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(),user.getMobilenum(),user.getQQAccount(),this);
+        if (TextUtils.isEmpty(binding.nickname.getText().toString())) {
+            binding.nickname.setError(getText(R.string.nickname_input_empty_message));
+            return;
+        }
+        boolean wechatEmpty = TextUtils.isEmpty(binding.wechat.getText().toString());
+        boolean qqEmpty = TextUtils.isEmpty(binding.qq.getText().toString());
+        boolean phomeEmpty = TextUtils.isEmpty(binding.phone.getText().toString());
+        if (phomeEmpty && qqEmpty && wechatEmpty) {
+            binding.nickname.setError(getText(R.string.contact_input_empty_message));
+            return;
+        }
+        service.modifyInfo(user.getNickname(), user.getWechat(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq(), user.getInfo().getContact(), this);
     }
 
     @Override
@@ -330,28 +280,21 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
-            if(TextUtils.isEmpty(binding.nickname.getText().toString())){
-                binding.btnCleanName.setVisibility(View.INVISIBLE);
-            }else {
-                binding.btnCleanName.setVisibility(View.VISIBLE);
+            String text = s.toString();
+            if (mText == binding.nickname) {
+                user.setNickname(text);
+
+            } else if (mText == binding.wechat) {
+                user.setWechat(text);
+
             }
-            if(TextUtils.isEmpty(binding.wechat.getText().toString())){
-                binding.btnCleanWechat.setVisibility(View.INVISIBLE);
-            }else {
-                binding.btnCleanWechat.setVisibility(View.VISIBLE);
+            if (mText == binding.qq) {
+                user.getInfo().setQq(text);
+            }
+            if (mText == binding.phone) {
+                user.getInfo().setContact(text);
             }
 
-            if(TextUtils.isEmpty(binding.phone.getText().toString())){
-                binding.btnCleanPhone.setVisibility(View.INVISIBLE);
-            }else{
-                binding.btnCleanPhone.setVisibility(View.VISIBLE);
-            }
-
-            if(TextUtils.isEmpty(binding.qq.getText().toString())){
-                binding.btnCleanQq.setVisibility(View.INVISIBLE);
-            }else{
-                binding.btnCleanQq.setVisibility(View.VISIBLE);
-            }
 
         }
     }

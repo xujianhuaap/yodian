@@ -32,7 +32,7 @@
     <string name="mobile_input_empty_message">手机号不能为空</string>
     <string name="code_input_empty_message">验证码不能为空</string>
     <string name="nickname_input_empty_message">昵称不能为空</string>
-    <string name="wechat_input_empty_message">微信号不能为空</string>
+    <string name="contact_input_empty_message">微信、QQ、手机号至少填写一种联系方式</string>
     <string name="avatar_input_empty_message">头像不能为空</string>
     <string name="lable_user_protocol"><u>注册即同意用户协议</u></string>
     <string name="input_phone_hint">输入手机号码</string>

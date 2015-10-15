@@ -241,8 +241,7 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
         @Override
         public void success(ToastResponse toastResponse, Response response) {
             if (toastResponse.getCode() == 20000) {
-                getIntent().putExtra("apply", BindStatus.WAITCONFIRM.getValue());
-                setResult(RESULT_OK);
+                setResult(RESULT_OK, new Intent().putExtra("apply", BindStatus.WAITCONFIRM.getValue()));
                 finish();
             }
         }

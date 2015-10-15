@@ -76,7 +76,8 @@
             android:theme="@style/AppThemeTransparent" />
         <activity
             android:name=".view.user.SettingUserInfo"
-            android:label="@string/title_settings_user_info" />
+            android:label="@string/title_settings_user_info"
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.skill.SkillPreviewActivity"
             android:theme="@style/AppThemeTransparent"
@@ -96,7 +97,7 @@
         <activity
             android:name=".view.SettingsActivity"
             android:label="@string/action_settings"
-            android:theme="@style/AppTheme.Light" />
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.chat.ChatMainActivity"
             android:label="@string/lable_chat"
@@ -138,39 +139,39 @@
         <activity
             android:name=".view.deal.PayListActivity"
             android:label=""
-            android:theme="@style/paylistactivity"></activity>
+            android:theme="@style/paylistactivity" />
         <activity
             android:name=".view.deal.PayWrapperActivity"
             android:label=""
-            android:theme="@style/PayWrapperActivity"></activity>
+            android:theme="@style/PayWrapperActivity" />
         <activity
             android:name=".view.deal.OrderListActivity"
-            android:label="@string/order_list_btn_ordered"></activity>
+            android:label="@string/order_list_btn_ordered" />
         <activity
             android:name=".view.deal.OrderDetailActivity"
-            android:label="@string/order_detail_title"></activity>
+            android:label="@string/order_detail_title" />
         <activity
             android:name=".view.deal.VouchApplyActivity"
-            android:label="@string/apply_title"></activity>
+            android:label="@string/apply_title" />
         <activity
             android:name=".view.deal.VouchDetailActivity"
-            android:label="@string/apply_title"></activity>
+            android:label="@string/apply_title" />
         <activity
             android:name=".view.deal.RemainderMainActivity"
             android:label="@string/my_remainder"
-            android:theme="@style/AppTheme.Light" />
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.deal.RemainderInfoActivity"
             android:label="@string/my_remainder"
-            android:theme="@style/AppTheme.Light" />
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.deal.BindBankActivity"
             android:label="@string/activity_bind_bank"
-            android:theme="@style/AppTheme.Light" />
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.deal.BindBankCompliteActivity"
             android:label="@string/activity_bind_bank"
-            android:theme="@style/AppTheme.Light" />
+            android:theme="@style/AppTheme.Dark" />
 
         <activity
             android:name=".view.PreviewActivity"

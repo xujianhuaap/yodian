@@ -25,14 +25,13 @@
         <item name="android:paddingRight">3dp</item>
     </style>
 
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">#000</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:windowAnimationStyle">@style/SlideAnimStyle</item>
     </style>
 
