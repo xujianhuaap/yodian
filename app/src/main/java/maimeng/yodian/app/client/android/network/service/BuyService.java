@@ -30,4 +30,7 @@ public interface BuyService {
      */
     @Post(Api.ORDER_BUY)
     void buyOrder(@Param("oid")String oid,@Param("paytype")int payType,Callback<String>callback);
+
+    @Post(Api.ORDER_REMAINDER_BUY)
+    void remainderPay(@Param("oid")String oid,Callback<ToastResponse> callback);
 }

@@ -64,6 +64,7 @@ public class Api {
 
     //购买
     public static final String ORDER_BUY="/order/pay";//未付订单购买
+    public static final String ORDER_REMAINDER_BUY="/order/balancepay";//订单余额支付
     public static final String SKILL_BUY="/skill/buy";//技能购买
 
 }

@@ -10,6 +10,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -36,8 +37,10 @@ import maimeng.yodian.app.client.android.network.service.BuyService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.pay.IPay;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayStatus;
+import maimeng.yodian.app.client.android.view.deal.pay.RemainderFactory;
 import maimeng.yodian.app.client.android.view.deal.pay.WXFactory;
 import maimeng.yodian.app.client.android.view.deal.pay.ZhiFuBaoFactory;
+import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 
 /**
  * Created by xujianhua on 10/12/15.
@@ -101,7 +104,9 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.pay_remainer){
-
+            IPayStatus status=new PayStatus();
+            IPay pay=RemainderFactory.createInstance(PayListActivity.this, mOrderInfo.getOid(), status);
+            pay.sendReq();
         }else if(v.getId()==R.id.pay_wechat){
             mService.buyOrder(mOrderInfo.getOid(), 2, new CallBackProxy(2));
         }else if(v.getId()==R.id.pay_zhifubao){
@@ -123,6 +128,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public void success(String s, Response response) {
+         LogUtil.d("ceshi","--------------->"+s);
             Gson gson=new Gson();
             IPay pay=null;
             IPayStatus status=new PayStatus();
@@ -130,7 +136,6 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
                 ZhiFuBaoPayResponse zhiFuBaoPayResponse=gson.fromJson(s, ZhiFuBaoPayResponse.class);
                  pay= ZhiFuBaoFactory.createInstance(PayListActivity.this,zhiFuBaoPayResponse.getData().getParams(),status);
             }else if(payType==2){
-                LogUtil.d(PayListActivity.class.getName(),"S-->"+s);
                 WXPayParamResponse paramResponse=gson.fromJson(s, WXPayParamResponse.class);
                  pay= WXFactory.createInstance(PayListActivity.this,paramResponse.getData().getParams(),status);
             }
@@ -155,20 +160,33 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
     public class PayStatus implements IPayStatus{
         @Override
         public void failurepay() {
-            Spanned fail=Html.fromHtml(getResources().getString(R.string.pay_result_fail));
+            Spanned fail = Html.fromHtml(getResources().getString(R.string.pay_result_fail));
             String btnTip=getResources().getString(R.string.btn_name);
             String title=getResources().getString(R.string.pay_deal_tip);
-            AlertDialog.show(PayListActivity.this, title, fail.toString(), btnTip);
+
+           new ViewDialog.Builder(PayListActivity.this).setMesage(fail.toString())
+                   .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
+               @Override
+               public void positiveClick() {
+                   finish();
+                    }
+            }   ,btnTip).create().show();
+
 
         }
 
         @Override
         public void sucessPay() {
-            Spanned sucess= Html.fromHtml(getResources().getString(R.string.pay_result_sucess));
+            Spanned sucess = Html.fromHtml(getResources().getString(R.string.pay_result_sucess));
             String btnTip=getResources().getString(R.string.btn_name);
             String title=getResources().getString(R.string.pay_deal_tip);
-            AlertDialog.show(PayListActivity.this, title, sucess.toString(), btnTip);
-
+           new ViewDialog.Builder(PayListActivity.this).setMesage(sucess.toString())
+                    .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
+                        @Override
+                        public void positiveClick() {
+                            finish();
+                        }
+                    },btnTip).create().show();
         }
     }
 }
