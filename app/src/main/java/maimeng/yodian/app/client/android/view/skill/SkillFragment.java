@@ -55,7 +55,6 @@ import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
-import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
@@ -233,7 +232,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
             } else if (clickItem == holder.getBinding().btnUpdate) {
                 Intent intent = new Intent(getActivity(), CreateOrEditSkillActivity.class);
                 intent.putExtra("skill", skill);
-                startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
+                startActivityForResult(intent, REQUEST_EDIT_SKILL);
                 mEditPostion = postion;
                 holder.closeWithAnim();
             } else if (clickItem == holder.getBinding().btnDelete) {

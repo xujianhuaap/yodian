@@ -29,6 +29,7 @@ import maimeng.yodian.app.client.android.view.skill.UserHomeFragment;
 public class MainTab2Activity extends AbstractActivity implements AlertDialog.PositiveListener {
     private User user;
 
+    @Override
     public FloatingActionButton getFloatButton() {
         return floatButton;
     }

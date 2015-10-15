@@ -9,6 +9,9 @@ import android.view.View;
  * Created by android on 15-10-10.
  */
 public abstract class BaseFragment extends Fragment {
+    public static final int REQUEST_CREATE_SKILL = 0x2403;//新建技能
+    public static final int REQUEST_EDIT_SKILL = 0x2404;//编辑技能
+
     protected <T extends View> T findViewById(@IdRes int id) {
         return (T) getView().findViewById(id);
     }

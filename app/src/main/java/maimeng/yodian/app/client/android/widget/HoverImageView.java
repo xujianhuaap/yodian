@@ -70,7 +70,7 @@ public class HoverImageView extends ImageView {
 
     @Override
     protected void onDetachedFromWindow() {
-        setImageDrawable(null);
+//        setImageDrawable(null);
         super.onDetachedFromWindow();
     }
 

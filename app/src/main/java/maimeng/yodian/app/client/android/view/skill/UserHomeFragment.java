@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.view.skill;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -59,13 +60,12 @@ import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.BaseFragment;
-import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
-import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
@@ -73,11 +73,24 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
  * Created by android on 15-10-10.
  */
 public class UserHomeFragment extends BaseFragment implements EMEventListener, PtrHandler, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, Callback<SkillUserResponse> {
-    private MainTab2Activity mActivity;
+    private AbstractActivity mActivity;
     private FloatingActionButton mFloatButton;
 
     public static UserHomeFragment newInstance() {
-        return new UserHomeFragment();
+        UserHomeFragment userHomeFragment = new UserHomeFragment();
+        Bundle args = new Bundle();
+        userHomeFragment.setArguments(args);
+        return userHomeFragment;
+    }
+
+    public static UserHomeFragment newInstance(Bitmap avatar, String nickname, long uid) {
+        UserHomeFragment userHomeFragment = new UserHomeFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("avatar", avatar);
+        args.putString("nickname", nickname);
+        args.putLong("uid", uid);
+        userHomeFragment.setArguments(args);
+        return userHomeFragment;
     }
 
     private static final String LOG_TAG = UserHomeFragment.class.getSimpleName();
@@ -97,8 +110,8 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.include_home, container, false);
-        mActivity = (MainTab2Activity) getActivity();
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        mActivity = (AbstractActivity) getActivity();
         mFloatButton = mActivity.getFloatButton();
         return view;
     }
@@ -107,7 +120,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         handler = new Handler(Looper.getMainLooper());
-        user = User.read(getActivity());
+
         service = Network.getService(SkillService.class);
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -134,19 +147,26 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             EMChatManager.getInstance().unregisterEventListener(this);
         }
         refreshMissMsgIcon();
-        init();
+        Bundle args = getArguments();
+        long uid = args.getLong("uid", 0);
+        if (uid > 0) {
+            service.list(uid, page, this);
+        } else {
+            user = User.read(getActivity());
+            init();
+        }
     }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == ActivityProxyController.REQUEST_CREATE_SKILL) {
+            if (requestCode == REQUEST_CREATE_SKILL) {
                 init();
                 mActivity.startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtras(data));
             } else if (requestCode == REQUEST_AUTH) {
                 init();
-            } else if (requestCode == ActivityProxyController.REQUEST_EDIT_SKILL) {
+            } else if (requestCode == REQUEST_EDIT_SKILL) {
                 Skill skill = data.getParcelableExtra("skill");
                 if (mEditPostion != -1 && skill != null) {
                     ViewEntry entry = adapter.getItem(mEditPostion);
@@ -183,7 +203,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             this.user = user;
         }
         if (user != null) {
-
             adapter.reload(new HeaderViewEntry(user));
             adapter.notifyDataSetChanged();
         }
@@ -231,10 +250,14 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             for (int i = 0; i < list.size(); i++) {
                 entries.add(new ItemViewEntry(list.get(i)));
             }
-
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
-            this.user.update(res.getData().getUser());
+            if (user == null) {
+                inited = true;
+                user = res.getData().getUser();
+            } else {
+                this.user.update(res.getData().getUser());
+            }
             showUserInfo();
         } else {
             res.showMessage(mActivity);
@@ -339,7 +362,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             } else if (clickItem == itemViewHolder.getBinding().btnUpdate) {
                 Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
                 intent.putExtra("skill", skill);
-                startActivityForResult(intent, ActivityProxyController.REQUEST_EDIT_SKILL);
+                startActivityForResult(intent, REQUEST_EDIT_SKILL);
                 mEditPostion = postion;
                 itemViewHolder.closeWithAnim();
             } else if (clickItem == itemViewHolder.getBinding().btnDelete) {
@@ -439,6 +462,8 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
                     ActivityCompat.startActivity(mActivity, new Intent(mActivity, SettingsActivity.class), options.toBundle());
+                } else if (clickItem == headerMainHomeBinding.btnReport) {
+                    report();
                 }
             }
         }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
+import com.melnykov.fab.FloatingActionButton;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -29,6 +30,10 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     protected TextView mTitle;
     protected Toolbar mToolBar;
     private AlertDialog dialog;
+
+    public FloatingActionButton getFloatButton() {
+        return null;
+    }
 
     @SuppressWarnings("ConstantConditions")
     @Override

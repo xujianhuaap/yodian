@@ -32,7 +32,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.view.MainTabActivity;
+import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
@@ -52,7 +52,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
             startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
         }
         if (!TextUtils.isEmpty(User.read(this).getToken())) {
-            startActivity(new Intent(this, MainTabActivity.class));
+            startActivity(new Intent(this, MainTab2Activity.class));
             finish();
         } else {
 
@@ -109,7 +109,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         if (result) {
             finish();
         } else {
-            startActivity(new Intent(AuthSeletorActivity.this, MainTabActivity.class));
+            startActivity(new Intent(AuthSeletorActivity.this, MainTab2Activity.class));
             finish();
         }
     }
@@ -146,7 +146,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
 
         @Override
         public void start() {
-                 dialog = WaitDialog.show(AuthSeletorActivity.this);
+            dialog = WaitDialog.show(AuthSeletorActivity.this);
         }
 
         @Override

@@ -12,26 +12,15 @@ import android.view.View;
 
 import com.melnykov.fab.FloatingActionButton;
 
-import org.henjue.library.hnet.Callback;
-import org.henjue.library.hnet.Response;
-import org.henjue.library.hnet.exception.HNetError;
-
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
-import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
-import maimeng.yodian.app.client.android.view.skill.proxy.MainHomeProxy;
+import maimeng.yodian.app.client.android.view.skill.UserHomeFragment;
 
 /**
  * Created by android on 2015/8/13.
  */
-public class UserHomeActivity extends AbstractActivity implements Callback<SkillUserResponse> {
-    private SkillService service;
-    private MainHomeProxy proxy;
-    private int page = 1;
+public class UserHomeActivity extends AbstractActivity {
     private View mBtnSettings;
     private User user;
 
@@ -90,8 +79,9 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
         return new UserIntent(context, uid);
     }
 
-    public View getFloatButton() {
-        return findViewById(R.id.btn_back);
+    @Override
+    public FloatingActionButton getFloatButton() {
+        return (FloatingActionButton) findViewById(R.id.btn_back);
     }
 
     public static class UserIntent extends Intent {
@@ -104,52 +94,15 @@ public class UserHomeActivity extends AbstractActivity implements Callback<Skill
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        service = Network.getService(SkillService.class);
         setContentView(R.layout.activity_user_home, false);
         final View btnBack = findViewById(R.id.btn_back);
-        final View avatar = findViewById(R.id.user_avatar);
-        final View nickname = findViewById(R.id.user_nickname);
-        final View root = findViewById(R.id.home_root);
-        proxy = new MainHomeProxy(this, root, (Bitmap) getIntent().getParcelableExtra("avatar"), getIntent().getStringExtra("nickname"));
-        root.setVisibility(View.VISIBLE);
+        UserHomeFragment fragment = UserHomeFragment.newInstance((Bitmap) getIntent().getParcelableExtra("avatar"), getIntent().getStringExtra("nickname"), getIntent().getLongExtra("uid", 0));
+        getSupportFragmentManager().beginTransaction().add(R.id.content, fragment).commitAllowingStateLoss();
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityCompat.finishAfterTransition(UserHomeActivity.this);
             }
         });
-
-        root.postDelayed(new Thread() {
-            @Override
-            public void run() {
-                service.list(getIntent().getLongExtra("uid", 0), page, UserHomeActivity.this);
-            }
-        }, 500);
-    }
-
-
-    @Override
-    public void start() {
-    }
-
-    @Override
-    public void success(SkillUserResponse res, Response response) {
-        if (res.isSuccess()) {
-            final SkillUserResponse.DataNode data = res.getData();
-            this.user = data.getUser();
-            proxy.init(user);
-            proxy.show((FloatingActionButton) findViewById(R.id.btn_back), false);
-        } else {
-            res.showMessage(this);
-        }
-    }
-
-    @Override
-    public void failure(HNetError hNetError) {
-        ErrorUtils.checkError(this, hNetError);
-    }
-
-    @Override
-    public void end() {
     }
 }

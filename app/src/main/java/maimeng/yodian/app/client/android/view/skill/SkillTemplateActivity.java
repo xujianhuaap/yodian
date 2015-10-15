@@ -33,7 +33,7 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.view.skill.proxy.ActivityProxyController;
+import maimeng.yodian.app.client.android.view.BaseFragment;
 
 public class SkillTemplateActivity extends AppCompatActivity implements Callback<SkillTemplateResponse>, AbstractAdapter.ViewHolderClickListener<SkillTemplateAdapter.ViewHolder> {
     private SkillService service;
@@ -129,16 +129,16 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
             Pair<View, String> title = Pair.create((View) itemHolder.binding.skillName, "title");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, img, title);
             intent.putExtra("template", template);
-            ActivityCompat.startActivityForResult(this, intent, ActivityProxyController.REQUEST_CREATE_SKILL, options.toBundle());
+            ActivityCompat.startActivityForResult(this, intent, BaseFragment.REQUEST_CREATE_SKILL, options.toBundle());
         } else {
-            startActivityForResult(intent, ActivityProxyController.REQUEST_CREATE_SKILL);
+            startActivityForResult(intent, BaseFragment.REQUEST_CREATE_SKILL);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ActivityProxyController.REQUEST_CREATE_SKILL) {
+        if (requestCode == BaseFragment.REQUEST_CREATE_SKILL) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, data);
                 finish();

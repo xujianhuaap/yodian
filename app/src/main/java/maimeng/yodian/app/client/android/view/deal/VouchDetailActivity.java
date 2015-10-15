@@ -23,7 +23,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.VouchResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
-import maimeng.yodian.app.client.android.view.MainTabActivity;
+import maimeng.yodian.app.client.android.view.MainTab2Activity;
 
 /**
  * Created by xujianhua on 9/25/15.
@@ -102,7 +102,7 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
             mService.vouchCancel(new CancelCallBack());
         } else if (v == mReEdit) {
             if (status == BindStatus.PASS.getValue()) {
-                Intent intent = new Intent(VouchDetailActivity.this, MainTabActivity.class);
+                Intent intent = new Intent(VouchDetailActivity.this, MainTab2Activity.class);
                 intent.putExtra("home", true);
                 startActivity(intent);
             } else {
