@@ -25,6 +25,7 @@ public class RemainderPay implements IPay{
     private Activity mContext;
     private IPayStatus mStatus;
     private BuyService mService;
+    private WaitDialog mWaitDialog;
 
     public RemainderPay(String oid, Activity context,IPayStatus status) {
         this.mOid = oid;
@@ -38,7 +39,8 @@ public class RemainderPay implements IPay{
         Callback<ToastResponse> callback=new Callback<ToastResponse>() {
             @Override
             public void start() {
-                WaitDialog.show(mContext);
+
+                mWaitDialog=WaitDialog.show(mContext);
             }
 
             @Override
@@ -57,7 +59,7 @@ public class RemainderPay implements IPay{
 
             @Override
             public void end() {
-
+                mWaitDialog.dismiss();
             }
         };
         mService.remainderPay(mOid,callback);

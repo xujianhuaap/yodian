@@ -293,6 +293,7 @@ public class User extends UserBaseColum implements Parcelable{
     }
 
     public static class Info extends User {
+
         private static final String KEY_MOBILE = "_key_mobile";
         private static final String KEY_WECHAT = "_key_wechat";
         private String mobile;
