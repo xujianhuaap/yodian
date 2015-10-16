@@ -272,6 +272,9 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
+            if (user.getInfo() == null) {
+                user.setInfo(new User.Info());
+            }
             String text = s.toString();
             if (mText == binding.nickname) {
                 user.setNickname(text);
