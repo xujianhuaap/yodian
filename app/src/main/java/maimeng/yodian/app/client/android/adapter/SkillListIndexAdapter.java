@@ -33,7 +33,6 @@ import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.AutoScrollViewPager;
-import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 import maimeng.yodian.app.client.android.widget.ViewPagerFix;
 
 /**
@@ -217,7 +216,6 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
 
     public class ItemViewHolder extends BaseViewHolder implements View.OnClickListener {
         private final User user;
-        private SwipeItemLayout swipeItemLayout;
         private boolean isMe;
 
         public Bitmap getDefaultAvatar() {
@@ -240,7 +238,6 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
 
         public ItemViewHolder(SkillListItemSkillBinding binding) {
             super(binding.getRoot());
-            swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             binding.root.setOnClickListener(this);
             this.binding = binding;
             binding.userAvatar.setOnClickListener(this);
@@ -254,7 +251,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
             //create by xu 08-06
             binding.btnReview.setOnClickListener(this);
             //end
-            user = User.read(swipeItemLayout.getContext());
+            user = User.read(itemView.getContext());
         }
 
         public void bind(Skill item) {
@@ -293,10 +290,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
         }
 
         public void closeWithAnim() {
-            if (swipeItemLayout.isClosed()) {
-            } else {
-                swipeItemLayout.closeWithAnim();
-            }
+            binding.slideBar.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -305,10 +299,10 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
                 mViewHolderClickListener.onItemClick(this, getLayoutPosition());
             } else if (v == binding.btnEdit) {
                 if (isMe) {
-                    if (swipeItemLayout.isClosed()) {
-                        swipeItemLayout.openWithAnim();
+                    if (binding.slideBar.getVisibility() != View.VISIBLE) {
+                        binding.slideBar.setVisibility(View.VISIBLE);
                     } else {
-                        swipeItemLayout.closeWithAnim();
+                        binding.slideBar.setVisibility(View.INVISIBLE);
                     }
                 } else {
                     mViewHolderClickListener.onClick(this, v, getLayoutPosition());

@@ -1,5 +1,7 @@
 package maimeng.yodian.app.client.android.model.skill;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
+import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.network.loader.Circle;
@@ -15,7 +18,7 @@ import maimeng.yodian.app.client.android.network.loader.Circle;
 /**
  * Created by xujianhua on 9/29/15.
  */
-public class Skill  implements Parcelable{
+public class Skill extends BaseObservable implements Parcelable {
 
     /**
      * id : 72
@@ -80,6 +83,7 @@ public class Skill  implements Parcelable{
     private String ord;
     private String smartsort;
     private String allow_sell;
+    @Bindable
     private int status;
     private Date createtime;
     private String nickname;
@@ -196,6 +200,7 @@ public class Skill  implements Parcelable{
 
     public void setStatus(int status) {
         this.status = status;
+        notifyPropertyChanged(BR.status);
     }
 
     public void setCreatetime(Date createtime) {
