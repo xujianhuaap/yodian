@@ -20,7 +20,7 @@ public interface BuyService {
      * @param callback
      */
     @Post(Api.SKILL_BUY)
-    void buySkill(@Param("sid")String sid,@Param("paytype")int paytype,Callback<String>callback);
+    void buySkill(@Param("sid")long sid,@Param("paytype")int paytype,Callback<String>callback);
 
     /***
      * 未支付订单支付
@@ -30,4 +30,7 @@ public interface BuyService {
      */
     @Post(Api.ORDER_BUY)
     void buyOrder(@Param("oid")String oid,@Param("paytype")int payType,Callback<String>callback);
+
+    @Post(Api.ORDER_REMAINDER_BUY)
+    void remainderPay(@Param("oid")String oid,Callback<ToastResponse> callback);
 }

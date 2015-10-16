@@ -34,6 +34,7 @@
     <string name="currentAccount">当前账号:%s</string>
     <string name="title_activity_web_launcher">WebLauncher</string>
     <string name="btn_contact_ta">联系TA</string>
+    <string name="btn_buy_skill">购买技能</string>
     <string name="btn_edit_skill">编辑技能</string>
     <string name="mobile_input_empty_message">手机号不能为空</string>
     <string name="code_input_empty_message">验证码不能为空</string>
@@ -213,7 +214,11 @@
     <string name="pay_result_sucess"><![CDATA[<font color="#55000000"><big>支付成功</big></font>]]></string>
     <string name="pay_result_during"><![CDATA[<font color="#55000000"><big>支付中</big></font>]]></string>
     <string name="pay_check_account"><![CDATA[<font color="#55000000"><big>账户不存在</big></font>]]></string>
-    <string name="pay_deal_tip">支付提示</string>
+    <string name="pay_deal_tip">你确定要支付吗？</string>
+    <string name="pay_deal_title">支付提示</string>
+    <string name="pay_deal_remainder_shortage">余额不足！</string>
+
+
 
 
 </resources>

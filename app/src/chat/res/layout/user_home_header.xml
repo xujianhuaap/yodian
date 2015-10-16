@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -7,8 +8,9 @@
             name="user"
             type="maimeng.yodian.app.client.android.model.user.User" />
     </data>
-    <!--个人主页顶部容器(ViewPager)-->
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

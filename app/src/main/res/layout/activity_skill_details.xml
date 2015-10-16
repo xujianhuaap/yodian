@@ -108,6 +108,19 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
 
+                <TextView
+                    android:id="@+id/btn_buy_skill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_skill_buy"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:text="@string/btn_buy_skill"
+                    android:textSize="@dimen/btn_text_size"
+                    android:visibility="visible" />
+
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

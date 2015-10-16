@@ -64,10 +64,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 					status=((WXPay) pay).getmStatus();
 
 					if(resp.errCode== WBConstants.ErrorCode.ERR_OK){
-						status.sucessPay();
+						status.sucessPay(IPayStatus.PAY_SUCESS);
 
 					}else{
-						status.failurepay();
+						status.failurepay(IPayStatus.PAY_SUCESS);
 
 					}
 				}

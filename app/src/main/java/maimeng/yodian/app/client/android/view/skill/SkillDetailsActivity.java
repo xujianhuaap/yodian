@@ -67,6 +67,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.deal.PayWrapperActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -304,6 +305,13 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             sid = getIntent().getLongExtra("sid", 0);
             binding.refreshLayout.autoRefresh();
         }
+
+        binding.btnBuySkill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PayWrapperActivity.show(SkillDetailsActivity.this,skill);
+            }
+        });
     }
 
     @Override

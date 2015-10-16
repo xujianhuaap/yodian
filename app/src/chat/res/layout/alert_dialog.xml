@@ -35,8 +35,9 @@
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:padding="5dp"
+            android:textStyle="bold"
             android:textColor="#333"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_size_normal" />
 
 
         <EditText
@@ -62,34 +63,29 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center_horizontal"
+        android:weightSum="1"
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="match_parent"
-           android:layout_height="47dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_cancel_bj"
-            android:gravity="center"
-            android:onClick="cancel"
-            android:text="@string/cancel"
-            android:textColor="#666666"
-            android:textSize="16sp"
-            android:visibility="gone" />
-
-        <Button
             android:id="@+id/btn_positive"
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="@dimen/btn_height"
+            android:layout_margin="@dimen/margin_normal"
             android:background="@drawable/btn_blue_selector"
             android:gravity="center"
-            android:onClick="ok"
-            android:text="@string/ok"
             android:textColor="#fff"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_normal" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="@dimen/btn_height"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/btn_blue_selector"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_normal"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

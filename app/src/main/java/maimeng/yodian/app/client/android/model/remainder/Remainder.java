@@ -42,7 +42,7 @@ public class Remainder implements Parcelable {
 
     private int vouchMsg;//是否有申请担保交易状态消息 0 否 1 是
     @SerializedName("vouch_status")
-    private int vouchStatus;//申请担保交易状态 0 待审核 2 审核通过 3 拒绝 4 用户取消绑定
+    private BindStatus vouchStatus;//申请担保交易状态 0 待审核 2 审核通过 3 拒绝 4 用户取消绑定
     @SerializedName("card_status")
     private BindStatus cardStatus;
 
@@ -63,11 +63,11 @@ public class Remainder implements Parcelable {
         this.vouchMsg = vouchMsg;
     }
 
-    public int getVouchStatus() {
+    public BindStatus getVouchStatus() {
         return vouchStatus;
     }
 
-    public void setVouchStatus(int vouchStatus) {
+    public void setVouchStatus(BindStatus vouchStatus) {
         this.vouchStatus = vouchStatus;
     }
 
@@ -83,6 +83,7 @@ public class Remainder implements Parcelable {
     public Remainder() {
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -95,17 +96,18 @@ public class Remainder implements Parcelable {
         dest.writeInt(this.bankMsg);
         dest.writeDouble(this.during);
         dest.writeInt(this.vouchMsg);
-        dest.writeInt(this.vouchStatus);
+        dest.writeInt(this.vouchStatus == null ? -1 : this.vouchStatus.ordinal());
         dest.writeInt(this.cardStatus == null ? -1 : this.cardStatus.ordinal());
     }
 
-    public Remainder(Parcel in) {
+    protected Remainder(Parcel in) {
         this.money = in.readDouble();
         this.withdraw = in.readDouble();
         this.bankMsg = in.readInt();
         this.during = in.readDouble();
         this.vouchMsg = in.readInt();
-        this.vouchStatus = in.readInt();
+        int tmpVouchStatus = in.readInt();
+        this.vouchStatus = tmpVouchStatus == -1 ? null : BindStatus.values()[tmpVouchStatus];
         int tmpCardStatus = in.readInt();
         this.cardStatus = tmpCardStatus == -1 ? null : BindStatus.values()[tmpCardStatus];
     }

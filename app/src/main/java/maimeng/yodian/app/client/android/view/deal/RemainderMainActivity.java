@@ -119,10 +119,10 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         }else if(binding.vouchApply==v){
             //必须获得Remainder之后binding.getRemainder()才有效
             if(isObtainRemainder){
-                int status= binding.getRemainder().getVouchStatus();
+                BindStatus status= binding.getRemainder().getVouchStatus();
                 LogUtil.d(RemainderMainActivity.class.getName(),"status"+status);
                 LogUtil.d(RemainderMainActivity.class.getName(),"BindStatus.NO_CARD"+BindStatus.NO_CARD.getValue());
-                if(status==BindStatus.NO_CARD.getValue()){
+                if(status==BindStatus.NO_CARD){
                     //未申请担保
                     Intent intent=new Intent(this,VouchApplyActivity.class);
                     intent.putExtra("status",status);
