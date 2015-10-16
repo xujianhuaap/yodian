@@ -3,7 +3,7 @@
     <dimen name="division_height">1dp</dimen>
     <dimen name="top_icon_margin">12dp</dimen>
     <dimen name="setup_wizard_avatar_size">100dp</dimen>
-    <dimen name="user_header_height">240dp</dimen>
+    <dimen name="user_header_height">230dp</dimen>
     <dimen name="floating_btn_margin">10dp</dimen>
     <dimen name="floating_btn_width">30dp</dimen>
     <dimen name="floating_btn_height">30dp</dimen>
@@ -51,8 +51,6 @@
 
     <dimen name="btn_width">65dp</dimen>
     <dimen name="btn_height">40dp</dimen>
-
-
 
 
     <eat-comment />

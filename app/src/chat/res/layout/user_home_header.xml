@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -18,14 +17,15 @@
         <maimeng.yodian.app.client.android.widget.ViewPager
             android:id="@+id/banner_pager"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/user_header_height" />
+            android:layout_height="@dimen/user_header_height"
+            android:background="@drawable/user_bg_pic" />
 
         <com.viewpagerindicator.IconPageIndicator
             android:id="@+id/titles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="55dp" />
+            android:layout_marginBottom="60dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"

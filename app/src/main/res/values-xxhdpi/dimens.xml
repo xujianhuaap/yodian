@@ -65,7 +65,7 @@
     <dimen name="pic_height">220dp</dimen>
 
     <!--activity_setting_user_info -->
-    <dimen name="user_avatar_dimen">50dp</dimen>
+    <dimen name="user_avatar_dimen">60dp</dimen>
     <dimen name="user_avatar_margin_top">30dp</dimen>
     <dimen name="user_container_height">100dp</dimen>
 

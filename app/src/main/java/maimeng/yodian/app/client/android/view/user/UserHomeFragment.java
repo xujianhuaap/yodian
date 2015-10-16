@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.view.skill;
+package maimeng.yodian.app.client.android.view.user;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -66,6 +66,8 @@ import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
+import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
+import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
