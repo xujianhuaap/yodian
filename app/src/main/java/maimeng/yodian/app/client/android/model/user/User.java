@@ -279,9 +279,29 @@ public class User extends UserBaseColum implements Parcelable {
         public static final String KEY_CONTACT = "_contact";
         public static final String KEY_QQ = "_qq";
         public static final String KEY_PROVINCE = "_province";
+        public static final String KEY_SIGNATURE = "_signature";
+        public static final String KEY_SEX = "_sex";
+        public static final String KEY_JOB = "_job";
         public static final String KEY_CITY = "_city";
         public static final String KEY_DISTRICT = "_district";
         public static final String KEY_ADDRESS = "_address";
+
+        public String getSignature() {
+            return signature;
+        }
+
+        public void setSignature(String signature) {
+            this.signature = signature;
+        }
+
+        public String getJob() {
+            return job;
+        }
+
+        public void setJob(String job) {
+            this.job = job;
+        }
+
 
         public String getContact() {
             return contact;
@@ -337,10 +357,23 @@ public class User extends UserBaseColum implements Parcelable {
         private String city;
         private String district;
         private String address;
+        private String signature;
+        private String job;
+
+        public Sex getSex() {
+            return sex;
+        }
+
+        public void setSex(Sex sex) {
+            this.sex = sex;
+        }
+
+        private Sex sex;
+        private int buyMsg;
+        private int moneyMsg;
         private String mobile;
         @SerializedName("weichat")
         private String wechat;
-
 
         public String getMobile() {
             return mobile;
@@ -368,6 +401,8 @@ public class User extends UserBaseColum implements Parcelable {
                 editor.putString(KEY_CITY, this.city == null ? "" : this.city);
                 editor.putString(KEY_DISTRICT, this.district == null ? "" : this.district);
                 editor.putString(KEY_ADDRESS, this.address == null ? "" : this.address);
+                editor.putString(KEY_SIGNATURE, this.signature == null ? "" : this.signature);
+                editor.putString(KEY_JOB, this.job == null ? "" : this.job);
                 return true;
             }
         }
@@ -383,6 +418,8 @@ public class User extends UserBaseColum implements Parcelable {
                 String city = pref.getString(KEY_CITY, "");
                 String district = pref.getString(KEY_DISTRICT, "");
                 String address = pref.getString(KEY_ADDRESS, "");
+                String signature = pref.getString(KEY_SIGNATURE, "");
+                String job = pref.getString(KEY_JOB, "");
                 info.setWechat(wechat);
                 info.setMobile(mobile);
                 info.setContact(contact);
@@ -391,6 +428,8 @@ public class User extends UserBaseColum implements Parcelable {
                 info.setCity(city);
                 info.setDistrict(district);
                 info.setAddress(address);
+                info.setSignature(signature);
+                info.setJob(job);
                 return info;
             }
         }
@@ -441,3 +480,4 @@ public class User extends UserBaseColum implements Parcelable {
         }
     };
 }
+

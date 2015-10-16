@@ -49,7 +49,7 @@ android {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         multiDexEnabled true
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 22//适配Android6.0之前，这里不要修改
         versionCode 1032
         versionName "1.0.3"
         buildConfigField "String", "WEIXIN_APP_KEY", APP_WEIXIN_APP_KEY

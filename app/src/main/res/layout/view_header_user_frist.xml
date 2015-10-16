@@ -37,8 +37,8 @@
 
                     <maimeng.yodian.app.client.android.widget.CircleImageView
                         android:id="@+id/user_avatar"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/user_avatar_dimen"
+                        android:layout_height="@dimen/user_avatar_dimen"
                         android:scaleType="centerInside"
                         app:imgUrl="@{user.avatar}" />
 
@@ -71,9 +71,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="1111111"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/tex_size_large" />
+                    android:textSize="@dimen/text_size_small" />
             </LinearLayout>
 
 

@@ -49,4 +49,27 @@
         <item name="android:textSize">18sp</item>
         <item name="android:layout_marginLeft">@dimen/normal_padding</item>
     </style>
+
+    <style name="formEditTextStyle">
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+    </style>
+
+    <style name="formLableStyle">
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:textColor">@color/hint_color</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="formItemStyle">
+        <item name="android:background">#fff</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+    </style>
 </resources>

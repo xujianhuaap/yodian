@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.utils.MoneyUtils;
 
 /**
@@ -23,6 +24,11 @@ public class ResourceAdapter {
     @BindingAdapter("android:text")
     public static void spanText(TextView iv, double text) {
         iv.setText(MoneyUtils.format(text));
+    }
+
+    @BindingAdapter("android:text")
+    public static void sexText(TextView iv, Sex sex) {
+        iv.setText(sex.getName());
     }
 
     @BindingAdapter("android:text")
