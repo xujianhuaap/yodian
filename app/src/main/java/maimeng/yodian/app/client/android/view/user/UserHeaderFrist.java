@@ -131,8 +131,18 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
         this.user = user;
         mHeaderBinding.setUser(user);
         mHeaderBinding.executePendingBindings();
-        String city = user.getInfo().getCity();
-        String job = user.getInfo().getJob();
+        if (user.getUid() != User.read(getContext()).getUid()) {
+            mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
+            mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
+            mHeaderBinding.bottom.setVisibility(View.GONE);
+        } else {
+            mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
+            mHeaderBinding.bottom.setVisibility(View.VISIBLE);
+        }
+        User.Info info = user.getInfo();
+        if (info == null) return;
+        String city = info.getCity();
+        String job = info.getJob();
         if (TextUtils.isEmpty(city) && TextUtils.isEmpty(job)) {
 
         } else {
@@ -144,14 +154,6 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
                 mHeaderBinding.userSign.setText(String.format("来至%s", city));
             }
 
-        }
-        if (user.getUid() != User.read(getContext()).getUid()) {
-            mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
-            mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
-            mHeaderBinding.bottom.setVisibility(View.GONE);
-        } else {
-            mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
-            mHeaderBinding.bottom.setVisibility(View.VISIBLE);
         }
     }
 

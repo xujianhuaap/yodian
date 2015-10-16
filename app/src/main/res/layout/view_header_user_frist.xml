@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/user_header_height"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/user_bg_pic"
         android:orientation="vertical"
         android:paddingBottom="10dp">
 

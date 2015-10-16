@@ -17,7 +17,8 @@
         <maimeng.yodian.app.client.android.widget.ViewPager
             android:id="@+id/banner_pager"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/user_header_height" />
+            android:layout_height="@dimen/user_header_height"
+            android:background="@drawable/user_bg_pic" />
 
         <com.viewpagerindicator.IconPageIndicator
             android:id="@+id/titles"
