@@ -35,6 +35,11 @@
             android:theme="@style/account_change_dialog">
 
         </activity>
+        <activity android:name=".view.dialog.VouchDealActivity"
+            android:label=""
+            android:theme="@style/paylistactivity">
+
+        </activity>
         <activity
             android:name=".view.splash.DefaultActivity"
             android:screenOrientation="nosensor"

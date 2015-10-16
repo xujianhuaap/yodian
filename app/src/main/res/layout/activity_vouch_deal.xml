@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/pay_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_normal"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:text="@string/vouch_dialog_title"
+        android:textSize="@dimen/text_size_normal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line"
+        android:background="@color/div_line"/>
+    <LinearLayout
+        android:id="@+id/vouch_now"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:drawablePadding="@dimen/padding_small"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:drawableLeft="@drawable/ic_vouch_now"
+            android:textSize="@dimen/text_size_normal"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line"
+        android:background="@color/div_line"/>
+
+    <LinearLayout
+        android:id="@+id/vouch_later"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:drawablePadding="@dimen/padding_small"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:drawableLeft="@drawable/ic_vouch_later"
+            android:textSize="@dimen/text_size_normal"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line"
+        android:background="@color/div_line"/>
+
+
+</LinearLayout>

@@ -151,6 +151,7 @@
     <string name="vouch_detail_success">申请通过</string>
     <string name="vouch_detail_cancel">申请取消</string>
     <string name="vouch_detail_deny">拒绝申请</string>
+    <string name="vouch_dialog_title">是否申请担保交易?</string>
 
     <string name="btn_name">确定</string>
 

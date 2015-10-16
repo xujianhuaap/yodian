@@ -43,6 +43,7 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
+import maimeng.yodian.app.client.android.view.dialog.VouchDealActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
@@ -167,7 +168,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         binding.onLinePay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                User.read()
+                VouchDealActivity.show(CreateOrEditSkillActivity.this);
             }
         });
     }

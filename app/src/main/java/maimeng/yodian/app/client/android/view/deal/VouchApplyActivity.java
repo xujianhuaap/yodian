@@ -52,12 +52,21 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
     private TextView mReasonNum;
     private Button mSubmit;
 
-
+    /***
+     *
+     * @param contenxt
+     */
     public static void show(Context contenxt) {
         Intent intent = new Intent(contenxt, VouchApplyActivity.class);
         contenxt.startActivity(intent);
     }
 
+    /***
+     *
+     * @param contenxt
+     * @param vouch
+     * @param requestCode
+     */
     public static void show(Activity contenxt, Vouch vouch, int requestCode) {
         Intent intent = new Intent(contenxt, VouchApplyActivity.class);
         intent.putExtra("vouch", vouch);

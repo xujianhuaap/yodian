@@ -41,6 +41,7 @@
 
     <style name="AppThemeTransparent" parent="AppTheme">
         <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/NoAnim</item>
     </style>
 
 

@@ -78,7 +78,6 @@ public class ViewDialog {
         }
 
         public AlertDialog create(){
-
             final AlertDialog alertDialog=builder.create();
 
             if(!TextUtils.isEmpty(title)){
