@@ -16,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
@@ -160,6 +162,12 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 intentPhoto.setPhotoCount(1);
                 intentPhoto.setShowCamera(true);
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
+            }
+        });
+        binding.onLinePay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                User.read()
             }
         });
     }
