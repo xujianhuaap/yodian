@@ -11,214 +11,205 @@
             type="maimeng.yodian.app.client.android.model.skill.Skill" />
     </data>
 
-
-    <maimeng.yodian.app.client.android.widget.SwipeItemLayout
-        android:id="@+id/swipe_item_layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        app:enableAlpha="false"
-        app:enableSlide="false"
-        app:showMode="becover"
-        app:springDistance="20dp"
-        app:swipeDirection="left">
+        android:paddingTop="20dp">
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/root"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:id="@+id/top_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true">
+
+                    <TextView
+                        android:id="@+id/user_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@{skill.nickname}"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <ImageView
+                        android:id="@+id/btn_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignWithParentIfMissing="true"
+                        android:layout_toLeftOf="@+id/bottom_div"
+                        android:paddingLeft="@dimen/margin_normal"
+                        android:paddingRight="@dimen/margin_normal"
+                        android:src="@drawable/btn_share" />
+
+                    <View
+                        android:id="@id/bottom_div"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/btn_edit"
+                        android:layout_alignTop="@id/btn_edit"
+                        android:layout_toLeftOf="@id/btn_edit"
+                        android:background="@color/colorPrimaryDark" />
+
+                    <ImageView
+                        android:id="@id/btn_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:paddingLeft="@dimen/margin_normal"
+                        android:paddingRight="@dimen/margin_normal"
+                        android:src="@drawable/btn_ic_edit_skill" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/pic"
+                    android:layout_width="@dimen/skill_list_item_img_width"
+                    android:layout_height="@dimen/skill_list_item_img_height"
+                    android:layout_below="@+id/top_container"
+                    android:layout_marginTop="3dp"
+                    android:adjustViewBounds="false"
+                    android:scaleType="fitXY"
+                    app:imgUrl="@{skill.pic}" />
+
+
+                <ImageView
+                    android:id="@+id/pic_xiajia"
+                    android:layout_width="@dimen/skill_list_item_img_width"
+                    android:layout_height="@dimen/skill_list_item_img_height"
+                    android:layout_below="@+id/top_container"
+                    android:layout_marginTop="3dp"
+                    android:background="#9000"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pic_skill_state_xiajia"
+                    android:visibility="@{skill.status != 0?View.VISIBLE:View.GONE}" />
+
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    android:background="@drawable/fragment_kill_item_price_background"
+                    android:gravity="left|center_vertical"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimary" />
+
+                <LinearLayout
+                    android:id="@+id/slide_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignBottom="@id/pic"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/pic"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/btn_review"
+                            style="@style/slideItemStyle"
+                            android:text="预览" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/btn_update"
+                            style="@style/slideItemStyle"
+                            android:text="修改" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/btn_change_state"
+                            style="@style/slideItemStyle"
+                            android:text="@{skill.status != 0?@string/status_shangjia:@string/status_xiajia}" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/btn_delete"
+                            style="@style/slideItemStyle"
+                            android:text="删除" />
+                    </FrameLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
             <LinearLayout
-                android:id="@+id/root"
+                android:id="@+id/btn_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/skill_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_margin="1dp"
+                    android:gravity="left|center_vertical"
+                    android:singleLine="true"
+                    android:text="@{skill.name}"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
 
-                    <RelativeLayout
-                        android:id="@+id/top_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimaryDark" />
 
-                        <TextView
-                            android:id="@+id/user_nickname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginLeft="55dp"
-                            android:layout_marginTop="5dp"
-                            android:text="@{skill.nickname}"
-                            android:textColor="@color/colorPrimaryDark" />
-
-                        <ImageView
-                            android:id="@+id/btn_share"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignWithParentIfMissing="true"
-                            android:layout_toLeftOf="@+id/bottom_div"
-                            android:paddingLeft="@dimen/margin_normal"
-                            android:paddingRight="@dimen/margin_normal"
-                            android:src="@drawable/btn_share" />
-
-                        <View
-                            android:id="@id/bottom_div"
-                            android:layout_width="1dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/btn_edit"
-                            android:layout_alignTop="@id/btn_edit"
-                            android:layout_toLeftOf="@id/btn_edit"
-                            android:background="@color/colorPrimaryDark" />
-
-                        <ImageView
-                            android:id="@id/btn_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:paddingLeft="@dimen/margin_normal"
-                            android:paddingRight="@dimen/margin_normal"
-                            android:src="@drawable/btn_ic_edit_skill" />
-
-                    </RelativeLayout>
-
-                    <ImageView
-                        android:id="@+id/pic"
-                        android:layout_width="@dimen/skill_list_item_img_width"
-                        android:layout_height="@dimen/skill_list_item_img_height"
-                        android:layout_below="@+id/top_container"
-                        android:layout_marginTop="3dp"
-                        android:adjustViewBounds="false"
-                        android:scaleType="fitXY"
-                        app:imgUrl="@{skill.pic}" />
-
-
-                    <ImageView
-                        android:id="@+id/pic_xiajia"
-                        android:layout_width="@dimen/skill_list_item_img_width"
-                        android:layout_height="@dimen/skill_list_item_img_height"
-                        android:layout_below="@+id/top_container"
-                        android:layout_marginTop="3dp"
-                        android:background="#9000"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/pic_skill_state_xiajia"
-                        android:visibility="@{skill.status != 0?View.VISIBLE:View.GONE}" />
-
-
-                    <TextView
-                        android:id="@+id/price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="@dimen/margin_normal"
-                        android:background="@drawable/fragment_kill_item_price_background"
-                        android:gravity="left|center_vertical"
-                        android:padding="5dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorPrimary" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/btn_bottom"
+                <TextView
+                    android:id="@+id/skill_des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/skill_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:gravity="left|center_vertical"
-                        android:singleLine="true"
-                        android:text="@{skill.name}"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorPrimaryDark" />
-
-                    <TextView
-                        android:id="@+id/skill_des"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:gravity="left|center_vertical"
-                        android:singleLine="true"
-                        android:text="@{skill.content}" />
-                </LinearLayout>
+                    android:layout_margin="1dp"
+                    android:gravity="left|center_vertical"
+                    android:singleLine="true"
+                    android:text="@{skill.content}" />
             </LinearLayout>
+        </LinearLayout>
 
-            <maimeng.yodian.app.client.android.widget.CircleImageView
-                android:id="@+id/user_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="3dp"
-                app:imgUrl="@{skill.avatar80}" />
-        </FrameLayout>
+        <maimeng.yodian.app.client.android.widget.CircleImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            app:imgUrl="@{skill.avatar80}" />
 
-        <FrameLayout
-            android:layout_width="@dimen/skill_list_item_swipe_width"
-            android:layout_height="match_parent"
-            android:paddingTop="24dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+    </FrameLayout>
 
-                <TextView
-                    android:id="@+id/btn_review"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="?attr/colorPrimaryDark"
-                    android:gravity="center"
-                    android:text="预览" />
-
-                <TextView
-                    android:id="@+id/btn_update"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="?attr/colorPrimary"
-                    android:gravity="center"
-                    android:text="修改" />
-
-                <TextView
-                    android:id="@+id/btn_change_state"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark2"
-                    android:gravity="center"
-                    android:text="@{skill.status != 0?@string/status_shangjia:@string/status_xiajia}" />
-
-                <TextView
-                    android:id="@+id/btn_delete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="#00000000"
-                    android:gravity="center"
-                    android:text="删除" />
-            </LinearLayout>
-        </FrameLayout>
-
-    </maimeng.yodian.app.client.android.widget.SwipeItemLayout>
 </layout>

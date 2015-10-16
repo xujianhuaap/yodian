@@ -30,7 +30,6 @@ import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.view.user.UserHeaderFrist;
 import maimeng.yodian.app.client.android.view.user.UserHeaderSecond;
-import maimeng.yodian.app.client.android.widget.SwipeItemLayout;
 import maimeng.yodian.app.client.android.widget.ViewPager;
 
 /**
@@ -216,7 +215,6 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
      */
     public class ItemViewHolder extends SkillListHomeAdapter.ViewHolder {
         private final User user;
-        private SwipeItemLayout swipeItemLayout;
         private boolean isMe;
 
         public Skill getData() {
@@ -233,7 +231,6 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
 
         public ItemViewHolder(SkillListItemSkillBinding binding) {
             super(binding.getRoot());
-            swipeItemLayout = (SwipeItemLayout) itemView.findViewById(R.id.swipe_item_layout);
             binding.root.setOnClickListener(this);
             this.binding = binding;
             binding.btnEdit.setOnClickListener(this);
@@ -244,7 +241,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             //create by xu 08-06
             binding.btnReview.setOnClickListener(this);
             //end
-            user = User.read(swipeItemLayout.getContext());
+            user = User.read(itemView.getContext());
         }
 
         public void bind(Skill item) {
@@ -263,10 +260,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
         }
 
         public void closeWithAnim() {
-            if (swipeItemLayout.isClosed()) {
-            } else {
-                swipeItemLayout.closeWithAnim();
-            }
+            binding.slideBar.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -275,10 +269,10 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                 mViewHolderClickListener.onItemClick(this, getLayoutPosition());
             } else if (v == binding.btnEdit) {
                 if (isMe) {
-                    if (swipeItemLayout.isClosed()) {
-                        swipeItemLayout.openWithAnim();
+                    if (binding.slideBar.getVisibility() != View.VISIBLE) {
+                        binding.slideBar.setVisibility(View.VISIBLE);
                     } else {
-                        swipeItemLayout.closeWithAnim();
+                        binding.slideBar.setVisibility(View.INVISIBLE);
                     }
                 } else {
                     mViewHolderClickListener.onClick(this, v, getLayoutPosition());
