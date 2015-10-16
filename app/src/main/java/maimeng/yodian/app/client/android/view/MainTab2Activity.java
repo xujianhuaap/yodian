@@ -21,7 +21,7 @@ import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.IndexFragment;
-import maimeng.yodian.app.client.android.view.skill.UserHomeFragment;
+import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
 
 /**
  * Created by android on 15-10-10.

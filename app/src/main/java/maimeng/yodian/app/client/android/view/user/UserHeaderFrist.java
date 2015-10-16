@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.view.skill;
+package maimeng.yodian.app.client.android.view.user;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -23,8 +23,7 @@ import maimeng.yodian.app.client.android.view.PreviewActivity;
 import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
 import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
-import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
-import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
+import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
 
 /**
  * Created by android on 2015/10/14.
