@@ -53,7 +53,9 @@ public interface SkillService {
      */
     @Multipart
     @Post(Api.SKILL_ADD)
-    void add(@Param("name") String name, @Param("content") String content, @Param("pic") TypedBitmap pic, @Param("price") String price, @Param("unit") String unit, Callback<SkillAllResponse> callback);
+    void add(@Param("name") String name, @Param("content") String content,
+             @Param("pic") TypedBitmap pic, @Param("price") String price,
+             @Param("unit") String unit, @Param("allow_sell")int allowSell,Callback<SkillAllResponse> callback);
 
     /**
      * 修改技能
@@ -68,7 +70,10 @@ public interface SkillService {
      */
     @Multipart
     @Post(Api.SKILL_UPDATE)
-    void update(@Param("sid") long sid, @Param("name") String name, @Param("content") String content, @Param("pic") TypedBitmap pic, @Param("price") String price, @Param("unit") String unit, ToastCallback callback);
+    void update(@Param("sid") long sid, @Param("name") String name,
+                @Param("content") String content, @Param("pic") TypedBitmap pic,
+                @Param("price") String price, @Param("unit") String unit,
+                @Param("allow_sell")int allowSell,ToastCallback callback);
 
 
     /**

@@ -79,7 +79,7 @@ public class Skill  implements Parcelable{
     private String elitetime;
     private String ord;
     private String smartsort;
-    private String allow_sell;
+    private int allow_sell;
     private int status;
     private Date createtime;
     private String nickname;
@@ -190,7 +190,7 @@ public class Skill  implements Parcelable{
         this.smartsort = smartsort;
     }
 
-    public void setAllow_sell(String allow_sell) {
+    public void setAllow_sell(int allow_sell) {
         this.allow_sell = allow_sell;
     }
 
@@ -339,7 +339,7 @@ public class Skill  implements Parcelable{
         return smartsort;
     }
 
-    public String getAllow_sell() {
+    public int getAllow_sell() {
         return allow_sell;
     }
 
@@ -433,7 +433,7 @@ public class Skill  implements Parcelable{
         dest.writeString(this.elitetime);
         dest.writeString(this.ord);
         dest.writeString(this.smartsort);
-        dest.writeString(this.allow_sell);
+        dest.writeInt(this.allow_sell);
         dest.writeInt(this.status);
         dest.writeLong(createtime != null ? createtime.getTime() : -1);
         dest.writeString(this.nickname);
@@ -477,7 +477,7 @@ public class Skill  implements Parcelable{
         this.elitetime = in.readString();
         this.ord = in.readString();
         this.smartsort = in.readString();
-        this.allow_sell = in.readString();
+        this.allow_sell = in.readInt();
         this.status = in.readInt();
         long tmpCreatetime = in.readLong();
         this.createtime = tmpCreatetime == -1 ? null : new Date(tmpCreatetime);

@@ -17,6 +17,7 @@ import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.model.UserBaseColum;
+import maimeng.yodian.app.client.android.view.deal.BindStatus;
 
 
 /**
@@ -359,6 +360,15 @@ public class User extends UserBaseColum implements Parcelable {
         private String address;
         private String signature;
         private String job;
+        private BindStatus vouch_status;
+
+        public BindStatus getVouch_status() {
+            return vouch_status;
+        }
+
+        public void setVouch_status(BindStatus vouch_status) {
+            this.vouch_status = vouch_status;
+        }
 
         public Sex getSex() {
             return sex;

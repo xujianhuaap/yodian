@@ -1,5 +1,7 @@
 package maimeng.yodian.app.client.android.view.skill;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -42,6 +44,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.VouchDealActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -55,6 +58,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private static final int REQUEST_DONE = 0x1003;
+    private int allowSell;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
@@ -62,6 +66,56 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
     private WaitDialog dialog;
     private File tempFile;
     private ShareDialog mShareDialog;
+    private User.Info info;
+
+
+    /****
+     * 增加技能
+     * @param context
+     * @param requestCode
+     * @param userInfo
+     * @param skill
+     */
+
+    public static void show(Activity context,int requestCode, User.Info userInfo,Skill skill){
+       show(context,requestCode,userInfo,skill,null);
+    }
+
+
+    /***
+     * 更新技能
+     * @param context
+     * @param requestCode
+     * @param userInfo
+     * @param template
+     */
+    public static void show(Activity context,int requestCode, User.Info userInfo,SkillTemplate template){
+       show(context, requestCode, userInfo, null, template);
+
+    }
+
+    /***
+     *
+     * @param context
+     * @param requestCode
+     * @param userInfo
+     * @param skill
+     * @param template
+     */
+
+    public static void show(Activity context,int requestCode, User.Info userInfo,Skill skill,SkillTemplate template){
+        Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
+        intent.putExtra("userInfo",userInfo);
+        if(skill!=null){
+            intent.putExtra("skill",skill);
+        }
+
+        if(template!=null){
+            intent.putExtra("template",template);
+        }
+        context.startActivityForResult(intent,requestCode);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +126,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         tempFile = new File(dir, getPhotoFileName());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
+        info=getIntent().getParcelableExtra("userInfo");
         if (getIntent().hasExtra("template")) {
             mTemplate = getIntent().getParcelableExtra("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
@@ -88,6 +143,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 mTemplate.setCreatetime(skill.getCreatetime());
                 mTemplate.setId(skill.getId());
                 mTemplate.setStatus(skill.getStatus());
+                allowSell=skill.getAllow_sell();
                 isEdit = true;
             }
 
@@ -168,9 +224,25 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         binding.onLinePay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                VouchDealActivity.show(CreateOrEditSkillActivity.this);
+                if(info!=null){
+
+                    if(info.getVouch_status()== BindStatus.PASS){
+                        //设置技能允许卖
+                        allowSell=1;
+                        binding.onLinePay.setClickable(false);
+
+                    }else {
+                        VouchDealActivity.show(CreateOrEditSkillActivity.this);
+                    }
+                }
+
+
             }
         });
+        if(allowSell==1){
+            binding.onLinePay.setChecked(true);
+            binding.onLinePay.setClickable(false);
+        }
     }
 
     private void toggle() {
@@ -246,7 +318,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         }
 
         if (isEdit) {
-            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), new ToastCallback(this) {
+            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(),allowSell, new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -283,7 +355,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
         } else {
             if (mBitmap != null) {
-                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), new Callback<SkillAllResponse>() {
+                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(),allowSell, new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
                         if (res.isSuccess()) {
