@@ -210,6 +210,8 @@
     <string name="pay_check_account"><![CDATA[<font color="#55000000"><big>账户不存在</big></font>]]></string>
     <string name="pay_deal_tip">你确定要支付吗？</string>
     <string name="pay_deal_title">支付提示</string>
+    <string name="pay_deal_remainder_shortage">余额不足！</string>
+
 
 
 

@@ -49,7 +49,6 @@ import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
  * Created by xujianhua on 10/12/15.
  */
 public class PayListActivity extends AppCompatActivity implements View.OnClickListener{
-
     private TextView mTitle;
     private OrderInfo mInfo;
     private Skill mSkill;
@@ -209,12 +208,16 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
      */
     public class PayStatus implements IPayStatus{
         @Override
-        public void failurepay() {
+        public void failurepay(int errCode) {
             Spanned fail = Html.fromHtml(getResources().getString(R.string.pay_result_fail));
+            String failStr=fail.toString();
+            if(errCode==IPayStatus.PAY_ERROR_REMAINDER_SHORT){
+                failStr=getResources().getString(R.string.pay_deal_remainder_shortage);
+            }
             String btnTip=getResources().getString(R.string.btn_name);
             String title=getResources().getString(R.string.pay_deal_title);
             if(isOrderPay){
-                new ViewDialog.Builder(PayListActivity.this).setMesage(fail.toString())
+                new ViewDialog.Builder(PayListActivity.this).setMesage(failStr)
                         .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
                     @Override
                     public void positiveClick() {
@@ -230,7 +233,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         @Override
-        public void sucessPay() {
+        public void sucessPay(int errCode) {
             Spanned sucess = Html.fromHtml(getResources().getString(R.string.pay_result_sucess));
             String btnTip=getResources().getString(R.string.btn_name);
             String title=getResources().getString(R.string.pay_deal_title);

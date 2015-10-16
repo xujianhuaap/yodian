@@ -46,9 +46,16 @@ public class RemainderPay implements IPay{
             @Override
             public void success(ToastResponse toastResponse, Response response) {
                 if(toastResponse.getCode()==20000){
-                    mStatus.sucessPay();
+                    mStatus.sucessPay(IPayStatus.PAY_SUCESS);
                 }else {
-                    mStatus.failurepay();
+                    int errCode=IPayStatus.PAY_ERROR_ELSE;
+                    if(toastResponse.getCode()==5500){
+                        errCode=IPayStatus.PAY_ERROR_REMAINDER_SHORT;
+                    }
+
+                    mStatus.failurepay(errCode);
+
+
                 }
             }
 
