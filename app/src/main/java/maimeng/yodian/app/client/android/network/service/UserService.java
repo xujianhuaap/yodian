@@ -37,7 +37,7 @@ public interface UserService {
      */
     @Multipart
     @Post(Api.USER_INFO_UPDATE)
-    void modifyInfo(@Param("nickname") String nickname, @Param("weichat") String wechat,
+    void modifyInfo(@Param("nickname") String nickname, @Param("sex") int sex, @Param("city") String city, @Param("job") String job, @Param("signature") String signature, @Param("weichat") String wechat,
                     @Param("avatar") TypedBitmap avatar, @Param("qq") String qq,
                     @Param("contact") String phone, Callback<ModifyUserResponse> callback);
 

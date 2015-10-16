@@ -17,7 +17,7 @@
         <item name="android:textSize">15sp</item>
         <item name="android:gravity">center</item>
     </style>
-    
+
     <style name="chat_text_date_style">
         <item name="android:padding">2dp</item>
         <item name="android:paddingTop">2dip</item>
@@ -43,9 +43,6 @@
     </style>
 
 
-
-
-
     <style name="AnimBottom" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
@@ -67,7 +64,6 @@
     </style>
 
 
-
     <style name="Anim_style" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/AnimFade</item>
     </style>
@@ -80,15 +76,14 @@
 
         <item name="android:windowAnimationStyle">@style/AnimFade2</item>
     </style>
-    
-    <style name="nornal_style" parent="AppTheme"/>
+
+    <style name="nornal_style" parent="AppTheme" />
 
     <!--
     <style name="horizontal_slide2" parent="android:style/Theme.Holo.Light">
         <item name="android:windowAnimationStyle">@style/AnimFade2</item>
     </style>
     -->
-
 
 
     <style name="MyDialogStyle" parent="Theme.AppCompat.Dialog">
@@ -165,7 +160,7 @@
     </style>
 
 
- <style name="bottom_line_edit_text_style" parent="@android:style/Widget.EditText">
+    <style name="bottom_line_edit_text_style" parent="@android:style/Widget.EditText">
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">6.0dip</item>
         <item name="android:paddingTop">6.0dip</item>
@@ -174,4 +169,6 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:background">@drawable/edit_text_bg</item>
     </style>
+
+
 </resources>

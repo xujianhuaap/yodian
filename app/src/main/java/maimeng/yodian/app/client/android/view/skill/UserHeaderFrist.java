@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -75,10 +76,9 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
             if (!(user.getUid() == User.read(getActivity()).getUid())) {
                 PreviewActivity.show(getActivity(), user);
             } else {
-                Pair<View, String> avatar = Pair.create(clickItem, "avatar");
-                Pair<View, String> back = Pair.create((View) getButton(), "back");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), avatar, back);
-                ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//                ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+                startActivityForResult(new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO);
             }
 
         } else if (clickItem == mHeaderBinding.btnCreateskill) {
@@ -86,10 +86,11 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
                 AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
                     @Override
                     public void onPositiveClick(DialogInterface dialog) {
-                        Pair<View, String> avatar = Pair.create(clickItem, "avatar");
-                        Pair<View, String> back = Pair.create((View) getButton(), "back");
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), avatar, back);
-                        ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+//                        Pair<View, String> avatar = Pair.create(clickItem, "avatar");
+//                        Pair<View, String> back = Pair.create((View) getButton(), "back");
+//                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), avatar, back);
+//                        ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
+                        startActivityForResult(new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO);
                     }
 
                     @Override
@@ -117,11 +118,34 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_UPDATEINFO) {
+                bind(User.read(getContext()));
+            }
+        }
+    }
 
     private void bind(User user) {
         this.user = user;
         mHeaderBinding.setUser(user);
         mHeaderBinding.executePendingBindings();
+        String city = user.getInfo().getCity();
+        String job = user.getInfo().getJob();
+        if (TextUtils.isEmpty(city) && TextUtils.isEmpty(job)) {
+
+        } else {
+            if (!TextUtils.isEmpty(city) && !TextUtils.isEmpty(job)) {
+                mHeaderBinding.userSign.setText(String.format("来至%s的%s", city, job));
+            } else if (TextUtils.isEmpty(city)) {
+                mHeaderBinding.userSign.setText(job);
+            } else {
+                mHeaderBinding.userSign.setText(String.format("来至%s", city));
+            }
+
+        }
         if (user.getUid() != User.read(getContext()).getUid()) {
             mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
             mHeaderBinding.icEditAvatar.setVisibility(View.GONE);

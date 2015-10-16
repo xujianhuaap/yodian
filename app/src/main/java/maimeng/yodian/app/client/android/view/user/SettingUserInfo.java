@@ -1,5 +1,7 @@
 package maimeng.yodian.app.client.android.view.user;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -7,8 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -16,8 +16,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,6 +30,7 @@ import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
+import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -56,13 +55,22 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private WaitDialog dialog;
     private File tempFile;
+    private AlertDialog dialogAlert;
+    private boolean updateAvatar = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            ActivityCompat.finishAfterTransition(SettingUserInfo.this);
+//            ActivityCompat.finishAfterTransition(SettingUserInfo.this);
+            finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
     }
 
     @Override
@@ -86,92 +94,63 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         service = Network.getService(UserService.class);
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_setting_user_info, null, false);
         setContentView(binding.getRoot());
-        ViewCompat.setTransitionName(binding.userAvatar, "avatar");
         user = User.read(this);
         binding.btnSubmit.setOnClickListener(this);
-        binding.userAvatar.setOnClickListener(new View.OnClickListener() {
+        ((View) binding.userAvatar.getParent()).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggle();
-            }
-        });
-        binding.buttonContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggle();
-            }
-        });
-        binding.btnAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(SettingUserInfo.this);
-                intentPhoto.setPhotoCount(1);
-                intentPhoto.setShowCamera(false);
-                startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
-            }
-        });
-        binding.btnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PhotoPickerIntent intentPhoto = new PhotoPickerIntent(SettingUserInfo.this);
-                intentPhoto.setPhotoCount(1);
-                intentPhoto.setShowCamera(true);
-                startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
         new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
+        binding.sex.addTextChangedListener(new EditTextChangeListener(binding.sex, binding, user));
+        binding.city.addTextChangedListener(new EditTextChangeListener(binding.city, binding, user));
+        binding.job.addTextChangedListener(new EditTextChangeListener(binding.job, binding, user));
+        binding.signature.addTextChangedListener(new EditTextChangeListener(binding.signature, binding, user));
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
         binding.qq.addTextChangedListener(new EditTextChangeListener(binding.qq, binding, user));
         binding.phone.addTextChangedListener(new EditTextChangeListener(binding.phone, binding, user));
-        binding.nickname.setText(user.getNickname());
-        binding.wechat.setText(user.getWechat());
-        binding.qq.setText(user.getInfo().getQq());
-        binding.phone.setText(user.getInfo().getContact());
+//        binding.nickname.setText(user.getNickname());
+//        binding.wechat.setText(user.getWechat());
+//        binding.qq.setText(user.getInfo().getQq());
+//        binding.phone.setText(user.getInfo().getContact());
         binding.setUser(user);
         binding.executePendingBindings();
     }
 
+
     private void toggle() {
-        final Animation animation;
-        if (binding.buttonContainer.getVisibility() == View.VISIBLE) {
-            animation = AnimationUtils.loadAnimation(this, R.anim.alpha_to0);
-            animation.setAnimationListener(new Animation.AnimationListener() {
+        if (dialogAlert == null) {
+            dialogAlert = new AlertDialog.Builder(this).setTitle("上传方式").setItems(new String[]{"从相册中选择", "拍照"}, new DialogInterface.OnClickListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {
+                public void onClick(DialogInterface dialog, int which) {
 
+                    PhotoPickerIntent intentPhoto = new PhotoPickerIntent(SettingUserInfo.this);
+                    switch (which) {
+                        case 0:
+                            intentPhoto.setPhotoCount(1);
+                            intentPhoto.setShowCamera(false);
+                            startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
+                            dialog.dismiss();
+                            break;
+                        case 1:
+                            intentPhoto.setPhotoCount(1);
+                            intentPhoto.setShowCamera(true);
+                            startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
+                            dialog.dismiss();
+
+                            break;
+                    }
                 }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    binding.buttonContainer.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
-        } else {
-            animation = AnimationUtils.loadAnimation(this, R.anim.alpha_to1);
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    binding.buttonContainer.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
+            }).create();
+//                dialogAlert.getWindow().setGravity(Gravity.BOTTOM);
         }
-        binding.buttonContainer.startAnimation(animation);
+        if (dialogAlert.isShowing()) {
+            dialogAlert.hide();
+        } else {
+            dialogAlert.show();
+        }
     }
 
     @Override
@@ -181,18 +160,23 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             Toast.makeText(this, R.string.avatar_input_empty_message, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (TextUtils.isEmpty(binding.nickname.getText().toString())) {
+        if (TextUtils.isEmpty(user.getNickname())) {
             binding.nickname.setError(getText(R.string.nickname_input_empty_message));
             return;
         }
-        boolean wechatEmpty = TextUtils.isEmpty(binding.wechat.getText().toString());
-        boolean qqEmpty = TextUtils.isEmpty(binding.qq.getText().toString());
-        boolean phomeEmpty = TextUtils.isEmpty(binding.phone.getText().toString());
+        boolean wechatEmpty = TextUtils.isEmpty(user.getWechat());
+        boolean qqEmpty = TextUtils.isEmpty(user.getInfo().getQq());
+        boolean phomeEmpty = TextUtils.isEmpty(user.getInfo().getContact());
         if (phomeEmpty && qqEmpty && wechatEmpty) {
             binding.nickname.setError(getText(R.string.contact_input_empty_message));
             return;
         }
-        service.modifyInfo(user.getNickname(), user.getWechat(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq(), user.getInfo().getContact(), this);
+        Sex sex = user.getInfo().getSex();
+        if (updateAvatar) {
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getCity(), user.getInfo().getJob(), user.getInfo().getSignature(), user.getWechat(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq(), user.getInfo().getContact(), this);
+        } else {
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getCity(), user.getInfo().getJob(), user.getInfo().getSignature(), user.getWechat(), null, user.getInfo().getQq(), user.getInfo().getContact(), this);
+        }
     }
 
     @Override
@@ -205,7 +189,9 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     public void success(ModifyUserResponse res, Response response) {
         res.showMessage(this);
         if (res.isSuccess()) {
-            user.setAvatar(res.getData().getAvatar());
+            if (updateAvatar) {
+                user.setAvatar(res.getData().getAvatar());
+            }
             user.write(this);
             setResult(RESULT_OK);
             finish();
@@ -242,18 +228,24 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SELECT_PHOTO && resultCode == RESULT_OK) {
+            if (dialogAlert.isShowing()) {
+                dialogAlert.dismiss();
+            }
             ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
             String uri = Uri.fromFile(new File(paths.get(0))).toString();
             startPhotoZoom(Uri.parse(uri));
         } else if (requestCode == REQUEST_PHOTORESOULT && RESULT_OK == resultCode) {
+            if (dialogAlert.isShowing()) {
+                dialogAlert.dismiss();
+            }
             if (tempFile != null) {
                 Uri uri = Uri.fromFile(tempFile);
                 new ImageLoaderManager.Loader(this, uri).callback(this).start(this);
                 binding.getUser().setAvatar(uri.toString());
                 tempFile.deleteOnExit();
+                updateAvatar = true;
             }
-
-            toggle();
+//            toggle();
         }
     }
 
@@ -283,19 +275,30 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             String text = s.toString();
             if (mText == binding.nickname) {
                 user.setNickname(text);
+            } else if (mText == binding.sex) {
+                if (TextUtils.isEmpty(text) || text.equals(Sex.NONE.getName())) {
+                    user.getInfo().setSex(Sex.NONE);
+                } else {
+                    if (text.equals(Sex.MAN.getName())) {
+                        user.getInfo().setSex(Sex.MAN);
+                    } else {
+                        user.getInfo().setSex(Sex.WOMAN);
+                    }
+                }
 
+            } else if (mText == binding.city) {
+                user.getInfo().setCity(text);
+            } else if (mText == binding.signature) {
+                user.getInfo().setSignature(text);
+            } else if (mText == binding.job) {
+                user.getInfo().setJob(text);
             } else if (mText == binding.wechat) {
                 user.setWechat(text);
-
-            }
-            if (mText == binding.qq) {
+            } else if (mText == binding.qq) {
                 user.getInfo().setQq(text);
-            }
-            if (mText == binding.phone) {
+            } else if (mText == binding.phone) {
                 user.getInfo().setContact(text);
             }
-
-
         }
     }
 

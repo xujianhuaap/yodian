@@ -10,198 +10,279 @@
     </data>
 
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
-
-        <LinearLayout
-            android:id="@+id/button_container"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/user_container_height"
-            android:layout_gravity="bottom"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="invisible">
-
-            <ImageView
-                android:id="@+id/btn_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/btn_camera" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="invisible" />
-
-            <ImageView
-                android:id="@+id/btn_album"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/btn_album" />
-        </LinearLayout>
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryGrey"
             android:orientation="vertical">
 
-            <maimeng.yodian.app.client.android.widget.CircleImageView
-                android:id="@+id/user_avatar"
-                android:layout_width="@dimen/user_avatar_dimen"
-                android:layout_height="@dimen/user_avatar_dimen"
-                android:layout_gravity="center_horizontal"
-                app:imgUrl="@{user.avatar}" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="头像"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <maimeng.yodian.app.client.android.widget.CircleImageView
+                    android:id="@+id/user_avatar"
+                    android:layout_width="@dimen/user_avatar_dimen"
+                    android:layout_height="@dimen/user_avatar_dimen"
+                    android:layout_margin="10dp"
+                    app:imgUrl="@{user.avatar}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="修改头像"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/user_avatar_margin_top"
-                android:gravity="center"
-                android:text="@string/lable_nickname" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="基本信息"
+                android:textSize="14sp" />
 
-            <RelativeLayout
+            <LinearLayout
+                style="@style/formItemStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/auth_input_marginStart"
-                android:layout_marginRight="@dimen/auth_input_marginEnd"
-                android:background="#fff"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lable_nickname" />
 
                 <EditText
                     android:id="@+id/nickname"
+                    style="@style/formEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/btn_clean"
-                    android:background="@android:color/white"
-                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
                     android:hint="@string/hint_nickname"
-                    android:maxLength="11"
-                    android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                    android:singleLine="true"
-                    android:textColor="#000"
-                    android:textColorHint="@color/hint_color" />
+                    android:text="@{user.nickname}" />
+            </LinearLayout>
 
-            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/div_line" />
+
+            <LinearLayout
+                style="@style/formItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lable_sex" />
+
+                <EditText
+                    android:id="@+id/sex"
+                    style="@style/formEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_sex"
+                    android:text="@{user.info.sex}" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/div_line" />
+
+            <LinearLayout
+                style="@style/formItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lable_city" />
+
+                <EditText
+                    android:id="@+id/city"
+                    style="@style/formEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_city"
+                    android:text="@{user.info.city}" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/div_line" />
+
+            <LinearLayout
+                style="@style/formItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lable_job" />
+
+                <EditText
+                    android:id="@+id/job"
+                    style="@style/formEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_job"
+                    android:text="@{user.info.job}" />
+            </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/user_avatar_margin_top"
-                android:gravity="center"
-                android:text="@string/lable_wechat" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="个性签名"
+                android:textSize="14sp" />
 
-            <RelativeLayout
+            <LinearLayout
+                style="@style/formItemStyle"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <EditText
+                    android:id="@+id/signature"
+                    style="@style/formEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:hint="这家伙是不是有点懒？"
+                    android:text="@{user.info.signature}" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/auth_input_marginStart"
-                android:layout_marginRight="@dimen/auth_input_marginEnd"
-                android:background="@android:color/white"
-                android:orientation="horizontal">
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="联系方式(至少填写一个联系方式)"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                style="@style/formItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lable_wechat" />
 
                 <EditText
                     android:id="@+id/wechat"
-                    android:layout_width="match_parent"
+                    style="@style/formEditTextStyle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/btn_clean"
-                    android:background="@android:color/white"
-                    android:digits="@string/text_digits"
-                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
                     android:hint="@string/hint_wechat"
-                    android:maxLength="@integer/text_max_len"
-                    android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                    android:singleLine="true"
-                    android:textColor="#000"
-                    android:textColorHint="@color/hint_color" />
+                    android:text="@{user.wechat}" />
+            </LinearLayout>
 
-            </RelativeLayout>
-
-
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/user_avatar_margin_top"
-                android:gravity="center"
-                android:text="@string/lable_qq" />
+                android:layout_height="1px"
+                android:background="@color/div_line" />
 
-            <RelativeLayout
+            <LinearLayout
+                style="@style/formItemStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/auth_input_marginStart"
-                android:layout_marginRight="@dimen/auth_input_marginEnd"
-                android:background="@android:color/white"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lable_qq" />
 
                 <EditText
                     android:id="@+id/qq"
+                    style="@style/formEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/btn_clean"
-                    android:background="@android:color/white"
-                    android:digits="@string/text_digits"
-                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
                     android:hint="@string/hint_qq"
-                    android:maxLength="@integer/text_max_len"
-                    android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/hint_color" />
+                    android:text="@{user.info.qq}" />
+            </LinearLayout>
 
-            </RelativeLayout>
-
-
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/user_avatar_margin_top"
-                android:gravity="center"
-                android:text="@string/lable_phone" />
+                android:layout_height="1px"
+                android:background="@color/div_line" />
 
-            <RelativeLayout
+            <LinearLayout
+                style="@style/formItemStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/auth_input_marginStart"
-                android:layout_marginRight="@dimen/auth_input_marginEnd"
-                android:background="@android:color/white"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lable_phone" />
 
                 <EditText
                     android:id="@+id/phone"
+                    style="@style/formEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/btn_clean"
-                    android:background="@android:color/white"
-                    android:digits="@string/text_digits"
-                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
                     android:hint="@string/hint_phone"
-                    android:maxLength="@integer/text_max_len"
-                    android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/hint_color" />
+                    android:text="@{user.info.contact}" />
+            </LinearLayout>
 
-            </RelativeLayout>
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/btn_submit_background"
+                android:paddingLeft="100dp"
+                android:paddingRight="100dp"
+                android:text="提交" />
+
         </LinearLayout>
-
-
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/btn_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_margin="@dimen/floating_btn_margin"
-            android:src="@drawable/btn_submit_normal"
-            app:fab_colorNormal="@color/float_colorNormal"
-            app:fab_colorPressed="@color/float_colorPressed"
-            app:fab_colorRipple="@color/float_colorRipple" />
-    </FrameLayout>
+    </ScrollView>
 </layout>
 
