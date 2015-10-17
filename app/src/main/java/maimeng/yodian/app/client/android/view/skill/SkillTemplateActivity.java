@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -29,6 +30,7 @@ import maimeng.yodian.app.client.android.entry.skilltemplate.AddButtonViewEntry;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
@@ -39,7 +41,20 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
     private SkillService service;
     private RecyclerView mTemplateList;
     private SkillTemplateAdapter adapter;
+    private User.Info mInfo;
 
+    /***
+     *
+     * @param activity
+     * @param requestCode
+     * @param pairs
+     */
+    public static void show(Activity activity,int requestCode,User.Info userInfo,Pair<View,String>...pairs){
+        Intent intent=new Intent(activity, SkillTemplateActivity.class);
+        intent.putExtra("info",userInfo);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,pairs);
+        ActivityCompat.startActivityForResult(activity,intent , requestCode, options.toBundle());
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +64,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         ViewCompat.setTransitionName(findViewById(R.id.top), "top");
         View floatbutton = findViewById(R.id.btn_back);
         ViewCompat.setTransitionName(floatbutton, "floatbutton");
+        mInfo=getIntent().getParcelableExtra("info");
         floatbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,17 +137,15 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
 
     @Override
     public void onItemClick(SkillTemplateAdapter.ViewHolder holder, int postion) {
-        Intent intent = new Intent(this, CreateOrEditSkillActivity.class);
+
         if (holder.getItemViewType() == ViewEntry.VIEW_TYPE_ITEM) {
             SkillTemplateAdapter.ItemViewHolder itemHolder = (SkillTemplateAdapter.ItemViewHolder) holder;
             SkillTemplate template = itemHolder.getTemplate();
             Pair<View, String> img = Pair.create((View) itemHolder.binding.skillImg, "avatar");
             Pair<View, String> title = Pair.create((View) itemHolder.binding.skillName, "title");
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, img, title);
-            intent.putExtra("template", template);
-            ActivityCompat.startActivityForResult(this, intent, BaseFragment.REQUEST_CREATE_SKILL, options.toBundle());
+            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_CREATE_SKILL,mInfo,template,img,title);
         } else {
-            startActivityForResult(intent, BaseFragment.REQUEST_CREATE_SKILL);
+            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_EDIT_SKILL,mInfo);
         }
     }
 

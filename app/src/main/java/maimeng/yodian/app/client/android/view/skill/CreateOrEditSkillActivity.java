@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -44,6 +46,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.VouchDealActivity;
@@ -78,7 +81,13 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      */
 
     public static void show(Activity context,int requestCode, User.Info userInfo,Skill skill){
-       show(context,requestCode,userInfo,skill,null);
+        Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
+        intent.putExtra("userInfo",userInfo);
+        if(skill!=null){
+            intent.putExtra("skill",skill);
+        }
+
+        context.startActivityForResult(intent, requestCode);
     }
 
 
@@ -89,9 +98,14 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      * @param userInfo
      * @param template
      */
-    public static void show(Activity context,int requestCode, User.Info userInfo,SkillTemplate template){
-       show(context, requestCode, userInfo, null, template);
-
+    public static void show(AppCompatActivity context,int requestCode, User.Info userInfo,SkillTemplate template,Pair<View,String>img,Pair<View,String>title){
+        Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
+        intent.putExtra("userInfo",userInfo);
+        if(template!=null){
+            intent.putExtra("template",template);
+        }
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context,img,title);
+        ActivityCompat.startActivityForResult(context, intent, requestCode, options.toBundle());
     }
 
     /***
@@ -99,20 +113,12 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      * @param context
      * @param requestCode
      * @param userInfo
-     * @param skill
-     * @param template
+     *
      */
 
-    public static void show(Activity context,int requestCode, User.Info userInfo,Skill skill,SkillTemplate template){
+    public static void show(Activity context,int requestCode, User.Info userInfo){
         Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
         intent.putExtra("userInfo",userInfo);
-        if(skill!=null){
-            intent.putExtra("skill",skill);
-        }
-
-        if(template!=null){
-            intent.putExtra("template",template);
-        }
         context.startActivityForResult(intent,requestCode);
 
     }

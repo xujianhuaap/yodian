@@ -362,9 +362,8 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 Skill data = skill;
                 ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
             } else if (clickItem == itemViewHolder.getBinding().btnUpdate) {
-                Intent intent = new Intent(mActivity, CreateOrEditSkillActivity.class);
-                intent.putExtra("skill", skill);
-                startActivityForResult(intent, REQUEST_EDIT_SKILL);
+                User.Info userInfo=User.read(getActivity()).getInfo();
+                CreateOrEditSkillActivity.show(getActivity(), REQUEST_EDIT_SKILL, userInfo, skill);
                 mEditPostion = postion;
                 itemViewHolder.closeWithAnim();
             } else if (clickItem == itemViewHolder.getBinding().btnDelete) {

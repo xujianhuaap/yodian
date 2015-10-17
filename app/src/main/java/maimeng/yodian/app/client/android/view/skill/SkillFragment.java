@@ -43,6 +43,7 @@ import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.DataNode;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
@@ -204,6 +205,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
                     Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
                     Skill skill = ((SkillListIndexAdapter.ItemViewHolder) h).getData();
                     if (skill.getStatus() == 0) {
@@ -230,9 +232,8 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                 UserHomeActivity.show(getActivity(), skill.getUid(), holder.getDefaultAvatar(), skill.getNickname(), ((MainTab2Activity) getActivity()).getFloatButton(), null,
                         holder.getBinding().userNickname);
             } else if (clickItem == holder.getBinding().btnUpdate) {
-                Intent intent = new Intent(getActivity(), CreateOrEditSkillActivity.class);
-                intent.putExtra("skill", skill);
-                startActivityForResult(intent, REQUEST_EDIT_SKILL);
+                User.Info userInfo=User.read(getActivity()).getInfo();
+                CreateOrEditSkillActivity.show(getActivity(),REQUEST_EDIT_SKILL,userInfo,skill);
                 mEditPostion = postion;
                 holder.closeWithAnim();
             } else if (clickItem == holder.getBinding().btnDelete) {

@@ -194,6 +194,11 @@ public class User extends UserBaseColum implements Parcelable {
         }
     }
 
+    /***
+     *
+     * @param context
+     * @return
+     */
     public synchronized boolean write(Context context) {
         synchronized (User.class) {
             YApplication.getInstance().setAuthUser(this);
@@ -286,6 +291,7 @@ public class User extends UserBaseColum implements Parcelable {
         public static final String KEY_CITY = "_city";
         public static final String KEY_DISTRICT = "_district";
         public static final String KEY_ADDRESS = "_address";
+        public static final String KEY_VOUCH_STATUS="_vouch_status";
 
         public String getSignature() {
             return signature;
@@ -413,6 +419,10 @@ public class User extends UserBaseColum implements Parcelable {
                 editor.putString(KEY_ADDRESS, this.address == null ? "" : this.address);
                 editor.putString(KEY_SIGNATURE, this.signature == null ? "" : this.signature);
                 editor.putString(KEY_JOB, this.job == null ? "" : this.job);
+                if(this.vouch_status!=null){
+                    editor.putInt(KEY_VOUCH_STATUS,vouch_status==BindStatus.PASS?1:0);
+                }
+
                 return true;
             }
         }
@@ -430,6 +440,12 @@ public class User extends UserBaseColum implements Parcelable {
                 String address = pref.getString(KEY_ADDRESS, "");
                 String signature = pref.getString(KEY_SIGNATURE, "");
                 String job = pref.getString(KEY_JOB, "");
+                int vouch_status=pref.getInt(KEY_VOUCH_STATUS,3);
+                if(vouch_status==1){
+                    info.setVouch_status(BindStatus.PASS);
+                }else{
+                    info.setVouch_status(BindStatus.DENY);
+                }
                 info.setWechat(wechat);
                 info.setMobile(mobile);
                 info.setContact(contact);

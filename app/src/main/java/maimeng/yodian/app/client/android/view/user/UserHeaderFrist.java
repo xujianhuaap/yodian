@@ -102,8 +102,8 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
 
                 Pair<View, String> top = Pair.create(clickItem, "top");
                 Pair<View, String> floatbutton = Pair.create((View) getButton(), "floatbutton");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), top, floatbutton);
-                ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SkillTemplateActivity.class), BaseFragment.REQUEST_CREATE_SKILL, options.toBundle());
+                SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL, user.getInfo(), new Pair[]{top,floatbutton});
+
             }
 
         } else if (clickItem == mHeaderBinding.myRemainder) {
