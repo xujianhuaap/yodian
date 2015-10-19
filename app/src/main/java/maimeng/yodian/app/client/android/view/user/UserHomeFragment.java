@@ -187,7 +187,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         }
     }
 
-    private boolean inited = false;
+    private boolean inited = true;
 
     public void init() {
         final User read = User.read(this.mActivity);
@@ -247,6 +247,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Override
     public void success(SkillUserResponse res, Response response) {
         if (res.isSuccess()) {
+            User user=res.getData().getUser();
             List<Skill> list = res.getData().getList();
             List<ViewEntry> entries = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
@@ -254,12 +255,18 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             }
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
-            if (user == null) {
-                inited = true;
-                user = res.getData().getUser();
-            } else {
-                this.user.update(res.getData().getUser());
+            if(user!=null){
+                if (this.user == null) {
+                    //他人信息页面
+                    inited = false;
+                    this.user = user;
+                } else {
+                    //个人主页
+                    this.user.update(user);//更新登录信息——个人的部分信息
+
+                }
             }
+
             showUserInfo();
         } else {
             res.showMessage(mActivity);
@@ -279,12 +286,15 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         mRefreshLayout.refreshComplete();
     }
 
+    /***
+     * 数据本地化 开启了聊天服务
+     */
     private void showUserInfo() {
         final User read = User.read(mActivity);
         LogUtil.i(LOG_TAG, "showUserInfo().read.id:%d,user.id:%d", read.getId(), user.getId());
         LogUtil.i(LOG_TAG, "showUserInfo().read.token:%s,user.token:%s", read.getToken(), user.getToken());
         if (read.getUid() == user.getUid()) {
-            Network.getService(UserService.class).info(new Callback<UserInfoResponse>() {
+            Network.getService(UserService.class).getInfo(user.getUid(),new Callback<UserInfoResponse>() {
                 @Override
                 public void start() {
 
@@ -293,7 +303,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 @Override
                 public void success(UserInfoResponse res, Response response) {
                     if (res.isSuccess()) {
-                        final User.Info data = res.getData();
+                        final User.Info data = res.getData().getUser();
                         UserHomeFragment.this.user.setInfo(data);
                         if (UserHomeFragment.this.user.getUid() == data.getUid()) {
                             UserHomeFragment.this.user.write(mActivity);
@@ -363,7 +373,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
             } else if (clickItem == itemViewHolder.getBinding().btnUpdate) {
                 User.Info userInfo=User.read(getActivity()).getInfo();
-                CreateOrEditSkillActivity.show(getActivity(), REQUEST_EDIT_SKILL, userInfo, skill);
+                CreateOrEditSkillActivity.show(getActivity(), REQUEST_EDIT_SKILL,  skill);
                 mEditPostion = postion;
                 itemViewHolder.closeWithAnim();
             } else if (clickItem == itemViewHolder.getBinding().btnDelete) {

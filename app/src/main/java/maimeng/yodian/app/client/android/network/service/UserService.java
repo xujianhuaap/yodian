@@ -41,7 +41,20 @@ public interface UserService {
                     @Param("avatar") TypedBitmap avatar, @Param("qq") String qq,
                     @Param("contact") String phone, Callback<ModifyUserResponse> callback);
 
+    /***
+     *
+     * @param callback
+     */
     @Get(Api.USER_INFO)
     void info(Callback<UserInfoResponse> callback);
+
+    /***
+     *
+     * @param callback
+     */
+    @Post(Api.GET_USER_INFO)
+    void getInfo(@Param("uid")long uid,Callback<UserInfoResponse> callback);
+
+
 
 }

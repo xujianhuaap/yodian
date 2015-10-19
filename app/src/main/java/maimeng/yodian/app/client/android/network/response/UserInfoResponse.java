@@ -6,13 +6,26 @@ import maimeng.yodian.app.client.android.model.user.User;
  * Created by android on 2015/8/17.
  */
 public class UserInfoResponse extends Response {
-    private User.Info data;
+    public  DataNode data;
 
-    public User.Info getData() {
+
+    public DataNode getData() {
         return data;
     }
 
-    public void setData(User.Info data) {
+    public void setData(DataNode data) {
         this.data = data;
+    }
+
+    public final class DataNode{
+        private User.Info user;
+
+        public User.Info getUser() {
+            return user;
+        }
+
+        public void setUser(User.Info user) {
+            this.user = user;
+        }
     }
 }

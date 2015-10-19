@@ -46,6 +46,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -127,6 +128,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
         info=User.read(CreateOrEditSkillActivity.this).getInfo();
+        LogUtil.d(CreateOrEditSkillActivity.class.getName(),"vouch_status "+info.getVouch_status().getValue());
         if (getIntent().hasExtra("template")) {
             mTemplate = getIntent().getParcelableExtra("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
@@ -154,7 +156,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
-                        CreateOrEditSkillActivity.this.mBitmap.recycle();
                         CreateOrEditSkillActivity.this.mBitmap = null;
                     }
                     CreateOrEditSkillActivity.this.mBitmap = bitmap;
@@ -221,6 +222,10 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
+        if(allowSell==1){
+            binding.onLinePay.setChecked(true);
+            binding.onLinePay.setClickable(false);
+        }
         binding.onLinePay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -239,10 +244,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
             }
         });
-        if(allowSell==1){
-            binding.onLinePay.setChecked(true);
-            binding.onLinePay.setClickable(false);
-        }
+
     }
 
     private void toggle() {
