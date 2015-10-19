@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,6 +74,8 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         return view;
     }
 
+    private final boolean rotationed[] = {false};
+
     public void toggleTypePop(View view) {
         final View root = findViewById(R.id.pop_layout);
         final TranslateAnimation rootAnim;
@@ -124,8 +127,33 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         rootAnim.setDuration(300);
 
         if (mBtnPull == view) {
-            float rotation = view.getRotation();
-            final ObjectAnimator btnAnim = ObjectAnimator.ofFloat(view, View.ROTATION, rotation, rotation + 180f);
+            final ObjectAnimator btnAnim;
+            if (rotationed[0]) {
+                btnAnim = ObjectAnimator.ofFloat(view, View.ROTATION, 180f, 360f);
+            } else {
+                btnAnim = ObjectAnimator.ofFloat(view, View.ROTATION, 0f, 180f);
+            }
+            btnAnim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    rotationed[0] = !rotationed[0];
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
             btnAnim.setDuration(300);
             btnAnim.start();
         }

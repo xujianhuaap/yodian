@@ -122,7 +122,7 @@ dependencies {
 //    compile 'jp.wasabeef:glide-transformations:1.1.0'
 
 
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.7'
 
 //    compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {

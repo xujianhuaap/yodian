@@ -124,14 +124,45 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lable_city" />
 
-                <EditText
-                    android:id="@+id/city"
+                <!--<TextView-->
+                <!--android:id="@+id/city"-->
+                <!--style="@style/formEditTextStyle"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:hint="@string/hint_city"-->
+                <!--android:text="@{user.info.city}" />-->
+                <LinearLayout
                     style="@style/formEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="@string/hint_city"
-                    android:text="@{user.info.city}" />
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/province"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <Spinner
+                        android:id="@+id/city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <Spinner
+                        android:id="@+id/district"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <View
