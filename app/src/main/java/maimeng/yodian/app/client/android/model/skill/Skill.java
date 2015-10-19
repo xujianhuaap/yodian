@@ -83,6 +83,7 @@ public class Skill extends BaseObservable implements Parcelable {
     private String ord;
     private String smartsort;
     private int allow_sell;
+    @Bindable
     private int status;
     private Date createtime;
     private String nickname;

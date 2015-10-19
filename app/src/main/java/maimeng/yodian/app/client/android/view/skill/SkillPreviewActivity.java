@@ -188,7 +188,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
      */
     private void submitSkill() {
         if (mEditStatus == 1) {
-            mSkillService.update(mSkill.getId(), mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), new ToastCallback(this) {
+            mSkillService.update(mSkill.getId(), mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(),mSkill.getAllow_sell(), new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -224,7 +224,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
             });
         } else {
             if (mBitmap != null) {
-                mSkillService.add(mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), new Callback<SkillAllResponse>() {
+                mSkillService.add(mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(),mSkill.getAllow_sell(), new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
                         if (res.isSuccess()) {
