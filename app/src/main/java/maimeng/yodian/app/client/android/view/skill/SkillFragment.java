@@ -232,8 +232,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                 UserHomeActivity.show(getActivity(), skill.getUid(), holder.getDefaultAvatar(), skill.getNickname(), ((MainTab2Activity) getActivity()).getFloatButton(), null,
                         holder.getBinding().userNickname);
             } else if (clickItem == holder.getBinding().btnUpdate) {
-                User.Info userInfo=User.read(getActivity()).getInfo();
-                CreateOrEditSkillActivity.show(getActivity(),REQUEST_EDIT_SKILL,userInfo,skill);
+                CreateOrEditSkillActivity.show(getActivity(),REQUEST_EDIT_SKILL,skill);
                 mEditPostion = postion;
                 holder.closeWithAnim();
             } else if (clickItem == holder.getBinding().btnDelete) {

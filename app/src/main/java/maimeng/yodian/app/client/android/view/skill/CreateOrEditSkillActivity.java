@@ -46,6 +46,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -76,13 +77,11 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      * 增加技能
      * @param context
      * @param requestCode
-     * @param userInfo
      * @param skill
      */
 
-    public static void show(Activity context,int requestCode, User.Info userInfo,Skill skill){
+    public static void show(Activity context,int requestCode,Skill skill){
         Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        intent.putExtra("userInfo",userInfo);
         if(skill!=null){
             intent.putExtra("skill",skill);
         }
@@ -95,12 +94,10 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      * 更新技能
      * @param context
      * @param requestCode
-     * @param userInfo
      * @param template
      */
-    public static void show(AppCompatActivity context,int requestCode, User.Info userInfo,SkillTemplate template,Pair<View,String>img,Pair<View,String>title){
+    public static void show(AppCompatActivity context,int requestCode,SkillTemplate template,Pair<View,String>img,Pair<View,String>title){
         Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        intent.putExtra("userInfo",userInfo);
         if(template!=null){
             intent.putExtra("template",template);
         }
@@ -112,13 +109,11 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      *
      * @param context
      * @param requestCode
-     * @param userInfo
      *
      */
 
-    public static void show(Activity context,int requestCode, User.Info userInfo){
+    public static void show(Activity context,int requestCode){
         Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        intent.putExtra("userInfo",userInfo);
         context.startActivityForResult(intent,requestCode);
 
     }
@@ -132,7 +127,8 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         tempFile = new File(dir, getPhotoFileName());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
-        info=getIntent().getParcelableExtra("userInfo");
+        info=User.read(CreateOrEditSkillActivity.this).getInfo();
+        LogUtil.d(CreateOrEditSkillActivity.class.getName(),"vouch_status "+info.getVouch_status().getValue());
         if (getIntent().hasExtra("template")) {
             mTemplate = getIntent().getParcelableExtra("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
@@ -160,7 +156,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
-                        CreateOrEditSkillActivity.this.mBitmap.recycle();
                         CreateOrEditSkillActivity.this.mBitmap = null;
                     }
                     CreateOrEditSkillActivity.this.mBitmap = bitmap;
@@ -227,6 +222,10 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
+        if(allowSell==1){
+            binding.onLinePay.setChecked(true);
+            binding.onLinePay.setClickable(false);
+        }
         binding.onLinePay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -245,10 +244,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
             }
         });
-        if(allowSell==1){
-            binding.onLinePay.setChecked(true);
-            binding.onLinePay.setClickable(false);
-        }
+
     }
 
     private void toggle() {

@@ -45,7 +45,20 @@ public interface UserService {
                     @Param("district") String district,
                     Callback<ModifyUserResponse> callback);
 
+    /***
+     *
+     * @param callback
+     */
     @Get(Api.USER_INFO)
     void info(Callback<UserInfoResponse> callback);
+
+    /***
+     *
+     * @param callback
+     */
+    @Post(Api.GET_USER_INFO)
+    void getInfo(@Param("uid")long uid,Callback<UserInfoResponse> callback);
+
+
 
 }

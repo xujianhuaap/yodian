@@ -22,6 +22,7 @@ public class Api {
     public static final String REPORT = "/index/report";//举报
     public static final String CHECK_VERSION = "/index/checkupdate";//检查更新
     public static final String USER_INFO = "/user/info";//用户信息
+    public static final String GET_USER_INFO = "/user/getinfo";//用户信息
     public static final String QRODE_URL = "http://share.yodian.me/";
 
 

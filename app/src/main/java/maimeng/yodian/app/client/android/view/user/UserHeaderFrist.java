@@ -102,7 +102,7 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
 
                 Pair<View, String> top = Pair.create(clickItem, "top");
                 Pair<View, String> floatbutton = Pair.create((View) getButton(), "floatbutton");
-                SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL, user.getInfo(), new Pair[]{top,floatbutton});
+                SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL, new Pair[]{top,floatbutton});
 
             }
 
