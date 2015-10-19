@@ -37,9 +37,13 @@ public interface UserService {
      */
     @Multipart
     @Post(Api.USER_INFO_UPDATE)
-    void modifyInfo(@Param("nickname") String nickname, @Param("sex") int sex, @Param("city") String city, @Param("job") String job, @Param("signature") String signature, @Param("weichat") String wechat,
+    void modifyInfo(@Param("nickname") String nickname, @Param("sex") int sex, @Param("job") String job, @Param("signature") String signature, @Param("weichat") String wechat,
                     @Param("avatar") TypedBitmap avatar, @Param("qq") String qq,
-                    @Param("contact") String phone, Callback<ModifyUserResponse> callback);
+                    @Param("contact") String contact,
+                    @Param("city") String city,
+                    @Param("province") String province,
+                    @Param("district") String district,
+                    Callback<ModifyUserResponse> callback);
 
     @Get(Api.USER_INFO)
     void info(Callback<UserInfoResponse> callback);

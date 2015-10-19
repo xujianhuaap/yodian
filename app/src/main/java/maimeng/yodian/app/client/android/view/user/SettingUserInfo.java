@@ -12,24 +12,38 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
+import maimeng.yodian.app.client.android.model.City;
 import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -57,6 +71,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     private File tempFile;
     private AlertDialog dialogAlert;
     private boolean updateAvatar = false;
+    private Adapter provinceAdapter;
+    private Adapter cityAdapter;
+    private Adapter districtAdapter;
+    private boolean initCity = false;
+    private boolean initDistrict = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -84,6 +103,10 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         }
     }
 
+    int indexP = 0;
+    int indexD = 0;
+    int indexC = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +128,73 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
         binding.sex.addTextChangedListener(new EditTextChangeListener(binding.sex, binding, user));
-        binding.city.addTextChangedListener(new EditTextChangeListener(binding.city, binding, user));
+//        binding.city.addTextChangedListener(new EditTextChangeListener(binding.city, binding, user));
+        provinceAdapter = new Adapter(new ArrayList<City>() {{
+//            new City("请选择");
+        }});
+        cityAdapter = new Adapter(new ArrayList<City>() {{
+//            new City("请选择");
+        }});
+        districtAdapter = new Adapter(new ArrayList<City>() {{
+//            new City("请选择");
+        }});
+        binding.province.setAdapter(provinceAdapter);
+        binding.city.setAdapter(cityAdapter);
+        binding.district.setAdapter(districtAdapter);
+        binding.province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                City item = provinceAdapter.getItem(position);
+                ArrayList<City> sub = item.getSub();
+                cityAdapter.reload(sub);
+                districtAdapter.datas.clear();
+                districtAdapter.notifyDataSetChanged();
+                user.getInfo().setProvince(item.getName());
+                if (!initCity) {
+                    binding.city.setSelection(indexC, true);
+                    initCity = true;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        binding.city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                City item = cityAdapter.getItem(position);
+                ArrayList<City> sub = item.getSub();
+                if (sub != null) {
+                    districtAdapter.reload(sub);
+                }
+                user.getInfo().setDistrict(item.getName());
+                if (!initDistrict) {
+                    binding.district.setSelection(indexD, true);
+                    initDistrict = true;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        binding.district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                user.getInfo().setDistrict(districtAdapter.getItem(position).getName());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         binding.job.addTextChangedListener(new EditTextChangeListener(binding.job, binding, user));
         binding.signature.addTextChangedListener(new EditTextChangeListener(binding.signature, binding, user));
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
@@ -117,6 +206,41 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 //        binding.phone.setText(user.getInfo().getContact());
         binding.setUser(user);
         binding.executePendingBindings();
+        ArrayList<City> datas = readFile();
+
+        if (user.getInfo() != null) {
+            User.Info info = user.getInfo();
+            String p = info.getProvince();
+            String d = info.getDistrict();
+            String c = info.getCity();
+            for (int i = 0; i < datas.size(); i++) {
+                City province = datas.get(i);
+                if (province.getName().equals(p)) {
+                    indexP = i;
+                    ArrayList<City> cities = province.getSub();
+                    for (int j = 0; j < cities.size(); j++) {
+                        City city = cities.get(j);
+                        if (city.getName().equals(c)) {
+                            indexC = j;
+                            ArrayList<City> districts = city.getSub();
+                            if (districts != null) {
+                                for (int k = 0; k < districts.size(); k++) {
+                                    City district = districts.get(k);
+                                    if (district.getName().equals(d)) {
+                                        indexD = k;
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        binding.province.setSelection(indexP, true);
+
     }
 
 
@@ -173,9 +297,9 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         }
         Sex sex = user.getInfo().getSex();
         if (updateAvatar) {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getCity(), user.getInfo().getJob(), user.getInfo().getSignature(), user.getWechat(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq(), user.getInfo().getContact(), this);
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob(), user.getInfo().getSignature(), user.getWechat(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq(), user.getInfo().getContact(), user.getInfo().getCity(), user.getInfo().getProvince(), user.getInfo().getDistrict(), this);
         } else {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getCity(), user.getInfo().getJob(), user.getInfo().getSignature(), user.getWechat(), null, user.getInfo().getQq(), user.getInfo().getContact(), this);
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob(), user.getInfo().getSignature(), user.getWechat(), null, user.getInfo().getQq(), user.getInfo().getContact(), user.getInfo().getCity(), user.getInfo().getProvince(), user.getInfo().getDistrict(), this);
         }
     }
 
@@ -249,6 +373,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         }
     }
 
+
     class EditTextChangeListener implements TextWatcher {
         private final EditText mText;
         private final User user;
@@ -288,9 +413,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                         user.getInfo().setSex(Sex.WOMAN);
                     }
                 }
-
-            } else if (mText == binding.city) {
-                user.getInfo().setCity(text);
             } else if (mText == binding.signature) {
                 user.getInfo().setSignature(text);
             } else if (mText == binding.job) {
@@ -334,5 +456,61 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true); // no face detection
         startActivityForResult(intent, REQUEST_PHOTORESOULT);
+    }
+
+    private ArrayList<City> readFile() {
+        InputStream input = getResources().openRawResource(R.raw.city);
+        InputStreamReader jsr = new InputStreamReader(input);
+        ArrayList<City> citys = new Gson().fromJson(jsr, new TypeToken<ArrayList<City>>() {
+        }.getType());
+        provinceAdapter.reload(citys);
+        return citys;
+    }
+
+    private static class Adapter extends BaseAdapter implements SpinnerAdapter {
+        private ArrayList<City> datas = new ArrayList<>();
+
+        public Adapter(ArrayList<City> cities) {
+            this.datas.clear();
+            this.datas.addAll(cities);
+        }
+
+        public void reload(ArrayList<City> cities) {
+            this.datas.clear();
+            this.datas.addAll(cities);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return datas.size();
+        }
+
+        @Override
+        public City getItem(int position) {
+            return datas.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            if (convertView == null) {
+                convertView = new TextView(parent.getContext());
+                convertView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+            }
+            City item = getItem(position);
+            TextView current = (TextView) convertView;
+            current.setPadding(10, 10, 10, 10);
+//            current.setTextSize(1f);
+            current.setGravity(Gravity.CENTER);
+            String name = item.getName();
+            current.setText(name);
+            return convertView;
+        }
     }
 }
