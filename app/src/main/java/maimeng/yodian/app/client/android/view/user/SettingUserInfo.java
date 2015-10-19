@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -169,7 +168,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 if (sub != null) {
                     districtAdapter.reload(sub);
                 }
-                user.getInfo().setDistrict(item.getName());
+                user.getInfo().setCity(item.getName());
                 if (!initDistrict) {
                     binding.district.setSelection(indexD, true);
                     initDistrict = true;
