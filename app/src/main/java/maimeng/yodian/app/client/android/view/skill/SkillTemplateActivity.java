@@ -41,7 +41,6 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
     private SkillService service;
     private RecyclerView mTemplateList;
     private SkillTemplateAdapter adapter;
-    private User.Info mInfo;
 
     /***
      *
@@ -49,9 +48,8 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
      * @param requestCode
      * @param pairs
      */
-    public static void show(Activity activity,int requestCode,User.Info userInfo,Pair<View,String>...pairs){
+    public static void show(Activity activity,int requestCode,Pair<View,String>...pairs){
         Intent intent=new Intent(activity, SkillTemplateActivity.class);
-        intent.putExtra("info",userInfo);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,pairs);
         ActivityCompat.startActivityForResult(activity,intent , requestCode, options.toBundle());
     }
@@ -64,7 +62,6 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         ViewCompat.setTransitionName(findViewById(R.id.top), "top");
         View floatbutton = findViewById(R.id.btn_back);
         ViewCompat.setTransitionName(floatbutton, "floatbutton");
-        mInfo=getIntent().getParcelableExtra("info");
         floatbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,9 +140,9 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
             SkillTemplate template = itemHolder.getTemplate();
             Pair<View, String> img = Pair.create((View) itemHolder.binding.skillImg, "avatar");
             Pair<View, String> title = Pair.create((View) itemHolder.binding.skillName, "title");
-            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_CREATE_SKILL,mInfo,template,img,title);
+            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_CREATE_SKILL,template,img,title);
         } else {
-            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_EDIT_SKILL,mInfo);
+            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_EDIT_SKILL);
         }
     }
 

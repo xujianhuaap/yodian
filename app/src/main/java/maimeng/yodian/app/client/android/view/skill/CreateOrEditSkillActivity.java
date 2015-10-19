@@ -76,13 +76,11 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      * 增加技能
      * @param context
      * @param requestCode
-     * @param userInfo
      * @param skill
      */
 
-    public static void show(Activity context,int requestCode, User.Info userInfo,Skill skill){
+    public static void show(Activity context,int requestCode,Skill skill){
         Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        intent.putExtra("userInfo",userInfo);
         if(skill!=null){
             intent.putExtra("skill",skill);
         }
@@ -95,12 +93,10 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      * 更新技能
      * @param context
      * @param requestCode
-     * @param userInfo
      * @param template
      */
-    public static void show(AppCompatActivity context,int requestCode, User.Info userInfo,SkillTemplate template,Pair<View,String>img,Pair<View,String>title){
+    public static void show(AppCompatActivity context,int requestCode,SkillTemplate template,Pair<View,String>img,Pair<View,String>title){
         Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        intent.putExtra("userInfo",userInfo);
         if(template!=null){
             intent.putExtra("template",template);
         }
@@ -112,13 +108,11 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
      *
      * @param context
      * @param requestCode
-     * @param userInfo
      *
      */
 
-    public static void show(Activity context,int requestCode, User.Info userInfo){
+    public static void show(Activity context,int requestCode){
         Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        intent.putExtra("userInfo",userInfo);
         context.startActivityForResult(intent,requestCode);
 
     }
@@ -132,7 +126,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         tempFile = new File(dir, getPhotoFileName());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
-        info=getIntent().getParcelableExtra("userInfo");
+        info=User.read(CreateOrEditSkillActivity.this).getInfo();
         if (getIntent().hasExtra("template")) {
             mTemplate = getIntent().getParcelableExtra("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
