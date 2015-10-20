@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bind_bank_info_bankname"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark3"
                 android:textSize="18sp" />
 
             <TextView
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bind_bank_info_branch"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark3"
                 android:textSize="18sp" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bind_bank_info_number"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark3"
                 android:textSize="18sp" />
 
             <TextView
@@ -131,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bind_bank_info_username"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark3"
                 android:textSize="18sp" />
 
             <TextView
@@ -156,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bind_bank_info_phonenumber"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark3"
                 android:textSize="18sp" />
 
             <TextView
@@ -179,14 +179,14 @@
             android:layout_height="wrap_content"
             android:paddingBottom="0dp">
 
-            <io.j99.md.views.ButtonRectangle
+            <Button
                 android:id="@+id/btn_rebind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:enabled="false"
+                android:background="@drawable/btn_submit_background"
                 android:text="@string/bind_bank_info_rebind"
-                android:textSize="5sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -196,14 +196,15 @@
             android:layout_marginTop="0dp"
             android:visibility="@{bind.status.value == 2 ? View.VISIBLE:View.GONE}">
 
-            <io.j99.md.views.ButtonRectangle
+            <Button
                 android:id="@+id/btn_unbind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/btn_submit_background"
                 android:enabled="false"
                 android:text="@string/bind_bank_info_unbind"
-                android:textSize="5sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp" />
         </LinearLayout>
 
     </LinearLayout>

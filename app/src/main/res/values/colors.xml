@@ -5,6 +5,8 @@
     <color name="colorPrimaryGreen">#00ff00</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorPrimaryDark2">#1e1e1e</color>
+    <color name="colorPrimaryDark3">#17ace7</color>
+
     <color name="div_line">#77000000</color>
     <color name="float_colorNormal">#3000</color>
     <color name="float_colorPressed">@color/colorPrimaryDark</color>
