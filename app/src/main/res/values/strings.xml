@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">优点</string>
     <string name="NA">N/A</string>
     <string name="btn_submit">提交</string>

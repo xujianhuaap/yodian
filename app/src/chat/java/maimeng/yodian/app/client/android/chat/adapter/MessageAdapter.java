@@ -17,7 +17,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
@@ -67,7 +66,6 @@ import com.easemob.util.TextFormater;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
 import java.util.Date;
@@ -726,8 +724,7 @@ public class MessageAdapter extends BaseAdapter {
                 textView.setText(itemStr);
                 textView.setTextSize(15);
                 try {
-                    XmlPullParser xrp = context.getResources().getXml(R.drawable.menu_msg_text_color);
-                    textView.setTextColor(ColorStateList.createFromXml(context.getResources(), xrp));
+                    textView.setTextColor(context.getResources().getColor(R.color.menu_msg_text_color));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -897,7 +894,7 @@ public class MessageAdapter extends BaseAdapter {
                                     // message.setProgress(0);
                                     holder.staus_iv.setVisibility(View.VISIBLE);
                                     Toast.makeText(activity,
-                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
                                             .show();
                                     timer.cancel();
                                 }
@@ -1023,7 +1020,7 @@ public class MessageAdapter extends BaseAdapter {
                                     // message.setProgress(0);
                                     holder.staus_iv.setVisibility(View.VISIBLE);
                                     Toast.makeText(activity,
-                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
                                             .show();
                                     timer.cancel();
                                 }
@@ -1074,9 +1071,9 @@ public class MessageAdapter extends BaseAdapter {
                 .getMsgId()) && VoicePlayClickListener.isPlaying) {
             AnimationDrawable voiceAnimation;
             if (message.direct == EMMessage.Direct.RECEIVE) {
-                holder.iv.setImageResource(R.anim.voice_from_icon);
+                holder.iv.setImageResource(R.drawable.voice_from_icon);
             } else {
-                holder.iv.setImageResource(R.anim.voice_to_icon);
+                holder.iv.setImageResource(R.drawable.voice_to_icon);
             }
             voiceAnimation = (AnimationDrawable) holder.iv.getDrawable();
             voiceAnimation.start();
@@ -1245,7 +1242,7 @@ public class MessageAdapter extends BaseAdapter {
                                     holder.tv.setVisibility(View.INVISIBLE);
                                     holder.staus_iv.setVisibility(View.VISIBLE);
                                     Toast.makeText(activity,
-                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
                                             .show();
                                     timer.cancel();
                                 }
@@ -1434,7 +1431,7 @@ public class MessageAdapter extends BaseAdapter {
                             // message.setSendingStatus(Message.SENDING_STATUS_FAIL);
                             holder.staus_iv.setVisibility(View.VISIBLE);
                             Toast.makeText(activity,
-                                    activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0).show();
+                                    activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -1487,13 +1484,13 @@ public class MessageAdapter extends BaseAdapter {
                     // holder.staus_iv.setVisibility(View.VISIBLE);
 
                     if (message.getError() == EMError.MESSAGE_SEND_INVALID_CONTENT) {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_invalid_content), 0)
+                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_invalid_content), Toast.LENGTH_SHORT)
                                 .show();
                     } else if (message.getError() == EMError.MESSAGE_SEND_NOT_IN_THE_GROUP) {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_not_in_the_group), 0)
+                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_not_in_the_group), Toast.LENGTH_SHORT)
                                 .show();
                     } else {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
                                 .show();
                     }
                 }
@@ -1508,7 +1505,6 @@ public class MessageAdapter extends BaseAdapter {
      *
      * @param thumbernailPath
      * @param iv
-     * @param position
      * @return the image exists or not
      */
     private boolean showImageView(final String thumbernailPath, final ImageView iv, final String localFullSizePath, String remoteDir,

@@ -11,6 +11,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.VouchResponse;
+import maimeng.yodian.app.client.android.network.response.WDListHistoryResponse;
 
 /**
  * Created by android on 2015/9/21.
@@ -34,6 +35,16 @@ public interface MoneyService {
      */
     @Post(Api.MONEY_WITHDRAW)
     void withdraw(@Param("money") double money, ToastCallback response);
+
+    /**
+     * 提现历史
+     *
+     * @param page
+     * @param response
+     */
+    @Post(Api.MONEY_WDLIST)
+    void wdlist(@Param("p") int page, Callback<WDListHistoryResponse> response);
+
 
     /***
      * 担保申请

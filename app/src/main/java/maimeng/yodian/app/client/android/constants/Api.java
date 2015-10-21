@@ -26,10 +26,9 @@ public class Api {
     public static final String QRODE_URL = "http://share.yodian.me/";
 
 
-    public static final String MONEY_MY
-            = "/money/my";//我的余额
-    public static final String MONEY_WITHDRAW
-            = "/money/withdraw";//提现申请
+    public static final String MONEY_MY = "/money/my";//我的余额
+    public static final String MONEY_WITHDRAW = "/money/withdraw";//提现申请
+    public static final String MONEY_WDLIST = "/money/wdlist";//提现历史
 
     //bank
     public static final String BANK_LIST
@@ -64,8 +63,8 @@ public class Api {
             = "/order/receive";//确认收货
 
     //购买
-    public static final String ORDER_BUY="/order/pay";//未付订单购买
-    public static final String ORDER_REMAINDER_BUY="/order/balancepay";//订单余额支付
-    public static final String SKILL_BUY="/skill/buy";//技能购买
+    public static final String ORDER_BUY = "/order/pay";//未付订单购买
+    public static final String ORDER_REMAINDER_BUY = "/order/balancepay";//订单余额支付
+    public static final String SKILL_BUY = "/skill/buy";//技能购买
 
 }

@@ -109,7 +109,7 @@
         public <fields>;
         public <methods>;
 }
-
+-dontwarn com.umeng.**
 -keep class com.squareup.wire.* {
         public <fields>;
         public <methods>;
@@ -222,4 +222,8 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
+-keep class com.taobao.** { *; }
+-dontwarn com.taobao.**
+-keep class com.alipay.** { *; }
+-dontwarn com.alipay.**
 #-libraryjars libs/easemobchat_2.2.1.jar
