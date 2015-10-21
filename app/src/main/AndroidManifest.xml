@@ -35,7 +35,8 @@
             android:theme="@style/account_change_dialog">
 
         </activity>
-        <activity android:name=".view.dialog.VouchDealActivity"
+        <activity
+            android:name=".view.dialog.VouchDealActivity"
             android:label=""
             android:theme="@style/paylistactivity">
 
@@ -168,6 +169,10 @@
         <activity
             android:name=".view.deal.RemainderInfoActivity"
             android:label="@string/my_remainder"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".view.deal.WDListHistoryActivity"
+            android:label="@string/withdraw_lb"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.deal.BindBankActivity"

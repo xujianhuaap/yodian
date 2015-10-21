@@ -38,7 +38,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     private static final int REQUEST_SHOW_DURING = 0x1001;
     private static final int REQUEST_BIND_BANK = 0x1002;
     private static final int REQUEST_VOUCH_APPLY = 0x1003;
-    private boolean isObtainRemainder=false;
+    private boolean isObtainRemainder = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         service = Network.getService(MoneyService.class);
         service.remanider(this);
         binding.btnRemainder.setOnClickListener(this);
+        binding.btnRemaindered.setOnClickListener(this);
         binding.btnBindBank.setOnClickListener(this);
         binding.vouchApply.setOnClickListener(this);
 
@@ -90,7 +91,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     public void success(RemainderResponse res, Response response) {
         if (res.isSuccess()) {
             binding.setRemainder(res.getData());
-            isObtainRemainder=true;
+            isObtainRemainder = true;
         } else {
             res.showMessage(this);
         }
@@ -110,25 +111,27 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     public void onClick(View v) {
         if (v == binding.btnRemainder) {
             startActivityForResult(new Intent(this, RemainderInfoActivity.class).putExtra(RemainderInfoActivity.KEY_REMAINDER, binding.getRemainder()), REQUEST_SHOW_DURING);
+        } else if (v == binding.btnRemaindered) {
+            startActivity(new Intent(this, WDListHistoryActivity.class));
         } else if (v == binding.btnBindBank) {
             if (binding.getRemainder().getCardStatus() == BindStatus.NO_CARD) {
                 startActivity(new Intent(this, BindBankActivity.class));
             } else {
                 startActivityForResult(new Intent(this, BindBankCompliteActivity.class).putExtra("remainder", binding.getRemainder()), REQUEST_BIND_BANK);
             }
-        }else if(binding.vouchApply==v){
+        } else if (binding.vouchApply == v) {
             //必须获得Remainder之后binding.getRemainder()才有效
-            if(isObtainRemainder){
-                BindStatus status= binding.getRemainder().getVouchStatus();
-                LogUtil.d(RemainderMainActivity.class.getName(),"status"+status);
-                LogUtil.d(RemainderMainActivity.class.getName(),"BindStatus.NO_CARD"+BindStatus.NO_CARD.getValue());
-                if(status==BindStatus.NO_CARD){
+            if (isObtainRemainder) {
+                BindStatus status = binding.getRemainder().getVouchStatus();
+                LogUtil.d(RemainderMainActivity.class.getName(), "status" + status);
+                LogUtil.d(RemainderMainActivity.class.getName(), "BindStatus.NO_CARD" + BindStatus.NO_CARD.getValue());
+                if (status == BindStatus.NO_CARD) {
                     //未申请担保
-                    Intent intent=new Intent(this,VouchApplyActivity.class);
-                    intent.putExtra("status",status);
+                    Intent intent = new Intent(this, VouchApplyActivity.class);
+                    intent.putExtra("status", status);
                     startActivityForResult(intent, REQUEST_VOUCH_APPLY);
 
-                }else {
+                } else {
                     VouchDetailActivity.show(this);
                 }
             }
@@ -148,11 +151,11 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
                 }
             } else if (requestCode == REQUEST_BIND_BANK) {
                 binding.getRemainder().setCardStatus(BindStatus.WAITCONFIRM);
-            }else if(requestCode==REQUEST_VOUCH_APPLY){
+            } else if (requestCode == REQUEST_VOUCH_APPLY) {
                 //申请完成
-                int applyStatus=data.getIntExtra("apply",0x12);
-                if(applyStatus==BindStatus.WAITCONFIRM.getValue()){
-                    AlertDialog.show(this,"",getString(R.string.apply_alertdialog_tip),getString(R.string.btn_name));
+                int applyStatus = data.getIntExtra("apply", 0x12);
+                if (applyStatus == BindStatus.WAITCONFIRM.getValue()) {
+                    AlertDialog.show(this, "", getString(R.string.apply_alertdialog_tip), getString(R.string.btn_name));
                 }
 
             }
