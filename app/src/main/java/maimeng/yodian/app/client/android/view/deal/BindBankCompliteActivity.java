@@ -49,7 +49,7 @@ public class BindBankCompliteActivity extends AbstractActivity implements Callba
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
         }
     }
 
@@ -74,7 +74,7 @@ public class BindBankCompliteActivity extends AbstractActivity implements Callba
         final BindBank data = res.getData();
         binding.setBind(data);
         if (data.getStatus() == BindStatus.PASS) {
-            binding.status.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_bind_status_pass), null);
+            binding.status.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.ic_bind_status_pass), null);
             binding.status.setCompoundDrawablePadding(getResources().getDimensionPixelSize(R.dimen.normal_padding));
         } else {
             binding.status.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);

@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_share_welcome"
+        android:src="@mipmap/ic_share_welcome"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="24sp"/>

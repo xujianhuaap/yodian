@@ -24,8 +24,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:src="@drawable/default_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@mipmap/default_avatar" />
 
         <LinearLayout
             android:id="@+id/ll_location"
@@ -40,7 +40,7 @@
                 style="@style/chat_content_date_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/location_msg"
+                android:background="@mipmap/location_msg"
                 android:gravity="center"
                 android:textColor="@android:color/white" />
         </LinearLayout>

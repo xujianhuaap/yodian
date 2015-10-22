@@ -76,7 +76,7 @@ public class ImageGridFragment extends Fragment implements OnItemClickListener {
 		// The ImageFetcher takes care of loading images into our ImageView
 		// children asynchronously
 		mImageResizer = new ImageResizer(getActivity(), mImageThumbSize);
-		mImageResizer.setLoadingImage(R.drawable.empty_photo);
+		mImageResizer.setLoadingImage(R.mipmap.empty_photo);
 		mImageResizer.addImageCache(getActivity().getSupportFragmentManager(),
 				cacheParams);
 		
@@ -251,7 +251,7 @@ public class ImageGridFragment extends Fragment implements OnItemClickListener {
 				holder.icon.setVisibility(View.GONE);
 				holder.tvDur.setVisibility(View.GONE);
 				holder.tvSize.setText(st1);
-				holder.imageView.setImageResource(R.drawable.actionbar_camera_icon);
+				holder.imageView.setImageResource(R.mipmap.actionbar_camera_icon);
 			}else{
 				holder.icon.setVisibility(View.VISIBLE);
 				VideoEntity entty=mList.get(position-1);
@@ -259,7 +259,7 @@ public class ImageGridFragment extends Fragment implements OnItemClickListener {
 				
 				holder.tvDur.setText(DateUtils.toTime(entty.duration));
 				holder.tvSize.setText(TextFormater.getDataSize(entty.size));
-				holder.imageView.setImageResource(R.drawable.empty_photo);
+				holder.imageView.setImageResource(R.mipmap.empty_photo);
 				mImageResizer.loadImage(entty.filePath, holder.imageView);
 			}
 			return convertView;

@@ -6,6 +6,6 @@
     <item>
         <bitmap
             android:gravity="top|center_horizontal"
-            android:src="@drawable/ic_triangle_white" />
+            android:src="@mipmap/ic_triangle_white" />
     </item>
 </layer-list>

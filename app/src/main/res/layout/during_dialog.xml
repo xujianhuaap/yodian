@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/normal_padding"
-            android:background="@drawable/btn_oval_bg_yellow"
+            android:background="@mipmap/btn_oval_bg_yellow"
             android:gravity="center"
             android:text="@string/during_dialog_sumit"
             android:textColor="#fff" />

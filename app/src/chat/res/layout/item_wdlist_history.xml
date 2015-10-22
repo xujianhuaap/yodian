@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:src="@drawable/ic_index_pull_arrow" />
+                    android:src="@mipmap/ic_index_pull_arrow" />
             </LinearLayout>
 
         </LinearLayout>

@@ -37,7 +37,7 @@
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="5dp"
                 android:padding="5dp"
-                android:src="@drawable/ic_share" />
+                android:src="@mipmap/ic_share" />
 
         </FrameLayout>
 
@@ -66,7 +66,7 @@
                 android:layout_height="@dimen/floating_btn_height"
                 android:layout_marginBottom="@dimen/floating_btn_margin"
                 android:layout_marginLeft="@dimen/floating_btn_margin"
-                android:src="@drawable/btn_back"
+                android:src="@mipmap/btn_back"
                 app:fab_colorNormal="@color/float_colorNormal"
                 app:fab_colorPressed="@color/float_colorPressed"
                 app:layout_anchor="@+id/rec_diary"
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
                 android:layout_margin="@dimen/floating_btn_margin"
-                android:src="@drawable/btn_submit_normal"
+                android:src="@mipmap/btn_submit_normal"
                 app:fab_colorNormal="@color/float_colorPressed"
                 app:fab_colorPressed="@color/float_colorNormal"
                 app:fab_colorRipple="@color/float_colorRipple"></com.melnykov.fab.FloatingActionButton>

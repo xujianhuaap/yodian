@@ -54,7 +54,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
             actionBar.setDisplayHomeAsUpEnabled(true);
 //            actionBar.setDisplayUseLogoEnabled(true);
 //            actionBar.setLogo(R.drawable.ic_go_back);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
         }
     }
 

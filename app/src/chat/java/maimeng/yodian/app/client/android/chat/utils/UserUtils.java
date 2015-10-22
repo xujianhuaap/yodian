@@ -53,7 +53,7 @@ public class UserUtils {
             LogUtil.i(UserUtils.class.getName(), "setUserAvatar(),username:%s,avatar:%s", username, avatar);
         if (BuildConfig.DEBUG)
             LogUtil.i(UserUtils.class.getName(), "MainLooper:%s", Looper.myLooper() == Looper.getMainLooper());
-        new ImageLoaderManager.Loader(imageView, Uri.parse(avatar)).placeHolder(R.drawable.default_avatar).circle(Circle.obtain()).callback(new ImageLoaderManager.Callback() {
+        new ImageLoaderManager.Loader(imageView, Uri.parse(avatar)).placeHolder(R.mipmap.default_avatar).circle(Circle.obtain()).callback(new ImageLoaderManager.Callback() {
             @Override
             public void onImageLoaded(Bitmap bitmap) {
                 if (BuildConfig.DEBUG)

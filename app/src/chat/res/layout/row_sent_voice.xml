@@ -24,7 +24,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:src="@drawable/default_avatar"
+            android:src="@mipmap/default_avatar"
             android:scaleType="fitXY" />
 
         <ImageView
@@ -34,7 +34,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/iv_userhead"
             android:background="@drawable/chatto_bg"
-            android:src="@drawable/chatto_voice_playing" />
+            android:src="@mipmap/chatto_voice_playing" />
 
         <TextView
             android:id="@+id/tv_length"

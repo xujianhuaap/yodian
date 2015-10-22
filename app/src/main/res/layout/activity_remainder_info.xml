@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/normal_padding"
-                    android:background="@drawable/btn_oval_bg_blue"
+                    android:background="@mipmap/btn_oval_bg_blue"
                     android:gravity="center"
                     android:text="@string/during_lb"
                     android:textColor="#fff" />
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_padding_2x"
-                    android:background="@drawable/btn_oval_bg_blue"
+                    android:background="@mipmap/btn_oval_bg_blue"
                     android:gravity="center"
                     android:text="@string/look_order_lb"
                     android:textColor="#fff" />

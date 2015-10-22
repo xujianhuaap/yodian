@@ -39,7 +39,7 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
         setFinishOnTouchOutside(true);
         setContentView(view);
 
-        gifImageView.setImageResource(R.drawable.weixin);
+        gifImageView.setImageResource(R.mipmap.weixin);
         weChat.setText("已将微信号：" + mWeChatNum);
 
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);

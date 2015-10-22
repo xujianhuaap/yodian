@@ -45,14 +45,16 @@
                         android:layout_alignParentBottom="true"
                         android:background="?attr/colorPrimaryDark"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="5dp">
                         <TextView
                             android:id="@+id/btn_buy_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/ic_skill_buy"
-                            android:layout_margin="@dimen/margin_small"
+                            android:background="@mipmap/ic_skill_buy"
                             android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_margin="@dimen/margin_small"
                             android:scaleType="centerInside"
                             android:textColor="@android:color/white"
                             android:drawablePadding="@dimen/padding_small"
@@ -106,7 +108,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{skill.nickname}"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:gravity="center"
+                        android:scaleType="centerInside"
+                        android:drawablePadding="@dimen/margin_small" />
 
                 </RelativeLayout>
 
@@ -130,37 +135,22 @@
                     android:layout_marginBottom="@dimen/margin_large"
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
-                    android:text="444445566"
                     android:background="@drawable/fragment_kill_item_price_background"
                     android:textColor="@color/colorPrimaryDark"
                     android:visibility="visible" />
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/skill_status"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:src="@drawable/pic_skill_state_xiajia"
-                android:background="#55000000"
-                android:visibility="gone"/>
-
         </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@android:color/white"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -201,14 +191,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_normal"
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
                 android:text="@{skill.content}"
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="visible" />
         </LinearLayout>
-
+        <ImageView
+            android:id="@+id/skill_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@mipmap/pic_skill_state_xiajia"
+            android:background="#55000000"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

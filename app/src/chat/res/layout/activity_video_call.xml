@@ -104,7 +104,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/icon_mute_normal" />
+                            android:src="@mipmap/icon_mute_normal" />
 
                         <TextView
                             android:layout_width="fill_parent"
@@ -127,7 +127,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/icon_speaker_normal" />
+                            android:src="@mipmap/icon_speaker_normal" />
 
                         <TextView
                             android:layout_width="fill_parent"

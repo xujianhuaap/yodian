@@ -40,6 +40,6 @@ public class DefaultActivity extends AbsSplashActivity {
 
     @Override
     protected Drawable splash() {
-        return getResources().getDrawable(R.drawable.splash_default);
+        return getResources().getDrawable(R.mipmap.splash_default);
     }
 }

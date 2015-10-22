@@ -26,7 +26,7 @@
         <item name="android:paddingRight">12dip</item>
         <item name="android:textColor">@color/btn_gray_normal</item>
         <item name="android:textSize">12sp</item>
-        <!--<item name="android:background">@drawable/timestampe_bg</item>-->
+        <!--<item name="android:background">@mipmap/timestampe_bg</item>-->
     </style>
 
     <style name="AnimFade" parent="@android:style/Animation.Activity">

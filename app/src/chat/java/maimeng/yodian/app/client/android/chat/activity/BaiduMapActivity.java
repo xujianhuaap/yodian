@@ -139,7 +139,7 @@ public class BaiduMapActivity extends BaseActivity {
 		converter.from(CoordinateConverter.CoordType.COMMON);
 		LatLng convertLatLng = converter.convert();
 		OverlayOptions ooA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory
-				.fromResource(R.drawable.icon_marka))
+				.fromResource(R.mipmap.icon_marka))
 				.zIndex(4).draggable(true);
 		mBaiduMap.addOverlay(ooA);
 		MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
@@ -242,7 +242,7 @@ public class BaiduMapActivity extends BaseActivity {
 			converter.from(CoordinateConverter.CoordType.COMMON);
 			LatLng convertLatLng = converter.convert();
 			OverlayOptions ooA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory
-					.fromResource(R.drawable.icon_marka))
+					.fromResource(R.mipmap.icon_marka))
 					.zIndex(4).draggable(true);
 			mBaiduMap.addOverlay(ooA);
 			MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);

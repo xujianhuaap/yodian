@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_skill_temple_title" />
+            android:src="@mipmap/ic_skill_temple_title" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/template_list"
@@ -34,5 +34,5 @@
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
         app:fab_colorRipple="@color/float_colorRipple"
-        android:src="@drawable/btn_back"/>
+        android:src="@mipmap/btn_back"/>
 </FrameLayout>

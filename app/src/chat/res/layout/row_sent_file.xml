@@ -25,7 +25,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:src="@drawable/default_avatar"
+            android:src="@mipmap/default_avatar"
             android:scaleType="fitXY" />
 
         <LinearLayout
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/chat_item_file" />
+                android:src="@mipmap/chat_item_file" />
 
             <LinearLayout
                 android:layout_width="match_parent"

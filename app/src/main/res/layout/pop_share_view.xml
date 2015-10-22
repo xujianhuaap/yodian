@@ -30,7 +30,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:visibility="invisible"
-            android:src="@drawable/ic_release_ok"
+            android:src="@mipmap/ic_release_ok"
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" />
         <TextView
@@ -54,7 +54,7 @@
             <TextView
                 android:id="@+id/weixin"
                 android:padding="@dimen/dialog_share_item_padding"
-                android:drawableTop="@drawable/ic_share_wechat"
+                android:drawableTop="@mipmap/ic_share_wechat"
                 android:gravity="center"
                 android:text="微信"
                 android:textColor="#fff"
@@ -66,7 +66,7 @@
 
             <TextView
                 android:id="@+id/fridens"
-                android:drawableTop="@drawable/ic_share_friends"
+                android:drawableTop="@mipmap/ic_share_friends"
                 android:gravity="center"
                 android:text="朋友圈"
                 android:textColor="#fff"
@@ -78,7 +78,7 @@
 
             <TextView
                 android:id="@+id/sina"
-                android:drawableTop="@drawable/ic_share_sina"
+                android:drawableTop="@mipmap/ic_share_sina"
                 android:gravity="center"
                 android:text="微博"
                 android:padding="@dimen/dialog_share_item_padding"
@@ -89,7 +89,7 @@
 
             <TextView
                 android:id="@+id/qqRoom"
-                android:drawableTop="@drawable/ic_share_qq_room"
+                android:drawableTop="@mipmap/ic_share_qq_room"
                 android:gravity="center"
                 android:text="QQ空间"
                 android:textColor="#fff"
@@ -118,7 +118,7 @@
                     android:id="@+id/report"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableTop="@drawable/ic_reportlogo"
+                    android:drawableTop="@mipmap/ic_reportlogo"
                     android:gravity="center"
                     android:text="举报"
                     android:textColor="#fff"

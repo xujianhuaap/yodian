@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/top_bar_normal_bg"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/message_title"
@@ -24,12 +24,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fadingEdge="none" >
+        android:fadingEdge="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,8 +37,8 @@
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:layout_marginTop="10dip"
-                android:orientation="vertical" >
-                
+                android:orientation="vertical">
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -57,14 +57,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/rl_switch_notification"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_bottom_selector"
-                    android:padding="10dip" >
+                    android:padding="10dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/open_icon"
+                        android:background="@mipmap/open_icon"
                         android:visibility="visible" />
 
                     <ImageView
@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/close_icon"
+                        android:background="@mipmap/close_icon"
                         android:visibility="invisible" />
                 </RelativeLayout>
 
@@ -108,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_bottom_selector"
-                    android:padding="10dip" >
+                    android:padding="10dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/open_icon"
+                        android:background="@mipmap/open_icon"
                         android:visibility="visible" />
 
                     <ImageView
@@ -135,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/close_icon"
+                        android:background="@mipmap/close_icon"
                         android:visibility="invisible" />
                 </RelativeLayout>
 
@@ -152,7 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_bottom_selector"
-                    android:padding="10dip" >
+                    android:padding="10dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -170,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/open_icon"
+                        android:background="@mipmap/open_icon"
                         android:visibility="visible" />
 
                     <ImageView
@@ -179,7 +179,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/close_icon"
+                        android:background="@mipmap/close_icon"
                         android:visibility="invisible" />
                 </RelativeLayout>
 
@@ -189,7 +189,7 @@
                     android:layout_marginLeft="10dip"
                     android:layout_marginRight="10dip"
                     android:layout_marginTop="10dip"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -210,7 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_bottom_selector"
-                    android:padding="10dip" >
+                    android:padding="10dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -228,7 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/open_icon"
+                        android:background="@mipmap/open_icon"
                         android:visibility="visible" />
 
                     <ImageView
@@ -237,7 +237,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/close_icon"
+                        android:background="@mipmap/close_icon"
                         android:visibility="invisible" />
                 </RelativeLayout>
 
@@ -253,7 +253,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_bottom_selector"
-                    android:padding="10dip" >
+                    android:padding="10dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -264,19 +264,20 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
-                
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/btn_gray_normal" />
-                 <LinearLayout
-                     android:id="@+id/ll_diagnose"
+
+                <LinearLayout
+                    android:id="@+id/ll_diagnose"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_bottom_selector"
-                    android:padding="10dip" >
+                    android:padding="10dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -287,18 +288,20 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/btn_gray_normal" />
-                 <LinearLayout
-                     android:id="@+id/ll_set_push_nick"
+
+                <LinearLayout
+                    android:id="@+id/ll_set_push_nick"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_bottom_selector"
-                    android:padding="10dip" >
+                    android:padding="10dip">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -312,48 +315,48 @@
             </LinearLayout>
 
             <TextView
-                    android:id="@+id/textview4"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="10dip"
-                    android:layout_marginRight="10dip"
-                    android:background="#E6E6E6" />
+                android:id="@+id/textview4"
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:background="#E6E6E6" />
 
-                <RelativeLayout
-                    android:id="@+id/rl_switch_chatroom_owner_leave"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:background="@drawable/btn_bottom_selector"
-                    android:padding="10dip" >
+            <RelativeLayout
+                android:id="@+id/rl_switch_chatroom_owner_leave"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@drawable/btn_bottom_selector"
+                android:padding="10dip">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
-                        android:text="@string/chatroom_allow_owner_leave"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:typeface="serif" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dip"
+                    android:text="@string/chatroom_allow_owner_leave"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:typeface="serif" />
 
-                    <ImageView
-                        android:id="@+id/iv_switch_chatroom_owner_leave_allow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/open_icon"
-                        android:visibility="visible" />
+                <ImageView
+                    android:id="@+id/iv_switch_chatroom_owner_leave_allow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/open_icon"
+                    android:visibility="visible" />
 
-                    <ImageView
-                        android:id="@+id/iv_switch_chatroom_owner_leave_not_allow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/close_icon"
-                        android:visibility="invisible" />
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_switch_chatroom_owner_leave_not_allow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/close_icon"
+                    android:visibility="invisible" />
+            </RelativeLayout>
             <!--
                  <TextView
                 android:layout_width="match_parent"
@@ -368,8 +371,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dip"
                 android:background="#ffffff"
-                android:orientation="vertical" >
-                 
+                android:orientation="vertical">
+
                 <Button
                     android:id="@+id/btn_logout"
                     android:layout_width="match_parent"

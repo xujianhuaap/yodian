@@ -134,7 +134,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         noSkillRmark = new FrameLayout(this);
         noSkillRmark.setPadding(0, 50, 0, 0);
         final ImageView iv = new ImageView(this);
-        iv.setImageResource(R.drawable.pic_no_skill_rmark);
+        iv.setImageResource(R.mipmap.pic_no_skill_rmark);
         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
         final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
@@ -558,7 +558,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             actionBar.setDisplayHomeAsUpEnabled(true);
 //            actionBar.setDisplayUseLogoEnabled(true);
 //            actionBar.setLogo(R.drawable.ic_go_back);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
             mTitle.setTextColor(Color.WHITE);
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         }
@@ -568,7 +568,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem menuItem=menu.add(0,0x2314,10,null);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        menuItem.setIcon(R.drawable.btn_share);
+        menuItem.setIcon(R.mipmap.btn_share);
         return super.onCreateOptionsMenu(menu);
     }
 

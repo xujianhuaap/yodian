@@ -254,13 +254,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         initView();
         setUpView();
         showSkill();
-        mCurrentUser= maimeng.yodian.app.client.android.model.user.User.read(this);
-        mCurrentUserLogName=DemoApplication.getInstance().getUserName();
+        mCurrentUser = maimeng.yodian.app.client.android.model.user.User.read(this);
+        mCurrentUserLogName = DemoApplication.getInstance().getUserName();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
 
 
         }
@@ -270,7 +270,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_chat_menu, menu);
-        menu.add(0, 1001, 0, "").setIcon(R.drawable.btn_ic_contact).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 1001, 0, "").setIcon(R.mipmap.btn_ic_contact).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -399,24 +399,24 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         iv_emoticons_normal.setVisibility(View.VISIBLE);
         iv_emoticons_checked.setVisibility(View.INVISIBLE);
         more = findViewById(R.id.more);
-        edittext_layout.setBackgroundResource(R.drawable.input_bar_bg_normal);
+        edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_normal);
         voiceCallBtn = (TextView) findViewById(R.id.btn_voice_call);
         videoCallBtn = (TextView) findViewById(R.id.btn_video_call);
         // 动画资源文件,用于录制语音时
-        micImages = new Drawable[]{getResources().getDrawable(R.drawable.record_animate_01),
-                getResources().getDrawable(R.drawable.record_animate_02),
-                getResources().getDrawable(R.drawable.record_animate_03),
-                getResources().getDrawable(R.drawable.record_animate_04),
-                getResources().getDrawable(R.drawable.record_animate_05),
-                getResources().getDrawable(R.drawable.record_animate_06),
-                getResources().getDrawable(R.drawable.record_animate_07),
-                getResources().getDrawable(R.drawable.record_animate_08),
-                getResources().getDrawable(R.drawable.record_animate_09),
-                getResources().getDrawable(R.drawable.record_animate_10),
-                getResources().getDrawable(R.drawable.record_animate_11),
-                getResources().getDrawable(R.drawable.record_animate_12),
-                getResources().getDrawable(R.drawable.record_animate_13),
-                getResources().getDrawable(R.drawable.record_animate_14),};
+        micImages = new Drawable[]{getResources().getDrawable(R.mipmap.record_animate_01),
+                getResources().getDrawable(R.mipmap.record_animate_02),
+                getResources().getDrawable(R.mipmap.record_animate_03),
+                getResources().getDrawable(R.mipmap.record_animate_04),
+                getResources().getDrawable(R.mipmap.record_animate_05),
+                getResources().getDrawable(R.mipmap.record_animate_06),
+                getResources().getDrawable(R.mipmap.record_animate_07),
+                getResources().getDrawable(R.mipmap.record_animate_08),
+                getResources().getDrawable(R.mipmap.record_animate_09),
+                getResources().getDrawable(R.mipmap.record_animate_10),
+                getResources().getDrawable(R.mipmap.record_animate_11),
+                getResources().getDrawable(R.mipmap.record_animate_12),
+                getResources().getDrawable(R.mipmap.record_animate_13),
+                getResources().getDrawable(R.mipmap.record_animate_14),};
 
         // 表情list
         reslist = getExpressionRes(35);
@@ -435,9 +435,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    edittext_layout.setBackgroundResource(R.drawable.input_bar_bg_active);
+                    edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_active);
                 } else {
-                    edittext_layout.setBackgroundResource(R.drawable.input_bar_bg_normal);
+                    edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_normal);
                 }
 
             }
@@ -446,7 +446,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
             @Override
             public void onClick(View v) {
-                edittext_layout.setBackgroundResource(R.drawable.input_bar_bg_active);
+                edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_active);
                 more.setVisibility(View.GONE);
                 iv_emoticons_normal.setVisibility(View.VISIBLE);
                 iv_emoticons_checked.setVisibility(View.INVISIBLE);
@@ -854,7 +854,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, 3);
                     if (bitmap == null) {
                         EMLog.d("chatactivity", "problem start video thumbnail bitmap,use default icon");
-                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.app_panel_video_icon);
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.app_panel_video_icon);
                     }
                     fos = new FileOutputStream(file);
 
@@ -1319,9 +1319,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setReceipt(toChatUsername);
 
 
-
-
-
             // 把messgage加到conversation中
             conversation.addMessage(message);
             onNewMessage(message);
@@ -1349,10 +1346,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      * @param message
      */
     private void setExtAttribute(EMMessage message) {
-        maimeng.yodian.app.client.android.model.user.User currentUser =mCurrentUser;
+        maimeng.yodian.app.client.android.model.user.User currentUser = mCurrentUser;
         String nick = currentUser.getNickname();
         String avatar = currentUser.getAvatar();
-        String id = currentUser.getUid()+"";
+        String id = currentUser.getUid() + "";
         message.setAttribute("nickName", nick);
         message.setAttribute("avatar", avatar);
         message.setAttribute("uid", id);

@@ -93,7 +93,7 @@ public class ChatRoomAdapter extends ArrayAdapter<EMChatRoom> {
 			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.row_add_group, null);
 			}
-			((ImageView) convertView.findViewById(R.id.avatar)).setImageResource(R.drawable.add_public_group);
+			((ImageView) convertView.findViewById(R.id.avatar)).setImageResource(R.mipmap.add_public_group);
 			((TextView) convertView.findViewById(R.id.name)).setText(addChatRoomString);
 			((TextView) convertView.findViewById(R.id.header)).setVisibility(View.VISIBLE);
 

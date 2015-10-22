@@ -10,7 +10,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-        <!--<item name="homeAsUpIndicator">@drawable/ic_go_back</item>-->
+        <!--<item name="homeAsUpIndicator">@mipmap/ic_go_back</item>-->
         <!--<item name="android:textColorPrimary">#ffff</item>-->
         <!--<item name="android:textColorSecondary">#ffff</item>-->
         <!--<item name="android:textColorTertiary">#ffff</item>-->

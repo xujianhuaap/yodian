@@ -24,7 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:background="@drawable/mini_avatar_shadow"
+            android:background="@mipmap/mini_avatar_shadow"
             android:scaleType="fitXY" />
 
         <TextView
@@ -59,7 +59,7 @@
                     android:id="@+id/chatting_video_data_area"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:background="@drawable/chat_video_mask_to"
+                    android:background="@mipmap/chat_video_mask_to"
                     android:gravity="bottom"
                     android:orientation="horizontal">
 

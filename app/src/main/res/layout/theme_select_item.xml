@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
         android:button="@null"
         android:visibility="invisible"
-        android:background="@drawable/ic_white_dot"
+        android:background="@mipmap/ic_white_dot"
         android:layout_marginRight="5dp"
         android:layout_gravity="center"/>
     <TextView

@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/top_bar_normal_bg"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical">
 
         <include layout="@layout/commom_back_btn" />
 
@@ -52,9 +52,9 @@
         android:id="@+id/rl_searched_group"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:onClick="enterToDetails"
         android:background="@drawable/mm_listitem"
-        android:visibility="gone" >
+        android:onClick="enterToDetails"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/avatar"
@@ -63,7 +63,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="11dp"
             android:scaleType="fitXY"
-            android:src="@drawable/group_icon" />
+            android:src="@mipmap/group_icon" />
 
         <TextView
             android:id="@+id/name"

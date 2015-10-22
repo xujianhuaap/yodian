@@ -13,49 +13,49 @@
 
         <ImageView
             android:id="@+id/icon"
-            app:layout_marginTopPercent="15%h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_phone" />
+            android:src="@mipmap/ic_phone"
+            app:layout_marginTopPercent="15%h" />
 
         <RelativeLayout
-            app:layout_marginTopPercent="5%h"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/auth_input_marginStart"
             android:layout_marginRight="@dimen/auth_input_marginEnd"
             android:background="#fff"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_marginTopPercent="5%h">
 
             <EditText
                 android:id="@+id/mobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:background="#0000"
                 android:layout_toLeftOf="@+id/btn_clean"
+                android:background="#0000"
                 android:gravity="center_horizontal"
                 android:hint="@string/mobile_input_empty_message"
                 android:inputType="phone"
                 android:maxLength="11"
-                android:textColorHint="@color/hint_color"
                 android:paddingLeft="@dimen/auth_input_edit_paddingStart"
                 android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                 android:singleLine="true"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/hint_color" />
 
             <ImageView
                 android:id="@+id/btn_clean"
                 android:layout_width="@dimen/auth_input_clean_size"
                 android:layout_height="@dimen/auth_input_clean_size"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
                 android:layout_marginRight="@dimen/auth_input_clean_marginRight"
                 android:layout_marginTop="@dimen/auth_input_clean_marginTop"
                 android:padding="@dimen/auth_input_clean_padding"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_clear" />
+                android:src="@mipmap/ic_clear" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -77,48 +77,48 @@
                 android:hint="@string/input_valicode_hint"
                 android:inputType="phone"
                 android:maxLength="11"
-                android:textColorHint="@color/hint_color"
                 android:paddingLeft="@dimen/auth_input_edit_paddingStart"
                 android:paddingRight="@dimen/auth_input_edit_paddingEnd"
                 android:singleLine="true"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textColorHint="@color/hint_color" />
 
             <TextView
                 android:id="@+id/btn_getcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
                 android:layout_marginRight="@dimen/auth_input_clean_marginRight"
                 android:layout_marginTop="@dimen/auth_input_clean_marginTop"
-                android:padding="@dimen/auth_input_clean_padding"
                 android:background="?attr/colorPrimary"
-                android:layout_alignParentRight="true"
-                android:text="@string/get_valicode"/>
+                android:padding="@dimen/auth_input_clean_padding"
+                android:text="@string/get_valicode" />
         </RelativeLayout>
     </com.zhy.android.percent.support.PercentLinearLayout>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/btn_back"
-        android:layout_margin="@dimen/floating_btn_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
+        android:layout_margin="@dimen/floating_btn_margin"
+        android:src="@mipmap/btn_back"
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
-        app:fab_colorRipple="@color/float_colorRipple"
-        android:src="@drawable/btn_back">
+        app:fab_colorRipple="@color/float_colorRipple">
 
     </com.melnykov.fab.FloatingActionButton>
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/btn_login"
-        android:layout_margin="@dimen/floating_btn_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
+        android:layout_margin="@dimen/floating_btn_margin"
+        android:src="@mipmap/btn_login_normal"
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
-        app:fab_colorRipple="@color/float_colorRipple"
-        android:src="@drawable/btn_login_normal">
-    </com.melnykov.fab.FloatingActionButton>
+        app:fab_colorRipple="@color/float_colorRipple" />
 </FrameLayout>

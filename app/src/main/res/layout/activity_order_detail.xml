@@ -1,148 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="orderInfo"
-            type="maimeng.yodian.app.client.android.model.OrderInfo"/>
+            type="maimeng.yodian.app.client.android.model.OrderInfo" />
     </data>
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/order_total_fee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/white"
             android:gravity="center"
             android:padding="@dimen/padding_normal"
-            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/black_deep"
-            android:background="@android:color/white"/>
+            android:textSize="@dimen/text_size_normal" />
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@android:color/white"
-            android:layout_marginTop="@dimen/margin_normal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <RelativeLayout
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
+
                 <CheckBox
                     android:id="@+id/order_status_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:scaleType="centerInside"
+                    android:background="@drawable/selector_order_pay"
                     android:button="@null"
                     android:clickable="false"
-                    android:background="@drawable/selector_order_pay"/>
+                    android:scaleType="centerInside" />
+
                 <TextView
                     android:id="@+id/order_pay_time_content"
-                    android:layout_below="@id/order_status_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/order_status_height"
-                    android:gravity="center"
+                    android:layout_below="@id/order_status_pay"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/margin_normal"
-                    android:textSize="@dimen/text_size_small"
+                    android:gravity="center"
                     android:maxLines="@integer/max_lines_two"
-                    android:text="1223"/>
+                    android:text="1223"
+                    android:textSize="@dimen/text_size_small" />
 
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_weight="1.8"
-                android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
                 android:orientation="vertical">
+
                 <CheckBox
                     android:id="@+id/order_status_accept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerInside"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/selector_order_accept"
                     android:button="@null"
                     android:clickable="false"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/selector_order_accept"/>
+                    android:scaleType="centerInside" />
+
                 <CheckBox
                     android:id="@+id/process_pay"
-                    android:clickable="false"
+                    android:layout_width="@dimen/order_process_width"
+                    android:layout_height="@dimen/order_process_height"
                     android:layout_alignBaseline="@id/order_status_accept"
                     android:layout_alignParentLeft="true"
-                    android:layout_width="@dimen/order_process_width"
-                    android:layout_height="@dimen/order_process_height"
-                    android:scaleType="fitCenter"
-                    android:button="@null"
                     android:layout_marginRight="@dimen/apply_edit_margin"
-                    android:background="@drawable/selector_order_process"/>
-                <TextView
-                    android:id="@+id/order_accept_time_content"
-                    android:layout_below="@id/order_status_accept"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/order_status_height"
-                    android:gravity="center"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/margin_normal"
-                    android:textSize="@dimen/text_size_small"
-                    android:text="1223"/>
-                <CheckBox
-                    android:id="@+id/process_accept"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignBaseline="@id/order_status_accept"
-                    android:layout_width="@dimen/order_process_width"
-                    android:layout_height="@dimen/order_process_height"
-                    android:scaleType="fitCenter"
+                    android:background="@drawable/selector_order_process"
                     android:button="@null"
                     android:clickable="false"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:id="@+id/order_accept_time_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_status_height"
+                    android:layout_below="@id/order_status_accept"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/margin_normal"
+                    android:gravity="center"
+                    android:text="1223"
+                    android:textSize="@dimen/text_size_small" />
+
+                <CheckBox
+                    android:id="@+id/process_accept"
+                    android:layout_width="@dimen/order_process_width"
+                    android:layout_height="@dimen/order_process_height"
+                    android:layout_alignBaseline="@id/order_status_accept"
+                    android:layout_alignParentRight="true"
                     android:layout_marginLeft="@dimen/apply_edit_margin"
-                    android:background="@drawable/selector_order_process"/>
+                    android:background="@drawable/selector_order_process"
+                    android:button="@null"
+                    android:clickable="false"
+                    android:scaleType="fitCenter" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
+
                 <CheckBox
                     android:id="@+id/order_status_confirm"
-                    android:clickable="false"
-                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerInside"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/selector_order_confirm"
                     android:button="@null"
-                    android:background="@drawable/selector_order_confirm"/>
+                    android:clickable="false"
+                    android:scaleType="centerInside" />
+
                 <TextView
                     android:id="@+id/order_confirm_time_content"
-                    android:layout_below="@+id/order_status_confirm"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/order_status_height"
-                    android:gravity="center"
+                    android:layout_below="@+id/order_status_confirm"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/margin_normal"
-                    android:textSize="@dimen/text_size_small"
+                    android:gravity="center"
                     android:maxLines="@integer/max_lines_two"
-                    android:text="1223"/>
+                    android:text="1223"
+                    android:textSize="@dimen/text_size_small" />
 
             </RelativeLayout>
 
 
         </LinearLayout>
+
         <RelativeLayout
-            android:background="@android:color/darker_gray"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray">
+
             <ImageView
                 android:id="@+id/order_skill_pic"
                 android:layout_width="@dimen/order_skill_pic_width"
@@ -150,91 +163,99 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/margin_normal"
                 android:scaleType="fitCenter"
-                app:imgUrl="@{orderInfo.skill.pic}"/>
+                app:imgUrl="@{orderInfo.skill.pic}" />
+
             <TextView
                 android:id="@+id/order_skill_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:maxLength="@integer/text_lenght_six"
                 android:layout_alignTop="@+id/order_skill_pic"
-                android:layout_toRightOf="@+id/order_skill_pic"
-                android:layout_marginRight="@dimen/margin_small"
                 android:layout_marginLeft="@dimen/margin_small"
-                android:textSize="@dimen/text_size_normal"
-                android:text="@{orderInfo.skill.content}" />
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_toRightOf="@+id/order_skill_pic"
+                android:maxLength="@integer/text_lenght_six"
+                android:singleLine="true"
+                android:text="@{orderInfo.skill.content}"
+                android:textSize="@dimen/text_size_normal" />
+
             <TextView
                 android:id="@+id/order_skill_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:layout_alignBottom="@+id/order_skill_pic"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_toRightOf="@+id/order_skill_pic"
+                android:layout_marginLeft="@dimen/apply_edit_margin"
                 android:layout_marginRight="@dimen/apply_edit_margin"
-                android:layout_marginLeft="@dimen/apply_edit_margin" />
+                android:layout_toRightOf="@+id/order_skill_pic"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_normal" />
+
             <TextView
                 android:id="@+id/order_operator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerInside"
-                android:gravity="center"
-                android:singleLine="true"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/apply_edit_margin"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/apply_edit_margin"
-                android:background="@drawable/ic_oval_orange"/>
+                android:layout_marginRight="@dimen/apply_edit_margin"
+                android:background="@mipmap/ic_oval_orange"
+                android:gravity="center"
+                android:scaleType="centerInside"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_normal" />
 
 
         </RelativeLayout>
+
         <TextView
             android:id="@+id/order_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/white"
             android:gravity="center_vertical"
             android:padding="@dimen/padding_normal"
-            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/black_deep"
-            android:background="@android:color/white"/>
+            android:textSize="@dimen/text_size_normal" />
+
         <TextView
             android:layout_width="match_parent"
-            android:paddingLeft="@dimen/padding_small"
-            android:paddingRight="@dimen/padding_small"
             android:layout_height="@dimen/divider_line"
-            android:background="@color/div_line"/>
+            android:background="@color/div_line"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_normal">
+
             <TextView
                 android:id="@+id/order_buyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:background="@android:color/white"
                 android:gravity="center_vertical"
-                android:textSize="@dimen/text_size_normal"
                 android:textColor="@color/black_deep"
-                android:background="@android:color/white"/>
+                android:textSize="@dimen/text_size_normal" />
 
             <ImageView
                 android:id="@+id/contact_buyer"
                 android:layout_width="@dimen/order_contact"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/apply_edit_margin"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/apply_edit_margin"
                 android:scaleType="fitXY"
-                android:textColor="@color/black_deep"
-                android:src="@drawable/ic_contact_buyer"/>
+                android:src="@mipmap/ic_contact_buyer"
+                android:textColor="@color/black_deep" />
 
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
-            android:paddingLeft="@dimen/padding_small"
-            android:paddingRight="@dimen/padding_small"
             android:layout_height="@dimen/divider_line"
-            android:background="@color/div_line"/>
+            android:background="@color/div_line"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small" />
 
     </LinearLayout>
 </layout>
