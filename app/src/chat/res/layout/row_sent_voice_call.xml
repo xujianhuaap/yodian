@@ -24,7 +24,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:background="@drawable/default_avatar"
+            android:background="@mipmap/default_avatar"
             android:scaleType="fitXY" />
 
         <RelativeLayout
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="4dp"
-                android:src="@drawable/chat_voice_call_self" />
+                android:src="@mipmap/chat_voice_call_self" />
 
             <TextView
                 android:id="@+id/tv_chatcontent"

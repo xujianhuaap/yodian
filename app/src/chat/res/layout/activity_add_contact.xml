@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
 
     <RelativeLayout
@@ -22,7 +22,7 @@
             android:layout_centerInParent="true"
             android:textColor="#fff"
             android:textSize="18sp" />
-        
+
         <Button
             android:id="@+id/search"
             android:layout_width="54dp"
@@ -41,9 +41,9 @@
         android:layout_width="match_parent"
         android:layout_height="39dp"
         android:layout_margin="10dp"
-        android:paddingLeft="5dp"
         android:background="@drawable/button_normal_shape"
         android:hint="用户名"
+        android:paddingLeft="5dp"
         android:singleLine="true"
         android:textColorHint="#b3b3b3"
         android:textSize="18sp" />
@@ -53,13 +53,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/mm_listitem"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/mm_listitem"
-            android:duplicateParentState="true" >
+            android:duplicateParentState="true">
 
             <ImageView
                 android:id="@+id/avatar"
@@ -68,7 +68,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="11dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/default_avatar" />
+                android:src="@mipmap/default_avatar" />
 
             <TextView
                 android:id="@+id/name"

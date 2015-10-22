@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#f2f0eb" >
+    android:background="#f2f0eb"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/top_bar_normal_bg"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical">
 
         <include layout="@layout/commom_back_btn" />
 
@@ -28,7 +28,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:background="@drawable/common_tab_bg"
+            android:background="@mipmap/common_tab_bg"
             android:onClick="emptyHistory" >
 
             <ImageView
@@ -38,7 +38,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="9dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/mm_title_remove" />
+                android:src="@mipmap/mm_title_remove" />
         </RelativeLayout> -->
 
         <RelativeLayout
@@ -48,7 +48,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/common_tab_bg"
             android:onClick="toGroupDetails"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/to_group_details_normal" />
+                android:src="@mipmap/to_group_details_normal" />
         </RelativeLayout>
     </RelativeLayout>
 

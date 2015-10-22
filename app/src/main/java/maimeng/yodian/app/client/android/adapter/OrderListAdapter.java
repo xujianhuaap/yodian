@@ -20,7 +20,7 @@ import maimeng.yodian.app.client.android.model.skill.Skill;
 /**
  * Created by xujianhua on 9/29/15.
  */
-public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter.ViewHolder>{
+public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapter.ViewHolder> {
     public OrderListAdapter(Context context, ViewHolderClickListener<ViewHolder> viewHolderClickListener) {
         super(context, viewHolderClickListener);
     }
@@ -51,8 +51,8 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        OrderInfo orderInfo=getItem(position);
-        Skill skill=orderInfo.getSkill();
+        OrderInfo orderInfo = getItem(position);
+        Skill skill = orderInfo.getSkill();
         holder.mBinding.setOrder(orderInfo);
         holder.mBinding.setSkill(skill);
         holder.bind(orderInfo);
@@ -60,15 +60,15 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=View.inflate(mContext, R.layout.item_order_list,null);
-        ViewGroup.LayoutParams layoutParams=view.getLayoutParams();
-        if(layoutParams==null){
-            layoutParams=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        View view = View.inflate(mContext, R.layout.item_order_list, null);
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams == null) {
+            layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
         }
-        layoutParams.width= ViewGroup.LayoutParams.MATCH_PARENT;
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
         view.setLayoutParams(layoutParams);
-        ItemOrderListBinding listBinding=DataBindingUtil.bind(view);
+        ItemOrderListBinding listBinding = DataBindingUtil.bind(view);
         return new ViewHolder(listBinding);
     }
 
@@ -77,101 +77,101 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo,OrderListAdapter
      *
      */
 
-    public final class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public final class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private OrderInfo mOrder;
         public final ItemOrderListBinding mBinding;
 
         public ViewHolder(ItemOrderListBinding listBinding) {
             super(listBinding.getRoot());
-            mBinding=listBinding;
+            mBinding = listBinding;
             mBinding.getRoot().setOnClickListener(this);
             mBinding.acceptOrder.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if(v==mBinding.getRoot()){
-                mViewHolderClickListener.onItemClick(this,getLayoutPosition());
-            }else{
-                mViewHolderClickListener.onClick(this,v,getLayoutPosition());
+            if (v == mBinding.getRoot()) {
+                mViewHolderClickListener.onItemClick(this, getLayoutPosition());
+            } else {
+                mViewHolderClickListener.onClick(this, v, getLayoutPosition());
             }
         }
 
         /****
-         *
          * @param orderInfo
          */
-        public void bind(OrderInfo orderInfo){
-            mOrder=orderInfo;
-            String status=mOrder.getStatus();
+        public void bind(OrderInfo orderInfo) {
+            mOrder = orderInfo;
+            String status = mOrder.getStatus();
 
-            if(!TextUtils.isEmpty(status)){
-                String statusStr=null;
-                String operatorStr=null;
-                switch (Integer.parseInt(status)){
+            if (!TextUtils.isEmpty(status)) {
+                String statusStr = null;
+                String operatorStr = null;
+                switch (Integer.parseInt(status)) {
                     case 0:
-                        statusStr=mContext.getString(R.string.order_status_unpay);
-                        if(!isSaled){
-                            operatorStr=mContext.getString(R.string.buyer_operator_pay);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_orange));
-                        }else {
-                           mBinding.acceptOrder.setVisibility(View.INVISIBLE);
+                        statusStr = mContext.getString(R.string.order_status_unpay);
+                        if (!isSaled) {
+                            operatorStr = mContext.getString(R.string.buyer_operator_pay);
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_orange));
+                        } else {
+                            mBinding.acceptOrder.setVisibility(View.INVISIBLE);
                         }
                         break;
                     case 1:
                         //后台预留
-                        statusStr=mContext.getString(R.string.order_status_delete);
+                        statusStr = mContext.getString(R.string.order_status_delete);
 
                         break;
                     case 2:
-                        statusStr=mContext.getString(R.string.order_status_payed);
-                        if(!isSaled){
-                            operatorStr=mContext.getString(R.string.buyer_operator_wait_accept);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_gray));
-                        }else {
-                            operatorStr=mContext.getString(R.string.seller_operator_accept);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_orange));
+                        statusStr = mContext.getString(R.string.order_status_payed);
+                        if (!isSaled) {
+                            operatorStr = mContext.getString(R.string.buyer_operator_wait_accept);
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_gray));
+                        } else {
+                            operatorStr = mContext.getString(R.string.seller_operator_accept);
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_orange));
                         }
                         break;
                     case 3:
-                        statusStr=mContext.getString(R.string.order_status_accept);
-                        if(!isSaled){
-                            operatorStr=mContext.getString(R.string.buyer_operator_wait_send);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_gray));
-                        }else {
-                            operatorStr=mContext.getString(R.string.seller_operator_send);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_orange));
+                        statusStr = mContext.getString(R.string.order_status_accept);
+                        if (!isSaled) {
+                            operatorStr = mContext.getString(R.string.buyer_operator_wait_send);
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_gray));
+                        } else {
+                            operatorStr = mContext.getString(R.string.seller_operator_send);
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_orange));
                         }
                         break;
                     case 4:
-                        statusStr=mContext.getString(R.string.order_status_send_goods);
-                        if(!isSaled){
-                            operatorStr=mContext.getString(R.string.buyer_operator_confirm);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_orange));
-                        }else {
+                        statusStr = mContext.getString(R.string.order_status_send_goods);
+                        if (!isSaled) {
+                            operatorStr = mContext.getString(R.string.buyer_operator_confirm);
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_orange));
+                        } else {
 
                             mBinding.acceptOrder.setVisibility(View.INVISIBLE);
                         }
                         break;
                     case 5:
-                        statusStr=mContext.getString(R.string.order_status_confirm_deal);
-                        operatorStr=mContext.getString(R.string.order_status_confirm_deal);
-                        mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.drawable.ic_oval_gray));
+                        statusStr = mContext.getString(R.string.order_status_confirm_deal);
+                        operatorStr = mContext.getString(R.string.order_status_confirm_deal);
+                        mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_gray));
                         break;
                     default:
-                        statusStr=null;
+                        statusStr = null;
                         break;
                 }
-                Skill skill=mOrder.getSkill();
+                Skill skill = mOrder.getSkill();
 
                 mBinding.orderStatus.setText(statusStr);
-                Spanned html=Html.fromHtml(mContext.getString(R.string.order_total_fee));
+                Spanned html = Html.fromHtml(mContext.getString(R.string.order_total_fee));
                 mBinding.orderPrice.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee,
                         mOrder.getTotal_fee())));
                 mBinding.skillPrice.setText(Html.fromHtml(mContext.getString(R.string.lable_price,
                         skill.getPrice(), skill.getUnit())));
-                SimpleDateFormat format=new SimpleDateFormat("yyyy年MM月 HH:mm");
-                String dateStr= format.format(new java.util.Date(Long.parseLong(mOrder.getCreatetime())*1000));;
+                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月 HH:mm");
+                String dateStr = format.format(new java.util.Date(Long.parseLong(mOrder.getCreatetime()) * 1000));
+                ;
                 mBinding.orderTime.setText(dateStr);
                 mBinding.acceptOrder.setText(operatorStr);
             }

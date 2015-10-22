@@ -24,7 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:src="@drawable/default_avatar"
+            android:src="@mipmap/default_avatar"
             android:scaleType="fitXY" />
 
         <ImageView
@@ -35,7 +35,7 @@
             android:layout_toRightOf="@id/iv_userhead"
             android:background="@drawable/chatfrom_bg"
             android:clickable="true"
-            android:src="@drawable/chatfrom_voice_playing" />
+            android:src="@mipmap/chatfrom_voice_playing" />
 
         <TextView
             android:id="@+id/tv_length"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/tv_length"
-            android:src="@drawable/voice_unread" />
+            android:src="@mipmap/voice_unread" />
 
         <ProgressBar
             android:id="@+id/pb_sending"

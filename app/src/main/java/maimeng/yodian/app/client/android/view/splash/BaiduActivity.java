@@ -23,7 +23,7 @@ public class BaiduActivity extends AbsSplashActivity {
 
     @Override
     protected Drawable splash() {
-        return getResources().getDrawable(R.drawable.splash_baidu);
+        return getResources().getDrawable(R.mipmap.splash_baidu);
     }
 
 }

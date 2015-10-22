@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|left"
-                android:src="@drawable/ic_msg" />
+                android:src="@mipmap/ic_msg" />
 
             <ImageView
                 android:id="@+id/miss_msg_count"
@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/margin_normal"
             android:paddingRight="@dimen/margin_normal"
-            android:src="@drawable/ic_index_pull_arrow" />
+            android:src="@mipmap/ic_index_pull_arrow" />
     </LinearLayout>
 
     <FrameLayout

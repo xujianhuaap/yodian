@@ -15,7 +15,7 @@
             android:adjustViewBounds="false"
             android:background="@drawable/round_corner"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_skill_template_add" />
+            android:src="@mipmap/ic_skill_template_add" />
 
     <TextView
         android:id="@+id/skill_name"

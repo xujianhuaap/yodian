@@ -133,7 +133,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         noSkillRmark = new FrameLayout(this);
         noSkillRmark.setPadding(0, 50, 0, 0);
         final ImageView iv = new ImageView(this);
-        iv.setImageResource(R.drawable.pic_no_skill_rmark);
+        iv.setImageResource(R.mipmap.pic_no_skill_rmark);
         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
         final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
@@ -250,7 +250,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private void setUIWhenIsMe() {
         headBinding.btnContact.setVisibility(View.GONE);
         headBinding.divinder.setVisibility(View.GONE);
-        headBinding.btnBuySkill.setCompoundDrawables(null,null,getResources().getDrawable(R.drawable.btn_ic_add),null);
+        headBinding.btnBuySkill.setCompoundDrawables(null,null,getResources().getDrawable(R.mipmap.btn_ic_add),null);
         headBinding.btnBuySkill.setText("添加日记");
     }
 
@@ -553,7 +553,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             actionBar.setDisplayHomeAsUpEnabled(true);
 //            actionBar.setDisplayUseLogoEnabled(true);
 //            actionBar.setLogo(R.drawable.ic_go_back);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
             mTitle.setTextColor(Color.WHITE);
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         }

@@ -54,7 +54,7 @@
                         android:layout_toLeftOf="@+id/bottom_div"
                         android:paddingLeft="@dimen/margin_normal"
                         android:paddingRight="@dimen/margin_normal"
-                        android:src="@drawable/btn_share" />
+                        android:src="@mipmap/btn_share" />
 
                     <View
                         android:id="@id/bottom_div"
@@ -73,7 +73,7 @@
                         android:layout_alignParentTop="true"
                         android:paddingLeft="@dimen/margin_normal"
                         android:paddingRight="@dimen/margin_normal"
-                        android:src="@drawable/btn_ic_edit_skill" />
+                        android:src="@mipmap/btn_ic_edit_skill" />
 
                 </RelativeLayout>
 
@@ -96,7 +96,7 @@
                     android:layout_marginTop="3dp"
                     android:background="#9000"
                     android:scaleType="centerInside"
-                    android:src="@drawable/pic_skill_state_xiajia"
+                    android:src="@mipmap/pic_skill_state_xiajia"
                     android:visibility="@{skill.status != 0?View.VISIBLE:View.GONE}" />
 
 

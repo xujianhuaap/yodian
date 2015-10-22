@@ -3,41 +3,42 @@
     android:layout_width="280dp"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/edit_color"
             android:padding="5dp"
             android:text="@string/prompt"
             android:textColor="#333"
-            android:visibility="visible"
-            android:background="@color/edit_color"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="visible" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_line"
-            android:background="@color/div_line"/>
+            android:background="@color/div_line" />
 
         <TextView
             android:id="@+id/alert_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:padding="5dp"
-            android:textStyle="bold"
             android:textColor="#333"
-            android:textSize="@dimen/text_size_normal" />
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold" />
 
 
         <EditText
@@ -63,8 +64,8 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center_horizontal"
-        android:weightSum="1"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:weightSum="1">
 
         <Button
             android:id="@+id/btn_positive"

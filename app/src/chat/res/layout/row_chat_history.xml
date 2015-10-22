@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:scaleType="fitXY"
-            android:src="@drawable/default_avatar" />
+            android:src="@mipmap/default_avatar" />
 
         <TextView
             android:id="@+id/unread_msg_number"
@@ -27,7 +27,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp"
             android:layout_marginTop="3dp"
-            android:background="@drawable/unread_count_bg"
+            android:background="@mipmap/unread_count_bg"
             android:gravity="center"
             android:text="7"
             android:textColor="@android:color/white"
@@ -63,7 +63,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="7dp"
         android:layout_toRightOf="@id/avatar_container"
-        android:src="@drawable/msg_state_fail_resend"
+        android:src="@mipmap/msg_state_fail_resend"
         android:visibility="gone" />
 
     <TextView

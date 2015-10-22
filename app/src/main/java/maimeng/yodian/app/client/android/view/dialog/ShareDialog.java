@@ -338,9 +338,9 @@ public class ShareDialog extends DialogFragment {
     private Bitmap getShareBitmap(int type, View shareView) {
         Bitmap QRCodeBitmap = null;
         if (type == 1) {
-            QRCodeBitmap = generatePlatformBitmap(R.drawable.ic_market_sina);
+            QRCodeBitmap = generatePlatformBitmap(R.mipmap.ic_market_sina);
         } else if (type == 2) {
-            QRCodeBitmap = generatePlatformBitmap(R.drawable.ic_market_wechat);
+            QRCodeBitmap = generatePlatformBitmap(R.mipmap.ic_market_wechat);
         }
         ImageView shareBrand = (ImageView) shareView.findViewById(R.id.share_brand);
 

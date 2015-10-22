@@ -50,7 +50,7 @@ public class ShowBigImage extends BaseActivity {
 	private static final String TAG = "ShowBigImage"; 
 	private ProgressDialog pd;
 	private PhotoView image;
-	private int default_res = R.drawable.default_image;
+	private int default_res = R.mipmap.default_image;
 	private String localFilePath;
 	private Bitmap bitmap;
 	private boolean isDownloaded;
@@ -65,7 +65,7 @@ public class ShowBigImage extends BaseActivity {
 		image = (PhotoView) findViewById(R.id.image);
 		ViewCompat.setTransitionName(image,"img");
 		loadLocalPb = (ProgressBar) findViewById(R.id.pb_load_local);
-		default_res = getIntent().getIntExtra("default_image", R.drawable.default_avatar);
+		default_res = getIntent().getIntExtra("default_image", R.mipmap.default_avatar);
 		Uri uri = getIntent().getParcelableExtra("uri");
 		String remotepath = getIntent().getExtras().getString("remotepath");
 		String secret = getIntent().getExtras().getString("secret");

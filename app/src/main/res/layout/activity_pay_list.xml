@@ -29,7 +29,7 @@
             android:gravity="center"
             android:text="@string/pay_wechat"
             android:textColor="@android:color/black"
-            android:drawableLeft="@drawable/ic_pay_wechat"
+            android:drawableLeft="@mipmap/ic_pay_wechat"
             android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>
@@ -52,7 +52,7 @@
             android:gravity="center"
             android:text="@string/pay_zhifubao"
             android:textColor="@android:color/black"
-            android:drawableLeft="@drawable/ic_pay_zhifubao"
+            android:drawableLeft="@mipmap/ic_pay_zhifubao"
             android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>
@@ -75,7 +75,7 @@
             android:gravity="center"
             android:text="@string/pay_remainer"
             android:textColor="@android:color/black"
-            android:drawableLeft="@drawable/ic_pay_remainer"
+            android:drawableLeft="@mipmap/ic_pay_remainer"
             android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>

@@ -27,7 +27,7 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/common_tab_bg"
+                android:background="@mipmap/common_tab_bg"
                 android:onClick="emptyHistory" >
     
                 <ImageView
@@ -37,7 +37,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="9dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/mm_title_remove" />
+                    android:src="@mipmap/mm_title_remove" />
             </RelativeLayout>
     
             <RelativeLayout
@@ -45,7 +45,7 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/common_tab_bg"
+                android:background="@mipmap/common_tab_bg"
                 android:onClick="toGroupDetails"
                 android:visibility="gone" >
     
@@ -55,7 +55,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@drawable/to_group_details_normal" />
+                    android:src="@mipmap/to_group_details_normal" />
             </RelativeLayout>
         </RelativeLayout>-->
 
@@ -158,7 +158,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:layout_margin="1dip"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/chatting_biaoqing_btn_normal"
+                    android:src="@mipmap/chatting_biaoqing_btn_normal"
                     android:visibility="visible" />
 
                 <ImageView
@@ -170,7 +170,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:layout_margin="1dip"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/chatting_biaoqing_btn_enable"
+                    android:src="@mipmap/chatting_biaoqing_btn_enable"
                     android:visibility="invisible" />
             </RelativeLayout>
 
@@ -282,7 +282,7 @@
                 android:layout_width="40dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/btn_show" />
+                android:src="@mipmap/btn_show" />
         </LinearLayout>
 
         <RelativeLayout
@@ -329,7 +329,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/record_animate_01" />
+                    android:src="@mipmap/record_animate_01" />
 
                 <TextView
                     android:id="@+id/recording_hint"

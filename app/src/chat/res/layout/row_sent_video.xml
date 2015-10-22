@@ -24,8 +24,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:src="@drawable/default_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@mipmap/default_avatar" />
 
         <LinearLayout
             android:id="@+id/ll_click_area"
@@ -51,7 +51,7 @@
                     android:id="@+id/chatting_video_data_area"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:background="@drawable/chat_video_mask_to"
+                    android:background="@mipmap/chat_video_mask_to"
                     android:gravity="bottom"
                     android:orientation="horizontal">
 

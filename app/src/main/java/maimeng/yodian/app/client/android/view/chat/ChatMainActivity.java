@@ -22,21 +22,21 @@ import maimeng.yodian.app.client.android.chat.AsyncContactService;
 public class ChatMainActivity extends maimeng.yodian.app.client.android.chat.activity.MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mini=true;
+        mini = true;
         startService(new Intent(this, AsyncContactService.class));
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null) {
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
 
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

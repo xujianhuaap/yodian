@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|bottom"
-                        android:src="@drawable/ic_edit_avatar"
+                        android:src="@mipmap/ic_edit_avatar"
                         android:visibility="gone" />
                 </FrameLayout>
 
@@ -95,7 +95,7 @@
                 android:background="@drawable/index_pull_item_background"
                 android:gravity="center"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_add_skill"
+                android:src="@mipmap/ic_add_skill"
                 android:textSize="16sp" />
 
 
@@ -109,7 +109,7 @@
                 android:background="@drawable/index_pull_item_background"
                 android:gravity="center"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_my_order"
+                android:src="@mipmap/ic_my_order"
                 android:textSize="16sp"
                 android:visibility="visible" />
 
@@ -124,7 +124,7 @@
                 android:background="@drawable/index_pull_item_background"
                 android:gravity="center"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_my_remainder"
+                android:src="@mipmap/ic_my_remainder"
                 android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>

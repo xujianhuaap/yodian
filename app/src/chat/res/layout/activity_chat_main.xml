@@ -3,7 +3,7 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_bg" >
+    android:background="@color/common_bg">
 
     <LinearLayout
         android:id="@+id/main_bottom"
@@ -12,13 +12,13 @@
         android:layout_alignParentBottom="true"
         android:background="@color/bottom_bar_normal_bg"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/btn_container_conversation"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <Button
                 android:id="@+id/btn_conversation"
@@ -41,7 +41,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="1dp"
-                android:background="@drawable/unread_count_bg"
+                android:background="@mipmap/unread_count_bg"
                 android:gravity="center"
                 android:text="7"
                 android:textColor="@android:color/white"
@@ -53,7 +53,7 @@
             android:id="@+id/btn_container_address_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <Button
                 android:id="@+id/btn_address_list"
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/unread_dot"
+                android:background="@mipmap/unread_dot"
                 android:visibility="visible" />
         </RelativeLayout>
 
@@ -83,7 +83,7 @@
             android:id="@+id/btn_container_setting"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <Button
                 android:id="@+id/btn_setting"

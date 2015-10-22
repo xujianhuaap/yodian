@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/show_head_toast_bg"
+            android:background="@mipmap/show_head_toast_bg"
             android:gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"

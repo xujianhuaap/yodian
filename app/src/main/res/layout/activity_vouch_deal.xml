@@ -31,7 +31,7 @@
             android:drawablePadding="@dimen/padding_small"
             android:gravity="center"
             android:textColor="@android:color/black"
-            android:drawableLeft="@drawable/ic_vouch_now"
+            android:drawableLeft="@mipmap/ic_vouch_now"
             android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>
@@ -54,7 +54,7 @@
             android:drawablePadding="@dimen/padding_small"
             android:gravity="center"
             android:textColor="@android:color/black"
-            android:drawableLeft="@drawable/ic_vouch_later"
+            android:drawableLeft="@mipmap/ic_vouch_later"
             android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>

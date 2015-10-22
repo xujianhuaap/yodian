@@ -80,7 +80,7 @@
                 android:gravity="center"
                 android:minHeight="40dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_connect_others"
+                android:src="@mipmap/ic_connect_others"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 app:layout_scrollFlags="scroll|enterAlways" />

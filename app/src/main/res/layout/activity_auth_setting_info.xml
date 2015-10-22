@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/btn_camera" />
+                android:src="@mipmap/btn_camera" />
 
             <ImageView
                 android:id="@+id/img_avatar"
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/btn_album" />
+                android:src="@mipmap/btn_album" />
         </LinearLayout>
 
         <com.zhy.android.percent.support.PercentRelativeLayout
@@ -73,7 +73,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:padding="5dp"
-                android:src="@drawable/ic_clear" />
+                android:src="@mipmap/ic_clear" />
 
         </com.zhy.android.percent.support.PercentRelativeLayout>
 
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
         android:layout_margin="@dimen/floating_btn_margin"
-        android:src="@drawable/btn_back"
+        android:src="@mipmap/btn_back"
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
         app:fab_colorRipple="@color/float_colorRipple" />
@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/floating_btn_margin"
-        android:src="@drawable/btn_submit_normal"
+        android:src="@mipmap/btn_submit_normal"
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
         app:fab_colorRipple="@color/float_colorRipple"></com.melnykov.fab.FloatingActionButton>

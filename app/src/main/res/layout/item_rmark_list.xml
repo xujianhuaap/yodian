@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:alpha="0"
-                android:src="@drawable/ic_menu_delete" />
+                android:src="@mipmap/ic_menu_delete" />
 
             <ImageView
                 android:id="@+id/btn_menu_report"
@@ -57,14 +57,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:alpha="0"
-                android:src="@drawable/ic_menu_report" />
+                android:src="@mipmap/ic_menu_report" />
 
             <ImageView
                 android:id="@+id/btn_menu_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/ic_menu_more" />
+                android:src="@mipmap/ic_menu_more" />
         </FrameLayout>
 
         <ImageView

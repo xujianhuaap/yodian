@@ -23,7 +23,7 @@ public class _360Activity extends AbsSplashActivity {
 
     @Override
     protected Drawable splash() {
-        return getResources().getDrawable(R.drawable.splash_360);
+        return getResources().getDrawable(R.mipmap.splash_360);
     }
 
 }

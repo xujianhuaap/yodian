@@ -44,7 +44,7 @@
                         android:id="@+id/btn_buy_skill"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_skill_buy"
+                        android:drawableLeft="@mipmap/ic_skill_buy"
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
                         android:gravity="center"
@@ -70,7 +70,7 @@
                         android:gravity="center"
                         android:scaleType="centerInside"
                         android:drawablePadding="@dimen/margin_small"
-                        android:drawableLeft="@drawable/ic_contact"
+                        android:drawableLeft="@mipmap/ic_contact"
                         android:text="@string/btn_contact_ta"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/btn_text_size"
@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/skill_list_item_share_margin"
-                    android:src="@drawable/btn_share" />
+                    android:src="@mipmap/btn_share" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -151,7 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:src="@drawable/pic_skill_state_xiajia"
+            android:src="@mipmap/pic_skill_state_xiajia"
             android:background="#55000000"
             android:visibility="gone"/>
 

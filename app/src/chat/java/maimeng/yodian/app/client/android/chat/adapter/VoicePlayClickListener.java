@@ -76,9 +76,9 @@ public class VoicePlayClickListener implements View.OnClickListener {
     public void stopPlayVoice() {
         voiceAnimation.stop();
         if (message.direct == EMMessage.Direct.RECEIVE) {
-            voiceIconView.setImageResource(R.drawable.chatfrom_voice_playing);
+            voiceIconView.setImageResource(R.mipmap.chatfrom_voice_playing);
         } else {
-            voiceIconView.setImageResource(R.drawable.chatto_voice_playing);
+            voiceIconView.setImageResource(R.mipmap.chatto_voice_playing);
         }
         // stop play voice
         if (mediaPlayer != null) {

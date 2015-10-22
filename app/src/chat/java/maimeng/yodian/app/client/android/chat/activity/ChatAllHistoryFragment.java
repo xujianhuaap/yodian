@@ -94,7 +94,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         ImageView noNews=(ImageView)getView().findViewById(R.id.no_news);
         if(conversationList.size()==0){
             noNews.setVisibility(View.VISIBLE);
-            noNews.setImageResource(R.drawable.ic_no_news);
+            noNews.setImageResource(R.mipmap.ic_no_news);
         }else{
             noNews.setVisibility(View.GONE);
         }

@@ -818,14 +818,14 @@ public class MessageAdapter extends BaseAdapter {
             // "it is receive msg";
             if (message.status == EMMessage.Status.INPROGRESS) {
                 // "!!!! back receive";
-                holder.iv.setImageResource(R.drawable.default_image);
+                holder.iv.setImageResource(R.mipmap.default_image);
                 showDownloadImageProgress(message, holder);
                 // downloadImage(message, holder);
             } else {
                 // "!!!! not back receive, show image directly");
                 holder.pb.setVisibility(View.GONE);
                 holder.tv.setVisibility(View.GONE);
-                holder.iv.setImageResource(R.drawable.default_image);
+                holder.iv.setImageResource(R.mipmap.default_image);
                 ImageMessageBody imgBody = (ImageMessageBody) message.getBody();
                 if (imgBody.getLocalUrl() != null) {
                     // String filePath = imgBody.getLocalUrl();
@@ -944,7 +944,7 @@ public class MessageAdapter extends BaseAdapter {
             String time = DateUtils.toTimeBySecond(videoBody.getLength());
             holder.timeLength.setText(time);
         }
-        holder.playBtn.setImageResource(R.drawable.video_download_btn_nor);
+        holder.playBtn.setImageResource(R.mipmap.video_download_btn_nor);
 
         if (message.direct == EMMessage.Direct.RECEIVE) {
             if (videoBody.getVideoFileLength() > 0) {
@@ -963,12 +963,12 @@ public class MessageAdapter extends BaseAdapter {
             // System.err.println("it is receive msg");
             if (message.status == EMMessage.Status.INPROGRESS) {
                 // System.err.println("!!!! back receive");
-                holder.iv.setImageResource(R.drawable.default_image);
+                holder.iv.setImageResource(R.mipmap.default_image);
                 showDownloadImageProgress(message, holder);
 
             } else {
                 // System.err.println("!!!! not back receive, show image directly");
-                holder.iv.setImageResource(R.drawable.default_image);
+                holder.iv.setImageResource(R.mipmap.default_image);
                 if (localThumb != null) {
                     showVideoThumbView(localThumb, holder.iv, videoBody.getThumbnailUrl(), message);
                 }
@@ -1079,9 +1079,9 @@ public class MessageAdapter extends BaseAdapter {
             voiceAnimation.start();
         } else {
             if (message.direct == EMMessage.Direct.RECEIVE) {
-                holder.iv.setImageResource(R.drawable.chatfrom_voice_playing);
+                holder.iv.setImageResource(R.mipmap.chatfrom_voice_playing);
             } else {
-                holder.iv.setImageResource(R.drawable.chatto_voice_playing);
+                holder.iv.setImageResource(R.mipmap.chatto_voice_playing);
             }
         }
 

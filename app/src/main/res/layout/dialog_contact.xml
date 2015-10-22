@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:drawableLeft="@drawable/ic_ok"
+        android:drawableLeft="@mipmap/ic_ok"
         android:textSize="18sp"/>
     <TextView
         android:layout_gravity="center"
@@ -37,14 +37,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_enter_wechat"/>
+            android:src="@mipmap/ic_enter_wechat"/>
 
         <ImageView
             android:id="@+id/btn_wechat_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_wechat_close"/>
+            android:src="@mipmap/ic_wechat_close"/>
 
 
     </LinearLayout>

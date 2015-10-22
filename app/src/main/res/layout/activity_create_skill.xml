@@ -67,7 +67,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:src="@drawable/btn_camera" />
+                            android:src="@mipmap/btn_camera" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:src="@drawable/btn_album" />
+                            android:src="@mipmap/btn_album" />
                     </LinearLayout>
                 </FrameLayout>
 
@@ -184,32 +184,35 @@
                         android:singleLine="true"
                         android:text="@{template.unit}"
                         android:textColor="#000"
-                        android:textColorHint="#55000000"/>
+                        android:textColorHint="#55000000" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="@dimen/margin_Xlarge"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/hint_color"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:textSize="@dimen/text_size_normal"
                         android:padding="@dimen/padding_normal"
-                        android:text="@string/pay_online_pay"/>
+                        android:text="@string/pay_online_pay"
+                        android:textColor="@color/hint_color"
+                        android:textSize="@dimen/text_size_normal" />
+
                     <ToggleButton
                         android:id="@+id/onLinePay"
                         android:layout_width="@dimen/btn_width"
                         android:layout_height="@dimen/btn_height"
                         android:layout_margin="@dimen/margin_normal"
-                        android:padding="@dimen/padding_normal"
-                        android:button="@null"/>
+                        android:button="@null"
+                        android:padding="@dimen/padding_normal" />
 
                 </LinearLayout>
             </com.zhy.android.percent.support.PercentLinearLayout>
@@ -221,7 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left|bottom"
             android:layout_margin="@dimen/floating_btn_margin"
-            android:src="@drawable/btn_back"
+            android:src="@mipmap/btn_back"
             app:fab_colorNormal="@color/float_colorNormal"
             app:fab_colorPressed="@color/float_colorPressed"
             app:fab_colorRipple="@color/float_colorRipple">
@@ -234,7 +237,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_margin="@dimen/floating_btn_margin"
-            android:src="@drawable/btn_submit_normal"
+            android:src="@mipmap/btn_submit_normal"
             app:fab_colorNormal="@color/float_colorNormal"
             app:fab_colorPressed="@color/float_colorPressed"
             app:fab_colorRipple="@color/float_colorRipple" />

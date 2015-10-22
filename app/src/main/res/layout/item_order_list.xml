@@ -163,7 +163,7 @@
                 android:layout_marginRight="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:background="@drawable/ic_oval_orange"
+                android:background="@mipmap/ic_oval_orange"
                 android:text="@string/order_item_bnt_accept"/>
 
 

@@ -44,9 +44,9 @@ public class OrderDetailActivity extends AbstractActivity {
     private OrderService mService;
 
 
-    public static void show(Context context,OrderInfo orderInfo,boolean isSaled){
-        Intent intent=new Intent(context,OrderDetailActivity.class);
-        intent.putExtra("orderInfo",orderInfo);
+    public static void show(Context context, OrderInfo orderInfo, boolean isSaled) {
+        Intent intent = new Intent(context, OrderDetailActivity.class);
+        intent.putExtra("orderInfo", orderInfo);
         intent.putExtra("isSaled", isSaled);
         context.startActivity(intent);
     }
@@ -58,13 +58,13 @@ public class OrderDetailActivity extends AbstractActivity {
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -73,30 +73,30 @@ public class OrderDetailActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding= bindView( R.layout.activity_order_detail);
-        final OrderInfo info=getIntent().getParcelableExtra("orderInfo");
-        final boolean isSaled=getIntent().getBooleanExtra("isSaled",false);
+        mBinding = bindView(R.layout.activity_order_detail);
+        final OrderInfo info = getIntent().getParcelableExtra("orderInfo");
+        final boolean isSaled = getIntent().getBooleanExtra("isSaled", false);
         mBinding.setOrderInfo(info);
-        
-        if(isSaled){
-            mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_buyer_name,info.getBuyer().getNickname())));
-            mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_saled_total_fee ,info.getTotal_fee())));
-        }else{
-            mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_seller_name,info.getSkill().getNickname())));
-            mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_buyed_total_fee,info.getTotal_fee())));
+
+        if (isSaled) {
+            mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_buyer_name, info.getBuyer().getNickname())));
+            mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_saled_total_fee, info.getTotal_fee())));
+        } else {
+            mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_seller_name, info.getSkill().getNickname())));
+            mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_buyed_total_fee, info.getTotal_fee())));
         }
 
-        final int status=Integer.parseInt(info.getStatus());
-        LogUtil.d("ceshi","status"+status);
-        String operatorStr=null;
-        switch (status){
+        final int status = Integer.parseInt(info.getStatus());
+        LogUtil.d("ceshi", "status" + status);
+        String operatorStr = null;
+        switch (status) {
 
             case 0:
                 //未支付
-                if(!isSaled){
-                    operatorStr=getString(R.string.buyer_operator_pay);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.ic_oval_orange));
-                }else {
+                if (!isSaled) {
+                    operatorStr = getString(R.string.buyer_operator_pay);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_orange));
+                } else {
                     mBinding.orderOperator.setVisibility(View.INVISIBLE);
                 }
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
@@ -108,12 +108,12 @@ public class OrderDetailActivity extends AbstractActivity {
                 break;
             case 2:
                 //支付
-                if(!isSaled){
-                    operatorStr=getString(R.string.buyer_operator_wait_accept);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.ic_oval_gray));
-                }else {
-                    operatorStr=getString(R.string.seller_operator_accept);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.ic_oval_orange));
+                if (!isSaled) {
+                    operatorStr = getString(R.string.buyer_operator_wait_accept);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_gray));
+                } else {
+                    operatorStr = getString(R.string.seller_operator_accept);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_orange));
                 }
                 mBinding.orderStatusPay.setChecked(true);
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time, formatDate(info.getPay_time()))));
@@ -122,12 +122,12 @@ public class OrderDetailActivity extends AbstractActivity {
                 break;
             case 3:
                 //已经接单
-                if(!isSaled){
-                    operatorStr=getString(R.string.buyer_operator_wait_send);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.ic_oval_gray));
-                }else {
-                    operatorStr=getString(R.string.seller_operator_send);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.ic_oval_orange));
+                if (!isSaled) {
+                    operatorStr = getString(R.string.buyer_operator_wait_send);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_gray));
+                } else {
+                    operatorStr = getString(R.string.seller_operator_send);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_orange));
                 }
                 mBinding.processPay.setChecked(true);
                 mBinding.orderStatusPay.setChecked(true);
@@ -138,10 +138,10 @@ public class OrderDetailActivity extends AbstractActivity {
                 break;
             case 4:
                 //已经o发货
-                if(!isSaled){
-                    operatorStr=getString(R.string.buyer_operator_confirm);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.ic_oval_orange));
-                }else {
+                if (!isSaled) {
+                    operatorStr = getString(R.string.buyer_operator_confirm);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_orange));
+                } else {
 
                     mBinding.orderOperator.setVisibility(View.INVISIBLE);
                 }
@@ -155,8 +155,8 @@ public class OrderDetailActivity extends AbstractActivity {
                 break;
             case 5:
                 //交易完成
-                operatorStr=getString(R.string.order_status_confirm_deal);
-                mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.ic_oval_gray));
+                operatorStr = getString(R.string.order_status_confirm_deal);
+                mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_gray));
                 mBinding.processPay.setChecked(true);
                 mBinding.processAccept.setChecked(true);
                 mBinding.orderStatusConfirm.setChecked(true);
@@ -170,11 +170,10 @@ public class OrderDetailActivity extends AbstractActivity {
                 break;
 
 
-
         }
         mBinding.orderOperator.setText(operatorStr);
-        mBinding.orderNumber.setText(Html.fromHtml(getResources().getString(R.string.order_number,info.getNumber())));
-        mBinding.orderSkillPrice.setText(Html.fromHtml(getResources().getString(R.string.order_skill_price,info.getSkill().getPrice(),info.getSkill().getUnit())));
+        mBinding.orderNumber.setText(Html.fromHtml(getResources().getString(R.string.order_number, info.getNumber())));
+        mBinding.orderSkillPrice.setText(Html.fromHtml(getResources().getString(R.string.order_skill_price, info.getSkill().getPrice(), info.getSkill().getUnit())));
         mBinding.orderOperator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,7 +192,7 @@ public class OrderDetailActivity extends AbstractActivity {
                     //购买订单
                     if (status == 0) {
                         //支付
-                        PayWrapperActivity.show(OrderDetailActivity.this,info);
+                        PayWrapperActivity.show(OrderDetailActivity.this, info);
                     } else if (status == 4) {
                         //确认发货
                         mService.confirmOrder(oid, proxy);
@@ -203,12 +202,12 @@ public class OrderDetailActivity extends AbstractActivity {
 
             }
         });
-        
+
         mBinding.contactBuyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //联系买家或者卖家
-                Skill skill =info.getSkill();
+                Skill skill = info.getSkill();
                 Intent intent = new Intent(OrderDetailActivity.this, ChatActivity.class);
                 intent.putExtra("skill", skill);
                 intent.putExtra("uid", skill.getUid());
@@ -247,8 +246,8 @@ public class OrderDetailActivity extends AbstractActivity {
                 }
             }
         });
-    
-        mService= Network.getService(OrderService.class);
+
+        mService = Network.getService(OrderService.class);
     }
 
     /***
@@ -262,7 +261,7 @@ public class OrderDetailActivity extends AbstractActivity {
 
         @Override
         public void success(ToastResponse toastResponse, Response response) {
-            if(toastResponse.getCode()==20000){
+            if (toastResponse.getCode() == 20000) {
                 Toast.makeText(OrderDetailActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
             }
 
@@ -275,17 +274,16 @@ public class OrderDetailActivity extends AbstractActivity {
 
         @Override
         public void end() {
-      
+
         }
     }
 
     /***
-     * 
      * @param time
      * @return
      */
     private String formatDate(String time) {
-        SimpleDateFormat format=new SimpleDateFormat("MM-dd HH:mm");
-        return  format.format(new Date(Long.parseLong(time)*1000));
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+        return format.format(new Date(Long.parseLong(time) * 1000));
     }
 }

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_logo_banner"
+        android:src="@mipmap/ic_logo_banner"
         app:layout_marginTopPercent="15%h" />
 
     <ImageView
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/btn_login_wechat"
+        android:src="@mipmap/btn_login_wechat"
         app:layout_marginTopPercent="10%h" />
 
     <ImageView
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/btn_login_weibo"
+        android:src="@mipmap/btn_login_weibo"
         app:layout_marginPercent="5%h" />
 
     <RelativeLayout
@@ -53,6 +53,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/btn_login_phone" />
+            android:src="@mipmap/btn_login_phone" />
     </RelativeLayout>
 </com.zhy.android.percent.support.PercentLinearLayout>
