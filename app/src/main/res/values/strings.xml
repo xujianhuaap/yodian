@@ -93,6 +93,8 @@
     <string name="skill_preview_add_skill">添加技能</string>
     <string name="skill_date_format">MM-dd HH:mm</string>
 
+    <string name="skill_detail_activity_title">技能详情</string>
+
 
     <!--余额-->
 
