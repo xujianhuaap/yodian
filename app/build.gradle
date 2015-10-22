@@ -45,13 +45,14 @@ android {
         }
     }
     defaultConfig {
+        applicationId "maimeng.yodian.app.client.android"
         buildConfigField "String", "REDIRECT_URL", APP_REDIRECT_URL
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "unspecified", CHANNEL_ID: -1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 22//适配Android6.0之前，这里不要修改
-        versionCode 1032
-        versionName "1.0.3"
+        versionCode 1060
+        versionName "1.0.6"
         buildConfigField "String", "WEIXIN_APP_KEY", APP_WEIXIN_APP_KEY
         buildConfigField "String", "WEIXIN_APP_SECRET", APP_WEIXIN_APP_SECRET
         buildConfigField "String", "WEIBO_APP_KEY", APP_WEIBO_APP_KEY
@@ -106,12 +107,12 @@ dependencies {
     /**
      * Android Support Libraries
      */
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:gridlayout-v7:23.0.1'
-    compile 'com.android.support:cardview-v7:23.0.1'
-    compile 'com.android.support:palette-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
-    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:gridlayout-v7:23.1.0'
+    compile 'com.android.support:cardview-v7:23.1.0'
+    compile 'com.android.support:palette-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
 
     /**
      * Image Loader Libraries

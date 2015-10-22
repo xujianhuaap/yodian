@@ -17,8 +17,11 @@ import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.melnykov.fab.FloatingActionButton;
 
+import org.henjue.library.hnet.exception.HNetError;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.user.User;
+import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 
@@ -161,6 +164,10 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
         final T view = DataBindingUtil.inflate(getLayoutInflater(), layoutId, null, false);
         setContentView(view.getRoot());
         return view;
+    }
+
+    protected void checkError(HNetError error) {
+        ErrorUtils.checkError(this, error);
     }
 
     /**

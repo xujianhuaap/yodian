@@ -112,7 +112,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         if (v == binding.btnRemainder) {
             startActivityForResult(new Intent(this, RemainderInfoActivity.class).putExtra(RemainderInfoActivity.KEY_REMAINDER, binding.getRemainder()), REQUEST_SHOW_DURING);
         } else if (v == binding.btnRemaindered) {
-            startActivity(new Intent(this, WDListHistoryActivity.class));
+            startActivity(new Intent(this, WDListHistoryActivity.class).putExtra("mony", binding.getRemainder().getWithdraw()));
         } else if (v == binding.btnBindBank) {
             if (binding.getRemainder().getCardStatus() == BindStatus.NO_CARD) {
                 startActivity(new Intent(this, BindBankActivity.class));

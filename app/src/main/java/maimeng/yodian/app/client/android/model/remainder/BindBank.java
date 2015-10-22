@@ -104,7 +104,8 @@ public class BindBank {
     private long bankId;
     @SerializedName("bankname")
     private String bankName;
-    private String number = "6214830296846172";
+    //    private String number = "6214830296846172";
+    private String number = "";
     @SerializedName("sub_branch_name")
     private String branch;
     private String number2;

@@ -40,7 +40,6 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.BankListResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.BankService;
-import maimeng.yodian.app.client.android.utils.bank.checkBankCard;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 
 /**
@@ -277,10 +276,6 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
         number = number.replaceAll(" ", "");
         if (number.length() != 16 && number.length() != 19) {
             toast("银行卡位数无效");
-            return false;
-        }
-        if (!checkBankCard.checkBankCard(number)) {
-            toast("银行卡输入无效");
             return false;
         }
         String number2 = bank.getNumber2();
