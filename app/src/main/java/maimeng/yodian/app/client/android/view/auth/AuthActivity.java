@@ -38,7 +38,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mMobile;
     private WaitDialog dialog;
     private Handler mHanlder;
-    private int mTotalTime=0;
+    private int mTotalTime = 0;
     private TextView mCode;
     private EditText mValidateCode;
 
@@ -47,12 +47,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         service = Network.getService(AuthService.class);
         setContentView(R.layout.activity_auth);
-        ViewCompat.setTransitionName(findViewById(R.id.icon),"icon");
+        ViewCompat.setTransitionName(findViewById(R.id.icon), "icon");
         mMobile = (EditText) findViewById(R.id.mobile);
 //        setTitle("登录");
         mBtnLogin = findViewById(R.id.btn_login);
         mValidateCode = ((EditText) findViewById(R.id.code));
-        mCode = (TextView)findViewById(R.id.btn_getcode);
+        mCode = (TextView) findViewById(R.id.btn_getcode);
         mCode.setOnClickListener(this);
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
@@ -68,12 +68,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        mHanlder = new Handler(){
+        mHanlder = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 mCode.setText((mTotalTime - msg.arg1) + "");
-                mTotalTime=-msg.arg1;
+                mTotalTime = -msg.arg1;
             }
         };
     }
@@ -94,21 +94,21 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void success(ToastResponse toastResponse, Response response) {
-                        LogUtil.d(AuthActivity.class.getName(),"response"+response);
-                        if(toastResponse.isSuccess()){
+                        LogUtil.d(AuthActivity.class.getName(), "response" + response);
+                        if (toastResponse.isSuccess()) {
                             mHanlder.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mCode.setText("剩余"+(60-mTotalTime)+"秒");
+                                    mCode.setText("剩余" + (60 - mTotalTime) + "秒");
                                     mTotalTime++;
-                                    if(mTotalTime<60){
-                                        mHanlder.postDelayed(this,1000);
-                                    }else {
+                                    if (mTotalTime < 60) {
+                                        mHanlder.postDelayed(this, 1000);
+                                    } else {
                                         mCode.setText("获取验证码");
-                                        mTotalTime=0;
+                                        mTotalTime = 0;
                                     }
                                 }
-                            },1000);
+                            }, 1000);
 
                         }
                     }
@@ -125,15 +125,16 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 });
             } else if (v.getId() == R.id.btn_login) {
 
-                if(TextUtils.isEmpty(mValidateCode.getText())){
-                    Toast.makeText(this,R.string.code_input_empty_message,Toast.LENGTH_SHORT).show();
-                }else {
+                if (TextUtils.isEmpty(mValidateCode.getText())) {
+                    Toast.makeText(this, R.string.code_input_empty_message, Toast.LENGTH_SHORT).show();
+                } else {
                     String device_token = UmengRegistrar.getRegistrationId(this);
-                    service.login(text.toString(), mValidateCode.toString(),device_token, this);
+                    service.login(text.toString(), mValidateCode.getText().toString(), device_token, this)
+                    ;
                 }
             }
         } else {
-            Toast.makeText(this,R.string.mobile_input_empty_message,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.mobile_input_empty_message, Toast.LENGTH_SHORT).show();
         }
 
     }

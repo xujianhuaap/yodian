@@ -104,10 +104,12 @@ public class BindBank {
     private long bankId;
     @SerializedName("bankname")
     private String bankName;
-    private String number = "6214830296846172";
+    //    private String number = "6214830296846172";
+    @SerializedName("card_no")
+    private String number = "";
     @SerializedName("sub_branch_name")
     private String branch;
-    private String number2;
+    private String number2;//添加银行卡绑定的时候第二遍输入银行卡号
     @SerializedName("real_name")
     private String username;
     @SerializedName("certif_no")

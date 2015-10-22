@@ -8,10 +8,43 @@
             type="maimeng.yodian.app.client.android.model.remainder.WDModel" />
     </data>
 
+    <!--@string/withdraw_lb-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/wdlist_history_top_bg"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/normal_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/withdraw_lb" />
+
+            <TextView
+                android:id="@+id/money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123.07"
+                android:textColor="@color/btn_login_normal"
+                android:textSize="@dimen/remainder_text_size"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/history_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#eeee" />
     </LinearLayout>
 </layout>

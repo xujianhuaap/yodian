@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{remainder.money}"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/btn_login_normal"
                     android:textSize="@dimen/remainder_text_size"
                     android:textStyle="bold" />
 

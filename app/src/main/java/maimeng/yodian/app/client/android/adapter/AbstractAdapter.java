@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.adapter;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @param <IT> 数据类型，JavaBean
  * @param <VH> ViewHolder
  */
-public abstract class   AbstractAdapter<IT, VH extends RecyclerView.ViewHolder > extends RecyclerView.Adapter<VH> {
+public abstract class AbstractAdapter<IT, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     protected final ViewHolderClickListener<VH> mViewHolderClickListener;
     protected final Context mContext;
 
@@ -21,14 +22,14 @@ public abstract class   AbstractAdapter<IT, VH extends RecyclerView.ViewHolder >
         notifyItemRemoved(position);
     }
 
-    public void remove(int postion){
+    public void remove(int postion) {
         this.datas.remove(postion);
         notifyItemRemoved(postion);
     }
 
-    public void update(int position,IT item){
+    public void update(int position, IT item) {
         this.datas.remove(position);
-        this.datas.add(position,item);
+        this.datas.add(position, item);
         notifyDataSetChanged();
     }
 
@@ -42,7 +43,6 @@ public abstract class   AbstractAdapter<IT, VH extends RecyclerView.ViewHolder >
 
         void onClick(VH holder, View clickItem, int postion);
     }
-
 
     public AbstractAdapter(Context context, ViewHolderClickListener<VH> viewHolderClickListener) {
         this.mViewHolderClickListener = viewHolderClickListener;
@@ -58,8 +58,8 @@ public abstract class   AbstractAdapter<IT, VH extends RecyclerView.ViewHolder >
     }
 
 
-
     protected final ArrayList<IT> datas = new ArrayList<>();
+
     public void reload(final List<IT> datas, boolean append) {
         if (!append) {
             this.datas.clear();
@@ -84,5 +84,16 @@ public abstract class   AbstractAdapter<IT, VH extends RecyclerView.ViewHolder >
 
     public final IT getItem(int position) {
         return datas.get(position);
+    }
+
+    public abstract static class BindViewHolder<IT, BIND extends ViewDataBinding> extends RecyclerView.ViewHolder {
+        protected final BIND binding;
+
+        public BindViewHolder(BIND t) {
+            super(t.getRoot());
+            this.binding = t;
+        }
+
+        public abstract void bind(IT item);
     }
 }

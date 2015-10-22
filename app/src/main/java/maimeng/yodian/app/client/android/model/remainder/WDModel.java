@@ -20,7 +20,7 @@ public class WDModel implements Parcelable {
     private String why_id;
     private String backwhy;
     private String audit_time;
-    private String status;
+    private int status;
     private Date createtime;
 
     public long getId() {
@@ -95,11 +95,11 @@ public class WDModel implements Parcelable {
         this.audit_time = audit_time;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -127,7 +127,7 @@ public class WDModel implements Parcelable {
         dest.writeString(this.why_id);
         dest.writeString(this.backwhy);
         dest.writeString(this.audit_time);
-        dest.writeString(this.status);
+        dest.writeInt(this.status);
         dest.writeLong(createtime != null ? createtime.getTime() : -1);
     }
 
@@ -144,7 +144,7 @@ public class WDModel implements Parcelable {
         this.why_id = in.readString();
         this.backwhy = in.readString();
         this.audit_time = in.readString();
-        this.status = in.readString();
+        this.status = in.readInt();
         long tmpCreatetime = in.readLong();
         this.createtime = tmpCreatetime == -1 ? null : new Date(tmpCreatetime);
     }

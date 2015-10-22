@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.databinding.RmarkListItemBinding;
+import maimeng.yodian.app.client.android.databinding.ItemRmarkListBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPreviewDiaryBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -76,7 +76,7 @@ public class RmarkReviewListAdapter extends AbstractHeaderAdapter<Rmark, RmarkRe
             HeaderViewHolder viewHolder = new HeaderViewHolder(headerBinding);
             return viewHolder;
         } else {
-            RmarkListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.rmark_list_item, parent, false);
+            ItemRmarkListBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_rmark_list, parent, false);
             return new NormalViewHolder(binding);
         }
 
@@ -108,7 +108,7 @@ public class RmarkReviewListAdapter extends AbstractHeaderAdapter<Rmark, RmarkRe
     }
 
     public final class NormalViewHolder extends ViewHolder implements View.OnClickListener {
-        public final RmarkListItemBinding binding;
+        public final ItemRmarkListBinding binding;
         private final PropertyValuesHolder alpha2;
         private final PropertyValuesHolder translation2;
         private final PropertyValuesHolder translation;
@@ -117,7 +117,7 @@ public class RmarkReviewListAdapter extends AbstractHeaderAdapter<Rmark, RmarkRe
         ObjectAnimator close;
         boolean opened = false;
 
-        public NormalViewHolder(RmarkListItemBinding binding) {
+        public NormalViewHolder(ItemRmarkListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.pic.getLayoutParams();
