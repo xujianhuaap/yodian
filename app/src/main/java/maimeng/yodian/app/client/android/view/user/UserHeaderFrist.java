@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderUserFristBinding;
 import maimeng.yodian.app.client.android.model.user.User;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.PreviewActivity;
@@ -62,6 +63,7 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mHeaderBinding.userAvatar.setOnClickListener(this);
+        LogUtil.d(UserHeaderFrist.class.getName(),"");
         //我的订单 我的余额 添加技能
         mHeaderBinding.myOrder.setOnClickListener(this);
         mHeaderBinding.myRemainder.setOnClickListener(this);

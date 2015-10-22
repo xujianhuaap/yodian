@@ -9,17 +9,21 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -67,6 +71,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.PayWrapperActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -76,7 +81,7 @@ import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 /**
  * Created by android on 2015/7/22.
  */
-public class SkillDetailsActivity extends AppCompatActivity implements PtrHandler, AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>, AbstractHeaderAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener, RmarkListAdapter.ActionListener {
+public class SkillDetailsActivity extends AbstractActivity implements PtrHandler, AppBarLayout.OnOffsetChangedListener, Callback<RmarkListResponse>, AbstractHeaderAdapter.ViewHolderClickListener<RmarkListAdapter.ViewHolder>, View.OnClickListener, RmarkListAdapter.ActionListener {
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
     private static final int REQEUST_RMARK_ADD = 0x1001;
     private static final int REQEUST_RMARK_AUTH = 0x1002;
@@ -138,22 +143,10 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         mSmoothInterpolator = new LinearInterpolator();
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.skill_detail_head_height);
         mMinHeaderTranslation = -mHeaderHeight + getTitleBarHeight();
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_skill_details);
-        binding.btnContect.setText("");
-        ViewCompat.setTransitionName(binding.btnBack, "back");
-//        ViewCompat.setTransitionName(headBinding.pic, "pic");
-//        ViewCompat.setTransitionName(headBinding.userNickname, "nick");
-//        ViewCompat.setTransitionName(headBinding.userAvatar, "avatar");
-        binding.btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(SkillDetailsActivity.this);
-            }
-        });
-        binding.headerLogoBg.setOnClickListener(this);
-        binding.headerLogo.setOnClickListener(this);
-
+        binding = DataBindingUtil.inflate(getLayoutInflater(),R.layout.activity_skill_details,null,false);
+        setContentView(binding.getRoot());
         headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, binding.recyclerView, false);
+        ViewCompat.setTransitionName(headBinding.btnBuySkill, "back");
         headBinding.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,12 +157,13 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             @Override
             public void onClick(View v) {
                 if (!isMe) {
-                    UserHomeActivity.show(SkillDetailsActivity.this, skill.getUid(), defaultAvatar, skill.getNickname(), binding.btnBack, null,
+                    UserHomeActivity.show(SkillDetailsActivity.this, skill.getUid(), defaultAvatar, skill.getNickname(), headBinding.btnBuySkill, null,
                             headBinding.userNickname);
                 }
 
             }
         });
+        headBinding.btnContact.setOnClickListener(this);
         mPlaceHolderView = headBinding.getRoot();
         binding.recyclerView.addHeaderView(mPlaceHolderView);
         adapter = new RmarkListAdapter(this, this);
@@ -177,16 +171,6 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
         StoreHouseHeader header = PullHeadView.create(this);
         binding.refreshLayout.addPtrUIHandler(header);
         binding.refreshLayout.setHeaderView(header);
-        final ObjectAnimator colorAnimator = ObjectAnimator.ofObject(binding.price, "textColor", new ArgbEvaluator(), getResources().getColor(R.color.colorPrimaryDark), getResources().getColor(android.R.color.white));
-        colorAnimator.setDuration(10000);
-        colorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int color = (Integer) animation.getAnimatedValue();
-                binding.price.setTextColor(color);
-
-            }
-        });
         binding.refreshLayout.addPtrUIHandler(new PtrUIHandler() {
             @Override
             public void onUIReset(PtrFrameLayout ptrFrameLayout) {
@@ -213,52 +197,9 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 float currentPercent = Math.min(1.0F, ptrIndicator.getCurrentPercent());
                 int posY = ptrIndicator.getCurrentPosY();
                 LogUtil.i("mRefreshLayout", "posY:%d", posY);
-                binding.header.setTranslationY(posY);
             }
         });
         binding.recyclerView.setAdapter(adapter);
-
-        //mListView.setOnScrollListener();
-
-        binding.btnBack.attachToListView(binding.recyclerView, new ScrollDirectionListener() {
-            @Override
-            public void onScrollDown() {
-                binding.btnBack.show();
-            }
-
-            @Override
-            public void onScrollUp() {
-                binding.btnBack.hide();
-            }
-        }, new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int scrollY = getScrollY();
-                //sticky titleBar
-                int translationY = Math.max(-scrollY, mMinHeaderTranslation);
-                binding.header.setTranslationY(translationY);
-                //header_logo --> actionbar icon
-                float ratio = clamp(binding.header.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
-                colorAnimator.setCurrentPlayTime((long) (ratio * 10000));//文字颜色渐变
-                //binding.headerLogo.setAlpha(1f - ratio);
-                binding.titleContainar.setAlpha(ratio * 0.85f);//控制title栏的透明度
-                if (inited) binding.headerLogoBg.setAlpha(1f - ratio);
-                float interpolation = mSmoothInterpolator.getInterpolation(ratio);
-                interpolate(binding.headerLogo, binding.logo, interpolation);
-                interpolate(binding.price, binding.titlePrice, interpolation);
-                //titleBar title alpha
-                //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-                //---------------------------------
-                //better way thanks to @cyrilmottier
-                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-            }
-        });
-
-
         if (getIntent().hasExtra("skill")) {
             Skill skill = getIntent().getParcelableExtra("skill");
             ImageBindable imageBindable = skill.getAvatar80();
@@ -289,13 +230,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             sid = skill.getId();
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
-                binding.headerLogoImg.setImageResource(R.drawable.btn_ic_add);
-                binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_add);
-                binding.btnContect.setText("添加日记");
-            } else {
-                binding.headerLogoImg.setImageResource(R.drawable.btn_ic_wechat);
-                binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_wechat);
-                binding.btnContect.setText(R.string.btn_contact_ta);
+                setUIWhenIsMe();
             }
             binding.refreshLayout.autoRefresh();
             if (android.os.Build.VERSION.SDK_INT >= 21) {
@@ -306,12 +241,17 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             binding.refreshLayout.autoRefresh();
         }
 
-        binding.btnBuySkill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PayWrapperActivity.show(SkillDetailsActivity.this,skill);
-            }
-        });
+        headBinding.btnBuySkill.setOnClickListener(this);
+    }
+
+    /***
+     *
+     */
+    private void setUIWhenIsMe() {
+        headBinding.btnContact.setVisibility(View.GONE);
+        headBinding.divinder.setVisibility(View.GONE);
+        headBinding.btnBuySkill.setCompoundDrawables(null,null,getResources().getDrawable(R.drawable.btn_ic_add),null);
+        headBinding.btnBuySkill.setText("添加日记");
     }
 
     @Override
@@ -323,31 +263,13 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
     }
 
 
-    private void setTitleAlpha(float alpha) {
-        findViewById(R.id.btn_contect_circle).setAlpha(alpha);
-    }
 
     private RectF getOnScreenRect(RectF rect, View view) {
         rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
         return rect;
     }
 
-    private void interpolate(View start, View end, float interpolation) {
-        RectF mRect1 = new RectF();
-        RectF mRect2 = new RectF();
-        getOnScreenRect(mRect1, start);
-        getOnScreenRect(mRect2, end);
 
-        float scaleX = 1.0F + interpolation * (mRect2.width() / mRect1.width() - 1.0F);
-        float scaleY = 1.0F + interpolation * (mRect2.height() / mRect1.height() - 1.0F);
-        float translationX = 0.5F * (interpolation * (mRect2.left + mRect2.right - mRect1.left - mRect1.right));
-        float translationY = 0.5F * (interpolation * (mRect2.top + mRect2.bottom - mRect1.top - mRect1.bottom));
-
-        start.setTranslationX(translationX);
-        start.setTranslationY(translationY - binding.header.getTranslationY());
-        start.setScaleX(scaleX);
-        start.setScaleY(scaleY);
-    }
 
     public float clamp(float value, float min, float max) {
         return Math.max(min, Math.min(value, max));
@@ -410,7 +332,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             }
 
             if (skill == null) {
-                binding.headerLogoBg.postDelayed(new Runnable() {
+                headBinding.headerLogoBg.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         inited = true;
@@ -419,13 +341,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 skill = res.getData().getDetail();
                 isMe = skill.getUid() == user.getUid();
                 if (isMe) {
-                    binding.headerLogoImg.setImageResource(R.drawable.btn_ic_add);
-                    binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_add);
-                    binding.btnContect.setText("添加日记");
-                } else {
-                    binding.headerLogoImg.setImageResource(R.drawable.btn_ic_wechat);
-                    binding.headerLogoBgImg.setImageResource(R.drawable.btn_ic_wechat);
-                    binding.btnContect.setText(R.string.btn_contact_ta);
+                   setUIWhenIsMe();
                 }
                 headBinding.setSkill(skill);
                 if (skill.getStatus() != 0) {
@@ -452,8 +368,7 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                 }).start(this);
                 Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
                 headBinding.price.setText(text);
-                binding.price.setText(text);
-                binding.titlePrice.setText(text);
+                headBinding.price.setText(text);
                 if (android.os.Build.VERSION.SDK_INT >= 21) {
 //                    setStatuBarColor();
                 }
@@ -511,10 +426,8 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
 
     @Override
     public void onClick(View v) {
-        if (v == binding.headerLogo || v == binding.headerLogoBg) {
-            if (isMe) {
-                RmarkPublishActivity.show(this, skill, binding.btnBack, REQEUST_RMARK_ADD);
-            } else {
+        if (v == headBinding.btnContact) {
+            if (!isMe){
                 Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
                 intent.putExtra("skill", skill);
 
@@ -548,6 +461,12 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
                     intent.putExtra("userNickname", skill.getNickname());
                     startActivity(intent);
                 }
+            }
+        }else if(v==headBinding.btnBuySkill){
+            if(isMe){
+                RmarkPublishActivity.show(this, skill, headBinding.btnBuySkill, REQEUST_RMARK_ADD);
+            }else {
+                PayWrapperActivity.show(SkillDetailsActivity.this,skill);
             }
         }
     }
@@ -624,4 +543,31 @@ public class SkillDetailsActivity extends AppCompatActivity implements PtrHandle
             super(itemView);
         }
     }
+
+    @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+//            actionBar.setDisplayUseLogoEnabled(true);
+//            actionBar.setLogo(R.drawable.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_go_back);
+            mTitle.setTextColor(Color.WHITE);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                ActivityCompat.finishAfterTransition(SkillDetailsActivity.this);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
