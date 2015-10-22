@@ -8,152 +8,208 @@
             name="skill"
             type="maimeng.yodian.app.client.android.model.skill.Skill" />
     </data>
-
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_small"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/skill_detail_head_height"
-        android:orientation="vertical">
-
-        <LinearLayout
+        android:layout_height="wrap_content">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/skill_detail_head_height"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:paddingTop="@dimen/padding_normal"
+                android:paddingBottom="@dimen/padding_normal"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/pic"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/skill_list_item_img_height"
-                    android:adjustViewBounds="false"
-                    android:scaleType="fitXY"
-                    app:imgUrl="@{skill.pic}" />
-                <LinearLayout
-                    android:id="@+id/header_logo_bg"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/skill_price_height"
-                    android:layout_alignParentBottom="true"
-                    android:background="?attr/colorPrimaryDark"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
-                    <TextView
-                        android:id="@+id/btn_buy_skill"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_skill_buy"
-                        android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/skill_list_item_img_height"
+                        android:adjustViewBounds="false"
+                        android:scaleType="fitXY"
+                        app:imgUrl="@{skill.pic}" />
+                    <LinearLayout
+                        android:id="@+id/header_logo_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/skill_price_height"
+                        android:layout_alignParentBottom="true"
+                        android:background="?attr/colorPrimaryDark"
                         android:gravity="center"
-                        android:scaleType="centerInside"
-                        android:text="@string/btn_buy_skill"
-                        android:textColor="@android:color/white"
-                        android:drawablePadding="@dimen/padding_small"
-                        android:textSize="@dimen/btn_text_size"
-                        android:visibility="visible" />
-                    <TextView
-                        android:id="@+id/divinder"
-                        android:layout_width="@dimen/divider_line"
-                        android:layout_height="@dimen/divinder_height"
-                        android:layout_margin="@dimen/margin_large"
-                        android:background="@android:color/white"
-                        android:visibility="visible" />
-                    <TextView
-                        android:id="@+id/btn_contact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center"
-                        android:scaleType="centerInside"
-                        android:drawablePadding="@dimen/margin_small"
-                        android:drawableLeft="@drawable/ic_contact"
-                        android:text="@string/btn_contact_ta"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/btn_text_size"
-                        android:visibility="visible" />
-                </LinearLayout>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/btn_buy_skill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_skill_buy"
+                            android:layout_margin="@dimen/margin_small"
+                            android:gravity="center"
+                            android:scaleType="centerInside"
+                            android:textColor="@android:color/white"
+                            android:drawablePadding="@dimen/padding_small"
+                            android:textSize="@dimen/btn_text_size"
+                            android:visibility="visible" />
+                        <TextView
+                            android:id="@+id/divinder"
+                            android:layout_width="@dimen/divider_line"
+                            android:layout_height="@dimen/divinder_height"
+                            android:layout_margin="@dimen/margin_large"
+                            android:background="@android:color/white"
+                            android:visibility="visible" />
+                        <TextView
+                            android:id="@+id/btn_contact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_small"
+                            android:gravity="center"
+                            android:scaleType="centerInside"
+                            android:background="@drawable/ic_skill_contact"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/btn_text_size"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
 
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="5dp">
-
-            <maimeng.yodian.app.client.android.widget.CircleImageView
-                android:id="@+id/user_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                app:imgUrl="@{skill.avatar80}" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
+
+                <maimeng.yodian.app.client.android.widget.CircleImageView
+                    android:id="@+id/user_avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    app:imgUrl="@{skill.avatar80}" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/user_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{skill.nickname}"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="@dimen/skill_price_height"
+                android:orientation="vertical">
+
 
                 <TextView
-                    android:id="@+id/user_nickname"
+                    android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{skill.nickname}"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:paddingLeft="@dimen/padding_normal"
+                    android:paddingRight="@dimen/padding_normal"
+                    android:paddingBottom="@dimen/padding_small"
+                    android:paddingTop="@dimen/padding_small"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:gravity="left|center_vertical"
+                    android:singleLine="true"
+                    android:text="444445566"
+                    android:background="@drawable/fragment_kill_item_price_background"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:visibility="visible" />
+            </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/btn_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/skill_list_item_share_margin"
-                    android:src="@drawable/btn_share" />
-            </RelativeLayout>
+            <ImageView
+                android:id="@+id/skill_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/pic_skill_state_xiajia"
+                android:background="#55000000"
+                android:visibility="gone"/>
 
-        </LinearLayout>
+        </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/float_colorRipple"
-            android:layout_marginBottom="@dimen/skill_price_height"
+            android:background="@android:color/white"
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
-                android:id="@+id/skill_name"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:singleLine="true"
-                android:text="@{skill.name}"
-                android:textColor="#fff" />
+                android:layout_gravity="bottom"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
+
+                <TextView
+                    android:id="@+id/skill_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:gravity="left|center_vertical"
+                    android:singleLine="true"
+                    android:text="@{skill.name}"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:visibility="visible" />
+                <TextView
+                    android:id="@+id/skill_slector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:visibility="invisible"
+                    android:background="@drawable/ic_skill_better" />
+                <TextView
+                    android:id="@+id/skill_allow_sell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:background="@drawable/ic_skill_can_sell"
+                    android:visibility="invisible"
+                     />
+                </LinearLayout>
             <TextView
-                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/division_height"
+                android:background="@color/div_line"/>
+            <TextView
+                android:id="@+id/skill_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_normal"
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
-                android:text="1234444444"
+                android:text="@{skill.content}"
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="visible" />
         </LinearLayout>
-        <ImageView
-            android:id="@+id/skill_status"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-            android:src="@drawable/pic_skill_state_xiajia"
-            android:background="#55000000"
-            android:visibility="gone"/>
 
-    </FrameLayout>
+
+    </LinearLayout>
+
 </layout>

@@ -23,6 +23,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,12 +148,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         setContentView(binding.getRoot());
         headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, binding.recyclerView, false);
         ViewCompat.setTransitionName(headBinding.btnBuySkill, "back");
-        headBinding.btnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""), 1);
-            }
-        });
         headBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -250,8 +245,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private void setUIWhenIsMe() {
         headBinding.btnContact.setVisibility(View.GONE);
         headBinding.divinder.setVisibility(View.GONE);
-        headBinding.btnBuySkill.setCompoundDrawables(null,null,getResources().getDrawable(R.drawable.btn_ic_add),null);
-        headBinding.btnBuySkill.setText("添加日记");
+        headBinding.btnBuySkill.setBackgroundResource(R.drawable.ic_skill_add);
     }
 
     @Override
@@ -342,7 +336,19 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 isMe = skill.getUid() == user.getUid();
                 if (isMe) {
                    setUIWhenIsMe();
+                }else {
+                    if(skill.getAllow_sell()!=1){
+                        headBinding.btnBuySkill.setVisibility(View.GONE);
+                        headBinding.divinder.setVisibility(View.GONE);
+                    }else{
+                        headBinding.skillAllowSell.setVisibility(View.VISIBLE);
+                    }
                 }
+                if(skill.getType().equals("1")){
+                    headBinding.skillSlector.setVisibility(View.VISIBLE);
+                }
+
+
                 headBinding.setSkill(skill);
                 if (skill.getStatus() != 0) {
                     headBinding.skillStatus.setVisibility(View.VISIBLE);
@@ -367,7 +373,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     }
                 }).start(this);
                 Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
-                headBinding.price.setText(text);
                 headBinding.price.setText(text);
                 if (android.os.Build.VERSION.SDK_INT >= 21) {
 //                    setStatuBarColor();
@@ -560,11 +565,22 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem menuItem=menu.add(0,0x2314,10,null);
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menuItem.setIcon(R.drawable.btn_share);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 ActivityCompat.finishAfterTransition(SkillDetailsActivity.this);
                 return true;
+            }
+            case 0x2314:{
+                ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""), 1);
             }
         }
         return super.onOptionsItemSelected(item);

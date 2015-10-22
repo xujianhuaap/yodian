@@ -13,6 +13,9 @@
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingLeft="@dimen/padding_normal"
+            android:background="@android:color/black"
+            android:paddingRight="@dimen/padding_normal"
             app:ptr_duration_to_close="300"
             app:ptr_duration_to_close_header="1000"
             app:ptr_keep_header_when_refresh="true"
@@ -21,7 +24,7 @@
             app:ptr_resistance="1.7">
 
             <ListView
-                android:background="@android:color/black"
+
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -1,7 +1,7 @@
 <resources>
     <eat-comment />
     <dimen name="division_height">1dp</dimen>
-    <dimen name="divinder_height">30dp</dimen>
+    <dimen name="divinder_height">25dp</dimen>
     <dimen name="top_icon_margin">12dp</dimen>
     <dimen name="setup_wizard_avatar_size">100dp</dimen>
     <dimen name="user_header_height">230dp</dimen>
@@ -56,7 +56,7 @@
 
     <eat-comment />
     <dimen name="skill_detail_head_height">250dp</dimen>
-    <dimen name="skill_price_height">40dp</dimen>
+    <dimen name="skill_price_height">48dp</dimen>
     <!--<dimen name="skill_detail_head_overlay_height">650dp</dimen>-->
 
     <!-- activity_preview_skill-->

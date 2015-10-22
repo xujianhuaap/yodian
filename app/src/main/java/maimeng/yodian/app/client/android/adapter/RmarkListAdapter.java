@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.RmarkListItemBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
@@ -88,6 +91,24 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
         public void bind(Rmark rmark, int position) {
             this.binding.setRmark(rmark);
             this.position = position;
+
+            Date date=rmark.getCreatetime();
+            float days=(float)((System.currentTimeMillis()-date.getTime())/1000/3600/24);
+            String formatStr=null;
+            if(days<2){
+                formatStr="HH:mm";
+            }else {
+                formatStr="MM-dd HH:mm";
+            }
+            SimpleDateFormat format=new SimpleDateFormat(formatStr);
+            String creatTime=format.format(date);
+            if (days<1){
+                creatTime="今天"+creatTime;
+            }
+            if(days<2&&days>=1){
+                creatTime="昨天"+creatTime;
+            }
+            binding.time.setText(creatTime);
             reset();
             if (rmark.getUid() == me.getUid()) {
                 open = ObjectAnimator.ofPropertyValuesHolder(binding.btnMenuDelete, translation, alpha);
