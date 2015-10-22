@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.databinding.RmarkListItemBinding;
+import maimeng.yodian.app.client.android.databinding.ItemRmarkListBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.user.User;
 
@@ -35,7 +35,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            RmarkListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.rmark_list_item, parent, false);
+            ItemRmarkListBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_rmark_list, parent, false);
             holder = new ViewHolder(binding);
             convertView = binding.getRoot();
             convertView.setTag(holder);
@@ -57,11 +57,11 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
 
         private int position;
 
-        public RmarkListItemBinding getBinding() {
+        public ItemRmarkListBinding getBinding() {
             return binding;
         }
 
-        private final RmarkListItemBinding binding;
+        private final ItemRmarkListBinding binding;
         private final PropertyValuesHolder alpha2;
         private final PropertyValuesHolder translation2;
         private final PropertyValuesHolder translation;
@@ -70,7 +70,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
         ObjectAnimator close;
         boolean opened = false;
 
-        public ViewHolder(RmarkListItemBinding binding) {
+        public ViewHolder(ItemRmarkListBinding binding) {
             this.binding = binding;
             translation = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, -200f);
 

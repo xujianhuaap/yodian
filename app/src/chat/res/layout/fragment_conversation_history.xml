@@ -28,7 +28,7 @@
 
     <include
         android:id="@+id/rl_error_item"
-        layout="@layout/chat_neterror_item"
+        layout="@layout/item_chat_neterror"
         android:visibility="gone" />
     <ImageView
         android:id="@+id/no_news"

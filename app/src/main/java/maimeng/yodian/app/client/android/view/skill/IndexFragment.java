@@ -270,7 +270,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(getLayoutInflater(null).inflate(R.layout.index_pull_item, parent, false));
+            return new ViewHolder(getLayoutInflater(null).inflate(R.layout.item_index_pull, parent, false));
         }
 
         @Override
