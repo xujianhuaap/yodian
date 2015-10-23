@@ -42,6 +42,10 @@
 
         </activity>
         <activity
+            android:name=".view.common.FloatActivity"
+            android:screenOrientation="nosensor"
+            android:theme="@style/DialogNotTitle" />
+        <activity
             android:name=".view.splash.DefaultActivity"
             android:screenOrientation="nosensor"
             android:theme="@style/AppThemeWhite" />

@@ -11,6 +11,7 @@ import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.response.FloatResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.VersionResponse;
 
@@ -54,5 +55,9 @@ public interface CommonService {
     }
 
     @Post(Api.PUSH)
-    void push(@Param("eclose")String eclose,Callback<ToastResponse> callback);
+    void push(@Param("eclose") String eclose, Callback<ToastResponse> callback);
+
+    @Get(Api.FLOAT)
+    void getFloat(Callback<FloatResponse> callback);
+
 }
