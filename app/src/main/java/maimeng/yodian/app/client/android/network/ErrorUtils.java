@@ -22,7 +22,7 @@ public class ErrorUtils {
                 LogUtil.e(ErrorUtils.class.getName(), error, "%s\n%d\n", error.getUrl(), error.getResponse().getStatus());
                 Toast.makeText(context, "连接服务器出错了...", Toast.LENGTH_SHORT).show();
             } else if (error.getKind() == HNetError.Kind.NETWORK) {
-                if(error.getResponse()!=null){
+                if (error.getResponse() != null) {
                     LogUtil.e(ErrorUtils.class.getName(), "%s\n%d\n", error.getUrl(), error.getResponse().getStatus(), error);
                 }
                 Toast.makeText(context, "和服务器通讯失败,请检查网络...", Toast.LENGTH_SHORT).show();
@@ -32,10 +32,9 @@ public class ErrorUtils {
                 Toast.makeText(context, "不能处理服务器返回给我的数据....", Toast.LENGTH_SHORT).show();
             } else {
                 postCatchedException(error);
-                if(error.getResponse()!=null){
+                if (error.getResponse() != null) {
                     LogUtil.e(ErrorUtils.class.getName(), error, "%s\n%d\n", error.getUrl(), error.getResponse().getStatus());
                 }
-
                 Toast.makeText(context, "运行出错啦...", Toast.LENGTH_SHORT).show();
             }
 
@@ -44,6 +43,7 @@ public class ErrorUtils {
     }
 
     private static void postCatchedException(HNetError error) {
+        error.printStackTrace();
         if (!BuildConfig.DEBUG) {
             CrashReport.postCatchedException(new Throwable(error.getUrl(), error));
         }

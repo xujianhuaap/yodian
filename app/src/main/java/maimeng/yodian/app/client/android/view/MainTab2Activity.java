@@ -12,13 +12,21 @@ import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.user.User;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.FloatResponse;
+import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
+import maimeng.yodian.app.client.android.view.common.FloatActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.IndexFragment;
 import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
@@ -26,7 +34,7 @@ import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
 /**
  * Created by android on 15-10-10.
  */
-public class MainTab2Activity extends AbstractActivity implements AlertDialog.PositiveListener {
+public class MainTab2Activity extends AbstractActivity implements AlertDialog.PositiveListener, Callback<FloatResponse> {
     private User user;
 
     @Override
@@ -71,6 +79,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             bt.hide(userHomeFragment).show(indexFragment);
             bt.commitAllowingStateLoss();
             initFragment();
+            Network.getService(CommonService.class).getFloat(this);
         }
     }
 
@@ -140,6 +149,30 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
     }
 
     private void showDefault() {
+
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void success(FloatResponse res, Response response) {
+        if (res.isSuccess()) {
+            if (res.getData().getFloatPic().size() > 0) {
+                FloatActivity.start(this, res.getData().getFloatPic());
+            }
+        }
+    }
+
+    @Override
+    public void failure(HNetError hNetError) {
+        checkError(hNetError);
+    }
+
+    @Override
+    public void end() {
 
     }
 }
