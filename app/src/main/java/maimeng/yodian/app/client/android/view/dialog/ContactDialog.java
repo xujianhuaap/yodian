@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.view.dialog;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,9 +27,11 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.contact_dialog);
         super.onCreate(savedInstanceState);
-
-        mWeChatNum = getIntent().getStringExtra("wechat");
-
+        Intent intent=getIntent();
+        mWeChatNum = intent.getStringExtra("wechat");
+        if(intent.hasExtra("qq")){
+            mWeChatNum = intent.getStringExtra("qq");
+        }
         View view = getLayoutInflater().inflate(R.layout.dialog_contact, null);
         GifImageView gifImageView = (GifImageView) view.findViewById(R.id.gif);
         TextView weChat = (TextView) view.findViewById(R.id.tv_wechat);

@@ -82,6 +82,8 @@ public class ViewDialog {
 
             if(!TextUtils.isEmpty(title)){
                 tvTitle.setText(title);
+            }else {
+                tvTitle.setVisibility(View.GONE);
             }
             if(!TextUtils.isEmpty(message)){
                 tvMessage.setText(message);

@@ -1,5 +1,7 @@
 package maimeng.yodian.app.client.android.view.deal;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,11 @@ public class OrderListActivity extends AbstractActivity{
     private View mSaledSelect;
     private View mBuyedSelect;
 
+
+    public static void show(Context context){
+        Intent intent=new Intent(context,OrderListActivity.class);
+        context.startActivity(intent);
+    }
     @Override
     protected void initToolBar(Toolbar toolbar) {
         super.initToolBar(toolbar);

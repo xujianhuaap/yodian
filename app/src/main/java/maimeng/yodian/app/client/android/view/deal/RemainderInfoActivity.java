@@ -42,6 +42,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
         binding.htmlComment.setText(Html.fromHtml(getResources().getString(R.string.during_comment3)));
         binding.setRemainder(remainder);
         binding.btnDuring.setOnClickListener(this);
+        binding.mySaleOrder.setOnClickListener(this);
         service = Network.getService(MoneyService.class);
     }
 
@@ -77,6 +78,8 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
             } else {
                 Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
             }
+        }else if(v==binding.mySaleOrder){
+            OrderListActivity.show(this);
         }
     }
 

@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".YApplication"
@@ -66,7 +67,11 @@
         <activity
             android:name=".view.user.LauncherGuideActivity"
             android:theme="@style/AppThemeWhite" />
-        <activity android:name=".chat.activity.ChatActivity" />
+        <activity android:name=".chat.activity.ChatActivity"
+            android:theme="@style/NoAnimTheme"/>
+        <activity android:name=".view.chat.ContactPathActivity"
+            android:label=""
+            android:theme="@style/paylistactivity"></activity>
         <activity android:name=".view.dialog.ContactDialog" />
         <activity android:name=".view.auth.AuthActivity" />
         <activity android:name=".view.WebViewActivity" />

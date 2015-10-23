@@ -112,6 +112,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/my_sale_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_padding_2x"

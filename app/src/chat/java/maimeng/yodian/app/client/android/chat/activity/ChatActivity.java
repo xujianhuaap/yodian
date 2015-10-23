@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.Html;
@@ -124,6 +126,7 @@ import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
@@ -256,21 +259,27 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         showSkill();
         mCurrentUser = maimeng.yodian.app.client.android.model.user.User.read(this);
         mCurrentUserLogName = DemoApplication.getInstance().getUserName();
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
 
-
-        }
     }
 
 
     @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
+            mTitle.setTextColor(Color.WHITE);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_chat_menu, menu);
-        menu.add(0, 1001, 0, "").setIcon(R.mipmap.btn_ic_contact).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 1001, 0, "").setIcon(R.mipmap.ic_contact_path).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -620,9 +629,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
         int itemId = item.getItemId();
         if (itemId == 1001) {
-            if (wechat != null) {
-                startActivity(new Intent(this, ContactDialog.class).putExtra("wechat", wechat));
-            }
+            ContactPathActivity.show(ChatActivity.this,skill);
         } else if (itemId == android.R.id.home) {
             finish();
         }
@@ -1568,12 +1575,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         File file = new File(filePath);
         if (file == null || !file.exists()) {
             String st7 = getResources().getString(R.string.File_does_not_exist);
-            Toast.makeText(getApplicationContext(), st7, 0).show();
+            Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_SHORT).show();
             return;
         }
         if (file.length() > 10 * 1024 * 1024) {
             String st6 = getResources().getString(R.string.The_file_is_not_greater_than_10_m);
-            Toast.makeText(getApplicationContext(), st6, 0).show();
+            Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -1684,7 +1691,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      */
     public void toGroupDetails(View view) {
         if (room == null && group == null) {
-            Toast.makeText(getApplicationContext(), R.string.gorup_not_found, 0).show();
+            Toast.makeText(getApplicationContext(), R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
             return;
         }
         if (chatType == CHATTYPE_GROUP) {
@@ -1995,7 +2002,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     runOnUiThread(new Runnable() {
                         public void run() {
                             pd.dismiss();
-                            Toast.makeText(getApplicationContext(), R.string.Move_into_blacklist_success, 0).show();
+                            Toast.makeText(getApplicationContext(), R.string.Move_into_blacklist_success, Toast.LENGTH_SHORT).show();
                         }
                     });
                 } catch (EaseMobException e) {
@@ -2003,7 +2010,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     runOnUiThread(new Runnable() {
                         public void run() {
                             pd.dismiss();
-                            Toast.makeText(getApplicationContext(), R.string.Move_into_blacklist_failure, 0).show();
+                            Toast.makeText(getApplicationContext(), R.string.Move_into_blacklist_failure, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

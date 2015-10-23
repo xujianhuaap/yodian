@@ -156,6 +156,8 @@
     <string name="vouch_dialog_title">是否申请担保交易?</string>
 
     <string name="btn_name">确定</string>
+    <string name="btn_name_confirm">确定</string>
+    <string name="btn_name_cancel">取消</string>
 
 
     <string name="bind_bank_info_bankname">开&#160;&#160;户&#160;&#160;行：</string>

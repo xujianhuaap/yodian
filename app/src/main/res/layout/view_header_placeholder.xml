@@ -74,7 +74,7 @@
                             android:layout_margin="@dimen/margin_small"
                             android:gravity="center"
                             android:scaleType="centerInside"
-                            android:background="@drawable/ic_skill_contact"
+                            android:background="@mipmap/ic_skill_contact"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/btn_text_size"
                             android:visibility="visible" />
@@ -179,14 +179,14 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginLeft="@dimen/margin_normal"
                     android:visibility="invisible"
-                    android:background="@drawable/ic_skill_better" />
+                    android:background="@mipmap/ic_skill_better" />
                 <TextView
                     android:id="@+id/skill_allow_sell"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:background="@drawable/ic_skill_can_sell"
+                    android:background="@mipmap/ic_skill_can_sell"
                     android:visibility="invisible"
                      />
                 </LinearLayout>

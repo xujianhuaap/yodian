@@ -230,7 +230,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private void setUIWhenIsMe() {
         headBinding.btnContact.setVisibility(View.GONE);
         headBinding.divinder.setVisibility(View.GONE);
-        headBinding.btnBuySkill.setBackgroundResource(R.drawable.ic_skill_add);
+        headBinding.btnBuySkill.setBackgroundResource(R.mipmap.ic_skill_add);
     }
 
     @Override
@@ -391,7 +391,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             if (!isMe){
                 Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
                 intent.putExtra("skill", skill);
-
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
                 if (robotMap.containsKey(chatLoginName)) {

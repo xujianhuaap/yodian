@@ -91,8 +91,7 @@ public class UserHeaderFrist extends BaseFragment {
                     return true;
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Intent intent = new Intent(getActivity(), OrderListActivity.class);
-                    startActivity(intent);
+                    OrderListActivity.show(getActivity());
                     return true;
                 }
                 return false;
