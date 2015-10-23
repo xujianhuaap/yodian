@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="@dimen/margin_large"
                 android:gravity="bottom"
                 android:textSize="14sp" />
 
@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:alpha="0"
+                    android:scaleType="centerInside"
                     android:src="@mipmap/ic_menu_delete" />
 
                 <ImageView
@@ -70,11 +71,11 @@
 
         <ImageView
             android:id="@+id/pic"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_width="@dimen/skill_list_item_img_width"
             android:layout_height="wrap_content"
             android:layout_below="@id/rmark_header"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
             android:maxHeight="2048px"
             android:scaleType="fitXY"
             app:imgUrl="@{rmark.pic}" />

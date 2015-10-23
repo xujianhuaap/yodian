@@ -139,6 +139,14 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:visibility="visible" />
             </LinearLayout>
+            <ImageView
+                android:id="@+id/skill_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@mipmap/pic_skill_state_xiajia"
+                android:background="#55000000"
+                android:visibility="gone"/>
         </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -197,14 +205,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="visible" />
         </LinearLayout>
-        <ImageView
-            android:id="@+id/skill_status"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-            android:src="@mipmap/pic_skill_state_xiajia"
-            android:background="#55000000"
-            android:visibility="gone"/>
+
 
     </LinearLayout>
 

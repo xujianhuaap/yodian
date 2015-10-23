@@ -104,17 +104,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private FrameLayout noSkillRmark;
     private Bitmap defaultAvatar;
 
-    public int getTitleBarHeight() {
-        if (mActionBarHeight != 0) {
-            return mActionBarHeight;
-        }
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            mActionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-        }
-        return mActionBarHeight;
-    }
-
     private boolean inited = false;
 
     @Override
@@ -140,10 +129,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         params.gravity = Gravity.CENTER;
         noSkillRmark.addView(iv, params);
         service = Network.getService(SkillService.class);
-//        mSmoothInterpolator = new AccelerateDecelerateInterpolator();
-        mSmoothInterpolator = new LinearInterpolator();
-        mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.skill_detail_head_height);
-        mMinHeaderTranslation = -mHeaderHeight + getTitleBarHeight();
         binding = DataBindingUtil.inflate(getLayoutInflater(),R.layout.activity_skill_details,null,false);
         setContentView(binding.getRoot());
         headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, binding.recyclerView, false);
@@ -256,35 +241,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         }
     }
 
-
-
-    private RectF getOnScreenRect(RectF rect, View view) {
-        rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-        return rect;
-    }
-
-
-
-    public float clamp(float value, float min, float max) {
-        return Math.max(min, Math.min(value, max));
-    }
-
-    public int getScrollY() {
-        View c = binding.recyclerView.getChildAt(0);
-        if (c == null) {
-            return 0;
-        }
-
-        int firstVisiblePosition = binding.recyclerView.getFirstVisiblePosition();
-        int top = c.getTop();
-
-        int headerHeight = 0;
-        if (firstVisiblePosition >= 1) {
-            headerHeight = mPlaceHolderView.getHeight();
-        }
-
-        return -top + firstVisiblePosition * c.getHeight() + headerHeight;
-    }
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {

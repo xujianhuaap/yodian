@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,7 +30,7 @@ import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
 /**
  * Created by android on 2015/10/14.
  */
-public class UserHeaderFrist extends BaseFragment implements View.OnClickListener {
+public class UserHeaderFrist extends BaseFragment {
     private ViewHeaderUserFristBinding mHeaderBinding;
     private User user;
     private static final int REQUEST_UPDATEINFO = 0x5005;
@@ -60,64 +61,96 @@ public class UserHeaderFrist extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mHeaderBinding.userAvatar.setOnClickListener(this);
-        LogUtil.d(UserHeaderFrist.class.getName(),"");
-        //我的订单 我的余额 添加技能
-        mHeaderBinding.myOrder.setOnClickListener(this);
-        mHeaderBinding.myRemainder.setOnClickListener(this);
-        mHeaderBinding.btnCreateskill.setOnClickListener(this);
-        bind((User) getArguments().getParcelable("user"));
-    }
-
-    @Override
-    public void onClick(final View clickItem) {
-        if (clickItem == mHeaderBinding.userAvatar) {
-            if (!(user.getUid() == User.read(getActivity()).getUid())) {
-                PreviewActivity.show(getActivity(), user);
-            } else {
+        mHeaderBinding.userAvatar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    return true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (!(user.getUid() == User.read(getActivity()).getUid())) {
+                        PreviewActivity.show(getActivity(), user);
+                    } else {
 //                ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_from_right, R.anim.slide_out_to_left);
 //                ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
-                startActivityForResult(new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO);
-            }
+                        startActivityForResult(new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO);
+                    }
 
-        } else if (clickItem == mHeaderBinding.btnCreateskill) {
-            if (TextUtils.isEmpty(User.read(getActivity()).getWechat())) {
-                AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
-                    @Override
-                    public void onPositiveClick(DialogInterface dialog) {
+                    return true;
+                }
+                return false;
+            }
+        });
+        //我的订单 我的余额 添加技能
+        mHeaderBinding.myOrder.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    return true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Intent intent = new Intent(getActivity(), OrderListActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
+        mHeaderBinding.myRemainder.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    return true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Intent intent = new Intent(getActivity(), RemainderMainActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
+        mHeaderBinding.btnCreateskill.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    return true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (TextUtils.isEmpty(User.read(getActivity()).getWechat())) {
+                        AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
+                            @Override
+                            public void onPositiveClick(DialogInterface dialog) {
 //                        Pair<View, String> avatar = Pair.create(clickItem, "avatar");
 //                        Pair<View, String> back = Pair.create((View) getButton(), "back");
 //                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), avatar, back);
 //                        ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
-                        startActivityForResult(new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO);
+                                startActivityForResult(new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO);
+                            }
+
+                            @Override
+                            public String positiveText() {
+                                return "前往";
+                            }
+                        }).show(getActivity().getFragmentManager(), "");
+
+                    } else {
+
+                        Pair<View, String> top = Pair.create(v, "top");
+                        Pair<View, String> floatbutton = Pair.create((View) getButton(), "floatbutton");
+                        SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL, new Pair[]{top,floatbutton});
+
                     }
-
-                    @Override
-                    public String positiveText() {
-                        return "前往";
-                    }
-                }).show(getActivity().getFragmentManager(), "");
-
-            } else {
-
-                Pair<View, String> top = Pair.create(clickItem, "top");
-                Pair<View, String> floatbutton = Pair.create((View) getButton(), "floatbutton");
-                SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL, new Pair[]{top,floatbutton});
-
+                }
+                return false;
             }
-
-        } else if (clickItem == mHeaderBinding.myRemainder) {
-            Intent intent = new Intent(getActivity(), RemainderMainActivity.class);
-            startActivity(intent);
-
-        } else if (clickItem == mHeaderBinding.myOrder) {
-            Intent intent = new Intent(getActivity(), OrderListActivity.class);
-            startActivity(intent);
-
-        }
+        });
+        bind((User) getArguments().getParcelable("user"));
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
