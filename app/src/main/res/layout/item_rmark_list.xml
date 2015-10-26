@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="@dimen/margin_large"
+                android:text="11111"
                 android:gravity="bottom"
                 android:textSize="14sp" />
 
@@ -40,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/time"
+                android:paddingTop="@dimen/padding_small"
                 android:layout_marginRight="@dimen/margin_small"
                 android:layout_toRightOf="@id/time">
 
@@ -64,6 +66,8 @@
                     android:id="@+id/btn_menu_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="@dimen/btn_width"
+                    android:scaleType="fitCenter"
                     android:layout_gravity="right|center_vertical"
                     android:src="@mipmap/ic_menu_more" />
             </FrameLayout>
@@ -71,7 +75,6 @@
 
         <ImageView
             android:id="@+id/pic"
-            android:layout_marginTop="@dimen/margin_large"
             android:layout_width="@dimen/skill_list_item_img_width"
             android:layout_height="wrap_content"
             android:layout_below="@id/rmark_header"

@@ -2,7 +2,17 @@ package maimeng.yodian.app.client.android.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Xfermode;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -20,6 +30,8 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.loader.Circle;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.FloatResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
@@ -36,6 +48,7 @@ import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
  */
 public class MainTab2Activity extends AbstractActivity implements AlertDialog.PositiveListener, Callback<FloatResponse> {
     private User user;
+    private Bitmap mAvatar;
 
     @Override
     public FloatingActionButton getFloatButton() {
@@ -67,9 +80,6 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                 }
             });
             new CheckUpdateDelegate(this, false).checkUpdate();
-            if (getIntent().hasExtra("home")) {
-                floatButton.callOnClick();
-            }
             FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
             userHomeFragment = UserHomeFragment.newInstance();
             indexFragment = IndexFragment.newInstance();
@@ -80,7 +90,43 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             bt.commitAllowingStateLoss();
             initFragment();
             Network.getService(CommonService.class).getFloat(this);
+            new ImageLoaderManager.Loader(floatButton,Uri.parse(User.read(this).getAvatar()))
+                    .width(40).height(40).callback(new ImageLoaderManager.Callback() {
+                @Override
+                public void onImageLoaded(Bitmap bitmap) {
+
+                    mAvatar = getCircleBitmap(bitmap);
+                    floatButton.setImageBitmap(mAvatar);
+                }
+
+                @Override
+                public void onLoadEnd() {
+
+                }
+
+                @Override
+                public void onLoadFaild() {
+
+                }
+            }).start(this);
+            if (getIntent().hasExtra("home")) {
+                floatButton.callOnClick();
+            }
         }
+    }
+
+    @NonNull
+    private Bitmap getCircleBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        Bitmap bottomBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bottomBitmap);
+        canvas.drawCircle(width / 2, width / 2, width /3, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        return bottomBitmap;
     }
 
     @Override
@@ -99,9 +145,13 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             }
             bt.setCustomAnimations(R.anim.translation_to_bottom_in, R.anim.translation_to_bottom_out);
             bt.show(userHomeFragment).hide(indexFragment);
+            floatButton.setImageResource(R.mipmap.btn_home_change_normal);
+
         } else {
             bt.setCustomAnimations(R.anim.translation_to_top_in, R.anim.translation_to_top_out);
             bt.show(indexFragment).hide(userHomeFragment);
+            floatButton.setImageBitmap(mAvatar);
+
         }
         bt.commitAllowingStateLoss();
     }
