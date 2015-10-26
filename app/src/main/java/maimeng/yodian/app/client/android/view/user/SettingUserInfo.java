@@ -18,6 +18,9 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -51,6 +54,7 @@ import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
@@ -109,6 +113,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -241,6 +246,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         binding.province.setSelection(indexP, true);
 
     }
+
 
 
     private void toggle() {
@@ -396,8 +402,10 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
+
             if (user.getInfo() == null) {
                 user.setInfo(new User.Info());
+
             }
             String text = s.toString();
             if (mText == binding.nickname) {
@@ -423,6 +431,8 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             } else if (mText == binding.phone) {
                 user.getInfo().setContact(text);
             }
+
+
         }
     }
 

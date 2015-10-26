@@ -72,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lable_nickname" />
 
+
                 <EditText
                     android:id="@+id/nickname"
                     style="@style/formEditTextStyle"
