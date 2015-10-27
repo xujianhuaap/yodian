@@ -2,49 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
     <TextView
-        android:id="@+id/tv_wechat"
+        android:id="@+id/tv_contact_title"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
         android:gravity="center"
         android:drawableLeft="@mipmap/ic_ok"
+        android:drawablePadding="@dimen/padding_small"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:textSize="18sp"/>
     <TextView
+        android:id="@+id/tv_contact_subtitle"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:gravity="center"
-        android:text="复制到你的微信号 "
-        android:maxWidth="240dp"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:textSize="18sp"/>
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gif"
-        android:layout_gravity="center"
-        android:layout_width="200dp"
-        android:layout_height="250dp">
 
-    </pl.droidsonroids.gif.GifImageView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:weightSum="1"
         android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/btn_enter_wechat"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/btn_enter_contact"
+            android:layout_weight="0.3"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:padding="@dimen/padding_normal"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:src="@mipmap/ic_enter_wechat"/>
+            android:text="@string/contact_button_positive"
+            android:background="@drawable/btn_blue_pressed_shape"
+            android:layout_margin="10dp" />
+        <TextView
+            android:layout_weight="0.12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
 
-        <ImageView
-            android:id="@+id/btn_wechat_close"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="@string/contact_button_negtive"
+            android:textColor="@android:color/white"
+            android:padding="@dimen/padding_normal"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:src="@mipmap/ic_wechat_close"/>
+            android:background="@drawable/btn_gray_normal_shape"
+            android:layout_margin="10dp"/>
 
 
     </LinearLayout>
