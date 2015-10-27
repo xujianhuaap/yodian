@@ -351,8 +351,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                     Skill skill = itemViewHolder.getData();
                     if (skill.getStatus() == 0) {
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                        ActivityCompat.startActivity(mActivity, new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", skill), options.toBundle());
+                        startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", skill));
                     }
 
                 }
