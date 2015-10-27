@@ -55,12 +55,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         mCode = (TextView) findViewById(R.id.btn_getcode);
         mCode.setOnClickListener(this);
         mBtnLogin.setOnClickListener(this);
-        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(AuthActivity.this);
-            }
-        });
         findViewById(R.id.btn_clean).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
