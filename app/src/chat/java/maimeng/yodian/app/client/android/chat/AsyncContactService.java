@@ -40,8 +40,12 @@ public class AsyncContactService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
     private void updateContacts(){
-        EMChatManager.getInstance().loadAllConversations();
-        Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
+        EMChatManager instance = EMChatManager.getInstance();
+        if(!instance.isConnected()){
+            return;
+        }
+        instance.loadAllConversations();
+        Hashtable<String, EMConversation> conversations = instance.getAllConversations();
         UserDao dao = new UserDao(this);
         for(EMConversation conversation:conversations.values()){
             if(conversation.getAllMsgCount()>0){
