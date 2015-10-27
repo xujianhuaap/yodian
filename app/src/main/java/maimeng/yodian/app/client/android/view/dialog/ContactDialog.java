@@ -25,10 +25,7 @@ import org.henjue.library.share.manager.QQShareManager;
 import org.henjue.library.share.manager.ShareFactory;
 import org.henjue.library.share.manager.WechatAuthManager;
 import org.henjue.library.share.model.AuthInfo;
-
 import maimeng.yodian.app.client.android.R;
-import pl.droidsonroids.gif.GifImageView;
-
 
 /**
  * Created by android on 2015/8/7.
@@ -38,7 +35,6 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
     private boolean isWechat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.contact_dialog);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         super.onCreate(savedInstanceState);
         Intent intent=getIntent();
@@ -79,12 +75,14 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
                 IAuthManager manager=AuthFactory.create(this, Type.Platform.WEIXIN);
                 if (WechatAuthManager.getIWXAPI().isWXAppInstalled()) {
                     WechatAuthManager.getIWXAPI().openWXApp();
+                    finish();
                 }
             }else {
 
                 String format="mqqwpa://im/chat?chat_type=wpa&uin=%s";
                 String url=String.format(format,mWeChatNum);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                finish();
 
             }
 

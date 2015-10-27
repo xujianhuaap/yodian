@@ -76,7 +76,9 @@
         <activity android:name=".view.chat.ContactPathActivity"
             android:label=""
             android:theme="@style/paylistactivity"></activity>
-        <activity android:name=".view.dialog.ContactDialog" />
+        <activity android:name=".view.dialog.ContactDialog"
+            android:label=""
+            android:theme="@style/contact_dialog"/>
         <activity android:name=".view.auth.AuthActivity" />
         <activity android:name=".view.WebViewActivity" />
         <activity

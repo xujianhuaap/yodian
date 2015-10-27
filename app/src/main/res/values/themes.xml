@@ -104,6 +104,7 @@
         <item name="android:windowMinWidthMinor">90%</item>
         <item name="windowFixedWidthMajor">90%</item>
         <item name="windowFixedWidthMinor">90%</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="account_change_dialog" mce_bogus="1" parent="Theme.AppCompat.Dialog">

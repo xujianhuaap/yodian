@@ -230,7 +230,7 @@
     <string name="contact_method_wechat">微信</string>
     <string name="contact_method_qq">qq</string>
     <string name="contact_title"><![CDATA[已经将你%1$s号：%2$s]]></string>
-    <string name="contact_subtitle"><![CDATA[复制到你的%1$s]]></string>
+    <string name="contact_subtitle"><![CDATA[复制到你的%1$s号]]></string>
 
 
 
