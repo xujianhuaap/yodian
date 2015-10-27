@@ -98,6 +98,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -127,9 +128,11 @@ import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
-import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
+import static maimeng.yodian.app.client.android.model.UserBaseColum.KEY_CONTACT;
+import static maimeng.yodian.app.client.android.model.UserBaseColum.KEY_MOBILE;
+import static maimeng.yodian.app.client.android.model.UserBaseColum.KEY_QQ;
 import static maimeng.yodian.app.client.android.model.UserBaseColum.KEY_WECHAT;
 import static maimeng.yodian.app.client.android.model.UserBaseColum.PREFERENCES_NAME;
 
@@ -681,6 +684,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                             skill.setUnit(skillJson.getString("unit"));
                             skill.setPic(skillJson.getString("pic"));
                             skill.setAvatar(skillJson.getString("avatar"));
+                            skill.setContact(skillJson.getString("contact"));
+                            skill.setQq(skillJson.getString("qq"));
+                            skill.setWeichat(skillJson.getString("weichat"));
                             showSkill();
                         }
                     } catch (EaseMobException | JSONException e) {
@@ -1193,6 +1199,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                         skill.setUnit(skillJson.getString("unit"));
                         skill.setPic(skillJson.getString("pic"));
                         skill.setAvatar(skillJson.getString("avatar"));
+                        skill.setContact(skillJson.getString("contact"));
+                        skill.setQq(skillJson.getString("qq"));
+                        skill.setWeichat(skillJson.getString("weichat"));
                         initView();
                         setUpView();
                         showSkill();
@@ -1303,7 +1312,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (sendVcard) {
                 SharedPreferences pref = getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
                 String wechat = pref.getString(KEY_WECHAT, "");
-                if (TextUtils.isEmpty(wechat)) {
+                String mobile=pref.getString(KEY_CONTACT,"");
+                String QQ=pref.getString(KEY_QQ,"");
+                boolean weChatIsEmpty=TextUtils.isEmpty(wechat);
+                boolean mobileIsEmpty=TextUtils.isEmpty(mobile);
+                boolean qqIsEmpty= TextUtils.isEmpty(QQ);
+
+                if (weChatIsEmpty&&mobileIsEmpty&&qqIsEmpty) {
                     maimeng.yodian.app.client.android.view.dialog.AlertDialog.newInstance("提示", "请完善信息").setNegativeListener(new maimeng.yodian.app.client.android.view.dialog.AlertDialog.NegativeListener() {
                         @Override
                         public void onNegativeClick(DialogInterface dialog) {

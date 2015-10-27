@@ -62,6 +62,7 @@ import com.easemob.util.EMLog;
 import com.easemob.util.FileUtils;
 import com.easemob.util.LatLng;
 import com.easemob.util.TextFormater;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,6 +93,8 @@ import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
+import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
@@ -532,7 +535,15 @@ public class MessageAdapter extends BaseAdapter {
                         holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                v.getContext().startActivity(new Intent(v.getContext(), ContactDialog.class).putExtra("wechat", wechat));
+                                try {
+                                    JSONObject str=message.getJSONObjectAttribute("skill");
+                                    Skill skill=new Gson().fromJson(str.toString(),Skill.class);
+                                    activity.startActivity(new Intent(v.getContext(), ContactPathActivity.class).putExtra("skill", skill));
+                                } catch (EaseMobException e) {
+                                    e.printStackTrace();
+                                }
+
+
                             }
                         });
                         if (message.direct == EMMessage.Direct.SEND) {
