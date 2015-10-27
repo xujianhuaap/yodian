@@ -183,6 +183,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             headerMainHomeBinding.btnChat.setOnClickListener(this);
             headerMainHomeBinding.btnSettings.setOnClickListener(this);
             mHeaderBinding.btnReport.setOnClickListener(this);
+            mHeaderBinding.btnBack.setOnClickListener(this);
         }
 
         public void bind(User user) {
@@ -193,9 +194,11 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                 mHeaderBinding.btnSettings.setVisibility(View.GONE);
                 mHeaderBinding.btnChat.setVisibility(View.GONE);
                 mHeaderBinding.btnReport.setVisibility(View.VISIBLE);
+                mHeaderBinding.btnBack.setVisibility(View.VISIBLE);
             } else {
                 mHeaderBinding.btnSettings.setVisibility(View.VISIBLE);
                 mHeaderBinding.btnChat.setVisibility(View.VISIBLE);
+                mHeaderBinding.btnBack.setVisibility(View.GONE);
                 mHeaderBinding.btnReport.setVisibility(View.GONE);
             }
             List<android.support.v4.app.Fragment> fragments = new ArrayList<>(2);

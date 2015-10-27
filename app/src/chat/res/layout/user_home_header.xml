@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|left"
+                    android:visibility="visible"
                     android:src="@mipmap/ic_msg" />
 
                 <ImageView
@@ -53,6 +54,14 @@
                     android:layout_gravity="right|top"
                     android:src="@drawable/miss_msg_count"
                     android:visibility="invisible" />
+                <ImageView
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:src="@mipmap/ic_go_back_black"
+                    android:visibility="invisible" />
+
             </FrameLayout>
 
             <ImageView
