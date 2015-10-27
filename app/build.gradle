@@ -6,6 +6,8 @@ apply plugin: 'bugly'
 bugly {
     appId = '900004839'    //注册时分配的App ID
     appKey = 'E3iqZTUe7N6FfTto'  //注册时分配的App Key
+    execute true
+    upload true
 }
 android {
 
@@ -99,7 +101,7 @@ dependencies {
     compile(name: 'hnet-release', ext: 'aar')
     compile(name: 'j99-md', ext: 'aar')
     compile project(':PhotoPicker')
-    compile project(':ViewPagerIndicator')
+    compile(name: 'ViewPagerIndicator-release', ext: 'aar')
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
