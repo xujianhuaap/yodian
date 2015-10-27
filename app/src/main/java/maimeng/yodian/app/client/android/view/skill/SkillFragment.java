@@ -209,8 +209,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                     Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
                     Skill skill = ((SkillListIndexAdapter.ItemViewHolder) h).getData();
                     if (skill.getStatus() == 0) {
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), back);
-                        ActivityCompat.startActivity(getActivity(), new Intent(getContext(), SkillDetailsActivity.class).putExtra("skill", skill), options.toBundle());
+                        startActivity(new Intent(getContext(), SkillDetailsActivity.class).putExtra("skill", skill));
                     }
 
                 }
@@ -329,9 +328,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         int current = holder.currentPage % holder.list.banners.size();
         Banner banner = holder.list.banners.get(current);
         if (banner.getType() == 3) {
-            Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), back);
-            ActivityCompat.startActivity(getActivity(), new Intent(getActivity(), SkillDetailsActivity.class).putExtra("sid", Long.parseLong(banner.getValue())), options.toBundle());
+            startActivity(new Intent(getActivity(), SkillDetailsActivity.class).putExtra("sid", Long.parseLong(banner.getValue())));
         } else if (banner.getType() == 2) {
             Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), back);
