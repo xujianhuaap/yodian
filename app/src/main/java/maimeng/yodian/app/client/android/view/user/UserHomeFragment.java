@@ -76,8 +76,6 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
  */
 public class UserHomeFragment extends BaseFragment implements EMEventListener, PtrHandler, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, Callback<SkillUserResponse> {
     private AbstractActivity mActivity;
-    private FloatingActionButton mFloatButton;
-
     public static UserHomeFragment newInstance() {
         UserHomeFragment userHomeFragment = new UserHomeFragment();
         Bundle args = new Bundle();
@@ -114,7 +112,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mActivity = (AbstractActivity) getActivity();
-        mFloatButton = mActivity.getFloatButton();
         return view;
     }
 
@@ -348,10 +345,9 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
                     Skill skill = itemViewHolder.getData();
                     if (skill.getStatus() == 0) {
-                        startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", skill));
+                     startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", skill));
                     }
 
                 }
@@ -387,7 +383,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                                 if (res.isSuccess()) {
                                     adapter.remove(postion);
                                     if (adapter.getItemCount() <= 0) {
-                                        mFloatButton.show(true);
+
                                     }
                                 }
                             }
@@ -469,11 +465,11 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 if (clickItem == headerMainHomeBinding.btnChat) {
                     mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
                 } else if (clickItem == headerMainHomeBinding.btnSettings) {
-                    Pair<View, String> back = Pair.create((View) mFloatButton, "back");
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, back);
-                    ActivityCompat.startActivity(mActivity, new Intent(mActivity, SettingsActivity.class), options.toBundle());
+                    mActivity.startActivity(new Intent(mActivity,SettingsActivity.class));
                 } else if (clickItem == headerMainHomeBinding.btnReport) {
                     report();
+                }else if(clickItem==headerMainHomeBinding.btnBack){
+                    mActivity.finish();
                 }
             }
         }
