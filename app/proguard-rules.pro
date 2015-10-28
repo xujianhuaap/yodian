@@ -187,6 +187,8 @@
 -keep class org.jivesoftware.** {*;}
 -keep class org.apache.** {*;}
 -dontwarn  com.easemob.**
+-dontwarn org.jivesoftware.**
+-dontwarn org.apache.**
 #2.0.9后的不需要加下面这个keep
 #-keep class org.xbill.DNS.** {*;}
 #另外，demo中发送表情的时候使用到反射，需要keep SmileUtils,注意前面的包名，
@@ -226,4 +228,56 @@
 -dontwarn com.taobao.**
 -keep class com.alipay.** { *; }
 -dontwarn com.alipay.**
+
+
+# alipay begin (暂时加的)
+
+-dontshrink
+-dontpreverify
+-dontoptimize
+-dontusemixedcaseclassnames
+
+-flattenpackagehierarchy
+-allowaccessmodification
+-printmapping map.txt
+
+-optimizationpasses 7
+-verbose
+-keepattributes Exceptions,InnerClasses
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-ignorewarnings
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends java.lang.Throwable {*;}
+-keep public class * extends java.lang.Exception {*;}
+
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
+
+
+
+# adding this in to preserve line numbers so that the stack traces
+# can be remapped
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
+#alipay end
+
+
+
 #-libraryjars libs/easemobchat_2.2.1.jar
