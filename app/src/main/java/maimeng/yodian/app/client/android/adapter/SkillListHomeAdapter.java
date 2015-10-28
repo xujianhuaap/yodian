@@ -184,6 +184,9 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             headerMainHomeBinding.btnSettings.setOnClickListener(this);
             mHeaderBinding.btnReport.setOnClickListener(this);
             mHeaderBinding.btnBack.setOnClickListener(this);
+            mHeaderBinding.btnCreateskill.setOnClickListener(this);
+            mHeaderBinding.btnMyOrder.setOnClickListener(this);
+            mHeaderBinding.btnMyRemainder.setOnClickListener(this);
         }
 
         public void bind(User user) {
@@ -191,11 +194,24 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             mHeaderBinding.setUser(user);
             mHeaderBinding.executePendingBindings();
             if (user.getUid() != User.read(mContext).getUid()) {
+                mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
+                mHeaderBinding.bottom.setVisibility(View.GONE);
                 mHeaderBinding.btnSettings.setVisibility(View.GONE);
                 mHeaderBinding.btnChat.setVisibility(View.GONE);
                 mHeaderBinding.btnReport.setVisibility(View.VISIBLE);
                 mHeaderBinding.btnBack.setVisibility(View.VISIBLE);
             } else {
+                mHeaderBinding.bottom.setVisibility(View.VISIBLE);
+                if (user.getInfo().getSellMsg() == 0 && user.getInfo().getBuyMsg() == 0) {
+                    mHeaderBinding.msgOrderTopic.setVisibility(View.GONE);
+                } else {
+                    mHeaderBinding.msgOrderTopic.setVisibility(View.VISIBLE);
+                }
+                if (user.getInfo().getMoneyMsg() == 0) {
+                    mHeaderBinding.msgMoneyTopic.setVisibility(View.GONE);
+                } else {
+                    mHeaderBinding.msgMoneyTopic.setVisibility(View.VISIBLE);
+                }
                 mHeaderBinding.btnSettings.setVisibility(View.VISIBLE);
                 mHeaderBinding.btnChat.setVisibility(View.VISIBLE);
                 mHeaderBinding.btnBack.setVisibility(View.GONE);

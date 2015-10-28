@@ -382,7 +382,33 @@ public class User extends UserBaseColum implements Parcelable {
 
         private Sex sex;
         private int buyMsg;
+        private int sellMsg;
         private int moneyMsg;
+
+        public int getMoneyMsg() {
+            return moneyMsg;
+        }
+
+        public void setMoneyMsg(int moneyMsg) {
+            this.moneyMsg = moneyMsg;
+        }
+
+        public int getBuyMsg() {
+            return buyMsg;
+        }
+
+        public void setBuyMsg(int buyMsg) {
+            this.buyMsg = buyMsg;
+        }
+
+        public int getSellMsg() {
+            return sellMsg;
+        }
+
+        public void setSellMsg(int sellMsg) {
+            this.sellMsg = sellMsg;
+        }
+
         private String mobile;
         @SerializedName("weichat")
         private String wechat;
@@ -457,6 +483,64 @@ public class User extends UserBaseColum implements Parcelable {
         }
 
 
+        public Info() {
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeString(this.contact);
+            dest.writeString(this.qq);
+            dest.writeString(this.province);
+            dest.writeString(this.city);
+            dest.writeString(this.district);
+            dest.writeString(this.address);
+            dest.writeString(this.signature);
+            dest.writeString(this.job);
+            dest.writeInt(this.vouch_status == null ? -1 : this.vouch_status.ordinal());
+            dest.writeInt(this.sex == null ? -1 : this.sex.ordinal());
+            dest.writeInt(this.buyMsg);
+            dest.writeInt(this.sellMsg);
+            dest.writeInt(this.moneyMsg);
+            dest.writeString(this.mobile);
+            dest.writeString(this.wechat);
+        }
+
+        protected Info(Parcel in) {
+            super(in);
+            this.contact = in.readString();
+            this.qq = in.readString();
+            this.province = in.readString();
+            this.city = in.readString();
+            this.district = in.readString();
+            this.address = in.readString();
+            this.signature = in.readString();
+            this.job = in.readString();
+            int tmpVouch_status = in.readInt();
+            this.vouch_status = tmpVouch_status == -1 ? null : BindStatus.values()[tmpVouch_status];
+            int tmpSex = in.readInt();
+            this.sex = tmpSex == -1 ? null : Sex.values()[tmpSex];
+            this.buyMsg = in.readInt();
+            this.sellMsg = in.readInt();
+            this.moneyMsg = in.readInt();
+            this.mobile = in.readString();
+            this.wechat = in.readString();
+        }
+
+        public static final Creator<Info> CREATOR = new Creator<Info>() {
+            public Info createFromParcel(Parcel source) {
+                return new Info(source);
+            }
+
+            public Info[] newArray(int size) {
+                return new Info[size];
+            }
+        };
     }
 
 
@@ -494,14 +578,5 @@ public class User extends UserBaseColum implements Parcelable {
         this.info = in.readParcelable(Info.class.getClassLoader());
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        public User createFromParcel(Parcel source) {
-            return new User(source);
-        }
-
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 }
 

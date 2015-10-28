@@ -77,56 +77,7 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/bottom"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/btn_createskill"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_weight="1"
-                android:background="@drawable/index_pull_item_background"
-                android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_add_skill"
-                android:textSize="16sp" />
-
-
-            <ImageView
-                android:id="@+id/my_order"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_weight="1"
-                android:background="@drawable/index_pull_item_background"
-                android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_my_order"
-                android:textSize="16sp"
-                android:visibility="visible" />
-
-
-            <ImageView
-                android:id="@+id/my_remainder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_weight="1"
-                android:background="@drawable/index_pull_item_background"
-                android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_my_remainder"
-                android:visibility="visible" />
-        </LinearLayout>
     </LinearLayout>
 
 

@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,10 +61,13 @@ import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
+import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
+import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
+import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
@@ -261,7 +265,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
                 }
             }
-
+            res.getData().getList().get(0);
             showUserInfo();
         } else {
             res.showMessage(mActivity);
@@ -288,6 +292,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         final User read = User.read(mActivity);
         LogUtil.i(LOG_TAG, "showUserInfo().read.id:%d,user.id:%d", read.getId(), user.getId());
         LogUtil.i(LOG_TAG, "showUserInfo().read.token:%s,user.token:%s", read.getToken(), user.getToken());
+
         if (read.getUid() == user.getUid()) {
             Network.getService(UserService.class).getInfo(user.getUid(), new Callback<UserInfoResponse>() {
                 @Override
@@ -468,6 +473,36 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     report();
                 } else if (clickItem == headerMainHomeBinding.btnBack) {
                     mActivity.finish();
+                } else if (clickItem == headerMainHomeBinding.btnCreateskill) {
+                    User user = User.read(getActivity());
+                    String weChat = user.getInfo().getWechat();
+                    String qq = user.getInfo().getQq();
+                    String contact = user.getInfo().getContact();
+                    boolean weChatIsEmpty = TextUtils.isEmpty(weChat);
+                    boolean qqIsEmpty = TextUtils.isEmpty(weChat);
+                    boolean contactIsEmpty = TextUtils.isEmpty(contact);
+                    if (weChatIsEmpty && qqIsEmpty && contactIsEmpty) {
+                        AlertDialog.newInstance("提示", "请完善个人信息").setPositiveListener(new AlertDialog.PositiveListener() {
+                            @Override
+                            public void onPositiveClick(DialogInterface dialog) {
+                                startActivityForResult(new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO);
+                            }
+
+                            @Override
+                            public String positiveText() {
+                                return "前往";
+                            }
+                        }).show(getActivity().getFragmentManager(), "");
+
+                    } else {
+                        SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL);
+
+                    }
+                } else if (clickItem == headerMainHomeBinding.btnMyOrder) {
+                    OrderListActivity.show(getActivity());
+                } else if (clickItem == headerMainHomeBinding.btnMyRemainder) {
+                    Intent intent = new Intent(getActivity(), RemainderMainActivity.class);
+                    startActivity(intent);
                 }
             }
         }

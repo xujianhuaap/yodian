@@ -1,12 +1,10 @@
 package maimeng.yodian.app.client.android.view.user;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,10 +17,6 @@ import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.PreviewActivity;
-import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
-import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
-import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
-import maimeng.yodian.app.client.android.view.skill.SkillTemplateActivity;
 
 /**
  * Created by android on 2015/10/14.
@@ -80,76 +74,12 @@ public class UserHeaderFrist extends BaseFragment {
                 return false;
             }
         });
-        //我的订单 我的余额 添加技能
-        mHeaderBinding.myOrder.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    OrderListActivity.show(getActivity());
-                    return true;
-                }
-                return false;
-            }
-        });
-        mHeaderBinding.myRemainder.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Intent intent = new Intent(getActivity(), RemainderMainActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-                return false;
-            }
-        });
-        mHeaderBinding.btnCreateskill.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    User user=User.read(getActivity());
-                    String weChat=user.getInfo().getWechat();
-                    String qq=user.getInfo().getQq();
-                    String contact=user.getInfo().getContact();
-                    boolean weChatIsEmpty=TextUtils.isEmpty(weChat);
-                    boolean qqIsEmpty=TextUtils.isEmpty(weChat);
-                    boolean contactIsEmpty=TextUtils.isEmpty(contact);
-                    if (weChatIsEmpty&&qqIsEmpty&&contactIsEmpty) {
-                        AlertDialog.newInstance("提示", "请完善个人信息").setPositiveListener(new AlertDialog.PositiveListener() {
-                            @Override
-                            public void onPositiveClick(DialogInterface dialog) {
-//                        Pair<View, String> avatar = Pair.create(clickItem, "avatar");
-//                        Pair<View, String> back = Pair.create((View) getButton(), "back");
-//                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), avatar, back);
-//                        ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());
-                                startActivityForResult(new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO);
-                            }
-
-                            @Override
-                            public String positiveText() {
-                                return "前往";
-                            }
-                        }).show(getActivity().getFragmentManager(), "");
-
-                    } else {
-
-                        Pair<View, String> top = Pair.create(v, "top");
-                        Pair<View, String> floatbutton = Pair.create((View) getButton(), "floatbutton");
-                        SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL, new Pair[]{top, floatbutton});
-
-                    }
-                }
-                return false;
-            }
-        });
+        if (getArguments().getBoolean("moneyShow", false)) {
+            view.findViewById(R.id.msg_money_topic).setVisibility(View.VISIBLE);
+        }
+        if (getArguments().getBoolean("orderShow", false)) {
+            view.findViewById(R.id.msg_order_topic).setVisibility(View.VISIBLE);
+        }
         bind((User) getArguments().getParcelable("user"));
     }
 
@@ -170,12 +100,9 @@ public class UserHeaderFrist extends BaseFragment {
         mHeaderBinding.setUser(user);
         mHeaderBinding.executePendingBindings();
         if (user.getUid() != User.read(getContext()).getUid()) {
-            mHeaderBinding.btnCreateskill.setVisibility(View.GONE);
             mHeaderBinding.icEditAvatar.setVisibility(View.GONE);
-            mHeaderBinding.bottom.setVisibility(View.GONE);
         } else {
             mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
-            mHeaderBinding.bottom.setVisibility(View.VISIBLE);
         }
         User.Info info = user.getInfo();
         if (info == null) return;

@@ -44,8 +44,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|left"
-                    android:visibility="visible"
-                    android:src="@mipmap/ic_msg" />
+                    android:src="@mipmap/ic_msg"
+                    android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/miss_msg_count"
@@ -54,6 +54,7 @@
                     android:layout_gravity="right|top"
                     android:src="@drawable/miss_msg_count"
                     android:visibility="invisible" />
+
                 <ImageView
                     android:id="@+id/btn_back"
                     android:layout_width="wrap_content"
@@ -89,5 +90,87 @@
                 android:src="@mipmap/ic_report_userhome"
                 android:visibility="invisible" />
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/btn_createskill"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
+                android:layout_weight="1"
+                android:background="@drawable/index_pull_item_background"
+                android:gravity="center"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_add_skill"
+                android:textSize="16sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/btn_my_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/index_pull_item_background"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_my_order"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/msg_order_topic"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:src="@drawable/miss_msg_count"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/btn_my_remainder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/index_pull_item_background"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_my_remainder"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/msg_money_topic"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:src="@drawable/miss_msg_count"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+        </LinearLayout>
     </FrameLayout>
 </layout>
