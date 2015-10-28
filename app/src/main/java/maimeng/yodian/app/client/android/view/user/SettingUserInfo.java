@@ -18,9 +18,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -54,7 +52,6 @@ import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
@@ -201,6 +198,22 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         });
         binding.job.addTextChangedListener(new EditTextChangeListener(binding.job, binding, user));
         binding.signature.addTextChangedListener(new EditTextChangeListener(binding.signature, binding, user));
+        binding.signature.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.signatureCount.setText(String.format("%d/%d", s.length(), 30));
+            }
+        });
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
         binding.qq.addTextChangedListener(new EditTextChangeListener(binding.qq, binding, user));
         binding.phone.addTextChangedListener(new EditTextChangeListener(binding.phone, binding, user));
@@ -246,7 +259,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         binding.province.setSelection(indexP, true);
 
     }
-
 
 
     private void toggle() {

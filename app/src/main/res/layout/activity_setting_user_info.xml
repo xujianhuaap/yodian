@@ -201,24 +201,41 @@
                 android:text="个性签名"
                 android:textSize="14sp" />
 
-            <LinearLayout
+            <FrameLayout
                 style="@style/formItemStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
                 <EditText
                     android:id="@+id/signature"
                     style="@style/formEditTextStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
+                    android:gravity="top"
                     android:hint="这家伙是不是有点懒？"
+                    android:maxLength="30"
+                    android:singleLine="false"
                     android:text="@{user.info.signature}" />
-            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/signature_count"
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="0dp"
+                    android:paddingRight="5dp"
+                    android:text="0/30"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
