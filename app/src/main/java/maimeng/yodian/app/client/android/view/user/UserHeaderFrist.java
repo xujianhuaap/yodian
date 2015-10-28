@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderUserFristBinding;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.PreviewActivity;
@@ -146,7 +143,7 @@ public class UserHeaderFrist extends BaseFragment {
 
                         Pair<View, String> top = Pair.create(v, "top");
                         Pair<View, String> floatbutton = Pair.create((View) getButton(), "floatbutton");
-                        SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL, new Pair[]{top,floatbutton});
+                        SkillTemplateActivity.show(getActivity(), BaseFragment.REQUEST_CREATE_SKILL, new Pair[]{top, floatbutton});
 
                     }
                 }
@@ -157,13 +154,13 @@ public class UserHeaderFrist extends BaseFragment {
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_UPDATEINFO) {
                 bind(User.read(getContext()));
+                getActivity().sendBroadcast(new Intent(UserHomeFragment.ACTION_UPDATE_INFO));
             }
         }
     }
@@ -191,7 +188,7 @@ public class UserHeaderFrist extends BaseFragment {
                 mHeaderBinding.userSign.setText(String.format("来至%s的%s", city, job));
             } else if (TextUtils.isEmpty(city)) {
                 mHeaderBinding.userSign.setText(job);
-            } else {
+            } else if (!"请选择".equals(city)) {
                 mHeaderBinding.userSign.setText(String.format("来至%s", city));
             }
 

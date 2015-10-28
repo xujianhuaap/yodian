@@ -1,5 +1,9 @@
 package maimeng.yodian.app.client.android.view.user;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +21,9 @@ import maimeng.yodian.app.client.android.view.BaseFragment;
  * Created by android on 2015/10/14.
  */
 public class UserHeaderSecond extends BaseFragment {
+    private TextView textView;
+    private BroadcastReceiver receiver;
+
     public static UserHeaderSecond newInstance(User user) {
         Bundle args = new Bundle();
         args.putParcelable("user", user);
@@ -25,14 +32,40 @@ public class UserHeaderSecond extends BaseFragment {
         return fragment;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("=================================================================");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        TextView textView = new TextView(getContext());
+        textView = new TextView(getContext());
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(16);
         textView.setGravity(Gravity.CENTER);
         User user = getArguments().getParcelable("user");
+        update(user);
+        IntentFilter filter = new IntentFilter(UserHomeFragment.ACTION_UPDATE_INFO);
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                User user = User.read(context);
+                update(user);
+            }
+        };
+        getActivity().registerReceiver(receiver, filter);
+        return textView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(receiver);
+    }
+
+    private void update(User user) {
         if (user == null) {
             textView.setText("无签名");
         } else {
@@ -44,6 +77,5 @@ public class UserHeaderSecond extends BaseFragment {
                 textView.setText(user.getInfo().getSignature());
             }
         }
-        return textView;
     }
 }

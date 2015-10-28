@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -41,8 +40,7 @@
                     android:id="@+id/user_avatar"
                     android:layout_width="@dimen/user_avatar_dimen"
                     android:layout_height="@dimen/user_avatar_dimen"
-                    android:layout_margin="10dp"
-                    app:imgUrl="@{user.avatar}" />
+                    android:layout_margin="10dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -99,14 +97,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lable_sex" />
 
-                <EditText
+                <TextView
                     android:id="@+id/sex"
                     style="@style/formEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/hint_sex"
-                    android:text="@{user.info.sex}" />
+                    android:text="@{user.info.sex}"
+                    android:textSize="19sp" />
             </LinearLayout>
 
             <View
@@ -201,24 +200,41 @@
                 android:text="个性签名"
                 android:textSize="14sp" />
 
-            <LinearLayout
+            <FrameLayout
                 style="@style/formItemStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
                 <EditText
                     android:id="@+id/signature"
                     style="@style/formEditTextStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
+                    android:gravity="top"
                     android:hint="这家伙是不是有点懒？"
+                    android:maxLength="30"
+                    android:singleLine="false"
                     android:text="@{user.info.signature}" />
-            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/signature_count"
+                    style="@style/formLableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="0dp"
+                    android:paddingRight="5dp"
+                    android:text="0/30"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -273,6 +289,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/hint_qq"
+                    android:inputType="number"
+                    android:maxLength="11"
                     android:text="@{user.info.qq}" />
             </LinearLayout>
 
@@ -299,6 +317,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/hint_phone"
+                    android:inputType="phone"
+                    android:maxLength="15"
                     android:text="@{user.info.contact}" />
             </LinearLayout>
 

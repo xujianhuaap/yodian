@@ -18,9 +18,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -45,6 +43,7 @@ import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
+import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.City;
 import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -54,7 +53,6 @@ import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
@@ -131,7 +129,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         });
         new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
-        binding.sex.addTextChangedListener(new EditTextChangeListener(binding.sex, binding, user));
 //        binding.city.addTextChangedListener(new EditTextChangeListener(binding.city, binding, user));
         provinceAdapter = new Adapter(new ArrayList<City>() {{
 //            new City("请选择");
@@ -153,7 +150,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 cityAdapter.reload(sub);
                 districtAdapter.datas.clear();
                 districtAdapter.notifyDataSetChanged();
-                user.getInfo().setProvince(item.getName());
+                String name = item.getName();
+                if (position == 0) {
+                    name = "";
+                }
+                user.getInfo().setProvince(name);
                 if (!initCity) {
                     binding.city.setSelection(indexC, true);
                     initCity = true;
@@ -173,7 +174,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 if (sub != null) {
                     districtAdapter.reload(sub);
                 }
-                user.getInfo().setCity(item.getName());
+                String name = item.getName();
+                if (position == 0) {
+                    name = "";
+                }
+                user.getInfo().setCity(name);
                 if (!initDistrict) {
                     binding.district.setSelection(indexD, true);
                     initDistrict = true;
@@ -190,7 +195,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         binding.district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                user.getInfo().setDistrict(districtAdapter.getItem(position).getName());
+                String name = districtAdapter.getItem(position).getName();
+                if (position == 0) {
+                    name = "";
+                }
+                user.getInfo().setDistrict(name);
 
             }
 
@@ -201,6 +210,22 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         });
         binding.job.addTextChangedListener(new EditTextChangeListener(binding.job, binding, user));
         binding.signature.addTextChangedListener(new EditTextChangeListener(binding.signature, binding, user));
+        binding.signature.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.signatureCount.setText(String.format("%d/%d", s.length(), 30));
+            }
+        });
         binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
         binding.qq.addTextChangedListener(new EditTextChangeListener(binding.qq, binding, user));
         binding.phone.addTextChangedListener(new EditTextChangeListener(binding.phone, binding, user));
@@ -244,9 +269,36 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             }
         }
         binding.province.setSelection(indexP, true);
+        binding.sex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(v.getContext()).setItems(new String[]{"保密", "男", "女"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                binding.sex.setText(Sex.NONE.getName());
+                                binding.getUser().getInfo().setSex(Sex.NONE);
+                                break;
+                            case 1:
+                                binding.sex.setText(Sex.MAN.getName());
+                                binding.getUser().getInfo().setSex(Sex.MAN);
+                                break;
+                            case 2:
+                                binding.sex.setText(Sex.WOMAN.getName());
+                                binding.getUser().getInfo().setSex(Sex.WOMAN);
+                                break;
+                            default:
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
+        ImageAdapter.image(binding.userAvatar, user.getAvatar());
 
     }
-
 
 
     private void toggle() {
@@ -320,6 +372,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         if (res.isSuccess()) {
             if (updateAvatar) {
                 user.setAvatar(res.getData().getAvatar());
+                tempFile.deleteOnExit();
             }
             user.write(this);
             setResult(RESULT_OK);
@@ -369,9 +422,8 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             }
             if (tempFile != null) {
                 Uri uri = Uri.fromFile(tempFile);
-                new ImageLoaderManager.Loader(this, uri).callback(this).start(this);
-                binding.getUser().setAvatar(uri.toString());
-                tempFile.deleteOnExit();
+                ImageAdapter.image(binding.userAvatar, uri.toString());
+                new ImageLoaderManager.Loader(this, uri.toString()).callback(this).start(this);
                 updateAvatar = true;
             }
 //            toggle();
@@ -410,16 +462,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             String text = s.toString();
             if (mText == binding.nickname) {
                 user.setNickname(text);
-            } else if (mText == binding.sex) {
-                if (TextUtils.isEmpty(text) || text.equals(Sex.NONE.getName())) {
-                    user.getInfo().setSex(Sex.NONE);
-                } else {
-                    if (text.equals(Sex.MAN.getName())) {
-                        user.getInfo().setSex(Sex.MAN);
-                    } else {
-                        user.getInfo().setSex(Sex.WOMAN);
-                    }
-                }
             } else if (mText == binding.signature) {
                 user.getInfo().setSignature(text);
             } else if (mText == binding.job) {
