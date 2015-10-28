@@ -153,6 +153,7 @@ public class UserHeaderFrist extends BaseFragment {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_UPDATEINFO) {
                 bind(User.read(getContext()));
+                getActivity().sendBroadcast(new Intent(UserHomeFragment.ACTION_UPDATE_INFO));
             }
         }
     }
