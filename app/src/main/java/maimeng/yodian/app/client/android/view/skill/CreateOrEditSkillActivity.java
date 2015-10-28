@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -47,7 +46,6 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.view.BaseFragment;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.VouchDealActivity;
@@ -75,46 +73,45 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
     /****
      * 增加技能
+     *
      * @param context
      * @param requestCode
      * @param skill
      */
 
-    public static void show(Activity context,int requestCode,Skill skill){
-        Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        if(skill!=null){
-            intent.putExtra("skill",skill);
+    public static void show(Activity context, int requestCode, Skill skill) {
+        Intent intent = new Intent(context, CreateOrEditSkillActivity.class);
+        if (skill != null) {
+            intent.putExtra("skill", skill);
         }
-
         context.startActivityForResult(intent, requestCode);
     }
 
 
     /***
      * 更新技能
+     *
      * @param context
      * @param requestCode
      * @param template
      */
-    public static void show(AppCompatActivity context,int requestCode,SkillTemplate template,Pair<View,String>img,Pair<View,String>title){
-        Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        if(template!=null){
-            intent.putExtra("template",template);
+    public static void show(AppCompatActivity context, int requestCode, SkillTemplate template, Pair<View, String> img, Pair<View, String> title) {
+        Intent intent = new Intent(context, CreateOrEditSkillActivity.class);
+        if (template != null) {
+            intent.putExtra("template", template);
         }
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context,img,title);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, img, title);
         ActivityCompat.startActivityForResult(context, intent, requestCode, options.toBundle());
     }
 
     /***
-     *
      * @param context
      * @param requestCode
-     *
      */
 
-    public static void show(Activity context,int requestCode){
-        Intent intent =new Intent(context,CreateOrEditSkillActivity.class);
-        context.startActivityForResult(intent,requestCode);
+    public static void show(Activity context, int requestCode) {
+        Intent intent = new Intent(context, CreateOrEditSkillActivity.class);
+        context.startActivityForResult(intent, requestCode);
 
     }
 
@@ -127,8 +124,8 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         tempFile = new File(dir, getPhotoFileName());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
-        info=User.read(CreateOrEditSkillActivity.this).getInfo();
-        LogUtil.d(CreateOrEditSkillActivity.class.getName(),"vouch_status "+info.getVouch_status().getValue());
+        info = User.read(CreateOrEditSkillActivity.this).getInfo();
+        LogUtil.d(CreateOrEditSkillActivity.class.getName(), "vouch_status " + info.getVouch_status().getValue());
         if (getIntent().hasExtra("template")) {
             mTemplate = getIntent().getParcelableExtra("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
@@ -145,7 +142,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 mTemplate.setCreatetime(skill.getCreatetime());
                 mTemplate.setId(skill.getId());
                 mTemplate.setStatus(skill.getStatus());
-                allowSell=skill.getAllow_sell();
+                allowSell = skill.getAllow_sell();
                 isEdit = true;
             }
 
@@ -222,21 +219,21 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
-        if(allowSell==1){
+        if (allowSell == 1) {
             binding.onLinePay.setChecked(true);
             binding.onLinePay.setClickable(false);
         }
         binding.onLinePay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(info!=null){
+                if (info != null) {
 
-                    if(info.getVouch_status()== BindStatus.PASS){
+                    if (info.getVouch_status() == BindStatus.PASS) {
                         //设置技能允许卖
-                        allowSell=1;
+                        allowSell = 1;
                         binding.onLinePay.setClickable(false);
 
-                    }else {
+                    } else {
                         VouchDealActivity.show(CreateOrEditSkillActivity.this);
                     }
                 }
@@ -320,7 +317,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         }
 
         if (isEdit) {
-            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(),allowSell, new ToastCallback(this) {
+            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), allowSell, new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -357,7 +354,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
         } else {
             if (mBitmap != null) {
-                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(),allowSell, new Callback<SkillAllResponse>() {
+                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), allowSell, new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
                         if (res.isSuccess()) {
@@ -471,7 +468,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                         public void onLoadFaild() {
 
                         }
-                    }).width(width).height(width*2/3).start(this);
+                    }).width(width).height(width * 2 / 3).start(this);
                     toggle();
                     tempFile.deleteOnExit();
                 }
@@ -486,11 +483,11 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mBitmap != null && !mBitmap.isRecycled()) {
-            mBitmap.recycle();
-            mBitmap = null;
-            System.gc();
-        }
+//        if (mBitmap != null && !mBitmap.isRecycled()) {
+//            mBitmap.recycle();
+//            mBitmap = null;
+//            System.gc();
+//        }
     }
 
     class EditTextChangeListener implements TextWatcher {
