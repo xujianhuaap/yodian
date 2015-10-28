@@ -35,6 +35,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
+import maimeng.yodian.app.client.android.widget.ScrollImageView;
 
 public class AuthSeletorActivity extends AppCompatActivity implements View.OnClickListener {
     private static AuthInfo authInfo;
@@ -58,6 +59,9 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
 
             service = Network.getService(AuthService.class);
             setContentView(R.layout.activity_auth_selector);
+            ScrollImageView image = (ScrollImageView) findViewById(R.id.scrollImage);
+            image.setImage(getResources().openRawResource(R.raw.scroll_bitmap));
+            image.startScroll();
             findViewById(R.id.btn_loginwechat).setOnClickListener(this);
             findViewById(R.id.btn_loginweibo).setOnClickListener(this);
             findViewById(R.id.btn_loginphone).setOnClickListener(this);
