@@ -107,7 +107,6 @@ public class SettingsActivity extends AbstractActivity {
                     public void success(ToastResponse toastResponse, Response response) {
                         user.setPushOn(isChecked);
                         user.write(SettingsActivity.this);
-                        Toast.makeText(SettingsActivity.this, "isChecked" + toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
