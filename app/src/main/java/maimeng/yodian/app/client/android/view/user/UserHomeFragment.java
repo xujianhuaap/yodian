@@ -261,7 +261,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
                 }
             }
-
+            res.getData().getList().get(0);
             showUserInfo();
         } else {
             res.showMessage(mActivity);

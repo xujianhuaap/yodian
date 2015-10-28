@@ -98,34 +98,64 @@
                 android:src="@mipmap/ic_add_skill"
                 android:textSize="16sp" />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
+                android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/my_order"
+                <ImageView
+                    android:id="@+id/my_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/index_pull_item_background"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_my_order"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/msg_order_topic"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:src="@drawable/miss_msg_count"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/padding_small"
                 android:layout_marginRight="@dimen/padding_small"
                 android:layout_weight="1"
-                android:background="@drawable/index_pull_item_background"
-                android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_my_order"
-                android:textSize="16sp"
-                android:visibility="visible" />
+                android:gravity="center">
 
+                <ImageView
+                    android:id="@+id/my_remainder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/index_pull_item_background"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_my_remainder"
+                    android:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/my_remainder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_weight="1"
-                android:background="@drawable/index_pull_item_background"
-                android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_my_remainder"
-                android:visibility="visible" />
+                <ImageView
+                    android:id="@+id/msg_money_topic"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:src="@drawable/miss_msg_count"
+                    android:visibility="gone" />
+            </FrameLayout>
+
         </LinearLayout>
     </LinearLayout>
 

@@ -143,6 +143,12 @@ public class UserHeaderFrist extends BaseFragment {
                 return false;
             }
         });
+        if (getArguments().getBoolean("moneyShow", false)) {
+            view.findViewById(R.id.msg_money_topic).setVisibility(View.VISIBLE);
+        }
+        if (getArguments().getBoolean("orderShow", false)) {
+            view.findViewById(R.id.msg_order_topic).setVisibility(View.VISIBLE);
+        }
         bind((User) getArguments().getParcelable("user"));
     }
 
@@ -169,6 +175,16 @@ public class UserHeaderFrist extends BaseFragment {
         } else {
             mHeaderBinding.icEditAvatar.setVisibility(View.VISIBLE);
             mHeaderBinding.bottom.setVisibility(View.VISIBLE);
+            if (user.getInfo().getSellMsg() == 0 && user.getInfo().getBuyMsg() == 0) {
+                mHeaderBinding.msgOrderTopic.setVisibility(View.GONE);
+            } else {
+                mHeaderBinding.msgOrderTopic.setVisibility(View.VISIBLE);
+            }
+            if (user.getInfo().getMoneyMsg() == 0) {
+                mHeaderBinding.msgMoneyTopic.setVisibility(View.GONE);
+            } else {
+                mHeaderBinding.msgMoneyTopic.setVisibility(View.VISIBLE);
+            }
         }
         User.Info info = user.getInfo();
         if (info == null) return;
