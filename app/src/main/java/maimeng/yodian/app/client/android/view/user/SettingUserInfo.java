@@ -43,6 +43,7 @@ import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
+import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.City;
 import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -283,6 +284,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 }).show();
             }
         });
+        ImageAdapter.image(binding.userAvatar, user.getAvatar());
 
     }
 
@@ -358,6 +360,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         if (res.isSuccess()) {
             if (updateAvatar) {
                 user.setAvatar(res.getData().getAvatar());
+                tempFile.deleteOnExit();
             }
             user.write(this);
             setResult(RESULT_OK);
@@ -407,9 +410,8 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             }
             if (tempFile != null) {
                 Uri uri = Uri.fromFile(tempFile);
-                new ImageLoaderManager.Loader(this, uri).callback(this).start(this);
-                binding.getUser().setAvatar(uri.toString());
-                tempFile.deleteOnExit();
+                ImageAdapter.image(binding.userAvatar, uri.toString());
+                new ImageLoaderManager.Loader(this, uri.toString()).callback(this).start(this);
                 updateAvatar = true;
             }
 //            toggle();

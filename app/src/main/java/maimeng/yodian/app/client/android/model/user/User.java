@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.google.gson.annotations.SerializedName;
 
-import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
@@ -78,7 +77,6 @@ public class User extends UserBaseColum implements Parcelable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-        notifyPropertyChanged(BR.avatar);
     }
 
     public String getT_nickname() {
@@ -195,7 +193,6 @@ public class User extends UserBaseColum implements Parcelable {
     }
 
     /***
-     *
      * @param context
      * @return
      */
@@ -290,7 +287,7 @@ public class User extends UserBaseColum implements Parcelable {
         public static final String KEY_CITY = "_city";
         public static final String KEY_DISTRICT = "_district";
         public static final String KEY_ADDRESS = "_address";
-        public static final String KEY_VOUCH_STATUS="_vouch_status";
+        public static final String KEY_VOUCH_STATUS = "_vouch_status";
 
         public String getSignature() {
             return signature;
@@ -418,8 +415,8 @@ public class User extends UserBaseColum implements Parcelable {
                 editor.putString(KEY_ADDRESS, this.address == null ? "" : this.address);
                 editor.putString(KEY_SIGNATURE, this.signature == null ? "" : this.signature);
                 editor.putString(KEY_JOB, this.job == null ? "" : this.job);
-                if(this.vouch_status!=null){
-                    editor.putInt(KEY_VOUCH_STATUS,vouch_status==BindStatus.PASS?1:0);
+                if (this.vouch_status != null) {
+                    editor.putInt(KEY_VOUCH_STATUS, vouch_status == BindStatus.PASS ? 1 : 0);
                 }
 
                 return true;
@@ -439,10 +436,10 @@ public class User extends UserBaseColum implements Parcelable {
                 String address = pref.getString(KEY_ADDRESS, "");
                 String signature = pref.getString(KEY_SIGNATURE, "");
                 String job = pref.getString(KEY_JOB, "");
-                int vouch_status=pref.getInt(KEY_VOUCH_STATUS,3);
-                if(vouch_status==1){
+                int vouch_status = pref.getInt(KEY_VOUCH_STATUS, 3);
+                if (vouch_status == 1) {
                     info.setVouch_status(BindStatus.PASS);
-                }else{
+                } else {
                     info.setVouch_status(BindStatus.DENY);
                 }
                 info.setWechat(wechat);
@@ -458,7 +455,6 @@ public class User extends UserBaseColum implements Parcelable {
                 return info;
             }
         }
-
 
 
     }

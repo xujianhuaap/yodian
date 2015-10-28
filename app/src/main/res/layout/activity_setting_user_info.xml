@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -41,8 +40,7 @@
                     android:id="@+id/user_avatar"
                     android:layout_width="@dimen/user_avatar_dimen"
                     android:layout_height="@dimen/user_avatar_dimen"
-                    android:layout_margin="10dp"
-                    app:imgUrl="@{user.avatar}" />
+                    android:layout_margin="10dp" />
 
                 <TextView
                     android:layout_width="match_parent"
