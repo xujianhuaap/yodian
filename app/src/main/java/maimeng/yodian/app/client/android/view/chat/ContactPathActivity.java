@@ -58,6 +58,7 @@ public class ContactPathActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ContactPathActivity.this, ContactDialog.class).putExtra("wechat", wechat));
+                finish();
             }
         });
 
@@ -65,7 +66,8 @@ public class ContactPathActivity extends AppCompatActivity{
         findViewById(R.id.qq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ContactPathActivity.this, ContactDialog.class).putExtra("wechat", wechat));
+                startActivity(new Intent(ContactPathActivity.this, ContactDialog.class).putExtra("qq", wechat));
+                finish();
             }
         });
 

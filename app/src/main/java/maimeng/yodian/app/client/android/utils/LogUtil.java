@@ -15,7 +15,6 @@ public class LogUtil {
     // TODO ***********************SDK发布时请将此变量设置为私有的 **********************************
     private final static boolean isPrint = BuildConfig.DEBUG;
     // 增加丿تtest属瀧Ԩ于防止测试代码因疏忽导致没有关闿
-    public final static boolean test = isPrint;
 
     // TODO ***********************SDK发布时请将上面变量设置为私有皿**********************************
     public static void i(String tag, String message) {

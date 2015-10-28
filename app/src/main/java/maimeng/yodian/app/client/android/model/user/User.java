@@ -281,7 +281,6 @@ public class User extends UserBaseColum implements Parcelable {
 
         private static final String KEY_MOBILE = "_key_mobile";
         private static final String KEY_WECHAT = "_key_wechat";
-
         public static final String KEY_CONTACT = "_contact";
         public static final String KEY_QQ = "_qq";
         public static final String KEY_PROVINCE = "_province";

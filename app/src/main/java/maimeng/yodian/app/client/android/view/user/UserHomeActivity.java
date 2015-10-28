@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -78,10 +82,7 @@ public class UserHomeActivity extends AbstractActivity {
         return new UserIntent(context, uid);
     }
 
-    @Override
-    public FloatingActionButton getFloatButton() {
-        return (FloatingActionButton) findViewById(R.id.btn_back);
-    }
+
 
     public static class UserIntent extends Intent {
         public UserIntent(Context context, long uid) {
@@ -94,14 +95,8 @@ public class UserHomeActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home, false);
-        final View btnBack = findViewById(R.id.btn_back);
         UserHomeFragment fragment = UserHomeFragment.newInstance((Bitmap) getIntent().getParcelableExtra("avatar"), getIntent().getStringExtra("nickname"), getIntent().getLongExtra("uid", 0));
         getSupportFragmentManager().beginTransaction().add(R.id.content, fragment).commitAllowingStateLoss();
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(UserHomeActivity.this);
-            }
-        });
+
     }
 }

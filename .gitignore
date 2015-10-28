@@ -1,4 +1,6 @@
 .gradle
+/gradle
+gradlew*
 /local.properties
 /.idea
 .DS_Store

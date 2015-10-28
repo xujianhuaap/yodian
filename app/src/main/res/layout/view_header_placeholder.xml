@@ -10,8 +10,6 @@
     </data>
     <LinearLayout
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_small"
-        android:paddingRight="@dimen/padding_small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <FrameLayout
@@ -22,7 +20,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/padding_normal"
                 android:paddingBottom="@dimen/padding_normal"
                 android:orientation="vertical">
 
@@ -165,32 +162,31 @@
                     android:id="@+id/skill_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
+                    android:layout_gravity="center_vertical"
                     android:text="@{skill.name}"
                     android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/colorPrimaryDark"
                     android:visibility="visible" />
-                <TextView
+                <ImageView
                     android:id="@+id/skill_slector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_normal"
-                    android:visibility="invisible"
-                    android:background="@mipmap/ic_skill_better" />
-                <TextView
+                    android:src="@mipmap/ic_skill_better" />
+                <ImageView
                     android:id="@+id/skill_allow_sell"
+                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:background="@mipmap/ic_skill_can_sell"
-                    android:visibility="invisible"
+                    android:src="@mipmap/ic_skill_can_sell"
                      />
                 </LinearLayout>
-            <TextView
+            <View
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/division_height"
                 android:background="@color/div_line"/>

@@ -1,14 +1,10 @@
 package maimeng.yodian.app.client.android.view.skill;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,25 +12,19 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.easemob.applib.controller.HXSDKHelper;
-import com.melnykov.fab.ScrollDirectionListener;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -47,9 +37,7 @@ import java.util.Map;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
-import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
-import in.srain.cube.views.ptr.indicator.PtrIndicator;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkListAdapter;
@@ -71,7 +59,6 @@ import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.PayWrapperActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
@@ -86,14 +73,11 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
     private static final int REQEUST_RMARK_ADD = 0x1001;
     private static final int REQEUST_RMARK_AUTH = 0x1002;
+    private static final int MENU_ID_SHARE = 0x5001;
     private SkillService service;
     private long sid;
     private int page = 1;
     private RmarkListAdapter adapter;
-    private Interpolator mSmoothInterpolator;
-    private int mHeaderHeight;
-    private int mActionBarHeight;
-    private int mMinHeaderTranslation;
     private View mPlaceHolderView;
     private ViewHeaderPlaceholderBinding headBinding;
     private ActivitySkillDetailsBinding binding;
@@ -104,7 +88,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private FrameLayout noSkillRmark;
     private Bitmap defaultAvatar;
 
-    private boolean inited = false;
 
     @Override
     protected void onDestroy() {
@@ -129,8 +112,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         params.gravity = Gravity.CENTER;
         noSkillRmark.addView(iv, params);
         service = Network.getService(SkillService.class);
-        binding = DataBindingUtil.inflate(getLayoutInflater(),R.layout.activity_skill_details,null,false);
-        setContentView(binding.getRoot());
+        binding = bindView(R.layout.activity_skill_details);
         headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, binding.recyclerView, false);
         ViewCompat.setTransitionName(headBinding.btnBuySkill, "back");
         headBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
@@ -151,34 +133,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         StoreHouseHeader header = PullHeadView.create(this);
         binding.refreshLayout.addPtrUIHandler(header);
         binding.refreshLayout.setHeaderView(header);
-        binding.refreshLayout.addPtrUIHandler(new PtrUIHandler() {
-            @Override
-            public void onUIReset(PtrFrameLayout ptrFrameLayout) {
-                LogUtil.i("mRefreshLayout", "onUIReset");
-            }
 
-            @Override
-            public void onUIRefreshPrepare(PtrFrameLayout ptrFrameLayout) {
-                LogUtil.i("mRefreshLayout", "onUIRefreshPrepare");
-            }
-
-            @Override
-            public void onUIRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-                LogUtil.i("mRefreshLayout", "onUIRefreshBegin");
-            }
-
-            @Override
-            public void onUIRefreshComplete(PtrFrameLayout ptrFrameLayout) {
-                LogUtil.i("mRefreshLayout", "onUIRefreshComplete");
-            }
-
-            @Override
-            public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-                float currentPercent = Math.min(1.0F, ptrIndicator.getCurrentPercent());
-                int posY = ptrIndicator.getCurrentPosY();
-                LogUtil.i("mRefreshLayout", "posY:%d", posY);
-            }
-        });
         binding.recyclerView.setAdapter(adapter);
         if (getIntent().hasExtra("skill")) {
             Skill skill = getIntent().getParcelableExtra("skill");
@@ -213,9 +168,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 setUIWhenIsMe();
             }
             binding.refreshLayout.autoRefresh();
-            if (android.os.Build.VERSION.SDK_INT >= 21) {
-//                setStatuBarColor();
-            }
         } else {
             sid = getIntent().getLongExtra("sid", 0);
             binding.refreshLayout.autoRefresh();
@@ -276,18 +228,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             if (list.size() > 0) {
                 Rmark rmark = list.get(0);
                 Date date = rmark.getCreatetime();
-                LogUtil.d("SkillDetailsActivity", "TT" + date);
-
-                LogUtil.d("SkillDetailsActivity", "TRTTT" + date.getTime());
             }
 
             if (skill == null) {
-                headBinding.headerLogoBg.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        inited = true;
-                    }
-                }, 1000);
                 skill = res.getData().getDetail();
                 isMe = skill.getUid() == user.getUid();
                 if (isMe) {
@@ -330,9 +273,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 }).start(this);
                 Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
                 headBinding.price.setText(text);
-                if (android.os.Build.VERSION.SDK_INT >= 21) {
-//                    setStatuBarColor();
-                }
             }
             if (isMe) {
                 binding.recyclerView.removeHeaderView(noSkillRmark);
@@ -362,17 +302,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         dialog.dismiss();
         binding.refreshLayout.refreshComplete();
 
-    }
-
-    private int colorBurn(int RGBValues) {
-        int alpha = RGBValues >> 24;
-        int red = RGBValues >> 16 & 0xFF;
-        int green = RGBValues >> 8 & 0xFF;
-        int blue = RGBValues & 0xFF;
-        red = (int) Math.floor(red * (1 - 0.1));
-        green = (int) Math.floor(green * (1 - 0.1));
-        blue = (int) Math.floor(blue * (1 - 0.1));
-        return Color.rgb(red, green, blue);
     }
 
     @Override
@@ -521,7 +450,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem=menu.add(0,0x2314,10,null);
+        MenuItem menuItem=menu.add(0,MENU_ID_SHARE,10,null);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         menuItem.setIcon(R.mipmap.btn_share);
         return super.onCreateOptionsMenu(menu);
@@ -534,7 +463,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 ActivityCompat.finishAfterTransition(SkillDetailsActivity.this);
                 return true;
             }
-            case 0x2314:{
+            case MENU_ID_SHARE:{
                 ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""), 1);
             }
         }
