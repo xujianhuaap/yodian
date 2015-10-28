@@ -6,59 +6,90 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark">
+        android:weightSum="1"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_small"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_go_back_black"
+             />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            />
         <LinearLayout
             android:id="@+id/btn_saled"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.3"
             android:gravity="center"
+            android:layout_marginTop="@dimen/margin_normal"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark">
-            <CheckBox
-                android:id="@+id/btn_saled_select"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:button="@null"
-                android:background="@mipmap/ic_white_dot"
-                />
+            android:background="@android:color/white">
+
+
+
             <TextView
+                android:id="@+id/tv_saled"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="@dimen/text_size_normal"
                 android:text="@string/order_list_btn_saled"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
+            <CheckBox
+                android:id="@+id/btn_saled_select"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_height="@dimen/divider_line"
+                android:layout_marginLeft="@dimen/sub_line_margin"
+                android:layout_marginRight="@dimen/sub_line_margin"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:background="@android:color/black"
+                />
 
         </LinearLayout>
         <LinearLayout
             android:id="@+id/btn_buyed"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.3"
             android:gravity="center"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark">
-            <CheckBox
-                android:id="@+id/btn_ordered_select"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:button="@null"
-                android:background="@mipmap/ic_white_dot"
-                />
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/tv_buyed"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="@dimen/text_size_normal"
                 android:text="@string/order_list_btn_ordered"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
+            <CheckBox
+                android:id="@+id/btn_ordered_select"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_height="@dimen/divider_line"
+                android:layout_marginLeft="@dimen/sub_line_margin"
+                android:layout_marginRight="@dimen/sub_line_margin"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:background="@android:color/black"
+                />
 
         </LinearLayout>
+
 
     </LinearLayout>
     <FrameLayout

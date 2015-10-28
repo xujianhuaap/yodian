@@ -14,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -61,6 +62,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
     private View mBtnChat;
     private View mBtnPull;
     private RecyclerView mTypeList;
+    private View mOverlay;
 
     public static IndexFragment newInstance() {
         return new IndexFragment();
@@ -80,7 +82,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         final View root = findViewById(R.id.pop_layout);
         final TranslateAnimation rootAnim;
         if (root.getVisibility() != View.VISIBLE) {
-            findViewById(R.id.pull_overy).setVisibility(View.VISIBLE);
+            mOverlay.setVisibility(View.VISIBLE);
             rootAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                     Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                     -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
@@ -197,6 +199,21 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         typeAdapter = new TypeAdater();
         mTypeList.setAdapter(typeAdapter);
         service.choose(1, 0, this);
+
+        mOverlay = findViewById(R.id.pull_overy);
+        mOverlay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                LogUtil.d(IndexFragment.class.getName(),"onTouch"+event.getAction());
+                if(event.getAction()==MotionEvent.ACTION_DOWN)return true;
+                if(event.getAction()==MotionEvent.ACTION_UP){
+
+                    mBtnPull.callOnClick();
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 

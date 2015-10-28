@@ -58,7 +58,7 @@ public class OrderDetailActivity extends AbstractActivity {
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back_black);
         }
     }
 

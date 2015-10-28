@@ -107,6 +107,7 @@
     <dimen name="margin_Xlarge">150dp</dimen>
 
     <dimen name="seller_avatar">60dp</dimen>
+    <dimen name="sub_line_margin">10dp</dimen>
 
     <!-- order_detail-->
     <dimen name="order_skill_pic_width">100dp</dimen>
