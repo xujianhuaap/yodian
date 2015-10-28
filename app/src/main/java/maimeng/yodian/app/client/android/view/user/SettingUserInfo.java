@@ -150,7 +150,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 cityAdapter.reload(sub);
                 districtAdapter.datas.clear();
                 districtAdapter.notifyDataSetChanged();
-                user.getInfo().setProvince(item.getName());
+                String name = item.getName();
+                if (position == 0) {
+                    name = "";
+                }
+                user.getInfo().setProvince(name);
                 if (!initCity) {
                     binding.city.setSelection(indexC, true);
                     initCity = true;
@@ -170,7 +174,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 if (sub != null) {
                     districtAdapter.reload(sub);
                 }
-                user.getInfo().setCity(item.getName());
+                String name = item.getName();
+                if (position == 0) {
+                    name = "";
+                }
+                user.getInfo().setCity(name);
                 if (!initDistrict) {
                     binding.district.setSelection(indexD, true);
                     initDistrict = true;
@@ -187,7 +195,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         binding.district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                user.getInfo().setDistrict(districtAdapter.getItem(position).getName());
+                String name = districtAdapter.getItem(position).getName();
+                if (position == 0) {
+                    name = "";
+                }
+                user.getInfo().setDistrict(name);
 
             }
 
