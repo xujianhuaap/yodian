@@ -118,8 +118,15 @@ public class UserHeaderFrist extends BaseFragment {
                     return true;
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (TextUtils.isEmpty(User.read(getActivity()).getWechat())) {
-                        AlertDialog.newInstance("提示", "你未设置微信号").setPositiveListener(new AlertDialog.PositiveListener() {
+                    User user=User.read(getActivity());
+                    String weChat=user.getInfo().getWechat();
+                    String qq=user.getInfo().getQq();
+                    String contact=user.getInfo().getContact();
+                    boolean weChatIsEmpty=TextUtils.isEmpty(weChat);
+                    boolean qqIsEmpty=TextUtils.isEmpty(weChat);
+                    boolean contactIsEmpty=TextUtils.isEmpty(contact);
+                    if (weChatIsEmpty&&qqIsEmpty&&contactIsEmpty) {
+                        AlertDialog.newInstance("提示", "请完善个人信息").setPositiveListener(new AlertDialog.PositiveListener() {
                             @Override
                             public void onPositiveClick(DialogInterface dialog) {
 //                        Pair<View, String> avatar = Pair.create(clickItem, "avatar");

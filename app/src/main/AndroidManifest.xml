@@ -126,6 +126,7 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".view.auth.AuthSeletorActivity"
+            android:exported="true"
             android:theme="@style/AppThemeWhite">
 
             <intent-filter>
@@ -162,6 +163,13 @@
             android:name=".view.deal.PayWrapperActivity"
             android:label=""
             android:theme="@style/PayWrapperActivity" />
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
         <activity
             android:name=".view.deal.OrderListActivity"
             android:label="@string/order_list_btn_ordered" />
