@@ -273,6 +273,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/hint_qq"
+                    android:inputType="number"
+                    android:maxLength="11"
                     android:text="@{user.info.qq}" />
             </LinearLayout>
 
@@ -299,6 +301,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/hint_phone"
+                    android:inputType="phone"
+                    android:maxLength="15"
                     android:text="@{user.info.contact}" />
             </LinearLayout>
 
