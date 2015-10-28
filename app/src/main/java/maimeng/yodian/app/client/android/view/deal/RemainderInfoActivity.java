@@ -78,7 +78,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
             } else {
                 Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
             }
-        }else if(v==binding.mySaleOrder){
+        } else if (v == binding.mySaleOrder) {
             OrderListActivity.show(this);
         }
     }
@@ -108,11 +108,12 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
      * 是否有成功操作提现功能
      */
     private boolean moneyChanged = false;
+    private double during = 0;
 
     @Override
     public void finish() {
         if (moneyChanged) {
-            setResult(RESULT_OK, new Intent().putExtra(KEY_REMAINDER, binding.getRemainder()));
+            setResult(RESULT_OK, new Intent().putExtra(KEY_REMAINDER, binding.getRemainder()).putExtra("during", during));
         }
         super.finish();
     }
@@ -126,8 +127,9 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
                     moneyChanged = true;
                     final Remainder remainder = binding.getRemainder();
                     remainder.setMoney(remainder.getMoney() - during);
-                    remainder.setWithdraw(remainder.getWithdraw() + during);
+                    remainder.setDuring(remainder.getDuring() + during);
                     binding.setRemainder(remainder);
+                    RemainderInfoActivity.this.during = during;
                 }
             }
 
