@@ -128,7 +128,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         });
         new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
-        binding.sex.addTextChangedListener(new EditTextChangeListener(binding.sex, binding, user));
 //        binding.city.addTextChangedListener(new EditTextChangeListener(binding.city, binding, user));
         provinceAdapter = new Adapter(new ArrayList<City>() {{
 //            new City("请选择");
@@ -257,6 +256,33 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             }
         }
         binding.province.setSelection(indexP, true);
+        binding.sex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(v.getContext()).setItems(new String[]{"保密", "男", "女"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                binding.sex.setText(Sex.NONE.getName());
+                                binding.getUser().getInfo().setSex(Sex.NONE);
+                                break;
+                            case 1:
+                                binding.sex.setText(Sex.MAN.getName());
+                                binding.getUser().getInfo().setSex(Sex.MAN);
+                                break;
+                            case 2:
+                                binding.sex.setText(Sex.WOMAN.getName());
+                                binding.getUser().getInfo().setSex(Sex.WOMAN);
+                                break;
+                            default:
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
 
     }
 
@@ -422,16 +448,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             String text = s.toString();
             if (mText == binding.nickname) {
                 user.setNickname(text);
-            } else if (mText == binding.sex) {
-                if (TextUtils.isEmpty(text) || text.equals(Sex.NONE.getName())) {
-                    user.getInfo().setSex(Sex.NONE);
-                } else {
-                    if (text.equals(Sex.MAN.getName())) {
-                        user.getInfo().setSex(Sex.MAN);
-                    } else {
-                        user.getInfo().setSex(Sex.WOMAN);
-                    }
-                }
             } else if (mText == binding.signature) {
                 user.getInfo().setSignature(text);
             } else if (mText == binding.job) {

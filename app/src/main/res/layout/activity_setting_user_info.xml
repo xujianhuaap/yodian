@@ -99,14 +99,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lable_sex" />
 
-                <EditText
+                <TextView
                     android:id="@+id/sex"
                     style="@style/formEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/hint_sex"
-                    android:text="@{user.info.sex}" />
+                    android:text="@{user.info.sex}"
+                    android:textSize="19sp" />
             </LinearLayout>
 
             <View
