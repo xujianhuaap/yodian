@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -167,7 +168,10 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         }
     }
 
+    private final Handler touchHandler = new Handler();
+
     @Override
+
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mPager = (ViewPager) view.findViewById(R.id.pager);
@@ -182,7 +186,29 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         findViewById(R.id.pull_overy).setOnClickListener(clickListener);
         this.mTabNav = (TabLayout) view.findViewById(R.id.tab_nav);
         mTypeList = findViewById(R.id.typeList);
-        mTypeList.setOnClickListener(clickListener);
+//        mTypeList.setOnClickListener(clickListener);
+        mTypeList.setOnTouchListener(new View.OnTouchListener() {
+            private boolean isDown = false;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        isDown = true;
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        isDown = false;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (isDown) {
+                            toggleTypePop(mBtnPull);
+                            isDown = false;
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
         mBtnChat = view.findViewById(R.id.btn_chat);
         mBtnChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,22 +225,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         typeAdapter = new TypeAdater();
         mTypeList.setAdapter(typeAdapter);
         service.choose(1, 0, this);
-
         mOverlay = findViewById(R.id.pull_overy);
-        mOverlay.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                LogUtil.d(IndexFragment.class.getName(),"onTouch"+event.getAction());
-                if(event.getAction()==MotionEvent.ACTION_DOWN)return true;
-                if(event.getAction()==MotionEvent.ACTION_UP){
-
-                    mBtnPull.callOnClick();
-                    return true;
-                }
-                return false;
-            }
-        });
-
     }
 
     @Override
