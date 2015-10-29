@@ -14,6 +14,9 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import maimeng.yodian.app.client.android.R;
@@ -35,6 +38,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
     private int mPage=1;
     private PtrFrameLayout mRefreshLayout;
     private RecyclerView mRecyclerView;
+    private View mNoOrder;
     private EndlessRecyclerOnScrollListener mEndlessRecyclerOnScrollListener;
     private OrderListAdapter mAdapter;
     private OrderService mService;
@@ -91,6 +95,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
         mRecyclerView.setAdapter(mAdapter);
 
         mService= Network.getService(OrderService.class);
+        mNoOrder=view.findViewById(R.id.no_order);
         freshData();
 
     }
@@ -212,8 +217,17 @@ public class OrderFragment extends Fragment implements PtrHandler{
         @Override
         public void success(OrderRepsonse orderRepsonse, Response response) {
             if(orderRepsonse.getCode()==20000){
-                mAdapter.reload(orderRepsonse.getData().getList(),mIsAppend);
-                mAdapter.notifyDataSetChanged();
+                List<OrderInfo> orders=orderRepsonse.getData().getList();
+                if(orders.size()==0&&mPage==1){
+                    mNoOrder.setVisibility(View.VISIBLE);
+                    mRefreshLayout.setVisibility(View.GONE);
+                }else {
+                    mNoOrder.setVisibility(View.GONE);
+                    mRefreshLayout.setVisibility(View.VISIBLE);
+                    mAdapter.reload(orders,mIsAppend);
+                    mAdapter.notifyDataSetChanged();
+                }
+
             }
 
         }
