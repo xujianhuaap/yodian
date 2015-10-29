@@ -46,25 +46,13 @@ import maimeng.yodian.app.client.android.view.AbstractActivity;
 /**
  * 绑定银行卡表单界面
  */
-public class BindBankActivity extends AbstractActivity implements View.OnClickListener, AbstractAdapter.ViewHolderClickListener<BindBankActivity.ViewHolder> {
+public class BindBankActivity extends AbstractActivity implements View.OnClickListener {
     private ActivityBindBankBinding binding;
     private final BindBank bank = new BindBank();
     private BankService service;
     private InputMethodManager inputmanger;
     private Toast toast;
 
-    @Override
-    public void onItemClick(ViewHolder holder, int postion) {
-        this.bank.setBankName(holder.getBank().getName());
-        this.bank.setId(holder.getBank().getId());
-        binding.bank.setText(this.bank.getBankName());
-        hideBankList();
-    }
-
-    @Override
-    public void onClick(ViewHolder holder, View clickItem, int postion) {
-
-    }
 
     private class InputListener implements TextWatcher {
         private final TextView mEdit;
@@ -101,7 +89,6 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
             } else if (mEdit == binding.valicode) {
                 bank.setValicode(value);
             }
-            binding.btnSubmit.setEnabled(checkNotNull());
         }
 
 
@@ -172,7 +159,6 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
                 binding.bank.setText(bank.getName());
                 BindBankActivity.this.bank.setBankId(bank.getId());
                 hideBankList();
-                binding.btnSubmit.setEnabled(checkNotNull());
             }
         });
 //        banks.addChangingListener(new OnWheelChangedListener() {

@@ -155,7 +155,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_submit_background"
-                android:enabled="false"
                 android:text="@string/btn_submit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="22sp" />
