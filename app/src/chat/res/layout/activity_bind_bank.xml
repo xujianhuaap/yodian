@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/bind_bank_idcard_number_hint"
-                android:inputType="number"
+                android:digits="0123456789X"
                 android:text="@{bank.idcard}" />
 
             <EditText

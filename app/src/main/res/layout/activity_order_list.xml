@@ -14,7 +14,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_normal"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_go_back_black"
              />
