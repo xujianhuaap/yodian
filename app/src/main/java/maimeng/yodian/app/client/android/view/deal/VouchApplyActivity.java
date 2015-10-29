@@ -174,26 +174,26 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
             freshApplyInfo();
             mReasonNum.setText(mReasonStr.length() + "/500");
 
-            if (TextUtils.isEmpty(mNicknameStr)) {
-                mClearNickName.setVisibility(View.INVISIBLE);
-            } else {
-                mClearNickName.setVisibility(View.VISIBLE);
-            }
-            if (TextUtils.isEmpty(mPhoneStr)) {
-                mClearPhone.setVisibility(View.INVISIBLE);
-            } else {
-                mClearPhone.setVisibility(View.VISIBLE);
-            }
-            if (TextUtils.isEmpty(mEmailStr)) {
-                mClearEmail.setVisibility(View.INVISIBLE);
-            } else {
-                mClearEmail.setVisibility(View.VISIBLE);
-            }
-            if (TextUtils.isEmpty(mQQStr)) {
-                mClearQQ.setVisibility(View.INVISIBLE);
-            } else {
-                mClearQQ.setVisibility(View.VISIBLE);
-            }
+//            if (TextUtils.isEmpty(mNicknameStr)) {
+//                mClearNickName.setVisibility(View.INVISIBLE);
+//            } else {
+//                mClearNickName.setVisibility(View.VISIBLE);
+//            }
+//            if (TextUtils.isEmpty(mPhoneStr)) {
+//                mClearPhone.setVisibility(View.INVISIBLE);
+//            } else {
+//                mClearPhone.setVisibility(View.VISIBLE);
+//            }
+//            if (TextUtils.isEmpty(mEmailStr)) {
+//                mClearEmail.setVisibility(View.INVISIBLE);
+//            } else {
+//                mClearEmail.setVisibility(View.VISIBLE);
+//            }
+//            if (TextUtils.isEmpty(mQQStr)) {
+//                mClearQQ.setVisibility(View.INVISIBLE);
+//            } else {
+//                mClearQQ.setVisibility(View.VISIBLE);
+//            }
 
 
         }

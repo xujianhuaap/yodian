@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -16,8 +16,6 @@ import java.util.regex.Pattern;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.view.deal.VouchApplyActivity;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 
@@ -26,6 +24,10 @@ import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
  */
 public class ContactPathActivity extends AppCompatActivity{
 
+
+    private String mPhone;
+    private String wechat;
+    private String mQQ;
 
     /***
      *
@@ -43,16 +45,25 @@ public class ContactPathActivity extends AppCompatActivity{
         getWindow().setGravity(Gravity.BOTTOM);
         setContentView(R.layout.activity_contact_path);
         Skill skill=getIntent().getParcelableExtra("skill");
-        final String wechat=skill.getWeichat();
-        String qq=skill.getQq();
-        final String phone=skill.getContact();
+        wechat = skill.getWeichat();
+        mQQ = skill.getQq();
+        mPhone = skill.getContact();
+        if(TextUtils.isEmpty(wechat)){
+            wechat =getString(R.string.contact_no);
+        }
+        if(TextUtils.isEmpty(mQQ)){
+            mQQ =getString(R.string.contact_no);;
+        }
+        if(TextUtils.isEmpty(mPhone)){
+            mPhone =getString(R.string.contact_no);;
+        }
         TextView tvWeChat=(TextView)findViewById(R.id.tv_wechat);
         TextView tvQQ=(TextView)findViewById(R.id.tv_QQ);
         TextView tvPhone=(TextView)findViewById(R.id.tv_phone);
 
-        tvWeChat.setText(skill.getWeichat());
-        tvQQ.setText(skill.getQq());
-        tvPhone.setText(skill.getContact());
+        tvWeChat.setText(wechat);
+        tvQQ.setText(mQQ);
+        tvPhone.setText(mPhone);
 
         findViewById(R.id.wechat).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,9 +86,9 @@ public class ContactPathActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Pattern pattern = Pattern.compile("\\d+?");
-                Matcher matcher = pattern.matcher(phone);
+                Matcher matcher = pattern.matcher(mPhone);
                 if (matcher.matches()) {
-                    final String num = phone;
+                    final String num = mPhone;
                     ViewDialog.Builder builder = new ViewDialog.Builder(ContactPathActivity.this);
                     builder.setMesage(num);
                     builder.setTitle("");
