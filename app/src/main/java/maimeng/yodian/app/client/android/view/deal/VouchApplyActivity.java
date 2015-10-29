@@ -3,6 +3,8 @@ package maimeng.yodian.app.client.android.view.deal;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
@@ -10,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,6 +78,7 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
         View view = getLayoutInflater().inflate(R.layout.activity_vouch_apply, null, false);
         this.mSubmit = (Button) view.findViewById(R.id.apply_submit);
@@ -144,6 +148,8 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+            mTitle.setTextColor(Color.WHITE);
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
         }
     }

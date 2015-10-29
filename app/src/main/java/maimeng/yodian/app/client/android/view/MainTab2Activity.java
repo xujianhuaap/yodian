@@ -35,7 +35,6 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.FloatResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
@@ -145,7 +144,6 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         Bitmap bottomBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bottomBitmap);
         int radius=(int)(width*rate/2);
-        LogUtil.d(MainTab2Activity.class.getName(),"radius"+radius);
         canvas.drawCircle(width / 2, width / 2,radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, 0, 0, paint);
