@@ -289,6 +289,7 @@ public final class ImageLoaderManager {
             int resizeWidth = width > 0 ? width : this.width;
             int resizeHeight = height > 0 ? height : this.height;
             if (circle != null) {
+//                bitmapRequest.transform(new ResizeTransform(iv, this.uri.toString(), width), new GlideCircleTransform(this.mContext, circle));
                 if (resizeWidth > 0 && resizeHeight <= 0) {
                     if (iv != null) iv.setScaleType(ImageView.ScaleType.FIT_START);
 //                    bitmapRequest.centerCrop();

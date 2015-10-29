@@ -1,21 +1,23 @@
 package maimeng.yodian.app.client.android.view.auth;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
@@ -28,31 +30,61 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.databinding.ActivityAuthSettingInfoBinding;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
+import maimeng.yodian.app.client.android.network.loader.Circle;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
+import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 
-public class AuthSettingInfoActivity extends AppCompatActivity implements View.OnClickListener {
+public class AuthSettingInfoActivity extends AbstractActivity implements View.OnClickListener {
     private static final String LOG_TAG = AuthSettingInfoActivity.class.getName();
-    private ImageView mUserImg;
-    private EditText mNickname;
     private Bitmap bitmap;
     private User user;
-    private PopupWindow window;
     public WaitDialog dialog;
     public static final String IMAGE_UNSPECIFIED = "image/*";
-    public static final int REQUEST_PHOTOHRAPH = 0x1001;// 拍照
-    public static final int REQUEST_PHOTOZOOM = 0x1002; // 缩放
     public static final int REQUEST_PHOTORESOULT = 0x1003;// 结果
     private UserService service;
-    private ImageView mCleanText;
+    private ActivityAuthSettingInfoBinding binding;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+//            ActivityCompat.finishAfterTransition(SettingUserInfo.this);
+            User.clear(AuthSettingInfoActivity.this);
+            AuthRedirect.toHome(AuthSettingInfoActivity.this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+    }
+
+    @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back_black);
+        }
+    }
+
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged("", color);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,44 +92,23 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
         user = User.read(this);
         service = Network.getService(UserService.class);
         setContentView(R.layout.activity_auth_setting_info);
-        mUserImg = (ImageView) findViewById(R.id.img_avatar);
-        mCleanText = (ImageView)findViewById(R.id.btn_clean);
-        findViewById(R.id.btn_album).setOnClickListener(this);
-        findViewById(R.id.btn_camera).setOnClickListener(this);
-        findViewById(R.id.btn_done).setOnClickListener(this);
-        mCleanText.setOnClickListener(this);
-        findViewById(R.id.btn_back).setOnClickListener(this);
-        mNickname = (EditText) findViewById(R.id.nickname);
-        mNickname.addTextChangedListener(new TextWatcher() {
+        binding = bindView(R.layout.activity_auth_setting_info);
+        binding.imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(s.toString())){
-                    mCleanText.setVisibility(View.INVISIBLE);
-                }else {
-                    mCleanText.setVisibility(View.VISIBLE);
-                }
+            public void onClick(View v) {
+                toggle();
             }
         });
+        binding.btnSubmit.setOnClickListener(this);
+        binding.btnCleanNickname.setOnClickListener(this);
+        binding.btnCleanWechat.setOnClickListener(this);
+        binding.btnCleanQq.setOnClickListener(this);
+        binding.btnCleanMobile.setOnClickListener(this);
+        binding.nickname.addTextChangedListener(new TextListener(binding.nickname, binding));
+        binding.wechat.addTextChangedListener(new TextListener(binding.wechat, binding));
+        binding.qq.addTextChangedListener(new TextListener(binding.qq, binding));
+        binding.mobile.addTextChangedListener(new TextListener(binding.mobile, binding));
         pull();
-    }
-
-    public void onClickNext(View v) {
-        if (bitmap == null) {
-            Toast.makeText(this, "头像为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        final String nickname = this.mNickname.getText().toString();
-
     }
 
     private String getPhotoFileName() {
@@ -116,19 +127,6 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
     }
 
     File tempFile;
-
-    private void showPhotoHraph() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "temp.jpg")));
-        startActivityForResult(intent, REQUEST_PHOTOHRAPH);
-    }
-
-    private void showPhotoZoom() {
-        PhotoPickerIntent intentPhoto = new PhotoPickerIntent(AuthSettingInfoActivity.this);
-        intentPhoto.setPhotoCount(1);
-        intentPhoto.setShowCamera(false);
-        startActivityForResult(intentPhoto, REQUEST_PHOTOZOOM);
-    }
 
     public void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -179,7 +177,7 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
 
     private void setDefaultInfo(String nickname, String headUrl) {
         if (headUrl == null) return;
-        new ImageLoaderManager.Loader(this.mUserImg, Uri.parse(headUrl)).callback(new ImageLoaderManager.Callback() {
+        new ImageLoaderManager.Loader(binding.imgAvatar, Uri.parse(headUrl)).circle(Circle.obtain()).callback(new ImageLoaderManager.Callback() {
             @Override
             public void onImageLoaded(Bitmap bitmap) {
                 AuthSettingInfoActivity.this.bitmap = bitmap;
@@ -195,47 +193,77 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
 
             }
         }).start(this);
-        mUserImg.setTag(headUrl);
-        mNickname.setText(nickname);
-        if(TextUtils.isEmpty(nickname)){
-            mNickname.setVisibility(View.INVISIBLE);
-        }
+        binding.imgAvatar.setTag(headUrl);
+        binding.nickname.setText(nickname);
     }
 
+    private class TextListener implements TextWatcher {
+        private final EditText editText;
+        private final ActivityAuthSettingInfoBinding binding;
+
+        public TextListener(EditText editText, ActivityAuthSettingInfoBinding binding) {
+            this.editText = editText;
+            this.binding = binding;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            boolean show = s.toString().trim().length() > 0;
+            if (editText == binding.nickname) {
+                binding.btnCleanNickname.setVisibility(show ? View.VISIBLE : View.GONE);
+            } else if (editText == binding.wechat) {
+                binding.btnCleanWechat.setVisibility(show ? View.VISIBLE : View.GONE);
+            } else if (editText == binding.qq) {
+                binding.btnCleanQq.setVisibility(show ? View.VISIBLE : View.GONE);
+            } else if (editText == binding.mobile) {
+                binding.btnCleanMobile.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_PHOTOHRAPH:
-                    //设置文件保存路径这里放在跟目录下
-                    File picture = new File(Environment.getExternalStorageDirectory() + "/temp.jpg");
-                    startPhotoZoom(Uri.fromFile(picture));
-                    break;
-                case REQUEST_PHOTOZOOM:
+                case REQUEST_SELECT_PHOTO:
+                    if (dialogAlert.isShowing()) {
+                        dialogAlert.dismiss();
+                    }
                     ArrayList<String> paths = (ArrayList<String>) data.getSerializableExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
-                    startPhotoZoom(Uri.fromFile(new File(paths.get(0))));
+                    String uri = Uri.fromFile(new File(paths.get(0))).toString();
+                    startPhotoZoom(Uri.parse(uri));
                     break;
                 case REQUEST_PHOTORESOULT:
-                    Uri uri = Uri.fromFile(tempFile);
-                    new ImageLoaderManager.Loader(this.mUserImg, uri).callback(new ImageLoaderManager.Callback() {
-                        @Override
-                        public void onImageLoaded(Bitmap bitmap) {
-                            AuthSettingInfoActivity.this.bitmap = bitmap;
-                        }
+                    if (dialogAlert.isShowing()) {
+                        dialogAlert.dismiss();
+                    }
+                    if (tempFile != null) {
+                        new ImageLoaderManager.Loader(binding.imgAvatar, Uri.fromFile(tempFile)).circle(Circle.obtain()).callback(new ImageLoaderManager.Callback() {
+                            @Override
+                            public void onImageLoaded(Bitmap bitmap) {
+                                AuthSettingInfoActivity.this.bitmap = bitmap;
+                            }
 
-                        @Override
-                        public void onLoadEnd() {
+                            @Override
+                            public void onLoadEnd() {
 
-                        }
+                            }
 
-                        @Override
-                        public void onLoadFaild() {
+                            @Override
+                            public void onLoadFaild() {
 
-                        }
-                    }).start(this);
-                    if (window != null) {
-                        window.dismiss();
+                            }
+                        }).start(this);
                     }
 
                     break;
@@ -263,22 +291,21 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_album) {
-            showPhotoZoom();
-        } else if (v.getId() == R.id.btn_camera) {
-            showPhotoHraph();
-        } else if (v.getId() == R.id.btn_done) {
-            final Editable text = mNickname.getText();
-            if (TextUtils.isEmpty(text)) {
+        if (v.getId() == R.id.btn_submit) {
+            final Editable nickname = binding.nickname.getText();
+            if (TextUtils.isEmpty(nickname)) {
                 Toast.makeText(this, R.string.nickname_input_empty_message, Toast.LENGTH_SHORT).show();
 
             } else if (bitmap == null) {
                 Toast.makeText(this, R.string.avatar_input_empty_message, Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(binding.wechat.getText()) && TextUtils.isEmpty(binding.qq.getText()) && TextUtils.isEmpty(binding.mobile.getText())) {
+                Toast.makeText(this, R.string.contact_input_empty_message, Toast.LENGTH_SHORT).show();
             } else {
-                service.modifyInfo(text.toString(), new TypedBitmap.Builder(bitmap).setMaxSize(300).setAutoMatch(getResources()).build(), new Callback<ModifyUserResponse>() {
+                service.modifyInfo(nickname.toString(), 0, "", "", binding.wechat.getText().toString(), new TypedBitmap.Builder(bitmap).setMaxSize(300).setAutoMatch(getResources()).build(), binding.qq.getText().toString(), binding.mobile.getText().toString(), "", "", ""
+                        , new Callback<ModifyUserResponse>() {
                     @Override
                     public void start() {
-                        if (!isFinishing() && !isDestroyed()) {
+                        if (!isFinishing()) {
                             dialog = WaitDialog.show(AuthSettingInfoActivity.this);
                         }
 
@@ -288,7 +315,14 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
                     public void success(ModifyUserResponse res, Response response) {
                         res.showMessage(AuthSettingInfoActivity.this);
                         if (res.isSuccess()) {
-                            user = new User(user.getT_nickname(), user.getT_img(), user.loginType, user.getToken(), user.getUid(), text.toString(), user.getChatLoginName(), res.getData().getAvatar());
+                            user = new User(user.getT_nickname(), user.getT_img(), user.loginType, user.getToken(), user.getUid(), nickname.toString(), user.getChatLoginName(), res.getData().getAvatar());
+                            User.Info info = user.getInfo();
+                            if (info == null) {
+                                info = new User.Info();
+                            }
+                            info.setQq(binding.qq.getText().toString());
+                            info.setWechat(binding.wechat.getText().toString());
+                            info.setMobile(binding.mobile.getText().toString());
                             user.write(AuthSettingInfoActivity.this);
                             setResult(RESULT_OK);
                             finish();
@@ -306,12 +340,50 @@ public class AuthSettingInfoActivity extends AppCompatActivity implements View.O
                     }
                 });
             }
-        }else if(v.getId()==R.id.btn_clean){
-            mNickname.setText("");
-            mCleanText.setVisibility(View.VISIBLE);
+        } else if (v == binding.btnCleanNickname) {
+            binding.nickname.setText("");
+        } else if (v == binding.btnCleanWechat) {
+            binding.wechat.setText("");
+        } else if (v == binding.btnCleanQq) {
+            binding.qq.setText("");
+        } else if (v == binding.btnCleanMobile) {
+            binding.mobile.setText("");
+        }
+    }
 
-        }else if(v.getId()==R.id.btn_back){
-            finish();
+    private AlertDialog dialogAlert;
+    private static final int REQUEST_SELECT_PHOTO = 0x2001;
+
+    private void toggle() {
+        if (dialogAlert == null) {
+            dialogAlert = new AlertDialog.Builder(this).setTitle("上传方式").setItems(new String[]{"从相册中选择", "拍照"}, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    PhotoPickerIntent intentPhoto = new PhotoPickerIntent(AuthSettingInfoActivity.this);
+                    switch (which) {
+                        case 0:
+                            intentPhoto.setPhotoCount(1);
+                            intentPhoto.setShowCamera(false);
+                            startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
+                            dialog.dismiss();
+                            break;
+                        case 1:
+                            intentPhoto.setPhotoCount(1);
+                            intentPhoto.setShowCamera(true);
+                            startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
+                            dialog.dismiss();
+
+                            break;
+                    }
+                }
+            }).create();
+//                dialogAlert.getWindow().setGravity(Gravity.BOTTOM);
+        }
+        if (dialogAlert.isShowing()) {
+            dialogAlert.hide();
+        } else {
+            dialogAlert.show();
         }
     }
 }

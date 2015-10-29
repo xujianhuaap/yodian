@@ -31,7 +31,6 @@ public class CircleImageView extends HoverImageView {
     @Override
     public void buildBoundPath(Path borderPath) {
         borderPath.reset();
-
         final int width = getWidth();
         final int height = getHeight();
         final float cx = width * 0.5f;

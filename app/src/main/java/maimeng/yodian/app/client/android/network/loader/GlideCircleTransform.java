@@ -13,7 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 /**
  * Created by android on 8/18/15.
  */
-abstract class GlideCircleTransform extends BitmapTransformation {
+class GlideCircleTransform extends BitmapTransformation {
     private final Circle circle;
 
     public GlideCircleTransform(Context context, Circle circle) {
