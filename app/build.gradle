@@ -101,6 +101,7 @@ dependencies {
     compile(name: 'hnet-release', ext: 'aar')
     compile(name: 'j99-md', ext: 'aar')
     compile project(':PhotoPicker')
+    compile project(':AndroidWheel')
     compile(name: 'ViewPagerIndicator-release', ext: 'aar')
 }
 dependencies {
