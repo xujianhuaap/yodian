@@ -182,7 +182,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private void setUIWhenIsMe() {
         headBinding.btnContact.setVisibility(View.GONE);
         headBinding.divinder.setVisibility(View.GONE);
-        headBinding.btnBuySkill.setBackgroundResource(R.mipmap.ic_skill_add);
+        headBinding.btnBuySkill.setImageResource(R.mipmap.ic_remark_add);
     }
 
     @Override

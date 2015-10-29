@@ -107,6 +107,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     private SkillListHomeAdapter adapter;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private Handler handler;
+    private boolean isMe;
 
     @Nullable
     @Override
@@ -150,8 +151,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         Bundle args = getArguments();
         long uid = args.getLong("uid", 0);
         if (uid > 0) {
+            isMe=false;
             service.list(uid, page, this);
         } else {
+            isMe=true;
             user = User.read(getActivity());
             init();
         }
@@ -255,12 +258,13 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
             if (user != null) {
-                if (this.user == null) {
+                if (!isMe) {
                     //他人信息页面
                     inited = false;
                     this.user = user;
                 } else {
                     //个人主页
+
                     this.user.update(user);//更新登录信息——个人的部分信息
 
                 }

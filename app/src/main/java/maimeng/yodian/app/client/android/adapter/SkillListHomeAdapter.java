@@ -27,6 +27,7 @@ import maimeng.yodian.app.client.android.entry.skillhome.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.view.user.UserHeaderFrist;
 import maimeng.yodian.app.client.android.view.user.UserHeaderSecond;
@@ -202,6 +203,9 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                 mHeaderBinding.btnBack.setVisibility(View.VISIBLE);
             } else {
                 mHeaderBinding.bottom.setVisibility(View.VISIBLE);
+                LogUtil.d(SkillListHomeAdapter.class.getName(), "MoneyMsg" + user.getInfo().getMoneyMsg());
+                LogUtil.d(SkillListHomeAdapter.class.getName(), "BuyMsg" + user.getInfo().getBuyMsg());
+                LogUtil.d(SkillListHomeAdapter.class.getName(),"sellMsg"+user.getInfo().getSellMsg());
                 if (user.getInfo().getSellMsg() == 0 && user.getInfo().getBuyMsg() == 0) {
                     mHeaderBinding.msgOrderTopic.setVisibility(View.GONE);
                 } else {
