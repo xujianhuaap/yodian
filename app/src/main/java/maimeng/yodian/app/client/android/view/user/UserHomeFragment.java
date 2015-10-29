@@ -482,7 +482,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     String qq = user.getInfo().getQq();
                     String contact = user.getInfo().getContact();
                     boolean weChatIsEmpty = TextUtils.isEmpty(weChat);
-                    boolean qqIsEmpty = TextUtils.isEmpty(weChat);
+                    boolean qqIsEmpty = TextUtils.isEmpty(qq);
                     boolean contactIsEmpty = TextUtils.isEmpty(contact);
                     if (weChatIsEmpty && qqIsEmpty && contactIsEmpty) {
                         AlertDialog.newInstance("提示", "请完善个人信息").setPositiveListener(new AlertDialog.PositiveListener() {

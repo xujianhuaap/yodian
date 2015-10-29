@@ -27,6 +27,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderRepsonse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
@@ -43,6 +44,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
     private OrderListAdapter mAdapter;
     private OrderService mService;
     private boolean mIsAppend;
+    private WaitDialog mWaitDialog;
 
 
     /***
@@ -181,7 +183,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
     public final class OrderOperatorCallBackProxy implements Callback<ToastResponse>{
         @Override
         public void start() {
-
+            mWaitDialog = WaitDialog.show(getActivity());
         }
 
         @Override
@@ -194,7 +196,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
         @Override
         public void failure(HNetError hNetError) {
-
+                ErrorUtils.checkError(getActivity(),hNetError);
         }
 
         @Override
@@ -202,6 +204,9 @@ public class OrderFragment extends Fragment implements PtrHandler{
             mPage=1;
             mIsAppend= false;
             freshData();
+            if(mWaitDialog!=null){
+                mWaitDialog.dismiss();
+            }
         }
     }
 

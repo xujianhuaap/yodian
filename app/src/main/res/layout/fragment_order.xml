@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/no_order"
-        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginTop="@dimen/order_margin_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_no_order"
