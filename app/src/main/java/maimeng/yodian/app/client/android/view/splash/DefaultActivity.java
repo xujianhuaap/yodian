@@ -13,7 +13,7 @@ import maimeng.yodian.app.client.android.view.user.LauncherGuideActivity;
  * Created by android on 2015/7/3.
  */
 public class DefaultActivity extends AbsSplashActivity {
-    Handler mhandler=new Handler(){
+    private static final Handler mhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

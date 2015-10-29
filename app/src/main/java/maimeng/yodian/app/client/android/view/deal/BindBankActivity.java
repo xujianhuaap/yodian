@@ -2,10 +2,8 @@ package maimeng.yodian.app.client.android.view.deal;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -14,10 +12,8 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupWindow;
@@ -28,8 +24,12 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.databinding.ActivityBindBankBinding;
@@ -156,13 +156,37 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
         binding.valicode.addTextChangedListener(new InputListener(binding.valicode));
         service = Network.getService(BankService.class);
         View view = getLayoutInflater().inflate(R.layout.pop_bank_list, null, false);
-        RecyclerView bankListView = (RecyclerView) view.findViewById(R.id.list);
-        adapter = new BankListAdapter(this, this);
-        bankListView.setLayoutManager(new LinearLayoutManager(this));
-        bankListView.setAdapter(adapter);
+        final WheelView banksView = (WheelView) view.findViewById(R.id.list);
+        view.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideBankList();
+            }
+        });
+        view.findViewById(R.id.btn_done).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bank bank = adapter.getDatas().get(banksView.getCurrentItem());
+                binding.bank.setText(bank.getName());
+                BindBankActivity.this.bank.setBankId(bank.getId());
+                hideBankList();
+            }
+        });
+//        banks.addChangingListener(new OnWheelChangedListener() {
+//            @Override
+//            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+//
+//            }
+//        });
+        adapter = new BankListAdapter(this);
+        banksView.setVisibleItems(5); // Number of items
+        banksView.setWheelBackground(android.R.color.white);
+        banksView.setShadowColor(0x00000000, 0x00000000, 0x00000000);
+        banksView.setViewAdapter(adapter);
+        banksView.setCurrentItem(3);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         bankList = new PopupWindow(view, displayMetrics.widthPixels, displayMetrics.heightPixels / 3, true);
-        bankList.setBackgroundDrawable(new BitmapDrawable());
+        //bankList.setBackgroundDrawable(new BitmapDrawable());
         bankList.setTouchable(true);
         syncBankList();
     }
@@ -203,9 +227,13 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
         if (v == binding.btnSubmit) {
+
             if (checkBankInfo()) {
+                if (!checkId(bank.getIdcard())) {
+                    toast("请填写正确的身份证号!");
+                    return;
+                }
                 service.bind(bank.getId(), bank.getNumber(), bank.getBranch(), bank.getIdcard(),
                         bank.getPhone(), bank.getUsername(), bank.getValicode(),
                         new ToastCallback(this) {
@@ -283,10 +311,6 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
         String number2 = bank.getNumber2();
         if (!bank.getNumber().equals(number2)) {
             toast("银行卡两次输入不一致");
-            return false;
-        }
-        if (!checkId(bank.getIdcard())) {
-            toast("身份证无效!");
             return false;
         }
 
@@ -380,21 +404,32 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
         }
     }
 
-    private class BankListAdapter extends AbstractAdapter<Bank, ViewHolder> {
-        public BankListAdapter(Context context, ViewHolderClickListener<ViewHolder> listener) {
-            super(context, listener);
+    private class BankListAdapter extends AbstractWheelTextAdapter {
+
+        public ArrayList<Bank> getDatas() {
+            return datas;
+        }
+
+        private ArrayList<Bank> datas = new ArrayList<>();
+
+        protected BankListAdapter(Context context) {
+            super(context);
+        }
+
+        public void refresh(List<Bank> datas) {
+            this.datas.clear();
+            this.datas.addAll(datas);
+            notifyDataChangedEvent();
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            View view = inflater.inflate(R.layout.item_bank_list, parent, false);
-            return new ViewHolder(view, mViewHolderClickListener);
+        protected CharSequence getItemText(int index) {
+            return this.datas.get(index).getName();
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.bind(getItem(position));
+        public int getItemsCount() {
+            return this.datas.size();
         }
     }
 
@@ -409,8 +444,7 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
         public void success(BankListResponse res, Response response) {
             if (res.isSuccess()) {
                 initedBankList = true;
-                adapter.reload(res.getData(), false);
-                adapter.notifyDataSetChanged();
+                adapter.refresh(res.getData());
             } else {
                 Toast.makeText(BindBankActivity.this, "获取银行列表失败", Toast.LENGTH_SHORT).show();
             }
