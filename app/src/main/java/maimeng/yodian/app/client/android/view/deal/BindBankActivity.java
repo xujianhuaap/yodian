@@ -227,9 +227,13 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
         if (v == binding.btnSubmit) {
+
             if (checkBankInfo()) {
+                if (!checkId(bank.getIdcard())) {
+                    toast("请填写正确的身份证号!");
+                    return;
+                }
                 service.bind(bank.getId(), bank.getNumber(), bank.getBranch(), bank.getIdcard(),
                         bank.getPhone(), bank.getUsername(), bank.getValicode(),
                         new ToastCallback(this) {
@@ -307,10 +311,6 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
         String number2 = bank.getNumber2();
         if (!bank.getNumber().equals(number2)) {
             toast("银行卡两次输入不一致");
-            return false;
-        }
-        if (!checkId(bank.getIdcard())) {
-            toast("身份证无效!");
             return false;
         }
 
