@@ -206,10 +206,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         if (this.user == null) {
             this.user = user;
         }
-        if (user != null) {
-            adapter.reload(new HeaderViewEntry(user));
-            adapter.notifyDataSetChanged();
-        }
+//        if (user != null) {
+//            adapter.reload(new HeaderViewEntry(user));
+//            adapter.notifyDataSetChanged();
+//        }
 
         LogUtil.i(LOG_TAG, "init().uid:%d,token:%s", user.getId(), user.getToken());
         inited = true;
@@ -249,7 +249,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Override
     public void success(SkillUserResponse res, Response response) {
         if (res.isSuccess()) {
-            User user = res.getData().getUser();
+            User.Info user = res.getData().getUser();
             List<Skill> list = res.getData().getList();
             List<ViewEntry> entries = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
@@ -266,7 +266,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     //个人主页
 
                     this.user.update(user);//更新登录信息——个人的部分信息
-
+                    this.user.setInfo(user);
                 }
             }
             showUserInfo();
@@ -307,7 +307,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 public void success(UserInfoResponse res, Response response) {
                     if (res.isSuccess()) {
                         final User.Info data = res.getData().getUser();
-                        UserHomeFragment.this.user.setInfo(data);
                         if (UserHomeFragment.this.user.getUid() == data.getUid()) {
                             UserHomeFragment.this.user.write(mActivity);
                             mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));

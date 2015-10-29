@@ -203,9 +203,6 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
                 mHeaderBinding.btnBack.setVisibility(View.VISIBLE);
             } else {
                 mHeaderBinding.bottom.setVisibility(View.VISIBLE);
-                LogUtil.d(SkillListHomeAdapter.class.getName(), "MoneyMsg" + user.getInfo().getMoneyMsg());
-                LogUtil.d(SkillListHomeAdapter.class.getName(), "BuyMsg" + user.getInfo().getBuyMsg());
-                LogUtil.d(SkillListHomeAdapter.class.getName(),"sellMsg"+user.getInfo().getSellMsg());
                 if (user.getInfo().getSellMsg() == 0 && user.getInfo().getBuyMsg() == 0) {
                     mHeaderBinding.msgOrderTopic.setVisibility(View.GONE);
                 } else {
