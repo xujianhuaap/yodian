@@ -50,12 +50,6 @@
             android:name=".view.splash.DefaultActivity"
             android:screenOrientation="nosensor"
             android:theme="@style/AppThemeWhite" />
-        <activity
-            android:name=".view.splash.BaiduActivity"
-            android:screenOrientation="nosensor" />
-        <activity
-            android:name=".view.splash._360Activity"
-            android:screenOrientation="nosensor" />
 
         <activity-alias
             android:name=".SplashActivity"

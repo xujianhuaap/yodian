@@ -6,7 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -25,51 +25,33 @@ public class LauncherGuideActivity extends Activity implements View.OnClickListe
     private ViewPager viewPager;
     private PagerAdapter adapter;
     private ArrayList<View> views = new ArrayList<View>();
+    private final static int[] resIds = new int[]{
+            R.mipmap.ic_launch_first,
+            R.mipmap.ic_launch_second,
+            R.mipmap.ic_launch_third,
+            R.mipmap.ic_launch_four
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window window=getWindow();
-
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (!LauncherCheck.isFirstRun(this)) {
             finish();
         } else {
             setContentView(R.layout.activity_launcher_guide);
-
             viewPager = (ViewPager) this.findViewById(R.id.pager);
-            View firstView = getLayoutInflater().inflate(
-                    R.layout.activity_launcher_guide_page1, null, false);
-            View secondView = getLayoutInflater().inflate(
-                    R.layout.activity_launcher_guide_page1, null, false);
-            View thirdView = getLayoutInflater().inflate(
-                    R.layout.activity_launcher_guide_page1, null, false);
-            View fourView = getLayoutInflater().inflate(
-                    R.layout.activity_launcher_guide_page1, null, false);
-            View fiveView = getLayoutInflater().inflate(
-                    R.layout.activity_launcher_guide_page1, null, false);
-
-            ImageView firstPage = (ImageView) firstView.findViewById(R.id.launchPage);
-            ImageView secondPage = (ImageView) secondView.findViewById(R.id.launchPage);
-            ImageView thirdPage = (ImageView) thirdView.findViewById(R.id.launchPage);
-            ImageView fourPage = (ImageView) fourView.findViewById(R.id.launchPage);
-            ImageView fivePage = (ImageView) fiveView.findViewById(R.id.launchPage);
-            fivePage.setOnClickListener(this);
-            firstPage.setBackgroundResource(R.mipmap.ic_launch_first);
-            views.add(firstView);
-            secondPage.setBackgroundResource(R.mipmap.ic_launch_second);
-            views.add(secondView);
-            thirdPage.setBackgroundResource(R.mipmap.ic_launch_third);
-            views.add(thirdView);
-            fourPage.setBackgroundResource(R.mipmap.ic_launch_four);
-            views.add(fourView);
-            fivePage.setBackgroundResource(R.mipmap.ic_launch_five);
-            views.add(fiveView);
+            for (int resId : resIds) {
+                View root = getLayoutInflater().inflate(R.layout.activity_launcher_guide_page1, null, false);
+                ImageView imageView = (ImageView) root.findViewById(R.id.launchPage);
+                imageView.setImageResource(resId);
+                views.add(root);
+            }
+            views.get(views.size() - 1).setOnClickListener(this);
             adapter = new GuideAdapter(views);
             viewPager.setAdapter(adapter);
             viewPager.addOnPageChangeListener(this);
-
-
         }
     }
 
@@ -113,14 +95,14 @@ public class LauncherGuideActivity extends Activity implements View.OnClickListe
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if(position==views.size()-1){
-                viewPager.removeOnPageChangeListener(this);
-            }
+        if (position == views.size() - 1) {
+            viewPager.removeOnPageChangeListener(this);
+        }
     }
 
     @Override
     public void onPageSelected(int position) {
-        if (position == views.size()-1) {
+        if (position == views.size() - 1) {
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {

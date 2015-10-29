@@ -9,7 +9,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
+import android.view.WindowManager;
 
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.umeng.message.UmengRegistrar;
@@ -47,8 +47,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window window = getWindow();
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (LauncherCheck.isFirstRun(this)) {
             startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
         }
