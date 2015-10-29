@@ -100,7 +100,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                     final int dpi =getResources().getDisplayMetrics().densityDpi;
                     float rate=0;
                     if(dpi>140&&dpi<180){
-                        rate=0.5f;
+                        rate=0.4f;
                     }else if(300<dpi&&dpi<320){
                         rate=0.6f;
                     }else if(dpi>=460&&dpi<500){

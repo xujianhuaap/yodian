@@ -107,6 +107,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     private SkillListHomeAdapter adapter;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private Handler handler;
+    private boolean isMe;
 
     @Nullable
     @Override
@@ -150,8 +151,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         Bundle args = getArguments();
         long uid = args.getLong("uid", 0);
         if (uid > 0) {
+            isMe=false;
             service.list(uid, page, this);
         } else {
+            isMe=true;
             user = User.read(getActivity());
             init();
         }
@@ -203,10 +206,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         if (this.user == null) {
             this.user = user;
         }
-        if (user != null) {
-            adapter.reload(new HeaderViewEntry(user));
-            adapter.notifyDataSetChanged();
-        }
+//        if (user != null) {
+//            adapter.reload(new HeaderViewEntry(user));
+//            adapter.notifyDataSetChanged();
+//        }
 
         LogUtil.i(LOG_TAG, "init().uid:%d,token:%s", user.getId(), user.getToken());
         inited = true;
@@ -246,7 +249,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Override
     public void success(SkillUserResponse res, Response response) {
         if (res.isSuccess()) {
-            User user = res.getData().getUser();
+            User.Info user = res.getData().getUser();
             List<Skill> list = res.getData().getList();
             List<ViewEntry> entries = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
@@ -255,14 +258,15 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             adapter.reload(entries, page != 1);
             adapter.notifyDataSetChanged();
             if (user != null) {
-                if (this.user == null) {
+                if (!isMe) {
                     //他人信息页面
                     inited = false;
                     this.user = user;
                 } else {
                     //个人主页
-                    this.user.update(user);//更新登录信息——个人的部分信息
 
+                    this.user.update(user);//更新登录信息——个人的部分信息
+                    this.user.setInfo(user);
                 }
             }
             showUserInfo();
@@ -303,7 +307,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 public void success(UserInfoResponse res, Response response) {
                     if (res.isSuccess()) {
                         final User.Info data = res.getData().getUser();
-                        UserHomeFragment.this.user.setInfo(data);
                         if (UserHomeFragment.this.user.getUid() == data.getUid()) {
                             UserHomeFragment.this.user.write(mActivity);
                             mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
@@ -478,7 +481,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     String qq = user.getInfo().getQq();
                     String contact = user.getInfo().getContact();
                     boolean weChatIsEmpty = TextUtils.isEmpty(weChat);
-                    boolean qqIsEmpty = TextUtils.isEmpty(weChat);
+                    boolean qqIsEmpty = TextUtils.isEmpty(qq);
                     boolean contactIsEmpty = TextUtils.isEmpty(contact);
                     if (weChatIsEmpty && qqIsEmpty && contactIsEmpty) {
                         AlertDialog.newInstance("提示", "请完善个人信息").setPositiveListener(new AlertDialog.PositiveListener() {

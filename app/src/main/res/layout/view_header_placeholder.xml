@@ -44,34 +44,33 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="5dp">
-                        <TextView
+                        <ImageView
                             android:id="@+id/btn_buy_skill"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@mipmap/ic_skill_buy"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/ic_skill_buy"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:layout_margin="@dimen/margin_small"
                             android:scaleType="centerInside"
                             android:textColor="@android:color/white"
-                            android:drawablePadding="@dimen/padding_small"
                             android:textSize="@dimen/btn_text_size"
                             android:visibility="visible" />
                         <TextView
                             android:id="@+id/divinder"
                             android:layout_width="@dimen/divider_line"
                             android:layout_height="@dimen/divinder_height"
-                            android:layout_margin="@dimen/margin_large"
+                            android:layout_margin="@dimen/margin_small"
                             android:background="@android:color/white"
                             android:visibility="visible" />
-                        <TextView
+                        <ImageView
                             android:id="@+id/btn_contact"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_small"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:scaleType="centerInside"
-                            android:background="@mipmap/ic_skill_contact"
+                            android:src="@mipmap/ic_skill_contact"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/btn_text_size"
                             android:visibility="visible" />

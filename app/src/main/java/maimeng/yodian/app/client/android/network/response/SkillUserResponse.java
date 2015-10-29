@@ -34,13 +34,13 @@ public class SkillUserResponse extends Response {
         private List<Skill> list;
 
 
-        private User user;
+        private User.Info user;
 
-        public User getUser() {
+        public User.Info getUser() {
             return user;
         }
 
-        public void setUser(User user) {
+        public void setUser(User.Info user) {
             this.user = user;
         }
 
