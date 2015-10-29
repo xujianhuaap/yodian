@@ -74,12 +74,6 @@ public class UserHeaderFrist extends BaseFragment {
                 return false;
             }
         });
-        if (getArguments().getBoolean("moneyShow", false)) {
-            view.findViewById(R.id.msg_money_topic).setVisibility(View.VISIBLE);
-        }
-        if (getArguments().getBoolean("orderShow", false)) {
-            view.findViewById(R.id.msg_order_topic).setVisibility(View.VISIBLE);
-        }
         bind((User) getArguments().getParcelable("user"));
     }
 
