@@ -104,33 +104,35 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
             binding.btnSubmit.setEnabled(checkNotNull());
         }
 
-        private boolean checkNotNull() {
-            if (TextUtils.isEmpty(bank.getBankName()) || bank.getBankId() <= 0) {
-                return false;
-            }
-            if (TextUtils.isEmpty(bank.getBranch())) {
-                return false;
-            }
-            if (TextUtils.isEmpty(bank.getIdcard())) {
-                return false;
-            }
-            if (TextUtils.isEmpty(bank.getNumber())) {
-                return false;
-            }
-            if (TextUtils.isEmpty(bank.getNumber2())) {
-                return false;
-            }
-            if (TextUtils.isEmpty(bank.getPhone())) {
-                return false;
-            }
-            if (TextUtils.isEmpty(bank.getUsername())) {
-                return false;
-            }
-            if (TextUtils.isEmpty(bank.getValicode())) {
-                return false;
-            }
-            return true;
+
+    }
+
+    private boolean checkNotNull() {
+        if (TextUtils.isEmpty(bank.getBankName()) || bank.getBankId() <= 0) {
+            return false;
         }
+        if (TextUtils.isEmpty(bank.getBranch())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(bank.getIdcard())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(bank.getNumber())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(bank.getNumber2())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(bank.getPhone())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(bank.getUsername())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(bank.getValicode())) {
+            return false;
+        }
+        return true;
     }
 
     private PopupWindow bankList;
@@ -170,6 +172,7 @@ public class BindBankActivity extends AbstractActivity implements View.OnClickLi
                 binding.bank.setText(bank.getName());
                 BindBankActivity.this.bank.setBankId(bank.getId());
                 hideBankList();
+                binding.btnSubmit.setEnabled(checkNotNull());
             }
         });
 //        banks.addChangingListener(new OnWheelChangedListener() {

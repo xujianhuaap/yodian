@@ -47,8 +47,8 @@
                 style="@style/bank_form_item_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="1234567890Xx"
                 android:hint="@string/bind_bank_card_number_hint"
-                android:inputType="number"
                 android:text="@{bank.number}" />
 
             <EditText
