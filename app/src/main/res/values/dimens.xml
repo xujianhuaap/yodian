@@ -8,6 +8,7 @@
     <dimen name="floating_btn_margin">10dp</dimen>
     <dimen name="floating_btn_width">30dp</dimen>
     <dimen name="floating_btn_height">30dp</dimen>
+    <dimen name="floating_btn_padding">5dp</dimen>
 
     <dimen name="pull_refresh_paddingTop">20dp</dimen>
     <dimen name="dialog_share_item_padding">5dp</dimen>

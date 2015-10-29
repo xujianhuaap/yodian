@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/floating_btn_margin"
-        android:padding="@dimen/padding_small"
-        android:scaleType="fitCenter"
+        android:padding="@dimen/floating_btn_padding"
+        android:scaleType="fitXY"
         android:src="@mipmap/btn_home_change_normal"
         app:fab_colorNormal="@color/float_colorNormal"
         app:fab_colorPressed="@color/float_colorPressed"
-        app:fab_colorRipple="@color/float_colorRipple">
+        app:fab_colorRipple="@color/float_colorNormal">
 
     </com.melnykov.fab.FloatingActionButton>
 </FrameLayout>

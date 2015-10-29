@@ -35,6 +35,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.FloatResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
@@ -79,6 +80,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                     toggle();
                 }
             });
+            floatButton.setShadow(false);
             new CheckUpdateDelegate(this, false).checkUpdate();
             FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
             userHomeFragment = UserHomeFragment.newInstance();
@@ -90,12 +92,25 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             bt.commitAllowingStateLoss();
             initFragment();
             Network.getService(CommonService.class).getFloat(this);
+            final float density =getResources().getDisplayMetrics().density;
+            int width=(int)(80*density);
             new ImageLoaderManager.Loader(floatButton,Uri.parse(User.read(this).getAvatar()))
-                    .width(40).height(40).callback(new ImageLoaderManager.Callback() {
+                    .width(width).height(width).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
+                    final int dpi =getResources().getDisplayMetrics().densityDpi;
+                    float rate=0;
+                    if(dpi>140&&dpi<180){
+                        rate=0.5f;
+                    }else if(300<dpi&&dpi<320){
+                        rate=0.6f;
+                    }else if(dpi>=460&&dpi<500){
+                        rate=0.8f;
+                    }else if(dpi>640){
+                        rate=0.9f;
+                    }
 
-                    mAvatar = getCircleBitmap(bitmap);
+                    mAvatar = getCircleBitmap(bitmap,rate);
                     floatButton.setImageBitmap(mAvatar);
                 }
 
@@ -115,15 +130,23 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         }
     }
 
+    /**
+     *
+     * @param bitmap
+     * @param rate  半径的系数
+     * @return
+     */
     @NonNull
-    private Bitmap getCircleBitmap(Bitmap bitmap) {
+    private Bitmap getCircleBitmap(Bitmap bitmap,float rate) {
         int width = bitmap.getWidth();
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.BLACK);
         Bitmap bottomBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bottomBitmap);
-        canvas.drawCircle(width / 2, width / 2, width /3, paint);
+        int radius=(int)(width*rate/2);
+        LogUtil.d(MainTab2Activity.class.getName(),"radius"+radius);
+        canvas.drawCircle(width / 2, width / 2,radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, 0, 0, paint);
         return bottomBitmap;

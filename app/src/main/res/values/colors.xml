@@ -8,7 +8,7 @@
     <color name="colorPrimaryDark3">#17ace7</color>
 
     <color name="div_line">#77000000</color>
-    <color name="float_colorNormal">#fff</color>
+    <color name="float_colorNormal">#55000000</color>
     <color name="float_colorPressed">@color/colorPrimaryDark</color>
     <color name="float_colorRipple">#8000</color>
     <color name="chat_textColor">#e6e4e4</color>
