@@ -260,7 +260,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             binding.userAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    
+
                 }
             });
             //create by xu 08-06
@@ -282,6 +282,16 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             }
 
             binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(), item.getUnit())));
+            if (item.getAllow_sell() == 1) {
+                binding.iconCanbuy.setVisibility(View.VISIBLE);
+            } else {
+                binding.iconCanbuy.setVisibility(View.GONE);
+            }
+            if (item.getType().equals("1")) {
+                binding.iconSelector.setVisibility(View.VISIBLE);
+            } else {
+                binding.iconSelector.setVisibility(View.GONE);
+            }
         }
 
         public void closeWithAnim() {
