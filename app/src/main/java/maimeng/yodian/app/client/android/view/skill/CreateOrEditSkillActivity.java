@@ -235,6 +235,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                         binding.onLinePay.setClickable(false);
 
                     } else {
+                        binding.onLinePay.setChecked(false);
                         VouchDealActivity.show(CreateOrEditSkillActivity.this);
                     }
                 }

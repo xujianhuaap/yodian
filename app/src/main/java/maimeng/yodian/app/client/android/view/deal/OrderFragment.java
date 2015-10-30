@@ -17,6 +17,7 @@ import org.henjue.library.hnet.exception.HNetError;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
@@ -117,7 +118,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
     @Override
     public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view1) {
-        return false;
+      return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view1);
     }
 
     /***
