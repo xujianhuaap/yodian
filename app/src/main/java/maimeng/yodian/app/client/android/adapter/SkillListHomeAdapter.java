@@ -27,7 +27,6 @@ import maimeng.yodian.app.client.android.entry.skillhome.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.view.user.UserHeaderFrist;
 import maimeng.yodian.app.client.android.view.user.UserHeaderSecond;
@@ -258,6 +257,12 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             binding.btnChangeState.setOnClickListener(this);
             binding.btnDelete.setOnClickListener(this);
             binding.btnUpdate.setOnClickListener(this);
+            binding.userAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    
+                }
+            });
             //create by xu 08-06
             binding.btnReview.setOnClickListener(this);
             //end

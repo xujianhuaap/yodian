@@ -228,10 +228,12 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                 Skill data = skill;
                 ShareDialog.show(getActivity(), new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
             } else if (clickItem == holder.getBinding().userAvatar) {
-                UserHomeActivity.show(getActivity(), skill.getUid(), holder.getDefaultAvatar(), skill.getNickname(), ((MainTab2Activity) getActivity()).getFloatButton(), null,
-                        holder.getBinding().userNickname);
+                if (skill.getUid() == User.read(getContext()).getId()) {
+                } else {
+                    UserHomeActivity.show(getActivity(), skill.getUid(), holder.getDefaultAvatar(), skill.getNickname(), ((MainTab2Activity) getActivity()).getFloatButton(), null, holder.getBinding().userNickname);
+                }
             } else if (clickItem == holder.getBinding().btnUpdate) {
-                CreateOrEditSkillActivity.show(getActivity(),REQUEST_EDIT_SKILL,skill);
+                CreateOrEditSkillActivity.show(getActivity(), REQUEST_EDIT_SKILL, skill);
                 mEditPostion = postion;
                 holder.closeWithAnim();
             } else if (clickItem == holder.getBinding().btnDelete) {
@@ -310,7 +312,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                     dao.saveOrUpdate(robot);
                 }
 
-                ChatActivity.show(getActivity(),holder.getData(),true);
+                ChatActivity.show(getActivity(), holder.getData(), true);
             }
         } else if (SkillListIndexAdapter.BannerViewHolder.class.isInstance(h)) {
             clickBanner(((SkillListIndexAdapter.BannerViewHolder) h));
