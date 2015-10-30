@@ -22,6 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrUIHandler;
+import in.srain.cube.views.ptr.indicator.PtrIndicator;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
@@ -220,7 +223,7 @@ public class OrderDetailActivity extends AbstractActivity {
                 Skill skill = info.getSkill();
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
-                if (!robotMap.containsKey(chatLoginName))  {
+                if (!robotMap.containsKey(chatLoginName)) {
                     RobotUser robot = new RobotUser();
                     robot.setId(skill.getUid() + "");
                     robot.setUsername(chatLoginName);
@@ -246,7 +249,34 @@ public class OrderDetailActivity extends AbstractActivity {
                     dao.saveOrUpdate(robot);
                 }
 
-                ChatActivity.show(OrderDetailActivity.this,skill,!isSaled);
+                ChatActivity.show(OrderDetailActivity.this, skill, !isSaled);
+            }
+        });
+
+        mBinding.refreshLayout.addPtrUIHandler(new PtrUIHandler() {
+            @Override
+            public void onUIReset(PtrFrameLayout frame) {
+
+            }
+
+            @Override
+            public void onUIRefreshPrepare(PtrFrameLayout frame) {
+
+            }
+
+            @Override
+            public void onUIRefreshBegin(PtrFrameLayout frame) {
+
+            }
+
+            @Override
+            public void onUIRefreshComplete(PtrFrameLayout frame) {
+
+            }
+
+            @Override
+            public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
+
             }
         });
 

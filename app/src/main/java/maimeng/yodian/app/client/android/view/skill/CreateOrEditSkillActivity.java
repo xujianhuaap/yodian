@@ -223,22 +223,21 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
             binding.onLinePay.setChecked(true);
             binding.onLinePay.setClickable(false);
         }
-        binding.onLinePay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        binding.onLinePay.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 if (info != null) {
 
                     if (info.getVouch_status() == BindStatus.PASS) {
                         //设置技能允许卖
                         allowSell = 1;
+                        binding.onLinePay.setChecked(true);
                         binding.onLinePay.setClickable(false);
 
                     } else {
                         VouchDealActivity.show(CreateOrEditSkillActivity.this);
                     }
                 }
-
-
             }
         });
 

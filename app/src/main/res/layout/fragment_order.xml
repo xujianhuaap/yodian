@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:ptr_duration_to_close="300"
         app:ptr_duration_to_close_header="1000"
         app:ptr_keep_header_when_refresh="true"

@@ -19,8 +19,10 @@ import java.util.List;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.OrderListAdapter;
+import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -74,11 +76,10 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-//        StoreHouseHeader header = PullHeadView.create(getActivity());
-//        header.setTextColor(0x000000);
-//        mRefreshLayout.addPtrUIHandler(header);
-//        mRefreshLayout.setHeaderView(header);
         mRefreshLayout.setPtrHandler(this);
+        StoreHouseHeader header = PullHeadView.create(getActivity()).setTextColor(0x0);
+        mRefreshLayout.addPtrUIHandler(header);
+        mRefreshLayout.setHeaderView(header);
         ListLayoutManager layout = new ListLayoutManager(getActivity());
         mEndlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layout) {
             @Override
@@ -98,7 +99,7 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
         mService= Network.getService(OrderService.class);
         mNoOrder=view.findViewById(R.id.no_order);
-        freshData();
+        mRefreshLayout.autoRefresh();
 
     }
 
