@@ -538,4 +538,10 @@ public class Skill extends BaseObservable implements Parcelable {
         }
         return img;
     }
+
+    @Override
+    public String toString() {
+        return "wechat:"+this.getWeichat()+"qq"+this.getQq()+"contact"+this.getContact();
+
+    }
 }

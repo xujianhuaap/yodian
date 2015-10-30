@@ -318,14 +318,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     public void onClick(View v) {
         if (v == headBinding.btnContact) {
             if (!isMe){
-                Intent intent = new Intent(SkillDetailsActivity.this, ChatActivity.class);
-                intent.putExtra("skill", skill);
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
-                if (robotMap.containsKey(chatLoginName)) {
-                    intent.putExtra("userId", chatLoginName);
-                    startActivity(intent);
-                } else {
+                if (!robotMap.containsKey(chatLoginName)){
                     RobotUser robot = new RobotUser();
                     robot.setId(skill.getUid() + "");
                     robot.setUsername(chatLoginName);
@@ -346,10 +341,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     UserDao dao = new UserDao(SkillDetailsActivity.this);
                     dao.saveOrUpdate(user);
                     dao.saveOrUpdate(robot);
-                    intent.putExtra("userId", chatLoginName);
-                    intent.putExtra("userNickname", skill.getNickname());
-                    startActivity(intent);
                 }
+
+                ChatActivity.show(this,skill,true);
             }
         }else if(v==headBinding.btnBuySkill){
             if(isMe){

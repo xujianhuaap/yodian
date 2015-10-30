@@ -57,6 +57,10 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
     private boolean isOrderPay;
     private WaitDialog mDialog;
 
+    private final static int PAY_TYPE_ZHIFUBAO=1;
+    private final static int PAY_TYPE_REMAINDER=3;
+    private final static int PAY_TYPE_WECHAT=2;
+
     /***
      *订单支付
      * @param context
@@ -120,19 +124,19 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         //生成订单信息
         if(isOrderPay){
             if(v.getId()==R.id.pay_remainer){
-                mService.buyOrder(mOrderInfo.getOid(),3,new CallBackProxy(3));
+                mService.buyOrder(mOrderInfo.getOid(),PAY_TYPE_REMAINDER,new CallBackProxy(PAY_TYPE_REMAINDER));
             }else if(v.getId()==R.id.pay_wechat){
-                mService.buyOrder(mOrderInfo.getOid(), 2, new CallBackProxy(2));
+                mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
             }else if(v.getId()==R.id.pay_zhifubao){
-                mService.buyOrder(mOrderInfo.getOid(),1,new CallBackProxy(1));
+                mService.buyOrder(mOrderInfo.getOid(),PAY_TYPE_ZHIFUBAO,new CallBackProxy(PAY_TYPE_ZHIFUBAO));
             }
         }else {
             if(v.getId()==R.id.pay_remainer){
-                mService.buySkill(mSkill.getId(), 3, new CallBackProxy(3));
+                mService.buySkill(mSkill.getId(), PAY_TYPE_REMAINDER, new CallBackProxy(PAY_TYPE_REMAINDER));
             }else if(v.getId()==R.id.pay_wechat){
-                mService.buySkill(mSkill.getId(), 2, new CallBackProxy(2));
+                mService.buySkill(mSkill.getId(),  PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
             }else if(v.getId()==R.id.pay_zhifubao){
-                mService.buySkill(mSkill.getId(),1,new CallBackProxy(1));
+                mService.buySkill(mSkill.getId(),PAY_TYPE_ZHIFUBAO,new CallBackProxy(PAY_TYPE_ZHIFUBAO));
             }
         }
 
@@ -157,18 +161,18 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void success(final  String s, Response response) {
             //执行支付
-             final Gson gson=new Gson();
+             final Gson gson=Network.getOne().getGson();
              IPay pay=null;
              final IPayStatus status=new PayStatus();
-            if(payType==1){
+            if(payType==PAY_TYPE_ZHIFUBAO){
                 ZhiFuBaoPayResponse zhiFuBaoPayResponse=gson.fromJson(s, ZhiFuBaoPayResponse.class);
                 pay= ZhiFuBaoFactory.createInstance(PayListActivity.this,zhiFuBaoPayResponse.getData().getParams(),status);
                 pay.sendReq();
-            }else if(payType==2){
+            }else if(payType==PAY_TYPE_WECHAT){
                 WXPayParamResponse paramResponse=gson.fromJson(s, WXPayParamResponse.class);
                 pay= WXFactory.createInstance(PayListActivity.this,paramResponse.getData().getParams(),status);
                 pay.sendReq();
-            }else if(payType==3){
+            }else if(payType==PAY_TYPE_REMAINDER){
 
                 new ViewDialog.Builder(PayListActivity.this).setMesage(getResources().getString(R.string.pay_deal_tip))
                         .setPositiveListener(new ViewDialog.IPositiveListener() {

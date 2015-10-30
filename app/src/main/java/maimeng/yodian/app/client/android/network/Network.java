@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.network;
 
 import android.app.Application;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.henjue.library.hnet.HNet;
@@ -23,6 +24,12 @@ import maimeng.yodian.app.client.android.view.deal.BindStatus;
 public class Network {
     private static Network network;
     private ConcurrentHashMap<String, Object> services = new ConcurrentHashMap<>();
+
+    public Gson getGson() {
+        return gson;
+    }
+
+    private Gson gson;
 
     public synchronized static Network getOne() {
         synchronized (Network.class) {
@@ -49,10 +56,11 @@ public class Network {
         gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Sex.class, new GsonConverter.SexAdapter());
 
 
+        gson = gsonBuilder.create();
         net = new HNet.Builder()
                 .setEndpoint(BuildConfig.API_HOST)
                 .setIntercept(new RequestIntercept(app.getApplicationContext()))
-                .setConverter(new GsonConverter(gsonBuilder.create()))
+                .setConverter(new GsonConverter(gson))
                 .build();
         if (BuildConfig.DEBUG) {
             net.setLogLevel(HNet.LogLevel.FULL);
