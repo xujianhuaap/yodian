@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -71,8 +69,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_loginphone) {
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, findViewById(R.id.icon), "icon");
-            ActivityCompat.startActivityForResult(this, new Intent(this, AuthActivity.class), REQUEST_MOBILE_AUTH, options.toBundle());
+            startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_MOBILE_AUTH);
         } else if (v.getId() == R.id.btn_loginwechat) {
             IAuthManager authManager = AuthFactory.create(this, Type.Platform.WEIXIN);
             authManager.login(new YDAuthListener(Type.Platform.WEIXIN));
@@ -134,7 +131,6 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         public void onComplete(AuthInfo authInfo) {
             AuthSeletorActivity.authInfo = authInfo;
             service.thirdParty(typeValue, authInfo.token, authInfo.id, UmengRegistrar.getRegistrationId(AuthSeletorActivity.this), this);
-            LogUtil.d(AuthSeletorActivity.class.getSimpleName(), "onComplete->token:%s,nickname:%s", authInfo.token, authInfo.nickname);
         }
 
         @Override
@@ -161,7 +157,6 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
                 data.setT_nickname(authInfo.nickname);
                 data.setT_img(authInfo.headimgurl);
                 data.write(AuthSeletorActivity.this);
-                LogUtil.i("henjue", "login success:%s", data.getToken());
                 handlerFinsh();
             } else {
                 res.showMessage(AuthSeletorActivity.this);

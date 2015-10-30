@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.user;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -14,17 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -41,6 +38,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
@@ -75,8 +75,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     private Adapter provinceAdapter;
     private Adapter cityAdapter;
     private Adapter districtAdapter;
-    private boolean initCity = false;
-    private boolean initDistrict = false;
+    private PopupWindow bankList;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,6 +107,22 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     int indexD = 0;
     int indexC = 0;
 
+    private void showBankList() {
+        if (bankList != null) {
+            if (!bankList.isShowing()) {
+                bankList.showAtLocation(findViewById(android.R.id.content), Gravity.BOTTOM, 0, 0);
+            }
+        }
+    }
+
+    private void hideBankList() {
+        if (bankList != null) {
+            if (bankList.isShowing()) {
+                bankList.dismiss();
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +134,12 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         service = Network.getService(UserService.class);
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_setting_user_info, null, false);
         setContentView(binding.getRoot());
+        binding.cities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBankList();
+            }
+        });
         user = User.read(this);
         binding.btnSubmit.setOnClickListener(this);
         ((View) binding.userAvatar.getParent()).setOnClickListener(new View.OnClickListener() {
@@ -129,114 +150,55 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         });
         new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
-//        binding.city.addTextChangedListener(new EditTextChangeListener(binding.city, binding, user));
-        provinceAdapter = new Adapter(new ArrayList<City>() {{
-//            new City("请选择");
-        }});
-        cityAdapter = new Adapter(new ArrayList<City>() {{
-//            new City("请选择");
-        }});
-        districtAdapter = new Adapter(new ArrayList<City>() {{
-//            new City("请选择");
-        }});
-        binding.province.setAdapter(provinceAdapter);
-        binding.city.setAdapter(cityAdapter);
-        binding.district.setAdapter(districtAdapter);
-        binding.province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                City item = provinceAdapter.getItem(position);
-                ArrayList<City> sub = item.getSub();
-                cityAdapter.reload(sub);
-                districtAdapter.datas.clear();
-                districtAdapter.notifyDataSetChanged();
-                String name = item.getName();
-                if (position == 0) {
-                    name = "";
-                }
-                user.getInfo().setProvince(name);
-                if (!initCity) {
-                    binding.city.setSelection(indexC, true);
-                    initCity = true;
-                }
-            }
 
+        View view = getLayoutInflater().inflate(R.layout.pop_cities, null, false);
+        final WheelView provinceList = (WheelView) view.findViewById(R.id.province);
+        final WheelView cityList = (WheelView) view.findViewById(R.id.city);
+        final WheelView districtList = (WheelView) view.findViewById(R.id.district);
+        view.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                hideBankList();
             }
         });
-        binding.city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        view.findViewById(R.id.btn_done).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                City item = cityAdapter.getItem(position);
-                ArrayList<City> sub = item.getSub();
-                if (sub != null) {
-                    districtAdapter.reload(sub);
+            public void onClick(View v) {
+                City province = provinceAdapter.getDatas().get(provinceList.getCurrentItem());
+                City city = cityAdapter.getDatas().get(cityList.getCurrentItem());
+                City district;
+                if (cityList.getCurrentItem() > 0) {
+                    district = districtAdapter.getDatas().get(districtList.getCurrentItem());
+                } else {
+                    district = new City();
+                    district.setName("请选择");
                 }
-                String name = item.getName();
-                if (position == 0) {
-                    name = "";
+                final String p;
+                final String c;
+                final String d;
+                if ("请选择".equals(province.getName())) {
+                    p = "";
+                } else {
+                    p = province.getName();
                 }
-                user.getInfo().setCity(name);
-                if (!initDistrict) {
-                    binding.district.setSelection(indexD, true);
-                    initDistrict = true;
+                if ("请选择".equals(city.getName())) {
+                    c = "";
+                } else {
+                    c = city.getName();
                 }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                if ("请选择".equals(district.getName())) {
+                    d = "";
+                } else {
+                    d = district.getName();
+                }
+                binding.cities.setText(p + c + d);
+                user.getInfo().setProvince(p);
+                user.getInfo().setCity(c);
+                user.getInfo().setDistrict(d);
+                hideBankList();
             }
         });
-
-        binding.district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String name = districtAdapter.getItem(position).getName();
-                if (position == 0) {
-                    name = "";
-                }
-                user.getInfo().setDistrict(name);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        binding.job.addTextChangedListener(new EditTextChangeListener(binding.job, binding, user));
-        binding.signature.addTextChangedListener(new EditTextChangeListener(binding.signature, binding, user));
-        binding.signature.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                binding.signatureCount.setText(String.format("%d/%d", s.length(), 30));
-            }
-        });
-        binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
-        binding.qq.addTextChangedListener(new EditTextChangeListener(binding.qq, binding, user));
-        binding.phone.addTextChangedListener(new EditTextChangeListener(binding.phone, binding, user));
-//        binding.nickname.setText(user.getNickname());
-//        binding.wechat.setText(user.getWechat());
-//        binding.qq.setText(user.getInfo().getQq());
-//        binding.phone.setText(user.getInfo().getContact());
-        binding.setUser(user);
-        binding.executePendingBindings();
         ArrayList<City> datas = readFile();
-
         if (user.getInfo() != null) {
             User.Info info = user.getInfo();
             String p = info.getProvince();
@@ -268,7 +230,80 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 }
             }
         }
-        binding.province.setSelection(indexP, true);
+        provinceAdapter = new Adapter(this, datas);
+        cityAdapter = new Adapter(this, new ArrayList<City>());
+        districtAdapter = new Adapter(this, new ArrayList<City>());
+        provinceList.setVisibleItems(5); // Number of items
+        provinceList.setWheelBackground(android.R.color.white);
+        provinceList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
+        provinceList.setViewAdapter(provinceAdapter);
+
+        cityList.setVisibleItems(5); // Number of items
+        cityList.setWheelBackground(android.R.color.white);
+        cityList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
+        cityList.setViewAdapter(cityAdapter);
+
+        districtList.setVisibleItems(5); // Number of items
+        districtList.setWheelBackground(android.R.color.white);
+        districtList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
+        districtList.setViewAdapter(districtAdapter);
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        bankList = new PopupWindow(view, displayMetrics.widthPixels, displayMetrics.heightPixels / 3, true);
+        bankList.setTouchable(true);
+        provinceList.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                City item = provinceAdapter.getDatas().get(newValue);
+                ArrayList<City> sub = item.getSub();
+                cityAdapter.reload(sub);
+                cityList.setCurrentItem(0, true);
+                districtAdapter.reload(new ArrayList<City>());
+                districtList.setCurrentItem(-1);
+            }
+        });
+        cityList.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                City item = cityAdapter.getDatas().get(newValue);
+                ArrayList<City> sub = item.getSub();
+                if (sub != null) {
+                    districtAdapter.reload(sub);
+                }
+            }
+        });
+        provinceList.setCurrentItem(indexP);
+        cityList.setCurrentItem(indexC);
+        districtList.setCurrentItem(indexD);
+        binding.job.addTextChangedListener(new EditTextChangeListener(binding.job, binding, user));
+        binding.signature.addTextChangedListener(new EditTextChangeListener(binding.signature, binding, user));
+        binding.signature.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.signatureCount.setText(String.format("%d/%d", s.length(), 30));
+            }
+        });
+        binding.wechat.addTextChangedListener(new EditTextChangeListener(binding.wechat, binding, user));
+        binding.qq.addTextChangedListener(new EditTextChangeListener(binding.qq, binding, user));
+        binding.phone.addTextChangedListener(new EditTextChangeListener(binding.phone, binding, user));
+//        binding.nickname.setText(user.getNickname());
+//        binding.wechat.setText(user.getWechat());
+//        binding.qq.setText(user.getInfo().getQq());
+//        binding.phone.setText(user.getInfo().getContact());
+        binding.setUser(user);
+        binding.executePendingBindings();
+
+
         binding.sex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -514,14 +549,18 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         InputStreamReader jsr = new InputStreamReader(input);
         ArrayList<City> citys = new Gson().fromJson(jsr, new TypeToken<ArrayList<City>>() {
         }.getType());
-        provinceAdapter.reload(citys);
         return citys;
     }
 
-    private static class Adapter extends BaseAdapter implements SpinnerAdapter {
+    private static class Adapter extends AbstractWheelTextAdapter {
+        public ArrayList<City> getDatas() {
+            return datas;
+        }
+
         private ArrayList<City> datas = new ArrayList<>();
 
-        public Adapter(ArrayList<City> cities) {
+        public Adapter(Context context, ArrayList<City> cities) {
+            super(context);
             this.datas.clear();
             this.datas.addAll(cities);
         }
@@ -529,39 +568,18 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         public void reload(ArrayList<City> cities) {
             this.datas.clear();
             this.datas.addAll(cities);
-            notifyDataSetChanged();
+//            notifyDataChangedEvent();
+            notifyDataInvalidatedEvent();
         }
 
         @Override
-        public int getCount() {
+        protected CharSequence getItemText(int index) {
+            return datas.get(index).getName();
+        }
+
+        @Override
+        public int getItemsCount() {
             return datas.size();
-        }
-
-        @Override
-        public City getItem(int position) {
-            return datas.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = new TextView(parent.getContext());
-                convertView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
-            }
-            City item = getItem(position);
-            TextView current = (TextView) convertView;
-            current.setPadding(10, 10, 10, 10);
-//            current.setTextSize(1f);
-            current.setGravity(Gravity.CENTER);
-            String name = item.getName();
-            current.setText(name);
-            return convertView;
         }
     }
 }

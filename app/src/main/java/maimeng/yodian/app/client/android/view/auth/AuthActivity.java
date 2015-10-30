@@ -3,11 +3,11 @@ package maimeng.yodian.app.client.android.view.auth;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -54,6 +54,23 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         mValidateCode = ((EditText) findViewById(R.id.code));
         mCode = (TextView) findViewById(R.id.btn_getcode);
         mCode.setOnClickListener(this);
+        mCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mValidateCode.getText().length() == 4 && mMobile.getText().length() >= 11) {
+                    onClick(mBtnLogin);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.btn_clean).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +177,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void end() {
-        dialog.dismiss();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 }
