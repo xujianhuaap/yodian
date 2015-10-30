@@ -7,7 +7,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -54,23 +53,23 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         mValidateCode = ((EditText) findViewById(R.id.code));
         mCode = (TextView) findViewById(R.id.btn_getcode);
         mCode.setOnClickListener(this);
-        mCode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mValidateCode.getText().length() == 4 && mMobile.getText().length() >= 11) {
-                    onClick(mBtnLogin);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+//        mCode.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (mValidateCode.getText().length() == 4 && mMobile.getText().length() >= 11) {
+//                    onClick(mBtnLogin);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//            }
+//        });
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.btn_clean).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +89,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         Editable text = mMobile.getText();
         if (text != null) {
             if (v.getId() == R.id.btn_getcode) {
@@ -100,7 +99,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 service.getCode(text.toString(), new Callback<ToastResponse>() {
                     @Override
                     public void start() {
-
+                        v.setEnabled(false);
                     }
 
                     @Override
@@ -116,11 +115,14 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                                         mHanlder.postDelayed(this, 1000);
                                     } else {
                                         mCode.setText("获取验证码");
+                                        v.setEnabled(true);
                                         mTotalTime = 0;
                                     }
                                 }
                             }, 1000);
 
+                        } else {
+                            v.setEnabled(true);
                         }
                     }
 
