@@ -49,7 +49,7 @@ public class ImageBindable implements CharSequence {
 
     @Override
     public String toString() {
-        if (uri == null) return null;
+        if (uri == null) return "";
 
         return uri.toString();
     }
