@@ -35,7 +35,6 @@ public class UserHeaderSecond extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("=================================================================");
     }
 
     @Nullable
