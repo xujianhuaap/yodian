@@ -1,14 +1,12 @@
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply plugin: 'findbugs'
 
 //compileDebugJava.dependsOn 'check'
-//check.dependsOn 'checkStyle','findbugs'
-check.dependsOn 'checkStyle', 'pmd'
+//check.dependsOn 'checkStyle', 'pmd'
+check.dependsOn 'checkStyle'
 
 task pmd(type: Pmd) {
     source fileTree('src')
-
     ruleSets = [
             'java-android',
             'java-basic',
@@ -72,6 +70,7 @@ task checkStyle(type: Checkstyle) {
     include '**/*.java'
     exclude '**/gen/**'
     exclude '**/R.java'
-    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+    exclude 'maimeng/yodian/app/client/android/chat/**'
     classpath = files()
 }
