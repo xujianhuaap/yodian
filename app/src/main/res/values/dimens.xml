@@ -116,7 +116,10 @@
     <dimen name="order_status_height">40dp</dimen>
     <dimen name="order_process_width">40dp</dimen>
     <dimen name="order_process_height">13dp</dimen>
-    <dimen name="order_contact">70dp</dimen>
+    <dimen name="order_contact">120dp</dimen>
+    <dimen name="order_contact_height">40dp</dimen>
+    <dimen name="order_operator_width">120dp</dimen>
+    <dimen name="order_operator_height">40dp</dimen>
 
 
 </resources>

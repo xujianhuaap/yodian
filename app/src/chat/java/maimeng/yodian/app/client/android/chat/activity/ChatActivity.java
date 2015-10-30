@@ -265,7 +265,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private String mCurrentUserLogName;
 
     /***
-     * 联系卖家　
+     * 带技能进入　
      * @param context
      * @param skill
      */
@@ -279,13 +279,14 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 
     /***
-     * 联系卖家　
+     * 带技能进入　
      * @param context
      * @param skill
      */
     public static void show(Context context,Skill skill,boolean isContactSeller){
-       show(context,skill,isContactSeller,CHATTYPE_SINGLE);
+       show(context, skill, isContactSeller, CHATTYPE_SINGLE);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -304,10 +305,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if(chatType==CHATTYPE_SINGLE){
             if(skill!=null){
                 toChatUsername=skill.getChatLoginName();
+            }else{
+                toChatUsername=intent.getStringExtra("userId");
             }
 
         }else{
-            toChatUsername = getIntent().getStringExtra("groupId");
+            toChatUsername = intent.getStringExtra("groupId");
         }
 
 
@@ -1129,7 +1132,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      * @param skill
      */
     private void showSkill(final Skill skill) {
-        if (skill==null) {
+        if (skill!=null) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

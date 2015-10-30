@@ -82,15 +82,19 @@ public class OrderDetailActivity extends AbstractActivity {
         final OrderInfo info = getIntent().getParcelableExtra("orderInfo");
         isSaled = getIntent().getBooleanExtra("isSaled", false);
         mBinding.setOrderInfo(info);
-
+        String btnContactStr=null;
         if (isSaled) {
+            btnContactStr=getString(R.string.button_contact_buyer);
             mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_buyer_name, info.getBuyer().getNickname())));
             mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_saled_total_fee, info.getTotal_fee())));
         } else {
+            btnContactStr=getString(R.string.button_contact_seller);
             mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_seller_name, info.getSkill().getNickname())));
             mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_buyed_total_fee, info.getTotal_fee())));
+
         }
 
+        mBinding.contactBuyer.setText(btnContactStr);
         final int status = Integer.parseInt(info.getStatus());
         LogUtil.d("ceshi", "status" + status);
         String operatorStr = null;
@@ -100,7 +104,8 @@ public class OrderDetailActivity extends AbstractActivity {
                 //未支付
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_pay);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_orange));
+                    mBinding.orderOperator.setTextColor(Color.WHITE);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                 } else {
                     mBinding.orderOperator.setVisibility(View.INVISIBLE);
                 }
@@ -115,10 +120,10 @@ public class OrderDetailActivity extends AbstractActivity {
                 //支付
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_accept);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_gray));
                 } else {
                     operatorStr = getString(R.string.seller_operator_accept);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_orange));
+                    mBinding.orderOperator.setTextColor(Color.WHITE);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                 }
                 mBinding.orderStatusPay.setChecked(true);
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time, formatDate(info.getPay_time()))));
@@ -129,10 +134,10 @@ public class OrderDetailActivity extends AbstractActivity {
                 //已经接单
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_send);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_gray));
                 } else {
                     operatorStr = getString(R.string.seller_operator_send);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_orange));
+                    mBinding.orderOperator.setTextColor(Color.WHITE);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                 }
                 mBinding.processPay.setChecked(true);
                 mBinding.orderStatusPay.setChecked(true);
@@ -145,7 +150,8 @@ public class OrderDetailActivity extends AbstractActivity {
                 //已经o发货
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_confirm);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_orange));
+                    mBinding.orderOperator.setTextColor(Color.WHITE);
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                 } else {
 
                     mBinding.orderOperator.setVisibility(View.INVISIBLE);
@@ -161,7 +167,6 @@ public class OrderDetailActivity extends AbstractActivity {
             case 5:
                 //交易完成
                 operatorStr = getString(R.string.order_status_confirm_deal);
-                mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.ic_oval_gray));
                 mBinding.processPay.setChecked(true);
                 mBinding.processAccept.setChecked(true);
                 mBinding.orderStatusConfirm.setChecked(true);

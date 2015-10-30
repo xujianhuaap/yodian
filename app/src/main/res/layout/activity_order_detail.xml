@@ -186,18 +186,17 @@
                 android:layout_marginLeft="@dimen/apply_edit_margin"
                 android:layout_marginRight="@dimen/apply_edit_margin"
                 android:layout_toRightOf="@+id/order_skill_pic"
+                android:textColor="@color/colorPrimaryDark3"
                 android:singleLine="true"
                 android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:id="@+id/order_operator"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/order_operator_height"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/apply_edit_margin"
-                android:layout_marginRight="@dimen/apply_edit_margin"
-                android:background="@mipmap/ic_oval_orange"
+                android:textColor="@color/colorPrimaryDark3"
                 android:gravity="center"
                 android:scaleType="centerInside"
                 android:singleLine="true"
@@ -238,15 +237,17 @@
                 android:textColor="@color/black_deep"
                 android:textSize="@dimen/text_size_normal" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/contact_buyer"
                 android:layout_width="@dimen/order_contact"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/order_contact_height"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/apply_edit_margin"
-                android:scaleType="fitXY"
-                android:src="@mipmap/ic_contact_buyer"
-                android:textColor="@color/black_deep" />
+                android:scaleType="centerInside"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_normal"
+                android:background="@mipmap/btn_oval_bg_blue"
+                android:textColor="@android:color/white" />
 
         </RelativeLayout>
 

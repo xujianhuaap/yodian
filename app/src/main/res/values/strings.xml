@@ -196,7 +196,7 @@
     <string name="order_detail_title">订单详情</string>
     <string name="order_saled_total_fee"><![CDATA[<font color="#000000">出售订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
     <string name="order_buyed_total_fee"><![CDATA[<font color="#000000">已购订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
-    <string name="order_skill_price"><![CDATA[<b><font color="#FFA739">%1$s元/%2$s</font></b>]]></string>
+    <string name="order_skill_price"><![CDATA[<b><font >%1$s元/%2$s</font></b>]]></string>
     <string name="order_number"><![CDATA[<font color="#000000">订单编号: %1$s<font>]]></string>
     <string name="order_buyer_name"><![CDATA[<font color="#000000">买家名称: %1$s<font>]]></string>
     <string name="order_seller_name"><![CDATA[<font color="#000000">卖家名称: %1$s<font>]]></string>
@@ -209,6 +209,8 @@
     <string name="order_unaccept_time"><![CDATA[<font color="#000000">已接单<br>&nbsp; </font>]]></string>
     <string name="order_unconfirm_time"><![CDATA[<font color="#000000">已完成<br>&nbsp;</font>]]></string>
 
+    <string name="button_contact_seller">联系卖家</string>
+    <string name="button_contact_buyer">联系买家</string>
 
     <!-- 支付-->
     <string name="pay_wechat">微信支付</string>
