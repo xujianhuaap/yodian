@@ -2,6 +2,8 @@ package maimeng.yodian.app.client.android.view.deal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -92,6 +94,8 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            mTitle.setTextColor(Color.WHITE);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
         }
     }
