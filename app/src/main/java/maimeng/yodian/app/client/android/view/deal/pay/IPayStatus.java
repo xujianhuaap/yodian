@@ -5,7 +5,7 @@ package maimeng.yodian.app.client.android.view.deal.pay;
  */
 public interface IPayStatus {
     public static final int PAY_ERROR_REMAINDER_SHORT=0x12;
-    public static final int PAY_ERROR_ELSE=0x12;
+    public static final int PAY_ERROR_ELSE=0x14;
     public static final int PAY_SUCESS=0x13;
 
     public void sucessPay(int errCode);

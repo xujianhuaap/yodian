@@ -8,17 +8,22 @@ import android.os.Parcelable;
  */
 public class RemainderPayParams implements IPayParams,Parcelable{
 
+
     /**
-     * total_fee : 0.01
-     * out_trade_no : 20151015171715139690
-     * body : 购买技能: 华盛顿脸色看&ldquo;&rdquo;&hellip;
-     * oid : 260
+     * total_fee : 7000.00
+     * out_trade_no : 20151030153418467685
+     * body : 购买技能: 板凳的手绘小屋
+     * oid : 522
+     * isLottery : 1
+     * lotUrl : http://share.yodian.me/lottery.php
      */
 
     private String total_fee;
     private String out_trade_no;
     private String body;
     private String oid;
+    private int isLottery;
+    private String lotUrl;
 
     public void setTotal_fee(String total_fee) {
         this.total_fee = total_fee;
@@ -36,6 +41,14 @@ public class RemainderPayParams implements IPayParams,Parcelable{
         this.oid = oid;
     }
 
+    public void setIsLottery(int isLottery) {
+        this.isLottery = isLottery;
+    }
+
+    public void setLotUrl(String lotUrl) {
+        this.lotUrl = lotUrl;
+    }
+
     public String getTotal_fee() {
         return total_fee;
     }
@@ -48,8 +61,16 @@ public class RemainderPayParams implements IPayParams,Parcelable{
         return body;
     }
 
-    public String getOid() {
+    public String  getOid() {
         return oid;
+    }
+
+    public int getIsLottery() {
+        return isLottery;
+    }
+
+    public String getLotUrl() {
+        return lotUrl;
     }
 
 
@@ -64,6 +85,8 @@ public class RemainderPayParams implements IPayParams,Parcelable{
         dest.writeString(this.out_trade_no);
         dest.writeString(this.body);
         dest.writeString(this.oid);
+        dest.writeInt(this.isLottery);
+        dest.writeString(this.lotUrl);
     }
 
     public RemainderPayParams() {
@@ -74,6 +97,8 @@ public class RemainderPayParams implements IPayParams,Parcelable{
         this.out_trade_no = in.readString();
         this.body = in.readString();
         this.oid = in.readString();
+        this.isLottery = in.readInt();
+        this.lotUrl = in.readString();
     }
 
     public static final Creator<RemainderPayParams> CREATOR = new Creator<RemainderPayParams>() {
