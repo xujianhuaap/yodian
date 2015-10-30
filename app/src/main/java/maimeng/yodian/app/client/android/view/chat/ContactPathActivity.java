@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 
@@ -34,6 +35,17 @@ public class ContactPathActivity extends AppCompatActivity{
      * @param context
      */
 
+    public static void show(Context context,User.Info info){
+        Intent intent=new Intent(context,ContactPathActivity.class);
+        intent.putExtra("info",info);
+        context.startActivity(intent);
+    }
+
+    /***
+     *
+     * @param context
+     */
+
     public static void show(Context context,Skill skill){
         Intent intent=new Intent(context,ContactPathActivity.class);
         intent.putExtra("skill",skill);
@@ -44,10 +56,19 @@ public class ContactPathActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         getWindow().setGravity(Gravity.BOTTOM);
         setContentView(R.layout.activity_contact_path);
-        Skill skill=getIntent().getParcelableExtra("skill");
-        wechat = skill.getWeichat();
-        mQQ = skill.getQq();
-        mPhone = skill.getContact();
+        Intent intent=getIntent();
+        if(intent.hasExtra("skill")){
+            Skill  skill =intent.getParcelableExtra("skill");
+            wechat = skill.getWeichat();
+            mQQ = skill.getQq();
+            mPhone = skill.getContact();
+        }else {
+            User.Info user=intent.getParcelableExtra("info");
+            wechat = user.getWechat();
+            mQQ = user.getQq();
+            mPhone = user.getContact();
+        }
+
         if(TextUtils.isEmpty(wechat)){
             wechat =getString(R.string.contact_no);
         }

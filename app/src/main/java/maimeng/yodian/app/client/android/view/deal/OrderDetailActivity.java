@@ -44,6 +44,7 @@ public class OrderDetailActivity extends AbstractActivity {
 
     private ActivityOrderDetailBinding mBinding;
     private OrderService mService;
+    private boolean isSaled;
 
 
     public static void show(Context context, OrderInfo orderInfo, boolean isSaled) {
@@ -79,7 +80,7 @@ public class OrderDetailActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         mBinding = bindView(R.layout.activity_order_detail);
         final OrderInfo info = getIntent().getParcelableExtra("orderInfo");
-        final boolean isSaled = getIntent().getBooleanExtra("isSaled", false);
+        isSaled = getIntent().getBooleanExtra("isSaled", false);
         mBinding.setOrderInfo(info);
 
         if (isSaled) {
@@ -212,15 +213,9 @@ public class OrderDetailActivity extends AbstractActivity {
             public void onClick(View v) {
                 //联系买家或者卖家
                 Skill skill = info.getSkill();
-                Intent intent = new Intent(OrderDetailActivity.this, ChatActivity.class);
-                intent.putExtra("skill", skill);
-                intent.putExtra("uid", skill.getUid());
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
-                if (robotMap.containsKey(chatLoginName)) {
-                    intent.putExtra("userId", chatLoginName);
-                    OrderDetailActivity.this.startActivity(intent);
-                } else {
+                if (!robotMap.containsKey(chatLoginName))  {
                     RobotUser robot = new RobotUser();
                     robot.setId(skill.getUid() + "");
                     robot.setUsername(chatLoginName);
@@ -244,10 +239,9 @@ public class OrderDetailActivity extends AbstractActivity {
                     UserDao dao = new UserDao(OrderDetailActivity.this);
                     dao.saveOrUpdate(user);
                     dao.saveOrUpdate(robot);
-                    intent.putExtra("userId", chatLoginName);
-                    intent.putExtra("userNickname", skill.getNickname());
-                    OrderDetailActivity.this.startActivity(intent);
                 }
+
+                ChatActivity.show(OrderDetailActivity.this,skill,!isSaled);
             }
         });
 

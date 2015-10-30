@@ -281,15 +281,9 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                     }
                 });
             } else if (clickItem == holder.getBinding().btnBottom) {
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("skill", holder.getData());
-                intent.putExtra("uid", holder.getData().getUid());
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
-                if (robotMap.containsKey(chatLoginName)) {
-                    intent.putExtra("userId", chatLoginName);
-                    startActivity(intent);
-                } else {
+                if (!robotMap.containsKey(chatLoginName)) {
 
                     RobotUser robot = new RobotUser();
                     robot.setId(skill.getUid() + "");
@@ -314,10 +308,9 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                     UserDao dao = new UserDao(getActivity());
                     dao.saveOrUpdate(user);
                     dao.saveOrUpdate(robot);
-                    intent.putExtra("userId", chatLoginName);
-                    intent.putExtra("userNickname", skill.getNickname());
-                    startActivity(intent);
                 }
+
+                ChatActivity.show(getActivity(),holder.getData(),true);
             }
         } else if (SkillListIndexAdapter.BannerViewHolder.class.isInstance(h)) {
             clickBanner(((SkillListIndexAdapter.BannerViewHolder) h));

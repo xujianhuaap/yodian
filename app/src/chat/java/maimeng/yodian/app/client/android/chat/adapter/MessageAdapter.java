@@ -63,6 +63,7 @@ import com.easemob.util.FileUtils;
 import com.easemob.util.LatLng;
 import com.easemob.util.TextFormater;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,6 +95,9 @@ import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.model.user.User;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
@@ -536,9 +540,17 @@ public class MessageAdapter extends BaseAdapter {
                             @Override
                             public void onClick(View v) {
                                 try {
-                                    JSONObject str=message.getJSONObjectAttribute("skill");
-                                    Skill skill=new Gson().fromJson(str.toString(),Skill.class);
-                                    activity.startActivity(new Intent(v.getContext(), ContactPathActivity.class).putExtra("skill", skill));
+
+                                    if(itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD ){
+                                        Skill skill=new Skill();
+                                        skill.setWeichat(message.getStringAttribute("weChat"));
+                                        skill.setContact(message.getStringAttribute("mobile"));
+                                        skill.setQq(message.getStringAttribute("qq"));
+                                        ContactPathActivity.show(activity, skill);
+                                    }else{
+                                        ContactPathActivity.show(activity, User.read(activity).getInfo());
+                                    }
+
                                 } catch (EaseMobException e) {
                                     e.printStackTrace();
                                 }
