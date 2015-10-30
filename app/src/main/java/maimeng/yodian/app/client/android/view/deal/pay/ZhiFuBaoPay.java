@@ -52,27 +52,20 @@ public class ZhiFuBaoPay implements IPay{
                         if (TextUtils.equals(resultStatus, "9000")) {
                             mstatus.sucessPay(IPayStatus.PAY_SUCESS);
                         } else {
-                            // 判断resultStatus 为非“9000”则代表可能支付ccd
-                            // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-                            if (TextUtils.equals(resultStatus, "8000")) {
 
+                            mstatus.failurepay(IPayStatus.PAY_ERROR_ELSE);
 
-                            } else {
-                                // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                                mstatus.failurepay(IPayStatus.PAY_ERROR_ELSE);
-                            }
                         }
                         break;
                     }
                     case SDK_CHECK_FLAG: {
-                        if((Boolean)msg.obj){
-                            excutePay();
-                        }else{
-                            Spanned checkStr=Html.fromHtml(mActivity.getResources().getString(R.string.pay_check_account));
-                            Toast.makeText(mActivity,checkStr,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
+//                        if((Boolean)msg.obj){
+//                        }else{
+//                            Spanned checkStr=Html.fromHtml(mActivity.getResources().getString(R.string.pay_check_account));
+//                            Toast.makeText(mActivity,checkStr,
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+                        excutePay();
                         break;
                     }
                     default:

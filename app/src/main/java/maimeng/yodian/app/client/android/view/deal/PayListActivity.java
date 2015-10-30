@@ -174,7 +174,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
                 pay.sendReq();
             }else if(payType==PAY_TYPE_REMAINDER){
 
-                new ViewDialog.Builder(PayListActivity.this).setMesage(getResources().getString(R.string.pay_deal_tip))
+                 final android.support.v7.app.AlertDialog alertDialog=new ViewDialog.Builder(PayListActivity.this).setMesage(getResources().getString(R.string.pay_deal_tip))
                         .setPositiveListener(new ViewDialog.IPositiveListener() {
                             @Override
                             public void positiveClick() {
@@ -187,7 +187,8 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
                     public void negtiveClick() {
                         finish();
                     }
-                },"").create().show();
+                },"").create();
+                alertDialog.show();
 
             }
 
@@ -220,18 +221,15 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             }
             String btnTip=getResources().getString(R.string.btn_name);
             String title=getResources().getString(R.string.pay_deal_title);
-            if(isOrderPay){
-                new ViewDialog.Builder(PayListActivity.this).setMesage(failStr)
-                        .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
-                    @Override
-                    public void positiveClick() {
-                        finish();
-                    }
-                }   ,btnTip).create().show();
 
-            }else{
-                finish();
-            }
+            new ViewDialog.Builder(PayListActivity.this).setMesage(failStr)
+                    .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
+                @Override
+                public void positiveClick() {
+                    finish();
+                }
+            }   ,btnTip).create().show();
+
 
 
         }

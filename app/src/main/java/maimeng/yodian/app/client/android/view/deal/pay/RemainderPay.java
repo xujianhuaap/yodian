@@ -15,6 +15,7 @@ import maimeng.yodian.app.client.android.network.common.RequestIntercept;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.BuyService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
@@ -45,11 +46,12 @@ public class RemainderPay implements IPay{
 
             @Override
             public void success(ToastResponse toastResponse, Response response) {
+
                 if(toastResponse.getCode()==20000){
                     mStatus.sucessPay(IPayStatus.PAY_SUCESS);
                 }else {
                     int errCode=IPayStatus.PAY_ERROR_ELSE;
-                    if(toastResponse.getCode()==5500){
+                    if(toastResponse.getCode()==55000){
                         errCode=IPayStatus.PAY_ERROR_REMAINDER_SHORT;
                     }
 
