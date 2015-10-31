@@ -185,6 +185,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_margin="1dp"
+                        android:maxLength="18"
                         android:layout_marginRight="10dp"
                         android:gravity="left|center_vertical"
                         android:singleLine="true"
