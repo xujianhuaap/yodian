@@ -9,9 +9,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:gravity="center"
         android:background="@android:color/black"
         android:orientation="horizontal">
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_skill_temple_title" />
-        </LinearLayout>
+        </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/template_list"
