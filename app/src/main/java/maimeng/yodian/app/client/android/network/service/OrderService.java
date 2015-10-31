@@ -23,7 +23,7 @@ public interface OrderService {
      * @param callback
      */
     @Post(Api.ORDER_LIST_BUYER)
-    void buyers(@Param("P") int p, Callback<OrderListRepsonse> callback);
+    void buyers(@Param("p") int p, Callback<OrderListRepsonse> callback);
 
     /***
      * 出售者列表
