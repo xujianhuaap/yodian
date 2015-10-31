@@ -270,7 +270,17 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     dao.saveOrUpdate(user);
                     dao.saveOrUpdate(robot);
                 }
-                ChatActivity.show(OrderDetailActivity.this, skill, !isSaled);
+                if(isSaled){
+                  //联系买家
+                    OrderInfo orderInfo=mBinding.getOrderInfo();
+
+
+                    ChatActivity.show(OrderDetailActivity.this, orderInfo.getBuyer().getLogincount(),false);
+                }else{
+                    //联系卖家
+                    ChatActivity.show(OrderDetailActivity.this, skill, !isSaled);
+                }
+
             }
         });
     }
