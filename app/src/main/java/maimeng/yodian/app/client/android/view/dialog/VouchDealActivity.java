@@ -12,7 +12,6 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.remainder.Remainder;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
@@ -25,9 +24,7 @@ import maimeng.yodian.app.client.android.view.deal.VouchDetailActivity;
  * Created by xujianhua on 10/16/15.
  */
 public class VouchDealActivity extends AppCompatActivity implements Callback<RemainderResponse> {
-
-
-    private Remainder remainder;
+    private BindStatus status;
 
     /***
      * @param context
@@ -41,6 +38,7 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        status = BindStatus.create(getSharedPreferences("_vouch", Context.MODE_PRIVATE).getInt("status", -1));
         getWindow().setGravity(Gravity.BOTTOM);
         setContentView(R.layout.activity_vouch_deal);
         Network.getService(MoneyService.class).remanider(this);
@@ -48,12 +46,8 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
         findViewById(R.id.vouch_now).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (remainder != null) {
-                    if (remainder.getVouchStatus() != BindStatus.NO_CARD) {
-                        VouchDetailActivity.show(VouchDealActivity.this);
-                    } else {
-                        VouchApplyActivity.show(VouchDealActivity.this);
-                    }
+                if (status != BindStatus.NO_CARD) {
+                    VouchDetailActivity.show(VouchDealActivity.this);
                 } else {
                     VouchApplyActivity.show(VouchDealActivity.this);
                 }
@@ -79,7 +73,8 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
     @Override
     public void success(RemainderResponse res, Response response) {
         if (res.isSuccess()) {
-            remainder = res.getData();
+//            remainder = res.getData();
+            getSharedPreferences("_vouch", Context.MODE_PRIVATE).edit().putInt("status", res.getData().getVouchStatus().getValue()).apply();
         } else {
             res.showMessage(this);
         }

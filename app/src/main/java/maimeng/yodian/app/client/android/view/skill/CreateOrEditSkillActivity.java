@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.skill;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -19,7 +20,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -42,8 +42,10 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
+import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
+import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
@@ -145,9 +147,30 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 allowSell = skill.getAllow_sell();
                 isEdit = true;
             }
-
         }
+        Network.getService(MoneyService.class).remanider(new Callback<RemainderResponse>() {
+            @Override
+            public void start() {
 
+            }
+
+            @Override
+            public void success(RemainderResponse res, Response response) {
+                if (res.isSuccess()) {
+                    getSharedPreferences("_vouch", Context.MODE_PRIVATE).edit().putInt("status", res.getData().getVouchStatus().getValue()).apply();
+                }
+            }
+
+            @Override
+            public void failure(HNetError hNetError) {
+
+            }
+
+            @Override
+            public void end() {
+
+            }
+        });
         if (mTemplate.getPic() != null) {
             new ImageLoaderManager.Loader(binding.skillPic, Uri.parse(mTemplate.getPic())).callback(new ImageLoaderManager.Callback() {
                 @Override
