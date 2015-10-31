@@ -335,11 +335,20 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
 
         if (chatType == CHATTYPE_SINGLE) {
-            if (skill != null) {
-                toChatUsername = skill.getChatLoginName();
-            } else {
+
+            if(!isContactSeller){
+                //联系买家和广播
                 toChatUsername = intent.getStringExtra("userId");
+            }else{
+                //联系卖家
+                if (skill != null) {
+                    toChatUsername = skill.getChatLoginName();
+                } else {
+                    //通过广播
+                    toChatUsername = intent.getStringExtra("userId");
+                }
             }
+
 
         } else {
             toChatUsername = intent.getStringExtra("groupId");
