@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by xujianhua on 10/15/15.
  */
-public class RemainderPayParams implements IPayParams,Parcelable{
+public class RemainderPayParams implements IPayParams, Parcelable {
 
 
     /**
@@ -21,7 +21,7 @@ public class RemainderPayParams implements IPayParams,Parcelable{
     private String total_fee;
     private String out_trade_no;
     private String body;
-    private String oid;
+    private long oid;
     private int isLottery;
     private String lotUrl;
 
@@ -37,7 +37,7 @@ public class RemainderPayParams implements IPayParams,Parcelable{
         this.body = body;
     }
 
-    public void setOid(String oid) {
+    public void setOid(long oid) {
         this.oid = oid;
     }
 
@@ -61,7 +61,7 @@ public class RemainderPayParams implements IPayParams,Parcelable{
         return body;
     }
 
-    public String  getOid() {
+    public long getOid() {
         return oid;
     }
 
@@ -84,7 +84,7 @@ public class RemainderPayParams implements IPayParams,Parcelable{
         dest.writeString(this.total_fee);
         dest.writeString(this.out_trade_no);
         dest.writeString(this.body);
-        dest.writeString(this.oid);
+        dest.writeLong(this.oid);
         dest.writeInt(this.isLottery);
         dest.writeString(this.lotUrl);
     }
@@ -96,7 +96,7 @@ public class RemainderPayParams implements IPayParams,Parcelable{
         this.total_fee = in.readString();
         this.out_trade_no = in.readString();
         this.body = in.readString();
-        this.oid = in.readString();
+        this.oid = in.readLong();
         this.isLottery = in.readInt();
         this.lotUrl = in.readString();
     }

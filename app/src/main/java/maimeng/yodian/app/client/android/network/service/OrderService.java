@@ -41,7 +41,7 @@ public interface OrderService {
      * @param callback
      */
     @Post(Api.ORDER_ACCEPT)
-    void acceptOrder(@Param("oid") String oid, Callback<ToastResponse> callback);
+    void acceptOrder(@Param("oid") long oid, Callback<ToastResponse> callback);
 
     /***
      * 卖家发货
@@ -50,7 +50,7 @@ public interface OrderService {
      * @param callback
      */
     @Post(Api.ORDER_SEND)
-    void sendGoods(@Param("oid") String oid, Callback<ToastResponse> callback);
+    void sendGoods(@Param("oid") long oid, Callback<ToastResponse> callback);
 
     /****
      * 买家确认交易成功
@@ -59,10 +59,10 @@ public interface OrderService {
      * @param callback
      */
     @Post(Api.ORDER_CONFIRM)
-    void confirmOrder(@Param("oid") String oid, Callback<ToastResponse> callback);
+    void confirmOrder(@Param("oid") long oid, Callback<ToastResponse> callback);
 
     @Post(Api.ORDER_INFO)
-    void info(@Param("oid") String oid, Callback<OrderInfoResponse> callback);
+    void info(@Param("oid") long oid, Callback<OrderInfoResponse> callback);
 
 
 }

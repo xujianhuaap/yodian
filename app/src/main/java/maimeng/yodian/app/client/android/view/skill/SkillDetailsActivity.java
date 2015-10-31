@@ -60,6 +60,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.deal.OrderDetailActivity;
 import maimeng.yodian.app.client.android.view.deal.PayWrapperActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -193,7 +194,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             if (requestCode == REQEUST_RMARK_ADD) {
                 binding.refreshLayout.autoRefresh();
             } else if (requestCode == REQEUST_PLAY) {//如果是支付成功返回的就进入订单界面
-
+                if (data != null) {
+                    OrderDetailActivity.show(this, data.getLongExtra("oid", 0), false);
+                }
             }
         }
     }

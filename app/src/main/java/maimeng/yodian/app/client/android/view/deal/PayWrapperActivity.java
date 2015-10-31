@@ -71,7 +71,7 @@ public class PayWrapperActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             if (getIntent().getBooleanExtra("result", false)) {
-                setResult(RESULT_OK);
+                setResult(RESULT_OK, data);
             }
             finish();
         }

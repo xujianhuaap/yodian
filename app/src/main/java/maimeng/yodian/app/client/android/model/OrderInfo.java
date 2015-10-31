@@ -9,7 +9,7 @@ import maimeng.yodian.app.client.android.model.user.Buyer;
 /**
  * Created by xujianhua on 9/28/15.
  */
-public class OrderInfo implements Parcelable{
+public class OrderInfo implements Parcelable {
 
     /**
      * id : 174
@@ -47,7 +47,7 @@ public class OrderInfo implements Parcelable{
     private String paytype;
     private String status;
     private String createtime;
-    private String oid;
+    private long oid;
 
     private Skill skill;
     private Buyer buyer;
@@ -180,11 +180,11 @@ public class OrderInfo implements Parcelable{
         this.createtime = createtime;
     }
 
-    public String getOid() {
+    public long getOid() {
         return oid;
     }
 
-    public void setOid(String oid) {
+    public void setOid(long oid) {
         this.oid = oid;
     }
 
@@ -228,7 +228,7 @@ public class OrderInfo implements Parcelable{
         dest.writeString(this.paytype);
         dest.writeString(this.status);
         dest.writeString(this.createtime);
-        dest.writeString(this.oid);
+        dest.writeLong(this.oid);
         dest.writeParcelable(this.skill, 0);
         dest.writeParcelable(this.buyer, 0);
     }
@@ -253,7 +253,7 @@ public class OrderInfo implements Parcelable{
         this.paytype = in.readString();
         this.status = in.readString();
         this.createtime = in.readString();
-        this.oid = in.readString();
+        this.oid = in.readLong();
         this.skill = in.readParcelable(Skill.class.getClassLoader());
         this.buyer = in.readParcelable(Buyer.class.getClassLoader());
     }

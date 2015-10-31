@@ -65,6 +65,13 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view1);
     }
 
+    public static void show(Context context, long oid, boolean isSaled) {
+        Intent intent = new Intent(context, OrderDetailActivity.class);
+        intent.putExtra("oid", oid);
+        intent.putExtra("isSaled", isSaled);
+        context.startActivity(intent);
+    }
+
     public static void show(Context context, OrderInfo orderInfo, boolean isSaled) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra("orderInfo", orderInfo);
@@ -199,7 +206,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         mBinding.orderOperator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String oid = info.getOid();
+                long oid = info.getOid();
                 OrderOperatorCallBackProxy proxy = new OrderOperatorCallBackProxy();
                 if (isSaled) {
                     //出售订单
@@ -276,7 +283,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         super.onCreate(savedInstanceState);
         mBinding = bindView(R.layout.activity_order_detail);
         final OrderInfo info = getIntent().getParcelableExtra("orderInfo");
-        refreshUI(info);
+        if (info != null) {
+            refreshUI(info);
+        } else {
+            Network.getService(OrderService.class).info(getIntent().getLongExtra("oid", 0), this);
+        }
         mBinding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
         mBinding.refreshLayout.addPtrUIHandler(header);

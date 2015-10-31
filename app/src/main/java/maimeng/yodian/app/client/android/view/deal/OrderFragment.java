@@ -151,7 +151,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
         public void onClick(OrderListAdapter.ViewHolder holder, View clickItem, int postion) {
             OrderInfo info = mAdapter.getItem(postion);
             int status = Integer.parseInt(info.getStatus());
-            String oid = info.getOid();
+            long oid = info.getOid();
             OrderOperatorCallBackProxy proxy = new OrderOperatorCallBackProxy();
             if (holder.mBinding.acceptOrder == clickItem) {
                 if (mAdapter.isSaled()) {

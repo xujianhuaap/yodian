@@ -21,7 +21,6 @@ import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.AuthFactory;
 import org.henjue.library.share.manager.WechatAuthManager;
 
-
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.OrderInfo;
@@ -136,6 +135,12 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             if (v.getId() == R.id.pay_remainer) {
                 mService.buySkill(mSkill.getId(), PAY_TYPE_REMAINDER, new CallBackProxy(PAY_TYPE_REMAINDER));
             } else if (v.getId() == R.id.pay_wechat) {
+                WechatAuthManager manager = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);//代码一定不能删除，保证IWXAPI已经初始化
+                if (manager.getIWXAPI().isWXAppInstalled()) {
+                    mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
+                } else {
+                    Toast.makeText(this, "没有安装微信", Toast.LENGTH_SHORT).show();
+                }
                 mService.buySkill(mSkill.getId(), PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
             } else if (v.getId() == R.id.pay_zhifubao) {
                 mService.buySkill(mSkill.getId(), PAY_TYPE_ZHIFUBAO, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
@@ -161,17 +166,19 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         @Override
-        public void success(final  String s, Response response) {
-             final Gson gson=Network.getOne().getGson();
-             IPay pay=null;
-             final IPayStatus status=new PayStatus();
-            if(payType==PAY_TYPE_ZHIFUBAO){
+        public void success(final String s, Response response) {
+            final Gson gson = Network.getOne().getGson();
+            IPay pay = null;
 
-                ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse =gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
-                pay= ZhiFuBaoFactory.createInstance(PayListActivity.this, zhiFuBaoPayParamsResponse.getData().getParams(),status);
+            if (payType == PAY_TYPE_ZHIFUBAO) {
+
+                ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse = gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
+                IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid());
+                pay = ZhiFuBaoFactory.createInstance(PayListActivity.this, zhiFuBaoPayParamsResponse.getData().getParams(), status);
                 pay.sendReq();
             } else if (payType == PAY_TYPE_WECHAT) {
                 WXPayParamResponse paramResponse = gson.fromJson(s, WXPayParamResponse.class);
+                IPayStatus status = new PayStatus(paramResponse.getData().getOid());
                 pay = WXFactory.createInstance(PayListActivity.this, paramResponse.getData().getParams(), status);
                 pay.sendReq();
             } else if (payType == PAY_TYPE_REMAINDER) {
@@ -181,6 +188,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
                             @Override
                             public void positiveClick() {
                                 RemainderPayParamsResponse remainderPayParamsResponse = gson.fromJson(s, RemainderPayParamsResponse.class);
+                                IPayStatus status = new PayStatus(remainderPayParamsResponse.getData().getOid());
                                 IPay pay = RemainderFactory.createInstance(PayListActivity.this, remainderPayParamsResponse.getData().getOid(), status);
                                 pay.sendReq();
                             }
@@ -212,6 +220,12 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
      * 支付结果
      */
     public class PayStatus implements IPayStatus {
+        private final long oid;
+
+        public PayStatus(long oid) {
+            this.oid = oid;
+        }
+
         @Override
         public void failurepay(int errCode) {
             Spanned fail = Html.fromHtml(getResources().getString(R.string.pay_result_fail));
@@ -242,6 +256,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
                     .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
                 @Override
                 public void positiveClick() {
+                    setResult(RESULT_OK, new Intent().putExtra("oid", oid));
                     finish();
                 }
             }, btnTip).create().show();
