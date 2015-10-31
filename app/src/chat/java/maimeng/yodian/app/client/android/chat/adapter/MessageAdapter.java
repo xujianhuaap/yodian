@@ -258,13 +258,8 @@ public class MessageAdapter extends BaseAdapter {
             return -1;
         }
         if (message.getType() == EMMessage.Type.TXT) {
-            try {
-                final String weChat = message.getStringAttribute("weChat");
-                if (weChat != null) {
-                    return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_WECHAT_VCARD : MESSAGE_TYPE_SENT_WECHAT_VCARD;
-                }
-            } catch (EaseMobException e) {
-//                e.printStackTrace();
+            if (isCard(message)) {
+                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_WECHAT_VCARD : MESSAGE_TYPE_SENT_WECHAT_VCARD;
             }
             if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false))
                 return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE_CALL : MESSAGE_TYPE_SENT_VOICE_CALL;
@@ -355,7 +350,6 @@ public class MessageAdapter extends BaseAdapter {
                 holder.tvList = (LinearLayout) convertView.findViewById(R.id.ll_layout);
                 holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
-                holder.vcard_wechat = (TextView) convertView.findViewById(R.id.vcard_wechat);
                 holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
             } else if (itemViewType == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
                 holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
@@ -367,7 +361,6 @@ public class MessageAdapter extends BaseAdapter {
                 holder.tvList = (LinearLayout) convertView.findViewById(R.id.ll_layout);
                 holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
-                holder.vcard_wechat = (TextView) convertView.findViewById(R.id.vcard_wechat);
                 holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
             } else if (message.getType() == EMMessage.Type.IMAGE) {
                 try {
@@ -522,21 +515,19 @@ public class MessageAdapter extends BaseAdapter {
                 if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD || itemViewType == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
                     try {
                         String avatar = message.getStringAttribute("avatar");
-                        String uid = message.getStringAttribute("uid");
                         String nickName = message.getStringAttribute("nickName");
-                        final String wechat = message.getStringAttribute("weChat");
-                        holder.vcard_wechat.setText(wechat);
                         holder.vcard_nickname.setText(nickName);
                         if (avatar != null) {
                             ImageAdapter.image(holder.vcard_avatar, avatar);
                         }
+                        holder.vcard_nickname.setTag(message);
                         holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 try {
-
                                     if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
-                                        ContactPathActivity.show(activity, message.getStringAttribute("qq"), message.getStringAttribute("mobile"), message.getStringAttribute("weChat"));
+                                        EMMessage msg = (EMMessage) v.getTag();
+                                        ContactPathActivity.show(activity, msg.getStringAttribute("qq"), msg.getStringAttribute("mobile"), msg.getStringAttribute("weChat"));
                                     } else {
                                         User.Info info = User.read(activity).getInfo();
                                         ContactPathActivity.show(activity, info.getQq(), info.getMobile(), info.getWechat());
@@ -804,7 +795,14 @@ public class MessageAdapter extends BaseAdapter {
     private void handleCallMessage(EMMessage message, ViewHolder holder, final int position) {
         TextMessageBody txtBody = (TextMessageBody) message.getBody();
         holder.tv.setText(txtBody.getMessage());
+    }
 
+    private boolean isCard(EMMessage message) {
+        TextMessageBody txtBody = (TextMessageBody) message.getBody();
+        if ("[名片]".equals(txtBody.getMessage())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -1646,7 +1644,6 @@ public class MessageAdapter extends BaseAdapter {
         TextView tvTitle;
         LinearLayout tvList;
         TextView vcard_nickname;
-        TextView vcard_wechat;
         ImageView vcard_avatar;
         View wechat_vcard_item;
     }

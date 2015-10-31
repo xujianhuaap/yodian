@@ -73,7 +73,9 @@ public class RobotUser extends EMContact {
         this.wechat = wechat;
     }
 
-    private String wechat;
+    private String wechat = "";
+    private String mobile = "";
+    private String qq = "";
 
     public String getMobile() {
         return mobile;
@@ -91,8 +93,6 @@ public class RobotUser extends EMContact {
         this.qq = qq;
     }
 
-    private String mobile;
-    private String qq;
 
     public static RobotUser parse(EMMessage message) throws EaseMobException {
         final RobotUser user = new RobotUser();

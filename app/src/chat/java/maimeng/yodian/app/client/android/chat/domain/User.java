@@ -30,9 +30,6 @@ public class User extends EMContact {
         this.wechat = wechat;
     }
 
-    private String wechat;
-    private String mobile;
-
     public String getQq() {
         return qq;
     }
@@ -55,7 +52,9 @@ public class User extends EMContact {
         this.wechat = wechat;
     }
 
-    private String qq;
+    private String wechat = "";
+    private String mobile = "";
+    private String qq = "";
     private String id;
 
     public String getId() {

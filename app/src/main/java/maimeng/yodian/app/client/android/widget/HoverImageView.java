@@ -173,4 +173,5 @@ public class HoverImageView extends ImageView {
     public float getBorderWidth() {
         return borderWidth;
     }
+    
 }

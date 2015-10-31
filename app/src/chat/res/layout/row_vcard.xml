@@ -45,12 +45,11 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/vcard_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/vcard_nickname"
             android:layout_below="@id/vcard_nickname"
-            android:text="asdfasdfasfsfasdfsfasfasfasdfasd"
+            android:text="点击查看"
             android:textColor="@color/chat_textColor"
             android:textSize="15sp" />
     </RelativeLayout>

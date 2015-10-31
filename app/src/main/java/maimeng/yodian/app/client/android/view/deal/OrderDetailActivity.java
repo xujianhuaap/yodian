@@ -254,8 +254,6 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     robot.setNick(skill.getNickname());
                     robot.setAvatar(skill.getAvatar());
                     robot.setWechat(skill.getWeichat());
-
-
                     maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
                     user.setId(skill.getUid() + "");
                     user.setUsername(chatLoginName);
@@ -272,7 +270,6 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     dao.saveOrUpdate(user);
                     dao.saveOrUpdate(robot);
                 }
-
                 ChatActivity.show(OrderDetailActivity.this, skill, !isSaled);
             }
         });

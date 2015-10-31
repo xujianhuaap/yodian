@@ -245,10 +245,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public EMGroup group;
     public EMChatRoom room;
     public boolean isRobot;
-    private String wechat;
     private long uid;
-    private String qq;
-    private String mobile;
+    private String wechat = "";
+    private String qq = "";
+    private String mobile = "";
 
     public Skill getSkill() {
         return skill;
@@ -1453,14 +1453,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         message.setAttribute("nickName", nick);
         message.setAttribute("avatar", avatar);
         message.setAttribute("uid", id);
-
-        String wechat = null;
-        String mobile = null;
-        String qq = null;
-
-        wechat = mCurrentUser.getInfo().getWechat();
-        mobile = mCurrentUser.getInfo().getContact();
-        qq = mCurrentUser.getInfo().getQq();
 
         message.setAttribute("mobile", mobile);
         message.setAttribute("qq", qq);
