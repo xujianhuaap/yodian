@@ -34,6 +34,18 @@ public class User extends UserBaseColum implements Parcelable {
     @SerializedName("hxname")
     private String chatLoginName;
 
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public String getChatLoginName() {
         return chatLoginName;
     }
