@@ -193,7 +193,6 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
 
             }
         }).start(this);
-        binding.imgAvatar.setTag(headUrl);
         binding.nickname.setText(nickname);
     }
 
