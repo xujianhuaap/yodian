@@ -19,13 +19,13 @@ import com.easemob.exceptions.EaseMobException;
 
 public class RobotUser extends EMContact {
     private String username;
-    private String id;
+    private long id;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -109,15 +109,14 @@ public class RobotUser extends EMContact {
         } catch (EaseMobException e) {
 //            e.printStackTrace();
         }
-        String uid = null;
-        try {
-            uid = message.getStringAttribute("uid");
-        } catch (EaseMobException e) {
-//            e.printStackTrace();
-        }
-        String wechat = null;
+        long uid = Long.parseLong(message.getStringAttribute("uid", "0"));
+        String wechat = "";
+        String mobile = "";
+        String qq = "";
         try {
             wechat = message.getStringAttribute("weChat");
+            mobile = message.getStringAttribute("mobile");
+            qq = message.getStringAttribute("qq");
         } catch (EaseMobException e) {
 //            e.printStackTrace();
         }
@@ -126,6 +125,8 @@ public class RobotUser extends EMContact {
         user.setNick(nickname);
         user.setUsername(userName);
         user.setWechat(wechat);
+        user.setMobile(mobile);
+        user.setQq(qq);
         return user;
     }
 }

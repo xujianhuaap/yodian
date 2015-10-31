@@ -40,7 +40,7 @@ public class ChatServiceLoginService extends Service {
         if (TextUtils.isEmpty(currentUsername)) {
             return super.onStartCommand(intent, flags, startId);
         }
-        if(read.isPushOn()){
+        if (read.isPushOn()) {
 
             EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
 
@@ -54,14 +54,20 @@ public class ChatServiceLoginService extends Service {
                         RobotUser robotUser = new RobotUser();
                         maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
                         robotUser.setAvatar(read.getAvatar());
-                        robotUser.setId(read.getUid() + "");
+                        robotUser.setId(read.getUid());
                         robotUser.setUsername(read.getChatLoginName());
                         robotUser.setNick(read.getNickname());
+                        robotUser.setWechat(read.getWechat());
+                        robotUser.setQq(read.getInfo().getQq());
+                        robotUser.setMobile(read.getInfo().getMobile());
 
                         user.setAvatar(read.getAvatar());
-                        user.setId(read.getUid() + "");
+                        user.setId(read.getUid());
                         user.setUsername(read.getChatLoginName());
                         user.setNick(read.getNickname());
+                        user.setWechat(read.getWechat());
+                        user.setQq(read.getInfo().getQq());
+                        user.setMobile(read.getInfo().getMobile());
                         userDao.saveOrUpdate(robotUser);
                         userDao.saveOrUpdate(user);
 
@@ -112,7 +118,6 @@ public class ChatServiceLoginService extends Service {
                 }
             });
         }
-
 
 
         return super.onStartCommand(intent, flags, startId);

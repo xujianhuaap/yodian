@@ -34,7 +34,9 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.ActivityOrderDetailBinding;
 import maimeng.yodian.app.client.android.model.OrderInfo;
+import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.model.user.Buyer;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
@@ -243,44 +245,79 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         mBinding.contactBuyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //联系买家或者卖家
-                Skill skill = info.getSkill();
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
-                String chatLoginName = skill.getChatLoginName();
-                if (!robotMap.containsKey(chatLoginName)) {
-                    RobotUser robot = new RobotUser();
-                    robot.setId(skill.getUid() + "");
-                    robot.setUsername(chatLoginName);
-                    robot.setNick(skill.getNickname());
-                    robot.setAvatar(skill.getAvatar());
-                    robot.setWechat(skill.getWeichat());
-                    maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                    user.setId(skill.getUid() + "");
-                    user.setUsername(chatLoginName);
-                    user.setNick(skill.getNickname());
-                    user.setAvatar(skill.getAvatar());
-                    user.setWechat(skill.getWeichat());
+                if (isSaled) {
+                    Buyer buyer = info.getBuyer();
+                    if (!robotMap.containsKey(buyer.getHxname())) {
+                        RobotUser robot = new RobotUser();
+                        robot.setId(buyer.getId());
+                        robot.setUsername(buyer.getHxname());
+                        robot.setNick(buyer.getNickname());
+                        robot.setAvatar(buyer.getAvatar());
+                        robot.setWechat(buyer.getWeichat());
+                        robot.setMobile(buyer.getMobile());
+                        robot.setQq(buyer.getQq());
+
+                        maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
+                        user.setId(buyer.getId());
+                        user.setUsername(buyer.getHxname());
+                        user.setNick(buyer.getNickname());
+                        user.setAvatar(buyer.getAvatar());
+                        user.setWechat(buyer.getWeichat());
+                        user.setMobile(buyer.getMobile());
+                        user.setQq(buyer.getQq());
 
 
-                    // 存入内存
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
-                    // 存入db
-                    UserDao dao = new UserDao(OrderDetailActivity.this);
-                    dao.saveOrUpdate(user);
-                    dao.saveOrUpdate(robot);
+                        // 存入内存
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), user);
+                        // 存入db
+                        UserDao dao = new UserDao(OrderDetailActivity.this);
+                        dao.saveOrUpdate(user);
+                        dao.saveOrUpdate(robot);
+                    }
+                    ChatUser chatUser = new ChatUser(buyer.getHxname(), buyer.getId(), buyer.getNickname());
+                    chatUser.setMobile(buyer.getMobile());
+                    chatUser.setQq(buyer.getQq());
+                    chatUser.setWechat(buyer.getWeichat());
+                    ChatActivity.show(OrderDetailActivity.this, info.getSkill(), chatUser);
+                } else {
+                    //联系买家或者卖家
+                    Skill skill = info.getSkill();
+                    String chatLoginName = skill.getChatLoginName();
+                    if (!robotMap.containsKey(chatLoginName)) {
+                        RobotUser robot = new RobotUser();
+                        robot.setId(skill.getUid());
+                        robot.setUsername(chatLoginName);
+                        robot.setNick(skill.getNickname());
+                        robot.setAvatar(skill.getAvatar());
+                        robot.setMobile(skill.getContact());
+                        robot.setQq(skill.getQq());
+                        robot.setWechat(skill.getWeichat());
+
+                        maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
+                        user.setId(skill.getUid());
+                        user.setUsername(chatLoginName);
+                        user.setNick(skill.getNickname());
+                        user.setAvatar(skill.getAvatar());
+                        user.setMobile(skill.getContact());
+                        user.setQq(skill.getQq());
+                        user.setWechat(skill.getWeichat());
+
+                        // 存入内存
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
+                        // 存入db
+                        UserDao dao = new UserDao(OrderDetailActivity.this);
+                        dao.saveOrUpdate(user);
+                        dao.saveOrUpdate(robot);
+                    }
+                    ChatUser chatUser = new ChatUser(chatLoginName, skill.getUid(), skill.getNickname());
+                    chatUser.setMobile(skill.getContact());
+                    chatUser.setQq(skill.getQq());
+                    chatUser.setWechat(skill.getWeichat());
+                    ChatActivity.show(OrderDetailActivity.this, info.getSkill(), chatUser);
                 }
-                if(isSaled){
-                  //联系买家
-                    OrderInfo orderInfo=mBinding.getOrderInfo();
-
-
-                    ChatActivity.show(OrderDetailActivity.this, orderInfo.getBuyer().getLogincount(),false);
-                }else{
-                    //联系卖家
-                    ChatActivity.show(OrderDetailActivity.this, skill, !isSaled);
-                }
-
             }
         });
     }

@@ -44,6 +44,7 @@ import maimeng.yodian.app.client.android.databinding.UserHomeHeaderBinding;
 import maimeng.yodian.app.client.android.entry.skillhome.HeaderViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ViewEntry;
+import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -151,10 +152,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         Bundle args = getArguments();
         long uid = args.getLong("uid", 0);
         if (uid > 0) {
-            isMe=false;
+            isMe = false;
             service.list(uid, page, this);
         } else {
-            isMe=true;
+            isMe = true;
             user = User.read(getActivity());
             init();
         }
@@ -426,29 +427,29 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     }
                 });
             } else if (clickItem == itemViewHolder.getBinding().btnBottom) {
-                Intent intent = new Intent(mActivity, ChatActivity.class);
-                intent.putExtra("skill", itemViewHolder.getData());
-                intent.putExtra("uid", skill.getUid());
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
                 if (robotMap.containsKey(chatLoginName)) {
-                    intent.putExtra("userId", chatLoginName);
-                    mActivity.startActivity(intent);
+                    ChatActivity.show(getActivity(), itemViewHolder.getData(), new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
                 } else {
                     RobotUser robot = new RobotUser();
-                    robot.setId(skill.getUid() + "");
+                    robot.setId(skill.getUid());
                     robot.setUsername(chatLoginName);
                     robot.setNick(skill.getNickname());
                     robot.setAvatar(skill.getAvatar());
                     robot.setWechat(skill.getWeichat());
+                    robot.setQq(skill.getQq());
+                    robot.setMobile(skill.getContact());
 
 
                     maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                    user.setId(skill.getUid() + "");
+                    user.setId(skill.getUid());
                     user.setUsername(chatLoginName);
                     user.setNick(skill.getNickname());
                     user.setAvatar(skill.getAvatar());
                     user.setWechat(skill.getWeichat());
+                    user.setQq(skill.getQq());
+                    user.setMobile(skill.getContact());
 
 
                     // 存入内存
@@ -458,9 +459,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     UserDao dao = new UserDao(mActivity);
                     dao.saveOrUpdate(user);
                     dao.saveOrUpdate(robot);
-                    intent.putExtra("userId", chatLoginName);
-                    intent.putExtra("userNickname", skill.getNickname());
-                    mActivity.startActivity(intent);
+                    ChatActivity.show(getActivity(), itemViewHolder.getData(), new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
                 }
             }
         } else {

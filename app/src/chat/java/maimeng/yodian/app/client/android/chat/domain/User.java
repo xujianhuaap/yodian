@@ -55,13 +55,13 @@ public class User extends EMContact {
     private String wechat = "";
     private String mobile = "";
     private String qq = "";
-    private String id;
+    private long id;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -131,12 +131,7 @@ public class User extends EMContact {
         } catch (EaseMobException e) {
 //            e.printStackTrace();
         }
-        String uid = null;
-        try {
-            uid = message.getStringAttribute("uid");
-        } catch (EaseMobException e) {
-//            e.printStackTrace();
-        }
+        long uid = Long.parseLong(message.getStringAttribute("uid", "0"));
         String wechat = "";
         String mobile = "";
         String qq = "";

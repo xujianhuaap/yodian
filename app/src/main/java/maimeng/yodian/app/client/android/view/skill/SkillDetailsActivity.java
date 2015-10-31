@@ -50,6 +50,7 @@ import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.model.Rmark;
+import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
@@ -330,18 +331,22 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 String chatLoginName = skill.getChatLoginName();
                 if (!robotMap.containsKey(chatLoginName)) {
                     RobotUser robot = new RobotUser();
-                    robot.setId(skill.getUid() + "");
+                    robot.setId(skill.getUid());
                     robot.setUsername(chatLoginName);
                     robot.setNick(skill.getNickname());
                     robot.setAvatar(skill.getAvatar());
-                    robot.setWechat(skill.getWeichat());
+                    user.setWechat(skill.getWeichat());
+                    robot.setQq(skill.getQq());
+                    robot.setMobile(skill.getContact());
 
                     maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                    user.setId(skill.getUid() + "");
+                    user.setId(skill.getUid());
                     user.setUsername(chatLoginName);
                     user.setNick(skill.getNickname());
                     user.setAvatar(skill.getAvatar());
                     user.setWechat(skill.getWeichat());
+                    user.setQq(skill.getQq());
+                    user.setMobile(skill.getContact());
                     // 存入内存
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
@@ -351,7 +356,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     dao.saveOrUpdate(robot);
                 }
 
-                ChatActivity.show(this, skill, true);
+                ChatActivity.show(SkillDetailsActivity.this, skill, new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
             }
         } else if (v == headBinding.btnBuySkill) {
             if (isMe) {

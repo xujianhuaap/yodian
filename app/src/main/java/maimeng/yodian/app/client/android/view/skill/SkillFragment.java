@@ -40,6 +40,7 @@ import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
+import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.DataNode;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -288,19 +289,23 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                 if (!robotMap.containsKey(chatLoginName)) {
 
                     RobotUser robot = new RobotUser();
-                    robot.setId(skill.getUid() + "");
+                    robot.setId(skill.getUid());
                     robot.setUsername(chatLoginName);
                     robot.setNick(skill.getNickname());
                     robot.setAvatar(skill.getAvatar());
                     robot.setWechat(skill.getWeichat());
+                    robot.setQq(skill.getQq());
+                    robot.setMobile(skill.getContact());
 
 
                     maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                    user.setId(skill.getUid() + "");
+                    user.setId(skill.getUid());
                     user.setUsername(chatLoginName);
                     user.setNick(skill.getNickname());
                     user.setAvatar(skill.getAvatar());
                     user.setWechat(skill.getWeichat());
+                    user.setQq(skill.getQq());
+                    user.setMobile(skill.getContact());
 
 
                     // 存入内存
@@ -312,7 +317,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                     dao.saveOrUpdate(robot);
                 }
 
-                ChatActivity.show(getActivity(), holder.getData(), true);
+                ChatActivity.show(getActivity(), skill, new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
             }
         } else if (SkillListIndexAdapter.BannerViewHolder.class.isInstance(h)) {
             clickBanner(((SkillListIndexAdapter.BannerViewHolder) h));

@@ -53,9 +53,11 @@ import maimeng.yodian.app.client.android.chat.activity.VideoCallActivity;
 import maimeng.yodian.app.client.android.chat.activity.VoiceCallActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
+import maimeng.yodian.app.client.android.chat.domain.Skill;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.receiver.CallReceiver;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
+import maimeng.yodian.app.client.android.model.chat.ChatUser;
 
 /**
  * Demo UI HX SDK helper class which subclass HXSDKHelper
@@ -336,7 +338,14 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                 } else {
                     ChatType chatType = message.getChatType();
                     if (chatType == ChatType.Chat) { // 单聊信息
-                        intent.putExtra("userId", message.getFrom());
+                        User user = User.parse(message);
+                        Skill skill = Skill.parse(message);
+                        ChatUser value = new ChatUser(user.getUsername(), user.getId(), user.getNick());
+                        value.setMobile(user.getMobile());
+                        value.setQq(user.getQq());
+                        value.setWechat(user.getWechat());
+                        intent.putExtra("chatUser", value);
+                        intent.putExtra("skill", skill);
                         intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
                     } else { // 群聊信息
                         // message.getTo()为群聊id

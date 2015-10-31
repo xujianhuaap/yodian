@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.chat.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
@@ -24,21 +23,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMConversation.EMConversationType;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
+import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.adapter.ChatAllHistoryAdapter;
 import maimeng.yodian.app.client.android.chat.db.InviteMessgeDao;
+import maimeng.yodian.app.client.android.chat.domain.User;
+import maimeng.yodian.app.client.android.model.chat.ChatUser;
 
 /**
  * 显示所有会话记录，比较简单的实现，更好的可能是把陌生人存入本地，这样取到的聊天记录是可控的
@@ -91,11 +94,11 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 
         conversationList.addAll(loadConversationsWithRecentChat());
         listView = (ListView) getView().findViewById(R.id.list);
-        ImageView noNews=(ImageView)getView().findViewById(R.id.no_news);
-        if(conversationList.size()==0){
+        ImageView noNews = (ImageView) getView().findViewById(R.id.no_news);
+        if (conversationList.size() == 0) {
             noNews.setVisibility(View.VISIBLE);
             noNews.setImageResource(R.mipmap.ic_no_news);
-        }else{
+        } else {
             noNews.setVisibility(View.GONE);
         }
         adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList);
@@ -109,29 +112,24 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = adapter.getItem(position);
+                Map<String, User> users = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList();
+                User user = users.get(conversation.getUserName());
+//                Skill skill = Skill.parse(msg);
+                ChatUser chatUser = new ChatUser(user.getUsername(), user.getId(), user.getNick());
+                chatUser.setMobile(user.getMobile());
+                chatUser.setQq(user.getQq());
+                chatUser.setWechat(user.getWechat());
                 String username = conversation.getUserName();
                 if (username.equals(DemoApplication.getInstance().getUserName()))
                     Toast.makeText(getActivity(), st2, Toast.LENGTH_SHORT).show();
                 else {
-                    // 进入聊天页面
-                    Intent intent = new Intent(getActivity(), ChatActivity.class);
                     if (conversation.isGroup()) {
-                        if (conversation.getType() == EMConversationType.ChatRoom) {
-                            // it is group chat
-                            intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
-                            intent.putExtra("groupId", username);
-                        } else {
-                            // it is group chat
-                            intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                            intent.putExtra("groupId", username);
-                        }
 
                     } else {
                         // it is single chat
-                        intent.putExtra("userId", username);
-
+                        //ChatActivity.show(view.getContext(), skill, chatUser);
+                        ChatActivity.show(view.getContext(), chatUser);
                     }
-                    startActivity(intent);
                 }
             }
         });

@@ -48,11 +48,15 @@ public class DemoDBManager {
                 String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
                 String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
                 String wechat = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_WECHAT));
+                String mobile = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_MOBILE));
+                String qq = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_QQ));
                 User user = new User();
                 user.setUsername(username);
                 user.setNick(nick);
                 user.setAvatar(avatar);
                 user.setWechat(wechat);
+                user.setMobile(mobile);
+                user.setQq(qq);
                 String headerName = null;
                 if (!TextUtils.isEmpty(user.getNick())) {
                     headerName = user.getNick();
@@ -67,13 +71,13 @@ public class DemoDBManager {
                     user.setHeader("#");
                 } else {
                     if (headerName.length() > 0) {
-                        ArrayList<HanziToPinyin.Token>lists=HanziToPinyin.getInstance().get(headerName.substring(0, 1));
-                        if(lists.size()>0){
+                        ArrayList<HanziToPinyin.Token> lists = HanziToPinyin.getInstance().get(headerName.substring(0, 1));
+                        if (lists.size() > 0) {
                             user.setHeader(lists.get(0).target.substring(0, 1).toUpperCase());
                         }
 
                         char header = user.getHeader().toLowerCase().charAt(0);
-                        if (header < 'a' || header > 'z'||lists.size()==0) {
+                        if (header < 'a' || header > 'z' || lists.size() == 0) {
                             user.setHeader("#");
                         }
                     }
@@ -115,6 +119,10 @@ public class DemoDBManager {
                 values.put(UserDao.COLUMN_NAME_AVATAR, user.getAvatar());
             if (user.getWechat() != null)
                 values.put(UserDao.COLUMN_NAME_WECHAT, user.getWechat());
+            if (user.getMobile() != null)
+                values.put(UserDao.ROBOT_COLUMN_NAME_MOBILE, user.getMobile());
+            if (user.getQq() != null)
+                values.put(UserDao.ROBOT_COLUMN_NAME_QQ, user.getQq());
             if (db.isOpen()) {
                 db.update(UserDao.TABLE_NAME, values, UserDao.COLUMN_NAME_ID + "= ?", new String[]{user.getUsername()});
             }
@@ -128,6 +136,10 @@ public class DemoDBManager {
                 values.put(UserDao.COLUMN_NAME_AVATAR, user.getAvatar());
             if (user.getWechat() != null)
                 values.put(UserDao.COLUMN_NAME_WECHAT, user.getWechat());
+            if (user.getMobile() != null)
+                values.put(UserDao.ROBOT_COLUMN_NAME_MOBILE, user.getMobile());
+            if (user.getQq() != null)
+                values.put(UserDao.ROBOT_COLUMN_NAME_QQ, user.getQq());
             if (db.isOpen()) {
                 db.insert(UserDao.TABLE_NAME, null, values);
             }
@@ -313,11 +325,15 @@ public class DemoDBManager {
                 String nick = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_NICK));
                 String avatar = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_AVATAR));
                 String wechat = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_WECHAT));
+                String mobile = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_MOBILE));
+                String qq = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_QQ));
                 RobotUser user = new RobotUser();
                 user.setUsername(username);
                 user.setNick(nick);
                 user.setAvatar(avatar);
                 user.setWechat(wechat);
+                user.setMobile(mobile);
+                user.setQq(qq);
                 String headerName = null;
                 if (!TextUtils.isEmpty(user.getNick())) {
                     headerName = user.getNick();
@@ -356,6 +372,10 @@ public class DemoDBManager {
                 values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, user.getAvatar());
             if (user.getWechat() != null)
                 values.put(UserDao.ROBOT_COLUMN_NAME_WECHAT, user.getWechat());
+            if (user.getMobile() != null)
+                values.put(UserDao.ROBOT_COLUMN_NAME_MOBILE, user.getMobile());
+            if (user.getQq() != null)
+                values.put(UserDao.ROBOT_COLUMN_NAME_QQ, user.getQq());
             if (db.isOpen()) {
                 db.update(UserDao.ROBOT_TABLE_NAME, values, UserDao.ROBOT_COLUMN_NAME_ID + "=  ?", new String[]{user.getUsername()});
             }
@@ -370,6 +390,10 @@ public class DemoDBManager {
                 values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, user.getAvatar());
             if (user.getWechat() != null)
                 values.put(UserDao.ROBOT_COLUMN_NAME_WECHAT, user.getWechat());
+            if (user.getMobile() != null)
+                values.put(UserDao.ROBOT_COLUMN_NAME_MOBILE, user.getMobile());
+            if (user.getQq() != null)
+                values.put(UserDao.ROBOT_COLUMN_NAME_QQ, user.getQq());
             if (db.isOpen()) {
                 db.insert(UserDao.ROBOT_TABLE_NAME, null, values);
             }

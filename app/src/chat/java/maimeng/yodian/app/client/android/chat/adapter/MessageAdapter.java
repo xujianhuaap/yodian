@@ -84,6 +84,7 @@ import maimeng.yodian.app.client.android.chat.activity.ContextMenu;
 import maimeng.yodian.app.client.android.chat.activity.ShowBigImage;
 import maimeng.yodian.app.client.android.chat.activity.ShowNormalFileActivity;
 import maimeng.yodian.app.client.android.chat.activity.ShowVideoActivity;
+import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.task.LoadImageTask;
 import maimeng.yodian.app.client.android.chat.task.LoadVideoImageTask;
 import maimeng.yodian.app.client.android.chat.utils.DateUtils;
@@ -92,7 +93,6 @@ import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
-import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
@@ -520,21 +520,19 @@ public class MessageAdapter extends BaseAdapter {
                         if (avatar != null) {
                             ImageAdapter.image(holder.vcard_avatar, avatar);
                         }
-                        holder.vcard_nickname.setTag(message);
+                        holder.wechat_vcard_item.setTag(message);
                         holder.wechat_vcard_item.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                try {
-                                    if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
-                                        EMMessage msg = (EMMessage) v.getTag();
-                                        ContactPathActivity.show(activity, msg.getStringAttribute("qq"), msg.getStringAttribute("mobile"), msg.getStringAttribute("weChat"));
-                                    } else {
-                                        User.Info info = User.read(activity).getInfo();
-                                        ContactPathActivity.show(activity, info.getQq(), info.getMobile(), info.getWechat());
-                                    }
-
-                                } catch (EaseMobException e) {
-                                    e.printStackTrace();
+                                EMMessage msg = (EMMessage) v.getTag();
+                                if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
+                                    User user = User.parse(msg);
+                                    ContactPathActivity.show(activity, user.getQq(), user.getMobile(), user.getWechat());
+                                } else {
+//                                        User.Info info = User.read(activity).getInfo();
+//                                        ContactPathActivity.show(activity, info.getQq(), info.getContact(), info.getWechat());
+                                    User user = User.parse(msg);
+                                    ContactPathActivity.show(activity, user.getQq(), user.getMobile(), user.getWechat());
                                 }
 
 

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by xujianhua on 9/29/15.
  */
-public class Buyer implements Parcelable{
+public class Buyer implements Parcelable {
 
     /**
      * id : 74
@@ -40,7 +40,7 @@ public class Buyer implements Parcelable{
      * saddress :
      */
 
-    private String id;
+    private long id;
     private String mobile;
     private String nickname;
     private String avatar;
@@ -295,11 +295,11 @@ public class Buyer implements Parcelable{
         this.createtime = createtime;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -311,7 +311,7 @@ public class Buyer implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
+        dest.writeLong(this.id);
         dest.writeString(this.mobile);
         dest.writeString(this.nickname);
         dest.writeString(this.avatar);
@@ -346,7 +346,7 @@ public class Buyer implements Parcelable{
     }
 
     protected Buyer(Parcel in) {
-        this.id = in.readString();
+        this.id = in.readLong();
         this.mobile = in.readString();
         this.nickname = in.readString();
         this.avatar = in.readString();

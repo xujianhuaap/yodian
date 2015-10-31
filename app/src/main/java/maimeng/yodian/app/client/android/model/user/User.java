@@ -165,7 +165,7 @@ public class User extends UserBaseColum implements Parcelable {
                 return authUser;
             }
             SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-            String uid = pref.getString(KEY_UID, "");
+            long uid = Long.parseLong(pref.getString(KEY_UID, "0"));
             String nickname = pref.getString(KEY_NICK, "");
             String img = pref.getString(KEY_IMG, "");
             String t_nickname = pref.getString(KEY_T_NICK, "");
@@ -173,7 +173,7 @@ public class User extends UserBaseColum implements Parcelable {
             String token = pref.getString(KEY_TOKEN, "");
             String chatname = pref.getString(KEY_CHATNAME, "");
             int type = pref.getInt(KEY_TYPE, 0);
-            User user = new User(t_nickname, t_img, type, token, "".equals(uid) ? 0 : Long.parseLong(uid), nickname, chatname, img);
+            User user = new User(t_nickname, t_img, type, token, uid, nickname, chatname, img);
             YApplication.getInstance().setAuthUser(user);
             user.setInfo(Info.read(pref));
             user.pushOn = pref.getBoolean(KEY_PUSH, true);
@@ -218,7 +218,7 @@ public class User extends UserBaseColum implements Parcelable {
             editor.putString(KEY_TOKEN, token == null ? "" : token);
             editor.putString(KEY_NICK, nickname == null ? "" : nickname);
             editor.putString(KEY_CHATNAME, chatLoginName == null ? "" : chatLoginName);
-            editor.putString(KEY_UID, uid == 0 ? "" : "" + uid);
+            editor.putString(KEY_UID, uid == 0 ? "0" : "" + uid);
             editor.putString(KEY_IMG, avatar == null ? "" : avatar);
             editor.putString(KEY_TOKEN, token == null ? "" : token);
             editor.putBoolean(KEY_PUSH, pushOn);

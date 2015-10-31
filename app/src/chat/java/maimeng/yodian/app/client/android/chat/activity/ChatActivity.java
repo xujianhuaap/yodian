@@ -17,7 +17,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -119,20 +118,15 @@ import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
-import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
+import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
-import static maimeng.yodian.app.client.android.model.UserBaseColum.KEY_CONTACT;
-import static maimeng.yodian.app.client.android.model.UserBaseColum.KEY_QQ;
-import static maimeng.yodian.app.client.android.model.UserBaseColum.KEY_WECHAT;
-import static maimeng.yodian.app.client.android.model.UserBaseColum.PREFERENCES_NAME;
 
 /**
  * 聊天页面
@@ -245,10 +239,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public EMGroup group;
     public EMChatRoom room;
     public boolean isRobot;
-    private long uid;
-    private String wechat = "";
-    private String qq = "";
-    private String mobile = "";
+    private ChatUser chatUser;
 
     public Skill getSkill() {
         return skill;
@@ -260,65 +251,31 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private ImageView skillPic;
     private TextView skillName;
     private TextView skillPrice;
-    private boolean isContactSeller = false;
 
     private maimeng.yodian.app.client.android.model.user.User mCurrentUser;
-    private String mCurrentUserLogName;
 
-    /***
-     * 联系卖家带技能进入
-     *
-     * @param context
-     * @param skill
-     */
-    public static void show(Context context, Skill skill, boolean isContactSeller, int chatType) {
+    public static void show(Context context, ChatUser chatUser, int chatType) {
+        Intent intent = new Intent(context, ChatActivity.class);
+        intent.putExtra("chatUser", chatUser);
+        intent.putExtra("chatType", chatType);
+        context.startActivity(intent);
+    }
+
+    public static void show(Context context, ChatUser chatUser) {
+        show(context, chatUser, CHATTYPE_SINGLE);
+    }
+
+    public static void show(Context context, Skill skill, ChatUser chatUser, int chatType) {
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("skill", skill);
-        intent.putExtra("isContactSeller", isContactSeller);
-        intent.putExtra("chatType", chatType);
-        context.startActivity(intent);
-    }
-    /***
-     * 联系卖家带技能进入
-     *
-     * @param context
-     * @param skill
-     */
-    public static void show(Context context, Skill skill, boolean isContactSeller) {
-        show(context, skill, isContactSeller, CHATTYPE_SINGLE);
-    }
-
-
-
-
-
-    /***
-     * 联系买家
-     *
-     * @param context
-     * @param userId
-     */
-    public static void show(Context context, String userId, boolean isContactSeller, int chatType) {
-        Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra("userId", userId);
-        intent.putExtra("isContactSeller", isContactSeller);
+        intent.putExtra("chatUser", chatUser);
         intent.putExtra("chatType", chatType);
         context.startActivity(intent);
     }
 
-    /***
-     * 联系买家
-     *
-     * @param context
-     * @param userId
-     */
-    public static void show(Context context, String userId, boolean isContactSeller) {
-        show(context,userId,isContactSeller,CHATTYPE_SINGLE);
-
+    public static void show(Context context, Skill skill, ChatUser chatUser) {
+        show(context, skill, chatUser, CHATTYPE_SINGLE);
     }
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -326,41 +283,22 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         setContentView(R.layout.activity_chat);
 
         Intent intent = getIntent();
-        isContactSeller = intent.getBooleanExtra("isContactSeller", false);
-        chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
+        chatType = intent.getIntExtra("chatType", CHATTYPE_SINGLE);
+        chatUser = intent.getParcelableExtra("chatUser");
+        setTitle(chatUser.getNickName());
         if (intent.hasExtra("skill")) {
             skill = intent.getParcelableExtra("skill");
-            uid = skill.getUid();
-            isContactSeller = true;
         }
-
         if (chatType == CHATTYPE_SINGLE) {
-
-            if(!isContactSeller){
-                //联系买家和广播
-                toChatUsername = intent.getStringExtra("userId");
-            }else{
-                //联系卖家
-                if (skill != null) {
-                    toChatUsername = skill.getChatLoginName();
-                } else {
-                    //通过广播
-                    toChatUsername = intent.getStringExtra("userId");
-                }
-            }
-
-
+            toChatUsername = chatUser.getChatName();
         } else {
             toChatUsername = intent.getStringExtra("groupId");
         }
-
-
         activityInstance = this;
         initView();
         setUpView();
         showSkill(skill);
         mCurrentUser = maimeng.yodian.app.client.android.model.user.User.read(this);
-        mCurrentUserLogName = DemoApplication.getInstance().getUserName();
 
     }
 
@@ -426,6 +364,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     /**
      * initView
      */
+
     protected void initView() {
         recordingContainer = findViewById(R.id.recording_container);
         micImage = (ImageView) findViewById(R.id.mic_image);
@@ -663,46 +602,14 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(
                 PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
         // 判断单聊还是群聊
-
-
         if (chatType == CHATTYPE_SINGLE) { // 单聊
             Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
             if (robotMap != null && robotMap.containsKey(toChatUsername)) {
                 isRobot = true;
-                RobotUser robotUser = robotMap.get(toChatUsername);
-                String nick = robotUser.getNick();
-                if (!TextUtils.isEmpty(nick)) {
-                    wechat = robotUser.getWechat();
-                    qq = robotUser.getQq();
-                    mobile = robotUser.getMobile();
-                    setTitle(nick);
-                } else {
-                    User user = UserUtils.getUserInfo(toChatUsername);
-                    if (user != null) {
-                        wechat = user.getWechat();
-                        qq = user.getQq();
-                        mobile = user.getMobile();
-                        setTitle(user.getNick());
-                    } else {
-                        setTitle(toChatUsername);
-                    }
-                }
-            } else {
-                User user = UserUtils.getUserInfo(toChatUsername);
-                if (user != null) {
-                    wechat = user.getWechat();
-                    qq = user.getQq();
-                    mobile = user.getMobile();
-                    setTitle(user.getNick());
-                } else {
-                    setTitle(toChatUsername);
-                }
             }
         } else {
             showVideoCall = false;
             showVoiceCall = false;
-
-
             if (chatType == CHATTYPE_GROUP) {
                 onGroupViewCreation();
             } else {
@@ -737,12 +644,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
         int itemId = item.getItemId();
         if (itemId == 1001) {
-            if (skill != null) {
-                ContactPathActivity.show(ChatActivity.this, skill.getQq(), skill.getContact(), skill.getWeichat());
-            } else {
-                ContactPathActivity.show(ChatActivity.this, qq, mobile, wechat);
-            }
-
+            ContactPathActivity.show(ChatActivity.this, chatUser.getQq(), chatUser.getMobile(), chatUser.getWechat());
         } else if (itemId == android.R.id.home) {
             finish();
         }
@@ -788,7 +690,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     try {
                         JSONObject skillJson = msg.getJSONObjectAttribute("skill");
                         if (skillJson != null) {
-
                             Skill skill = new Skill();
                             skill.setName(skillJson.getString("name"));
                             skill.setId(skillJson.getLong("sid"));
@@ -843,7 +744,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     protected void onListViewCreation() {
         adapter = new MessageAdapter(ChatActivity.this, toChatUsername, chatType);
-        adapter.setUid(uid);
+        adapter.setUid(chatUser.getUid());
         // 显示消息
         listView.setAdapter(adapter);
 
@@ -1216,7 +1117,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public void onEvent(EMNotifierEvent event) {
         switch (event.getEvent()) {
             case EventNewMessage: {
-                LogUtil.d("henjue", "onEvent.%s", "EventNewMessage");
                 //获取到message
                 final EMMessage message = (EMMessage) event.getData();
                 String username = null;
@@ -1287,7 +1187,17 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             UserDao dao = new UserDao(this);
             dao.saveOrUpdate(user);
             dao.saveOrUpdate(robot);
-            setTitle(user.getNick());
+            if (message.getFrom().equals(chatUser.getChatName())) {
+                if (!chatUser.getMobile().equals(user.getMobile())) {
+                    chatUser.setMobile(user.getMobile());
+                }
+                if (!chatUser.getWechat().equals(user.getWechat())) {
+                    chatUser.setWechat(user.getWechat());
+                }
+                if (!chatUser.getQq().equals(user.getQq())) {
+                    chatUser.setQq(user.getQq());
+                }
+            }
             refreshUIWithNewMessage();
         } catch (EaseMobException e) {
             e.printStackTrace();
@@ -1426,14 +1336,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             }
             setExtAttribute(message, MESSAGE_NAME_CARD);
             if (sendVcard) {
-                SharedPreferences pref = getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
-                String wechat = pref.getString(KEY_WECHAT, "");
-                String mobile = pref.getString(KEY_CONTACT, "");
-                String QQ = pref.getString(KEY_QQ, "");
-                boolean weChatIsEmpty = TextUtils.isEmpty(wechat);
-                boolean mobileIsEmpty = TextUtils.isEmpty(mobile);
-                boolean qqIsEmpty = TextUtils.isEmpty(QQ);
-
+                maimeng.yodian.app.client.android.model.user.User user = maimeng.yodian.app.client.android.model.user.User.read(this);
+                boolean weChatIsEmpty = TextUtils.isEmpty(user.getWechat());
+                boolean mobileIsEmpty = TextUtils.isEmpty(user.getInfo().getMobile());
+                boolean qqIsEmpty = TextUtils.isEmpty(user.getInfo().getQq());
                 if (weChatIsEmpty && mobileIsEmpty && qqIsEmpty) {
                     maimeng.yodian.app.client.android.view.dialog.AlertDialog.newInstance("提示", "请完善信息").setNegativeListener(new maimeng.yodian.app.client.android.view.dialog.AlertDialog.NegativeListener() {
                         @Override
@@ -1446,9 +1352,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                             return "确定";
                         }
                     }).show(getFragmentManager(), "dialog");
-                    return;
                 }
-                message.setAttribute("weChat", wechat);
             }
             final TextMessageBody txtBody = new TextMessageBody(content);
             // 设置消息body
@@ -1492,9 +1396,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         message.setAttribute("avatar", avatar);
         message.setAttribute("uid", id);
 
-        message.setAttribute("mobile", mobile);
-        message.setAttribute("qq", qq);
-        message.setAttribute("weChat", wechat);
+        message.setAttribute("mobile", currentUser.getInfo().getContact());
+        message.setAttribute("qq", currentUser.getInfo().getQq());
+        message.setAttribute("weChat", currentUser.getInfo().getWechat());
         message.setAttribute("yd_type", FLAG_PUSH);
         if (messageType == MESSAGE_NAME_CARD) {
             message.setAttribute("em_push_title", "[名片]");//推送类型名片
@@ -2255,13 +2159,16 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     @Override
     protected void onNewIntent(Intent intent) {
         // 点击notification bar进入聊天页面，保证只有一个聊天页面
-        String username = intent.getStringExtra("userId");
-        if (toChatUsername.equals(username))
-            super.onNewIntent(intent);
-        else {
-            finish();
-            startActivity(intent);
+        ChatUser user = intent.getParcelableExtra("chatUser");
+        if (user != null) {
+            if (toChatUsername.equals(user.getChatName()))
+                super.onNewIntent(intent);
+            else {
+                finish();
+                startActivity(intent);
+            }
         }
+
 
     }
 
