@@ -28,7 +28,7 @@
                 android:gravity="center"
                 android:text="@string/skill_preview_title_bar"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/tex_size_large" />
+                android:textSize="@dimen/text_size_large" />
 
             <ImageView
                 android:id="@+id/iv_share"

@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textSize="@dimen/tex_size_large"
+                android:textSize="@dimen/text_size_large"
                 android:text="@string/order_list_btn_saled"
                 android:textColor="@android:color/black" />
             <CheckBox
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textSize="@dimen/tex_size_large"
+                android:textSize="@dimen/text_size_large"
                 android:text="@string/order_list_btn_ordered"
                 android:textColor="@android:color/black" />
             <CheckBox

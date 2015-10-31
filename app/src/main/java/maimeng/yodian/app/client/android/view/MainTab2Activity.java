@@ -3,13 +3,11 @@ package maimeng.yodian.app.client.android.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Xfermode;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,7 +28,6 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.loader.Circle;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.FloatResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
@@ -91,25 +88,25 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             bt.commitAllowingStateLoss();
             initFragment();
             Network.getService(CommonService.class).getFloat(this);
-            final float density =getResources().getDisplayMetrics().density;
-            int width=(int)(80*density);
-            new ImageLoaderManager.Loader(floatButton,Uri.parse(User.read(this).getAvatar()))
+            final float density = getResources().getDisplayMetrics().density;
+            int width = (int) (80 * density);
+            new ImageLoaderManager.Loader(floatButton, Uri.parse(User.read(this).getAvatar()))
                     .width(width).height(width).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
-                    final int dpi =getResources().getDisplayMetrics().densityDpi;
-                    float rate=0;
-                    if(dpi>140&&dpi<180){
-                        rate=0.4f;
-                    }else if(300<dpi&&dpi<320){
-                        rate=0.6f;
-                    }else if(dpi>=460&&dpi<500){
-                        rate=0.8f;
-                    }else if(dpi>640){
-                        rate=0.9f;
+                    final int dpi = getResources().getDisplayMetrics().densityDpi;
+                    float rate = 0;
+                    if (dpi > 140 && dpi < 180) {
+                        rate = 0.4f;
+                    } else if (300 < dpi && dpi < 320) {
+                        rate = 0.6f;
+                    } else if (dpi >= 460 && dpi < 500) {
+                        rate = 0.8f;
+                    } else if (dpi > 640) {
+                        rate = 0.9f;
                     }
 
-                    mAvatar = getCircleBitmap(bitmap,rate);
+                    mAvatar = getCircleBitmap(bitmap, rate);
                     floatButton.setImageBitmap(mAvatar);
                 }
 
@@ -124,27 +121,28 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                 }
             }).start(this);
             if (getIntent().hasExtra("home")) {
-                floatButton.callOnClick();
+                if (!userHomeFragment.isVisible()) {
+                    floatButton.callOnClick();
+                }
             }
         }
     }
 
     /**
-     *
      * @param bitmap
-     * @param rate  半径的系数
+     * @param rate   半径的系数
      * @return
      */
     @NonNull
-    private Bitmap getCircleBitmap(Bitmap bitmap,float rate) {
+    private Bitmap getCircleBitmap(Bitmap bitmap, float rate) {
         int width = bitmap.getWidth();
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.BLACK);
         Bitmap bottomBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bottomBitmap);
-        int radius=(int)(width*rate/2);
-        canvas.drawCircle(width / 2, width / 2,radius, paint);
+        int radius = (int) (width * rate / 2);
+        canvas.drawCircle(width / 2, width / 2, radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, 0, 0, paint);
         return bottomBitmap;

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -21,7 +20,6 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.Vouch;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.VouchResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
@@ -43,9 +41,7 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
     private TextView mEmail;
     private TextView mQQ;
     private TextView mReason;
-    private TextView tip;
     private Button mReEdit;
-    private Button mCancel;
 
 
     public static void show(Context context) {
@@ -57,9 +53,7 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vouch_detail);
-        this.mCancel = (Button) findViewById(R.id.apply_cancel);
         this.mReEdit = (Button) findViewById(R.id.apply_reedit);
-        this.tip = (TextView) findViewById(R.id.tip);
         this.mReason = (TextView) findViewById(R.id.reason);
         this.mQQ = (TextView) findViewById(R.id.qq);
         this.mEmail = (TextView) findViewById(R.id.email);
@@ -69,9 +63,7 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
 
         mService = Network.getService(MoneyService.class);
         mService.vouchDetail(new CallBackProxy());
-
         mReEdit.setOnClickListener(this);
-        mCancel.setOnClickListener(this);
 
     }
 
@@ -102,9 +94,7 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if (v == mCancel) {
-            mService.vouchCancel(new CancelCallBack());
-        } else if (v == mReEdit) {
+        if (v == mReEdit) {
             if (status == BindStatus.PASS.getValue()) {
                 Intent intent = new Intent(VouchDetailActivity.this, MainTab2Activity.class);
                 intent.putExtra("home", true);
@@ -113,39 +103,10 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
                 if (mVouch != null) {
                     VouchApplyActivity.show(this, mVouch, REQUEST_CODE_APPLY);
                 }
-
             }
         }
     }
 
-    /***
-     * 担保取消
-     */
-    public final class CancelCallBack implements Callback<ToastResponse> {
-        @Override
-        public void start() {
-
-        }
-
-        @Override
-        public void success(ToastResponse toastResponse, Response response) {
-            if (toastResponse.getCode() == 20000) {
-                Toast.makeText(VouchDetailActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                finish();
-            }
-
-        }
-
-        @Override
-        public void failure(HNetError hNetError) {
-            ErrorUtils.checkError(VouchDetailActivity.this, hNetError);
-        }
-
-        @Override
-        public void end() {
-
-        }
-    }
 
     /***
      *
@@ -168,24 +129,20 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
             String detail = mVouch.getBack_detail();
             if (status == BindStatus.DENY.getValue()) {
                 //3
-                mCancel.setVisibility(View.GONE);
-                mReEdit.setText(getString(R.string.apply_button_reedit));
+//                mReEdit.setText(getString(R.string.apply_button_reedit));
             } else if (status == BindStatus.PASS.getValue()) {
                 //2
                 mTitle.setVisibility(View.VISIBLE);
-                mCancel.setVisibility(View.GONE);
                 mReEdit.setText(getString(R.string.apply_button_edit));
             } else if (status == BindStatus.WAITCONFIRM.getValue()) {
                 //0
-                mCancel.setVisibility(View.VISIBLE);
             } else if (status == BindStatus.CANCEL.getValue()) {
                 //4
-                mCancel.setVisibility(View.GONE);
-                mReEdit.setText(getString(R.string.apply_button_reedit));
+//                mReEdit.setText(getString(R.string.apply_button_reedit));
             }
 
 
-            mPhone.setText(mVouch.getName());
+            mNickName.setText(mVouch.getName());
             mPhone.setText(mVouch.getTelephone());
             mQQ.setText(mVouch.getQq());
             mEmail.setText(mVouch.getEmail());
@@ -198,6 +155,7 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
             }
             if (status == BindStatus.PASS.getValue()) {
                 detail = getString(R.string.vouch_detail_success);
+                findViewById(R.id.pay_topic).setVisibility(View.VISIBLE);
             }
             if (status == BindStatus.CANCEL.getValue()) {
                 detail = getString(R.string.vouch_detail_cancel);

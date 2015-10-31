@@ -130,6 +130,7 @@
     <string name="apply_button_reedit">重新编辑</string>
     <string name="apply_button_cancel">取消申请</string>
     <string name="apply_button_edit">编辑技能</string>
+    <string name="pay_topic">去编辑技能，开通线上支付功能</string>
 
     <string name="apply_nickname">称呼：</string>
     <string name="apply_phone"> 电话：</string>
@@ -234,7 +235,6 @@
     <string name="contact_title"><![CDATA[已经将你%1$s号：%2$s]]></string>
     <string name="contact_subtitle"><![CDATA[复制到你的%1$s号]]></string>
     <string name="contact_no">暂无</string>
-
 
 
 </resources>
