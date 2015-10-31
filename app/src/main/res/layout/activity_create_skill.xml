@@ -218,18 +218,6 @@
             </com.zhy.android.percent.support.PercentLinearLayout>
         </ScrollView>
 
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
-            android:layout_margin="@dimen/floating_btn_margin"
-            android:src="@mipmap/btn_back"
-            app:fab_colorNormal="@color/float_colorNormal"
-            app:fab_colorPressed="@color/float_colorPressed"
-            app:fab_colorRipple="@color/float_colorRipple">
-
-        </com.melnykov.fab.FloatingActionButton>
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/btn_done"

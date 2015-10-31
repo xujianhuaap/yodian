@@ -12,10 +12,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -46,6 +49,7 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.VouchDealActivity;
@@ -56,7 +60,7 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 /**
  *
  */
-public class CreateOrEditSkillActivity extends AppCompatActivity {
+public class CreateOrEditSkillActivity extends AbstractActivity {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private static final int REQUEST_DONE = 0x1003;
@@ -68,6 +72,24 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
     private File tempFile;
     private ShareDialog mShareDialog;
     private User.Info info;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
+        }
+    }
 
 
     /****
@@ -123,7 +145,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
             dir.mkdirs();
         }
         tempFile = new File(dir, getPhotoFileName());
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
+        binding =bindView(R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
         info = User.read(CreateOrEditSkillActivity.this).getInfo();
         if (getIntent().hasExtra("template")) {
@@ -212,12 +234,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
             }
         });
         service = Network.getService(SkillService.class);
-        binding.btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(CreateOrEditSkillActivity.this);
-            }
-        });
         binding.btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
