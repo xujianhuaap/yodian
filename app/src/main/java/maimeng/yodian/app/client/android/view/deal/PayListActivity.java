@@ -1,8 +1,6 @@
 package maimeng.yodian.app.client.android.view.deal;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +8,6 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -19,24 +16,18 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
-import org.json.JSONObject;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.common.GsonConverter;
 import maimeng.yodian.app.client.android.network.common.RequestIntercept;
 import maimeng.yodian.app.client.android.network.response.RemainderPayParamsResponse;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.WXPayParamResponse;
-import maimeng.yodian.app.client.android.network.response.ZhiFuBaoPayResponse;
+import maimeng.yodian.app.client.android.network.response.ZhiFuBaoPayParamsResponse;
 import maimeng.yodian.app.client.android.network.service.BuyService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.pay.IPay;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayStatus;
 import maimeng.yodian.app.client.android.view.deal.pay.RemainderFactory;
@@ -160,13 +151,13 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public void success(final  String s, Response response) {
-            //执行支付
              final Gson gson=Network.getOne().getGson();
              IPay pay=null;
              final IPayStatus status=new PayStatus();
             if(payType==PAY_TYPE_ZHIFUBAO){
-                ZhiFuBaoPayResponse zhiFuBaoPayResponse=gson.fromJson(s, ZhiFuBaoPayResponse.class);
-                pay= ZhiFuBaoFactory.createInstance(PayListActivity.this,zhiFuBaoPayResponse.getData().getParams(),status);
+
+                ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse =gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
+                pay= ZhiFuBaoFactory.createInstance(PayListActivity.this, zhiFuBaoPayParamsResponse.getData().getParams(),status);
                 pay.sendReq();
             }else if(payType==PAY_TYPE_WECHAT){
                 WXPayParamResponse paramResponse=gson.fromJson(s, WXPayParamResponse.class);
