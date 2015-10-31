@@ -3,7 +3,7 @@ package maimeng.yodian.app.client.android.network.response;
 /**
  * Created by xujianhua on 10/14/15.
  */
-public class ZhiFuBaoPayResponse extends Response{
+public class ZhiFuBaoPayResponse extends Response {
     private DataNode data;
 
     public DataNode getData() {

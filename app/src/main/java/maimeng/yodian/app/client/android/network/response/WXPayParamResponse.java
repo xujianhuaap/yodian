@@ -16,8 +16,18 @@ public class WXPayParamResponse {
         this.data = data;
     }
 
-    public final class DataNode{
+    public final class DataNode {
         private WXPayParams params;
+
+        public long getOid() {
+            return oid;
+        }
+
+        public void setOid(long oid) {
+            this.oid = oid;
+        }
+
+        private long oid;
 
         public WXPayParams getParams() {
             return params;
