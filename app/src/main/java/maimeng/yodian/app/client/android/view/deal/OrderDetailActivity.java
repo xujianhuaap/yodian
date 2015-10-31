@@ -22,33 +22,48 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrUIHandler;
-import in.srain.cube.views.ptr.indicator.PtrIndicator;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
+import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.ActivityOrderDetailBinding;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.OrderInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 
 
 /**
  * Created by xujianhua on 10/10/15.
  */
-public class OrderDetailActivity extends AbstractActivity {
+public class OrderDetailActivity extends AbstractActivity implements PtrHandler, Callback<OrderInfoResponse> {
 
     private ActivityOrderDetailBinding mBinding;
     private OrderService mService;
     private boolean isSaled;
 
+    @Override
+    public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+        refreshInfo();
+    }
+
+    private void refreshInfo() {
+        mService.info(mBinding.getOrderInfo().getOid(), this);
+    }
+
+    @Override
+    public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view1) {
+        return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view1);
+    }
 
     public static void show(Context context, OrderInfo orderInfo, boolean isSaled) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
@@ -78,20 +93,16 @@ public class OrderDetailActivity extends AbstractActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mBinding = bindView(R.layout.activity_order_detail);
-        final OrderInfo info = getIntent().getParcelableExtra("orderInfo");
+    private void refreshUI(final OrderInfo info) {
         isSaled = getIntent().getBooleanExtra("isSaled", false);
         mBinding.setOrderInfo(info);
-        String btnContactStr=null;
+        String btnContactStr = null;
         if (isSaled) {
-            btnContactStr=getString(R.string.button_contact_buyer);
+            btnContactStr = getString(R.string.button_contact_buyer);
             mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_buyer_name, info.getBuyer().getNickname())));
             mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_saled_total_fee, info.getTotal_fee())));
         } else {
-            btnContactStr=getString(R.string.button_contact_seller);
+            btnContactStr = getString(R.string.button_contact_seller);
             mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_seller_name, info.getSkill().getNickname())));
             mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_buyed_total_fee, info.getTotal_fee())));
 
@@ -99,10 +110,8 @@ public class OrderDetailActivity extends AbstractActivity {
 
         mBinding.contactBuyer.setText(btnContactStr);
         final int status = Integer.parseInt(info.getStatus());
-        LogUtil.d("ceshi", "status" + status);
         String operatorStr = null;
         switch (status) {
-
             case 0:
                 //未支付
                 if (!isSaled) {
@@ -207,8 +216,16 @@ public class OrderDetailActivity extends AbstractActivity {
                         //支付
                         PayWrapperActivity.show(OrderDetailActivity.this, info);
                     } else if (status == 4) {
-                        //确认发货
-                        mService.confirmOrder(oid, proxy);
+                        //确认收货
+                        mService.confirmOrder(oid, new OrderOperatorCallBackProxy() {
+                            @Override
+                            public void success(ToastResponse toastResponse, Response response) {
+                                super.success(toastResponse, response);
+                                if (toastResponse.isSuccess()) {
+                                    mBinding.refreshLayout.autoRefresh();
+                                }
+                            }
+                        });
 
                     }
                 }
@@ -252,41 +269,49 @@ public class OrderDetailActivity extends AbstractActivity {
                 ChatActivity.show(OrderDetailActivity.this, skill, !isSaled);
             }
         });
+    }
 
-        mBinding.refreshLayout.addPtrUIHandler(new PtrUIHandler() {
-            @Override
-            public void onUIReset(PtrFrameLayout frame) {
-
-            }
-
-            @Override
-            public void onUIRefreshPrepare(PtrFrameLayout frame) {
-
-            }
-
-            @Override
-            public void onUIRefreshBegin(PtrFrameLayout frame) {
-
-            }
-
-            @Override
-            public void onUIRefreshComplete(PtrFrameLayout frame) {
-
-            }
-
-            @Override
-            public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-
-            }
-        });
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mBinding = bindView(R.layout.activity_order_detail);
+        final OrderInfo info = getIntent().getParcelableExtra("orderInfo");
+        refreshUI(info);
+        mBinding.refreshLayout.setPtrHandler(this);
+        StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
+        mBinding.refreshLayout.addPtrUIHandler(header);
+        mBinding.refreshLayout.setHeaderView(header);
         mService = Network.getService(OrderService.class);
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void success(OrderInfoResponse res, Response response) {
+        if (res.isSuccess()) {
+            refreshUI(res.getData());
+        } else {
+            res.showMessage(this);
+        }
+    }
+
+    @Override
+    public void failure(HNetError hNetError) {
+
+    }
+
+    @Override
+    public void end() {
+        mBinding.refreshLayout.refreshComplete();
     }
 
     /***
      *
      */
-    public final class OrderOperatorCallBackProxy implements Callback<ToastResponse> {
+    public class OrderOperatorCallBackProxy implements Callback<ToastResponse> {
         @Override
         public void start() {
 

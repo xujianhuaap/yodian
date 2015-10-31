@@ -14,7 +14,6 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -27,7 +26,7 @@ import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.OrderRepsonse;
+import maimeng.yodian.app.client.android.network.response.OrderListRepsonse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -37,9 +36,9 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 /**
  * Created by xujianhua on 9/29/15.
  */
-public class OrderFragment extends Fragment implements PtrHandler{
+public class OrderFragment extends Fragment implements PtrHandler {
     private boolean isSaled;
-    private int mPage=1;
+    private int mPage = 1;
     private PtrFrameLayout mRefreshLayout;
     private RecyclerView mRecyclerView;
     private View mNoOrder;
@@ -51,17 +50,16 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
 
     /***
-     *
      * @param activity
-     * @param isSaled 是否是已出售订单
-     * @param viewId 占位view的id
+     * @param isSaled  是否是已出售订单
+     * @param viewId   占位view的id
      */
-    public static void show(AppCompatActivity activity,boolean isSaled,int viewId){
-        OrderFragment orderFragment=new OrderFragment();
-        Bundle bundle=new Bundle();
-        bundle.putBoolean("isSaled",isSaled);
+    public static void show(AppCompatActivity activity, boolean isSaled, int viewId) {
+        OrderFragment orderFragment = new OrderFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isSaled", isSaled);
         orderFragment.setArguments(bundle);
-        activity.getSupportFragmentManager().beginTransaction().replace(viewId,orderFragment).commit();
+        activity.getSupportFragmentManager().beginTransaction().replace(viewId, orderFragment).commit();
     }
 
     @Nullable
@@ -86,20 +84,20 @@ public class OrderFragment extends Fragment implements PtrHandler{
             @Override
             public void onLoadMore() {
                 mPage++;
-                mIsAppend= true;
+                mIsAppend = true;
                 freshData();
             }
 
 
         };
-        mAdapter=new OrderListAdapter(getActivity(),new ViewHolderClickListenerProxy());
+        mAdapter = new OrderListAdapter(getActivity(), new ViewHolderClickListenerProxy());
         mAdapter.setIsSaled(isSaled);
         mRecyclerView.setLayoutManager(layout);
         mRecyclerView.addOnScrollListener(mEndlessRecyclerOnScrollListener);
         mRecyclerView.setAdapter(mAdapter);
 
-        mService= Network.getService(OrderService.class);
-        mNoOrder=view.findViewById(R.id.no_order);
+        mService = Network.getService(OrderService.class);
+        mNoOrder = view.findViewById(R.id.no_order);
         mRefreshLayout.autoRefresh();
 
     }
@@ -107,35 +105,36 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
     /***
      * 滑到顶部 数据刷新
+     *
      * @param ptrFrameLayout
      */
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-        mPage=1;
-        mIsAppend= false;
+        mPage = 1;
+        mIsAppend = false;
         freshData();
     }
 
     @Override
     public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view1) {
-      return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view1);
+        return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view1);
     }
 
     /***
      *
      */
     private void freshData() {
-        if(isSaled){
-            mService.seller(mPage,new CallBackProxy());
-        }else{
-            mService.buyers(mPage,new CallBackProxy());
+        if (isSaled) {
+            mService.seller(mPage, new CallBackProxy());
+        } else {
+            mService.buyers(mPage, new CallBackProxy());
         }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isSaled=getArguments().getBoolean("isSaled");
+        isSaled = getArguments().getBoolean("isSaled");
     }
 
     /***
@@ -144,45 +143,45 @@ public class OrderFragment extends Fragment implements PtrHandler{
     public final class ViewHolderClickListenerProxy implements OrderListAdapter.ViewHolderClickListener<OrderListAdapter.ViewHolder> {
         @Override
         public void onItemClick(OrderListAdapter.ViewHolder holder, int postion) {
-            OrderInfo orderInfo=mAdapter.getItem(postion);
-            OrderDetailActivity.show(getActivity(),orderInfo,mAdapter.isSaled());
+            OrderInfo orderInfo = mAdapter.getItem(postion);
+            OrderDetailActivity.show(getActivity(), orderInfo, mAdapter.isSaled());
         }
 
         @Override
         public void onClick(OrderListAdapter.ViewHolder holder, View clickItem, int postion) {
-                OrderInfo info=mAdapter.getItem(postion);
-                int status=Integer.parseInt(info.getStatus());
-                String oid=info.getOid();
-                OrderOperatorCallBackProxy proxy=new OrderOperatorCallBackProxy();
-                if(holder.mBinding.acceptOrder==clickItem){
-                    if(mAdapter.isSaled()){
-                        //出售订单
-                        if(status==2){
-                            //接单
-                            mService.acceptOrder(oid,proxy);
-                        }else if(status==3){
-                            //发货
-                            mService.sendGoods(oid,proxy);
-                        }
-                    }else {
-                        //购买订单
-                        if(status==0){
-                            //支付
-                            PayWrapperActivity.show(getActivity(),info);
-                        }else if(status==4){
-                            //确认发货
-                            mService.confirmOrder(oid,proxy);
+            OrderInfo info = mAdapter.getItem(postion);
+            int status = Integer.parseInt(info.getStatus());
+            String oid = info.getOid();
+            OrderOperatorCallBackProxy proxy = new OrderOperatorCallBackProxy();
+            if (holder.mBinding.acceptOrder == clickItem) {
+                if (mAdapter.isSaled()) {
+                    //出售订单
+                    if (status == 2) {
+                        //接单
+                        mService.acceptOrder(oid, proxy);
+                    } else if (status == 3) {
+                        //发货
+                        mService.sendGoods(oid, proxy);
+                    }
+                } else {
+                    //购买订单
+                    if (status == 0) {
+                        //支付
+                        PayWrapperActivity.show(getActivity(), info);
+                    } else if (status == 4) {
+                        //确认发货
+                        mService.confirmOrder(oid, proxy);
 
-                        }
                     }
                 }
+            }
         }
     }
 
     /***
      *
      */
-    public final class OrderOperatorCallBackProxy implements Callback<ToastResponse>{
+    public final class OrderOperatorCallBackProxy implements Callback<ToastResponse> {
         @Override
         public void start() {
             mWaitDialog = WaitDialog.show(getActivity());
@@ -190,48 +189,48 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
         @Override
         public void success(ToastResponse toastResponse, Response response) {
-            if(toastResponse.getCode()==20000){
-                Toast.makeText(getActivity(),toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
+            if (toastResponse.getCode() == 20000) {
+                Toast.makeText(getActivity(), toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
             }
 
         }
 
         @Override
         public void failure(HNetError hNetError) {
-                ErrorUtils.checkError(getActivity(),hNetError);
+            ErrorUtils.checkError(getActivity(), hNetError);
         }
 
         @Override
         public void end() {
-            mPage=1;
-            mIsAppend= false;
+            mPage = 1;
+            mIsAppend = false;
             freshData();
-            if(mWaitDialog!=null){
+            if (mWaitDialog != null) {
                 mWaitDialog.dismiss();
             }
         }
     }
 
     /***
-     *订单列表信息
+     * 订单列表信息
      */
-    public final class CallBackProxy implements Callback<OrderRepsonse>{
+    public final class CallBackProxy implements Callback<OrderListRepsonse> {
         @Override
         public void start() {
 
         }
 
         @Override
-        public void success(OrderRepsonse orderRepsonse, Response response) {
-            if(orderRepsonse.getCode()==20000){
-                List<OrderInfo> orders=orderRepsonse.getData().getList();
-                if(orders.size()==0&&mPage==1){
+        public void success(OrderListRepsonse orderListRepsonse, Response response) {
+            if (orderListRepsonse.getCode() == 20000) {
+                List<OrderInfo> orders = orderListRepsonse.getData().getList();
+                if (orders.size() == 0 && mPage == 1) {
                     mNoOrder.setVisibility(View.VISIBLE);
                     mRefreshLayout.setVisibility(View.GONE);
-                }else {
+                } else {
                     mNoOrder.setVisibility(View.GONE);
                     mRefreshLayout.setVisibility(View.VISIBLE);
-                    mAdapter.reload(orders,mIsAppend);
+                    mAdapter.reload(orders, mIsAppend);
                     mAdapter.notifyDataSetChanged();
                 }
 
@@ -241,12 +240,12 @@ public class OrderFragment extends Fragment implements PtrHandler{
 
         @Override
         public void failure(HNetError hNetError) {
-            ErrorUtils.checkError(getActivity(),hNetError);
+            ErrorUtils.checkError(getActivity(), hNetError);
         }
 
         @Override
         public void end() {
-
+            mRefreshLayout.refreshComplete();
         }
     }
 }

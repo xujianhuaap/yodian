@@ -8,11 +8,11 @@
             name="orderInfo"
             type="maimeng.yodian.app.client.android.model.OrderInfo" />
     </data>
+
     <in.srain.cube.views.ptr.PtrFrameLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:ptr_duration_to_close="300"
         app:ptr_duration_to_close_header="1000"
         app:ptr_keep_header_when_refresh="true"
@@ -197,8 +197,8 @@
                     android:layout_marginLeft="@dimen/apply_edit_margin"
                     android:layout_marginRight="@dimen/apply_edit_margin"
                     android:layout_toRightOf="@+id/order_skill_pic"
-                    android:textColor="@color/colorPrimaryDark3"
                     android:singleLine="true"
+                    android:textColor="@color/colorPrimaryDark3"
                     android:textSize="@dimen/text_size_normal" />
 
                 <TextView
@@ -207,10 +207,10 @@
                     android:layout_height="@dimen/order_operator_height"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/colorPrimaryDark3"
                     android:gravity="center"
                     android:scaleType="centerInside"
                     android:singleLine="true"
+                    android:textColor="@color/colorPrimaryDark3"
                     android:textSize="@dimen/text_size_normal" />
 
 
@@ -254,11 +254,11 @@
                     android:layout_height="@dimen/order_contact_height"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/apply_edit_margin"
-                    android:scaleType="centerInside"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_normal"
                     android:background="@mipmap/btn_oval_bg_blue"
-                    android:textColor="@android:color/white" />
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_normal" />
 
             </RelativeLayout>
 
