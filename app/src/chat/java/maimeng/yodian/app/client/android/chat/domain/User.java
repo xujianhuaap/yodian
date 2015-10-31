@@ -31,6 +31,31 @@ public class User extends EMContact {
     }
 
     private String wechat;
+    private String mobile;
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public User(String qq, String mobile, String wechat) {
+        this.qq = qq;
+        this.mobile = mobile;
+        this.wechat = wechat;
+    }
+
+    private String qq;
     private String id;
 
     public String getId() {
@@ -113,9 +138,13 @@ public class User extends EMContact {
         } catch (EaseMobException e) {
 //            e.printStackTrace();
         }
-        String wechat = null;
+        String wechat = "";
+        String mobile = "";
+        String qq = "";
         try {
             wechat = message.getStringAttribute("weChat");
+            mobile = message.getStringAttribute("mobile");
+            qq = message.getStringAttribute("qq");
         } catch (EaseMobException e) {
 //            e.printStackTrace();
         }
@@ -124,6 +153,8 @@ public class User extends EMContact {
         user.setNick(nickname);
         user.setUsername(userName);
         user.setWechat(wechat);
+        user.setMobile(mobile);
+        user.setQq(qq);
         return user;
     }
 }

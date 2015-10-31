@@ -75,6 +75,25 @@ public class RobotUser extends EMContact {
 
     private String wechat;
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    private String mobile;
+    private String qq;
+
     public static RobotUser parse(EMMessage message) throws EaseMobException {
         final RobotUser user = new RobotUser();
         String userName = message.getFrom();

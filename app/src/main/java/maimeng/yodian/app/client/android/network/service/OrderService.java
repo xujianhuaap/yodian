@@ -6,7 +6,8 @@ import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.Api;
-import maimeng.yodian.app.client.android.network.response.OrderRepsonse;
+import maimeng.yodian.app.client.android.network.response.OrderInfoResponse;
+import maimeng.yodian.app.client.android.network.response.OrderListRepsonse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 
 /**
@@ -17,46 +18,51 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 public interface OrderService {
     /***
      * 购买者列表
+     *
      * @param p
      * @param callback
      */
     @Post(Api.ORDER_LIST_BUYER)
-    void buyers(@Param("P")int p,Callback<OrderRepsonse>callback);
+    void buyers(@Param("P") int p, Callback<OrderListRepsonse> callback);
 
     /***
      * 出售者列表
+     *
      * @param p
      * @param callback
      */
     @Post(Api.ORDER_LIST_SELLER)
-    void seller(@Param("p")int p,Callback<OrderRepsonse>callback);
+    void seller(@Param("p") int p, Callback<OrderListRepsonse> callback);
 
     /***
      * 卖家接单
+     *
      * @param oid
      * @param callback
      */
     @Post(Api.ORDER_ACCEPT)
-    void acceptOrder(@Param("oid")String oid,Callback<ToastResponse>callback);
+    void acceptOrder(@Param("oid") String oid, Callback<ToastResponse> callback);
 
     /***
      * 卖家发货
+     *
      * @param oid
      * @param callback
      */
     @Post(Api.ORDER_SEND)
-    void sendGoods(@Param("oid")String oid,Callback<ToastResponse>callback);
+    void sendGoods(@Param("oid") String oid, Callback<ToastResponse> callback);
 
     /****
      * 买家确认交易成功
+     *
      * @param oid
      * @param callback
      */
     @Post(Api.ORDER_CONFIRM)
-    void confirmOrder(@Param("oid")String oid,Callback<ToastResponse>callback);
+    void confirmOrder(@Param("oid") String oid, Callback<ToastResponse> callback);
 
-
-
+    @Post(Api.ORDER_INFO)
+    void info(@Param("oid") String oid, Callback<OrderInfoResponse> callback);
 
 
 }

@@ -7,7 +7,7 @@ import maimeng.yodian.app.client.android.model.OrderInfo;
 /**
  * Created by xujianhua on 9/29/15.
  */
-public class OrderRepsonse extends Response{
+public class OrderListRepsonse extends Response{
     private DataNode data;
 
     public DataNode getData() {

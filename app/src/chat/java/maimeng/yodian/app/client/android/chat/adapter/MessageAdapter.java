@@ -62,8 +62,6 @@ import com.easemob.util.EMLog;
 import com.easemob.util.FileUtils;
 import com.easemob.util.LatLng;
 import com.easemob.util.TextFormater;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,12 +92,8 @@ import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
-import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
-import maimeng.yodian.app.client.android.view.dialog.ContactDialog;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
 public class MessageAdapter extends BaseAdapter {
@@ -541,14 +535,11 @@ public class MessageAdapter extends BaseAdapter {
                             public void onClick(View v) {
                                 try {
 
-                                    if(itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD ){
-                                        Skill skill=new Skill();
-                                        skill.setWeichat(message.getStringAttribute("weChat"));
-                                        skill.setContact(message.getStringAttribute("mobile"));
-                                        skill.setQq(message.getStringAttribute("qq"));
-                                        ContactPathActivity.show(activity, skill);
-                                    }else{
-                                        ContactPathActivity.show(activity, User.read(activity).getInfo());
+                                    if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
+                                        ContactPathActivity.show(activity, message.getStringAttribute("qq"), message.getStringAttribute("mobile"), message.getStringAttribute("weChat"));
+                                    } else {
+                                        User.Info info = User.read(activity).getInfo();
+                                        ContactPathActivity.show(activity, info.getQq(), info.getMobile(), info.getWechat());
                                     }
 
                                 } catch (EaseMobException e) {

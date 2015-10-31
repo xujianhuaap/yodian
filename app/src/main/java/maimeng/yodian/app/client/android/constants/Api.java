@@ -52,16 +52,13 @@ public class Api {
             = "/vouch/cancel";//取消担保
 
     //订单
-    public static final String ORDER_LIST_BUYER
-            = "/order/buylist";//获取买家列表
-    public static final String ORDER_LIST_SELLER
-            = "/order/selllist";//获取卖家列表
-    public static final String ORDER_ACCEPT
-            = "/order/accept";//接单
-    public static final String ORDER_SEND
-            = "/order/send";//发货
-    public static final String ORDER_CONFIRM
-            = "/order/receive";//确认收货
+    public static final String ORDER_LIST_BUYER = "/order/buylist";//获取买家列表
+    public static final String ORDER_LIST_SELLER = "/order/selllist";//获取卖家列表
+    public static final String ORDER_ACCEPT = "/order/accept";//接单
+    public static final String ORDER_SEND = "/order/send";//发货
+    public static final String ORDER_CONFIRM = "/order/receive";//确认收货
+    public static final String ORDER_INFO = "/order/getorderinfo";//订单详情
+
 
     //购买
     public static final String ORDER_BUY = "/order/pay";//未付订单购买

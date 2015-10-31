@@ -73,6 +73,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
     private static final int REQEUST_RMARK_ADD = 0x1001;
     private static final int REQEUST_RMARK_AUTH = 0x1002;
+    private static final int REQEUST_PLAY = 0x1003;//如果是支付成功返回的就进入订单界面
     private static final int MENU_ID_SHARE = 0x5001;
     private SkillService service;
     private long sid;
@@ -188,8 +189,12 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == REQEUST_RMARK_ADD || requestCode == REQEUST_RMARK_ADD) && resultCode == RESULT_OK) {
-            binding.refreshLayout.autoRefresh();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQEUST_RMARK_ADD) {
+                binding.refreshLayout.autoRefresh();
+            } else if (requestCode == REQEUST_PLAY) {//如果是支付成功返回的就进入订单界面
+
+            }
         }
     }
 
@@ -234,16 +239,16 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 skill = res.getData().getDetail();
                 isMe = skill.getUid() == user.getUid();
                 if (isMe) {
-                   setUIWhenIsMe();
-                }else {
-                    if(skill.getAllow_sell()!=1){
+                    setUIWhenIsMe();
+                } else {
+                    if (skill.getAllow_sell() != 1) {
                         headBinding.btnBuySkill.setVisibility(View.GONE);
                         headBinding.divinder.setVisibility(View.GONE);
-                    }else{
+                    } else {
                         headBinding.skillAllowSell.setVisibility(View.VISIBLE);
                     }
                 }
-                if(skill.getType().equals("1")){
+                if (skill.getType().equals("1")) {
                     headBinding.skillSlector.setVisibility(View.VISIBLE);
                 }
 
@@ -317,10 +322,10 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     @Override
     public void onClick(View v) {
         if (v == headBinding.btnContact) {
-            if (!isMe){
+            if (!isMe) {
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
-                if (!robotMap.containsKey(chatLoginName)){
+                if (!robotMap.containsKey(chatLoginName)) {
                     RobotUser robot = new RobotUser();
                     robot.setId(skill.getUid() + "");
                     robot.setUsername(chatLoginName);
@@ -343,13 +348,13 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     dao.saveOrUpdate(robot);
                 }
 
-                ChatActivity.show(this,skill,true);
+                ChatActivity.show(this, skill, true);
             }
-        }else if(v==headBinding.btnBuySkill){
-            if(isMe){
+        } else if (v == headBinding.btnBuySkill) {
+            if (isMe) {
                 RmarkPublishActivity.show(this, skill, headBinding.btnBuySkill, REQEUST_RMARK_ADD);
-            }else {
-                PayWrapperActivity.show(SkillDetailsActivity.this,skill);
+            } else {
+                PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PLAY);
             }
         }
     }
@@ -444,7 +449,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem=menu.add(0,MENU_ID_SHARE,10,null);
+        MenuItem menuItem = menu.add(0, MENU_ID_SHARE, 10, null);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         menuItem.setIcon(R.mipmap.btn_share);
         return super.onCreateOptionsMenu(menu);
@@ -457,7 +462,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 ActivityCompat.finishAfterTransition(SkillDetailsActivity.this);
                 return true;
             }
-            case MENU_ID_SHARE:{
+            case MENU_ID_SHARE: {
                 ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""), 1);
             }
         }
