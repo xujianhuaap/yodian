@@ -442,7 +442,7 @@ public class User extends UserBaseColum implements Parcelable {
                 editor.putString(KEY_SIGNATURE, this.signature == null ? "" : this.signature);
                 editor.putString(KEY_JOB, this.job == null ? "" : this.job);
                 if (this.vouch_status != null) {
-                    editor.putInt(KEY_VOUCH_STATUS, vouch_status == BindStatus.PASS ? 1 : 0);
+                    editor.putInt(KEY_VOUCH_STATUS, vouch_status.getValue());
                 }
 
                 return true;
@@ -463,11 +463,7 @@ public class User extends UserBaseColum implements Parcelable {
                 String signature = pref.getString(KEY_SIGNATURE, "");
                 String job = pref.getString(KEY_JOB, "");
                 int vouch_status = pref.getInt(KEY_VOUCH_STATUS, 3);
-                if (vouch_status == 1) {
-                    info.setVouch_status(BindStatus.PASS);
-                } else {
-                    info.setVouch_status(BindStatus.DENY);
-                }
+                info.setVouch_status(BindStatus.create(vouch_status));
                 info.setWechat(wechat);
                 info.setMobile(mobile);
                 info.setContact(contact);
@@ -502,7 +498,7 @@ public class User extends UserBaseColum implements Parcelable {
             dest.writeString(this.address);
             dest.writeString(this.signature);
             dest.writeString(this.job);
-            dest.writeInt(this.vouch_status == null ? -1 : this.vouch_status.ordinal());
+            dest.writeInt(this.vouch_status.getValue());
             dest.writeInt(this.sex == null ? -1 : this.sex.ordinal());
             dest.writeInt(this.buyMsg);
             dest.writeInt(this.sellMsg);
@@ -522,7 +518,7 @@ public class User extends UserBaseColum implements Parcelable {
             this.signature = in.readString();
             this.job = in.readString();
             int tmpVouch_status = in.readInt();
-            this.vouch_status = tmpVouch_status == -1 ? null : BindStatus.values()[tmpVouch_status];
+            this.vouch_status = BindStatus.create(tmpVouch_status);
             int tmpSex = in.readInt();
             this.sex = tmpSex == -1 ? null : Sex.values()[tmpSex];
             this.buyMsg = in.readInt();

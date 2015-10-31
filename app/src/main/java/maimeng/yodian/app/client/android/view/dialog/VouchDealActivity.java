@@ -12,6 +12,7 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
@@ -38,7 +39,7 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        status = BindStatus.create(getSharedPreferences("_vouch", Context.MODE_PRIVATE).getInt("status", -1));
+        status = User.read(this).getInfo().getVouch_status();
         getWindow().setGravity(Gravity.BOTTOM);
         setContentView(R.layout.activity_vouch_deal);
         Network.getService(MoneyService.class).remanider(this);
@@ -74,7 +75,9 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
     public void success(RemainderResponse res, Response response) {
         if (res.isSuccess()) {
 //            remainder = res.getData();
-            getSharedPreferences("_vouch", Context.MODE_PRIVATE).edit().putInt("status", res.getData().getVouchStatus().getValue()).apply();
+            User read = User.read(this);
+            read.getInfo().setVouch_status(res.getData().getVouchStatus());
+            read.write(this);
         } else {
             res.showMessage(this);
         }

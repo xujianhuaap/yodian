@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.view.skill;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -47,7 +46,6 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.VouchDealActivity;
@@ -62,7 +60,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private static final int REQUEST_DONE = 0x1003;
-    private int allowSell;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
@@ -117,6 +114,8 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
     }
 
+    private boolean onLinePay = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +126,6 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
         info = User.read(CreateOrEditSkillActivity.this).getInfo();
-        LogUtil.d(CreateOrEditSkillActivity.class.getName(), "vouch_status " + info.getVouch_status().getValue());
         if (getIntent().hasExtra("template")) {
             mTemplate = getIntent().getParcelableExtra("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
@@ -144,7 +142,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 mTemplate.setCreatetime(skill.getCreatetime());
                 mTemplate.setId(skill.getId());
                 mTemplate.setStatus(skill.getStatus());
-                allowSell = skill.getAllow_sell();
+                onLinePay = skill.getAllow_sell() == 1;
                 isEdit = true;
             }
         }
@@ -157,7 +155,10 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
             @Override
             public void success(RemainderResponse res, Response response) {
                 if (res.isSuccess()) {
-                    getSharedPreferences("_vouch", Context.MODE_PRIVATE).edit().putInt("status", res.getData().getVouchStatus().getValue()).apply();
+                    User read = User.read(CreateOrEditSkillActivity.this);
+                    read.getInfo().setVouch_status(res.getData().getVouchStatus());
+                    info = read.getInfo();
+                    read.write(CreateOrEditSkillActivity.this);
                 }
             }
 
@@ -242,21 +243,14 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
-        if (allowSell == 1) {
-            binding.onLinePay.setChecked(true);
-            binding.onLinePay.setClickable(false);
-        }
         binding.onLinePay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (info != null) {
-
                     if (info.getVouch_status() == BindStatus.PASS) {
                         //设置技能允许卖
-                        allowSell = 1;
-                        binding.onLinePay.setChecked(true);
-                        binding.onLinePay.setClickable(false);
-
+                        onLinePay = !onLinePay;
+                        binding.onLinePay.setChecked(onLinePay);
                     } else {
                         binding.onLinePay.setChecked(false);
                         VouchDealActivity.show(CreateOrEditSkillActivity.this);
@@ -264,7 +258,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
                 }
             }
         });
-
+        binding.onLinePay.setChecked(onLinePay);
     }
 
     private void toggle() {
@@ -340,7 +334,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
         }
 
         if (isEdit) {
-            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), allowSell, new ToastCallback(this) {
+            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -377,7 +371,7 @@ public class CreateOrEditSkillActivity extends AppCompatActivity {
 
         } else {
             if (mBitmap != null) {
-                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), allowSell, new Callback<SkillAllResponse>() {
+                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
                         if (res.isSuccess()) {

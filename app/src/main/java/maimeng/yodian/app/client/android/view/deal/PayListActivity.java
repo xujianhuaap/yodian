@@ -33,10 +33,8 @@ import maimeng.yodian.app.client.android.network.response.WXPayParamResponse;
 import maimeng.yodian.app.client.android.network.response.ZhiFuBaoPayParamsResponse;
 import maimeng.yodian.app.client.android.network.service.BuyService;
 import maimeng.yodian.app.client.android.view.deal.pay.IPay;
+import maimeng.yodian.app.client.android.view.deal.pay.IPayFactory;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayStatus;
-import maimeng.yodian.app.client.android.view.deal.pay.RemainderFactory;
-import maimeng.yodian.app.client.android.view.deal.pay.WXFactory;
-import maimeng.yodian.app.client.android.view.deal.pay.ZhiFuBaoFactory;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
@@ -137,11 +135,11 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             } else if (v.getId() == R.id.pay_wechat) {
                 WechatAuthManager manager = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);//代码一定不能删除，保证IWXAPI已经初始化
                 if (manager.getIWXAPI().isWXAppInstalled()) {
-                    mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
+                    mService.buySkill(mSkill.getId(), PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
                 } else {
                     Toast.makeText(this, "没有安装微信", Toast.LENGTH_SHORT).show();
                 }
-                mService.buySkill(mSkill.getId(), PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
+
             } else if (v.getId() == R.id.pay_zhifubao) {
                 mService.buySkill(mSkill.getId(), PAY_TYPE_ZHIFUBAO, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
             }
@@ -168,29 +166,33 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void success(final String s, Response response) {
             final Gson gson = Network.getOne().getGson();
-            IPay pay = null;
+            final IPay pay;
 
             if (payType == PAY_TYPE_ZHIFUBAO) {
-
                 ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse = gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
                 IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid());
-                pay = ZhiFuBaoFactory.createInstance(PayListActivity.this, zhiFuBaoPayParamsResponse.getData().getParams(), status);
-                pay.sendReq();
+                pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Alipay, zhiFuBaoPayParamsResponse.getData(), status);
+                if (pay != null) {
+                    pay.sendReq();
+                }
             } else if (payType == PAY_TYPE_WECHAT) {
                 WXPayParamResponse paramResponse = gson.fromJson(s, WXPayParamResponse.class);
                 IPayStatus status = new PayStatus(paramResponse.getData().getOid());
-                pay = WXFactory.createInstance(PayListActivity.this, paramResponse.getData().getParams(), status);
-                pay.sendReq();
+                pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Wechat, paramResponse.getData().getParams(), status);
+                if (pay != null) {
+                    pay.sendReq();
+                }
             } else if (payType == PAY_TYPE_REMAINDER) {
-
+                RemainderPayParamsResponse remainderPayParamsResponse = gson.fromJson(s, RemainderPayParamsResponse.class);
+                IPayStatus status = new PayStatus(remainderPayParamsResponse.getData().getOid());
+                pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Remainder, remainderPayParamsResponse.getData(), status);
                 final android.support.v7.app.AlertDialog alertDialog = new ViewDialog.Builder(PayListActivity.this).setMesage(getResources().getString(R.string.pay_deal_tip))
                         .setPositiveListener(new ViewDialog.IPositiveListener() {
                             @Override
                             public void positiveClick() {
-                                RemainderPayParamsResponse remainderPayParamsResponse = gson.fromJson(s, RemainderPayParamsResponse.class);
-                                IPayStatus status = new PayStatus(remainderPayParamsResponse.getData().getOid());
-                                IPay pay = RemainderFactory.createInstance(PayListActivity.this, remainderPayParamsResponse.getData().getOid(), status);
-                                pay.sendReq();
+                                if (pay != null) {
+                                    pay.sendReq();
+                                }
                             }
                         }, "").setNegtiveListener(new ViewDialog.INegativeListener() {
                             @Override
