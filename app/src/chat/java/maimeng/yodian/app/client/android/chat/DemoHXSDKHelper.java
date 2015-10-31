@@ -482,6 +482,8 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             contactList = new HashMap<>();
         }
         contactList.put(username, user);
+        UserDao dao = new UserDao(appContext);
+        dao.saveOrUpdate(user);
     }
 
     /**
@@ -495,6 +497,8 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             robotList = new HashMap<>();
         }
         robotList.put(username, user);
+        UserDao dao = new UserDao(appContext);
+        dao.saveOrUpdate(user);
     }
 
 

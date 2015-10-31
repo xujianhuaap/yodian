@@ -75,7 +75,14 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         db.execSQL(INIVTE_MESSAGE_TABLE_CREATE);
         db.execSQL(CREATE_PREF_TABLE);
         db.execSQL(ROBOT_TABLE_CREATE);
-
+        db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
+                UserDao.COLUMN_NAME_MOBILE + " TEXT ;");
+        db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
+                UserDao.COLUMN_NAME_QQ + " TEXT ;");
+        db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
+                UserDao.ROBOT_COLUMN_NAME_MOBILE + " TEXT;");
+        db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
+                UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
     }
 
     @Override
