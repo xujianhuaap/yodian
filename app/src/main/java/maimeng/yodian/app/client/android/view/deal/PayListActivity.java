@@ -21,6 +21,7 @@ import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.AuthFactory;
 import org.henjue.library.share.manager.WechatAuthManager;
 
+
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.OrderInfo;
@@ -30,7 +31,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.RequestIntercept;
 import maimeng.yodian.app.client.android.network.response.RemainderPayParamsResponse;
 import maimeng.yodian.app.client.android.network.response.WXPayParamResponse;
-import maimeng.yodian.app.client.android.network.response.ZhiFuBaoPayResponse;
+import maimeng.yodian.app.client.android.network.response.ZhiFuBaoPayParamsResponse;
 import maimeng.yodian.app.client.android.network.service.BuyService;
 import maimeng.yodian.app.client.android.view.deal.pay.IPay;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayStatus;
@@ -160,14 +161,14 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         @Override
-        public void success(final String s, Response response) {
-            //执行支付
-            final Gson gson = Network.getOne().getGson();
-            IPay pay = null;
-            final IPayStatus status = new PayStatus();
-            if (payType == PAY_TYPE_ZHIFUBAO) {
-                ZhiFuBaoPayResponse zhiFuBaoPayResponse = gson.fromJson(s, ZhiFuBaoPayResponse.class);
-                pay = ZhiFuBaoFactory.createInstance(PayListActivity.this, zhiFuBaoPayResponse.getData().getParams(), status);
+        public void success(final  String s, Response response) {
+             final Gson gson=Network.getOne().getGson();
+             IPay pay=null;
+             final IPayStatus status=new PayStatus();
+            if(payType==PAY_TYPE_ZHIFUBAO){
+
+                ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse =gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
+                pay= ZhiFuBaoFactory.createInstance(PayListActivity.this, zhiFuBaoPayParamsResponse.getData().getParams(),status);
                 pay.sendReq();
             } else if (payType == PAY_TYPE_WECHAT) {
                 WXPayParamResponse paramResponse = gson.fromJson(s, WXPayParamResponse.class);
