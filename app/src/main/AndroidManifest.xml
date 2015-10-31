@@ -80,7 +80,7 @@
             android:theme="@style/PageIndicator" />
         <activity
             android:name=".view.skill.CreateOrEditSkillActivity"
-            android:theme="@style/AppTheme.Dark"
+            android:theme="@style/AppThemeWhite"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.skill.SkillTemplateActivity"
@@ -112,7 +112,7 @@
         <activity
             android:name=".view.chat.ChatMainActivity"
             android:label="@string/lable_chat"
-            android:theme="@style/AppThemeWhite"
+            android:theme="@style/AppTheme.Dark"
             android:launchMode="singleTask" />
 
         <activity

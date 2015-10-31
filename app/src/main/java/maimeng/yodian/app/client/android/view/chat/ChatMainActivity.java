@@ -29,7 +29,7 @@ public class ChatMainActivity extends maimeng.yodian.app.client.android.chat.act
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back_black);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
 
         }
     }
