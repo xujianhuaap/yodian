@@ -230,7 +230,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
     public void success(FloatResponse res, Response response) {
         if (res.isSuccess()) {
             if (res.getData().getFloatPic().size() > 0) {
-                FloatActivity.start(this, res.getData().getFloatPic());
+//                FloatActivity.start(this, res.getData().getFloatPic());
             }
         }
     }

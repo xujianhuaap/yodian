@@ -1,3 +1,4 @@
+
 # Add project specific ProGuard rules here.
 # By default_pic, the flags in this file are appended to flags specified
 # in /home/android/android-sdk/tools/proguard/proguard-android.txt
@@ -276,7 +277,14 @@
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
 
+-keep public class maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity
+-keep public class maimeng.yodian.app.client.android.view.deal.OrderDetailActivity
+-keep public class maimeng.yodian.app.client.android.view.deal.PayListActivity
+
+
 #alipay end
+
+
 
 
 

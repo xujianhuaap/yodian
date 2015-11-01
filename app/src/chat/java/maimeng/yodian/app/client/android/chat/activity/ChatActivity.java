@@ -1334,7 +1334,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (isRobot) {
                 message.setAttribute("em_robot_message", true);
             }
-            setExtAttribute(message, MESSAGE_NAME_CARD);
+            if(sendVcard){
+                setExtAttribute(message, MESSAGE_NAME_CARD);
+            }else{
+                setExtAttribute(message, MESSAGE_TEXT);
+            }
+
             if (sendVcard) {
                 maimeng.yodian.app.client.android.model.user.User user = maimeng.yodian.app.client.android.model.user.User.read(this);
                 boolean weChatIsEmpty = TextUtils.isEmpty(user.getWechat());
@@ -1395,10 +1400,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         message.setAttribute("nickName", nick);
         message.setAttribute("avatar", avatar);
         message.setAttribute("uid", id);
+        if(messageType==MESSAGE_NAME_CARD){
+            message.setAttribute("mobile", currentUser.getInfo().getContact());
+            message.setAttribute("qq", currentUser.getInfo().getQq());
+            message.setAttribute("weChat", currentUser.getInfo().getWechat());
+        }
 
-        message.setAttribute("mobile", currentUser.getInfo().getContact());
-        message.setAttribute("qq", currentUser.getInfo().getQq());
-        message.setAttribute("weChat", currentUser.getInfo().getWechat());
         message.setAttribute("yd_type", FLAG_PUSH);
         if (messageType == MESSAGE_NAME_CARD) {
             message.setAttribute("em_push_title", "[名片]");//推送类型名片
@@ -1409,7 +1416,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         } else if (messageType == MESSAGE_PIC) {
             message.setAttribute("em_push_title", "[图片]");//推送类型图片
         } else if (messageType == MESSAGE_VIDO) {
-            message.setAttribute("em_push_title", "[图片]");//推送类型图片
+            message.setAttribute("em_push_title", "[视频]");//推送类型视频
         }
 
 
