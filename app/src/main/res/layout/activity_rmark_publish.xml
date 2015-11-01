@@ -56,7 +56,7 @@
                             android:layout_gravity="center"
                             android:button="@null"
                             android:gravity="center"
-                            android:text="上传图片" />
+                            android:text="@string/update_pic" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -96,8 +96,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
                     android:gravity="left"
-                    android:hint="请输入..."
-                    android:imeActionLabel="完成"
+                    android:hint="@string/please_input"
                     android:imeOptions="actionDone"
                     android:maxLength="150"
                     android:minHeight="80dp"

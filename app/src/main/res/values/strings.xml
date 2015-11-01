@@ -8,13 +8,16 @@
     <string name="lable_nickname">昵称</string>
     <string name="lable_sex">性别</string>
     <string name="lable_city">城市</string>
+    <string name="lable_avatar">头像</string>
     <string name="lable_job">职业</string>
     <string name="lable_report">举报</string>
+    <string name="update_pic">上传图片</string>
     <string name="lable_update_avatar">上传头像</string>
     <string name="lable_alert_report_user">确定要举报该用户吗？</string>
     <string name="lable_wechat">微信</string>
     <string name="lable_qq">qq号</string>
     <string name="lable_phone">手机</string>
+    <string name="lable_review">预览</string>
     <string name="hint_nickname">您的昵称</string>
     <string name="hint_wechat">您的微信</string>
     <string name="hint_sex">您的性别</string>
@@ -27,6 +30,8 @@
     <string name="lable_news">消息推送</string>
     <string name="lable_remark">评分</string>
     <string name="lable_chat">消息</string>
+    <string name="lable_jiage">价格</string>
+    <string name="please_input">请输入...</string>
     <string name="lable_cleancache">清除缓存</string>
     <string name="lable_changeaccount">切换账号</string>
     <string name="lable_price"><![CDATA[<font color="#ffffff"><b>%1$s</b>元/%2$s</font>]]></string>
@@ -40,6 +45,9 @@
     <string name="code_input_empty_message">验证码不能为空</string>
     <string name="nickname_input_empty_message">昵称不能为空</string>
     <string name="contact_input_empty_message">微信、QQ、手机号至少填写一种联系方式</string>
+    <string name="contact_input_empty_message2">● 联系方式需至少填写一种</string>
+
+
     <string name="avatar_input_empty_message">头像不能为空</string>
     <string name="lable_user_protocol"><u>注册即同意用户协议</u></string>
     <string name="input_phone_hint">输入手机号码</string>
@@ -50,6 +58,13 @@
     <string name="btn_next">下一步</string>
     <string name="btn_back">返回</string>
     <string name="btn_exit">退出</string>
+    <string name="unit">单位</string>
+    <string name="update_avatar">修改头像</string>
+    <string name="update">修改</string>
+    <string name="base_info">基本信息</string>
+    <string name="lb_delete">删除</string>
+    <string name="lb_sig">个性签名</string>
+    <string name="lb_sig_hint">这家伙是不是有点懒？</string>
     <string name="btn_edit">编辑</string>
     <string name="share_title">将该技能分享至：</string>
     <string name="release_title">发布成功！</string>
@@ -173,7 +188,6 @@
     <string name="order_list_btn_saled">已出售订单</string>
     <string name="order_list_btn_ordered">已购买订单</string>
     <string name="order_item_bnt_accept">接单</string>
-
     <string name="order_status_wait_accept">待接单</string>
     <string name="order_status_unpay">未支付</string>
     <string name="order_status_delete">已删除</string>

@@ -10,7 +10,6 @@
 
         </variable>
     </data>
-    <!--个人主页顶部ViewPager内的第一页-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/user_header_height"

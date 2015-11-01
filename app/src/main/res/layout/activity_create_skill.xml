@@ -50,7 +50,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="上传图片" />
+                            android:text="@string/update_pic" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -145,7 +145,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="价格"
+                        android:text="@string/lable_jiage"
                         android:textColor="#000" />
 
                     <EditText
@@ -172,7 +172,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="单位"
+                        android:text="@string/unit"
                         android:textColor="#000" />
 
                     <EditText

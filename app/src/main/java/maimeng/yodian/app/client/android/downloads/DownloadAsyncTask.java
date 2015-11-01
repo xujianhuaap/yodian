@@ -37,7 +37,8 @@ public class DownloadAsyncTask extends AsyncTask<String, Long, File> {
     @Override
     protected File doInBackground(String... params) {
         final File target = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), System.currentTimeMillis() + ".apk");
-        Response response = service.getFile(params[0]);
+        String param = params[0];
+        Response response = service.getFile(param);
         FileOutputStream fos = null;
         try {
             InputStream in = response.getBody().in();
