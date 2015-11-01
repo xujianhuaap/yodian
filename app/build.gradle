@@ -82,7 +82,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
-            buildConfigField "String", "API_HOST", APP_HOST_DEV
+            buildConfigField "String", "API_HOST", APP_HOST
         }
     }
     compileOptions {
