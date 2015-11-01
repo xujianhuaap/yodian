@@ -160,7 +160,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void success(AuthResponse res, Response response) {
         if (res.isSuccess()) {
-            User.clear(AuthActivity.this);
             User data = res.getData();
             data.setT_img("");
             data.setT_nickname("");

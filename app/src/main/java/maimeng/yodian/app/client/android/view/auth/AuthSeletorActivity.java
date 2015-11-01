@@ -63,6 +63,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
             findViewById(R.id.btn_loginweibo).setOnClickListener(this);
             findViewById(R.id.btn_loginphone).setOnClickListener(this);
             findViewById(R.id.btn_user_protocol).setOnClickListener(this);
+            User.clear(AuthSeletorActivity.this);
         }
     }
 
