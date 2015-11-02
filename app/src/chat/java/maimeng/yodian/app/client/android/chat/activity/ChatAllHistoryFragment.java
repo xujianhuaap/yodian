@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -101,7 +102,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         } else {
             noNews.setVisibility(View.GONE);
         }
-        adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList);
+        adapter = new ChatAllHistoryAdapter(getActivity(), conversationList);
         // 设置adapter
         listView.setAdapter(adapter);
 
@@ -205,6 +206,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
             deleteMessage = false;
             handled = true;
         }
+        ArrayAdapter a;
         EMConversation tobeDeleteCons = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
         // 删除此会话
         EMChatManager.getInstance().deleteConversation(tobeDeleteCons.getUserName(), tobeDeleteCons.isGroup(), deleteMessage);
@@ -216,7 +218,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         // 更新消息未读数
         ((MainActivity) getActivity()).updateUnreadLabel();
 
-        return handled ? true : super.onContextItemSelected(item);
+        return handled || super.onContextItemSelected(item);
     }
 
     /**

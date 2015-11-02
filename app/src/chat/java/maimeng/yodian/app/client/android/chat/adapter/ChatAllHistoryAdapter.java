@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,8 +18,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,10 +55,10 @@ import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 
 /**
  * 显示所有聊天记录adpater
- *
  */
-public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
-
+public class ChatAllHistoryAdapter extends BaseAdapter implements Filterable {
+    private final Context mContext;
+    private List<EMConversation> datas = new ArrayList<>();
     private static final String TAG = "ChatAllHistoryAdapter";
     private LayoutInflater inflater;
     private List<EMConversation> conversationList;
@@ -66,13 +67,29 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
     private boolean notiyfyByFilter;
     private final Map<String, RobotUser> robotMap;
 
-    public ChatAllHistoryAdapter(Context context, int textViewResourceId, List<EMConversation> objects) {
-        super(context, textViewResourceId, objects);
+    public ChatAllHistoryAdapter(Context context, List<EMConversation> objects) {
+        this.datas.addAll(objects);
+        this.mContext = context;
         robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
         this.conversationList = objects;
         copyConversationList = new ArrayList<EMConversation>();
         copyConversationList.addAll(objects);
         inflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public int getCount() {
+        return datas.size();
+    }
+
+    @Override
+    public EMConversation getItem(int position) {
+        return datas.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -112,7 +129,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
             EMChatRoom room = EMChatManager.getInstance().getChatRoom(username);
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
         } else {
-            UserUtils.setUserAvatar(getContext(), username, holder.avatar);
+            UserUtils.setUserAvatar(mContext, username, holder.avatar);
             if (username.equals(Constant.GROUP_USERNAME)) {
                 holder.name.setText("群聊");
 
@@ -152,7 +169,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
         if (conversation.getMsgCount() != 0) {
             // 把最后一条消息的内容作为item的message内容
             EMMessage lastMessage = conversation.getLastMessage();
-            holder.message.setText(SmileUtils.getSmiledText(getContext(), CommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
+            holder.message.setText(SmileUtils.getSmiledText(mContext, CommonUtils.getMessageDigest(lastMessage, mContext)),
                     BufferType.SPANNABLE);
 
             holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
@@ -224,19 +241,33 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
     }
 
     private static class ViewHolder {
-        /** 和谁的聊天记录 */
+        /**
+         * 和谁的聊天记录
+         */
         TextView name;
-        /** 消息未读数 */
+        /**
+         * 消息未读数
+         */
         TextView unreadLabel;
-        /** 最后一条消息的内容 */
+        /**
+         * 最后一条消息的内容
+         */
         TextView message;
-        /** 最后一条消息的时间 */
+        /**
+         * 最后一条消息的时间
+         */
         TextView time;
-        /** 用户头像 */
+        /**
+         * 用户头像
+         */
         ImageView avatar;
-        /** 最后一条消息的发送状态 */
+        /**
+         * 最后一条消息的发送状态
+         */
         View msgState;
-        /** 整个list中每一行总布局 */
+        /**
+         * 整个list中每一行总布局
+         */
         RelativeLayout list_item_layout;
 
     }
@@ -330,6 +361,16 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 
         }
 
+    }
+
+    public void remove(int index) {
+        datas.remove(index);
+        notifyDataSetChanged();
+    }
+
+    public void remove(EMConversation obj) {
+        datas.remove(obj);
+        notifyDataSetChanged();
     }
 
     @Override
