@@ -245,7 +245,7 @@ public class User extends UserBaseColum implements Parcelable {
     }
 
     public Info getInfo() {
-        return info;
+        return info == null ? new Info() : info;
     }
 
     public User setInfo(Info info) {
@@ -319,7 +319,7 @@ public class User extends UserBaseColum implements Parcelable {
 
 
         public String getContact() {
-            return contact;
+            return contact == null ? "" : contact;
         }
 
         public void setContact(String contact) {
@@ -327,7 +327,7 @@ public class User extends UserBaseColum implements Parcelable {
         }
 
         public String getQq() {
-            return qq;
+            return qq == null ? "" : qq;
         }
 
         public void setQq(String qq) {
@@ -367,7 +367,7 @@ public class User extends UserBaseColum implements Parcelable {
         }
 
         private String contact;
-        private String qq;
+        private String qq = "";
         private String province;
         private String city;
         private String district;
