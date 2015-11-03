@@ -25,8 +25,9 @@ public class OrderListActivity extends AbstractActivity{
     private View mBuyedSelect;
     private View mGoBack;
 
-    public static void show(Context context){
+    public static void show(Context context,boolean isSell){
         Intent intent=new Intent(context,OrderListActivity.class);
+        intent.putExtra("isSell",isSell);
         context.startActivity(intent);
     }
 
@@ -35,6 +36,7 @@ public class OrderListActivity extends AbstractActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list, false);
+        boolean isSell=getIntent().getBooleanExtra("isSell",false);
         mOrderSaled=findViewById(R.id.btn_saled);
         mOrderBuyed=findViewById(R.id.btn_buyed);
         mTvOrderSaled=(TextView)findViewById(R.id.tv_saled);
@@ -70,7 +72,11 @@ public class OrderListActivity extends AbstractActivity{
                 finish();
             }
         });
-        mOrderSaled.callOnClick();
+        if(isSell){
+            mOrderSaled.callOnClick();
+        }else {
+            mOrderBuyed.callOnClick();
+        }
 
 
     }
