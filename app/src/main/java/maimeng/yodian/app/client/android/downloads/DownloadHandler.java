@@ -28,12 +28,15 @@ public final class DownloadHandler extends android.os.Handler {
 
     public void complite(File file) {
         dialog.dismiss();
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.VIEW");//向用户显示数据
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//以新压入栈
-        intent.addCategory("android.intent.category.DEFAULT");
-        Uri uri = Uri.fromFile(file);
-        intent.setDataAndType(uri, "application/vnd.android.package-archive");
-        mActivity.startActivity(intent);
+        if(file.exists()){
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");//向用户显示数据
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//以新压入栈
+            intent.addCategory("android.intent.category.DEFAULT");
+            Uri uri = Uri.fromFile(file);
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            mActivity.startActivity(intent);
+        }
+
     }
 }
