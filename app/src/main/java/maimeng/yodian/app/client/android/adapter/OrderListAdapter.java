@@ -112,7 +112,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                         statusStr = mContext.getString(R.string.order_status_unpay);
                         if (!isSaled) {
                             operatorStr = mContext.getString(R.string.buyer_operator_pay);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_orange));
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                         } else {
                             mBinding.acceptOrder.setVisibility(View.INVISIBLE);
                         }
@@ -129,7 +129,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_gray));
                         } else {
                             operatorStr = mContext.getString(R.string.seller_operator_accept);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_orange));
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                         }
                         break;
                     case 3:
@@ -139,14 +139,14 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_gray));
                         } else {
                             operatorStr = mContext.getString(R.string.seller_operator_send);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_orange));
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                         }
                         break;
                     case 4:
                         statusStr = mContext.getString(R.string.order_status_send_goods);
                         if (!isSaled) {
                             operatorStr = mContext.getString(R.string.buyer_operator_confirm);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_orange));
+                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                         } else {
 
                             mBinding.acceptOrder.setVisibility(View.INVISIBLE);

@@ -34,7 +34,7 @@
     <string name="please_input">请输入...</string>
     <string name="lable_cleancache">清除缓存</string>
     <string name="lable_changeaccount">切换账号</string>
-    <string name="lable_price"><![CDATA[<font color="#ffffff"><b>%1$s</b>元/%2$s</font>]]></string>
+    <string name="lable_price"><![CDATA[<font color="#000000"><b>%1$s</b>元/%2$s</font>]]></string>
     <string name="currentVersion">当前版本:v%s</string>
     <string name="currentAccount">当前账号:%s</string>
     <string name="title_activity_web_launcher">WebLauncher</string>
@@ -195,7 +195,7 @@
     <string name="order_status_accept">已接单</string>
     <string name="order_status_send_goods">已发货 </string>
     <string name="order_status_confirm_deal">交易完成</string>
-    <string name="order_total_fee"><![CDATA[<font color="#000000">合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
+    <string name="order_total_fee"><![CDATA[<font color="#000000">合计：</font><b><font color="#17ace7"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
 
 
     <string name="buyer_operator_pay">支付</string>
