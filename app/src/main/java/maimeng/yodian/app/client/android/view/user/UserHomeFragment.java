@@ -271,7 +271,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
                     this.user.update(user);//更新登录信息——个人的部分信息
                     this.user.setInfo(user);
-                    LogUtil.d(UserHomeFragment.class.getName(), "Money" + user.getInfo().getMoneyMsg());
                     if(user.getInfo().getMoneyMsg()>0){
                         headerMainHomeBinding.msgMoneyTopic.setVisibility(View.VISIBLE);
                     }
@@ -532,8 +531,9 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Override
     public void onResume() {
         super.onResume();
-
-        syncRequest();
+        if(user!=null){
+            syncRequest();
+        }
         refreshMissMsgIcon();
     }
 

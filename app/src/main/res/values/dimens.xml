@@ -41,7 +41,10 @@
     <dimen name="skill_list_template_item_height">110dp</dimen>
     <dimen name="skill_list_banner_height">90dp</dimen>
     <dimen name="skill_list_head_height">90dp</dimen>
-
+    <dimen name="skill_pic_height">300dp</dimen>
+    <dimen name="logo_margin_top">60dp</dimen>
+    <dimen name="star_margin_top">40dp</dimen>
+    <dimen name="skill_template_width">20dp</dimen>
 
     <eat-comment />
     <dimen name="share_dialog_content_marginTop">30dp</dimen>
@@ -100,6 +103,7 @@
 
     <!-- item_order_list-->
     <dimen name="padding_large">20dp</dimen>
+    <dimen name="padding_Xlarge">60dp</dimen>
     <dimen name="padding_normal">10dp</dimen>
     <dimen name="padding_small">5dp</dimen>
     <dimen name="margin_normal">10dp</dimen>
@@ -108,6 +112,7 @@
     <dimen name="margin_Xlarge">40dp</dimen>
     <dimen name="margin_XXlarge">60dp</dimen>
     <dimen name="margin_XXXlarge">120dp</dimen>
+    <dimen name="margin_XXXXlarge">200dp</dimen>
     <dimen name="order_margin_top">40dp</dimen>
 
 

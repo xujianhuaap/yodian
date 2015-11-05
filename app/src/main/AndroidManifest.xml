@@ -74,13 +74,15 @@
         <activity android:name=".view.dialog.ContactDialog"
             android:label=""
             android:theme="@style/contact_dialog"/>
-        <activity android:name=".view.auth.AuthActivity" />
+        <activity android:name=".view.auth.AuthActivity"
+            android:label="@string/app_name"/>
         <activity android:name=".view.WebViewActivity" />
         <activity
             android:name=".view.user.UserHomeActivity"
             android:theme="@style/PageIndicator" />
         <activity
             android:name=".view.skill.CreateOrEditSkillActivity"
+            android:label="@string/add_skill"
             android:theme="@style/AppThemeWhite"
             android:windowSoftInputMode="adjustPan" />
         <activity

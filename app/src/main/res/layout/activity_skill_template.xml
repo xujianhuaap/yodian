@@ -2,43 +2,46 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:scaleType="centerInside"
+        android:layout_margin="@dimen/margin_normal"
+        android:src="@mipmap/ic_go_back_black" />
+    <ImageView
+        android:id="@+id/btn_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/star_margin_top"
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_star_circle" />
+
+    <ImageView
+        android:id="@+id/btn_logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/logo_margin_top"
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_logo" />
+    <ImageView
+        android:id="@+id/btn_backGround"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    <FrameLayout
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerInside"
+        android:background="@mipmap/ic_background" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/template_list"
+        android:layout_marginTop="@dimen/margin_XXXXlarge"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:gravity="center"
-        android:background="@android:color/black"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:scaleType="centerInside"
-            android:layout_margin="@dimen/margin_normal"
-            android:src="@mipmap/ic_go_back" />
-
-        <ImageView
-            android:id="@+id/top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_skill_temple_title" />
-        </FrameLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/template_list"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+    </android.support.v7.widget.RecyclerView>
 </FrameLayout>

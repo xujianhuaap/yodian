@@ -1,5 +1,7 @@
 package maimeng.yodian.app.client.android.view.skill;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +11,15 @@ import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.RotateAnimation;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -41,6 +50,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
     private SkillService service;
     private RecyclerView mTemplateList;
     private SkillTemplateAdapter adapter;
+    private View mStarCircle;
 
     /***
      *
@@ -70,7 +80,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         });
         adapter = new SkillTemplateAdapter(this, this);
         mTemplateList = (RecyclerView) findViewById(R.id.template_list);
-        mTemplateList.setLayoutManager(new GridLayoutManager(this, 2));
+        mTemplateList.setLayoutManager(new LinearLayoutManager(this));
         mTemplateList.setAdapter(adapter);
         try {
             Dao<SkillTemplate, Integer> dao = SQLiteHelper.getHelper(this).getDao();
@@ -86,6 +96,16 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        mStarCircle=findViewById(R.id.btn_star);
+
+        RotateAnimation animation=new RotateAnimation(0,359,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        animation.setRepeatMode(Animation.RESTART);
+        animation.setDuration(10 * 1000);
+        animation.setRepeatCount(Animation.INFINITE);
+        mStarCircle.setAnimation(animation);
+        animation.startNow();
+
         service.template(this);
     }
 
@@ -138,9 +158,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         if (holder.getItemViewType() == ViewEntry.VIEW_TYPE_ITEM) {
             SkillTemplateAdapter.ItemViewHolder itemHolder = (SkillTemplateAdapter.ItemViewHolder) holder;
             SkillTemplate template = itemHolder.getTemplate();
-            Pair<View, String> img = Pair.create((View) itemHolder.binding.skillImg, "avatar");
-            Pair<View, String> title = Pair.create((View) itemHolder.binding.skillName, "title");
-            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_CREATE_SKILL,template,img,title);
+            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_CREATE_SKILL,template);
         } else {
             CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_EDIT_SKILL);
         }

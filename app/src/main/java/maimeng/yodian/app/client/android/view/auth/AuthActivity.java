@@ -1,12 +1,17 @@
 package maimeng.yodian.app.client.android.view.auth;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,12 +31,13 @@ import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
  * Created by android on 15-7-13.
  */
-public class AuthActivity extends AppCompatActivity implements View.OnClickListener, Callback<AuthResponse> {
+public class AuthActivity extends AbstractActivity implements View.OnClickListener, Callback<AuthResponse> {
     private View mBtnLogin;
     private AuthService service;
     private EditText mMobile;
@@ -40,6 +46,30 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     private int mTotalTime = 0;
     private TextView mCode;
     private EditText mValidateCode;
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            mTitle.setTextColor(Color.WHITE);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_margin="5dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -8,29 +7,48 @@
             name="template"
             type="maimeng.yodian.app.client.android.model.SkillTemplate" />
     </data>
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-            <maimeng.yodian.app.client.android.widget.RoundCornerImageView
-                android:id="@+id/skill_img"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/skill_list_template_item_height"
-                android:adjustViewBounds="false"
-                android:padding="10dp"
-                android:scaleType="centerInside" />
-
-        <TextView
-            android:id="@+id/skill_name"
-            android:layout_width="wrap_content"
+        android:paddingTop="@dimen/padding_normal"
+        android:paddingBottom="@dimen/padding_normal"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@{template.name}"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/skill_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:background="@drawable/btn_oval_black"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_normal"
+                android:paddingBottom="@dimen/padding_normal"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="@dimen/skill_template_width"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:background="@android:color/black"
+            android:padding="@dimen/padding_normal"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
-    </LinearLayout>
+        <ImageView
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="@dimen/margin_small"
+            android:gravity="left|center_vertical"
+            android:src="@mipmap/ic_enter"
+            android:scaleType="centerInside"
+           />
+
+    </FrameLayout>
+
 
 </layout>

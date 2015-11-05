@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -87,6 +89,8 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            mTitle.setTextColor(Color.WHITE);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
         }
     }
@@ -116,13 +120,12 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
      * @param requestCode
      * @param template
      */
-    public static void show(AppCompatActivity context, int requestCode, SkillTemplate template, Pair<View, String> img, Pair<View, String> title) {
+    public static void show(AppCompatActivity context, int requestCode, SkillTemplate template) {
         Intent intent = new Intent(context, CreateOrEditSkillActivity.class);
         if (template != null) {
             intent.putExtra("template", template);
         }
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, img, title);
-        ActivityCompat.startActivityForResult(context, intent, requestCode, options.toBundle());
+        context.startActivity(intent);
     }
 
     /***

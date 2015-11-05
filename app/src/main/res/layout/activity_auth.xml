@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/auth_input_marginStart"
             android:layout_marginRight="@dimen/auth_input_marginEnd"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_XXlarge"
             android:background="@drawable/btn_submit_background"
             android:orientation="horizontal">
 
@@ -104,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/margin_XXXlarge"
+        android:layout_marginBottom="@dimen/margin_XXlarge"
         android:background="@drawable/btn_submit_background"
         android:paddingLeft="100dp"
         android:paddingRight="100dp"

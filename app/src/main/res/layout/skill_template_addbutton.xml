@@ -1,28 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:orientation="vertical">
-
-
-
-        <ImageView
-            android:id="@+id/skill_img"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/skill_list_template_item_height"
-            android:adjustViewBounds="false"
-            android:background="@drawable/round_corner"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_skill_template_add" />
-
-    <TextView
-        android:id="@+id/skill_name"
-        android:layout_width="wrap_content"
+    android:layout_marginTop="@dimen/margin_normal"
+    android:layout_marginBottom="@dimen/margin_normal">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/lable_skill_addbutton"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/skill_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|left"
+            android:background="@drawable/btn_oval_blue"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_normal"
+            android:paddingBottom="@dimen/padding_normal"
+            android:text="@string/lable_skill_addbutton"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_normal" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="@dimen/skill_template_width"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:background="#0000ff"
+        android:padding="@dimen/padding_normal"
+        android:textColor="@android:color/white"
         android:textSize="18sp" />
-</LinearLayout>
+    <ImageView
+        android:layout_width="@dimen/btn_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="@dimen/margin_small"
+        android:gravity="left|center_vertical"
+        android:src="@mipmap/ic_enter"
+        android:scaleType="centerInside"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+</FrameLayout>
+
