@@ -77,6 +77,7 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
  */
 public class UserHomeFragment extends BaseFragment implements EMEventListener, PtrHandler, AbstractAdapter.ViewHolderClickListener<SkillListHomeAdapter.ViewHolder>, Callback<SkillUserResponse> {
     private AbstractActivity mActivity;
+    private int unread;
 
     public static UserHomeFragment newInstance() {
         UserHomeFragment userHomeFragment = new UserHomeFragment();
@@ -148,7 +149,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         } else {
             EMChatManager.getInstance().unregisterEventListener(this);
         }
-        refreshMissMsgIcon();
         Bundle args = getArguments();
         long uid = args.getLong("uid", 0);
         if (uid > 0) {
@@ -159,7 +159,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             user = User.read(getActivity());
             init();
         }
+
+        refreshMissMsgIcon();
     }
+
 
 
     @Override
@@ -268,6 +271,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
                     this.user.update(user);//更新登录信息——个人的部分信息
                     this.user.setInfo(user);
+                    LogUtil.d(UserHomeFragment.class.getName(), "Money" + user.getInfo().getMoneyMsg());
+                    if(user.getInfo().getMoneyMsg()>0){
+                        headerMainHomeBinding.msgMoneyTopic.setVisibility(View.VISIBLE);
+                    }
                 }
             }
             showUserInfo();
@@ -500,7 +507,19 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
                     }
                 } else if (clickItem == headerMainHomeBinding.btnMyOrder) {
-                    OrderListActivity.show(getActivity());
+
+                    if(user.getInfo().getSellMsg()>0){
+                        OrderListActivity.show(getActivity(),true);
+                        return;
+
+                    }
+                    if(user.getInfo().getBuyMsg()>0){
+                        OrderListActivity.show(getActivity(),false);
+                        return;
+                    }
+                    OrderListActivity.show(getActivity(),true);
+
+
                 } else if (clickItem == headerMainHomeBinding.btnMyRemainder) {
                     Intent intent = new Intent(getActivity(), RemainderMainActivity.class);
                     startActivity(intent);
@@ -513,6 +532,8 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Override
     public void onResume() {
         super.onResume();
+
+        syncRequest();
         refreshMissMsgIcon();
     }
 
@@ -544,14 +565,16 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     }
 
     private void refreshMissMsgIcon() {
+
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 headerMainHomeBinding = adapter.getHeaderBinding();
                 if (headerMainHomeBinding != null) {
                     View view = headerMainHomeBinding.missMsgCount;
+
                     if (view != null) {
-                        int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+                        unread = EMChatManager.getInstance().getUnreadMsgsCount();
                         if (!User.read(mActivity).isPushOn()) {
                             unread = 0;
                         }
@@ -560,9 +583,9 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                         } else {
                             view.setVisibility(View.INVISIBLE);
                         }
+
                     }
                 }
-
 
             }
         });

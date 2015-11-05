@@ -9,38 +9,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <ImageView
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_XXXlarge"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_logo_banner"
-            app:layout_marginTopPercent="15%h" />
+            android:src="@mipmap/ic_logo_banner" />
 
         <ImageView
             android:id="@+id/btn_loginwechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_XXlarge"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/btn_login_wechat"
-            app:layout_marginTopPercent="10%h" />
+            android:src="@mipmap/btn_login_wechat" />
 
         <ImageView
             android:id="@+id/btn_loginweibo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/btn_login_weibo"
-            app:layout_marginPercent="5%h" />
+            android:src="@mipmap/btn_login_weibo" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="bottom">
 
             <TextView
                 android:id="@+id/btn_user_protocol"
@@ -63,5 +63,5 @@
                 android:layout_marginLeft="20dp"
                 android:src="@mipmap/btn_login_phone" />
         </RelativeLayout>
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </LinearLayout>
 </FrameLayout>

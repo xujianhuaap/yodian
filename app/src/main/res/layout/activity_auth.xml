@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/login_bg"
     android:orientation="vertical">
 
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
@@ -16,17 +16,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_phone"
-            app:layout_marginTopPercent="5%h" />
+            android:src="@mipmap/ic_phone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/auth_input_marginStart"
             android:layout_marginRight="@dimen/auth_input_marginEnd"
+            android:layout_marginTop="@dimen/margin_normal"
             android:background="@drawable/btn_submit_background"
-            android:orientation="horizontal"
-            app:layout_marginTopPercent="15%h">
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/mobile"
@@ -64,6 +63,7 @@
             android:layout_marginLeft="@dimen/auth_input_marginStart"
             android:layout_marginRight="@dimen/auth_input_marginEnd"
             android:layout_marginTop="@dimen/auth_input_space_height"
+            android:layout_marginBottom="@dimen/margin_XXXlarge"
             android:background="@drawable/btn_submit_background"
             android:orientation="horizontal">
 
@@ -97,14 +97,14 @@
                 android:padding="@dimen/auth_input_clean_padding"
                 android:text="@string/get_valicode" />
         </RelativeLayout>
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="@dimen/margin_XXXlarge"
         android:background="@drawable/btn_submit_background"
         android:paddingLeft="100dp"
         android:paddingRight="100dp"

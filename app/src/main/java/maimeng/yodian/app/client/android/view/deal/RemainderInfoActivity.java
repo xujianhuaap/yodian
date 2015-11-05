@@ -79,7 +79,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
                 Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
             }
         } else if (v == binding.mySaleOrder) {
-            OrderListActivity.show(this);
+            OrderListActivity.show(this,true);
         }
     }
 

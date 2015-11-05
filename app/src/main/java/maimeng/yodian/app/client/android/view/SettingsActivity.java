@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +39,7 @@ public class SettingsActivity extends AbstractActivity {
     private View mBtnYijian;
     private View mBtnChangeAccount;
     private View mBtnCleanCache;
-    private io.j99.md.views.Switch mPush;
+    private CheckBox mPush;
     private TextView mCurrentVersion;
     PopupWindow window;
     User user;
@@ -68,11 +70,11 @@ public class SettingsActivity extends AbstractActivity {
         setContentView(R.layout.activity_settings);
         user = User.read(SettingsActivity.this);
         mPushService = Network.getService(CommonService.class);
-        mPush = (io.j99.md.views.Switch) findViewById(R.id.push);
+        mPush = (CheckBox) findViewById(R.id.push);
         mPush.setChecked(user.isPushOn());
-        mPush.setOncheckListener(new io.j99.md.views.Switch.OnCheckListener() {
+        mPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheck(io.j99.md.views.Switch aSwitch, final boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
                     EMChatManager.getInstance().logout();
                 } else {
@@ -94,31 +96,7 @@ public class SettingsActivity extends AbstractActivity {
 
                         }
                     });
-
                 }
-
-                mPushService.push(isChecked ? "0" : "1", new Callback<ToastResponse>() {
-                    @Override
-                    public void start() {
-
-                    }
-
-                    @Override
-                    public void success(ToastResponse toastResponse, Response response) {
-                        user.setPushOn(isChecked);
-                        user.write(SettingsActivity.this);
-                    }
-
-                    @Override
-                    public void failure(HNetError hNetError) {
-
-                    }
-
-                    @Override
-                    public void end() {
-
-                    }
-                });
             }
         });
         mBtnBack = findViewById(R.id.btn_back);
