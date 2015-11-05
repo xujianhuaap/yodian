@@ -128,10 +128,7 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.4'
 
-//    compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
-//        exclude module: 'support-v4'
-//    }
-//    compile 'org.henjue.library:hnet:1.0.0_beta2'
+    compile 'io.realm:realm-android:0.84.1'
 
     compile 'com.umeng.analytics:analytics:latest.integration'
 //    compile 'com.jakewharton:butterknife:7.0.1'
