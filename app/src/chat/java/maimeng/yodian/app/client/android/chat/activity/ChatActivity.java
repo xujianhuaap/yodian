@@ -195,7 +195,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     // private ViewPager expressionViewpager;
     private LinearLayout emojiIconContainer;
     private GridView btnContainer;
-    private TextView locationImgview;
     private View more;
     private int position;
     private ClipboardManager clipboard;
@@ -438,7 +437,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         };
         btnContainer.setAdapter(adapter);
         initEntryData(entries);
-        locationImgview = (TextView) findViewById(R.id.btn_location);
         iv_emoticons_normal = (ImageView) findViewById(R.id.iv_emoticons_normal);
         iv_emoticons_checked = (ImageView) findViewById(R.id.iv_emoticons_checked);
         loadmorePB = (ProgressBar) findViewById(R.id.pb_load_more);
@@ -447,8 +445,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         iv_emoticons_checked.setVisibility(View.INVISIBLE);
         more = findViewById(R.id.more);
         edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_normal);
-        voiceCallBtn = (TextView) findViewById(R.id.btn_voice_call);
-        videoCallBtn = (TextView) findViewById(R.id.btn_video_call);
         // 动画资源文件,用于录制语音时
         micImages = new Drawable[]{getResources().getDrawable(R.mipmap.record_animate_01),
                 getResources().getDrawable(R.mipmap.record_animate_02),
@@ -1716,8 +1712,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     }
 
     private PowerManager.WakeLock wakeLock;
-    private TextView voiceCallBtn;
-    private TextView videoCallBtn;
 
     /**
      * 按住说话listener

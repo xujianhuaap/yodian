@@ -137,14 +137,14 @@ task cleanUnUseRes() << {
             def line = location.@line
             def file = location.@file
             if (column.toString() == "" && line.toString() == "") {
-                f = new File(file.toString)
                 println "This is Resouce"
+                new File(file.toString()).delete()
             } else {
                 println "This is String"
+                //f.
             }
-            f.deleteOnExit()
         }
     }
     println "UnusedResources is remove end"
 }
-cleanUnUseRes.dependsOn lint
+//cleanUnUseRes.dependsOn lint
