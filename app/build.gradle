@@ -96,15 +96,15 @@ repositories {
     }
     mavenCentral()
 }
+
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile(name: 'sharesdk-release', ext: 'aar')
     compile(name: 'hnet-release', ext: 'aar')
     compile project(':PhotoPicker')
     compile project(':AndroidWheel')
     compile(name: 'ViewPagerIndicator-release', ext: 'aar')
-}
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'org.robolectric:robolectric:3.0'
     compile 'com.android.support:multidex:1.0.1'
     /**
      * Android Support Libraries
@@ -128,3 +128,23 @@ dependencies {
         exclude module: 'message', group: 'com.umeng'
     }
 }
+task cleanUnUseRes() << {
+    def lint_results = new XmlSlurper().parse(new File(project.getBuildDir(), "outputs/lint-results.xml"))
+    lint_results.issue.each { issus ->
+        if ("UnusedResources" == issus.@id.toString()) {
+            def location = issus.location
+            def column = location.@column
+            def line = location.@line
+            def file = location.@file
+            if (column.toString() == "" && line.toString() == "") {
+                f = new File(file.toString)
+                println "This is Resouce"
+            } else {
+                println "This is String"
+            }
+            f.deleteOnExit()
+        }
+    }
+    println "UnusedResources is remove end"
+}
+cleanUnUseRes.dependsOn lint

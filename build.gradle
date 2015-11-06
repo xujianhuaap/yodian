@@ -2,6 +2,7 @@
 
 buildscript {
     repositories {
+        maven { url "http://maven.oschina.net/content/groups/public/" }
         jcenter()
         maven { url 'https://dl.bintray.com/henjue/maven' }
     }
@@ -19,6 +20,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "http://maven.oschina.net/content/groups/public/" }
         jcenter()
         maven { url 'https://dl.bintray.com/henjue/maven' }
         maven { url "https://raw.githubusercontent.com/umeng/mvn-repo-umeng/master/repository" }

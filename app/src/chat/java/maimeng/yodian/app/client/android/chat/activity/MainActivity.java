@@ -63,10 +63,9 @@ import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage;
 import maimeng.yodian.app.client.android.chat.domain.InviteMessage.InviteMesageStatus;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 
 
-public abstract class  MainActivity extends BaseActivity implements EMEventListener {
+public abstract class MainActivity extends BaseActivity implements EMEventListener {
 
     protected static final String TAG = "MainActivity";
     // 未读消息textview
@@ -564,9 +563,6 @@ public abstract class  MainActivity extends BaseActivity implements EMEventListe
                     updateUnreadLabel();
                     // 刷新ui
                     chatHistoryFragment.refresh();
-                    if (CommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
-                        GroupsActivity.instance.onResume();
-                    }
                 }
             });
 
@@ -592,9 +588,6 @@ public abstract class  MainActivity extends BaseActivity implements EMEventListe
                     try {
                         updateUnreadLabel();
                         chatHistoryFragment.refresh();
-                        if (CommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
-                            GroupsActivity.instance.onResume();
-                        }
                     } catch (Exception e) {
                         EMLog.e(TAG, "refresh exception " + e.getMessage());
                     }
@@ -612,9 +605,6 @@ public abstract class  MainActivity extends BaseActivity implements EMEventListe
                 public void run() {
                     updateUnreadLabel();
                     chatHistoryFragment.refresh();
-                    if (CommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
-                        GroupsActivity.instance.onResume();
-                    }
                 }
             });
 
@@ -656,9 +646,6 @@ public abstract class  MainActivity extends BaseActivity implements EMEventListe
                     updateUnreadLabel();
                     // 刷新ui
                     chatHistoryFragment.refresh();
-                    if (CommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
-                        GroupsActivity.instance.onResume();
-                    }
                 }
             });
         }

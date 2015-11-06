@@ -49,13 +49,10 @@ import java.util.Map;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
-import maimeng.yodian.app.client.android.chat.activity.VideoCallActivity;
-import maimeng.yodian.app.client.android.chat.activity.VoiceCallActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.Skill;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import maimeng.yodian.app.client.android.chat.receiver.CallReceiver;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 
@@ -82,7 +79,6 @@ public class DemoHXSDKHelper extends HXSDKHelper {
      * robot list in cache
      */
     private Map<String, RobotUser> robotList = new HashMap<>();
-    private CallReceiver callReceiver;
 
 
     /**
@@ -113,12 +109,7 @@ public class DemoHXSDKHelper extends HXSDKHelper {
     protected void initListener() {
         super.initListener();
         IntentFilter callFilter = new IntentFilter(EMChatManager.getInstance().getIncomingCallBroadcastAction());
-        if (callReceiver == null) {
-            callReceiver = new CallReceiver();
-        }
 
-        //注册通话广播接收者
-        appContext.registerReceiver(callReceiver, callFilter);
         //注册消息事件监听
         initEventListener();
     }
@@ -330,33 +321,22 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             public Intent getLaunchIntent(EMMessage message) {
                 //设置点击通知栏跳转事件
                 Intent intent = new Intent(appContext, ChatActivity.class);
-                //有电话时优先跳转到通话页面
-                if (isVideoCalling) {
-                    intent = new Intent(appContext, VideoCallActivity.class);
-                } else if (isVoiceCalling) {
-                    intent = new Intent(appContext, VoiceCallActivity.class);
-                } else {
-                    ChatType chatType = message.getChatType();
-                    if (chatType == ChatType.Chat) { // 单聊信息
-                        User user = User.parse(message);
-                        Skill skill = Skill.parse(message);
-                        ChatUser value = new ChatUser(user.getUsername(), user.getId(), user.getNick());
-                        value.setMobile(user.getMobile());
-                        value.setQq(user.getQq());
-                        value.setWechat(user.getWechat());
-                        intent.putExtra("chatUser", value);
-                        intent.putExtra("skill", skill);
-                        intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
-                    } else { // 群聊信息
-                        // message.getTo()为群聊id
-                        intent.putExtra("groupId", message.getTo());
-                        if (chatType == ChatType.GroupChat) {
-                            intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                        } else {
-                            intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
-                        }
+                ChatType chatType = message.getChatType();
+                if (chatType == ChatType.Chat) { // 单聊信息
+                    User user = User.parse(message);
+                    Skill skill = Skill.parse(message);
+                    ChatUser value = new ChatUser(user.getUsername(), user.getId(), user.getNick());
+                    value.setMobile(user.getMobile());
+                    value.setQq(user.getQq());
+                    value.setWechat(user.getWechat());
+                    intent.putExtra("chatUser", value);
+                    intent.putExtra("skill", skill);
+                    intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
+                } else { // 群聊信息
+                    // message.getTo()为群聊id
+                    intent.putExtra("groupId", message.getTo());
+                    intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
 
-                    }
                 }
                 return intent;
             }
