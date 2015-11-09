@@ -18,7 +18,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
-import maimeng.yodian.app.client.android.view.deal.VouchApplyActivity;
+import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
 import maimeng.yodian.app.client.android.view.deal.VouchDetailActivity;
 
 /**
@@ -50,7 +50,7 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
                 if (status != BindStatus.NO_CARD) {
                     VouchDetailActivity.show(VouchDealActivity.this);
                 } else {
-                    VouchApplyActivity.show(VouchDealActivity.this);
+                    DrawMoneyInfoConfirmActivity.show(VouchDealActivity.this);
                 }
                 finish();
             }

@@ -49,9 +49,10 @@
                         android:text="@string/my_remainder_lb" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{remainder.money}"
+                        android:drawableRight="@mipmap/ic_enter_next"
                         android:textColor="@color/btn_login_normal"
                         android:textSize="@dimen/remainder_text_size"
                         android:textStyle="bold" />
@@ -76,9 +77,10 @@
                         android:text="@string/withdraw_lb" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{remainder.withdraw}"
+                        android:drawableRight="@mipmap/ic_enter_next"
                         android:textColor="@color/btn_login_normal"
                         android:textSize="@dimen/remainder_text_size"
                         android:textStyle="bold" />
@@ -94,7 +96,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/btn_bind_bank"
+                    android:id="@+id/btn_confirm_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/chat_textColor"
@@ -103,7 +105,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="@dimen/normal_cell_row_mini_height"
                     android:padding="@dimen/normal_padding"
-                    android:text="@string/bind_bank_card"
+                    android:drawableRight="@mipmap/ic_enter_next"
+                    android:text="@string/certify_info"
                     android:textColor="#4e4c4c"
                     android:textSize="@dimen/btn_text_size" />
 
@@ -113,7 +116,7 @@
                     android:background="#bbb" />
 
                 <TextView
-                    android:id="@+id/vouch_apply"
+                    android:id="@+id/btn_draw_money_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/chat_textColor"
@@ -122,7 +125,9 @@
                     android:gravity="center_vertical"
                     android:minHeight="@dimen/normal_cell_row_mini_height"
                     android:padding="@dimen/normal_padding"
-                    android:text="@string/apply_vouch"
+                    android:drawableRight="@mipmap/ic_enter_next"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:text="@string/draw_money_info"
                     android:textColor="#4e4c4c"
                     android:textSize="@dimen/btn_text_size" />
 
