@@ -27,7 +27,7 @@ public class Api {
     public static final String QRODE_URL = "http://share.yodian.me/";
 
 
-    public static final String MONEY_MY = "/money/my";//我的余额
+    public static final String MONEY_MY = "/money/mybalance";//我的余额
     public static final String MONEY_WITHDRAW = "/money/withdraw";//提现申请
     public static final String MONEY_WDLIST = "/money/wdlist";//提现历史
 

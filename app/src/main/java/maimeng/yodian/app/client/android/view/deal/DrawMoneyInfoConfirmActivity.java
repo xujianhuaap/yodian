@@ -36,11 +36,6 @@ import maimeng.yodian.app.client.android.view.AbstractActivity;
 public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements View.OnClickListener {
 
 
-    private String mNicknameStr;
-    private String mPhoneStr;
-    private String mEmailStr;
-    private String mQQStr;
-    private String mReasonStr;
 
     private MoneyService mService;
     private EditText mZhiFuBaoAccount;
@@ -56,17 +51,7 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
         contenxt.startActivity(intent);
     }
 
-    /***
-     *
-     * @param contenxt
-     * @param vouch
-     * @param requestCode
-     */
-    public static void show(Activity contenxt, Vouch vouch, int requestCode) {
-        Intent intent = new Intent(contenxt, DrawMoneyInfoConfirmActivity.class);
-        intent.putExtra("vouch", vouch);
-        contenxt.startActivityForResult(intent, requestCode);
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +72,6 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
 
         mService = Network.getService(MoneyService.class);
 
-//        if (getIntent().hasExtra("vouch")) {
-//            Vouch vouch = getIntent().getParcelableExtra("vouch");
-//            mNickName.setText(vouch.getName());
-//            mPhone.setText(vouch.getTelephone());
-//            mEmail.setText(vouch.getEmail());
-//            mQQ.setText(vouch.getQq());
-//            mReason.setText(vouch.getContent());
-//        }
 
 
     }
@@ -107,17 +84,6 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
         return super.onOptionsItemSelected(item);
     }
 
-    /***
-     *
-     */
-
-//    private void freshApplyInfo() {
-//        mNicknameStr = mNickName.getText().toString();
-//        mPhoneStr = mPhone.getText().toString();
-//        mEmailStr = mEmail.getText().toString();
-//        mQQStr = mQQ.getText().toString();
-//        mReasonStr = mReason.getText().toString();
-//    }
 
     @Override
     protected void initToolBar(android.support.v7.widget.Toolbar toolbar) {
@@ -150,26 +116,7 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
         @Override
         public void afterTextChanged(Editable s) {
 
-//            if (TextUtils.isEmpty(mNicknameStr)) {
-//                mClearNickName.setVisibility(View.INVISIBLE);
-//            } else {
-//                mClearNickName.setVisibility(View.VISIBLE);
-//            }
-//            if (TextUtils.isEmpty(mPhoneStr)) {
-//                mClearPhone.setVisibility(View.INVISIBLE);
-//            } else {
-//                mClearPhone.setVisibility(View.VISIBLE);
-//            }
-//            if (TextUtils.isEmpty(mEmailStr)) {
-//                mClearEmail.setVisibility(View.INVISIBLE);
-//            } else {
-//                mClearEmail.setVisibility(View.VISIBLE);
-//            }
-//            if (TextUtils.isEmpty(mQQStr)) {
-//                mClearQQ.setVisibility(View.INVISIBLE);
-//            } else {
-//                mClearQQ.setVisibility(View.VISIBLE);
-//            }
+
 
 
         }
@@ -182,39 +129,9 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
     @Override
     public void onClick(View v) {
 
-        //清空信息
-//        if (v == mClearNickName) {
-//            mNickName.setText("");
-//        } else if (v == mClearPhone) {
-//            mPhone.setText("");
-//        } else if (v == mClearEmail) {
-//            mEmail.setText("");
-//        } else if (v == mClearQQ) {
-//            mQQ.setText("");
-//        } else if (v == mSubmit) {
-//            freshApplyInfo();
-//            if (TextUtils.isEmpty(mNicknameStr)) {
-//                Toast.makeText(this, getString(R.string.apply_nickname_null), Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            if (TextUtils.isEmpty(mPhoneStr)) {
-//                Toast.makeText(this, getString(R.string.apply_phone_null), Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            if (TextUtils.isEmpty(mEmailStr)) {
-//                Toast.makeText(this, getString(R.string.apply_email_null), Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            if (TextUtils.isEmpty(mQQStr)) {
-//                Toast.makeText(this, getString(R.string.apply_qq_null), Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            if (TextUtils.isEmpty(mReasonStr)) {
-//                Toast.makeText(this, getString(R.string.apply_reason_null), Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            mService.vouchApply(mNicknameStr, mPhoneStr, mQQStr, mEmailStr, mReasonStr, new ToastCallBack());
-//        }
+        if(v==mSubmit){
+
+        }
     }
 
 

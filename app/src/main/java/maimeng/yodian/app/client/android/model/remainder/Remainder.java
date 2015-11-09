@@ -3,84 +3,63 @@ package maimeng.yodian.app.client.android.model.remainder;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
-import maimeng.yodian.app.client.android.view.deal.BindStatus;
-
 /**
  * Created by android on 2015/9/21.
  */
 public class Remainder implements Parcelable {
-    private double money;//我的余额
-    private double withdraw;//已提现金额
-    private int bankMsg;//是否又银行信息0否、1是
-    private double during;//提现中的金额
 
-    public double getMoney() {
-        return money;
-    }
+    /**
+     * money : 0.00
+     * withdraw : 0.00
+     * during : 0.00
+     * draw_account :
+     * readicon : 0
+     */
 
-    public void setMoney(double money) {
+    private String money;
+    private String withdraw;
+    private String during;
+    private String draw_account;
+    private int readicon;
+
+    public void setMoney(String money) {
         this.money = money;
     }
 
-    public double getWithdraw() {
-        return withdraw;
-    }
-
-    public void setWithdraw(double withdraw) {
+    public void setWithdraw(String withdraw) {
         this.withdraw = withdraw;
     }
 
-    public double getDuring() {
-        return during;
-    }
-
-    public void setDuring(double during) {
+    public void setDuring(String during) {
         this.during = during;
     }
 
-    private int vouchMsg;//是否有申请担保交易状态消息 0 否 1 是
-    @SerializedName("vouch_status")
-    private BindStatus vouchStatus;//申请担保交易状态 0 待审核 2 审核通过 3 拒绝 4 用户取消绑定
-    @SerializedName("card_status")
-    private BindStatus cardStatus;
-
-    public int getBankMsg() {
-        return bankMsg;
+    public void setDraw_account(String draw_account) {
+        this.draw_account = draw_account;
     }
 
-    public void setBankMsg(int bankMsg) {
-        this.bankMsg = bankMsg;
+    public void setReadicon(int readicon) {
+        this.readicon = readicon;
     }
 
-
-    public int getVouchMsg() {
-        return vouchMsg;
+    public String getMoney() {
+        return money;
     }
 
-    public void setVouchMsg(int vouchMsg) {
-        this.vouchMsg = vouchMsg;
+    public String getWithdraw() {
+        return withdraw;
     }
 
-    public BindStatus getVouchStatus() {
-        return vouchStatus;
+    public String getDuring() {
+        return during;
     }
 
-    public void setVouchStatus(BindStatus vouchStatus) {
-        this.vouchStatus = vouchStatus;
+    public String getDraw_account() {
+        return draw_account;
     }
 
-
-    public BindStatus getCardStatus() {
-        return cardStatus;
-    }
-
-    public void setCardStatus(BindStatus cardStatus) {
-        this.cardStatus = cardStatus;
-    }
-
-    public Remainder() {
+    public int getReadicon() {
+        return readicon;
     }
 
 
@@ -91,25 +70,22 @@ public class Remainder implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeDouble(this.money);
-        dest.writeDouble(this.withdraw);
-        dest.writeInt(this.bankMsg);
-        dest.writeDouble(this.during);
-        dest.writeInt(this.vouchMsg);
-        dest.writeInt(this.vouchStatus == null ? -1 : this.vouchStatus.ordinal());
-        dest.writeInt(this.cardStatus == null ? -1 : this.cardStatus.ordinal());
+        dest.writeString(this.money);
+        dest.writeString(this.withdraw);
+        dest.writeString(this.during);
+        dest.writeString(this.draw_account);
+        dest.writeInt(this.readicon);
+    }
+
+    public Remainder() {
     }
 
     protected Remainder(Parcel in) {
-        this.money = in.readDouble();
-        this.withdraw = in.readDouble();
-        this.bankMsg = in.readInt();
-        this.during = in.readDouble();
-        this.vouchMsg = in.readInt();
-        int tmpVouchStatus = in.readInt();
-        this.vouchStatus = tmpVouchStatus == -1 ? null : BindStatus.values()[tmpVouchStatus];
-        int tmpCardStatus = in.readInt();
-        this.cardStatus = tmpCardStatus == -1 ? null : BindStatus.values()[tmpCardStatus];
+        this.money = in.readString();
+        this.withdraw = in.readString();
+        this.during = in.readString();
+        this.draw_account = in.readString();
+        this.readicon = in.readInt();
     }
 
     public static final Creator<Remainder> CREATOR = new Creator<Remainder>() {
