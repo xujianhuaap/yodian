@@ -73,11 +73,12 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v == binding.btnDuring) {
-            if (binding.getRemainder().getCardStatus() == BindStatus.PASS) {
-                showDuringDialog();
-            } else {
-                Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
-            }
+            //#################################
+//            if (binding.getRemainder().getCardStatus() == BindStatus.PASS) {
+//                showDuringDialog();
+//            } else {
+//                Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
+//            }
         } else if (v == binding.mySaleOrder) {
             OrderListActivity.show(this,true);
         }
@@ -87,21 +88,22 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
      * 显示提现对话框
      */
     private void showDuringDialog() {
-        if (binding.getRemainder().getMoney() < 50) {
-            AlertDialog.newInstance("提示", "余额少于50元不能提现").setNegativeListener(new AlertDialog.NegativeListener() {
-                @Override
-                public void onNegativeClick(DialogInterface dialog) {
-                    dialog.dismiss();
-                }
-
-                @Override
-                public String negativeText() {
-                    return getString(android.R.string.ok);
-                }
-            }).show(getFragmentManager(), "_dialog");
-        } else {
-            DuringDialog.show(this, binding.getRemainder().getMoney());
-        }
+        //#####################################################
+//        if (binding.getRemainder().getMoney() < 50) {
+//            AlertDialog.newInstance("提示", "余额少于50元不能提现").setNegativeListener(new AlertDialog.NegativeListener() {
+//                @Override
+//                public void onNegativeClick(DialogInterface dialog) {
+//                    dialog.dismiss();
+//                }
+//
+//                @Override
+//                public String negativeText() {
+//                    return getString(android.R.string.ok);
+//                }
+//            }).show(getFragmentManager(), "_dialog");
+//        } else {
+//            DuringDialog.show(this, binding.getRemainder().getMoney());
+//        }
     }
 
     /**
@@ -124,12 +126,13 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
             public void success(ToastResponse res, Response response) {
                 super.success(res, response);
                 if (res.isSuccess()) {
-                    moneyChanged = true;
-                    final Remainder remainder = binding.getRemainder();
-                    remainder.setMoney(remainder.getMoney() - during);
-                    remainder.setDuring(remainder.getDuring() + during);
-                    binding.setRemainder(remainder);
-                    RemainderInfoActivity.this.during = during;
+                    //###########################
+//                    moneyChanged = true;
+//                    final Remainder remainder = binding.getRemainder();
+//                    remainder.setMoney(remainder.getMoney() - during);
+//                    remainder.setDuring(remainder.getDuring() + during);
+//                    binding.setRemainder(remainder);
+//                    RemainderInfoActivity.this.during = during;
                 }
             }
 

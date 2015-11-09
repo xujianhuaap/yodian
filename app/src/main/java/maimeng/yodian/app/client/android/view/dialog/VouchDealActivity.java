@@ -19,7 +19,6 @@ import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
-import maimeng.yodian.app.client.android.view.deal.VouchDetailActivity;
 
 /**
  * Created by xujianhua on 10/16/15.
@@ -48,7 +47,7 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
             @Override
             public void onClick(View v) {
                 if (status != BindStatus.NO_CARD) {
-                    VouchDetailActivity.show(VouchDealActivity.this);
+                    //####################################
                 } else {
                     DrawMoneyInfoConfirmActivity.show(VouchDealActivity.this);
                 }
@@ -74,10 +73,11 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
     @Override
     public void success(RemainderResponse res, Response response) {
         if (res.isSuccess()) {
+            //###############################################
 //            remainder = res.getData();
-            User read = User.read(this);
-            read.getInfo().setVouch_status(res.getData().getVouchStatus());
-            read.write(this);
+//            User read = User.read(this);
+//            read.getInfo().setVouch_status(res.getData().getVouchStatus());
+//            read.write(this);
         } else {
             res.showMessage(this);
         }

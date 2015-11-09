@@ -176,9 +176,6 @@
             android:name=".view.deal.DrawMoneyInfoConfirmActivity"
             android:label="@string/apply_title" />
         <activity
-            android:name=".view.deal.VouchDetailActivity"
-            android:label="@string/apply_title" />
-        <activity
             android:name=".view.deal.RemainderMainActivity"
             android:label="@string/my_remainder"
             android:theme="@style/AppTheme.Dark" />
