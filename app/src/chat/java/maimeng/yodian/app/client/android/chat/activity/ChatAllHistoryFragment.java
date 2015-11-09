@@ -40,7 +40,6 @@ import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.adapter.ChatAllHistoryAdapter;
-import maimeng.yodian.app.client.android.chat.db.InviteMessgeDao;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 
@@ -210,8 +209,6 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         EMConversation tobeDeleteCons = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
         // 删除此会话
         EMChatManager.getInstance().deleteConversation(tobeDeleteCons.getUserName(), tobeDeleteCons.isGroup(), deleteMessage);
-        InviteMessgeDao inviteMessgeDao = new InviteMessgeDao(getActivity());
-        inviteMessgeDao.deleteMessage(tobeDeleteCons.getUserName());
         adapter.remove(tobeDeleteCons);
         adapter.notifyDataSetChanged();
 

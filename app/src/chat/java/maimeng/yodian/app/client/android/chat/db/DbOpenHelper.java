@@ -31,17 +31,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
             + UserDao.COLUMN_NAME_WECHAT + " TEXT, "
             + UserDao.COLUMN_NAME_ID + " TEXT PRIMARY KEY);";
 
-    private static final String INIVTE_MESSAGE_TABLE_CREATE = "CREATE TABLE "
-            + InviteMessgeDao.TABLE_NAME + " ("
-            + InviteMessgeDao.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + InviteMessgeDao.COLUMN_NAME_FROM + " TEXT, "
-            + InviteMessgeDao.COLUMN_NAME_GROUP_ID + " TEXT, "
-            + InviteMessgeDao.COLUMN_NAME_GROUP_Name + " TEXT, "
-            + InviteMessgeDao.COLUMN_NAME_REASON + " TEXT, "
-            + InviteMessgeDao.COLUMN_NAME_STATUS + " INTEGER, "
-            + InviteMessgeDao.COLUMN_NAME_ISINVITEFROMME + " INTEGER, "
-            + InviteMessgeDao.COLUMN_NAME_TIME + " TEXT); ";
-
     private static final String ROBOT_TABLE_CREATE = "CREATE TABLE "
             + UserDao.ROBOT_TABLE_NAME + " ("
             + UserDao.ROBOT_COLUMN_NAME_ID + " TEXT PRIMARY KEY, "
@@ -72,7 +61,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(USERNAME_TABLE_CREATE);
-        db.execSQL(INIVTE_MESSAGE_TABLE_CREATE);
         db.execSQL(CREATE_PREF_TABLE);
         db.execSQL(ROBOT_TABLE_CREATE);
         db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +

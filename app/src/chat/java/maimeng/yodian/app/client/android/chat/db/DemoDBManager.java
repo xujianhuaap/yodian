@@ -16,8 +16,6 @@ import java.util.Map;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.chat.Constant;
-import maimeng.yodian.app.client.android.chat.domain.InviteMessage;
-import maimeng.yodian.app.client.android.chat.domain.InviteMessage.InviteMesageStatus;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 
@@ -100,7 +98,56 @@ public class DemoDBManager {
             db.delete(UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID + " = ?", new String[]{username});
         }
     }
+    public User getContact(String username) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + UserDao.TABLE_NAME  + " where "+UserDao.COLUMN_NAME_ID+" = '"+username+"'" , null);
+            while (cursor.moveToNext()) {
+                String un = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_ID));
+                String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
+                String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
+                String wechat = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_WECHAT));
+                String mobile = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_MOBILE));
+                String qq = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_QQ));
+                User user = new User();
+                user.setUsername(un);
+                user.setNick(nick);
+                user.setAvatar(avatar);
+                user.setWechat(wechat);
+                user.setMobile(mobile);
+                user.setQq(qq);
+                String headerName = null;
+                if (!TextUtils.isEmpty(user.getNick())) {
+                    headerName = user.getNick();
+                } else {
+                    headerName = user.getUsername();
+                }
 
+                if (username.equals(Constant.NEW_FRIENDS_USERNAME) || username.equals(Constant.GROUP_USERNAME)
+                        || username.equals(Constant.CHAT_ROOM) || username.equals(Constant.CHAT_ROBOT)) {
+                    user.setHeader("");
+                } else if (headerName.length() > 0 && Character.isDigit(headerName.charAt(0))) {
+                    user.setHeader("#");
+                } else {
+                    if (headerName.length() > 0) {
+                        ArrayList<HanziToPinyin.Token> lists = HanziToPinyin.getInstance().get(headerName.substring(0, 1));
+                        if (lists.size() > 0) {
+                            user.setHeader(lists.get(0).target.substring(0, 1).toUpperCase());
+                        }
+
+                        char header = user.getHeader().toLowerCase().charAt(0);
+                        if (header < 'a' || header > 'z' || lists.size() == 0) {
+                            user.setHeader("#");
+                        }
+                    }
+                }
+                cursor.close();
+                return user;
+            }
+            cursor.close();
+        }
+        return null;
+    }
     /**
      * 保存一个联系人
      *
@@ -207,100 +254,6 @@ public class DemoDBManager {
         return null;
     }
 
-    /**
-     * 保存message
-     *
-     * @param message
-     * @return 返回这条messaged在db中的id
-     */
-    public synchronized Integer saveMessage(InviteMessage message) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int id = -1;
-        if (db.isOpen()) {
-            ContentValues values = new ContentValues();
-            values.put(InviteMessgeDao.COLUMN_NAME_FROM, message.getFrom());
-            values.put(InviteMessgeDao.COLUMN_NAME_GROUP_ID, message.getGroupId());
-            values.put(InviteMessgeDao.COLUMN_NAME_GROUP_Name, message.getGroupName());
-            values.put(InviteMessgeDao.COLUMN_NAME_REASON, message.getReason());
-            values.put(InviteMessgeDao.COLUMN_NAME_TIME, message.getTime());
-            values.put(InviteMessgeDao.COLUMN_NAME_STATUS, message.getStatus().ordinal());
-            db.insert(InviteMessgeDao.TABLE_NAME, null, values);
-
-            Cursor cursor = db.rawQuery("select last_insert_rowid() from " + InviteMessgeDao.TABLE_NAME, null);
-            if (cursor.moveToFirst()) {
-                id = cursor.getInt(0);
-            }
-
-            cursor.close();
-        }
-        return id;
-    }
-
-    /**
-     * 更新message
-     *
-     * @param msgId
-     * @param values
-     */
-    synchronized public void updateMessage(int msgId, ContentValues values) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db.isOpen()) {
-            db.update(InviteMessgeDao.TABLE_NAME, values, InviteMessgeDao.COLUMN_NAME_ID + " = ?", new String[]{String.valueOf(msgId)});
-        }
-    }
-
-    /**
-     * 获取messges
-     *
-     * @return
-     */
-    synchronized public List<InviteMessage> getMessagesList() {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        List<InviteMessage> msgs = new ArrayList<InviteMessage>();
-        if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from " + InviteMessgeDao.TABLE_NAME + " desc", null);
-            while (cursor.moveToNext()) {
-                InviteMessage msg = new InviteMessage();
-                int id = cursor.getInt(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_ID));
-                String from = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_FROM));
-                String groupid = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_GROUP_ID));
-                String groupname = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_GROUP_Name));
-                String reason = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_REASON));
-                long time = cursor.getLong(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_TIME));
-                int status = cursor.getInt(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_STATUS));
-
-                msg.setId(id);
-                msg.setFrom(from);
-                msg.setGroupId(groupid);
-                msg.setGroupName(groupname);
-                msg.setReason(reason);
-                msg.setTime(time);
-                if (status == InviteMesageStatus.BEINVITEED.ordinal())
-                    msg.setStatus(InviteMesageStatus.BEINVITEED);
-                else if (status == InviteMesageStatus.BEAGREED.ordinal())
-                    msg.setStatus(InviteMesageStatus.BEAGREED);
-                else if (status == InviteMesageStatus.BEREFUSED.ordinal())
-                    msg.setStatus(InviteMesageStatus.BEREFUSED);
-                else if (status == InviteMesageStatus.AGREED.ordinal())
-                    msg.setStatus(InviteMesageStatus.AGREED);
-                else if (status == InviteMesageStatus.REFUSED.ordinal())
-                    msg.setStatus(InviteMesageStatus.REFUSED);
-                else if (status == InviteMesageStatus.BEAPPLYED.ordinal()) {
-                    msg.setStatus(InviteMesageStatus.BEAPPLYED);
-                }
-                msgs.add(msg);
-            }
-            cursor.close();
-        }
-        return msgs;
-    }
-
-    synchronized public void deleteMessage(String from) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db.isOpen()) {
-            db.delete(InviteMessgeDao.TABLE_NAME, InviteMessgeDao.COLUMN_NAME_FROM + " = ?", new String[]{from});
-        }
-    }
 
     synchronized public void closeDB() {
         if (dbHelper != null) {
@@ -399,4 +352,6 @@ public class DemoDBManager {
             }
         }
     }
+
+
 }

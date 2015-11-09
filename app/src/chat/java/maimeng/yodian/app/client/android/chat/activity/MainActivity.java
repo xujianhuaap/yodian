@@ -21,7 +21,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
@@ -32,7 +31,6 @@ import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.EMEventListener;
-import com.easemob.EMGroupChangeListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.EMValueCallBack;
 import com.easemob.applib.controller.HXSDKHelper;
@@ -40,29 +38,27 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMConversation.EMConversationType;
-import com.easemob.chat.EMGroup;
-import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.EMMessage.ChatType;
-import com.easemob.chat.EMMessage.Type;
-import com.easemob.chat.TextMessageBody;
 import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.easemob.util.NetUtils;
 
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
+
 import java.util.List;
-import java.util.UUID;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.AsyncContactService;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
-import maimeng.yodian.app.client.android.chat.db.InviteMessgeDao;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
-import maimeng.yodian.app.client.android.chat.domain.InviteMessage;
-import maimeng.yodian.app.client.android.chat.domain.InviteMessage.InviteMesageStatus;
 import maimeng.yodian.app.client.android.chat.domain.User;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.StringResponse;
+import maimeng.yodian.app.client.android.network.service.ChatService;
 
 
 public abstract class MainActivity extends BaseActivity implements EMEventListener {
@@ -83,7 +79,6 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
     private boolean isCurrentAccountRemoved = false;
 
     private MyConnectionListener connectionListener = null;
-    private MyGroupChangeListener groupChangeListener = null;
     protected boolean mini = false;
 
     /**
@@ -119,8 +114,7 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
         } else if (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
             showAccountRemovedDialog();
         }
-
-        inviteMessgeDao = new InviteMessgeDao(this);
+        
         userDao = new UserDao(this);
         // 这个fragment只显示好友和群组的聊天记录
         // chatHistoryFragment = new ChatHistoryFragment();
@@ -146,10 +140,6 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
 
         connectionListener = new MyConnectionListener();
         EMChatManager.getInstance().addConnectionListener(connectionListener);
-
-        groupChangeListener = new MyGroupChangeListener();
-        // 注册群聊相关的listener
-        EMGroupManager.getInstance().addGroupChangeListener(groupChangeListener);
 
         chatHistoryFragment.refresh();
         //内部测试方法，请忽略
@@ -184,76 +174,6 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
 
     void asyncFetchContactsFromServer() {
         startService(new Intent(this, AsyncContactService.class));
-//        HXSDKHelper.getInstance().asyncFetchContactsFromServer(new EMValueCallBack<List<String>>() {
-//
-//            @Override
-//            public void onSuccess(List<String> usernames) {
-//                Context context = HXSDKHelper.getInstance().getAppContext();
-//
-//                System.out.println("----------------" + usernames.toString());
-//                EMLog.d("roster", "contacts size: " + usernames.size());
-//                Map<String, User> userlist = new HashMap<String, User>();
-//                for (String username : usernames) {
-//                    User user = new User();
-//                    user.setUsername(username);
-//                    setUserHearder(username, user);
-//                    userlist.put(username, user);
-//                }
-//                // 添加user"申请与通知"
-//                User newFriends = new User();
-//                newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
-//                String strChat = context.getString(R.string.Application_and_notify);
-//                newFriends.setNick(strChat);
-//
-//                userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
-//                // 添加"群聊"
-//                User groupUser = new User();
-//                String strGroup = context.getString(R.string.group_chat);
-//                groupUser.setUsername(Constant.GROUP_USERNAME);
-//                groupUser.setNick(strGroup);
-//                groupUser.setHeader("");
-//                userlist.put(Constant.GROUP_USERNAME, groupUser);
-//
-//                // 添加"聊天室"
-//                User chatRoomItem = new User();
-//                String strChatRoom = context.getString(R.string.chat_room);
-//                chatRoomItem.setUsername(Constant.CHAT_ROOM);
-//                chatRoomItem.setNick(strChatRoom);
-//                chatRoomItem.setHeader("");
-//                userlist.put(Constant.CHAT_ROOM, chatRoomItem);
-//
-//                // 添加"Robot"
-//                User robotUser = new User();
-//                String strRobot = context.getString(R.string.robot_chat);
-//                robotUser.setUsername(Constant.CHAT_ROBOT);
-//                robotUser.setNick(strRobot);
-//                robotUser.setHeader("");
-//                userlist.put(Constant.CHAT_ROBOT, robotUser);
-//
-//                // 存入内存
-//                DemoApplication.getInstance().setContactList(userlist);
-//                // 存入db
-//                UserDao dao = new UserDao(context);
-//                List<User> users = new ArrayList<User>(userlist.values());
-//                for (User user : users) {
-//                    dao.saveOrUpdate(user);
-//                }
-////                dao.saveContactList(users);
-//
-//                HXSDKHelper.getInstance().notifyContactsSyncListener(true);
-//
-//                if (HXSDKHelper.getInstance().isGroupsSyncedWithServer()) {
-//                    HXSDKHelper.getInstance().notifyForRecevingEvents();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onError(int error, String errorMsg) {
-//                HXSDKHelper.getInstance().notifyContactsSyncListener(false);
-//            }
-//
-//        });
 
     }
 
@@ -382,11 +302,6 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
         if (connectionListener != null) {
             EMChatManager.getInstance().removeConnectionListener(connectionListener);
         }
-
-        if (groupChangeListener != null) {
-            EMGroupManager.getInstance().removeGroupChangeListener(groupChangeListener);
-        }
-
         try {
             unregisterReceiver(internalDebugReceiver);
         } catch (Exception e) {
@@ -453,7 +368,6 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
         return unreadMsgCountTotal - chatroomUnreadMsgCount;
     }
 
-    private InviteMessgeDao inviteMessgeDao;
     private UserDao userDao;
 
 
@@ -525,163 +439,6 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
 
             });
         }
-    }
-
-    /**
-     * MyGroupChangeListener
-     */
-    public class MyGroupChangeListener implements EMGroupChangeListener {
-
-        @Override
-        public void onInvitationReceived(String groupId, String groupName, String inviter, String reason) {
-
-            boolean hasGroup = false;
-            for (EMGroup group : EMGroupManager.getInstance().getAllGroups()) {
-                if (group.getGroupId().equals(groupId)) {
-                    hasGroup = true;
-                    break;
-                }
-            }
-            if (!hasGroup)
-                return;
-
-            // 被邀请
-            String st3 = getResources().getString(R.string.Invite_you_to_join_a_group_chat);
-            EMMessage msg = EMMessage.createReceiveMessage(Type.TXT);
-            msg.setChatType(ChatType.GroupChat);
-            msg.setFrom(inviter);
-            msg.setTo(groupId);
-            msg.setMsgId(UUID.randomUUID().toString());
-            msg.addBody(new TextMessageBody(inviter + " " + st3));
-            // 保存邀请消息
-            EMChatManager.getInstance().saveMessage(msg);
-            // 提醒新消息
-            HXSDKHelper.getInstance().getNotifier().viberateAndPlayTone(msg);
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    updateUnreadLabel();
-                    // 刷新ui
-                    chatHistoryFragment.refresh();
-                }
-            });
-
-        }
-
-        @Override
-        public void onInvitationAccpted(String groupId, String inviter, String reason) {
-
-        }
-
-        @Override
-        public void onInvitationDeclined(String groupId, String invitee, String reason) {
-
-        }
-
-        @Override
-        public void onUserRemoved(String groupId, String groupName) {
-
-            // 提示用户被T了，demo省略此步骤
-            // 刷新ui
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    try {
-                        updateUnreadLabel();
-                        chatHistoryFragment.refresh();
-                    } catch (Exception e) {
-                        EMLog.e(TAG, "refresh exception " + e.getMessage());
-                    }
-                }
-            });
-        }
-
-        @Override
-        public void onGroupDestroy(String groupId, String groupName) {
-
-            // 群被解散
-            // 提示用户群被解散,demo省略
-            // 刷新ui
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    updateUnreadLabel();
-                    chatHistoryFragment.refresh();
-                }
-            });
-
-        }
-
-        @Override
-        public void onApplicationReceived(String groupId, String groupName, String applyer, String reason) {
-
-            // 用户申请加入群聊
-            InviteMessage msg = new InviteMessage();
-            msg.setFrom(applyer);
-            msg.setTime(System.currentTimeMillis());
-            msg.setGroupId(groupId);
-            msg.setGroupName(groupName);
-            msg.setReason(reason);
-            Log.d(TAG, applyer + " 申请加入群聊：" + groupName);
-            msg.setStatus(InviteMesageStatus.BEAPPLYED);
-            notifyNewIviteMessage(msg);
-        }
-
-        @Override
-        public void onApplicationAccept(String groupId, String groupName, String accepter) {
-
-            String st4 = getResources().getString(R.string.Agreed_to_your_group_chat_application);
-            // 加群申请被同意
-            EMMessage msg = EMMessage.createReceiveMessage(Type.TXT);
-            msg.setChatType(ChatType.GroupChat);
-            msg.setFrom(accepter);
-            msg.setTo(groupId);
-            msg.setMsgId(UUID.randomUUID().toString());
-            msg.addBody(new TextMessageBody(accepter + " " + st4));
-            // 保存同意消息
-            EMChatManager.getInstance().saveMessage(msg);
-            // 提醒新消息
-            HXSDKHelper.getInstance().getNotifier().viberateAndPlayTone(msg);
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    updateUnreadLabel();
-                    // 刷新ui
-                    chatHistoryFragment.refresh();
-                }
-            });
-        }
-
-        @Override
-        public void onApplicationDeclined(String groupId, String groupName, String decliner, String reason) {
-            // 加群申请被拒绝，demo未实现
-        }
-    }
-
-    /**
-     * 保存提示新消息
-     *
-     * @param msg
-     */
-    private void notifyNewIviteMessage(InviteMessage msg) {
-        saveInviteMsg(msg);
-        // 提示有新消息
-        HXSDKHelper.getInstance().getNotifier().viberateAndPlayTone(null);
-
-        // 刷新bottom bar消息未读数
-        updateUnreadAddressLable();
-    }
-
-    /**
-     * 保存邀请等msg
-     *
-     * @param msg
-     */
-    private void saveInviteMsg(InviteMessage msg) {
-        // 保存msg
-        inviteMessgeDao.saveMessage(msg);
-        // 未读数加1
-        User user = DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
-        if (user.getUnreadMsgCount() == 0)
-            user.setUnreadMsgCount(user.getUnreadMsgCount() + 1);
     }
 
     /**

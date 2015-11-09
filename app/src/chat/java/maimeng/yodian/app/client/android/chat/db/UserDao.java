@@ -74,7 +74,14 @@ public class UserDao {
     public void deleteContact(String username) {
         DemoDBManager.getInstance().deleteContact(username);
     }
-
+    /**
+     * 删除一个联系人
+     *
+     * @param username
+     */
+    public User getContact(String username) {
+        return DemoDBManager.getInstance().getContact(username);
+    }
     /**
      * 保存一个联系人
      *

@@ -30,7 +30,7 @@ public class DownloadAsyncTask extends AsyncTask<String, Long, File> {
     private static final int READ_TIME_OUT=10*1000;
     private static final int CONNECT_TIME_OUT=10*1000;
     public interface FileService {
-        @Get(value = "{path}", append = false, intercept = false)
+        @Get(value = "{path}", intercept = false)
         Response getFile(@Path("path") String path);
     }
 
