@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.henjue.library.hnet.HNet;
+import org.henjue.library.hnet.converter.StringConverter;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
@@ -60,7 +61,8 @@ public class Network {
         net = new HNet.Builder()
                 .setEndpoint(BuildConfig.API_HOST)
                 .setIntercept(new RequestIntercept(app.getApplicationContext()))
-                .setConverter(new GsonConverter(gson))
+                .addConverter(new GsonConverter(gson))
+                .addConverter(new StringConverter())
                 .build();
         if (BuildConfig.DEBUG) {
             net.setLogLevel(HNet.LogLevel.FULL);

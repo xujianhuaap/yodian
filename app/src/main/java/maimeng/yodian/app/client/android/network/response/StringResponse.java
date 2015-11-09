@@ -1,7 +1,7 @@
 package maimeng.yodian.app.client.android.network.response;
 
 public class StringResponse extends Response {
-    private String data;
+    private String data="";
 
     public String getData() {
         return data;
