@@ -29,6 +29,7 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.StringResponse;
 import maimeng.yodian.app.client.android.network.response.TypeData;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
@@ -45,6 +46,11 @@ public class GsonConverter implements Converter {
     public GsonConverter(Gson gson, String charset) {
         this.gson = gson;
         this.charset = charset;
+    }
+
+    @Override
+    public boolean match(Type type) {
+        return !String.class.equals(type);
     }
 
     @Override
@@ -122,6 +128,7 @@ public class GsonConverter implements Converter {
 
         @Override
         public String deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+
             return json == null ? "" : json.getAsString();
         }
 
