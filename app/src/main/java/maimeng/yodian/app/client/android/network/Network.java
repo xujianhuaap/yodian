@@ -4,6 +4,9 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.converter.StringConverter;
@@ -50,13 +53,11 @@ public class Network {
 
     public void init(Application app) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Date.class, new GsonConverter.DateAdapter());
-        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(String.class, new GsonConverter.StringAdapter());
-        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(ImageBindable.class, new GsonConverter.ImageBindableAdapter());
-        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(BindStatus.class, new GsonConverter.BindStatusAdapter());
-        gsonBuilder = gsonBuilder.registerTypeHierarchyAdapter(Sex.class, new GsonConverter.SexAdapter());
-
-
+        gsonBuilder = gsonBuilder.registerTypeAdapter(Date.class, new GsonConverter.DateAdapter());
+        gsonBuilder = gsonBuilder.registerTypeAdapter(String.class, new GsonConverter.StringAdapter());
+        gsonBuilder = gsonBuilder.registerTypeAdapter(ImageBindable.class, new GsonConverter.ImageBindableAdapter());
+        gsonBuilder = gsonBuilder.registerTypeAdapter(BindStatus.class, new GsonConverter.BindStatusAdapter());
+        gsonBuilder = gsonBuilder.registerTypeAdapter(Sex.class, new GsonConverter.SexAdapter());
         gson = gsonBuilder.create();
         net = new HNet.Builder()
                 .setEndpoint(BuildConfig.API_HOST)

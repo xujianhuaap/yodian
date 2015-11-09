@@ -98,7 +98,56 @@ public class DemoDBManager {
             db.delete(UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID + " = ?", new String[]{username});
         }
     }
+    public User getContact(String username) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + UserDao.TABLE_NAME  + " where "+UserDao.COLUMN_NAME_ID+" = '"+username+"'" , null);
+            while (cursor.moveToNext()) {
+                String un = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_ID));
+                String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
+                String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
+                String wechat = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_WECHAT));
+                String mobile = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_MOBILE));
+                String qq = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_QQ));
+                User user = new User();
+                user.setUsername(un);
+                user.setNick(nick);
+                user.setAvatar(avatar);
+                user.setWechat(wechat);
+                user.setMobile(mobile);
+                user.setQq(qq);
+                String headerName = null;
+                if (!TextUtils.isEmpty(user.getNick())) {
+                    headerName = user.getNick();
+                } else {
+                    headerName = user.getUsername();
+                }
 
+                if (username.equals(Constant.NEW_FRIENDS_USERNAME) || username.equals(Constant.GROUP_USERNAME)
+                        || username.equals(Constant.CHAT_ROOM) || username.equals(Constant.CHAT_ROBOT)) {
+                    user.setHeader("");
+                } else if (headerName.length() > 0 && Character.isDigit(headerName.charAt(0))) {
+                    user.setHeader("#");
+                } else {
+                    if (headerName.length() > 0) {
+                        ArrayList<HanziToPinyin.Token> lists = HanziToPinyin.getInstance().get(headerName.substring(0, 1));
+                        if (lists.size() > 0) {
+                            user.setHeader(lists.get(0).target.substring(0, 1).toUpperCase());
+                        }
+
+                        char header = user.getHeader().toLowerCase().charAt(0);
+                        if (header < 'a' || header > 'z' || lists.size() == 0) {
+                            user.setHeader("#");
+                        }
+                    }
+                }
+                cursor.close();
+                return user;
+            }
+            cursor.close();
+        }
+        return null;
+    }
     /**
      * 保存一个联系人
      *
@@ -303,4 +352,6 @@ public class DemoDBManager {
             }
         }
     }
+
+
 }

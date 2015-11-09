@@ -80,7 +80,6 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
 
     private MyConnectionListener connectionListener = null;
     protected boolean mini = false;
-    private ChatService service;
 
     /**
      * 检查当前用户是否被删除
@@ -92,28 +91,7 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        service = Network.getService(ChatService.class);
-        service.sendService(new Callback<StringResponse>() {
-            @Override
-            public void start() {
 
-            }
-
-            @Override
-            public void success(StringResponse res, Response response) {
-                System.out.println(res.getData());
-            }
-
-            @Override
-            public void failure(HNetError hNetError) {
-                checkError(hNetError);
-            }
-
-            @Override
-            public void end() {
-
-            }
-        });
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理

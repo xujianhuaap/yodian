@@ -5,6 +5,7 @@ import org.henjue.library.hnet.anntoation.FormUrlEncoded;
 import org.henjue.library.hnet.anntoation.Get;
 
 import maimeng.yodian.app.client.android.constants.Api;
+import maimeng.yodian.app.client.android.network.response.Response;
 import maimeng.yodian.app.client.android.network.response.StringResponse;
 
 /**
@@ -13,5 +14,5 @@ import maimeng.yodian.app.client.android.network.response.StringResponse;
 @FormUrlEncoded
 public interface ChatService {
     @Get(Api.SENDSERVICE)
-    void sendService(Callback<StringResponse> callback);
+    void sendService(Callback<Response> callback);
 }

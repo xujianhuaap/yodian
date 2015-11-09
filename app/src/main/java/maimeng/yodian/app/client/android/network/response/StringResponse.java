@@ -4,7 +4,7 @@ public class StringResponse extends Response {
     private String data="";
 
     public String getData() {
-        return data;
+        return data==null?"":data;
     }
 
     public void setData(String data) {

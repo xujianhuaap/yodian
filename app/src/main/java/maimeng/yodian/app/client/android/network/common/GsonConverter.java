@@ -128,6 +128,7 @@ public class GsonConverter implements Converter {
 
         @Override
         public String deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+
             return json == null ? "" : json.getAsString();
         }
 

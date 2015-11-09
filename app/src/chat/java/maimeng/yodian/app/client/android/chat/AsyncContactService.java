@@ -1,7 +1,10 @@
 package maimeng.yodian.app.client.android.chat;
 
+import android.app.ActivityManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,6 +15,10 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.exceptions.EaseMobException;
 
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -19,9 +26,14 @@ import java.util.List;
 import java.util.Map;
 
 import maimeng.yodian.app.client.android.BuildConfig;
+import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.StringResponse;
+import maimeng.yodian.app.client.android.network.service.ChatService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**
  * Created by android on 2015/7/27.
@@ -48,6 +60,10 @@ public class AsyncContactService extends Service {
         Hashtable<String, EMConversation> conversations = instance.getAllConversations();
         UserDao dao = new UserDao(this);
         for(EMConversation conversation:conversations.values()){
+            if(!YApplication.getInstance().isHasAdmin()&& "hx_admin".equals(conversation.getUserName())){
+                YApplication.getInstance().setHasAdmin(true);
+                getSharedPreferences("chat", Context.MODE_PRIVATE).edit().putBoolean("hasAdmin", true).apply();
+            }
             if(conversation.getAllMsgCount()>0){
                 List<EMMessage> messages = conversation.loadMoreMsgFromDB(conversation.getMessage(0).getMsgId(), conversation.getAllMsgCount());
                 for(EMMessage message:messages){
@@ -68,46 +84,24 @@ public class AsyncContactService extends Service {
         UserDao userDao=new UserDao(this);
         Map<String, User> contactList = userDao.getContactList();
         DemoApplication.getInstance().setContactList(contactList);
-//		asyncGetRobotNamesFromServer(new EMValueCallBack<List<EMContact>>() {
-//
-//			@Override
-//			public void onSuccess(final List<EMContact> value) {
-//				runOnUiThread(new Runnable() {
-//					@Override
-//					public void run() {
-//						progressBar.setVisibility(View.GONE);
-//						swipeRefreshLayout.setRefreshing(false);
-//						Map<String, RobotUser> mMap = new HashMap<String, RobotUser>();
-//						for (EMContact item : value) {
-//							RobotUser user = new RobotUser();
-//							user.setUsername(item.getUsername());
-//							user.setNick(item.getNick());
-//							user.setHeader("#");
-//							mMap.put(item.getUsername(), user);
-//						}
-//						robotList.clear();
-//						robotList.addAll(mMap.values());
-//						// 存入内存
-//						((DemoHXSDKHelper) HXSDKHelper.getInstance()).setRobotList(mMap);
-//						// 存入db
-//						UserDao dao = new UserDao(RobotsActivity.this);
-//						dao.saveRobotUser(robotList);
-//						adapter.notifyDataSetChanged();
-//					}
-//				});
-//			}
-//
-//			@Override
-//			public void onError(int error, String errorMsg) {
-//				runOnUiThread(new Runnable() {
-//					@Override
-//					public void run() {
-//						swipeRefreshLayout.setRefreshing(false);
-//						progressBar.setVisibility(View.GONE);
-//					}
-//				});
-//			}
-//		});
+        if(YApplication.getInstance().isHasAdmin()){
+
+        }else{
+            Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
+                @Override
+                public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
+                    if(response.getStatus()==200){
+                        LogUtil.i(AsyncContactService.class.getName(),"Send Admin Msg Success");
+                    }
+                }
+
+                @Override
+                public void failure(HNetError hNetError) {
+                    hNetError.printStackTrace();
+                }
+
+            });
+        }
 
     }
     private void initializeContacts() {
@@ -155,5 +149,22 @@ public class AsyncContactService extends Service {
     }
     void log(int resId){
         if(BuildConfig.DEBUG)Log.d("ChatServiceLoginService", getResources().getString(resId));
+    }
+    public static boolean isServiceRunning(Context mContext,String className) {
+        boolean isRunning = false;
+        ActivityManager activityManager = (ActivityManager)
+                mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList
+                = activityManager.getRunningServices(30);
+        if (!(serviceList.size()>0)) {
+            return false;
+        }
+        for (int i=0; i<serviceList.size(); i++) {
+            if (serviceList.get(i).service.getClassName().equals(className) == true) {
+                isRunning = true;
+                break;
+            }
+        }
+        return isRunning;
     }
 }
