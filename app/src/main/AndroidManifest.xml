@@ -133,21 +133,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.auth.AuthSettingInfoActivity" />
-        <!--<activity-->
-            <!--android:name=".view.WebLauncher"-->
-            <!--android:exported="true"-->
-            <!--android:label="@string/title_activity_web_launcher">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+        <activity
+            android:name=".view.WebLauncher"
+            android:exported="true"
+            android:label="@string/title_activity_web_launcher">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-                <!--<data-->
-                    <!--android:host="www.ketie.me"-->
-                    <!--android:path="/launcher/yodian"-->
-                    <!--android:scheme="yodian" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="www.ketie.me"
+                    android:path="/launcher/yodian"
+                    android:scheme="yodian" />
+            </intent-filter>
+        </activity>
         <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
 
         <service android:name=".service.ChatServiceLoginService" />

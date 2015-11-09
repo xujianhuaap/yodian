@@ -60,7 +60,6 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.DensityUtil;
 import com.easemob.util.EMLog;
 import com.easemob.util.FileUtils;
-import com.easemob.util.LatLng;
 import com.easemob.util.TextFormater;
 
 import org.json.JSONArray;
@@ -78,7 +77,6 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
-import maimeng.yodian.app.client.android.chat.activity.BaiduMapActivity;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.activity.ContextMenu;
 import maimeng.yodian.app.client.android.chat.activity.ShowBigImage;
@@ -457,18 +455,17 @@ public class MessageAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if(message.direct== EMMessage.Direct.RECEIVE){
+                if (message.direct == EMMessage.Direct.RECEIVE) {
 
                     try {
                         String uid = message.getStringAttribute("uid");
-                        if(!TextUtils.isEmpty(uid)){
-                            UserHomeActivity.show(activity,Long.parseLong(uid));
+                        if (!TextUtils.isEmpty(uid)) {
+                            UserHomeActivity.show(activity, Long.parseLong(uid));
                         }
 
                     } catch (EaseMobException e) {
                         e.printStackTrace();
                     }
-
 
 
                 }
@@ -1298,8 +1295,6 @@ public class MessageAdapter extends BaseAdapter {
         TextView locationView = ((TextView) convertView.findViewById(R.id.tv_location));
         LocationMessageBody locBody = (LocationMessageBody) message.getBody();
         locationView.setText(locBody.getAddress());
-        LatLng loc = new LatLng(locBody.getLatitude(), locBody.getLongitude());
-        locationView.setOnClickListener(new MapClickListener(loc, locBody.getAddress()));
         locationView.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -1660,32 +1655,6 @@ public class MessageAdapter extends BaseAdapter {
         TextView vcard_nickname;
         ImageView vcard_avatar;
         View wechat_vcard_item;
-    }
-
-    /*
-     * 点击地图消息listener
-     */
-    class MapClickListener implements View.OnClickListener {
-
-        LatLng location;
-        String address;
-
-        public MapClickListener(LatLng loc, String address) {
-            location = loc;
-            this.address = address;
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            Intent intent;
-            intent = new Intent(context, BaiduMapActivity.class);
-            intent.putExtra("latitude", location.latitude);
-            intent.putExtra("longitude", location.longitude);
-            intent.putExtra("address", address);
-            activity.startActivity(intent);
-        }
-
     }
 
 }

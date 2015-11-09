@@ -130,8 +130,6 @@ public abstract class HXSDKHelper {
 
     private boolean alreadyNotified = false;
 
-    public boolean isVoiceCalling;
-    public boolean isVideoCalling;
 
     protected HXSDKHelper() {
         me = this;
