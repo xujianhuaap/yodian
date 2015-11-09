@@ -101,7 +101,7 @@ public class VouchDetailActivity extends AbstractActivity implements View.OnClic
                 startActivity(intent);
             } else {
                 if (mVouch != null) {
-                    VouchApplyActivity.show(this, mVouch, REQUEST_CODE_APPLY);
+                    DrawMoneyInfoConfirmActivity.show(this, mVouch, REQUEST_CODE_APPLY);
                 }
             }
         }

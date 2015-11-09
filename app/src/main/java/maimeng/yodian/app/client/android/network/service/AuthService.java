@@ -5,12 +5,16 @@ import org.henjue.library.hnet.RequestFacade;
 import org.henjue.library.hnet.RequestFilter;
 import org.henjue.library.hnet.anntoation.Filter;
 import org.henjue.library.hnet.anntoation.FormUrlEncoded;
+import org.henjue.library.hnet.anntoation.NoneEncoded;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.Api;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
+import maimeng.yodian.app.client.android.network.response.CertifyInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
+import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
 
 /**
  * Created by android on 15-7-13.
@@ -86,4 +90,36 @@ public interface AuthService {
 
         }
     }
+
+
+    /***
+     * 获得个人联系方式验证码
+     * @param moblie
+     * @param type
+     *
+     */
+    @Post(Api.INFO_CODE)
+    void getMobileCode(@Param("mobile")String moblie,@Param("type")int type,Callback<ToastResponse>callBack);
+
+    /***
+     * 验证个人信息
+     * @param name
+     * @param idcard
+     * @param moblie
+     * @param code
+     * @param callback
+     */
+    @Post(Api.INFO_CERTIFY)
+    void certifyUserInfo(@Param("name")String name,@Param("idcard")String idcard,
+                         @Param("mobile")String moblie,@Param("code")String code,
+                         Callback<ToastResponse> callback);
+
+
+    /***
+     * 获得个人认证信息
+     * @param callback
+     */
+    @Post(Api.INFO_GET)
+    @NoneEncoded
+    void getCertifyInfo(Callback<CertifyInfoResponse>callback);
 }

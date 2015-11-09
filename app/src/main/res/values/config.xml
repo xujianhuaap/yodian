@@ -5,11 +5,13 @@
     <item name="text_lenght_six" type="integer">6</item>
     <item name="loading_duration" type="integer">90</item>
     <item name="duration" type="integer">300</item>
+    <item name="duration_star" type="integer">10000</item>
     <item name="duration_short" type="integer">100</item>
     <item name="duration_long" type="integer">500</item>
     <item name="splash_duration" type="integer">2000</item>
     <item name="banner_duration" type="integer">1500</item>
     <item name="banner_interval" type="integer">3000</item>
     <item name="data_format" type="string">yyyy/MM/dd</item>
+    <item name="code_duration" type="integer">30000</item>
     <!--<string name="text_digits">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>-->
 </resources>

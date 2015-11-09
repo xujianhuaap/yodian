@@ -99,10 +99,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
 
         mStarCircle=findViewById(R.id.btn_star);
 
-        RotateAnimation animation=new RotateAnimation(0,359,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-        animation.setRepeatMode(Animation.RESTART);
-        animation.setDuration(10 * 1000);
-        animation.setRepeatCount(Animation.INFINITE);
+        Animation animation=AnimationUtils.loadAnimation(this,R.anim.rotation_clockwise);
         mStarCircle.setAnimation(animation);
         animation.startNow();
 

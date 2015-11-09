@@ -105,7 +105,7 @@ public class BindBankCompliteActivity extends AbstractActivity implements Callba
     @Override
     public void onClick(View v) {
         if (v == binding.btnRebind) {
-            startActivityForResult(new Intent(this, BindBankActivity.class).putExtra("result", true), REQUEST_BIND);
+            startActivityForResult(new Intent(this, BasicalInfoConfirmActivity.class).putExtra("result", true), REQUEST_BIND);
         } else if (v == binding.btnUnbind) {
             service.unbind(new ToastCallback(this) {
                 @Override

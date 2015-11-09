@@ -50,8 +50,8 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         service.remanider(this);
         binding.btnRemainder.setOnClickListener(this);
         binding.btnRemaindered.setOnClickListener(this);
-        binding.btnBindBank.setOnClickListener(this);
-        binding.vouchApply.setOnClickListener(this);
+        binding.btnConfirmInfo.setOnClickListener(this);
+        binding.btnDrawMoneyInfo.setOnClickListener(this);
 
         binding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
@@ -113,28 +113,11 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
             startActivityForResult(new Intent(this, RemainderInfoActivity.class).putExtra(RemainderInfoActivity.KEY_REMAINDER, binding.getRemainder()), REQUEST_SHOW_DURING);
         } else if (v == binding.btnRemaindered) {
             startActivity(new Intent(this, WDListHistoryActivity.class).putExtra("mony", binding.getRemainder().getWithdraw()));
-        } else if (v == binding.btnBindBank) {
-            if (binding.getRemainder().getCardStatus() == BindStatus.NO_CARD) {
-                startActivity(new Intent(this, BindBankActivity.class));
-            } else {
-                startActivityForResult(new Intent(this, BindBankCompliteActivity.class).putExtra("remainder", binding.getRemainder()), REQUEST_BIND_BANK);
-            }
-        } else if (binding.vouchApply == v) {
+        } else if (v == binding.btnConfirmInfo) {
+            startActivity(new Intent(this, BasicalInfoConfirmActivity.class));
+        } else if (binding.btnDrawMoneyInfo == v) {
             //必须获得Remainder之后binding.getRemainder()才有效
-            if (isObtainRemainder) {
-                BindStatus status = binding.getRemainder().getVouchStatus();
-                LogUtil.d(RemainderMainActivity.class.getName(), "status" + status);
-                LogUtil.d(RemainderMainActivity.class.getName(), "BindStatus.NO_CARD" + BindStatus.NO_CARD.getValue());
-                if (status == BindStatus.NO_CARD) {
-                    //未申请担保
-                    Intent intent = new Intent(this, VouchApplyActivity.class);
-                    intent.putExtra("status", status);
-                    startActivityForResult(intent, REQUEST_VOUCH_APPLY);
 
-                } else {
-                    VouchDetailActivity.show(this);
-                }
-            }
 
 
         }

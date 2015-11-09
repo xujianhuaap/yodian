@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/apply_edit_margin_top"
+        android:layout_marginLeft="@dimen/apply_edit_margin"
+        android:layout_marginRight="@dimen/apply_edit_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:textSize="@dimen/text_size_normal"
+            android:text="@string/basic_info_name"
+            android:textColor="@color/edit_color"
+            android:scaleType="centerInside" />
+        <EditText
+            android:id="@+id/basic_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:minHeight="@dimen/apply_edit_height"
+            android:paddingLeft="@dimen/apply_edit_padding_left"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hint_color"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/division_height"
+        android:background="@color/edit_color"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/apply_edit_margin_top"
+        android:layout_marginLeft="@dimen/apply_edit_margin"
+        android:layout_marginRight="@dimen/apply_edit_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:textSize="@dimen/text_size_normal"
+            android:text="@string/basic_info_id"
+            android:textColor="@color/edit_color"
+            android:scaleType="centerInside" />
+        <EditText
+            android:id="@+id/basic_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:minHeight="@dimen/apply_edit_height"
+            android:paddingLeft="@dimen/apply_edit_padding_left"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hint_color"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/division_height"
+        android:background="@color/edit_color" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/division_height"
+        android:background="@color/edit_color"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/apply_edit_margin_top"
+        android:layout_marginLeft="@dimen/apply_edit_margin"
+        android:layout_marginRight="@dimen/apply_edit_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:textSize="@dimen/text_size_normal"
+            android:text="@string/basic_info_mobile"
+            android:textColor="@color/edit_color"
+            android:scaleType="centerInside" />
+        <EditText
+            android:id="@+id/basic_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:minHeight="@dimen/apply_edit_height"
+            android:paddingLeft="@dimen/apply_edit_padding_left"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hint_color"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/division_height"
+        android:background="@color/edit_color" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/division_height"
+        android:background="@color/edit_color"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/apply_edit_margin_top"
+        android:layout_marginLeft="@dimen/apply_edit_margin"
+        android:layout_marginRight="@dimen/apply_edit_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:textSize="@dimen/text_size_normal"
+            android:text="@string/basic_info_code"
+            android:textColor="@color/edit_color"
+            android:scaleType="centerInside" />
+
+        <EditText
+            android:id="@+id/basic_code"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:minHeight="@dimen/apply_edit_height"
+            android:paddingLeft="@dimen/apply_edit_padding_left"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hint_color"
+            android:singleLine="true"/>
+        <Button
+            android:id="@+id/btn_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/get_code" />
+
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/division_height"
+        android:background="@color/edit_color" />
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:gravity="left|center_vertical"
+        android:textSize="@dimen/text_size_normal"
+        android:text=""
+        android:textColor="@color/edit_color"
+        android:scaleType="centerInside" />
+    <Button
+        android:id="@+id/apply_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/apply_button_submit"
+        android:textSize="@dimen/text_size_normal"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="@dimen/margin_Xlarge"
+        android:background="@drawable/btn_oval_black"
+        android:layout_marginLeft="@dimen/margin_XXlarge"
+        android:layout_marginRight="@dimen/margin_XXlarge"
+        android:layout_marginBottom="@dimen/apply_edit_margin_top"
+        android:textColorHint="@color/hint_color" />
+
+</LinearLayout>
+

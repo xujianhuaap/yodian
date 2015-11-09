@@ -173,7 +173,7 @@
             android:name=".view.deal.OrderDetailActivity"
             android:label="@string/order_detail_title" />
         <activity
-            android:name=".view.deal.VouchApplyActivity"
+            android:name=".view.deal.DrawMoneyInfoConfirmActivity"
             android:label="@string/apply_title" />
         <activity
             android:name=".view.deal.VouchDetailActivity"
@@ -191,12 +191,12 @@
             android:label="@string/withdraw_lb"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".view.deal.BindBankActivity"
-            android:label="@string/activity_bind_bank"
+            android:name=".view.deal.BasicalInfoConfirmActivity"
+            android:label="@string/basic_info_activity_title"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.deal.BindBankCompliteActivity"
-            android:label="@string/activity_bind_bank"
+            android:label=""
             android:theme="@style/AppTheme.Dark" />
 
         <activity

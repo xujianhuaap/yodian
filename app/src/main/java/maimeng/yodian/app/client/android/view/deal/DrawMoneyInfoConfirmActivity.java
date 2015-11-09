@@ -33,7 +33,7 @@ import maimeng.yodian.app.client.android.view.AbstractActivity;
 /**
  * Created by xujianhua on 9/25/15.
  */
-public class VouchApplyActivity extends AbstractActivity implements View.OnClickListener {
+public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements View.OnClickListener {
 
 
     private String mNicknameStr;
@@ -43,16 +43,8 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
     private String mReasonStr;
 
     private MoneyService mService;
-    private EditText mNickName;
-    private ImageView mClearNickName;
-    private EditText mPhone;
-    private ImageView mClearPhone;
-    private EditText mEmail;
-    private ImageView mClearEmail;
-    private EditText mQQ;
-    private ImageView mClearQQ;
-    private EditText mReason;
-    private TextView mReasonNum;
+    private EditText mZhiFuBaoAccount;
+    private EditText mConfirmAccount;
     private Button mSubmit;
 
     /***
@@ -60,7 +52,7 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
      * @param contenxt
      */
     public static void show(Context contenxt) {
-        Intent intent = new Intent(contenxt, VouchApplyActivity.class);
+        Intent intent = new Intent(contenxt, DrawMoneyInfoConfirmActivity.class);
         contenxt.startActivity(intent);
     }
 
@@ -71,7 +63,7 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
      * @param requestCode
      */
     public static void show(Activity contenxt, Vouch vouch, int requestCode) {
-        Intent intent = new Intent(contenxt, VouchApplyActivity.class);
+        Intent intent = new Intent(contenxt, DrawMoneyInfoConfirmActivity.class);
         intent.putExtra("vouch", vouch);
         contenxt.startActivityForResult(intent, requestCode);
     }
@@ -80,43 +72,29 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
-        View view = getLayoutInflater().inflate(R.layout.activity_vouch_apply, null, false);
+        View view = getLayoutInflater().inflate(R.layout.activity_draw_money_confirm_info, null, false);
         this.mSubmit = (Button) view.findViewById(R.id.apply_submit);
-        this.mReasonNum = (TextView) view.findViewById(R.id.reasonNumber);
-        this.mReason = (EditText) view.findViewById(R.id.reason);
-        this.mClearQQ = (ImageView) view.findViewById(R.id.clear_qq);
-        this.mQQ = (EditText) view.findViewById(R.id.qq);
-        this.mClearEmail = (ImageView) view.findViewById(R.id.clear_email);
-        this.mEmail = (EditText) view.findViewById(R.id.email);
-        this.mClearPhone = (ImageView) view.findViewById(R.id.clear_phone);
-        this.mPhone = (EditText) view.findViewById(R.id.phone);
-        this.mClearNickName = (ImageView) view.findViewById(R.id.clear_nickname);
-        this.mNickName = (EditText) view.findViewById(R.id.nickname);
+        this.mConfirmAccount=(EditText)view.findViewById(R.id.confirm_account);
+        this.mZhiFuBaoAccount=(EditText)view.findViewById(R.id.zhifubao_account);
         setContentView(view);
 
-        mClearNickName.setOnClickListener(this);
-        mClearEmail.setOnClickListener(this);
-        mClearQQ.setOnClickListener(this);
-        mClearPhone.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
 
         TextWatcherProxy textWatcherProxy = new TextWatcherProxy();
-        mNickName.addTextChangedListener(textWatcherProxy);
-        mPhone.addTextChangedListener(textWatcherProxy);
-        mEmail.addTextChangedListener(textWatcherProxy);
-        mReason.addTextChangedListener(textWatcherProxy);
-        mQQ.addTextChangedListener(textWatcherProxy);
+        mConfirmAccount.addTextChangedListener(textWatcherProxy);
+        mZhiFuBaoAccount.addTextChangedListener(textWatcherProxy);
+
 
         mService = Network.getService(MoneyService.class);
 
-        if (getIntent().hasExtra("vouch")) {
-            Vouch vouch = getIntent().getParcelableExtra("vouch");
-            mNickName.setText(vouch.getName());
-            mPhone.setText(vouch.getTelephone());
-            mEmail.setText(vouch.getEmail());
-            mQQ.setText(vouch.getQq());
-            mReason.setText(vouch.getContent());
-        }
+//        if (getIntent().hasExtra("vouch")) {
+//            Vouch vouch = getIntent().getParcelableExtra("vouch");
+//            mNickName.setText(vouch.getName());
+//            mPhone.setText(vouch.getTelephone());
+//            mEmail.setText(vouch.getEmail());
+//            mQQ.setText(vouch.getQq());
+//            mReason.setText(vouch.getContent());
+//        }
 
 
     }
@@ -133,13 +111,13 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
      *
      */
 
-    private void freshApplyInfo() {
-        mNicknameStr = mNickName.getText().toString();
-        mPhoneStr = mPhone.getText().toString();
-        mEmailStr = mEmail.getText().toString();
-        mQQStr = mQQ.getText().toString();
-        mReasonStr = mReason.getText().toString();
-    }
+//    private void freshApplyInfo() {
+//        mNicknameStr = mNickName.getText().toString();
+//        mPhoneStr = mPhone.getText().toString();
+//        mEmailStr = mEmail.getText().toString();
+//        mQQStr = mQQ.getText().toString();
+//        mReasonStr = mReason.getText().toString();
+//    }
 
     @Override
     protected void initToolBar(android.support.v7.widget.Toolbar toolbar) {
@@ -171,8 +149,6 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
 
         @Override
         public void afterTextChanged(Editable s) {
-            freshApplyInfo();
-            mReasonNum.setText(mReasonStr.length() + "/500");
 
 //            if (TextUtils.isEmpty(mNicknameStr)) {
 //                mClearNickName.setVisibility(View.INVISIBLE);
@@ -207,38 +183,38 @@ public class VouchApplyActivity extends AbstractActivity implements View.OnClick
     public void onClick(View v) {
 
         //清空信息
-        if (v == mClearNickName) {
-            mNickName.setText("");
-        } else if (v == mClearPhone) {
-            mPhone.setText("");
-        } else if (v == mClearEmail) {
-            mEmail.setText("");
-        } else if (v == mClearQQ) {
-            mQQ.setText("");
-        } else if (v == mSubmit) {
-            freshApplyInfo();
-            if (TextUtils.isEmpty(mNicknameStr)) {
-                Toast.makeText(this, getString(R.string.apply_nickname_null), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (TextUtils.isEmpty(mPhoneStr)) {
-                Toast.makeText(this, getString(R.string.apply_phone_null), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (TextUtils.isEmpty(mEmailStr)) {
-                Toast.makeText(this, getString(R.string.apply_email_null), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (TextUtils.isEmpty(mQQStr)) {
-                Toast.makeText(this, getString(R.string.apply_qq_null), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (TextUtils.isEmpty(mReasonStr)) {
-                Toast.makeText(this, getString(R.string.apply_reason_null), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            mService.vouchApply(mNicknameStr, mPhoneStr, mQQStr, mEmailStr, mReasonStr, new ToastCallBack());
-        }
+//        if (v == mClearNickName) {
+//            mNickName.setText("");
+//        } else if (v == mClearPhone) {
+//            mPhone.setText("");
+//        } else if (v == mClearEmail) {
+//            mEmail.setText("");
+//        } else if (v == mClearQQ) {
+//            mQQ.setText("");
+//        } else if (v == mSubmit) {
+//            freshApplyInfo();
+//            if (TextUtils.isEmpty(mNicknameStr)) {
+//                Toast.makeText(this, getString(R.string.apply_nickname_null), Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (TextUtils.isEmpty(mPhoneStr)) {
+//                Toast.makeText(this, getString(R.string.apply_phone_null), Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (TextUtils.isEmpty(mEmailStr)) {
+//                Toast.makeText(this, getString(R.string.apply_email_null), Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (TextUtils.isEmpty(mQQStr)) {
+//                Toast.makeText(this, getString(R.string.apply_qq_null), Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (TextUtils.isEmpty(mReasonStr)) {
+//                Toast.makeText(this, getString(R.string.apply_reason_null), Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            mService.vouchApply(mNicknameStr, mPhoneStr, mQQStr, mEmailStr, mReasonStr, new ToastCallBack());
+//        }
     }
 
 

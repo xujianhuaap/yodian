@@ -66,4 +66,9 @@ public class Api {
     public static final String SKILL_BUY = "/skill/buy";//技能购买
 
     public static final String SENDSERVICE = "/user/sendservice";
+    //basic info
+    public static final String INFO_CODE="/user/getcode";//个人手机验证码
+    public static final String INFO_CERTIFY="/user/certifi";//个人信息验证
+    public static final String INFO_GET="/user/getcertifi";//获得个人认证信息
+
 }
