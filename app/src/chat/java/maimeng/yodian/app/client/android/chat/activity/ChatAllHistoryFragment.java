@@ -1,12 +1,17 @@
 package maimeng.yodian.app.client.android.chat.activity;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Pair;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,9 +29,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +48,8 @@ import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.adapter.ChatAllHistoryAdapter;
+import maimeng.yodian.app.client.android.chat.db.UserDao;
+import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 
@@ -84,10 +94,8 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
-            return;
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         errorItem = (RelativeLayout) getView().findViewById(R.id.rl_error_item);
         errorText = (TextView) errorItem.findViewById(R.id.tv_connect_errormsg);
@@ -104,8 +112,6 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         adapter = new ChatAllHistoryAdapter(getActivity(), conversationList);
         // 设置adapter
         listView.setAdapter(adapter);
-
-
         final String st2 = getResources().getString(R.string.Cant_chat_with_yourself);
         listView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -146,36 +152,13 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
             }
 
         });
-//        // 搜索框
-//        query = (EditText) getView().findViewById(R.id.query);
-//        String strSearch = getResources().getString(R.string.search);
-//        query.setHint(strSearch);
-//        // 搜索框中清除button
-//        clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
-//        query.addTextChangedListener(new TextWatcher() {
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                adapter.getFilter().filter(s);
-//                if (s.length() > 0) {
-//                    clearSearch.setVisibility(View.VISIBLE);
-//                } else {
-//                    clearSearch.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            public void afterTextChanged(Editable s) {
-//            }
-//        });
-//        clearSearch.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                query.getText().clear();
-//                hideSoftKeyboard();
-//            }
-//        });
+    }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
+            return;
     }
 
     void hideSoftKeyboard() {
@@ -189,10 +172,14 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        // if(((AdapterContextMenuInfo)menuInfo).position > 0){ m,
+        int position = ((AdapterContextMenuInfo) menuInfo).position;
+            EMConversation item = adapter.getItem(position);
+            if(item!=null && "hx_admin".equals(item.getUserName())){
+                return;
+        }
         getActivity().getMenuInflater().inflate(R.menu.delete_message, menu);
-        // }
     }
+
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -248,7 +235,11 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
             for (EMConversation conversation : conversations.values()) {
                 if (conversation.getAllMessages().size() != 0) {
                     //if(conversation.getType() != EMConversationType.ChatRoom){
-                    sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
+                    EMMessage lastMessage = conversation.getLastMessage();
+                    if("hx_admin".equals(lastMessage.getUserName())){
+                        continue;
+                    }
+                    sortList.add(new Pair<Long, EMConversation>(lastMessage.getMsgTime(), conversation));
                     //}
                 }
             }
@@ -262,6 +253,25 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         List<EMConversation> list = new ArrayList<EMConversation>();
         for (Pair<Long, EMConversation> sortItem : sortList) {
             list.add(sortItem.second);
+        }
+        EMConversation hx_admin = conversations.get("hx_admin");
+        EMMessage msg = hx_admin.getLastMessage();
+        RobotUser robot = RobotUser.parse(msg);
+        User user = User.parse(msg);
+        user.setNick("官方君");
+        robot.setNick("官方君");
+//        Resources resources = getActivity().getResources();
+//        Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+//                + resources.getResourcePackageName(R.mipmap.ic_launcher) + '/'
+//                + resources.getResourceTypeName(R.mipmap.ic_launcher) + '/'
+//                + resources.getResourceEntryName(R.mipmap.ic_launcher));
+        FragmentActivity activity = getActivity();
+        user.setAvatar("android.resource://"+ activity.getPackageName()+"/mipmap/ic_launcher");
+        UserDao userDao = new UserDao(getContext());
+        userDao.saveOrUpdate(user);
+        userDao.saveOrUpdate(robot);
+        if(hx_admin!=null) {
+            list.add(0, hx_admin);
         }
         return list;
     }

@@ -136,7 +136,6 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                         /**
                          * 使用最新消息中的附加数据更新联系人信息
                          */
-                        try {
                             User user = User.parse(message);
                             RobotUser robotUser = RobotUser.parse(message);
                             saveOrUpdate(user.getUsername(), user);
@@ -144,9 +143,6 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                             UserDao userDao = new UserDao(appContext);
                             userDao.saveOrUpdate(robotUser);
                             userDao.saveOrUpdate(user);
-                        } catch (EaseMobException e) {
-                            e.printStackTrace();
-                        }
                         //应用在后台，不需要刷新UI,通知栏提示新消息
                         if (activityList.size() <= 0) {
                             HXSDKHelper.getInstance().getNotifier().onNewMsg(message);

@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.user;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -53,6 +54,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
+import maimeng.yodian.app.client.android.network.service.ChatService;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
@@ -197,6 +199,22 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     public void init() {
         final User read = User.read(this.mActivity);
         init(read);
+        if(!getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE).getBoolean("flag",false)) {
+            Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
+                @Override
+                public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
+                    if (response.getStatus() == 200) {
+                        LogUtil.i(UserHomeFragment.class.getName(), "Send Admin Msg Success");
+                        getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE).edit().putBoolean("flag",true).apply();
+                    }
+                }
+
+                @Override
+                public void failure(HNetError hNetError) {
+                    hNetError.printStackTrace();
+                }
+            });
+        }
     }
 
     private void initSkillInfo() {

@@ -94,15 +94,10 @@ public class RobotUser extends EMContact {
     }
 
 
-    public static RobotUser parse(EMMessage message) throws EaseMobException {
+    public static RobotUser parse(EMMessage message) {
         final RobotUser user = new RobotUser();
         String userName = message.getFrom();
-        String nickname = null;
-        try {
-            nickname = message.getStringAttribute("nickName");
-        } catch (EaseMobException e) {
-//            e.printStackTrace();
-        }
+        String nickname = message.getStringAttribute("nickName","");
         String avatar = null;
         try {
             avatar = message.getStringAttribute("avatar");

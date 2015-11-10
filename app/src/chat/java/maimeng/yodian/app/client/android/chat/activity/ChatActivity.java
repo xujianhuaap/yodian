@@ -1117,7 +1117,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     }
 
     private void onNewMessage(EMMessage message) {
-        try {
             User user = User.parse(message);
             RobotUser robot = RobotUser.parse(message);
             ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user.getUsername(), user);
@@ -1137,9 +1136,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 }
             }
             refreshUIWithNewMessage();
-        } catch (EaseMobException e) {
-            e.printStackTrace();
-        }
     }
 
     /***
