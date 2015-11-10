@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.deal;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -17,11 +19,13 @@ import org.henjue.library.hnet.exception.HNetError;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityRemainderInfoBinding;
 import maimeng.yodian.app.client.android.model.remainder.Remainder;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 
 /**
@@ -32,15 +36,28 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
     public static final String KEY_REMAINDER = "_remainder";
     private ActivityRemainderInfoBinding binding;
     private MoneyService service;
+    private Remainder mAlipay;
+
+
+    public static void show(Context context,Remainder remainder){
+        Intent intent=new Intent(context,RemainderInfoActivity.class);
+        intent.putExtra(RemainderInfoActivity.KEY_REMAINDER, remainder);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void postponeEnterTransition() {
+        super.postponeEnterTransition();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Remainder remainder = getIntent().getParcelableExtra(KEY_REMAINDER);
+        mAlipay = getIntent().getParcelableExtra(KEY_REMAINDER);
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_remainder_info, null, false);
         setContentView(binding.getRoot());
         binding.htmlComment.setText(Html.fromHtml(getResources().getString(R.string.during_comment3)));
-        binding.setRemainder(remainder);
+        binding.setRemainder(mAlipay);
         binding.btnDuring.setOnClickListener(this);
         binding.mySaleOrder.setOnClickListener(this);
         service = Network.getService(MoneyService.class);
@@ -72,13 +89,13 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+
         if (v == binding.btnDuring) {
-            //#################################
-//            if (binding.getRemainder().getCardStatus() == BindStatus.PASS) {
-//                showDuringDialog();
-//            } else {
-//                Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
-//            }
+            if (!TextUtils.isEmpty(mAlipay.getDraw_account())) {
+                showDuringDialog();
+            } else {
+                Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
+            }
         } else if (v == binding.mySaleOrder) {
             OrderListActivity.show(this,true);
         }
@@ -88,22 +105,21 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
      * 显示提现对话框
      */
     private void showDuringDialog() {
-        //#####################################################
-//        if (binding.getRemainder().getMoney() < 50) {
-//            AlertDialog.newInstance("提示", "余额少于50元不能提现").setNegativeListener(new AlertDialog.NegativeListener() {
-//                @Override
-//                public void onNegativeClick(DialogInterface dialog) {
-//                    dialog.dismiss();
-//                }
-//
-//                @Override
-//                public String negativeText() {
-//                    return getString(android.R.string.ok);
-//                }
-//            }).show(getFragmentManager(), "_dialog");
-//        } else {
-//            DuringDialog.show(this, binding.getRemainder().getMoney());
-//        }
+        if (binding.getRemainder().getMoney() < 50) {
+            AlertDialog.newInstance("提示", "余额少于50元不能提现").setNegativeListener(new AlertDialog.NegativeListener() {
+                @Override
+                public void onNegativeClick(DialogInterface dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public String negativeText() {
+                    return getString(android.R.string.ok);
+                }
+            }).show(getFragmentManager(), "_dialog");
+        } else {
+            DuringDialog.show(this, binding.getRemainder().getMoney());
+        }
     }
 
     /**
@@ -126,13 +142,12 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
             public void success(ToastResponse res, Response response) {
                 super.success(res, response);
                 if (res.isSuccess()) {
-                    //###########################
-//                    moneyChanged = true;
-//                    final Remainder remainder = binding.getRemainder();
-//                    remainder.setMoney(remainder.getMoney() - during);
-//                    remainder.setDuring(remainder.getDuring() + during);
-//                    binding.setRemainder(remainder);
-//                    RemainderInfoActivity.this.during = during;
+                    moneyChanged = true;
+                    final Remainder remainder = binding.getRemainder();
+                    remainder.setMoney(remainder.getMoney() - during);
+                    remainder.setDuring(remainder.getDuring() + during);
+                    binding.setRemainder(remainder);
+                    RemainderInfoActivity.this.during = during;
                 }
             }
 

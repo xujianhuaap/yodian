@@ -1,15 +1,21 @@
 package maimeng.yodian.app.client.android.view.deal;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -106,7 +112,7 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
 
     }
 
-    protected static final class HistoryAdaper extends AbstractAdapter<WDModel, HistoryHolder> {
+    protected  final class HistoryAdaper extends AbstractAdapter<WDModel, HistoryHolder> {
 
         public HistoryAdaper(Context context, ViewHolderClickListener<HistoryHolder> viewHolderClickListener) {
             super(context, viewHolderClickListener);
@@ -124,7 +130,7 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
         }
     }
 
-    protected static final class HistoryHolder extends AbstractAdapter.BindViewHolder<WDModel, ItemWdlistHistoryBinding> {
+    protected  final class HistoryHolder extends AbstractAdapter.BindViewHolder<WDModel, ItemWdlistHistoryBinding> {
         public HistoryHolder(ItemWdlistHistoryBinding t) {
             super(t);
 
@@ -133,23 +139,48 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
         @Override
         public void bind(WDModel item) {
             binding.backwhy.setVisibility(View.GONE);
-            if (TextUtils.isEmpty(item.getBackwhy())) {
-                binding.btnPull.setOnClickListener(null);
+            binding.drawAccount.setVisibility(View.GONE);
+            binding.btnPull.setVisibility(View.VISIBLE);
+            String backWhyStr=item.getBackwhy();
+            String alipayStr=item.getAlipay();
+            Spanned span=Html.fromHtml(WDListHistoryActivity.this.getResources().getString(R.string.zhifubao_account, alipayStr));
+            binding.drawAccount.setText(span);
+            binding.backwhy.setText(backWhyStr);
+            if(TextUtils.isEmpty(backWhyStr)&&TextUtils.isEmpty(alipayStr)){
                 binding.btnPull.setVisibility(View.INVISIBLE);
-            } else {
-                binding.btnPull.setVisibility(View.VISIBLE);
-                binding.btnPull.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (binding.backwhy.getVisibility() == View.VISIBLE) {
+            }
+            binding.btnPull.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(binding.btnPull, "rotation", 0, 180);
+                        animator.setDuration(300);
+                        animator.setRepeatCount(0);
+                        animator.start();
+
+                    } else {
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(binding.btnPull, "rotation", 180, 360);
+                        animator.setDuration(300);
+                        animator.setRepeatCount(0);
+                        animator.start();
+                    }
+                    if (!TextUtils.isEmpty(binding.getModel().getBackwhy())) {
+                        if (!isChecked) {
                             binding.backwhy.setVisibility(View.GONE);
                         } else {
                             binding.backwhy.setVisibility(View.VISIBLE);
                         }
                     }
-                });
-            }
 
+                    if (!TextUtils.isEmpty(binding.getModel().getAlipay())) {
+                        if (!isChecked) {
+                            binding.drawAccount.setVisibility(View.GONE);
+                        } else {
+                            binding.drawAccount.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
             binding.setModel(item);
             final String status;
             switch (item.getStatus()) {

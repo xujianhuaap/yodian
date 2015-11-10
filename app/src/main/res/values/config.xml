@@ -13,5 +13,6 @@
     <item name="banner_interval" type="integer">3000</item>
     <item name="data_format" type="string">yyyy/MM/dd</item>
     <item name="code_duration" type="integer">30000</item>
+    <item name="short_duration" type="integer">500</item>
     <!--<string name="text_digits">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>-->
 </resources>

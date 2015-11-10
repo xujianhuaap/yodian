@@ -17,6 +17,7 @@ import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.model.UserBaseColum;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
+import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 
 
 /**
@@ -300,6 +301,7 @@ public class User extends UserBaseColum implements Parcelable {
         public static final String KEY_DISTRICT = "_district";
         public static final String KEY_ADDRESS = "_address";
         public static final String KEY_VOUCH_STATUS = "_vouch_status";
+        public static final String KEY_CERTIFY_STATUS="_certify_status";
 
         public String getSignature() {
             return signature;
@@ -375,6 +377,15 @@ public class User extends UserBaseColum implements Parcelable {
         private String signature;
         private String job;
         private BindStatus vouch_status;
+        private CertifyStatus certifi_status;
+
+        public CertifyStatus getCertifi_status() {
+            return certifi_status;
+        }
+
+        public void setCertifi_status(CertifyStatus certifi_status) {
+            this.certifi_status = certifi_status;
+        }
 
         public BindStatus getVouch_status() {
             return vouch_status;
@@ -456,7 +467,9 @@ public class User extends UserBaseColum implements Parcelable {
                 if (this.vouch_status != null) {
                     editor.putInt(KEY_VOUCH_STATUS, vouch_status.getValue());
                 }
-
+                if(this.certifi_status!=null){
+                    editor.putInt(KEY_CERTIFY_STATUS,certifi_status.getValue());
+                }
                 return true;
             }
         }
@@ -475,6 +488,8 @@ public class User extends UserBaseColum implements Parcelable {
                 String signature = pref.getString(KEY_SIGNATURE, "");
                 String job = pref.getString(KEY_JOB, "");
                 int vouch_status = pref.getInt(KEY_VOUCH_STATUS, 3);
+                int certify_status=pref.getInt(KEY_CERTIFY_STATUS,2);
+                info.setCertifi_status(CertifyStatus.create(certify_status));
                 info.setVouch_status(BindStatus.create(vouch_status));
                 info.setWechat(wechat);
                 info.setMobile(mobile);
@@ -511,6 +526,11 @@ public class User extends UserBaseColum implements Parcelable {
             dest.writeString(this.signature);
             dest.writeString(this.job);
             dest.writeInt(this.vouch_status.getValue());
+            int certi=0;
+            if(certifi_status!=null){
+                certi=this.certifi_status.getValue();
+            }
+            dest.writeInt(certi);
             dest.writeInt(this.sex == null ? -1 : this.sex.ordinal());
             dest.writeInt(this.buyMsg);
             dest.writeInt(this.sellMsg);
@@ -531,6 +551,7 @@ public class User extends UserBaseColum implements Parcelable {
             this.job = in.readString();
             int tmpVouch_status = in.readInt();
             this.vouch_status = BindStatus.create(tmpVouch_status);
+            this.certifi_status=CertifyStatus.create(in.readInt());
             int tmpSex = in.readInt();
             this.sex = tmpSex == -1 ? null : Sex.values()[tmpSex];
             this.buyMsg = in.readInt();
