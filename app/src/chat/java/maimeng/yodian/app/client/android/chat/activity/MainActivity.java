@@ -141,7 +141,6 @@ public abstract class MainActivity extends BaseActivity implements EMEventListen
         connectionListener = new MyConnectionListener();
         EMChatManager.getInstance().addConnectionListener(connectionListener);
 
-        chatHistoryFragment.refresh();
         //内部测试方法，请忽略
         registerInternalDebugReceiver();
     }

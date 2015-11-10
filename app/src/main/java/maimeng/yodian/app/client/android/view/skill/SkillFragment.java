@@ -309,12 +309,8 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
 
 
                     // 存入内存
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
-                    // 存入db
-                    UserDao dao = new UserDao(getActivity());
-                    dao.saveOrUpdate(user);
-                    dao.saveOrUpdate(robot);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
                 }
 
                 ChatActivity.show(getActivity(), skill, new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));

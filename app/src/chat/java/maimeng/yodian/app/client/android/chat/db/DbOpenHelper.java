@@ -21,7 +21,7 @@ import com.easemob.applib.controller.HXSDKHelper;
 
 public class DbOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     private static DbOpenHelper instance;
 
     private static final String USERNAME_TABLE_CREATE = "CREATE TABLE "
@@ -42,9 +42,12 @@ public class DbOpenHelper extends SQLiteOpenHelper {
             + UserDao.PREF_TABLE_NAME + " ("
             + UserDao.COLUMN_NAME_DISABLED_GROUPS + " TEXT, "
             + UserDao.COLUMN_NAME_DISABLED_IDS + " TEXT);";
-
+    private final String[] initInsert=new String[2];
     private DbOpenHelper(Context context) {
         super(context, getUserDatabaseName(), null, DATABASE_VERSION);
+        String avatar="android.resource://" + context.getPackageName() + "/mipmap/ic_launcher";
+        initInsert[0]=String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID, UserDao.COLUMN_NAME_NICK, UserDao.COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar);
+        initInsert[1]=String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.ROBOT_TABLE_NAME, UserDao.ROBOT_COLUMN_NAME_ID, UserDao.ROBOT_COLUMN_NAME_NICK, UserDao.ROBOT_COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar);
     }
 
     public static DbOpenHelper getInstance(Context context) {
@@ -71,6 +74,9 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                 UserDao.ROBOT_COLUMN_NAME_MOBILE + " TEXT;");
         db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
                 UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
+        for(String sql:initInsert){
+            db.execSQL(sql);
+        }
     }
 
     @Override
@@ -95,6 +101,11 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                     UserDao.ROBOT_COLUMN_NAME_MOBILE + " TEXT;");
             db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
                     UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
+        }
+        if(oldVersion<6){
+            for(String sql:initInsert){
+                db.execSQL(sql);
+            }
         }
     }
 

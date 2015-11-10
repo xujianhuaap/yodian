@@ -38,17 +38,6 @@ public class YApplication extends DemoApplication {
     private List<Activity> activityList = new ArrayList<>();
     private static YApplication instance;
 
-    public synchronized boolean isHasAdmin() {
-        synchronized (lock) {
-            return getSharedPreferences("chat", Context.MODE_PRIVATE).getBoolean("hasAdmin", false);
-        }
-    }
-
-    public synchronized void setHasAdmin(boolean hasAdmin) {
-        synchronized (lock) {
-            getSharedPreferences("chat", Context.MODE_PRIVATE).edit().putBoolean("hasAdmin", hasAdmin).apply();
-        }
-    }
 
 
     public static YApplication getInstance() {
@@ -166,6 +155,8 @@ public class YApplication extends DemoApplication {
 
     @Override
     public String getAppKey() {
-        return BuildConfig.DEBUG ? "maimengkeji#youdiantest" : "maimengkeji#youdian";
+        String s = BuildConfig.DEBUG ? "maimengkeji#youdiantest" : "maimengkeji#youdian";
+        return s;
+//        return "maimengkeji#youdian";
     }
 }

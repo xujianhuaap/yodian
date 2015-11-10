@@ -8,11 +8,13 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.easemob.EMCallBack;
+import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 
 import maimeng.yodian.app.client.android.chat.AsyncContactService;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
+import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -68,9 +70,8 @@ public class ChatServiceLoginService extends Service {
                         user.setWechat(read.getWechat());
                         user.setQq(read.getInfo().getQq());
                         user.setMobile(read.getInfo().getMobile());
-                        userDao.saveOrUpdate(robotUser);
-                        userDao.saveOrUpdate(user);
-
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate( robotUser);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
 
                         // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                         // ** manually start all local groups and

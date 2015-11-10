@@ -154,6 +154,7 @@ public class DemoDBManager {
      * @param user
      */
     synchronized public void saveOrUpdate(User user) {
+        if("hx_admin".equals(user.getUsername()))return;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(UserDao.TABLE_NAME, null, UserDao.COLUMN_NAME_ID + "= ?", new String[]{user.getUsername()}, null, null, null);
         ContentValues values = new ContentValues();
@@ -313,6 +314,7 @@ public class DemoDBManager {
 
 
     synchronized public void saveOrUpdate(RobotUser user) {
+        if("hx_admin".equals(user.getUsername()))return;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(UserDao.ROBOT_TABLE_NAME, null, UserDao.ROBOT_COLUMN_NAME_ID + "=  ?", new String[]{user.getUsername()}, null, null, null);
         if (cursor.moveToFirst()) {

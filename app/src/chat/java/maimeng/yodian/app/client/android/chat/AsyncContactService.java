@@ -58,50 +58,21 @@ public class AsyncContactService extends Service {
         }
         instance.loadAllConversations();
         Hashtable<String, EMConversation> conversations = instance.getAllConversations();
-        UserDao dao = new UserDao(this);
         for(EMConversation conversation:conversations.values()){
-            if(!YApplication.getInstance().isHasAdmin()&& "hx_admin".equals(conversation.getUserName())){
-                YApplication.getInstance().setHasAdmin(true);
-                getSharedPreferences("chat", Context.MODE_PRIVATE).edit().putBoolean("hasAdmin", true).apply();
-            }
             if(conversation.getAllMsgCount()>0){
                 List<EMMessage> messages = conversation.loadMoreMsgFromDB(conversation.getMessage(0).getMsgId(), conversation.getAllMsgCount());
                 for(EMMessage message:messages){
-                    try {
                         RobotUser robot = RobotUser.parse(message);
                         maimeng.yodian.app.client.android.chat.domain.User user=maimeng.yodian.app.client.android.chat.domain.User.parse(message);
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user.getUsername(), user);
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), robot);
-                        dao.saveOrUpdate(user);
-                        dao.saveOrUpdate(robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
                         log("refresh Contacts by %s,nickname:%s,avatar:%s,uid:%s,wechat:%s",user.getUsername(),user.getNick(),user.getAvatar(),user.getId(),user.getWechat());
-                    } catch (EaseMobException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         }
         UserDao userDao=new UserDao(this);
         Map<String, User> contactList = userDao.getContactList();
         DemoApplication.getInstance().setContactList(contactList);
-        if(YApplication.getInstance().isHasAdmin()){
-
-        }else{
-            Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
-                @Override
-                public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
-                    if(response.getStatus()==200){
-                        LogUtil.i(AsyncContactService.class.getName(),"Send Admin Msg Success");
-                    }
-                }
-
-                @Override
-                public void failure(HNetError hNetError) {
-                    hNetError.printStackTrace();
-                }
-
-            });
-        }
 
     }
     private void initializeContacts() {

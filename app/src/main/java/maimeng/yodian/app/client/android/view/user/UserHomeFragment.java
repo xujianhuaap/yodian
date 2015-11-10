@@ -1,8 +1,10 @@
 package maimeng.yodian.app.client.android.view.user;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,6 +55,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
+import maimeng.yodian.app.client.android.network.service.ChatService;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
@@ -197,6 +200,25 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     public void init() {
         final User read = User.read(this.mActivity);
         init(read);
+        final SharedPreferences sendservice = getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE);
+        boolean aBoolean = sendservice.getBoolean("flag" + read.getUid(), false);
+        if(!aBoolean) {
+            Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
+                @Override
+                public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
+                    if (response.getStatus() == 200) {
+
+                        LogUtil.i(UserHomeFragment.class.getName(), "Send Admin Msg Success url:%s",response.getUrl());
+                        sendservice.edit().putBoolean("flag"+read.getUid(),true).apply();
+                    }
+                }
+
+                @Override
+                public void failure(HNetError hNetError) {
+                    hNetError.printStackTrace();
+                }
+            });
+        }
     }
 
     private void initSkillInfo() {
@@ -459,12 +481,8 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
 
                     // 存入内存
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
-                    // 存入db
-                    UserDao dao = new UserDao(mActivity);
-                    dao.saveOrUpdate(user);
-                    dao.saveOrUpdate(robot);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);;
                     ChatActivity.show(getActivity(), itemViewHolder.getData(), new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
                 }
             }

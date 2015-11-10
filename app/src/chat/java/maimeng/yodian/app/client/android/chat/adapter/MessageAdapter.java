@@ -677,12 +677,6 @@ public class MessageAdapter extends BaseAdapter {
      * @param imageView
      */
     private void setUserAvatar(EMMessage message, ImageView imageView) {
-//	    if(message.direct == Direct.SEND){
-//	        //显示自己头像
-//	        UserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), imageView);
-//	    }else{
-//	        UserUtils.setUserAvatar(context, message.getFrom(), imageView);
-//	    }
         String from = message.getFrom();
         UserUtils.setUserAvatar(context, from, imageView);
     }

@@ -129,7 +129,11 @@ public class ChatAllHistoryAdapter extends BaseAdapter implements Filterable {
             EMChatRoom room = EMChatManager.getInstance().getChatRoom(username);
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
         } else {
-            UserUtils.setUserAvatar(mContext, username, holder.avatar);
+//            if("hx_admin".equals(username)){
+//                holder.avatar.setImageResource(R.mipmap.ic_launcher);
+//            }else {
+                UserUtils.setUserAvatar(mContext, username, holder.avatar);
+//            }
             if (username.equals(Constant.GROUP_USERNAME)) {
                 holder.name.setText("群聊");
 
