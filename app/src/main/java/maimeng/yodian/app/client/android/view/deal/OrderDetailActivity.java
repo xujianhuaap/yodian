@@ -269,12 +269,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
 
                         // 存入内存
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), robot);
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), user);
-                        // 存入db
-                        UserDao dao = new UserDao(OrderDetailActivity.this);
-                        dao.saveOrUpdate(user);
-                        dao.saveOrUpdate(robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate( robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
                     }
                     ChatUser chatUser = new ChatUser(buyer.getHxname(), buyer.getId(), buyer.getNickname());
                     chatUser.setMobile(buyer.getMobile());
@@ -305,12 +301,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                         user.setWechat(skill.getWeichat());
 
                         // 存入内存
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
-                        // 存入db
-                        UserDao dao = new UserDao(OrderDetailActivity.this);
-                        dao.saveOrUpdate(user);
-                        dao.saveOrUpdate(robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
                     }
                     ChatUser chatUser = new ChatUser(chatLoginName, skill.getUid(), skill.getNickname());
                     chatUser.setMobile(skill.getContact());

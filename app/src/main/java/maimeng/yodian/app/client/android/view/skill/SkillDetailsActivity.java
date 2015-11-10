@@ -347,13 +347,8 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     user.setWechat(skill.getWeichat());
                     user.setQq(skill.getQq());
                     user.setMobile(skill.getContact());
-                    // 存入内存
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), robot);
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(skill.getChatLoginName(), user);
-                    // 存入db
-                    UserDao dao = new UserDao(SkillDetailsActivity.this);
-                    dao.saveOrUpdate(user);
-                    dao.saveOrUpdate(robot);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate( user);
                 }
 
                 ChatActivity.show(SkillDetailsActivity.this, skill, new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));

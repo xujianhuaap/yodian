@@ -58,17 +58,14 @@ public class AsyncContactService extends Service {
         }
         instance.loadAllConversations();
         Hashtable<String, EMConversation> conversations = instance.getAllConversations();
-        UserDao dao = new UserDao(this);
         for(EMConversation conversation:conversations.values()){
             if(conversation.getAllMsgCount()>0){
                 List<EMMessage> messages = conversation.loadMoreMsgFromDB(conversation.getMessage(0).getMsgId(), conversation.getAllMsgCount());
                 for(EMMessage message:messages){
                         RobotUser robot = RobotUser.parse(message);
                         maimeng.yodian.app.client.android.chat.domain.User user=maimeng.yodian.app.client.android.chat.domain.User.parse(message);
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user.getUsername(), user);
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), robot);
-                        dao.saveOrUpdate(user);
-                        dao.saveOrUpdate(robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
                         log("refresh Contacts by %s,nickname:%s,avatar:%s,uid:%s,wechat:%s",user.getUsername(),user.getNick(),user.getAvatar(),user.getId(),user.getWechat());
                 }
             }

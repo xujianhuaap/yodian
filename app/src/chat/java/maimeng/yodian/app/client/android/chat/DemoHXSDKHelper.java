@@ -138,11 +138,8 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                          */
                             User user = User.parse(message);
                             RobotUser robotUser = RobotUser.parse(message);
-                            saveOrUpdate(user.getUsername(), user);
-                            saveOrUpdate(robotUser.getUsername(), robotUser);
-                            UserDao userDao = new UserDao(appContext);
-                            userDao.saveOrUpdate(robotUser);
-                            userDao.saveOrUpdate(user);
+                            saveOrUpdate(user);
+                            saveOrUpdate(robotUser);
                         //应用在后台，不需要刷新UI,通知栏提示新消息
                         if (activityList.size() <= 0) {
                             HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
@@ -450,14 +447,17 @@ public class DemoHXSDKHelper extends HXSDKHelper {
     /**
      * 添加好友user list到内存中
      *
-     * @param username
      * @param user
      */
-    public void saveOrUpdate(String username, User user) {
+    public void saveOrUpdate(User user) {
         if (contactList == null) {
             contactList = new HashMap<>();
         }
-        contactList.put(username, user);
+        if(contactList.containsKey("hx_admin") && "hx_admin".equals(user.getUsername())){
+
+        }else {
+            contactList.put(user.getUsername(), user);
+        }
         UserDao dao = new UserDao(appContext);
         dao.saveOrUpdate(user);
     }
@@ -465,14 +465,17 @@ public class DemoHXSDKHelper extends HXSDKHelper {
     /**
      * 添加好友user list到内存中
      *
-     * @param username
      * @param user
      */
-    public void saveOrUpdate(String username, RobotUser user) {
+    public void saveOrUpdate(RobotUser user) {
         if (robotList == null) {
             robotList = new HashMap<>();
         }
-        robotList.put(username, user);
+        if(robotList.containsKey("hx_admin") && "hx_admin".equals(user.getUsername())){
+
+        }else {
+            robotList.put(user.getUsername(), user);
+        }
         UserDao dao = new UserDao(appContext);
         dao.saveOrUpdate(user);
     }

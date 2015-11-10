@@ -194,12 +194,8 @@ public class User extends UserBaseColum implements Parcelable {
 
             YApplication.getInstance().setCurrentUser(u);
             // 存入内存
-            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(u.getUsername(), u);
-            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(u.getUsername(), rotot);
-            // 存入db
-            UserDao dao = new UserDao(context);
-            dao.saveOrUpdate(u);
-            dao.saveOrUpdate(rotot);
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(u);
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate( rotot);
             return user;
         }
     }

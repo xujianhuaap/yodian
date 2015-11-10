@@ -1119,11 +1119,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private void onNewMessage(EMMessage message) {
             User user = User.parse(message);
             RobotUser robot = RobotUser.parse(message);
-            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user.getUsername(), user);
-            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), robot);
-            UserDao dao = new UserDao(this);
-            dao.saveOrUpdate(user);
-            dao.saveOrUpdate(robot);
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
             if (message.getFrom().equals(chatUser.getChatName())) {
                 if (!chatUser.getMobile().equals(user.getMobile())) {
                     chatUser.setMobile(user.getMobile());

@@ -254,21 +254,24 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         for (Pair<Long, EMConversation> sortItem : sortList) {
             list.add(sortItem.second);
         }
-        EMConversation hx_admin = conversations.get("hx_admin");
-        if(hx_admin!=null) {
-            EMMessage msg = hx_admin.getLastMessage();
-            RobotUser robot = RobotUser.parse(msg);
-            User user = User.parse(msg);
-            user.setNick("官方君");
-            robot.setNick("官方君");
-            FragmentActivity activity = getActivity();
-            user.setAvatar("android.resource://"+ activity.getPackageName()+"/mipmap/ic_launcher");
-            robot.setAvatar("android.resource://"+ activity.getPackageName()+"/mipmap/ic_launcher");
-            UserDao userDao = new UserDao(getContext());
-            userDao.saveOrUpdate(user);
-            userDao.saveOrUpdate(robot);
-            list.add(0, hx_admin);
-        }
+
+//        boolean exist = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList().containsKey("hx_admin");
+            EMConversation hx_admin = conversations.get("hx_admin");
+            if(hx_admin!=null) {
+//                if(!exist) {
+//                    EMMessage msg = hx_admin.getLastMessage();
+//                    RobotUser robot = RobotUser.parse(msg);
+//                    User user = User.parse(msg);
+//                    user.setNick("官方君");
+//                    robot.setNick("官方君");
+//                    FragmentActivity activity = getActivity();
+//                    user.setAvatar("android.resource://" + activity.getPackageName() + "/mipmap/ic_launcher");
+//                    robot.setAvatar("android.resource://" + activity.getPackageName() + "/mipmap/ic_launcher");
+//                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user.getUsername(), robot);
+//                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), user);
+//                }
+                list.add(0, hx_admin);
+            }
         return list;
     }
 

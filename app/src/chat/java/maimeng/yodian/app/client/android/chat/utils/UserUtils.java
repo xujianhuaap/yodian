@@ -47,16 +47,12 @@ public class UserUtils {
         if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
             avatar = user.getAvatar();
         } else {
-            avatar = "http://www.ketie.me/default.png";
+            avatar = "android.resource://"+ context.getPackageName()+"/mipmap/default_avatar";
         }
-        if (BuildConfig.DEBUG)
             LogUtil.i(UserUtils.class.getName(), "setUserAvatar(),username:%s,avatar:%s", username, avatar);
-        if (BuildConfig.DEBUG)
-            LogUtil.i(UserUtils.class.getName(), "MainLooper:%s", Looper.myLooper() == Looper.getMainLooper());
         new ImageLoaderManager.Loader(imageView, Uri.parse(avatar)).placeHolder(R.mipmap.default_avatar).circle(Circle.obtain()).callback(new ImageLoaderManager.Callback() {
             @Override
             public void onImageLoaded(Bitmap bitmap) {
-                if (BuildConfig.DEBUG)
                     LogUtil.i(UserUtils.class.getName(), "onImageLoaded");
                 imageView.setImageBitmap(bitmap);
             }
