@@ -174,7 +174,7 @@
             android:label="@string/order_detail_title" />
         <activity
             android:name=".view.deal.DrawMoneyInfoConfirmActivity"
-            android:label="@string/apply_title" />
+            android:label="@string/draw_money_inof_certify_title" />
         <activity
             android:name=".view.deal.RemainderMainActivity"
             android:label="@string/my_remainder"

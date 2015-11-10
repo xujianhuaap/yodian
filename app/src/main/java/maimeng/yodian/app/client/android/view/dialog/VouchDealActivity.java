@@ -49,7 +49,7 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
                 if (status != BindStatus.NO_CARD) {
                     //####################################
                 } else {
-                    DrawMoneyInfoConfirmActivity.show(VouchDealActivity.this);
+//                    DrawMoneyInfoConfirmActivity.show(VouchDealActivity.this);
                 }
                 finish();
             }

@@ -117,9 +117,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
             startActivity(new Intent(this, BasicalInfoConfirmActivity.class));
         } else if (binding.btnDrawMoneyInfo == v) {
             //必须获得Remainder之后binding.getRemainder()才有效
-            DrawMoneyInfoConfirmActivity.show(this);
-
-
+            DrawMoneyInfoConfirmActivity.show(this,binding.getRemainder().getDraw_account());
         }
     }
 

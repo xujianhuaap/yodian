@@ -48,8 +48,9 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
      *
      * @param contenxt
      */
-    public static void show(Context contenxt) {
+    public static void show(Context contenxt,String account) {
         Intent intent = new Intent(contenxt, DrawMoneyInfoConfirmActivity.class);
+        intent.putExtra("alipay",account);
         contenxt.startActivity(intent);
     }
 
@@ -65,6 +66,8 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
         this.mZhiFuBaoAccount=(EditText)view.findViewById(R.id.zhifubao_account);
         setContentView(view);
 
+        String alipay=getIntent().getStringExtra("alipay");
+        mZhiFuBaoAccount.setText(alipay);
         mSubmit.setOnClickListener(this);
 
         mConfirmAccount.addTextChangedListener(new TextWatcherProxy(mConfirmAccount));
