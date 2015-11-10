@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.easemob.applib.controller.HXSDKHelper;
+import com.easemob.applib.model.HXSDKModel;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -173,9 +174,9 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         int position = ((AdapterContextMenuInfo) menuInfo).position;
-            EMConversation item = adapter.getItem(position);
-            if(item!=null && "hx_admin".equals(item.getUserName())){
-                return;
+        EMConversation item = adapter.getItem(position);
+        if (item != null && "hx_admin".equals(item.getUserName())) {
+            return;
         }
         getActivity().getMenuInflater().inflate(R.menu.delete_message, menu);
     }
@@ -236,9 +237,13 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
                 if (conversation.getAllMessages().size() != 0) {
                     //if(conversation.getType() != EMConversationType.ChatRoom){
                     EMMessage lastMessage = conversation.getLastMessage();
-                    if("hx_admin".equals(lastMessage.getUserName())){
+                    if ("hx_admin".equals(lastMessage.getUserName())) {
                         continue;
                     }
+                    User user = User.parse(lastMessage);
+                    RobotUser robot = RobotUser.parse(lastMessage);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
                     sortList.add(new Pair<Long, EMConversation>(lastMessage.getMsgTime(), conversation));
                     //}
                 }
@@ -255,23 +260,10 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
             list.add(sortItem.second);
         }
 
-//        boolean exist = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList().containsKey("hx_admin");
-            EMConversation hx_admin = conversations.get("hx_admin");
-            if(hx_admin!=null) {
-//                if(!exist) {
-//                    EMMessage msg = hx_admin.getLastMessage();
-//                    RobotUser robot = RobotUser.parse(msg);
-//                    User user = User.parse(msg);
-//                    user.setNick("官方君");
-//                    robot.setNick("官方君");
-//                    FragmentActivity activity = getActivity();
-//                    user.setAvatar("android.resource://" + activity.getPackageName() + "/mipmap/ic_launcher");
-//                    robot.setAvatar("android.resource://" + activity.getPackageName() + "/mipmap/ic_launcher");
-//                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user.getUsername(), robot);
-//                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot.getUsername(), user);
-//                }
-                list.add(0, hx_admin);
-            }
+        EMConversation hx_admin = conversations.get("hx_admin");
+        if (hx_admin != null) {
+            list.add(0, hx_admin);
+        }
         return list;
     }
 
