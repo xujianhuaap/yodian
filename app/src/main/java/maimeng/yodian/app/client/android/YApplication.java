@@ -155,6 +155,8 @@ public class YApplication extends DemoApplication {
 
     @Override
     public String getAppKey() {
-        return BuildConfig.DEBUG ? "maimengkeji#youdiantest" : "maimengkeji#youdian";
+        String s = BuildConfig.DEBUG ? "maimengkeji#youdiantest" : "maimengkeji#youdian";
+        return s;
+//        return "maimengkeji#youdian";
     }
 }

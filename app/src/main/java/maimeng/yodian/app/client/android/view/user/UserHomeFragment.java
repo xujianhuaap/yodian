@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -199,13 +200,16 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     public void init() {
         final User read = User.read(this.mActivity);
         init(read);
-        if(!getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE).getBoolean("flag",false)) {
+        final SharedPreferences sendservice = getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE);
+        boolean aBoolean = sendservice.getBoolean("flag" + read.getUid(), false);
+        if(!aBoolean) {
             Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
                 @Override
                 public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
                     if (response.getStatus() == 200) {
-                        LogUtil.i(UserHomeFragment.class.getName(), "Send Admin Msg Success");
-                        getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE).edit().putBoolean("flag",true).apply();
+
+                        LogUtil.i(UserHomeFragment.class.getName(), "Send Admin Msg Success url:%s",response.getUrl());
+                        sendservice.edit().putBoolean("flag"+read.getUid(),true).apply();
                     }
                 }
 
