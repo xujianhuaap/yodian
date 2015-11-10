@@ -16,21 +16,21 @@ public class Remainder implements Parcelable {
      * readicon : 0
      */
 
-    private String money;
-    private String withdraw;
-    private String during;
+    private double money;
+    private double withdraw;
+    private double during;
     private String draw_account;
     private int readicon;
 
-    public void setMoney(String money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 
-    public void setWithdraw(String withdraw) {
+    public void setWithdraw(double withdraw) {
         this.withdraw = withdraw;
     }
 
-    public void setDuring(String during) {
+    public void setDuring(double during) {
         this.during = during;
     }
 
@@ -42,15 +42,15 @@ public class Remainder implements Parcelable {
         this.readicon = readicon;
     }
 
-    public String getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public String getWithdraw() {
+    public double getWithdraw() {
         return withdraw;
     }
 
-    public String getDuring() {
+    public double getDuring() {
         return during;
     }
 
@@ -70,9 +70,9 @@ public class Remainder implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.money);
-        dest.writeString(this.withdraw);
-        dest.writeString(this.during);
+        dest.writeDouble(this.money);
+        dest.writeDouble(this.withdraw);
+        dest.writeDouble(this.during);
         dest.writeString(this.draw_account);
         dest.writeInt(this.readicon);
     }
@@ -81,9 +81,9 @@ public class Remainder implements Parcelable {
     }
 
     protected Remainder(Parcel in) {
-        this.money = in.readString();
-        this.withdraw = in.readString();
-        this.during = in.readString();
+        this.money = in.readDouble();
+        this.withdraw = in.readDouble();
+        this.during = in.readDouble();
         this.draw_account = in.readString();
         this.readicon = in.readInt();
     }

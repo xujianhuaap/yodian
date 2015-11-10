@@ -92,7 +92,7 @@
     <string name="my_remainder_lb">我的余额(元)</string>
     <string name="withdraw_lb">已提现金额(元)</string>
     <string name="bind_bank_card">绑定银行卡</string>
-    <string name="toast_bind_bank_card">没有绑定银行卡或绑定未审核通过</string>
+    <string name="toast_bind_bank_card">支付宝账号未绑定</string>
     <string name="apply_vouch">申请担保交易</string>
     <string name="remainder_lb">余额(元)</string>
     <string name="duringing_lb">提现中</string>
@@ -260,6 +260,9 @@
     <string name="zhi_fu_bao_account">支付宝账号</string>
     <string name="twice_confirm_account">确认账号</string>
     <string name="draw_money_inof_certify_title">提现信息认证</string>
+
+    <!-- draw money remainder-->
+    <string name="zhifubao_account"><![CDATA[提现为支付宝账号: %1$s]]></string>
 
 
 </resources>
