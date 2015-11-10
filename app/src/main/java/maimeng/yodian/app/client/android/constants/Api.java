@@ -27,9 +27,10 @@ public class Api {
     public static final String QRODE_URL = "http://share.yodian.me/";
 
 
-    public static final String MONEY_MY = "/money/my";//我的余额
+    public static final String MONEY_MY = "/money/mybalance";//我的余额
     public static final String MONEY_WITHDRAW = "/money/withdraw";//提现申请
     public static final String MONEY_WDLIST = "/money/wdlist";//提现历史
+    public static final String MONEY_ADD_ACCOUNT="/money/addaccount";//增加提现账户
 
     //bank
     public static final String BANK_LIST
@@ -43,13 +44,6 @@ public class Api {
     public static final String BANK_UNBIND
             = "/card/unbind";//解除绑定
 
-    //担保交易
-    public static final String VOUCH_APPLY
-            = "/vouch/apply";//申请担保
-    public static final String VOUCH_DETAIL
-            = "/vouch/detail";//获取担保详情
-    public static final String VOUCH_CANCEL
-            = "/vouch/cancel";//取消担保
 
     //订单
     public static final String ORDER_LIST_BUYER = "/order/buylist";//获取买家列表

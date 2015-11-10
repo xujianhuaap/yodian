@@ -45,34 +45,11 @@ public interface MoneyService {
     @Post(Api.MONEY_WDLIST)
     void wdlist(@Param("p") int page, Callback<WDListHistoryResponse> response);
 
-
     /***
-     * 担保申请
-     *
-     * @param name
-     * @param phone
-     * @param qq
-     * @param email
-     * @param Content
-     * @param callback
+     * 增加支付宝账号以备提现
+     * @param account
      */
-    @Post(Api.VOUCH_APPLY)
-    void vouchApply(@Param("name") String name, @Param("telephone") String phone,
-                    @Param("qq") String qq, @Param("email") String email,
-                    @Param("content") String Content, Callback<ToastResponse> callback);
-
-    /***
-     * 担保详情
-     *
-     * @param callback
-     */
-
-    @Post(Api.VOUCH_DETAIL)
-    @NoneEncoded
-    void vouchDetail(Callback<VouchResponse> callback);
-
-    @Post(Api.VOUCH_CANCEL)
-    @NoneEncoded
-    void vouchCancel(Callback<ToastResponse> callback);
+    @Post(Api.MONEY_ADD_ACCOUNT)
+    void addAccount(@Param("alipay")String account,Callback<ToastResponse> callback);
 
 }

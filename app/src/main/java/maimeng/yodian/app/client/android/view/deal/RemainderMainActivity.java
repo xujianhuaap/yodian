@@ -117,9 +117,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
             startActivity(new Intent(this, BasicalInfoConfirmActivity.class));
         } else if (binding.btnDrawMoneyInfo == v) {
             //必须获得Remainder之后binding.getRemainder()才有效
-
-
-
+            DrawMoneyInfoConfirmActivity.show(this,binding.getRemainder().getDraw_account());
         }
     }
 
@@ -133,7 +131,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
                     binding.setRemainder(remainder);
                 }
             } else if (requestCode == REQUEST_BIND_BANK) {
-                binding.getRemainder().setCardStatus(BindStatus.WAITCONFIRM);
+
             } else if (requestCode == REQUEST_VOUCH_APPLY) {
                 //申请完成
                 int applyStatus = data.getIntExtra("apply", 0x12);

@@ -180,10 +180,11 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             @Override
             public void success(RemainderResponse res, Response response) {
                 if (res.isSuccess()) {
-                    User read = User.read(CreateOrEditSkillActivity.this);
-                    read.getInfo().setVouch_status(res.getData().getVouchStatus());
-                    info = read.getInfo();
-                    read.write(CreateOrEditSkillActivity.this);
+                    //###########################################
+//                    User read = User.read(CreateOrEditSkillActivity.this);
+//                    read.getInfo().setVouch_status(res.getData().getVouchStatus());
+//                    info = read.getInfo();
+//                    read.write(CreateOrEditSkillActivity.this);
                 }
             }
 

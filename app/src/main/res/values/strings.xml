@@ -256,5 +256,10 @@
     <string name="certify_info">认证信息</string>
     <string name="draw_money_info">提现认证信息</string>
 
+    <!--提现信息认证-->
+    <string name="zhi_fu_bao_account">支付宝账号</string>
+    <string name="twice_confirm_account">确认账号</string>
+    <string name="draw_money_inof_certify_title">提现信息认证</string>
+
 
 </resources>
