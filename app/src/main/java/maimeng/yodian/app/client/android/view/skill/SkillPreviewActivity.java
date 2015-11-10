@@ -14,6 +14,7 @@ import android.widget.Toast;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.util.List;
 import java.util.Timer;
@@ -73,7 +74,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
 
     public static void show(Skill skill, Activity context, int editStatus, int requestCode) {
         Intent intent = new Intent();
-        intent.putExtra("skill", skill);
+        intent.putExtra("skill", Parcels.wrap(skill));
         intent.putExtra("editstatus", editStatus);
         intent.setClass(context, SkillPreviewActivity.class);
         if (requestCode == 0) {
@@ -89,7 +90,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        mSkill = intent.getParcelableExtra("skill");
+        mSkill = Parcels.unwrap(intent.getParcelableExtra("skill"));
         mEditStatus = intent.getIntExtra("editstatus", 0);
         mCallBackProxy = new CallBackProxy();
         mSkillService = Network.getService(SkillService.class);
@@ -188,12 +189,12 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
      */
     private void submitSkill() {
         if (mEditStatus == 1) {
-            mSkillService.update(mSkill.getId(), mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(),mSkill.getAllow_sell(), new ToastCallback(this) {
+            mSkillService.update(mSkill.getId(), mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), mSkill.getAllow_sell(), new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
                     if (res.isSuccess()) {
-                        Skill skill = getIntent().getParcelableExtra("skill");
+                        Skill skill = Parcels.unwrap(getIntent().getParcelableExtra("skill"));
                         skill.setPic(mSkill.getPic());
                         skill.setUnit(mSkill.getUnit());
                         skill.setPrice(mSkill.getPrice());
@@ -202,7 +203,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                         skill.setCreatetime(mSkill.getCreatetime());
                         skill.setStatus(mSkill.getStatus());
                         Intent data = new Intent();
-                        data.putExtra("skill", skill);
+                        data.putExtra("skill", Parcels.wrap(skill));
                         setResult(RESULT_OK, data);
                         finish();
                     } else if (res.isValidateAuth(SkillPreviewActivity.this, REQUEST_AUTH)) ;
@@ -224,7 +225,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
             });
         } else {
             if (mBitmap != null) {
-                mSkillService.add(mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(),mSkill.getAllow_sell(), new Callback<SkillAllResponse>() {
+                mSkillService.add(mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), mSkill.getAllow_sell(), new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
                         if (res.isSuccess()) {

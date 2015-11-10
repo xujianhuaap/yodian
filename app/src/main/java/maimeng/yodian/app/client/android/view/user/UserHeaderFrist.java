@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.parceler.Parcels;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderUserFristBinding;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -28,7 +30,7 @@ public class UserHeaderFrist extends BaseFragment {
 
     public static UserHeaderFrist newInstance(User user) {
         Bundle args = new Bundle();
-        args.putParcelable("user", user);
+        args.putParcelable("user", Parcels.wrap(user));
         UserHeaderFrist fragment = new UserHeaderFrist();
         fragment.setArguments(args);
         return fragment;
@@ -74,7 +76,7 @@ public class UserHeaderFrist extends BaseFragment {
                 return false;
             }
         });
-        bind((User) getArguments().getParcelable("user"));
+        bind((User) get("user"));
     }
 
 

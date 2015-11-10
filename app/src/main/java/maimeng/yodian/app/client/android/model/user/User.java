@@ -23,8 +23,8 @@ import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 /**
  * Created by henjue on 2015/4/7.
  */
-
-public class User extends UserBaseColum implements Parcelable {
+@org.parceler.Parcel
+public class User extends UserBaseColum {
     @SerializedName("nickname")
     private String nickname;
     @SerializedName("avatar")
@@ -34,18 +34,6 @@ public class User extends UserBaseColum implements Parcelable {
     private String token;
     @SerializedName("hxname")
     private String chatLoginName;
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     public String getChatLoginName() {
         return chatLoginName;
@@ -196,7 +184,7 @@ public class User extends UserBaseColum implements Parcelable {
             YApplication.getInstance().setCurrentUser(u);
             // 存入内存
             ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(u);
-            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate( rotot);
+            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(rotot);
             return user;
         }
     }
@@ -282,6 +270,7 @@ public class User extends UserBaseColum implements Parcelable {
         }
     }
 
+    @org.parceler.Parcel
     public static class Info extends User {
 
 
@@ -297,7 +286,7 @@ public class User extends UserBaseColum implements Parcelable {
         public static final String KEY_DISTRICT = "_district";
         public static final String KEY_ADDRESS = "_address";
         public static final String KEY_VOUCH_STATUS = "_vouch_status";
-        public static final String KEY_CERTIFY_STATUS="_certify_status";
+        public static final String KEY_CERTIFY_STATUS = "_certify_status";
 
         public String getSignature() {
             return signature;
@@ -463,8 +452,8 @@ public class User extends UserBaseColum implements Parcelable {
                 if (this.vouch_status != null) {
                     editor.putInt(KEY_VOUCH_STATUS, vouch_status.getValue());
                 }
-                if(this.certifi_status!=null){
-                    editor.putInt(KEY_CERTIFY_STATUS,certifi_status.getValue());
+                if (this.certifi_status != null) {
+                    editor.putInt(KEY_CERTIFY_STATUS, certifi_status.getValue());
                 }
                 return true;
             }
@@ -484,7 +473,7 @@ public class User extends UserBaseColum implements Parcelable {
                 String signature = pref.getString(KEY_SIGNATURE, "");
                 String job = pref.getString(KEY_JOB, "");
                 int vouch_status = pref.getInt(KEY_VOUCH_STATUS, 3);
-                int certify_status=pref.getInt(KEY_CERTIFY_STATUS,2);
+                int certify_status = pref.getInt(KEY_CERTIFY_STATUS, 2);
                 info.setCertifi_status(CertifyStatus.create(certify_status));
                 info.setVouch_status(BindStatus.create(vouch_status));
                 info.setWechat(wechat);
@@ -505,102 +494,6 @@ public class User extends UserBaseColum implements Parcelable {
         public Info() {
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            super.writeToParcel(dest, flags);
-            dest.writeString(this.contact);
-            dest.writeString(this.qq);
-            dest.writeString(this.province);
-            dest.writeString(this.city);
-            dest.writeString(this.district);
-            dest.writeString(this.address);
-            dest.writeString(this.signature);
-            dest.writeString(this.job);
-            dest.writeInt(this.vouch_status.getValue());
-            int certi=0;
-            if(certifi_status!=null){
-                certi=this.certifi_status.getValue();
-            }
-            dest.writeInt(certi);
-            dest.writeInt(this.sex == null ? -1 : this.sex.ordinal());
-            dest.writeInt(this.buyMsg);
-            dest.writeInt(this.sellMsg);
-            dest.writeInt(this.moneyMsg);
-            dest.writeString(this.mobile);
-            dest.writeString(this.wechat);
-        }
-
-        protected Info(Parcel in) {
-            super(in);
-            this.contact = in.readString();
-            this.qq = in.readString();
-            this.province = in.readString();
-            this.city = in.readString();
-            this.district = in.readString();
-            this.address = in.readString();
-            this.signature = in.readString();
-            this.job = in.readString();
-            int tmpVouch_status = in.readInt();
-            this.vouch_status = BindStatus.create(tmpVouch_status);
-            this.certifi_status=CertifyStatus.create(in.readInt());
-            int tmpSex = in.readInt();
-            this.sex = tmpSex == -1 ? null : Sex.values()[tmpSex];
-            this.buyMsg = in.readInt();
-            this.sellMsg = in.readInt();
-            this.moneyMsg = in.readInt();
-            this.mobile = in.readString();
-            this.wechat = in.readString();
-        }
-
-        public static final Creator<Info> CREATOR = new Creator<Info>() {
-            public Info createFromParcel(Parcel source) {
-                return new Info(source);
-            }
-
-            public Info[] newArray(int size) {
-                return new Info[size];
-            }
-        };
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.nickname);
-        dest.writeString(this.avatar);
-        dest.writeString(this.token);
-        dest.writeString(this.chatLoginName);
-        dest.writeLong(this.uid);
-        dest.writeLong(this.id);
-        dest.writeString(this.t_nickname);
-        dest.writeString(this.t_img);
-        dest.writeByte(pushOn ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.loginType);
-        dest.writeParcelable(this.info, 0);
-    }
-
-    protected User(Parcel in) {
-        this.nickname = in.readString();
-        this.avatar = in.readString();
-        this.token = in.readString();
-        this.chatLoginName = in.readString();
-        this.uid = in.readLong();
-        this.id = in.readLong();
-        this.t_nickname = in.readString();
-        this.t_img = in.readString();
-        this.pushOn = in.readByte() != 0;
-        this.loginType = in.readInt();
-        this.info = in.readParcelable(Info.class.getClassLoader());
     }
 
 }

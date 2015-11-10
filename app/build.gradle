@@ -127,6 +127,10 @@ dependencies {
     compile('com.umeng:fb:5.4.0') {
         exclude module: 'message', group: 'com.umeng'
     }
+
+
+    compile "org.parceler:parceler-api:1.0.1"
+    provided 'org.parceler:parceler:1.0.1'
 }
 task cleanUnUseRes() << {
     def lint_results = new XmlSlurper().parse(new File(project.getBuildDir(), "outputs/lint-results.xml"))

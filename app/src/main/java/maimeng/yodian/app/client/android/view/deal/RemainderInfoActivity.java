@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityRemainderInfoBinding;
@@ -39,9 +40,9 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
     private Remainder mAlipay;
 
 
-    public static void show(Context context,Remainder remainder){
-        Intent intent=new Intent(context,RemainderInfoActivity.class);
-        intent.putExtra(RemainderInfoActivity.KEY_REMAINDER, remainder);
+    public static void show(Context context, Remainder remainder) {
+        Intent intent = new Intent(context, RemainderInfoActivity.class);
+        intent.putExtra(RemainderInfoActivity.KEY_REMAINDER, Parcels.wrap(remainder));
         context.startActivity(intent);
     }
 
@@ -97,7 +98,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
                 Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
             }
         } else if (v == binding.mySaleOrder) {
-            OrderListActivity.show(this,true);
+            OrderListActivity.show(this, true);
         }
     }
 
@@ -131,7 +132,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
     @Override
     public void finish() {
         if (moneyChanged) {
-            setResult(RESULT_OK, new Intent().putExtra(KEY_REMAINDER, binding.getRemainder()).putExtra("during", during));
+            setResult(RESULT_OK, new Intent().putExtra(KEY_REMAINDER, Parcels.wrap(binding.getRemainder())).putExtra("during", during));
         }
         super.finish();
     }

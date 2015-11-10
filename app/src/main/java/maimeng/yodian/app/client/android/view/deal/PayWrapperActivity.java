@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import org.parceler.Parcels;
+
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 
@@ -23,7 +25,7 @@ public class PayWrapperActivity extends AppCompatActivity {
      */
     public static void show(Context context, OrderInfo info) {
         Intent intent = new Intent(context, PayWrapperActivity.class);
-        intent.putExtra("info", info);
+        intent.putExtra("info", Parcels.wrap(info));
         context.startActivity(intent);
     }
 
@@ -35,7 +37,7 @@ public class PayWrapperActivity extends AppCompatActivity {
      */
     public static void show(Context context, Skill info) {
         Intent intent = new Intent(context, PayWrapperActivity.class);
-        intent.putExtra("skill", info);
+        intent.putExtra("skill", Parcels.wrap(info));
         context.startActivity(intent);
     }
 
@@ -47,7 +49,7 @@ public class PayWrapperActivity extends AppCompatActivity {
      */
     public static void show(Activity context, Skill info, int requestCode) {
         Intent intent = new Intent(context, PayWrapperActivity.class);
-        intent.putExtra("skill", info);
+        intent.putExtra("skill", Parcels.wrap(info));
         intent.putExtra("result", true);
         context.startActivityForResult(intent, requestCode);
     }
@@ -60,7 +62,7 @@ public class PayWrapperActivity extends AppCompatActivity {
             OrderInfo info = intent.getParcelableExtra("info");
             PayListActivity.show(this, info, REQUEST_CODE);
         } else {
-            Skill skill = intent.getParcelableExtra("skill");
+            Skill skill = Parcels.unwrap(intent.getParcelableExtra("skill"));
             PayListActivity.show(this, skill, REQUEST_CODE);
         }
 

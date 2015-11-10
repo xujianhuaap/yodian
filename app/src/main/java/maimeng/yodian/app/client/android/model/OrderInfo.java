@@ -1,15 +1,13 @@
 package maimeng.yodian.app.client.android.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.Buyer;
 
 /**
  * Created by xujianhua on 9/28/15.
  */
-public class OrderInfo implements Parcelable {
+@org.parceler.Parcel
+public class OrderInfo {
 
     /**
      * id : 174
@@ -205,66 +203,4 @@ public class OrderInfo implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.number);
-        dest.writeString(this.seller_id);
-        dest.writeString(this.uid);
-        dest.writeString(this.sid);
-        dest.writeString(this.scid);
-        dest.writeString(this.pay_time);
-        dest.writeString(this.accept_time);
-        dest.writeString(this.send_time);
-        dest.writeString(this.confirm_time);
-        dest.writeString(this.total_fee);
-        dest.writeString(this.real_fee);
-        dest.writeString(this.skill_name);
-        dest.writeString(this.paytype);
-        dest.writeString(this.status);
-        dest.writeString(this.createtime);
-        dest.writeLong(this.oid);
-        dest.writeParcelable(this.skill, 0);
-        dest.writeParcelable(this.buyer, 0);
-    }
-
-    public OrderInfo() {
-    }
-
-    protected OrderInfo(Parcel in) {
-        this.id = in.readString();
-        this.number = in.readString();
-        this.seller_id = in.readString();
-        this.uid = in.readString();
-        this.sid = in.readString();
-        this.scid = in.readString();
-        this.pay_time = in.readString();
-        this.accept_time = in.readString();
-        this.send_time = in.readString();
-        this.confirm_time = in.readString();
-        this.total_fee = in.readString();
-        this.real_fee = in.readString();
-        this.skill_name = in.readString();
-        this.paytype = in.readString();
-        this.status = in.readString();
-        this.createtime = in.readString();
-        this.oid = in.readLong();
-        this.skill = in.readParcelable(Skill.class.getClassLoader());
-        this.buyer = in.readParcelable(Buyer.class.getClassLoader());
-    }
-
-    public static final Creator<OrderInfo> CREATOR = new Creator<OrderInfo>() {
-        public OrderInfo createFromParcel(Parcel source) {
-            return new OrderInfo(source);
-        }
-
-        public OrderInfo[] newArray(int size) {
-            return new OrderInfo[size];
-        }
-    };
 }

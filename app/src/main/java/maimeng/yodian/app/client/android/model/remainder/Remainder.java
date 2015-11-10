@@ -1,12 +1,7 @@
 package maimeng.yodian.app.client.android.model.remainder;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-/**
- * Created by android on 2015/9/21.
- */
-public class Remainder implements Parcelable {
+@org.parceler.Parcel
+public class Remainder {
 
     /**
      * money : 0.00
@@ -63,38 +58,7 @@ public class Remainder implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeDouble(this.money);
-        dest.writeDouble(this.withdraw);
-        dest.writeDouble(this.during);
-        dest.writeString(this.draw_account);
-        dest.writeInt(this.readicon);
-    }
-
     public Remainder() {
     }
 
-    protected Remainder(Parcel in) {
-        this.money = in.readDouble();
-        this.withdraw = in.readDouble();
-        this.during = in.readDouble();
-        this.draw_account = in.readString();
-        this.readicon = in.readInt();
-    }
-
-    public static final Creator<Remainder> CREATOR = new Creator<Remainder>() {
-        public Remainder createFromParcel(Parcel source) {
-            return new Remainder(source);
-        }
-
-        public Remainder[] newArray(int size) {
-            return new Remainder[size];
-        }
-    };
 }

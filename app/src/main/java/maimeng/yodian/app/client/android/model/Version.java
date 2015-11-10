@@ -5,6 +5,7 @@ import java.util.Date;
 /**
  * Created by android on 2015/8/24.
  */
+@org.parceler.Parcel
 public class Version {
 
     /**

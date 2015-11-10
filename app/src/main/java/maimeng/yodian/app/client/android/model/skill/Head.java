@@ -1,8 +1,6 @@
 package maimeng.yodian.app.client.android.model.skill;
 
-/**
- * Created by android on 8/20/15.
- */
+@org.parceler.Parcel
 public class Head {
     private long value;
     private String pic;

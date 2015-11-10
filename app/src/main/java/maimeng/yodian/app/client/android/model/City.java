@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by android on 15-10-19.
  */
+@org.parceler.Parcel
 public class City {
     private int type;
     private String name;

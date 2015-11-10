@@ -1,8 +1,6 @@
 package maimeng.yodian.app.client.android.model.user;
 
-/**
- * Created by android on 15-7-14.
- */
+@org.parceler.Parcel
 public class ModifyUser {
     public String getAvatar() {
         return avatar;

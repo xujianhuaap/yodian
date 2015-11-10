@@ -41,6 +41,8 @@ import com.easemob.util.EMLog;
 import com.easemob.util.EasyUtils;
 
 import org.json.JSONObject;
+import org.parceler.Parcel;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,10 +138,10 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                         /**
                          * 使用最新消息中的附加数据更新联系人信息
                          */
-                            User user = User.parse(message);
-                            RobotUser robotUser = RobotUser.parse(message);
-                            saveOrUpdate(user);
-                            saveOrUpdate(robotUser);
+                        User user = User.parse(message);
+                        RobotUser robotUser = RobotUser.parse(message);
+                        saveOrUpdate(user);
+                        saveOrUpdate(robotUser);
                         //应用在后台，不需要刷新UI,通知栏提示新消息
                         if (activityList.size() <= 0) {
                             HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
@@ -322,8 +324,8 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                     value.setMobile(user.getMobile());
                     value.setQq(user.getQq());
                     value.setWechat(user.getWechat());
-                    intent.putExtra("chatUser", value);
-                    intent.putExtra("skill", skill);
+                    intent.putExtra("chatUser", Parcels.wrap(value));
+                    intent.putExtra("skill", Parcels.wrap(skill));
                     intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
                 } else { // 群聊信息
                     // message.getTo()为群聊id
@@ -453,9 +455,9 @@ public class DemoHXSDKHelper extends HXSDKHelper {
         if (contactList == null) {
             contactList = new HashMap<>();
         }
-        if(contactList.containsKey("hx_admin") && "hx_admin".equals(user.getUsername())){
+        if (contactList.containsKey("hx_admin") && "hx_admin".equals(user.getUsername())) {
 
-        }else {
+        } else {
             contactList.put(user.getUsername(), user);
         }
         UserDao dao = new UserDao(appContext);
@@ -471,9 +473,9 @@ public class DemoHXSDKHelper extends HXSDKHelper {
         if (robotList == null) {
             robotList = new HashMap<>();
         }
-        if(robotList.containsKey("hx_admin") && "hx_admin".equals(user.getUsername())){
+        if (robotList.containsKey("hx_admin") && "hx_admin".equals(user.getUsername())) {
 
-        }else {
+        } else {
             robotList.put(user.getUsername(), user);
         }
         UserDao dao = new UserDao(appContext);

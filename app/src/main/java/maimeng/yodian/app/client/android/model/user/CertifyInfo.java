@@ -1,12 +1,7 @@
 package maimeng.yodian.app.client.android.model.user;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-/**
- * Created by xujianhua on 11/9/15.
- */
-public class CertifyInfo implements Parcelable{
+@org.parceler.Parcel
+public class CertifyInfo {
 
     /**
      * cname : 优点
@@ -43,34 +38,8 @@ public class CertifyInfo implements Parcelable{
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.cname);
-        dest.writeString(this.idcard);
-        dest.writeString(this.mobile);
-    }
-
     public CertifyInfo() {
     }
 
-    protected CertifyInfo(Parcel in) {
-        this.cname = in.readString();
-        this.idcard = in.readString();
-        this.mobile = in.readString();
-    }
 
-    public static final Creator<CertifyInfo> CREATOR = new Creator<CertifyInfo>() {
-        public CertifyInfo createFromParcel(Parcel source) {
-            return new CertifyInfo(source);
-        }
-
-        public CertifyInfo[] newArray(int size) {
-            return new CertifyInfo[size];
-        }
-    };
 }

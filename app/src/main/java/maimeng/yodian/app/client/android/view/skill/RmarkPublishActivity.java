@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.henjue.library.hnet.Response;
+import org.parceler.Parcels;
 
 import java.io.File;
 
@@ -64,7 +65,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
 
     public static void show(Activity context, Skill skill, View backView, int requestCode) {
         Intent intent = new Intent();
-        intent.putExtra("skill", skill);
+        intent.putExtra("skill", Parcels.wrap(skill));
         intent.setClass(context, RmarkPublishActivity.class);
         ActivityCompat.startActivityForResult(context, intent, requestCode, ActivityOptionsCompat.makeSceneTransitionAnimation(context, backView, "back").toBundle());
 
@@ -185,16 +186,16 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
             }
 
 
-        } else if(v==mBinding.ivPic){
+        } else if (v == mBinding.ivPic) {
             mBinding.ivPic.setVisibility(View.GONE);
             mBinding.pulishRmark.setVisibility(View.VISIBLE);
-        }else if(v==mBinding.skillPic){
-            if(mBinding.buttonContainer.getVisibility()==View.INVISIBLE&&mBitmap!=null){
+        } else if (v == mBinding.skillPic) {
+            if (mBinding.buttonContainer.getVisibility() == View.INVISIBLE && mBitmap != null) {
                 mBinding.ivPic.setVisibility(View.VISIBLE);
                 mBinding.pulishRmark.setVisibility(View.GONE);
             }
 
-        }else {
+        } else {
 
             Intent intent = new Intent();
             mFile = maimeng.yodian.app.client.android.utils.FileUtils.createFile("temp.jpg");

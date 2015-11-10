@@ -29,8 +29,6 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.StringResponse;
-import maimeng.yodian.app.client.android.network.response.TypeData;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 
@@ -190,8 +188,5 @@ public class GsonConverter implements Converter {
         }
     }
 
-    public static class ObjectTypeData implements TypeData {
-
-    }
 
 }

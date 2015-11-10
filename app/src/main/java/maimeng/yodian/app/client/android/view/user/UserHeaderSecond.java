@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.BaseFragment;
 
@@ -26,7 +28,7 @@ public class UserHeaderSecond extends BaseFragment {
 
     public static UserHeaderSecond newInstance(User user) {
         Bundle args = new Bundle();
-        args.putParcelable("user", user);
+        args.putParcelable("user", Parcels.wrap(user));
         UserHeaderSecond fragment = new UserHeaderSecond();
         fragment.setArguments(args);
         return fragment;
@@ -44,7 +46,7 @@ public class UserHeaderSecond extends BaseFragment {
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(16);
         textView.setGravity(Gravity.CENTER);
-        User user = getArguments().getParcelable("user");
+        User user = get("user");
         update(user);
         IntentFilter filter = new IntentFilter(UserHomeFragment.ACTION_UPDATE_INFO);
         receiver = new BroadcastReceiver() {

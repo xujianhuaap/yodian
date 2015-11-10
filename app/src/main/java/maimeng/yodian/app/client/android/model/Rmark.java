@@ -5,6 +5,7 @@ import java.util.Date;
 /**
  * Created by android on 2015/7/28.
  */
+@org.parceler.Parcel
 public class Rmark {
     private long id;
     private long uid;
