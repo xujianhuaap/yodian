@@ -227,6 +227,19 @@ public class User extends UserBaseColum implements Parcelable {
     }
 
 
+    public synchronized boolean writeInfo(Context context) {
+        synchronized (User.class) {
+            YApplication.getInstance().setAuthUser(this);
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putInt(KEY_TYPE, loginType);
+            if (info != null) info.write(editor);
+            editor.apply();
+            return true;
+        }
+    }
+
+
     public static boolean clear(Context context) {
         if (null == context) {
             return false;

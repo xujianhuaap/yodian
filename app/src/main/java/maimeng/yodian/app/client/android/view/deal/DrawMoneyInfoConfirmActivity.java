@@ -55,6 +55,16 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
     }
 
 
+    /***
+     *
+     * @param contenxt
+     */
+    public static void show(Activity contenxt,int requestCode) {
+        Intent intent = new Intent(contenxt, DrawMoneyInfoConfirmActivity.class);
+        contenxt.startActivityForResult(intent,requestCode);
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,4 +193,7 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
 
         }
     }
+
+
+
 }

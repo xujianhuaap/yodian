@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.deal;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Request;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
@@ -69,8 +71,14 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     final char[] validate = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};    //mod11,对应校验码字符值
 
 
-    public static void show(Context context){
-
+    /***
+     *
+     * @param context
+     * @param requestCode
+     */
+    public static void show(Activity context,int requestCode){
+        Intent intent=new Intent(context,BasicalInfoConfirmActivity.class);
+        context.startActivityForResult(intent,requestCode);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,6 +337,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
                     //个人信息提交成功
                     if(toastResponse.getCode()==20000){
                         Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
                         finish();
                     }else{
                         Toast.makeText(BasicalInfoConfirmActivity.this,getResources().getString(R.string.basic_info_certify_failure),Toast.LENGTH_SHORT).show();

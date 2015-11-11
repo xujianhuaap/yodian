@@ -52,7 +52,10 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.deal.BasicalInfoConfirmActivity;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
+import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
+import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.VouchDealActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -66,6 +69,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private static final int REQUEST_DONE = 0x1003;
+    private static final int REQUEST_CERTIFY = 0x1004;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
@@ -180,11 +184,10 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             @Override
             public void success(RemainderResponse res, Response response) {
                 if (res.isSuccess()) {
-                    //###########################################
-//                    User read = User.read(CreateOrEditSkillActivity.this);
-//                    read.getInfo().setVouch_status(res.getData().getVouchStatus());
-//                    info = read.getInfo();
-//                    read.write(CreateOrEditSkillActivity.this);
+
+                    User read = User.read(CreateOrEditSkillActivity.this);
+                    info = read.getInfo();
+                    read.write(CreateOrEditSkillActivity.this);
                 }
             }
 
@@ -267,13 +270,13 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             @Override
             public void onClick(View v) {
                 if (info != null) {
-                    if (info.getVouch_status() == BindStatus.PASS) {
+                    if (info.getCertifi_status() == CertifyStatus.PASS) {
                         //设置技能允许卖
                         onLinePay = !onLinePay;
                         binding.onLinePay.setChecked(onLinePay);
                     } else {
                         binding.onLinePay.setChecked(false);
-                        VouchDealActivity.show(CreateOrEditSkillActivity.this);
+                        BasicalInfoConfirmActivity.show(CreateOrEditSkillActivity.this, REQUEST_CERTIFY);
                     }
                 }
             }
@@ -509,7 +512,10 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                     toggle();
                     tempFile.deleteOnExit();
                 }
-            } else if (resultCode == REQUEST_DONE) {
+            } else if(requestCode==REQUEST_CERTIFY){
+                binding.onLinePay.setChecked(true);
+                binding.onLinePay.setClickable(false);
+            }else  if (requestCode == REQUEST_DONE) {
 
             }
         }
