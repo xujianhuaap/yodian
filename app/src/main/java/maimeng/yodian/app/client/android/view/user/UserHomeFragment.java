@@ -293,8 +293,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
                     this.user.update(user);//更新登录信息——个人的部分信息
                     this.user.setInfo(user);
-
-                    LogUtil.d("ceshi","-------->"+user.getCertifi_status());
                     this.user.writeInfo(getActivity());
                     if (user.getInfo().getMoneyMsg() > 0) {
                         headerMainHomeBinding.msgMoneyTopic.setVisibility(View.VISIBLE);

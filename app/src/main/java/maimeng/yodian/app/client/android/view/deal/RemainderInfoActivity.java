@@ -54,7 +54,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAlipay = getIntent().getParcelableExtra(KEY_REMAINDER);
+        mAlipay = Parcels.unwrap(getIntent().getParcelableExtra(KEY_REMAINDER));
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_remainder_info, null, false);
         setContentView(binding.getRoot());
         binding.htmlComment.setText(Html.fromHtml(getResources().getString(R.string.during_comment3)));

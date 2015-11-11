@@ -40,6 +40,7 @@ import maimeng.yodian.app.client.android.network.response.CertifyInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 
 /**
  * 绑定银行卡表单界面
@@ -74,11 +75,11 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     /***
      *
      * @param context
-     * @param requestCode
+     * @param
      */
-    public static void show(Activity context,int requestCode){
+    public static void show(Activity context){
         Intent intent=new Intent(context,BasicalInfoConfirmActivity.class);
-        context.startActivityForResult(intent,requestCode);
+        context.startActivity(intent);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -337,7 +338,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
                     //个人信息提交成功
                     if(toastResponse.getCode()==20000){
                         Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
+                        CreateOrEditSkillActivity.backTo(BasicalInfoConfirmActivity.this);
                         finish();
                     }else{
                         Toast.makeText(BasicalInfoConfirmActivity.this,getResources().getString(R.string.basic_info_certify_failure),Toast.LENGTH_SHORT).show();

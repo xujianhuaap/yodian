@@ -17,13 +17,15 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.view.deal.BasicalInfoConfirmActivity;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
 
 /**
  * Created by xujianhua on 10/16/15.
  */
-public class VouchDealActivity extends AppCompatActivity implements Callback<RemainderResponse> {
+public class VouchDealActivity extends AppCompatActivity  {
+    private static final int REQUEST_CERTIFY =0x234 ;
     private BindStatus status;
 
     /***
@@ -41,17 +43,10 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
         status = User.read(this).getInfo().getVouch_status();
         getWindow().setGravity(Gravity.BOTTOM);
         setContentView(R.layout.activity_vouch_deal);
-        Network.getService(MoneyService.class).remanider(this);
-
         findViewById(R.id.vouch_now).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (status != BindStatus.NO_CARD) {
-                    //####################################
-                } else {
-//                    DrawMoneyInfoConfirmActivity.show(VouchDealActivity.this);
-                }
-                finish();
+                BasicalInfoConfirmActivity.show(VouchDealActivity.this);
             }
         });
 
@@ -65,31 +60,5 @@ public class VouchDealActivity extends AppCompatActivity implements Callback<Rem
         });
     }
 
-    @Override
-    public void start() {
 
-    }
-
-    @Override
-    public void success(RemainderResponse res, Response response) {
-        if (res.isSuccess()) {
-            //###############################################
-//            remainder = res.getData();
-//            User read = User.read(this);
-//            read.getInfo().setVouch_status(res.getData().getVouchStatus());
-//            read.write(this);
-        } else {
-            res.showMessage(this);
-        }
-    }
-
-    @Override
-    public void failure(HNetError hNetError) {
-        ErrorUtils.checkError(this, hNetError);
-    }
-
-    @Override
-    public void end() {
-
-    }
 }

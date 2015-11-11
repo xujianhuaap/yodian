@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.skill;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -52,6 +53,7 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.BasicalInfoConfirmActivity;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
@@ -70,7 +72,6 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private static final int REQUEST_DONE = 0x1003;
-    private static final int REQUEST_CERTIFY = 0x1004;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
@@ -101,7 +102,16 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
         }
     }
 
-
+    /***
+     * 个人信息完成后又回到该界面
+     * @param context
+     */
+    public static void backTo(Context context){
+        Intent intent=new Intent(context,CreateOrEditSkillActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("backTo",true);
+        context.startActivity(intent);
+    };
     /****
      * 增加技能
      *
@@ -150,6 +160,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -157,6 +168,11 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
         binding = bindView(R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
         info = User.read(CreateOrEditSkillActivity.this).getInfo();
+
+        if(getIntent().getBooleanExtra("backTo",false)==true){
+            binding.onLinePay.setChecked(true);
+            binding.onLinePay.setClickable(false);
+        }
         if (getIntent().hasExtra("template")) {
             mTemplate = get("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
@@ -278,7 +294,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         binding.onLinePay.setChecked(onLinePay);
                     } else {
                         binding.onLinePay.setChecked(false);
-                        BasicalInfoConfirmActivity.show(CreateOrEditSkillActivity.this, REQUEST_CERTIFY);
+                        VouchDealActivity.show(CreateOrEditSkillActivity.this);
                     }
                 }
             }
@@ -444,6 +460,16 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
         }
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(intent.getBooleanExtra("backTo",false)==true){
+            binding.onLinePay.setChecked(true);
+            binding.onLinePay.setClickable(false);
+        }
+    }
+
     public static final String IMAGE_UNSPECIFIED = "image/*";
 
     private String getPhotoFileName() {
@@ -514,10 +540,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                     toggle();
                     tempFile.deleteOnExit();
                 }
-            } else if(requestCode==REQUEST_CERTIFY){
-                binding.onLinePay.setChecked(true);
-                binding.onLinePay.setClickable(false);
-            }else  if (requestCode == REQUEST_DONE) {
+            } else   if (requestCode == REQUEST_DONE) {
 
             }
         }

@@ -256,7 +256,7 @@ public class ShareDialog extends DialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle args = getArguments();
-        skill = args.getParcelable("skill");
+        skill = Parcels.unwrap(args.getParcelable("skill"));
         targetUid = args.getLong("targetUid");
         title = args.getString("title");
         redirect_url = args.getString("redirect_url");
