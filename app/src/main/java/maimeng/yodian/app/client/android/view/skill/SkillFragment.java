@@ -131,9 +131,8 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
         adapter = new SkillListIndexAdapter(this, this, mRefreshLayout);
         mRecyclerView.setAdapter(adapter);
-        final ArrayList<Skill> datas = (ArrayList<Skill>) getArguments().getSerializable("list");
-        final ArrayList<Banner> banners = (ArrayList<Banner>) getArguments().getSerializable("banners");
-
+        final ArrayList<Skill> datas = get("list");
+        final ArrayList<Banner> banners =get("banners");
         if (datas != null && banners != null) {
             callRefreshAdapter(datas, banners);
         } else {
