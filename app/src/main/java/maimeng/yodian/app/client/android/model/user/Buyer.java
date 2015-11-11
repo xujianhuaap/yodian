@@ -1,12 +1,10 @@
 package maimeng.yodian.app.client.android.model.user;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by xujianhua on 9/29/15.
  */
-public class Buyer implements Parcelable {
+@org.parceler.Parcel
+public class Buyer {
 
     /**
      * id : 74
@@ -304,86 +302,4 @@ public class Buyer implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeString(this.mobile);
-        dest.writeString(this.nickname);
-        dest.writeString(this.avatar);
-        dest.writeString(this.weichat);
-        dest.writeString(this.eclose);
-        dest.writeString(this.etoken);
-        dest.writeString(this.etype);
-        dest.writeString(this.type);
-        dest.writeString(this.token);
-        dest.writeString(this.usid);
-        dest.writeString(this.shielding);
-        dest.writeString(this.skillcount);
-        dest.writeString(this.report_count);
-        dest.writeString(this.hxname);
-        dest.writeString(this.qq);
-        dest.writeString(this.contact);
-        dest.writeString(this.sex);
-        dest.writeString(this.signature);
-        dest.writeString(this.job);
-        dest.writeString(this.province);
-        dest.writeString(this.city);
-        dest.writeString(this.district);
-        dest.writeString(this.address);
-        dest.writeString(this.logincount);
-        dest.writeString(this.logincountstatus);
-        dest.writeString(this.status);
-        dest.writeString(this.createtime);
-        dest.writeString(this.saddress);
-    }
-
-    public Buyer() {
-    }
-
-    protected Buyer(Parcel in) {
-        this.id = in.readLong();
-        this.mobile = in.readString();
-        this.nickname = in.readString();
-        this.avatar = in.readString();
-        this.weichat = in.readString();
-        this.eclose = in.readString();
-        this.etoken = in.readString();
-        this.etype = in.readString();
-        this.type = in.readString();
-        this.token = in.readString();
-        this.usid = in.readString();
-        this.shielding = in.readString();
-        this.skillcount = in.readString();
-        this.report_count = in.readString();
-        this.hxname = in.readString();
-        this.qq = in.readString();
-        this.contact = in.readString();
-        this.sex = in.readString();
-        this.signature = in.readString();
-        this.job = in.readString();
-        this.province = in.readString();
-        this.city = in.readString();
-        this.district = in.readString();
-        this.address = in.readString();
-        this.logincount = in.readString();
-        this.logincountstatus = in.readString();
-        this.status = in.readString();
-        this.createtime = in.readString();
-        this.saddress = in.readString();
-    }
-
-    public static final Creator<Buyer> CREATOR = new Creator<Buyer>() {
-        public Buyer createFromParcel(Parcel source) {
-            return new Buyer(source);
-        }
-
-        public Buyer[] newArray(int size) {
-            return new Buyer[size];
-        }
-    };
 }

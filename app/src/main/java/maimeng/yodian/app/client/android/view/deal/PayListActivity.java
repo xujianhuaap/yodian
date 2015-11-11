@@ -20,6 +20,7 @@ import org.henjue.library.hnet.exception.HNetError;
 import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.AuthFactory;
 import org.henjue.library.share.manager.WechatAuthManager;
+import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
@@ -61,7 +62,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
      */
     public static void show(Activity context, OrderInfo orderInfo, int requestCode) {
         Intent intent = new Intent(context, PayListActivity.class);
-        intent.putExtra("orderInfo", orderInfo);
+        intent.putExtra("orderInfo", Parcels.wrap(orderInfo));
         context.startActivityForResult(intent, requestCode);
     }
 
@@ -74,7 +75,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
      */
     public static void show(Activity context, Skill orderInfo, int requestCode) {
         Intent intent = new Intent(context, PayListActivity.class);
-        intent.putExtra("skill", orderInfo);
+        intent.putExtra("skill", Parcels.wrap(orderInfo));
         context.startActivityForResult(intent, requestCode);
     }
 
@@ -95,7 +96,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, mOrderInfo.getTotal_fee())));
             isOrderPay = true;
         } else {
-            mSkill = intent.getParcelableExtra("skill");
+            mSkill = Parcels.unwrap(intent.getParcelableExtra("skill"));
             mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, mSkill.getPrice())));
         }
 

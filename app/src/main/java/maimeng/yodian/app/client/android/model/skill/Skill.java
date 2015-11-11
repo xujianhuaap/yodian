@@ -18,7 +18,8 @@ import maimeng.yodian.app.client.android.network.loader.Circle;
 /**
  * Created by xujianhua on 9/29/15.
  */
-public class Skill extends BaseObservable implements Parcelable {
+@org.parceler.Parcel
+public class Skill extends BaseObservable {
 
     /**
      * id : 72
@@ -410,107 +411,9 @@ public class Skill extends BaseObservable implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeLong(this.uid);
-        dest.writeString(this.type);
-        dest.writeLong(this.scid);
-        dest.writeString(this.name);
-        dest.writeString(this.pic);
-        dest.writeString(this.content);
-        dest.writeString(this.price);
-        dest.writeString(this.unit);
-        dest.writeString(this.contentcount);
-        dest.writeString(this.daycontentcount);
-        dest.writeString(this.daycontentstatus);
-        dest.writeString(this.sharecount);
-        dest.writeString(this.report_count);
-        dest.writeString(this.daysharecount);
-        dest.writeString(this.daysharestatus);
-        dest.writeString(this.qrcode);
-        dest.writeString(this.qrcodeUrl);
-        dest.writeString(this.elitetime);
-        dest.writeString(this.ord);
-        dest.writeString(this.smartsort);
-        dest.writeInt(this.allow_sell);
-        dest.writeInt(this.status);
-        dest.writeLong(createtime != null ? createtime.getTime() : -1);
-        dest.writeString(this.nickname);
-        dest.writeString(this.avatar);
-        dest.writeString(this.weichat);
-        dest.writeString(this.sid);
-        dest.writeString(this.qq);
-        dest.writeString(this.contact);
-        dest.writeString(this.sex);
-        dest.writeString(this.signature);
-        dest.writeString(this.province);
-        dest.writeString(this.city);
-        dest.writeString(this.district);
-        dest.writeString(this.address);
-        dest.writeString(this.saddress);
-        dest.writeString(this.chatLoginName);
-    }
-
     public Skill() {
     }
 
-    protected Skill(Parcel in) {
-        this.id = in.readLong();
-        this.uid = in.readLong();
-        this.type = in.readString();
-        this.scid = in.readLong();
-        this.name = in.readString();
-        this.pic = in.readString();
-        this.content = in.readString();
-        this.price = in.readString();
-        this.unit = in.readString();
-        this.contentcount = in.readString();
-        this.daycontentcount = in.readString();
-        this.daycontentstatus = in.readString();
-        this.sharecount = in.readString();
-        this.report_count = in.readString();
-        this.daysharecount = in.readString();
-        this.daysharestatus = in.readString();
-        this.qrcode = in.readString();
-        this.qrcodeUrl = in.readString();
-        this.elitetime = in.readString();
-        this.ord = in.readString();
-        this.smartsort = in.readString();
-        this.allow_sell = in.readInt();
-        this.status = in.readInt();
-        long tmpCreatetime = in.readLong();
-        this.createtime = tmpCreatetime == -1 ? null : new Date(tmpCreatetime);
-        this.nickname = in.readString();
-        this.avatar = in.readString();
-        this.weichat = in.readString();
-        this.sid = in.readString();
-        this.qq = in.readString();
-        this.contact = in.readString();
-        this.sex = in.readString();
-        this.signature = in.readString();
-        this.province = in.readString();
-        this.city = in.readString();
-        this.district = in.readString();
-        this.address = in.readString();
-        this.saddress = in.readString();
-        this.chatLoginName = in.readString();
-    }
-
-    public static final Creator<Skill> CREATOR = new Creator<Skill>() {
-        public Skill createFromParcel(Parcel source) {
-            return new Skill(source);
-        }
-
-        public Skill[] newArray(int size) {
-            return new Skill[size];
-        }
-    };
 
     public void update(Skill skill) {
         setUid(skill.uid);
@@ -541,7 +444,7 @@ public class Skill extends BaseObservable implements Parcelable {
 
     @Override
     public String toString() {
-        return "wechat:"+this.getWeichat()+"qq"+this.getQq()+"contact"+this.getContact();
+        return "wechat:" + this.getWeichat() + "qq" + this.getQq() + "contact" + this.getContact();
 
     }
 }

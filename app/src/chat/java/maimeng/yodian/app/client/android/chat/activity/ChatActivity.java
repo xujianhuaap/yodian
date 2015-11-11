@@ -95,6 +95,8 @@ import com.easemob.util.VoiceRecorder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -252,7 +254,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     public static void show(Context context, ChatUser chatUser, int chatType) {
         Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra("chatUser", chatUser);
+        intent.putExtra("chatUser", Parcels.wrap(chatUser));
         intent.putExtra("chatType", chatType);
         context.startActivity(intent);
     }
@@ -263,8 +265,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     public static void show(Context context, Skill skill, ChatUser chatUser, int chatType) {
         Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra("skill", skill);
-        intent.putExtra("chatUser", chatUser);
+        intent.putExtra("skill", Parcels.wrap(skill));
+        intent.putExtra("chatUser", Parcels.wrap(chatUser));
         intent.putExtra("chatType", chatType);
         context.startActivity(intent);
     }
@@ -280,10 +282,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
         Intent intent = getIntent();
         chatType = intent.getIntExtra("chatType", CHATTYPE_SINGLE);
-        chatUser = intent.getParcelableExtra("chatUser");
+        chatUser = get("chatUser");
         setTitle(chatUser.getNickName());
         if (intent.hasExtra("skill")) {
-            skill = intent.getParcelableExtra("skill");
+            skill = get("skill");
         }
         if (chatType == CHATTYPE_SINGLE) {
             toChatUsername = chatUser.getChatName();
@@ -383,7 +385,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         btnShowSkill.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent().setClassName(v.getContext(), "maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity").putExtra("skill", skill));
+                startActivity(new Intent().setClassName(v.getContext(), "maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity").putExtra("skill", Parcels.wrap(skill)));
             }
         });
         BaseAdapter adapter = new BaseAdapter() {
@@ -1117,22 +1119,22 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     }
 
     private void onNewMessage(EMMessage message) {
-            User user = User.parse(message);
-            RobotUser robot = RobotUser.parse(message);
-            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
-            ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
-            if (message.getFrom().equals(chatUser.getChatName())) {
-                if (!chatUser.getMobile().equals(user.getMobile())) {
-                    chatUser.setMobile(user.getMobile());
-                }
-                if (!chatUser.getWechat().equals(user.getWechat())) {
-                    chatUser.setWechat(user.getWechat());
-                }
-                if (!chatUser.getQq().equals(user.getQq())) {
-                    chatUser.setQq(user.getQq());
-                }
+        User user = User.parse(message);
+        RobotUser robot = RobotUser.parse(message);
+        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
+        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
+        if (message.getFrom().equals(chatUser.getChatName())) {
+            if (!chatUser.getMobile().equals(user.getMobile())) {
+                chatUser.setMobile(user.getMobile());
             }
-            refreshUIWithNewMessage();
+            if (!chatUser.getWechat().equals(user.getWechat())) {
+                chatUser.setWechat(user.getWechat());
+            }
+            if (!chatUser.getQq().equals(user.getQq())) {
+                chatUser.setQq(user.getQq());
+            }
+        }
+        refreshUIWithNewMessage();
     }
 
     /***

@@ -2,8 +2,6 @@ package maimeng.yodian.app.client.android.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
@@ -13,8 +11,9 @@ import java.util.Date;
 
 import maimeng.yodian.app.client.android.BR;
 
+@org.parceler.Parcel
 @DatabaseTable(tableName = "_skillTemplate")
-public class SkillTemplate extends BaseObservable implements Parcelable {
+public class SkillTemplate extends BaseObservable {
 
     public long getId() {
         return id;
@@ -100,45 +99,4 @@ public class SkillTemplate extends BaseObservable implements Parcelable {
         this.unit = unit;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeString(this.name);
-        dest.writeString(this.pic);
-        dest.writeString(this.content);
-        dest.writeString(this.price);
-        dest.writeString(this.unit);
-        dest.writeInt(this.status);
-        dest.writeLong(createtime != null ? createtime.getTime() : -1);
-    }
-
-    public SkillTemplate() {
-    }
-
-    protected SkillTemplate(Parcel in) {
-        this.id = in.readLong();
-        this.name = in.readString();
-        this.pic = in.readString();
-        this.content = in.readString();
-        this.price = in.readString();
-        this.unit = in.readString();
-        this.status = in.readInt();
-        long tmpCreatetime = in.readLong();
-        this.createtime = tmpCreatetime == -1 ? null : new Date(tmpCreatetime);
-    }
-
-    public static final Parcelable.Creator<SkillTemplate> CREATOR = new Parcelable.Creator<SkillTemplate>() {
-        public SkillTemplate createFromParcel(Parcel source) {
-            return new SkillTemplate(source);
-        }
-
-        public SkillTemplate[] newArray(int size) {
-            return new SkillTemplate[size];
-        }
-    };
 }

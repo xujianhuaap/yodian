@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by android on 2015/10/21.
  */
-public class WDModel implements Parcelable {
+public class WDModel {
 
 
     /**
@@ -146,59 +146,7 @@ public class WDModel implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.withdraw_code);
-        dest.writeString(this.money);
-        dest.writeString(this.money_read);
-        dest.writeString(this.uid);
-        dest.writeString(this.alipay_id);
-        dest.writeString(this.card_id);
-        dest.writeString(this.why_id);
-        dest.writeString(this.backwhy);
-        dest.writeString(this.audit_time);
-        dest.writeInt(this.status);
-        long time=0;
-        if(this.createtime!=null){
-            time=this.createtime.getTime();
-        }
-        dest.writeLong(time);
-        dest.writeString(this.alipay);
-    }
-
     public WDModel() {
     }
 
-    protected WDModel(Parcel in) {
-        this.id = in.readString();
-        this.withdraw_code = in.readString();
-        this.money = in.readString();
-        this.money_read = in.readString();
-        this.uid = in.readString();
-        this.alipay_id = in.readString();
-        this.card_id = in.readString();
-        this.why_id = in.readString();
-        this.backwhy = in.readString();
-        this.audit_time = in.readString();
-        this.status = in.readInt();
-        long time=in.readLong();
-        this.createtime =new Date(time);
-        this.alipay = in.readString();
-    }
-
-    public static final Creator<WDModel> CREATOR = new Creator<WDModel>() {
-        public WDModel createFromParcel(Parcel source) {
-            return new WDModel(source);
-        }
-
-        public WDModel[] newArray(int size) {
-            return new WDModel[size];
-        }
-    };
 }

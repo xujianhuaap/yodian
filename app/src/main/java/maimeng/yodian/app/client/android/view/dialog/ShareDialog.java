@@ -31,6 +31,7 @@ import org.henjue.library.share.manager.WechatShareManager;
 import org.henjue.library.share.manager.WeiboShareManager;
 import org.henjue.library.share.model.MessagePic;
 import org.henjue.library.share.model.MessageWebpage;
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -229,7 +230,7 @@ public class ShareDialog extends DialogFragment {
         args.putString("redirect_url", params.redirect_url);
         args.putString("reportContent", params.reportContent);
         args.putString("targetNickname", params.targetNickname);
-        args.putParcelable("skill", skill);
+        args.putParcelable("skill", Parcels.wrap(skill));
         dialog.setArguments(args);
         return dialog;
     }

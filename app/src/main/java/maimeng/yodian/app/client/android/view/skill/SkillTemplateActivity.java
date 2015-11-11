@@ -53,23 +53,22 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
     private View mStarCircle;
 
     /***
-     *
      * @param activity
      * @param requestCode
      * @param pairs
      */
-    public static void show(Activity activity,int requestCode,Pair<View,String>...pairs){
-        Intent intent=new Intent(activity, SkillTemplateActivity.class);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,pairs);
-        ActivityCompat.startActivityForResult(activity,intent , requestCode, options.toBundle());
+    public static void show(Activity activity, int requestCode, Pair<View, String>... pairs) {
+        Intent intent = new Intent(activity, SkillTemplateActivity.class);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
+        ActivityCompat.startActivityForResult(activity, intent, requestCode, options.toBundle());
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         service = Network.getService(SkillService.class);
         setContentView(R.layout.activity_skill_template);
-        ViewCompat.setTransitionName(findViewById(R.id.top), "top");
         View floatbutton = findViewById(R.id.btn_back);
         ViewCompat.setTransitionName(floatbutton, "floatbutton");
         floatbutton.setOnClickListener(new View.OnClickListener() {
@@ -97,9 +96,9 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
             e.printStackTrace();
         }
 
-        mStarCircle=findViewById(R.id.btn_star);
+        mStarCircle = findViewById(R.id.btn_star);
 
-        Animation animation=AnimationUtils.loadAnimation(this,R.anim.rotation_clockwise);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotation_clockwise);
         mStarCircle.setAnimation(animation);
         animation.startNow();
 
@@ -155,9 +154,9 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         if (holder.getItemViewType() == ViewEntry.VIEW_TYPE_ITEM) {
             SkillTemplateAdapter.ItemViewHolder itemHolder = (SkillTemplateAdapter.ItemViewHolder) holder;
             SkillTemplate template = itemHolder.getTemplate();
-            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_CREATE_SKILL,template);
+            CreateOrEditSkillActivity.show(this, BaseFragment.REQUEST_CREATE_SKILL, template);
         } else {
-            CreateOrEditSkillActivity.show(this,BaseFragment.REQUEST_EDIT_SKILL);
+            CreateOrEditSkillActivity.show(this, BaseFragment.REQUEST_EDIT_SKILL);
         }
     }
 

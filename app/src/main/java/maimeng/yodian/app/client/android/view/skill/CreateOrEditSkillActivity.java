@@ -30,6 +30,7 @@ import android.widget.Toast;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -78,6 +79,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     private File tempFile;
     private ShareDialog mShareDialog;
     private User.Info info;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -111,7 +113,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     public static void show(Activity context, int requestCode, Skill skill) {
         Intent intent = new Intent(context, CreateOrEditSkillActivity.class);
         if (skill != null) {
-            intent.putExtra("skill", skill);
+            intent.putExtra("skill", Parcels.wrap(skill));
         }
         context.startActivityForResult(intent, requestCode);
     }
@@ -127,7 +129,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     public static void show(AppCompatActivity context, int requestCode, SkillTemplate template) {
         Intent intent = new Intent(context, CreateOrEditSkillActivity.class);
         if (template != null) {
-            intent.putExtra("template", template);
+            intent.putExtra("template", Parcels.wrap(template));
         }
         context.startActivity(intent);
     }
@@ -152,17 +154,17 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             dir.mkdirs();
         }
         tempFile = new File(dir, getPhotoFileName());
-        binding =bindView(R.layout.activity_create_skill);
+        binding = bindView(R.layout.activity_create_skill);
         final SkillTemplate mTemplate;
         info = User.read(CreateOrEditSkillActivity.this).getInfo();
         if (getIntent().hasExtra("template")) {
-            mTemplate = getIntent().getParcelableExtra("template");
+            mTemplate = get("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
             ViewCompat.setTransitionName(binding.skillName, "title");
         } else {
             mTemplate = new SkillTemplate();
             if (getIntent().hasExtra("skill")) {
-                Skill skill = getIntent().getParcelableExtra("skill");
+                Skill skill = get("skill");
                 mTemplate.setPic(skill.getPic());
                 mTemplate.setUnit(skill.getUnit());
                 mTemplate.setPrice(skill.getPrice());
@@ -371,7 +373,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         skill.setCreatetime(template.getCreatetime());
                         skill.setStatus(template.getStatus());
                         Intent data = new Intent();
-                        data.putExtra("skill", skill);
+                        data.putExtra("skill", Parcels.wrap(skill));
                         setResult(RESULT_OK, data);
                         finish();
                     } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
@@ -406,7 +408,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                                 mShareDialog.setListener(new ShareDialog.Listener() {
                                     @Override
                                     public void onClose() {
-                                        setResult(RESULT_OK, new Intent().putExtra("skill", newSkill));
+                                        setResult(RESULT_OK, new Intent().putExtra("skill", Parcels.wrap(newSkill)));
                                         finish();
                                     }
                                 });

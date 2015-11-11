@@ -25,6 +25,7 @@ import com.easemob.chat.EMChatManager;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,7 +168,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -177,7 +177,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             } else if (requestCode == REQUEST_AUTH) {
                 init();
             } else if (requestCode == REQUEST_EDIT_SKILL) {
-                Skill skill = data.getParcelableExtra("skill");
+                Skill skill = Parcels.unwrap(data.getParcelableExtra("skill"));
                 if (mEditPostion != -1 && skill != null) {
                     ViewEntry entry = adapter.getItem(mEditPostion);
                     if (entry instanceof ItemViewEntry) {
@@ -202,14 +202,14 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         init(read);
         final SharedPreferences sendservice = getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE);
         boolean aBoolean = sendservice.getBoolean("flag" + read.getUid(), false);
-        if(!aBoolean) {
+        if (!aBoolean) {
             Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
                 @Override
                 public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
                     if (response.getStatus() == 200) {
 
-                        LogUtil.i(UserHomeFragment.class.getName(), "Send Admin Msg Success url:%s",response.getUrl());
-                        sendservice.edit().putBoolean("flag"+read.getUid(),true).apply();
+                        LogUtil.i(UserHomeFragment.class.getName(), "Send Admin Msg Success url:%s", response.getUrl());
+                        sendservice.edit().putBoolean("flag" + read.getUid(), true).apply();
                     }
                 }
 
@@ -293,9 +293,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
                     this.user.update(user);//更新登录信息——个人的部分信息
                     this.user.setInfo(user);
+
                     LogUtil.d("ceshi","-------->"+user.getCertifi_status());
                     this.user.writeInfo(getActivity());
-                    if(user.getInfo().getMoneyMsg()>0){
+                    if (user.getInfo().getMoneyMsg() > 0) {
                         headerMainHomeBinding.msgMoneyTopic.setVisibility(View.VISIBLE);
                     }
                 }
@@ -383,7 +384,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 public void run() {
                     Skill skill = itemViewHolder.getData();
                     if (skill.getStatus() == 0) {
-                        startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", skill));
+                        startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
                     }
 
                 }
@@ -484,7 +485,8 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
                     // 存入内存
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);;
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
+                    ;
                     ChatActivity.show(getActivity(), itemViewHolder.getData(), new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
                 }
             }
@@ -527,16 +529,16 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     }
                 } else if (clickItem == headerMainHomeBinding.btnMyOrder) {
 
-                    if(user.getInfo().getSellMsg()>0){
-                        OrderListActivity.show(getActivity(),true);
+                    if (user.getInfo().getSellMsg() > 0) {
+                        OrderListActivity.show(getActivity(), true);
                         return;
 
                     }
-                    if(user.getInfo().getBuyMsg()>0){
-                        OrderListActivity.show(getActivity(),false);
+                    if (user.getInfo().getBuyMsg() > 0) {
+                        OrderListActivity.show(getActivity(), false);
                         return;
                     }
-                    OrderListActivity.show(getActivity(),true);
+                    OrderListActivity.show(getActivity(), true);
 
 
                 } else if (clickItem == headerMainHomeBinding.btnMyRemainder) {
@@ -551,7 +553,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Override
     public void onResume() {
         super.onResume();
-        if(user!=null){
+        if (user != null) {
             syncRequest();
         }
         refreshMissMsgIcon();

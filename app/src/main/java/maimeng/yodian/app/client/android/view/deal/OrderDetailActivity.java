@@ -17,6 +17,7 @@ import com.easemob.applib.controller.HXSDKHelper;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,7 +77,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
     public static void show(Context context, OrderInfo orderInfo, boolean isSaled) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
-        intent.putExtra("orderInfo", orderInfo);
+        intent.putExtra("orderInfo", Parcels.wrap(orderInfo));
         intent.putExtra("isSaled", isSaled);
         context.startActivity(intent);
     }
@@ -269,7 +270,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
 
                         // 存入内存
-                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate( robot);
+                        ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
                         ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
                     }
                     ChatUser chatUser = new ChatUser(buyer.getHxname(), buyer.getId(), buyer.getNickname());
@@ -318,7 +319,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = bindView(R.layout.activity_order_detail);
-        final OrderInfo info = getIntent().getParcelableExtra("orderInfo");
+        final OrderInfo info = get("orderInfo");
         if (info != null) {
             refreshUI(info);
         } else {

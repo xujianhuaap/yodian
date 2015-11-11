@@ -20,6 +20,7 @@ import com.easemob.applib.controller.HXSDKHelper;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,6 @@ import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListIndexAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
-import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
@@ -92,8 +92,8 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         Bundle args = new Bundle();
         args.putString("name", name);
         args.putLong("id", scid);
-        args.putSerializable("list", datas);
-        args.putSerializable("banners", mBanner);
+        args.putParcelable("list", Parcels.wrap(datas));
+        args.putParcelable("banners", Parcels.wrap(mBanner));
         skillFragment.setArguments(args);
         return skillFragment;
     }
@@ -210,7 +210,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                     Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
                     Skill skill = ((SkillListIndexAdapter.ItemViewHolder) h).getData();
                     if (skill.getStatus() == 0) {
-                        startActivity(new Intent(getContext(), SkillDetailsActivity.class).putExtra("skill", skill));
+                        startActivity(new Intent(getContext(), SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
                     }
 
                 }

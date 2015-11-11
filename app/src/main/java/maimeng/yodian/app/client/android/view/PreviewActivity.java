@@ -11,6 +11,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.parceler.Parcels;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
@@ -24,18 +26,18 @@ public class PreviewActivity extends AppCompatActivity {
     private ImageView mPreview;
 
 
-    public static void show(Context context,User user){
-        Intent intent=new Intent(context,PreviewActivity.class);
-        intent.putExtra("user",user);
+    public static void show(Context context, User user) {
+        Intent intent = new Intent(context, PreviewActivity.class);
+        intent.putExtra("user", Parcels.wrap(user));
         context.startActivity(intent);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window window=getWindow();
         setContentView(R.layout.activity_preview_pic);
-        mUser=getIntent().getParcelableExtra("user");
-        mPreview=(ImageView)findViewById(R.id.preview_pic);
+        mUser = getIntent().getParcelableExtra("user");
+        mPreview = (ImageView) findViewById(R.id.preview_pic);
         mPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,9 +50,7 @@ public class PreviewActivity extends AppCompatActivity {
     }
 
 
-
-
-    private final class ImageCallBackProxy implements ImageLoaderManager.Callback{
+    private final class ImageCallBackProxy implements ImageLoaderManager.Callback {
         @Override
         public void onLoadFaild() {
             Toast.makeText(PreviewActivity.this, "查看大图失败", Toast.LENGTH_SHORT).show();

@@ -29,6 +29,7 @@ import com.easemob.applib.controller.HXSDKHelper;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.util.Date;
 import java.util.List;
@@ -139,7 +140,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
 
         binding.recyclerView.setAdapter(adapter);
         if (getIntent().hasExtra("skill")) {
-            Skill skill = getIntent().getParcelableExtra("skill");
+            Skill skill = Parcels.unwrap(getIntent().getParcelableExtra("skill"));
             ImageBindable imageBindable = skill.getAvatar80();
             if (imageBindable != null && imageBindable.getUri() != null) {
                 new ImageLoaderManager.Loader(SkillDetailsActivity.this, imageBindable.getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
@@ -348,7 +349,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     user.setQq(skill.getQq());
                     user.setMobile(skill.getContact());
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
-                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate( user);
+                    ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
                 }
 
                 ChatActivity.show(SkillDetailsActivity.this, skill, new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));

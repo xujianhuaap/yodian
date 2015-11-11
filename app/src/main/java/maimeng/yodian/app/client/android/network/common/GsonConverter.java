@@ -29,10 +29,9 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.StringResponse;
-import maimeng.yodian.app.client.android.network.response.TypeData;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
+import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 
 
 public class GsonConverter implements Converter {
@@ -164,6 +163,18 @@ public class GsonConverter implements Converter {
         }
     }
 
+    public static class CertifiStatusAdapter implements JsonDeserializer<CertifyStatus>,JsonSerializer<CertifyStatus>{
+        @Override
+        public CertifyStatus deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return CertifyStatus.create(json.getAsInt());
+        }
+
+        @Override
+        public JsonElement serialize(CertifyStatus src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.getValue());
+        }
+    }
+
     public static class SexAdapter implements JsonDeserializer<Sex>, JsonSerializer<Sex> {
         @Override
         public Sex deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -190,8 +201,5 @@ public class GsonConverter implements Converter {
         }
     }
 
-    public static class ObjectTypeData implements TypeData {
-
-    }
 
 }

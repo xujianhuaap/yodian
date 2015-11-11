@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
 
+import org.parceler.Parcels;
+
 /**
  * Created by android on 15-10-10.
  */
@@ -20,4 +22,7 @@ public abstract class BaseFragment extends Fragment {
         return false;
     }
 
+    protected <T> T get(String key) {
+        return Parcels.unwrap(getArguments().getParcelable(key));
+    }
 }

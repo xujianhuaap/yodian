@@ -1,14 +1,12 @@
 package maimeng.yodian.app.client.android.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by xujianhua on 9/25/15.
  */
-public class Vouch implements Parcelable{
-//   {"id":"13","name":"\u623f\u7ba1\u5c40","telephone":"\u4f46ghjj","uid":"70","email":"\u8179\u80a1\u6c9f","qq":"\u623f\u7ba1\u5c40","content":"ghjj\u5443","bwid":"","back_detail":"","status":"0","createtime":"1443090834"}}
-private long id;
+@org.parceler.Parcel
+public class Vouch {
+    //   {"id":"13","name":"\u623f\u7ba1\u5c40","telephone":"\u4f46ghjj","uid":"70","email":"\u8179\u80a1\u6c9f","qq":"\u623f\u7ba1\u5c40","content":"ghjj\u5443","bwid":"","back_detail":"","status":"0","createtime":"1443090834"}}
+    private long id;
     private String name;
     private long uid;
     private String email;
@@ -109,50 +107,4 @@ private long id;
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeString(this.name);
-        dest.writeLong(this.uid);
-        dest.writeString(this.email);
-        dest.writeString(this.qq);
-        dest.writeString(this.telephone);
-        dest.writeString(this.content);
-        dest.writeLong(this.bwid);
-        dest.writeString(this.back_detail);
-        dest.writeInt(this.status);
-        dest.writeLong(this.createtime);
-    }
-
-    public Vouch() {
-    }
-
-    protected Vouch(Parcel in) {
-        this.id = in.readLong();
-        this.name = in.readString();
-        this.uid = in.readLong();
-        this.email = in.readString();
-        this.qq = in.readString();
-        this.telephone = in.readString();
-        this.content = in.readString();
-        this.bwid = in.readLong();
-        this.back_detail = in.readString();
-        this.status = in.readInt();
-        this.createtime = in.readLong();
-    }
-
-    public static final Creator<Vouch> CREATOR = new Creator<Vouch>() {
-        public Vouch createFromParcel(Parcel source) {
-            return new Vouch(source);
-        }
-
-        public Vouch[] newArray(int size) {
-            return new Vouch[size];
-        }
-    };
 }
