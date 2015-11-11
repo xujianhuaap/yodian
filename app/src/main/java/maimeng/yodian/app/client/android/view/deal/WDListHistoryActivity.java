@@ -149,17 +149,23 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
             if(TextUtils.isEmpty(backWhyStr)&&TextUtils.isEmpty(alipayStr)){
                 binding.btnPull.setVisibility(View.INVISIBLE);
             }
-            binding.btnPull.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            binding.btnPull.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.btnArrow.setChecked(!binding.btnArrow.isChecked());
+                }
+            });
+            binding.btnArrow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        ObjectAnimator animator = ObjectAnimator.ofFloat(binding.btnPull, "rotation", 0, 180);
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(binding.btnArrow, "rotation", 0, 180);
                         animator.setDuration(300);
                         animator.setRepeatCount(0);
                         animator.start();
 
                     } else {
-                        ObjectAnimator animator = ObjectAnimator.ofFloat(binding.btnPull, "rotation", 180, 360);
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(binding.btnArrow, "rotation", 180, 360);
                         animator.setDuration(300);
                         animator.setRepeatCount(0);
                         animator.start();

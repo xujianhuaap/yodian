@@ -196,7 +196,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
 
     private boolean checkNotNull() {
         if (TextUtils.isEmpty(mCodeStr) ) {
-
+            mNullInfo=getResources().getString(R.string.basic_info_code_null);
             return false;
         }
         if (TextUtils.isEmpty(mIdStr)) {

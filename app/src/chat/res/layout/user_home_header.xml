@@ -157,7 +157,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/index_pull_item_background"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_my_remainder"
+                    android:src="@mipmap/ic_my_account"
                     android:visibility="visible" />
 
                 <ImageView

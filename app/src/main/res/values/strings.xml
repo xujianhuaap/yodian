@@ -118,6 +118,7 @@
     <string name="basic_info_id">身份证号</string>
     <string name="basic_info_mobile">联系手机</string>
     <string name="basic_info_code">验证码</string>
+    <string name="basic_info_code_null">验证码不能为空</string>
     <string name="basic_info_name_null">名字不能为空</string>
     <string name="basic_info_id_null">身份证不能为空</string>
     <string name="basic_info_mobile_null">联系电话不能为空</string>
@@ -262,7 +263,7 @@
     <string name="draw_money_inof_certify_title">提现信息认证</string>
 
     <!-- draw money remainder-->
-    <string name="zhifubao_account"><![CDATA[提现为支付宝账号: %1$s]]></string>
+    <string name="zhifubao_account"><![CDATA[提现支付宝账号: %1$s]]></string>
 
 
 </resources>
