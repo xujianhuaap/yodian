@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply from: '../apk.gradle'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -11,17 +11,60 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            keyAlias 'release'
+            keyPassword KEY_RELEASE_PASS
+            storeFile file(KEY_STORE_PATH)
+            storePassword KEY_STORE_PASS
+        }
+        debug {
+            keyAlias 'release'
+            keyPassword KEY_DEBUG_PASS
+            storeFile file(KEY_STORE_PATH)
+            storePassword KEY_STORE_PASS
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            //混淆
+            minifyEnabled true
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField "String", "API_HOST", APP_HOST
+
+        }
+        debug {
+            //混淆
+            minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            buildConfigField "String", "API_HOST", APP_HOST_DEV
         }
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.0'
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
+    compile "org.parceler:parceler-api:1.0.1"
+    compile 'io.realm:realm-android:0.84.1'
+    provided 'org.parceler:parceler:1.0.1'
+    compile ('com.squareup.retrofit:retrofit:2.0.0-beta2'){
+        exclude module: 'okhttp'
+    }
+    compile 'com.squareup.okhttp:logging-interceptor:2.6.0-SNAPSHOT'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'com.umeng:fb:5.4.0'
 }

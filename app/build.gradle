@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.android.databinding'
-apply from: 'apk.gradle'
+apply from: '../apk.gradle'
 //apply from: 'check.gradle'
 apply plugin: 'bugly'
 bugly {
@@ -127,7 +127,6 @@ dependencies {
     compile('com.umeng:fb:5.4.0') {
         exclude module: 'message', group: 'com.umeng'
     }
-
 
     compile "org.parceler:parceler-api:1.0.1"
     provided 'org.parceler:parceler:1.0.1'

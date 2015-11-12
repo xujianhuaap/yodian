@@ -125,7 +125,7 @@
     <string name="Add_a_friend">Let me to be your friend!</string>
     <string name="send_successful">Request was sent, waiting for the peer to accept</string>
     <string name="Request_add_buddy_failure">Request add buddy failure:</string>
-    <string name="Network_error">Network error</string>
+    <string name="Network_error">maimeng.yodian.app.client.android2.network.Network error</string>
     <string name="Making_sure_your_location">Making sure your location..</string>
     <string name="please_check">key validation error!Please on AndroidManifest.xml file check the key set</string>
     <string name="expression">[expression]</string>
@@ -217,7 +217,7 @@
     <string name="Two_input_password">Inconsistent password, please enter again!</string>
     <string name="Is_the_registered">Registering..</string>
     <string name="Registered_successfully">Registered successfully</string>
-    <string name="network_anomalies">Network is not available, please check the network!</string>
+    <string name="network_anomalies">maimeng.yodian.app.client.android2.network.Network is not available, please check the network!</string>
     <string name="User_already_exists">User already existed!</string>
     <string name="registration_failed_without_permission">Registration failed, without permission!</string>
     <string name="Registration_failed">Registration failed:</string>
