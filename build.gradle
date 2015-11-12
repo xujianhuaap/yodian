@@ -2,8 +2,9 @@
 
 buildscript {
     repositories {
-        maven { url "http://maven.oschina.net/content/groups/public/" }
-        jcenter()
+//        maven { url "http://maven.oschina.net/content/groups/public/" }
+        maven { url "http://nexus.j99.io/content/repositories/jcenter/" }
+//        jcenter()
         maven { url 'https://dl.bintray.com/henjue/maven' }
     }
     dependencies {
@@ -20,8 +21,9 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url "http://maven.oschina.net/content/groups/public/" }
-        jcenter()
+//        maven { url "http://maven.oschina.net/content/groups/public/" }
+        maven { url "http://nexus.j99.io/content/repositories/jcenter/" }
+//        jcenter()
         maven { url 'https://dl.bintray.com/henjue/maven' }
         maven { url "https://raw.githubusercontent.com/umeng/mvn-repo-umeng/master/repository" }
     }
