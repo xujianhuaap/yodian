@@ -1,6 +1,8 @@
 package maimeng.yodian.app.client.android2.network;
 
 import android.app.Application;
+import android.os.Build;
+import android.util.Log;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -59,8 +61,28 @@ public class Network {
     }
     public void init(Application app) {
         OkHttpClient client=new OkHttpClient();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                Log.d("OkHttp",convert(message));
+            }
+            public String convert(String utfString){
+                StringBuilder sb = new StringBuilder();
+                int i = -1;
+                int pos = 0;
+
+                while((i=utfString.indexOf("\\u", pos)) != -1){
+                    sb.append(utfString.substring(pos, i));
+                    if(i+5 < utfString.length()){
+                        pos = i+6;
+                        sb.append((char)Integer.parseInt(utfString.substring(i+2, i+6), 16));
+                    }
+                }
+
+                return sb.toString();
+            }
+        });
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         client.interceptors().add(logging);
         client.interceptors().add(new Interceptor() {
             @Override
