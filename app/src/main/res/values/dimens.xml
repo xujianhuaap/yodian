@@ -119,7 +119,7 @@
     <dimen name="order_margin_top">40dp</dimen>
 
 
-    <dimen name="seller_avatar">60dp</dimen>
+    <dimen name="seller_avatar">50dp</dimen>
     <dimen name="sub_line_margin">10dp</dimen>
 
     <!-- order_detail-->

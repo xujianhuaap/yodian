@@ -102,6 +102,8 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
          */
         public void bind(OrderInfo orderInfo) {
             mOrder = orderInfo;
+            mBinding.setBuyer(orderInfo.getBuyer());
+            mBinding.setIsSaled(isSaled);
             String status = mOrder.getStatus();
 
             if (!TextUtils.isEmpty(status)) {
@@ -167,8 +169,6 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                 Spanned html = Html.fromHtml(mContext.getString(R.string.order_total_fee));
                 mBinding.orderPrice.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee,
                         mOrder.getTotal_fee())));
-                mBinding.skillPrice.setText(Html.fromHtml(mContext.getString(R.string.lable_price,
-                        skill.getPrice(), skill.getUnit())));
                 SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月 HH:mm");
                 String dateStr = format.format(new java.util.Date(Long.parseLong(mOrder.getCreatetime()) * 1000));
                 ;

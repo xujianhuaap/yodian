@@ -11,6 +11,9 @@
         <variable
             name="skill"
             type="maimeng.yodian.app.client.android.model.skill.Skill"></variable>
+        <variable
+            name="isSaled"
+            type="boolean"></variable>
     </data>
 
     <LinearLayout
@@ -18,6 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
+        android:paddingBottom="@dimen/padding_normal"
+        android:paddingTop="@dimen/padding_normal"
         android:layout_marginBottom="@dimen/margin_normal">
 
         <TextView
@@ -33,141 +38,100 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray_normal"
-            >
+            android:background="@color/colorPrimary">
             <maimeng.yodian.app.client.android.widget.CircleImageView
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/seller_avatar"
                 android:layout_height="@dimen/seller_avatar"
                 android:scaleType="centerInside"
                 android:layout_margin="@dimen/margin_small"
-                app:imgUrl="@{skill.avatar}"/>
-            <TextView
-                android:id="@+id/nickname"
-                android:layout_width="0dp"
-                android:layout_weight="0.4"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                android:padding="@dimen/padding_normal"
-                android:singleLine="true"
-                android:maxLength="@integer/text_lenght"
-                android:text="@{skill.nickname}"/>
-
-            <TextView
-                android:id="@+id/order_status"
-                android:layout_width="0dp"
-                android:layout_weight="0.6"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="right|center_vertical"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                android:padding="@dimen/padding_normal" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/order_background">
-            <ImageView
-                android:id="@+id/skill_pic"
-                android:layout_width="0dp"
-                android:layout_weight="0.4"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_small"
-                app:imgUrl="@{skill.pic}"
-                android:scaleType="fitCenter"/>
+                app:imgUrl="@{isSaled?buyer.avatar:skill.avatar}"/>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="0dp"
-                android:layout_weight="0.6"
-                android:layout_marginBottom="@dimen/margin_normal"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/skill_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_large"
-                    android:paddingTop="@dimen/padding_normal"
-                    android:singleLine="true"
-                    android:textStyle="bold"
-                    android:text="@{skill.name}"/>
+                android:layout_weight="1"
+                android:weightSum="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_oval_black">
+                <maimeng.yodian.app.client.android.widget.CircleImageView
+                    android:id="@+id/skill_pic"
+                    android:layout_width="@dimen/seller_avatar"
+                    android:layout_height="@dimen/seller_avatar"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/padding_small"
+                    android:layout_marginTop="@dimen/padding_small"
+                    android:layout_gravity="center"
+                    app:imgUrl="@{skill.pic}"
+                    android:scaleType="fitCenter"/>
 
-                <TextView
-                    android:id="@+id/skill_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_normal"
-                    android:maxLength="@integer/text_max_len"
-                    android:singleLine="true"
-                    android:text="@{skill.content}"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.72"
+                    android:background="@drawable/btn_oval_black"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/skill_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_small"
+                        android:paddingTop="@dimen/padding_small"
+                        android:paddingLeft="@dimen/padding_normal"
+                        android:singleLine="true"
+                        android:textStyle="bold"
+                        android:text="@{skill.name}"/>
 
-                <TextView
-                    android:id="@+id/skill_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_size_large"
-                    android:padding="@dimen/padding_small" />
+                    <TextView
+                        android:id="@+id/order_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:paddingBottom="@dimen/padding_small"
+                        android:layout_marginTop="@dimen/padding_normal"
+                        android:textSize="@dimen/text_size_small"
+                        android:paddingLeft="@dimen/padding_normal" />
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.28"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/order_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark3"
+                        android:textSize="@dimen/text_size_small"
+                        android:padding="@dimen/padding_small" />
+                    <TextView
+                        android:id="@+id/accept_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_marginBottom="@dimen/padding_small"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_small"
+                        android:background="@mipmap/ic_oval_orange"
+                        android:text="@string/order_item_bnt_accept"/>
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
-
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_marginRight="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:layout_height="@dimen/divider_line"
-            android:layout_gravity="center_vertical"
-            android:background="@color/div_line"
-            android:padding="@dimen/padding_normal" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/order_background">
-            <TextView
-                android:id="@+id/order_price"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="@dimen/text_size_normal"
-                android:padding="@dimen/padding_normal" />
-
-            <TextView
-                android:id="@+id/accept_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
-                android:paddingRight="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_large"
-                android:layout_marginRight="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:background="@mipmap/ic_oval_orange"
-                android:text="@string/order_item_bnt_accept"/>
-
-
-        </LinearLayout>
 
 
 
