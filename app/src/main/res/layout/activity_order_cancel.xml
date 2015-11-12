@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line"
+        android:background="@color/div_line"/>
+    <LinearLayout
+        android:id="@+id/contact_us"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:drawablePadding="@dimen/padding_small"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:drawableLeft="@mipmap/ic_contact_us"
+            android:text="@string/order_contact_us"
+            android:textSize="@dimen/text_size_normal"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line"
+        android:background="@color/div_line"/>
+
+    <LinearLayout
+        android:id="@+id/order_cancle"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:drawablePadding="@dimen/padding_small"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:drawableLeft="@mipmap/ic_order_cancel"
+            android:text="@string/order_cancel"
+            android:textSize="@dimen/text_size_normal"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line"
+        android:background="@color/div_line"/>
+
+    <LinearLayout
+        android:id="@+id/go_back"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:drawablePadding="@dimen/padding_small"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:text="@string/order_go_back"
+            android:textSize="@dimen/text_size_normal"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line"
+        android:background="@color/div_line"/>
+
+
+</LinearLayout>

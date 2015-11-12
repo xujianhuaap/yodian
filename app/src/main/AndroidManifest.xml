@@ -42,6 +42,11 @@
             android:theme="@style/paylistactivity">
 
         </activity>
+        <activity android:name=".view.dialog.OrderCancellActivity"
+            android:label=""
+            android:theme="@style/paylistactivity">
+
+        </activity>
         <activity
             android:name=".view.common.FloatActivity"
             android:screenOrientation="nosensor"
@@ -168,6 +173,7 @@
         </activity>
         <activity
             android:name=".view.deal.OrderListActivity"
+            android:theme="@style/NoAnimTheme"
             android:label="@string/order_list_btn_ordered" />
         <activity
             android:name=".view.deal.OrderDetailActivity"

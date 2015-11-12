@@ -29,6 +29,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderListRepsonse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
+import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
@@ -172,7 +173,10 @@ public class OrderFragment extends Fragment implements PtrHandler {
                         //确认发货
                         mService.confirmOrder(oid, proxy);
 
+                    }else if(status==2){
+                        OrderCancellActivity.show(getActivity(),info.getOid());
                     }
+
                 }
             }
         }

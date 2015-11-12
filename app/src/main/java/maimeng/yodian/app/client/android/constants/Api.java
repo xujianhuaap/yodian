@@ -52,6 +52,7 @@ public class Api {
     public static final String ORDER_SEND = "/order/send";//发货
     public static final String ORDER_CONFIRM = "/order/receive";//确认收货
     public static final String ORDER_INFO = "/order/getorderinfo";//订单详情
+    public static final String ORDER_CANCEL = "/pay/cancelpay";//取消订单
 
 
     //购买

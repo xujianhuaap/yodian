@@ -64,5 +64,12 @@ public interface OrderService {
     @Post(Api.ORDER_INFO)
     void info(@Param("oid") long oid, Callback<OrderInfoResponse> callback);
 
+    /***
+     * 取消订单
+     * @param oid
+     * @param callback
+     */
+    @Post(Api.ORDER_CANCEL)
+    void cancleOrder(@Param("oid") long oid, Callback<ToastResponse> callback);
 
 }
