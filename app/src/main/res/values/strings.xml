@@ -264,6 +264,8 @@
 
     <!-- draw money remainder-->
     <string name="zhifubao_account"><![CDATA[提现支付宝账号: %1$s]]></string>
-
-
+    <!-- activity cancle order-->
+    <string name="order_contact_us">联系客服</string>
+    <string name="order_cancel">取消订单</string>
+    <string name="order_go_back">返回</string>
 </resources>
