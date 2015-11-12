@@ -66,5 +66,4 @@ dependencies {
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0-SNAPSHOT'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-    compile 'com.umeng:fb:5.4.0'
 }

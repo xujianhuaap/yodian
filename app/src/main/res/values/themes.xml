@@ -178,7 +178,7 @@
     <style name="NoAnim">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
-        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_bottom</item>
+        <item name="android:activityCloseExitAnimation">@anim/no_anim</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
     </style>
 
