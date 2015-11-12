@@ -99,7 +99,7 @@
                     android:background="#9000"
                     android:scaleType="centerInside"
                     android:src="@mipmap/pic_skill_state_xiajia"
-                    android:visibility="@{skill.status != 0?View.VISIBLE:View.GONE}" />
+                    android:visibility="gone" />
 
 
                 <TextView

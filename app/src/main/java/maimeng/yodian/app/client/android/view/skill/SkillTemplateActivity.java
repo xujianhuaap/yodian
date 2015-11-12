@@ -158,18 +158,10 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         } else {
             CreateOrEditSkillActivity.show(this, BaseFragment.REQUEST_EDIT_SKILL);
         }
+        finish();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == BaseFragment.REQUEST_CREATE_SKILL) {
-            if (resultCode == RESULT_OK) {
-                setResult(RESULT_OK, data);
-                finish();
-            }
-        }
-    }
+
 
     @Override
     public void onClick(SkillTemplateAdapter.ViewHolder holder, View clickItem, int postion) {
