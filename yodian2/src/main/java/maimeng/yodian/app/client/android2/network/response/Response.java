@@ -6,7 +6,6 @@ import android.widget.Toast;
 public class Response {
     private int code;
     private String msg;
-
     public boolean isSuccess() {
         return code == 20000;
     }

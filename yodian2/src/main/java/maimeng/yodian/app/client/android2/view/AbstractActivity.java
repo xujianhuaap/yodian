@@ -11,6 +11,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.RealmQuery;
 import maimeng.yodian.app.client.android2.R;
 
 public abstract class AbstractActivity extends AppCompatActivity  {
@@ -18,15 +25,59 @@ public abstract class AbstractActivity extends AppCompatActivity  {
     protected TextView mTitle;
     protected Toolbar mToolBar;
     private View mProgress;
+    protected Realm realm;
 
 
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        realm=Realm.getDefaultInstance();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(realm!=null){
+            realm.close();
+        }
+    }
+
+    protected <T> T get(String key){
+        return Parcels.unwrap(getIntent().getParcelableExtra(key));
+    }
+    protected <E extends RealmObject> void remove(E item){
+        realm.beginTransaction();
+        item.removeFromRealm();
+        realm.commitTransaction();
+    }
+    protected <E extends RealmObject> RealmQuery<E> where(Class<E> eClass){
+        return realm.where(eClass);
+    }
+    protected <E extends RealmObject> E saveOrUpdate(E e){
+        realm.beginTransaction();
+        E item = realm.copyToRealmOrUpdate(e);
+        realm.commitTransaction();
+        return item;
+    }
+    protected <E extends RealmObject> E save(E e){
+        realm.beginTransaction();
+        E item = realm.copyToRealm(e);
+        realm.commitTransaction();
+        return item;
+    }
+    protected  <E extends RealmObject> List<E> saveOrUpdate(Iterable<E> e){
+        realm.beginTransaction();
+        List<E> items = realm.copyToRealm(e);
+        realm.commitTransaction();
+        return items;
+    }
+    protected  <E extends RealmObject> List<E> save(Iterable<E> e){
+        realm.beginTransaction();
+        List<E> items = realm.copyToRealm(e);
+        realm.commitTransaction();
+        return items;
+    }
     @Override
     protected void onTitleChanged(CharSequence title, int color) {
         super.onTitleChanged(title, color);

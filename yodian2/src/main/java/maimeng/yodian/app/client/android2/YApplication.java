@@ -2,6 +2,8 @@ package maimeng.yodian.app.client.android2;
 
 import android.app.Application;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import maimeng.yodian.app.client.android2.model.Auth;
 import maimeng.yodian.app.client.android2.network.Network;
 
@@ -14,6 +16,7 @@ public class YApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this).build());
         Network.getOne().init(this);
     }
 }

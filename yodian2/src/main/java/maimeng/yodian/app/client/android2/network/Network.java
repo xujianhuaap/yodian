@@ -65,25 +65,28 @@ public class Network {
             @Override
             public void log(String message) {
                 Log.d("OkHttp",convert(message));
+//                Log.d("OkHttp",message);
             }
             public String convert(String utfString){
                 StringBuilder sb = new StringBuilder();
                 int i = -1;
                 int pos = 0;
-
+                boolean handle=false;
                 while((i=utfString.indexOf("\\u", pos)) != -1){
+                    handle=true;
                     sb.append(utfString.substring(pos, i));
                     if(i+5 < utfString.length()){
                         pos = i+6;
                         sb.append((char)Integer.parseInt(utfString.substring(i+2, i+6), 16));
                     }
                 }
-
+                if(!handle){
+                    return utfString;
+                }
                 return sb.toString();
             }
         });
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        client.interceptors().add(logging);
         client.interceptors().add(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -98,9 +101,9 @@ public class Network {
                 }
                 Request.Builder builder = original.newBuilder()
                         .method(original.method(), original.body());
-                    if(YApplication.user!=null){
-                        builder.url(url + "SN_KEY_API=" + YApplication.user.getToken());
-                    }
+                if (YApplication.user != null) {
+                    builder.url(url + "SN_KEY_API=" + YApplication.user.getToken());
+                }
                 Request request = builder.build();
 
                 Response response = chain.proceed(request);
@@ -109,6 +112,7 @@ public class Network {
                 return response;
             }
         });
+        client.interceptors().add(logging);
         gson = new GsonBuilder()
                 .setExclusionStrategies(new ExclusionStrategy() {
                     @Override

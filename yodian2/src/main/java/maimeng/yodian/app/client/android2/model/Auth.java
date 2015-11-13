@@ -6,13 +6,15 @@ import org.parceler.Parcel;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-
+import io.realm.AuthRealmProxy;
 /**
  * Created by android on 2015/11/12.
  */
 @Parcel(
+        implementations = AuthRealmProxy.class,
+
         value = Parcel.Serialization.BEAN,
-        analyze = { Auth.class })
+                analyze = { Auth.class })
 public class Auth extends RealmObject {
     @SerializedName("nickname")
     private String nickname;
