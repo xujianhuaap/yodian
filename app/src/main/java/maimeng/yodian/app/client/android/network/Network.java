@@ -64,6 +64,7 @@ public class Network {
         net = new HNet.Builder()
                 .setEndpoint(BuildConfig.API_HOST)
                 .setIntercept(new RequestIntercept(app.getApplicationContext()))
+                .addConverter(new StringConverter())
                 .addConverter(new GsonConverter(gson))
                 .addConverter(new StringConverter())
                 .build();

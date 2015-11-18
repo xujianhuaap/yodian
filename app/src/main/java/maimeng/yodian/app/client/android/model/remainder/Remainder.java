@@ -11,21 +11,21 @@ public class Remainder {
      * readicon : 0
      */
 
-    private double money;
-    private double withdraw;
-    private double during;
+    private float money;
+    private float withdraw;
+    private float during;
     private String draw_account;
     private int readicon;
 
-    public void setMoney(double money) {
+    public void setMoney(float money) {
         this.money = money;
     }
 
-    public void setWithdraw(double withdraw) {
+    public void setWithdraw(float withdraw) {
         this.withdraw = withdraw;
     }
 
-    public void setDuring(double during) {
+    public void setDuring(float during) {
         this.during = during;
     }
 
@@ -37,15 +37,15 @@ public class Remainder {
         this.readicon = readicon;
     }
 
-    public double getMoney() {
+    public float getMoney() {
         return money;
     }
 
-    public double getWithdraw() {
+    public float getWithdraw() {
         return withdraw;
     }
 
-    public double getDuring() {
+    public float getDuring() {
         return during;
     }
 

@@ -133,7 +133,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         mRecyclerView.setAdapter(adapter);
         final ArrayList<Skill> datas = get("list");
         final ArrayList<Banner> banners =get("banners");
-        if (datas != null && banners != null) {
+        if (datas != null) {
             callRefreshAdapter(datas, banners);
         } else {
             mRefreshLayout.autoRefresh();
@@ -142,8 +142,8 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
 
     private void callRefreshAdapter(List<Skill> list, List<Banner> banners) {
         final List<ViewEntry> entries;
-        if (page == 1 && typeId == 0) {
-            entries = new ArrayList<>(list.size() + 2);
+        if (page == 1 && typeId == 0 && banners!=null && banners.size()>0) {
+            entries = new ArrayList<>(list.size() + 1);
             entries.add(new BannerViewEntry(banners));
         } else {
             entries = new ArrayList<>(list.size());
@@ -205,7 +205,6 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
                     Skill skill = ((SkillListIndexAdapter.ItemViewHolder) h).getData();
                     if (skill.getStatus() == 0) {

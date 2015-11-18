@@ -124,8 +124,7 @@
 
         <activity
             android:name=".view.skill.SkillDetailsActivity"
-            android:label="@string/skill_detail_activity_title"
-            android:launchMode="singleTask" />
+            android:label="@string/skill_detail_activity_title" />
         <activity
             android:name=".view.auth.AuthSeletorActivity"
             android:exported="true"

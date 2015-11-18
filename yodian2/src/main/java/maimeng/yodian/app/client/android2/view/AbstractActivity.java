@@ -105,6 +105,7 @@ public abstract class AbstractActivity extends AppCompatActivity  {
         super.setContentView(R.layout.activity_base);
         mContent = (FrameLayout) findViewById(R.id.base_content);
         mTitle = (TextView) findViewById(R.id.base_title);
+        mProgress=findViewById(R.id.progress);
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolBar != null) {
             mToolBar.setTitle("");

@@ -137,7 +137,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
         super.finish();
     }
 
-    public void onInputDuring(final double during) {
+    public void onInputDuring(final float during) {
         service.withdraw(during, new ToastCallback(this) {
             @Override
             public void success(ToastResponse res, Response response) {

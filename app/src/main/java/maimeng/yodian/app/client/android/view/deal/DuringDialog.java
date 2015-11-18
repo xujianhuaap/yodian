@@ -61,7 +61,7 @@ public class DuringDialog extends DialogFragment implements View.OnClickListener
         } else {
             binding.title.setText(R.string.during_dialog_title);
             RemainderInfoActivity activity = (RemainderInfoActivity) getActivity();
-            activity.onInputDuring(Double.parseDouble(binding.money.getText().toString()));
+            activity.onInputDuring(Float.parseFloat(binding.money.getText().toString()));
             dismiss();
         }
     }

@@ -1,10 +1,14 @@
 package maimeng.yodian.app.client.android.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -38,6 +42,8 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     protected TextView mTitle;
     protected Toolbar mToolBar;
     private AlertDialog dialog;
+    private View mProgress;
+    private View mError;
 
     public FloatingActionButton getFloatButton() {
         return null;
@@ -139,6 +145,14 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
         super.setContentView(R.layout.activity_base);
         mContent = (FrameLayout) findViewById(R.id.base_content);
         mTitle = (TextView) findViewById(R.id.base_title);
+        mProgress=findViewById(R.id.progress);
+        mError=findViewById(R.id.error);
+        mError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRetry();
+            }
+        });
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolBar != null) {
             mToolBar.setTitle("");
@@ -154,6 +168,14 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     public void setContentView(int layoutResID) {
         super.setContentView(R.layout.activity_base);
         mContent = (FrameLayout) findViewById(R.id.base_content);
+        mProgress=findViewById(R.id.progress);
+        mError=findViewById(R.id.error);
+        mError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRetry();
+            }
+        });
         mTitle = (TextView) findViewById(R.id.base_title);
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolBar != null) {
@@ -165,6 +187,10 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
         getLayoutInflater().inflate(layoutResID, mContent, true);
     }
 
+    protected void onRetry(){
+
+    }
+
     protected <T extends ViewDataBinding> T bindView(int layoutId) {
         final T view = DataBindingUtil.inflate(getLayoutInflater(), layoutId, null, false);
         setContentView(view.getRoot());
@@ -174,7 +200,55 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     protected void checkError(HNetError error) {
         ErrorUtils.checkError(this, error);
     }
+    protected void showError(boolean show ){
+        showProgress(show, mError);
+    }
+    @Deprecated
+    protected void hideError(){
+        showError(false);
+    }
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    protected void showProgress(final boolean show) {
+        showProgress(show,mContent);
+    }
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show,final View view) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
+            view.setVisibility(show ? View.GONE : View.VISIBLE);
+            view.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgress.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgress.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
     /**
      * toolbar初始化完成时调用
      *

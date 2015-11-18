@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.user;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -84,6 +85,7 @@ public class UserHomeActivity extends AbstractActivity {
 
 
 
+    @SuppressLint("ParcelCreator")
     public static class UserIntent extends Intent {
         public UserIntent(Context context, long uid) {
             super(context, UserHomeActivity.class);
