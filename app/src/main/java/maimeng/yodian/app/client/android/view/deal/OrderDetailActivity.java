@@ -187,7 +187,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
                 break;
             case 4:
-                //已经o发货
+                //已经发货
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_confirm);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
@@ -225,6 +225,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     operatorStr = getString(R.string.order_status_buyer_close);;
 
                 }
+                mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.orderStatusPay.setChecked(true);
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time, formatDate(info.getPay_time()))));
@@ -238,6 +239,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 } else {
                     operatorStr = getString(R.string.order_status_buyer_cancle);
                 }
+                mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
                 mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));

@@ -135,7 +135,7 @@
     <dimen name="order_contact">120dp</dimen>
     <dimen name="order_contact_height">40dp</dimen>
     <dimen name="order_operator_width">120dp</dimen>
-    <dimen name="order_operator_height">40dp</dimen>
+    <dimen name="order_operator_height">35dp</dimen>
 
 
 </resources>
