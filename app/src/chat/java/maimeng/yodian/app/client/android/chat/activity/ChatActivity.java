@@ -125,6 +125,7 @@ import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
@@ -1029,7 +1030,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 public void run() {
                     skillContainer.setVisibility(View.VISIBLE);
                     final String pic = skill.getPic();
-                    ImageAdapter.image(skillPic, pic);
+                    new ImageLoaderManager.Loader(skillPic,pic).width(skillPic.getWidth()).height(skillPic.getHeight()).start(ChatActivity.this);
                     skillName.setText(skill.getName());
                     skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
                 }
