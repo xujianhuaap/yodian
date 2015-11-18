@@ -109,6 +109,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
             if (!TextUtils.isEmpty(status)) {
                 String statusStr = null;
                 String operatorStr = null;
+                mBinding.acceptOrder.setVisibility(View.VISIBLE);
                 switch (Integer.parseInt(status)) {
                     case 0:
                         statusStr = mContext.getString(R.string.order_status_unpay);
@@ -116,7 +117,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                             operatorStr = mContext.getString(R.string.buyer_operator_pay);
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                         } else {
-                            mBinding.acceptOrder.setVisibility(View.INVISIBLE);
+                            mBinding.acceptOrder.setVisibility(View.GONE);
                         }
                         break;
                     case 1:
@@ -125,20 +126,18 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
 
                         break;
                     case 2:
-                        statusStr = mContext.getString(R.string.order_status_payed);
+                        statusStr =  mContext.getString(R.string.buyer_operator_wait_accept);
                         if (!isSaled) {
-                            operatorStr = mContext.getString(R.string.buyer_operator_wait_accept);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_gray));
+                            mBinding.acceptOrder.setVisibility(View.GONE);
                         } else {
                             operatorStr = mContext.getString(R.string.seller_operator_accept);
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                         }
                         break;
                     case 3:
-                        statusStr = mContext.getString(R.string.order_status_accept);
+                        statusStr =  mContext.getString(R.string.buyer_operator_wait_send);
                         if (!isSaled) {
-                            operatorStr = mContext.getString(R.string.buyer_operator_wait_send);
-                            mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_gray));
+                            mBinding.acceptOrder.setVisibility(View.GONE);
                         } else {
                             operatorStr = mContext.getString(R.string.seller_operator_send);
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
@@ -151,13 +150,32 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                             mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
                         } else {
 
-                            mBinding.acceptOrder.setVisibility(View.INVISIBLE);
+                            mBinding.acceptOrder.setVisibility(View.GONE);
                         }
                         break;
                     case 5:
                         statusStr = mContext.getString(R.string.order_status_confirm_deal);
                         operatorStr = mContext.getString(R.string.order_status_confirm_deal);
-                        mBinding.acceptOrder.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_oval_gray));
+                        mBinding.acceptOrder.setVisibility(View.GONE);
+                        break;
+                    case 6:
+                        //订单关闭
+                        if(isSaled){
+                            statusStr = mContext.getString(R.string.order_status_buyer_close);
+                        }else {
+                            statusStr= mContext.getString(R.string.order_status_close);
+                        }
+
+                        mBinding.acceptOrder.setVisibility(View.GONE);
+                        break;
+                    case 7:
+                        //订单取消
+                        if(isSaled){
+                            statusStr = mContext.getString(R.string.order_status_buyer_cancle);
+                        }else {
+                            statusStr = mContext.getString(R.string.order_status_cancle);
+                        }
+                        mBinding.acceptOrder.setVisibility(View.GONE);
                         break;
                     default:
                         statusStr = null;

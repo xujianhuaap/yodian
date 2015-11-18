@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ import maimeng.yodian.app.client.android.network.response.OrderInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
 
 
 /**
@@ -53,6 +55,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     private ActivityOrderDetailBinding mBinding;
     private OrderService mService;
     private boolean isSaled;
+    private OrderInfo info;
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
@@ -99,8 +102,23 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+        }else if(item.getItemId()==R.id.menu_more){
+            int status=Integer.parseInt(info.getStatus());
+            if(isSaled){
+                OrderCancellActivity.show(this, info.getOid(),false);
+            }else {
+                boolean isCancel=(status==0||status==2);
+                OrderCancellActivity.show(this, info.getOid(),isCancel);
+            }
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_order_detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void refreshUI(final OrderInfo info) {
@@ -169,7 +187,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
                 break;
             case 4:
-                //已经o发货
+                //已经发货
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_confirm);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
@@ -197,6 +215,35 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time, formatDate(info.getPay_time()))));
                 mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_accept_time, formatDate(info.getAccept_time()))));
                 mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_confirm_time, formatDate(info.getConfirm_time()))));
+                break;
+            case 6:
+                //订单关闭
+
+                if (!isSaled) {
+                    operatorStr = getString(R.string.order_status_close);
+                } else {
+                    operatorStr = getString(R.string.order_status_buyer_close);;
+
+                }
+                mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
+                mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
+                mBinding.orderStatusPay.setChecked(true);
+                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time, formatDate(info.getPay_time()))));
+                mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));
+                mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
+                break;
+            case 7:
+                //订单取消
+                if (!isSaled) {
+                    operatorStr = getString(R.string.order_status_cancle);
+                } else {
+                    operatorStr = getString(R.string.order_status_buyer_cancle);
+                }
+                mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
+                mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
+                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
+                mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));
+                mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
                 break;
             default:
                 break;
@@ -319,7 +366,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = bindView(R.layout.activity_order_detail);
-        final OrderInfo info = get("orderInfo");
+        info = get("orderInfo");
         if (info != null) {
             refreshUI(info);
         } else {

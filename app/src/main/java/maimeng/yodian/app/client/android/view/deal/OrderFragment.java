@@ -174,7 +174,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
                         mService.confirmOrder(oid, proxy);
 
                     }else if(status==2){
-                        OrderCancellActivity.show(getActivity(),info.getOid());
+
                     }
 
                 }

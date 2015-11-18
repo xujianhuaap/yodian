@@ -162,10 +162,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_line"
+                android:background="@color/div_line"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray">
+                android:background="@color/colorPrimary">
 
                 <ImageView
                     android:id="@+id/order_skill_pic"
@@ -181,6 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/order_skill_pic"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginRight="@dimen/margin_small"
                     android:layout_toRightOf="@+id/order_skill_pic"
@@ -194,7 +202,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/order_skill_pic"
-                    android:layout_marginLeft="@dimen/apply_edit_margin"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginRight="@dimen/apply_edit_margin"
                     android:layout_toRightOf="@+id/order_skill_pic"
                     android:singleLine="true"
@@ -205,6 +214,7 @@
                     android:id="@+id/order_operator"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/order_operator_height"
+                    android:layout_marginRight="@dimen/margin_small"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
@@ -215,6 +225,15 @@
 
 
             </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark3"
+                android:gravity="center"
+                android:padding="@dimen/padding_normal"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/order_detail_tip"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:id="@+id/order_number"
