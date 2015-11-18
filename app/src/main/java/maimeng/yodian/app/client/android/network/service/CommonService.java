@@ -59,5 +59,6 @@ public interface CommonService {
 
     @Get(Api.FLOAT)
     void getFloat(Callback<FloatResponse> callback);
-
+    @Get(Api.FLOAT_ADV)
+    void getFloatADV(Callback<String> callback);
 }

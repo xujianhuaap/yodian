@@ -9,6 +9,10 @@ public class Api {
     public static final String USER_INFO_UPDATE = "/user/info";//上传头像和昵称
     public static final String PUSH = "/user/push";//消息开关设置
     public static final String FLOAT = "/index/getfloatad";//获取弹窗图片
+    public static final String FLOAT_ADV = "/index/getsplash";//获取启动弹窗广告
+
+
+
 
     public static final String SKILL_LIST = "/skill/list";//我/他的技能列表
     public static final String SKILL_CHOICE = "/choice/index";//精选技能列表

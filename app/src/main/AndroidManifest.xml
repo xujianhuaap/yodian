@@ -55,7 +55,8 @@
             android:name=".view.splash.DefaultActivity"
             android:screenOrientation="nosensor"
             android:theme="@style/AppThemeWhite" />
-
+        <activity android:name=".view.splash.SplashAdvertiseActivity" android:screenOrientation="nosensor"
+            android:theme="@style/AppThemeWhite" />
         <activity-alias
             android:name=".SplashActivity"
             android:targetActivity=".view.splash.${LAUNCHER_ACTIVITY}" />
@@ -129,7 +130,6 @@
             android:name=".view.auth.AuthSeletorActivity"
             android:exported="true"
             android:theme="@style/AppThemeWhite">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
