@@ -198,6 +198,10 @@
     <string name="order_status_accept">已接单</string>
     <string name="order_status_send_goods">已发货 </string>
     <string name="order_status_confirm_deal">交易完成</string>
+    <string name="order_status_close">订单关闭 </string>
+    <string name="order_status_cancle">订单取消</string>
+    <string name="order_status_buyer_cancle">买家取消订单 </string>
+    <string name="order_status_buyer_close">买家关闭订单</string>
     <string name="order_total_fee"><![CDATA[<b><font color="#ffffff"><strong>订单价格为：<big>%1$s</big></strong>元</font></b> ]]></string>
 
 
@@ -209,6 +213,7 @@
     <string name="seller_operator_accept">接单</string>
     <string name="seller_operator_send">发货</string>
     <string name="seller_operator_wait_pay">等待支付</string>
+
 
     <!-- 订单详情-->
     <string name="order_detail_title">订单详情</string>

@@ -37,9 +37,10 @@ public class OrderCancellActivity extends AppCompatActivity  {
      * @param context
      */
 
-    public static void show(Context context,long oid) {
+    public static void show(Context context,long oid,boolean isCancel) {
         Intent intent = new Intent(context, OrderCancellActivity.class);
         intent.putExtra("oid",oid);
+        intent.putExtra("isCancle",isCancel);
         context.startActivity(intent);
     }
 
@@ -69,7 +70,11 @@ public class OrderCancellActivity extends AppCompatActivity  {
         });
 
 
-        findViewById(R.id.order_cancle).setOnClickListener(new View.OnClickListener() {
+        View view=findViewById(R.id.order_cancle);
+        if(getIntent().getBooleanExtra("isCancle",false)){
+           view.setVisibility(View.VISIBLE);
+        }
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //取消订单
