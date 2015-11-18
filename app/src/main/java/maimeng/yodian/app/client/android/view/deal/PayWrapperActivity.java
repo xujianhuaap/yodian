@@ -59,7 +59,7 @@ public class PayWrapperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if (intent.hasExtra("info")) {
-            OrderInfo info = intent.getParcelableExtra("info");
+            OrderInfo info =  Parcels.unwrap(intent.getParcelableExtra("info"));
             PayListActivity.show(this, info, REQUEST_CODE);
         } else {
             Skill skill = Parcels.unwrap(intent.getParcelableExtra("skill"));

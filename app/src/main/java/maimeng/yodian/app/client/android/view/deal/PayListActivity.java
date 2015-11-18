@@ -1,7 +1,9 @@
 package maimeng.yodian.app.client.android.view.deal;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -14,7 +16,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import org.henjue.library.hnet.Callback;
-import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 import org.henjue.library.share.Type;
@@ -22,27 +23,29 @@ import org.henjue.library.share.manager.AuthFactory;
 import org.henjue.library.share.manager.WechatAuthManager;
 import org.parceler.Parcels;
 
-import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.common.RequestIntercept;
 import maimeng.yodian.app.client.android.network.response.RemainderPayParamsResponse;
+import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.response.WXPayParamResponse;
 import maimeng.yodian.app.client.android.network.response.ZhiFuBaoPayParamsResponse;
 import maimeng.yodian.app.client.android.network.service.BuyService;
+import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.pay.IPay;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayFactory;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayStatus;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
  * Created by xujianhua on 10/12/15.
  */
-public class PayListActivity extends AppCompatActivity implements View.OnClickListener {
+public class PayListActivity extends AbstractActivity implements View.OnClickListener {
     private TextView mTitle;
     private OrderInfo mInfo;
     private Skill mSkill;
@@ -54,6 +57,8 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
     private final static int PAY_TYPE_ZHIFUBAO = 1;
     private final static int PAY_TYPE_REMAINDER = 3;
     private final static int PAY_TYPE_WECHAT = 2;
+    private TextView mBtnMoney;
+    private float price;
 
     /***
      * 订单支付
@@ -78,12 +83,12 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("skill", Parcels.wrap(orderInfo));
         context.startActivityForResult(intent, requestCode);
     }
-
+    private boolean canUseMoney =false;//是否使用余额
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setGravity(Gravity.BOTTOM);
-        setContentView(R.layout.activity_pay_list);
+        setContentView(R.layout.activity_pay_list,false);
 
         mTitle = (TextView) findViewById(R.id.pay_title);
         findViewById(R.id.pay_wechat).setOnClickListener(this);
@@ -91,22 +96,57 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.pay_remainer).setOnClickListener(this);
 
         Intent intent = getIntent();
+        mBtnMoney = ((TextView) findViewById(R.id.btn_money));
         if (intent.hasExtra("orderInfo")) {
-            mOrderInfo = intent.getParcelableExtra("orderInfo");
-            mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, mOrderInfo.getTotal_fee())));
+            mOrderInfo = get("orderInfo");
+            price= Float.parseFloat(mOrderInfo.getTotal_fee());
             isOrderPay = true;
         } else {
-            mSkill = Parcels.unwrap(intent.getParcelableExtra("skill"));
-            mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, mSkill.getPrice())));
+            mSkill = get("skill");
+            price =  Float.parseFloat(mSkill.getPrice());
         }
+        mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title,price)));
+
+//        HNet net = new HNet.Builder()
+//                .setEndpoint(BuildConfig.API_HOST)
+//                .setIntercept(new RequestIntercept(this))
+//                .build();
+        mBtnMoney.setText(getString(R.string.pay_remainer, 0f));
+        Network.getService(MoneyService.class).remanider(new Callback<RemainderResponse>() {
+            @Override
+            public void start() {
+            }
+
+            @Override
+            public void success(RemainderResponse res, Response response) {
+                float money = res.getData().getMoney();
+                mBtnMoney.setText(getString(R.string.pay_remainer, money));
+                if(money<price){
+                    canUseMoney =true;
+                    mBtnMoney.setEnabled(false);
+                    mBtnMoney.setTextColor(Color.parseColor("#cccccc"));
+                    findViewById(R.id.pay_remainer).setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void failure(HNetError hNetError) {
+
+            }
+
+            @Override
+            public void end() {
+
+            }
+        });
+        mService = Network.getService(BuyService.class);
 
 
-        HNet net = new HNet.Builder()
-                .setEndpoint(BuildConfig.API_HOST)
-                .setIntercept(new RequestIntercept(this))
-                .build();
-        mService = net.create(BuyService.class);
+    }
 
+    @Override
+    protected void onRetry() {
 
     }
 
@@ -119,36 +159,162 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         //生成订单信息
         if (isOrderPay) {
             if (v.getId() == R.id.pay_remainer) {
-                mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_REMAINDER, new CallBackProxy(PAY_TYPE_REMAINDER));
+                mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_REMAINDER,1, new CallBackProxy(PAY_TYPE_REMAINDER));
             } else if (v.getId() == R.id.pay_wechat) {
-                WechatAuthManager manager = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);//代码一定不能删除，保证IWXAPI已经初始化
-                if (manager.getIWXAPI().isWXAppInstalled()) {
-                    mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
-                } else {
-                    Toast.makeText(this, "没有安装微信", Toast.LENGTH_SHORT).show();
+                if(canUseMoney){
+                    AlertDialog dialog = AlertDialog.newInstance("提示", "是否使用余额？");
+                    dialog.setNegativeListener(new AlertDialog.NegativeListener() {
+                        @Override
+                        public void onNegativeClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                            payByWechatOrder(true);
+                        }
+
+                        @Override
+                        public String negativeText() {
+                            return "是";
+                        }
+                    });
+                    dialog.setPositiveListener(new AlertDialog.PositiveListener() {
+                        @Override
+                        public void onPositiveClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                            payByWechatOrder(false);
+                        }
+
+                        @Override
+                        public String positiveText() {
+                            return "否";
+                        }
+                    });
+                    dialog.show(getFragmentManager(), "payDialog");
+                }else{
+                    payByWechatSkill(false);
                 }
             } else if (v.getId() == R.id.pay_zhifubao) {
-                mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_ZHIFUBAO, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
+                if(canUseMoney) {
+                    AlertDialog dialog = AlertDialog.newInstance("提示", "是否使用余额？");
+                    dialog.setNegativeListener(new AlertDialog.NegativeListener() {
+                        @Override
+                        public void onNegativeClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                            payByAliPayOrder(true);
+                        }
+
+                        @Override
+                        public String negativeText() {
+                            return "是";
+                        }
+                    });
+                    dialog.setPositiveListener(new AlertDialog.PositiveListener() {
+                        @Override
+                        public void onPositiveClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                            payByAliPayOrder(false);
+                        }
+
+                        @Override
+                        public String positiveText() {
+                            return "否";
+                        }
+                    });
+                    dialog.show(getFragmentManager(),"payDialog");
+                }else{
+                    payByAliPaySkill(false);
+                }
             }
         } else {
             if (v.getId() == R.id.pay_remainer) {
-                mService.buySkill(mSkill.getId(), PAY_TYPE_REMAINDER, new CallBackProxy(PAY_TYPE_REMAINDER));
+                mService.buySkill(mSkill.getId(), PAY_TYPE_REMAINDER, 1, new CallBackProxy(PAY_TYPE_REMAINDER));
             } else if (v.getId() == R.id.pay_wechat) {
-                WechatAuthManager manager = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);//代码一定不能删除，保证IWXAPI已经初始化
-                if (manager.getIWXAPI().isWXAppInstalled()) {
-                    mService.buySkill(mSkill.getId(), PAY_TYPE_WECHAT, new CallBackProxy(PAY_TYPE_WECHAT));
-                } else {
-                    Toast.makeText(this, "没有安装微信", Toast.LENGTH_SHORT).show();
-                }
+                if(canUseMoney){
+                    AlertDialog dialog = AlertDialog.newInstance("提示", "是否使用余额？");
+                    dialog.setNegativeListener(new AlertDialog.NegativeListener() {
+                        @Override
+                        public void onNegativeClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                            payByWechatSkill(true);
+                        }
 
+                        @Override
+                        public String negativeText() {
+                            return "是";
+                        }
+                    });
+                    dialog.setPositiveListener(new AlertDialog.PositiveListener() {
+                        @Override
+                        public void onPositiveClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                            payByWechatSkill(false);
+                        }
+
+                        @Override
+                        public String positiveText() {
+                            return "否";
+                        }
+                    });
+                    dialog.show(getFragmentManager(),"payDialog");
+                }else{
+                    payByWechatSkill(false);
+                }
             } else if (v.getId() == R.id.pay_zhifubao) {
-                mService.buySkill(mSkill.getId(), PAY_TYPE_ZHIFUBAO, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
+                if(canUseMoney) {
+                    AlertDialog dialog = AlertDialog.newInstance("提示", "是否使用余额？");
+                    dialog.setNegativeListener(new AlertDialog.NegativeListener() {
+                        @Override
+                        public void onNegativeClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                            payByAliPaySkill(true);
+                        }
+
+                        @Override
+                        public String negativeText() {
+                            return "是";
+                        }
+                    });
+                    dialog.setPositiveListener(new AlertDialog.PositiveListener() {
+                        @Override
+                        public void onPositiveClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                            payByAliPaySkill(false);
+                        }
+
+                        @Override
+                        public String positiveText() {
+                            return "否";
+                        }
+                    });
+                    dialog.show(getFragmentManager(),"payDialog");
+                }else{
+                    payByAliPaySkill(false);
+                }
             }
         }
 
     }
+    private void payByAliPayOrder(boolean useMoney){
+        mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_ZHIFUBAO,useMoney?1:0, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
+    }
+    private void payByWechatOrder(boolean useMoney){
+        WechatAuthManager manager = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);//代码一定不能删除，保证IWXAPI已经初始化
+        if (manager.getIWXAPI().isWXAppInstalled()) {
+            mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_WECHAT,useMoney?1:0, new CallBackProxy(PAY_TYPE_WECHAT));
+        } else {
+            Toast.makeText(this, "没有安装微信", Toast.LENGTH_SHORT).show();
+        }
 
-
+    }
+    private void payByAliPaySkill(boolean useMoney){
+        mService.buySkill(mSkill.getId(), PAY_TYPE_ZHIFUBAO, useMoney ?1:0, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
+    }
+    private void payByWechatSkill(boolean useMoney){
+        WechatAuthManager manager = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);//代码一定不能删除，保证IWXAPI已经初始化
+        if (manager.getIWXAPI().isWXAppInstalled()) {
+            mService.buySkill(mSkill.getId(), PAY_TYPE_WECHAT, useMoney ?1:0, new CallBackProxy(PAY_TYPE_WECHAT));
+        } else {
+            Toast.makeText(this, "没有安装微信", Toast.LENGTH_SHORT).show();
+        }
+    }
     /***
      *
      */

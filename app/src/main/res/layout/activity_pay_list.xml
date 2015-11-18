@@ -67,13 +67,13 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white">
         <TextView
+            android:id="@+id/btn_money"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_normal"
             android:drawablePadding="@dimen/padding_small"
             android:gravity="center"
-            android:text="@string/pay_remainer"
             android:textColor="@android:color/black"
             android:drawableLeft="@mipmap/ic_pay_remainer"
             android:textSize="@dimen/text_size_normal"/>
