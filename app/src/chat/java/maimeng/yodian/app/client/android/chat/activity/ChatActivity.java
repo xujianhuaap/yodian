@@ -125,6 +125,7 @@ import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
@@ -317,7 +318,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_chat_menu, menu);
-        menu.add(0, 1001, 0, "").setIcon(R.mipmap.ic_contact_path).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -632,9 +632,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             emptyHistory();
         }
         int itemId = item.getItemId();
-        if (itemId == 1001) {
-            ContactPathActivity.show(ChatActivity.this, chatUser.getQq(), chatUser.getMobile(), chatUser.getWechat());
-        } else if (itemId == android.R.id.home) {
+        if (itemId == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -1032,7 +1030,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 public void run() {
                     skillContainer.setVisibility(View.VISIBLE);
                     final String pic = skill.getPic();
-                    ImageAdapter.image(skillPic, pic);
+                    new ImageLoaderManager.Loader(skillPic,pic).width(skillPic.getWidth()).height(skillPic.getHeight()).start(ChatActivity.this);
                     skillName.setText(skill.getName());
                     skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
                 }
