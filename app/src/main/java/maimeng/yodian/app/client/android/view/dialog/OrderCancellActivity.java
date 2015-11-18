@@ -8,11 +8,17 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.easemob.applib.controller.HXSDKHelper;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
+import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
+import maimeng.yodian.app.client.android.chat.domain.RobotUser;
+import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
@@ -47,6 +53,18 @@ public class OrderCancellActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 //请联系客服
+
+                RobotUser robot = new RobotUser();
+                robot.setUsername("hx_admin");
+
+                maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
+                user.setUsername("hx_admin");
+
+                // 存入内存
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
+                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
+                ChatActivity.show(OrderCancellActivity.this,new ChatUser(user.getUsername(),0,null));
+                finish();
             }
         });
 
