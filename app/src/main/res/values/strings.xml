@@ -34,7 +34,7 @@
     <string name="please_input">请输入...</string>
     <string name="lable_cleancache">清除缓存</string>
     <string name="lable_changeaccount">切换账号</string>
-    <string name="lable_price"><![CDATA[<font color="#000000"><b>%1$s</b>元/%2$s</font>]]></string>
+    <string name="lable_price"><![CDATA[<b>%1$s</b>元/%2$s]]></string>
     <string name="currentVersion">当前版本:v%s</string>
     <string name="currentAccount">当前账号:%s</string>
     <string name="title_activity_web_launcher">WebLauncher</string>

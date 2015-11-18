@@ -208,6 +208,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
                     android:textColor="@android:color/white" />
 
                 <TextView
@@ -216,15 +217,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:singleLine="true"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/colorPrimaryDark3" />
             </LinearLayout>
 
-            <ImageView
+            <TextView
                 android:id="@+id/btn_show_skill"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/btn_width_smalll"
+                android:layout_height="@dimen/btn_width_smalll"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/btn_show" />
+                android:gravity="center"
+                android:text="查看"
+                android:textSize="@dimen/text_size_normal"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/btn_circle_blue"/>
         </LinearLayout>
 
         <RelativeLayout
