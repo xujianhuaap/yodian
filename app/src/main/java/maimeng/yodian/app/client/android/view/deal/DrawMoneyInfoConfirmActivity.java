@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -43,6 +45,7 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
     private EditText mZhiFuBaoAccount;
     private EditText mConfirmAccount;
     private Button mSubmit;
+    private TextView mTip;
 
     /***
      *
@@ -70,15 +73,17 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
-        View view = getLayoutInflater().inflate(R.layout.activity_draw_money_confirm_info, null, false);
-        this.mSubmit = (Button) view.findViewById(R.id.apply_submit);
-        this.mConfirmAccount=(EditText)view.findViewById(R.id.confirm_account);
-        this.mZhiFuBaoAccount=(EditText)view.findViewById(R.id.zhifubao_account);
-        setContentView(view);
-
+        setContentView(R.layout.activity_draw_money_confirm_info);
+        this.mSubmit = (Button)findViewById(R.id.apply_submit);
+        this.mConfirmAccount=(EditText)findViewById(R.id.confirm_account);
+        this.mZhiFuBaoAccount=(EditText)findViewById(R.id.zhifubao_account);
+        this.mTip=(TextView)findViewById(R.id.tip);
         String alipay=getIntent().getStringExtra("alipay");
         mZhiFuBaoAccount.setText(alipay);
+        Spanned span= Html.fromHtml(getResources().getString(R.string.draw_money_info_certify_tip));
+        mTip.setText(span);
         mSubmit.setOnClickListener(this);
+
 
         mConfirmAccount.addTextChangedListener(new TextWatcherProxy(mConfirmAccount));
         mZhiFuBaoAccount.addTextChangedListener(new TextWatcherProxy(mZhiFuBaoAccount));

@@ -146,7 +146,7 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
             binding.btnPull.setVisibility(View.VISIBLE);
             alipayStr = null;
             if(!TextUtils.isEmpty(item.getCard_id())&Integer.parseInt(item.getCard_id())!=0){
-                alipayStr ="提现到银行卡";
+                alipayStr ="提现账号：银行卡";
                 binding.drawAccount.setText(alipayStr);
             }else{
 

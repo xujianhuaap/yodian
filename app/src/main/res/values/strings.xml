@@ -262,11 +262,17 @@
     <!-- 个人账户信息-->
     <string name="certify_info">认证信息</string>
     <string name="draw_money_info">提现认证信息</string>
+    <string name="certify_info_tip"><![CDATA[<td style="line-height:40px"><font color="#ff0000">1.必须填写认证信息后才能实现线上交易<br/>
+    2.信息认证成功后，其他用户可以直接在线购买您的服务<br/>
+    3.如果有任何其他问题，请添加我们的客服微信:iketie</font></td>]]></string>
 
     <!--提现信息认证-->
     <string name="zhi_fu_bao_account">支付宝账号</string>
     <string name="twice_confirm_account">确认账号</string>
     <string name="draw_money_inof_certify_title">提现信息认证</string>
+    <string name="draw_money_info_certify_tip"><![CDATA[<p style="line-height:12px"><font color="#ff0000">1.请你正确填写支付宝账号信息<br/>
+    2.申请提现后，我们会在工作日的24小时内打款到您的支付宝账号<br/>
+    3.如果没有支付宝或者有其他问题请联系我们的客服微信:iketie</font></p>]]></string>
 
     <!-- draw money remainder-->
     <string name="zhifubao_account"><![CDATA[提现支付宝账号: %1$s]]></string>
