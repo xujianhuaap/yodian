@@ -55,6 +55,7 @@
     <dimen name="qrcode_top">10dp</dimen>
 
     <dimen name="btn_width">65dp</dimen>
+    <dimen name="btn_width_normal">75dp</dimen>
     <dimen name="btn_width_smalll">50dp</dimen>
     <dimen name="btn_width_large">120dp</dimen>
 
@@ -132,7 +133,7 @@
     <dimen name="order_status_height">40dp</dimen>
     <dimen name="order_process_width">40dp</dimen>
     <dimen name="order_process_height">13dp</dimen>
-    <dimen name="order_contact">120dp</dimen>
+    <dimen name="order_contact">100dp</dimen>
     <dimen name="order_contact_height">40dp</dimen>
     <dimen name="order_operator_width">120dp</dimen>
     <dimen name="order_operator_height">35dp</dimen>

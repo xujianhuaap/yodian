@@ -131,6 +131,9 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
     }
 
     protected  final class HistoryHolder extends AbstractAdapter.BindViewHolder<WDModel, ItemWdlistHistoryBinding> {
+
+        private String alipayStr;
+
         public HistoryHolder(ItemWdlistHistoryBinding t) {
             super(t);
 
@@ -141,14 +144,23 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
             binding.backwhy.setVisibility(View.GONE);
             binding.drawAccount.setVisibility(View.GONE);
             binding.btnPull.setVisibility(View.VISIBLE);
+            alipayStr = null;
+            if(!TextUtils.isEmpty(item.getCard_id())&Integer.parseInt(item.getCard_id())!=0){
+                alipayStr ="提现到银行卡";
+                binding.drawAccount.setText(alipayStr);
+            }else{
+
+               alipayStr =item.getAlipay();
+                Spanned span=Html.fromHtml(WDListHistoryActivity.this.getResources().getString(R.string.zhifubao_account, alipayStr));
+                binding.drawAccount.setText(span);
+
+            }
             String backWhyStr=item.getBackwhy();
-            String alipayStr=item.getAlipay();
-            Spanned span=Html.fromHtml(WDListHistoryActivity.this.getResources().getString(R.string.zhifubao_account, alipayStr));
-            binding.drawAccount.setText(span);
-            binding.backwhy.setText(backWhyStr);
             if(TextUtils.isEmpty(backWhyStr)&&TextUtils.isEmpty(alipayStr)){
                 binding.btnPull.setVisibility(View.INVISIBLE);
             }
+            binding.backwhy.setText(backWhyStr);
+
             binding.btnPull.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -178,7 +190,7 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
                         }
                     }
 
-                    if (!TextUtils.isEmpty(binding.getModel().getAlipay())) {
+                    if (!TextUtils.isEmpty(alipayStr)) {
                         if (!isChecked) {
                             binding.drawAccount.setVisibility(View.GONE);
                         } else {

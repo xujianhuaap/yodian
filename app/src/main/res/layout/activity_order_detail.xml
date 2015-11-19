@@ -213,6 +213,7 @@
                 <TextView
                     android:id="@+id/order_operator"
                     android:layout_width="wrap_content"
+                    android:minWidth="@dimen/btn_width_normal"
                     android:layout_height="@dimen/order_operator_height"
                     android:layout_marginRight="@dimen/margin_small"
                     android:layout_alignParentRight="true"
@@ -255,7 +256,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_normal">
+                android:paddingTop="@dimen/padding_normal"
+                android:paddingBottom="@dimen/padding_normal">
 
                 <TextView
                     android:id="@+id/order_buyer"
@@ -272,7 +274,7 @@
                     android:layout_width="@dimen/order_contact"
                     android:layout_height="@dimen/order_contact_height"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/apply_edit_margin"
+                    android:layout_marginRight="@dimen/margin_normal"
                     android:background="@mipmap/btn_oval_bg_blue"
                     android:gravity="center"
                     android:scaleType="centerInside"
