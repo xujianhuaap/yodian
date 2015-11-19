@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.IconPagerAdapter;
 
+import org.parceler.Parcel;
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +37,7 @@ public class FloatActivity extends AppCompatActivity implements ViewPagerFix.OnP
     private int currentPage;
 
     public static void start(Context context, ArrayList<Float> floatPic) {
-        context.startActivity(new Intent(context, FloatActivity.class).putExtra("datas", floatPic));
+        context.startActivity(new Intent(context, FloatActivity.class).putExtra("datas", Parcels.wrap(floatPic)));
     }
 
     @Override
@@ -59,7 +62,7 @@ public class FloatActivity extends AppCompatActivity implements ViewPagerFix.OnP
         mPager.setSlideBorderMode(AutoScrollViewPager.SLIDE_BORDER_MODE_CYCLE);
         indicator.setViewPager(mPager);
         mPager.stopAutoScroll();
-        ArrayList<Float> list = (ArrayList<Float>) getIntent().getSerializableExtra("datas");
+        ArrayList<Float> list = Parcels.unwrap(getIntent().getParcelableExtra("datas"));
         if (list.size() < 2) {
             indicator.setVisibility(View.INVISIBLE);
         } else {
