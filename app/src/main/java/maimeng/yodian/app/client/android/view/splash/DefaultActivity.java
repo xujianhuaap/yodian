@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.view.user.LauncherGuideActivity;
 
 
@@ -22,15 +23,10 @@ public class DefaultActivity extends AbsSplashActivity {
 
     @Override
     protected void onTimeout() {
-        mhandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(DefaultActivity.this, LauncherGuideActivity.class));
-                setResult(RESULT_OK);
-                finish();
-            }
-        }, getResources().getInteger(R.integer.splash_duration));
-
+        if(LauncherCheck.isFirstRun(this)) {
+            startActivity(new Intent(DefaultActivity.this, LauncherGuideActivity.class));
+        }
+        finish();
     }
 
     @Override

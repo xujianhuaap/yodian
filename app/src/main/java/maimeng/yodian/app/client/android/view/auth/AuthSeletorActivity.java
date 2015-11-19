@@ -46,9 +46,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (LauncherCheck.isFirstRun(this)) {
-            startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
-        }
+        startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
         if (!TextUtils.isEmpty(User.read(this).getToken())) {
             startActivity(new Intent(this, MainTab2Activity.class));
             finish();
