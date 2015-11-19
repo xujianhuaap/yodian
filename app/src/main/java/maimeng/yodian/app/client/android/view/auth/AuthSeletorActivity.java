@@ -46,12 +46,11 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
         if (!TextUtils.isEmpty(User.read(this).getToken())) {
             startActivity(new Intent(this, MainTab2Activity.class));
+            startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
             finish();
         } else {
-
             service = Network.getService(AuthService.class);
             setContentView(R.layout.activity_auth_selector);
             ScrollImageView image = (ScrollImageView) findViewById(R.id.scrollImage);
@@ -62,6 +61,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
             findViewById(R.id.btn_loginphone).setOnClickListener(this);
             findViewById(R.id.btn_user_protocol).setOnClickListener(this);
             User.clear(AuthSeletorActivity.this);
+            startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
         }
     }
 

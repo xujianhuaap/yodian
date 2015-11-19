@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
@@ -47,28 +49,14 @@ public class SplashAdvertiseActivity extends AppCompatActivity implements Runnab
         registerReceiver(receiver, new IntentFilter(UPDATE_ADVERTISE_CLOSE));
         handler.postDelayed(this, getResources().getInteger(R.integer.splash_duration));
         String pic=getIntent().getStringExtra("pic");
-        Glide.with(this).load(pic).into(new SimpleTarget<GlideDrawable>() {
+        DrawableTypeRequest<String> load = Glide.with(this).load(pic);
+        load.diskCacheStrategy(DiskCacheStrategy.ALL);
+        load.into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                 iv.setBackground(resource);
             }
         });
-        new ImageLoaderManager.Loader(this, Uri.parse(pic)).callback(new ImageLoaderManager.Callback() {
-            @Override
-            public void onImageLoaded(Bitmap bitmap) {
-                iv.setBackground(new BitmapDrawable(bitmap));
-            }
-
-            @Override
-            public void onLoadEnd() {
-
-            }
-
-            @Override
-            public void onLoadFaild() {
-
-            }
-        }).start(this);
     }
 
     @Override
@@ -80,6 +68,7 @@ public class SplashAdvertiseActivity extends AppCompatActivity implements Runnab
 
     @Override
     public void run() {
+            setResult(RESULT_OK);
             finish();
     }
 }

@@ -19,6 +19,7 @@ import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.GifTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -178,6 +179,7 @@ public final class ImageLoaderManager {
                 instance.addRequest(request, context);
             }
             DrawableTypeRequest<Uri> loader = request.load(this.uri);
+            loader.diskCacheStrategy(DiskCacheStrategy.ALL);
             if (width > 0 && height > 0) {
                 loader.override(width, height);
             }

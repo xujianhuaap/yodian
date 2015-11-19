@@ -31,6 +31,7 @@ import java.lang.reflect.Type;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
+import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 
@@ -212,7 +213,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     protected void showProgress(final boolean show) {
-        showProgress(show,mContent);
+        showProgress(show, mContent);
     }
     /**
      * Shows the progress UI and hides the login form.
@@ -248,6 +249,9 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
             mProgress.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgress.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+    protected <T> T create(Class<T> clazz){
+        return Network.getService(clazz);
     }
     /**
      * toolbar初始化完成时调用

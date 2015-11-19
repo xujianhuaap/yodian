@@ -1,8 +1,5 @@
 package maimeng.yodian.app.client.android.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by android on 2015/10/23.
  */
