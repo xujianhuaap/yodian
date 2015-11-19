@@ -10,6 +10,8 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -146,8 +148,8 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
         super.setContentView(R.layout.activity_base);
         mContent = (FrameLayout) findViewById(R.id.base_content);
         mTitle = (TextView) findViewById(R.id.base_title);
-        mProgress=findViewById(R.id.progress);
-        mError=findViewById(R.id.error);
+        mProgress = findViewById(R.id.progress);
+        mError = findViewById(R.id.error);
         mError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,8 +171,8 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     public void setContentView(int layoutResID) {
         super.setContentView(R.layout.activity_base);
         mContent = (FrameLayout) findViewById(R.id.base_content);
-        mProgress=findViewById(R.id.progress);
-        mError=findViewById(R.id.error);
+        mProgress = findViewById(R.id.progress);
+        mError = findViewById(R.id.error);
         mError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,7 +190,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
         getLayoutInflater().inflate(layoutResID, mContent, true);
     }
 
-    protected void onRetry(){
+    protected void onRetry() {
 
     }
 
@@ -201,13 +203,16 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     protected void checkError(HNetError error) {
         ErrorUtils.checkError(this, error);
     }
-    protected void showError(boolean show ){
+
+    protected void showError(boolean show) {
         showProgress(show, mError);
     }
+
     @Deprecated
-    protected void hideError(){
+    protected void hideError() {
         showError(false);
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -215,11 +220,12 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     protected void showProgress(final boolean show) {
         showProgress(show, mContent);
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show,final View view) {
+    private void showProgress(final boolean show, final View view) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
@@ -250,9 +256,11 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
             mProgress.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-    protected <T> T create(Class<T> clazz){
+
+    protected <T> T create(Class<T> clazz) {
         return Network.getService(clazz);
     }
+
     /**
      * toolbar初始化完成时调用
      *
@@ -262,7 +270,13 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
 
     }
 
+    private static final Handler handler = new Handler(Looper.getMainLooper());
+
     protected <T> T get(String key) {
         return Parcels.unwrap(getIntent().getParcelableExtra(key));
+    }
+
+    public void runOnUiThread(Runnable r, long delayMillis) {
+        handler.postDelayed(r, delayMillis);
     }
 }

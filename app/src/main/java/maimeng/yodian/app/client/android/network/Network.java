@@ -54,7 +54,9 @@ public class Network {
 
     public void init(Application app) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder=gsonBuilder.registerTypeAdapter(CertifyStatus.class,new GsonConverter.CertifiStatusAdapter());
+        gsonBuilder = gsonBuilder.registerTypeAdapter(boolean.class, new GsonConverter.BooleanAdapter());
+        gsonBuilder = gsonBuilder.registerTypeAdapter(Boolean.class, new GsonConverter.BooleanAdapter());
+        gsonBuilder = gsonBuilder.registerTypeAdapter(CertifyStatus.class, new GsonConverter.CertifiStatusAdapter());
         gsonBuilder = gsonBuilder.registerTypeAdapter(Date.class, new GsonConverter.DateAdapter());
         gsonBuilder = gsonBuilder.registerTypeAdapter(String.class, new GsonConverter.StringAdapter());
         gsonBuilder = gsonBuilder.registerTypeAdapter(ImageBindable.class, new GsonConverter.ImageBindableAdapter());

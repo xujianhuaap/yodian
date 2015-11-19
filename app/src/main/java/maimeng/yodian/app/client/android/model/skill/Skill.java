@@ -3,10 +3,10 @@ package maimeng.yodian.app.client.android.model.skill;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+
+import org.parceler.Parcel;
 
 import java.util.Date;
 
@@ -18,7 +18,7 @@ import maimeng.yodian.app.client.android.network.loader.Circle;
 /**
  * Created by xujianhua on 9/29/15.
  */
-@org.parceler.Parcel
+@Parcel
 public class Skill extends BaseObservable {
 
     /**
@@ -102,6 +102,28 @@ public class Skill extends BaseObservable {
     private String saddress;
     @SerializedName("hxname")
     private String chatLoginName = "";
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * isactive : 1
+     * starttime : 1448026535
+     * active_price : 1.00
+     * systime : 1447916921
+     * activeUrl : http://share.yodian.me/spike.php
+     */
+    @SerializedName("isactive")
+    private boolean active;
+    private long starttime;
+    private String active_price;
+    private long systime;
+    private String activeUrl;
 
     public String getChatLoginName() {
         return chatLoginName;
@@ -446,5 +468,39 @@ public class Skill extends BaseObservable {
     public String toString() {
         return "wechat:" + this.getWeichat() + "qq" + this.getQq() + "contact" + this.getContact();
 
+    }
+
+
+    public void setStarttime(long starttime) {
+        this.starttime = starttime;
+    }
+
+    public void setActive_price(String active_price) {
+        this.active_price = active_price;
+    }
+
+    public void setSystime(long systime) {
+        this.systime = systime;
+    }
+
+    public void setActiveUrl(String activeUrl) {
+        this.activeUrl = activeUrl;
+    }
+
+
+    public long getStarttime() {
+        return starttime;
+    }
+
+    public String getActive_price() {
+        return active_price;
+    }
+
+    public long getSystime() {
+        return systime;
+    }
+
+    public String getActiveUrl() {
+        return activeUrl;
     }
 }

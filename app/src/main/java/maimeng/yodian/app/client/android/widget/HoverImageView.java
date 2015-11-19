@@ -117,13 +117,12 @@ public class HoverImageView extends ImageView {
         int mw = getMeasuredWidth();
         int w = getWidth();
         int h = getHeight();
-        System.out.println(w+h);
         Drawable maiDrawable = getDrawable();
         if (!isInEditMode() && maiDrawable instanceof BitmapDrawable) {
             Paint paint = ((BitmapDrawable) maiDrawable).getPaint();
 
             Rect bitmapBounds = maiDrawable.getBounds();
-            bitmapBounds.union(mw,mh);//如果图片比ImageView小就让图片显示人和ImageView一样大
+            bitmapBounds.union(mw, mh);//如果图片比ImageView小就让图片显示人和ImageView一样大
             rect.set(bitmapBounds);
             int saveCount = canvas.saveLayer(rect, null,
                     Canvas.MATRIX_SAVE_FLAG |
@@ -177,5 +176,5 @@ public class HoverImageView extends ImageView {
     public float getBorderWidth() {
         return borderWidth;
     }
-    
+
 }

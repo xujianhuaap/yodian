@@ -26,7 +26,8 @@ import maimeng.yodian.app.client.android.network.service.CommonService;
  */
 public abstract class AbsSplashActivity extends AppCompatActivity implements Callback<String> {
     private final Handler handler = new Handler();
-    private boolean show =true;
+    private boolean show = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +42,9 @@ public abstract class AbsSplashActivity extends AppCompatActivity implements Cal
             public void run() {
                 Realm instance = Realm.getInstance(AbsSplashActivity.this);
                 AdvertiseStatus obj = instance.where(AdvertiseStatus.class).findFirst();
-                if(obj!=null && !TextUtils.isEmpty(obj.getPic())&& obj.isShow() && show){
-                    startActivityForResult(new Intent(AbsSplashActivity.this,SplashAdvertiseActivity.class).putExtra("pic",obj.getPic()),1001);
-                }else{
+                if (obj != null && !TextUtils.isEmpty(obj.getPic()) && obj.isShow() && show) {
+                    startActivityForResult(new Intent(AbsSplashActivity.this, SplashAdvertiseActivity.class).putExtra("pic", obj.getPic()), 1001);
+                } else {
                     onTimeout();
                 }
                 instance.close();
@@ -55,7 +56,7 @@ public abstract class AbsSplashActivity extends AppCompatActivity implements Cal
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1001 && resultCode==RESULT_OK){
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
             onTimeout();
         }
     }
@@ -79,21 +80,20 @@ public abstract class AbsSplashActivity extends AppCompatActivity implements Cal
     public final void success(String s, Response response) {
         try {
             JSONObject json = new JSONObject(s);
-            if(json.getInt("code")==20000 && json.has("data")){
+            if (json.getInt("code") == 20000 && json.has("data")) {
                 JSONObject splash = json.getJSONObject("data").getJSONObject("splash");
                 String pic = splash.getString("pic");
                 int flg = splash.getInt("flag");
                 Realm realm = Realm.getInstance(this);
                 realm.beginTransaction();
                 AdvertiseStatus first = realm.where(AdvertiseStatus.class).findFirst();
-                if(first!=null)first.removeFromRealm();
+                if (first != null) first.removeFromRealm();
                 AdvertiseStatus obj = realm.createObject(AdvertiseStatus.class);
                 obj.setPic(pic);
                 obj.setShow(flg == 1);
-                System.out.println(obj.isShow());
-                show =obj.isShow();
+                show = obj.isShow();
                 realm.commitTransaction();
-                if(obj.isShow()){
+                if (obj.isShow()) {
                     sendBroadcast(new Intent(SplashAdvertiseActivity.UPDATE_ADVERTISE_CLOSE));
                 }
                 realm.close();

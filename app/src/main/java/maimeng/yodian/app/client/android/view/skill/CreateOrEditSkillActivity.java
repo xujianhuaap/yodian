@@ -231,12 +231,10 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
 
                 @Override
                 public void onLoadEnd() {
-                    System.out.println("onLoadEnd");
                 }
 
                 @Override
                 public void onLoadFaild() {
-                    System.out.println("onLoadFaild");
                 }
             }).width((int) getResources().getDimension(R.dimen.skill_list_item_img_width)).height((int) getResources().getDimension(R.dimen.skill_list_item_img_width) * 2 / 3).start(this);
         }

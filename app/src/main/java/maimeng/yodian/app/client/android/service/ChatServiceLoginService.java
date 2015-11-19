@@ -79,17 +79,14 @@ public class ChatServiceLoginService extends Service {
                         EMChatManager.getInstance().loadAllConversations(new EMCallBack() {
                             @Override
                             public void onSuccess() {
-                                System.out.println("onSuccess");
                             }
 
                             @Override
                             public void onError(int i, String s) {
-                                System.out.println("onError");
                             }
 
                             @Override
                             public void onProgress(int i, String s) {
-                                System.out.println("onProgress");
                             }
                         });
                         EMChatManager.getInstance().updateCurrentUserNick(User.read(ChatServiceLoginService.this).getNickname());

@@ -23,14 +23,12 @@ public class MainTabActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         auth = where(Auth.class).findFirst();
-        if (auth ==null){
-            startActivityForResult(new Intent(this, LoginByPhoneActivity.class),REQUEST_AUTH);
-        }else if (TextUtils.isEmpty(auth.getToken())){
+        if (auth == null) {
+            startActivityForResult(new Intent(this, LoginByPhoneActivity.class), REQUEST_AUTH);
+        } else if (TextUtils.isEmpty(auth.getToken())) {
             remove(auth);
             startActivityForResult(new Intent(this, LoginByPhoneActivity.class), REQUEST_AUTH);
-            System.out.println(auth.getNickname());
-        }else{
-            System.out.println(auth.getNickname());
+        } else {
         }
 
         setContentView(R.layout.activity_main_tab, false);
@@ -49,10 +47,9 @@ public class MainTabActivity extends AbstractActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            if(requestCode==REQUEST_AUTH){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_AUTH) {
                 auth = get("auth");
-                System.out.println(auth.getNickname());
             }
         }
     }

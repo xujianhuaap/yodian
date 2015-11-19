@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -31,9 +32,14 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 import org.parceler.Parcels;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -237,53 +243,81 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
 
             if (list.size() > 0) {
                 Rmark rmark = list.get(0);
-                Date date = rmark.getCreatetime();
             }
 
-            if (skill == null) {
-                skill = res.getData().getDetail();
-                isMe = skill.getUid() == user.getUid();
-                if (isMe) {
-                    setUIWhenIsMe();
+            skill = res.getData().getDetail();
+            isMe = skill.getUid() == user.getUid();
+            if (isMe) {
+                setUIWhenIsMe();
+            } else {
+                if (skill.getAllow_sell() != 1) {
+                    headBinding.btnBuySkill.setVisibility(View.GONE);
+                    headBinding.divinder.setVisibility(View.GONE);
                 } else {
-                    if (skill.getAllow_sell() != 1) {
-                        headBinding.btnBuySkill.setVisibility(View.GONE);
-                        headBinding.divinder.setVisibility(View.GONE);
-                    } else {
-                        headBinding.skillAllowSell.setVisibility(View.VISIBLE);
-                    }
+                    headBinding.skillAllowSell.setVisibility(View.VISIBLE);
                 }
-                if (skill.getType().equals("1")) {
-                    headBinding.skillSlector.setVisibility(View.VISIBLE);
-                }
-
-
-                headBinding.setSkill(skill);
-                if (skill.getStatus() != 0) {
-                    headBinding.skillStatus.setVisibility(View.VISIBLE);
-                } else {
-                    headBinding.skillStatus.setVisibility(View.INVISIBLE);
-                }
-                binding.setSkill(skill);
-                new ImageLoaderManager.Loader(SkillDetailsActivity.this, skill.getAvatar80().getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
-                    @Override
-                    public void onImageLoaded(Bitmap bitmap) {
-                        SkillDetailsActivity.this.defaultAvatar = bitmap;
-                    }
-
-                    @Override
-                    public void onLoadEnd() {
-
-                    }
-
-                    @Override
-                    public void onLoadFaild() {
-
-                    }
-                }).start(this);
-                Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
-                headBinding.price.setText(text);
             }
+            if (skill.getType().equals("1")) {
+                headBinding.skillSlector.setVisibility(View.VISIBLE);
+            }
+            headBinding.setSkill(skill);
+            if (skill.getStatus() != 0) {
+                headBinding.skillStatus.setVisibility(View.VISIBLE);
+            } else {
+                headBinding.skillStatus.setVisibility(View.INVISIBLE);
+            }
+            boolean actived = skill.isActive();
+            if (actived) {
+                headBinding.iconActivie.setVisibility(View.VISIBLE);
+                headBinding.iconActivie.setText(skill.getActive_price());
+                headBinding.activeBanner.setVisibility(View.VISIBLE);
+                Calendar systemC = Calendar.getInstance();
+                Calendar startC = Calendar.getInstance();
+                systemC.setTimeInMillis(skill.getSystime() * 1000);
+                startC.setTimeInMillis(skill.getStarttime() * 1000);
+                long count = startC.getTimeInMillis() - systemC.getTimeInMillis();
+                if (count <= 24 * 60 * 60 * 1000) {
+                    CountDownTimer timer = new CountDownTimer(count, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            SimpleDateFormat fmt = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+                            fmt.setTimeZone(new SimpleTimeZone(0, "UTC"));
+                            headBinding.activeTime.setText(fmt.format(millisUntilFinished));
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            headBinding.activeTime.setText("开始抢购");
+                        }
+                    };
+                    timer.start();
+                }
+
+            } else {
+                headBinding.iconActivie.setVisibility(View.GONE);
+                headBinding.activeBanner.setVisibility(View.GONE);
+            }
+
+
+            binding.setSkill(skill);
+            new ImageLoaderManager.Loader(SkillDetailsActivity.this, skill.getAvatar80().getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
+                @Override
+                public void onImageLoaded(Bitmap bitmap) {
+                    SkillDetailsActivity.this.defaultAvatar = bitmap;
+                }
+
+                @Override
+                public void onLoadEnd() {
+
+                }
+
+                @Override
+                public void onLoadFaild() {
+
+                }
+            }).start(this);
+            Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
+            headBinding.price.setText(text);
             if (isMe) {
                 binding.recyclerView.removeHeaderView(noSkillRmark);
                 if (list.size() > 0 || page > 1) {

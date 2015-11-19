@@ -8,10 +8,37 @@
             name="skill"
             type="maimeng.yodian.app.client.android.model.skill.Skill" />
     </data>
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/active_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/active_banner_bg"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="该技能秒杀倒计时"
+                android:textColor="#fff" />
+
+            <TextView
+                android:id="@+id/active_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="#ffee00"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/skill_detail_head_height"
@@ -20,8 +47,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/padding_normal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/padding_normal">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -35,27 +62,30 @@
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
                         app:imgUrl="@{skill.pic}" />
+
                     <LinearLayout
                         android:id="@+id/header_logo_bg"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/skill_price_height"
                         android:layout_alignParentBottom="true"
-                        android:background="?attr/colorPrimaryDark"
+                        android:background="#cc000000"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="5dp">
+
                         <ImageView
                             android:id="@+id/btn_buy_skill"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="match_parent"
-                            android:src="@mipmap/ic_skill_buy"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:orientation="horizontal"
                             android:scaleType="centerInside"
+                            android:src="@mipmap/ic_skill_buy"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/btn_text_size"
                             android:visibility="visible" />
+
                         <TextView
                             android:id="@+id/divinder"
                             android:layout_width="@dimen/divider_line"
@@ -63,11 +93,12 @@
                             android:layout_margin="@dimen/margin_small"
                             android:background="@android:color/white"
                             android:visibility="visible" />
+
                         <ImageView
                             android:id="@+id/btn_contact"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:scaleType="centerInside"
                             android:src="@mipmap/ic_skill_contact"
@@ -103,15 +134,16 @@
                         android:id="@+id/user_nickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{skill.nickname}"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:drawablePadding="@dimen/margin_small"
                         android:gravity="center"
                         android:scaleType="centerInside"
-                        android:drawablePadding="@dimen/margin_small" />
+                        android:text="@{skill.nickname}"
+                        android:textColor="@color/colorPrimaryDark" />
 
                 </RelativeLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -124,32 +156,50 @@
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:background="@drawable/fragment_kill_item_price_background"
+                    android:gravity="left|center_vertical"
+                    android:paddingBottom="@dimen/padding_small"
                     android:paddingLeft="@dimen/padding_normal"
                     android:paddingRight="@dimen/padding_normal"
-                    android:paddingBottom="@dimen/padding_small"
                     android:paddingTop="@dimen/padding_small"
-                    android:layout_marginBottom="@dimen/margin_large"
-                    android:gravity="left|center_vertical"
                     android:singleLine="true"
-                    android:background="@drawable/fragment_kill_item_price_background"
                     android:textColor="@color/colorPrimaryDark"
                     android:visibility="visible" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/icon_activie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="30dp"
+                android:layout_marginRight="20dp"
+                android:background="@mipmap/ic_active_bg"
+                android:gravity="center"
+                android:text="1.00"
+                android:textColor="#ff0000"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/skill_status"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#55000000"
                 android:scaleType="centerInside"
                 android:src="@mipmap/pic_skill_state_xiajia"
-                android:background="#55000000"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </FrameLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@android:color/white"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -161,13 +211,14 @@
                     android:id="@+id/skill_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
-                    android:layout_gravity="center_vertical"
                     android:text="@{skill.name}"
-                    android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_normal"
                     android:visibility="visible" />
+
                 <ImageView
                     android:id="@+id/skill_slector"
                     android:layout_width="wrap_content"
@@ -175,20 +226,22 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_normal"
                     android:src="@mipmap/ic_skill_better" />
+
                 <ImageView
                     android:id="@+id/skill_allow_sell"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:src="@mipmap/ic_skill_can_sell"
-                     />
-                </LinearLayout>
+                    android:src="@mipmap/ic_skill_can_sell" />
+            </LinearLayout>
+
             <View
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/division_height"
-                android:background="@color/div_line"/>
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/div_line" />
+
             <TextView
                 android:id="@+id/skill_content"
                 android:layout_width="wrap_content"
