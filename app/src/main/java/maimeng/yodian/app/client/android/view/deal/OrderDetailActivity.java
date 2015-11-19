@@ -145,9 +145,10 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_pay);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.btn_oval_blue));
                 } else {
-                    mBinding.orderOperator.setVisibility(View.INVISIBLE);
+                    operatorStr = getString(R.string.seller_operator_wait_pay);
+                    mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 }
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
                 mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));
@@ -160,10 +161,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 //支付
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_accept);
+                    mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 } else {
                     operatorStr = getString(R.string.seller_operator_accept);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.btn_oval_blue));
                 }
                 mBinding.orderStatusPay.setChecked(true);
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time, formatDate(info.getPay_time()))));
@@ -174,10 +176,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 //已经接单
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_send);
+                    mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 } else {
                     operatorStr = getString(R.string.seller_operator_send);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.btn_oval_blue));
                 }
                 mBinding.processPay.setChecked(true);
                 mBinding.orderStatusPay.setChecked(true);
@@ -191,10 +194,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_confirm);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
-                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.mipmap.btn_oval_bg_blue));
+                    mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.btn_oval_blue));
                 } else {
 
-                    mBinding.orderOperator.setVisibility(View.INVISIBLE);
+                    operatorStr = getString(R.string.order_status_send_goods);
+                    mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 }
                 mBinding.processPay.setChecked(true);
                 mBinding.orderStatusPay.setChecked(true);
@@ -207,6 +211,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
             case 5:
                 //交易完成
                 operatorStr = getString(R.string.order_status_confirm_deal);
+                mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.processPay.setChecked(true);
                 mBinding.processAccept.setChecked(true);
                 mBinding.orderStatusConfirm.setChecked(true);
