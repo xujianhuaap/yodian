@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -47,8 +49,6 @@ import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
  */
 public class BasicalInfoConfirmActivity extends AbstractActivity implements View.OnClickListener {
 
-
-    private InputMethodManager inputmanger;
     private Toast toast;
     private EditText mName;
     private EditText mID;
@@ -70,6 +70,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     Pattern p = Pattern.compile("^170|((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
     final int[] weight = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};    //十七位数字本体码权重
     final char[] validate = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};    //mod11,对应校验码字符值
+    private TextView mTip;
 
 
     /***
@@ -92,6 +93,10 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         mSubmit=(Button)findViewById(R.id.apply_submit);
         mConfirmCode=(EditText)findViewById(R.id.basic_code);
         mGetCode=(Button)findViewById(R.id.btn_get_code);
+        mTip=(TextView)findViewById(R.id.tip);
+
+        Spanned span= Html.fromHtml(getResources().getString(R.string.certify_info_tip));
+        mTip.setText(span);
 
         mID.addTextChangedListener(new InputListener(mID));
         mName.addTextChangedListener(new InputListener(mName));
