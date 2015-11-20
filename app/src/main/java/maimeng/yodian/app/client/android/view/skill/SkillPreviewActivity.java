@@ -201,7 +201,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                         skill.setName(mSkill.getName());
                         skill.setContent(mSkill.getContent());
                         skill.setCreatetime(mSkill.getCreatetime());
-                        skill.setStatus(mSkill.getStatus());
+                        skill.setXiajia(mSkill.isXiajia());
                         Intent data = new Intent();
                         data.putExtra("skill", Parcels.wrap(skill));
                         setResult(RESULT_OK, data);

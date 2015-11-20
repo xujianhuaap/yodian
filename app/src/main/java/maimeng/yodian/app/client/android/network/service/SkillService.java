@@ -56,7 +56,7 @@ public interface SkillService {
     @Post(Api.SKILL_ADD)
     void add(@Param("name") String name, @Param("content") String content,
              @Param("pic") TypedBitmap pic, @Param("price") String price,
-             @Param("unit") String unit, @Param("allow_sell")int allowSell,Callback<SkillAllResponse> callback);
+             @Param("unit") String unit, @Param("allow_sell") int allowSell, Callback<SkillAllResponse> callback);
 
     /**
      * 修改技能
@@ -74,7 +74,7 @@ public interface SkillService {
     void update(@Param("sid") long sid, @Param("name") String name,
                 @Param("content") String content, @Param("pic") TypedBitmap pic,
                 @Param("price") String price, @Param("unit") String unit,
-                @Param("allow_sell")int allowSell,ToastCallback callback);
+                @Param("allow_sell") int allowSell, ToastCallback callback);
 
 
     /**
@@ -90,7 +90,7 @@ public interface SkillService {
      * * 上架下架技能
      *
      * @param sid
-     * @param up       1上架，0下架
+     * @param up       2上架，0下架
      * @param callback
      */
     @Post(Api.SKILL_UP)

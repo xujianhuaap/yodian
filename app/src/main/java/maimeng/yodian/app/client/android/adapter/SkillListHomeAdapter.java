@@ -224,6 +224,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             adapter.notifyDataSetChanged();
             indicator.notifyDataSetChanged();
             banner.setCurrentItem(0);
+
         }
 
 
@@ -287,7 +288,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             } else {
                 binding.iconCanbuy.setVisibility(View.GONE);
             }
-            if (item.getType().equals("1")) {
+            if (item.isSelector()) {
                 binding.iconSelector.setVisibility(View.VISIBLE);
             } else {
                 binding.iconSelector.setVisibility(View.GONE);

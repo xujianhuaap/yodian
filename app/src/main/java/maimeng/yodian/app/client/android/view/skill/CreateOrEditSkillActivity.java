@@ -3,7 +3,6 @@ package maimeng.yodian.app.client.android.view.skill;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,9 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -53,11 +49,7 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
-import maimeng.yodian.app.client.android.view.deal.BasicalInfoConfirmActivity;
-import maimeng.yodian.app.client.android.view.deal.BindStatus;
-import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
 import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.VouchDealActivity;
@@ -104,14 +96,18 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
 
     /***
      * 个人信息完成后又回到该界面
+     *
      * @param context
      */
-    public static void backTo(Context context){
-        Intent intent=new Intent(context,CreateOrEditSkillActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("backTo",true);
+    public static void backTo(Context context) {
+        Intent intent = new Intent(context, CreateOrEditSkillActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("backTo", true);
         context.startActivity(intent);
-    };
+    }
+
+    ;
+
     /****
      * 增加技能
      *
@@ -169,7 +165,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
         final SkillTemplate mTemplate;
         info = User.read(CreateOrEditSkillActivity.this).getInfo();
 
-        if(getIntent().getBooleanExtra("backTo",false)==true){
+        if (getIntent().getBooleanExtra("backTo", false) == true) {
             binding.onLinePay.setChecked(true);
             binding.onLinePay.setClickable(false);
         }
@@ -188,7 +184,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 mTemplate.setContent(skill.getContent());
                 mTemplate.setCreatetime(skill.getCreatetime());
                 mTemplate.setId(skill.getId());
-                mTemplate.setStatus(skill.getStatus());
+                mTemplate.setStatus(skill.isXiajia());
                 onLinePay = skill.getAllow_sell() == 1;
                 isEdit = true;
             }
@@ -385,7 +381,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         skill.setName(template.getName());
                         skill.setContent(template.getContent());
                         skill.setCreatetime(template.getCreatetime());
-                        skill.setStatus(template.getStatus());
+//                        skill.setXiajia(template.getStatus());
                         Intent data = new Intent();
                         data.putExtra("skill", Parcels.wrap(skill));
                         setResult(RESULT_OK, data);
@@ -462,7 +458,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if(intent.getBooleanExtra("backTo",false)==true){
+        if (intent.getBooleanExtra("backTo", false) == true) {
             binding.onLinePay.setChecked(true);
             binding.onLinePay.setClickable(false);
         }
@@ -538,7 +534,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                     toggle();
                     tempFile.deleteOnExit();
                 }
-            } else   if (requestCode == REQUEST_DONE) {
+            } else if (requestCode == REQUEST_DONE) {
 
             }
         }

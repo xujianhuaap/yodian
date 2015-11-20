@@ -122,6 +122,7 @@ public class GsonConverter implements Converter {
             out.write(jsonBytes);
         }
     }
+
     public static class BooleanAdapter implements JsonDeserializer<Boolean>, JsonSerializer<Boolean> {
 
         @Override
@@ -131,9 +132,10 @@ public class GsonConverter implements Converter {
 
         @Override
         public Boolean deserialize(JsonElement arg0, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
-            return arg0.getAsInt() == 1;
+            return arg0.getAsInt() != 0;
         }
     }
+
     public static class StringAdapter implements JsonDeserializer<String>, JsonSerializer<String> {
 
         @Override
@@ -174,7 +176,7 @@ public class GsonConverter implements Converter {
         }
     }
 
-    public static class CertifiStatusAdapter implements JsonDeserializer<CertifyStatus>,JsonSerializer<CertifyStatus>{
+    public static class CertifiStatusAdapter implements JsonDeserializer<CertifyStatus>, JsonSerializer<CertifyStatus> {
         @Override
         public CertifyStatus deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             return CertifyStatus.create(json.getAsInt());

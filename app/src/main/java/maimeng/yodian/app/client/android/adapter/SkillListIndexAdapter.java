@@ -292,7 +292,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
             } else {
                 binding.iconCanbuy.setVisibility(View.GONE);
             }
-            if (item.getType().equals("1")) {
+            if (item.isSelector()) {
                 binding.iconSelector.setVisibility(View.VISIBLE);
             } else {
                 binding.iconSelector.setVisibility(View.GONE);

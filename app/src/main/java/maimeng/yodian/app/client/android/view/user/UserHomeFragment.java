@@ -40,7 +40,6 @@ import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillListHomeAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
-import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.UserHomeHeaderBinding;
@@ -381,7 +380,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 @Override
                 public void run() {
                     Skill skill = itemViewHolder.getData();
-                    if (skill.getStatus() == 0) {
+                    if (!skill.isXiajia()) {
                         startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
                     }
 
@@ -447,11 +446,11 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 }).show(mActivity.getFragmentManager(), "delete_dialog");
 
             } else if (clickItem == itemViewHolder.getBinding().btnChangeState) {
-                service.up(skill.getId(), skill.getStatus(), new ToastCallback(mActivity) {
+                service.up(skill.getId(), skill.isXiajia() ? 2 : 0, new ToastCallback(mActivity) {
                     @Override
                     public void success(ToastResponse res, Response response) {
                         super.success(res, response);
-                        skill.setStatus(skill.getStatus() == 0 ? 1 : 0);
+                        skill.setXiajia(!skill.isXiajia());
                         itemViewHolder.closeWithAnim();
                     }
                 });

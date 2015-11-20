@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.android.databinding'
 apply from: '../apk.gradle'
 //apply from: 'check.gradle'
 apply plugin: 'bugly'
@@ -10,7 +9,9 @@ bugly {
     upload true
 }
 android {
-
+    dataBinding {
+        enabled = true
+    }
     sourceSets {
         main.java.srcDirs += 'src/chat/java'
         main.res.srcDirs += 'src/chat/res'

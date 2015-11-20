@@ -99,7 +99,7 @@
                     android:background="#9000"
                     android:scaleType="centerInside"
                     android:src="@mipmap/pic_skill_state_xiajia"
-                    android:visibility="gone" />
+                    android:visibility="@{skill.xiajia?View.VISIBLE:View.INVISIBLE}" />
 
 
                 <TextView
@@ -155,7 +155,7 @@
                         <TextView
                             android:id="@+id/btn_change_state"
                             style="@style/slideItemStyle"
-                            android:text="@{skill.status != 0?@string/status_shangjia:@string/status_xiajia}" />
+                            android:text="@{skill.xiajia?@string/status_shangjia:@string/status_xiajia}" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -187,9 +187,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_margin="1dp"
-                        android:maxLength="18"
                         android:layout_marginRight="10dp"
                         android:gravity="left|center_vertical"
+                        android:maxLength="18"
                         android:singleLine="true"
                         android:text="@{skill.name}"
                         android:textColor="@color/colorPrimaryDark"

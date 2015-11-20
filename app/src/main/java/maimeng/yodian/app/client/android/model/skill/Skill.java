@@ -24,7 +24,7 @@ public class Skill extends BaseObservable {
     /**
      * id : 72
      * uid : 18
-     * type : 1
+     * selector : 1
      * scid : 6
      * name : 订制叫醒
      * pic : http://skilltest.oss-cn-hangzhou.aliyuncs.com/files/image/20150710/559f35c066607.jpg
@@ -64,7 +64,8 @@ public class Skill extends BaseObservable {
 
     private long id;
     private long uid;
-    private String type;
+    @SerializedName("type")
+    private boolean selector;//是否是精选
     private long scid;
     private String name;
     private String pic;
@@ -84,8 +85,28 @@ public class Skill extends BaseObservable {
     private String ord;
     private String smartsort;
     private int allow_sell;
+    /**
+     * 是否下架
+     *
+     * @return
+     */
     @Bindable
-    private int status;
+    @SerializedName("status")
+    private boolean xiajia;
+
+    /**
+     * 是否精选
+     *
+     * @return
+     */
+    public boolean isSelector() {
+        return selector;
+    }
+
+    public void setSelector(boolean selector) {
+        this.selector = selector;
+    }
+
     private Date createtime;
     private String nickname;
     private String avatar;
@@ -100,6 +121,16 @@ public class Skill extends BaseObservable {
     private String district;
     private String address;
     private String saddress;
+
+    /**
+     * 是否下架
+     *
+     * @return
+     */
+    public boolean isXiajia() {
+        return xiajia;
+    }
+
     @SerializedName("hxname")
     private String chatLoginName = "";
 
@@ -141,9 +172,6 @@ public class Skill extends BaseObservable {
         this.uid = uid;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public void setScid(long scid) {
         this.scid = scid;
@@ -221,9 +249,9 @@ public class Skill extends BaseObservable {
         this.allow_sell = allow_sell;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-        notifyPropertyChanged(BR.status);
+    public void setXiajia(boolean xiajia) {
+        this.xiajia = xiajia;
+        notifyPropertyChanged(BR.xiajia);
     }
 
     public void setCreatetime(Date createtime) {
@@ -288,10 +316,6 @@ public class Skill extends BaseObservable {
 
     public long getUid() {
         return uid;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public long getScid() {
@@ -371,9 +395,6 @@ public class Skill extends BaseObservable {
         return allow_sell;
     }
 
-    public int getStatus() {
-        return status;
-    }
 
     public Date getCreatetime() {
         return createtime;
@@ -444,7 +465,7 @@ public class Skill extends BaseObservable {
         setContent(skill.content);
         setPrice(skill.price);
         setUnit(skill.unit);
-        setStatus(skill.status);
+        setXiajia(skill.xiajia);
         setCreatetime(skill.createtime);
         setNickname(skill.nickname);
         setAvatar(skill.avatar);

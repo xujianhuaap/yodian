@@ -38,7 +38,7 @@ public class SkillTemplate extends BaseObservable {
     @DatabaseField(columnName = "_unit")
     private String unit;
     @DatabaseField(columnName = "_status")
-    private int status;
+    private boolean status;
     @DatabaseField(columnName = "_createtime")
     private Date createtime;
 
@@ -83,11 +83,11 @@ public class SkillTemplate extends BaseObservable {
         this.price = price;
     }
 
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

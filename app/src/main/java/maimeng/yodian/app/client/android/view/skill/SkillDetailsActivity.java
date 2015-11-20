@@ -34,12 +34,10 @@ import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -50,7 +48,6 @@ import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkListAdapter;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
-import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
@@ -257,11 +254,11 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     headBinding.skillAllowSell.setVisibility(View.VISIBLE);
                 }
             }
-            if (skill.getType().equals("1")) {
+            if (skill.isSelector()) {
                 headBinding.skillSlector.setVisibility(View.VISIBLE);
             }
             headBinding.setSkill(skill);
-            if (skill.getStatus() != 0) {
+            if (skill.isXiajia()) {
                 headBinding.skillStatus.setVisibility(View.VISIBLE);
             } else {
                 headBinding.skillStatus.setVisibility(View.INVISIBLE);

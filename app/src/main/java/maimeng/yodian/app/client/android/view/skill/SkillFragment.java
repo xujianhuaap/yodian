@@ -132,7 +132,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         adapter = new SkillListIndexAdapter(this, this, mRefreshLayout);
         mRecyclerView.setAdapter(adapter);
         final ArrayList<Skill> datas = get("list");
-        final ArrayList<Banner> banners =get("banners");
+        final ArrayList<Banner> banners = get("banners");
         if (datas != null) {
             callRefreshAdapter(datas, banners);
         } else {
@@ -142,7 +142,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
 
     private void callRefreshAdapter(List<Skill> list, List<Banner> banners) {
         final List<ViewEntry> entries;
-        if (page == 1 && typeId == 0 && banners!=null && banners.size()>0) {
+        if (page == 1 && typeId == 0 && banners != null && banners.size() > 0) {
             entries = new ArrayList<>(list.size() + 1);
             entries.add(new BannerViewEntry(banners));
         } else {
@@ -207,7 +207,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                 public void run() {
                     Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
                     Skill skill = ((SkillListIndexAdapter.ItemViewHolder) h).getData();
-                    if (skill.getStatus() == 0) {
+                    if (!skill.isXiajia()) {
                         startActivity(new Intent(getContext(), SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
                     }
 
@@ -273,11 +273,11 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                 }).show(getActivity().getFragmentManager(), "delete_dialog");
 
             } else if (clickItem == holder.getBinding().btnChangeState) {
-                service.up(skill.getId(), skill.getStatus(), new ToastCallback(getActivity()) {
+                service.up(skill.getId(), skill.isXiajia() ? 2 : 0, new ToastCallback(getActivity()) {
                     @Override
                     public void success(ToastResponse res, Response response) {
                         super.success(res, response);
-                        skill.setStatus(skill.getStatus() == 0 ? 1 : 0);
+                        skill.setXiajia(!skill.isXiajia());
                         holder.closeWithAnim();
                     }
                 });
