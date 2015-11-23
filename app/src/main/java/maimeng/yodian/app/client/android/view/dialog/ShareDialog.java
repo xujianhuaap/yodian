@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;

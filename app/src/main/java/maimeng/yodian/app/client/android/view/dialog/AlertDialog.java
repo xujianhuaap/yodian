@@ -8,7 +8,7 @@ import android.text.Html;
 /**
  * Created by henjue on 2015/4/7.
  */
-public class AlertDialog extends android.app.DialogFragment {
+public class AlertDialog extends DialogFragment {
     private NegativeListener nListener;
     private PositiveListener pListener;
 
