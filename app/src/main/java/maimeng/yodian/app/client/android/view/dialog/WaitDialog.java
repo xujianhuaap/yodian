@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -17,7 +18,7 @@ import maimeng.yodian.app.client.android.R;
 /**
  * Created by henjue on 2015/4/7.
  */
-public class WaitDialog extends android.app.DialogFragment {
+public class WaitDialog extends DialogFragment {
     private ImageView imageView;
 
     @Deprecated
@@ -41,6 +42,7 @@ public class WaitDialog extends android.app.DialogFragment {
         }
         return waitDialog;
     }
+
 
     public static WaitDialog show(Activity activity) {
         return show(activity, "请稍等...");
