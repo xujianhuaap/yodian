@@ -108,12 +108,12 @@ public class OrderCancellActivity extends AppCompatActivity  {
                             }
                         });
                     }
-                }, "").setNegtiveListener(new ViewDialog.INegativeListener() {
+                }, "我要取消订单").setNegtiveListener(new ViewDialog.INegativeListener() {
                     @Override
                     public void negtiveClick() {
 
                     }
-                }, "");
+                }, "暂不取消");
                 android.support.v7.app.AlertDialog dialog=builder.create();
                 dialog.show();
 
