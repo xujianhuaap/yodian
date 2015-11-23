@@ -46,6 +46,7 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
     private EditText mConfirmAccount;
     private Button mSubmit;
     private TextView mTip;
+    private boolean mIsModify;
 
     /***
      *
@@ -79,6 +80,9 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
         this.mZhiFuBaoAccount=(EditText)findViewById(R.id.zhifubao_account);
         this.mTip=(TextView)findViewById(R.id.tip);
         String alipay=getIntent().getStringExtra("alipay");
+        if(!TextUtils.isEmpty(alipay)){
+            mIsModify=true;
+        }
         mZhiFuBaoAccount.setText(alipay);
         Spanned span= Html.fromHtml(getResources().getString(R.string.draw_money_info_certify_tip));
         mTip.setText(span);
@@ -161,14 +165,20 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
     public void onClick(View v) {
 
         if(v==mSubmit){
+            String tip="填写内容不能为空";
             if(TextUtils.isEmpty(mZhiFuBaoStr)){
+                Toast.makeText(DrawMoneyInfoConfirmActivity.this,tip,Toast.LENGTH_SHORT).show();
                 return;
             }
             if(TextUtils.isEmpty(mReconfirmStr)){
+                Toast.makeText(DrawMoneyInfoConfirmActivity.this,tip,Toast.LENGTH_SHORT).show();
                 return;
             }
             if(mZhiFuBaoStr.equals(mReconfirmStr)){
                 mService.addAccount(mReconfirmStr,new ToastCallBack());
+            }else{
+                tip="两次所填的内容不一致";
+                Toast.makeText(DrawMoneyInfoConfirmActivity.this,tip,Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -189,6 +199,9 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
         @Override
         public void success(ToastResponse toastResponse, Response response) {
             if (toastResponse.getCode() == 20000) {
+                if(!mIsModify){
+                    setResult(RESULT_OK,getIntent().putExtra("alipay",mConfirmAccount.getText().toString()));
+                }
                 finish();
             }
         }

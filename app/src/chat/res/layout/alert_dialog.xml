@@ -69,7 +69,9 @@
 
         <Button
             android:id="@+id/btn_positive"
-            android:layout_width="@dimen/btn_width"
+            android:layout_width="wrap_content"
+            android:minWidth="@dimen/btn_width"
+            android:padding="@dimen/padding_normal"
             android:layout_height="@dimen/btn_height"
             android:layout_margin="@dimen/margin_normal"
             android:background="@drawable/btn_blue_selector"
@@ -79,7 +81,9 @@
 
         <Button
             android:id="@+id/btn_cancel"
-            android:layout_width="@dimen/btn_width"
+            android:layout_width="wrap_content"
+            android:minWidth="@dimen/btn_width"
+            android:padding="@dimen/padding_normal"
             android:layout_height="@dimen/btn_height"
             android:layout_margin="@dimen/margin_normal"
             android:background="@drawable/btn_blue_selector"

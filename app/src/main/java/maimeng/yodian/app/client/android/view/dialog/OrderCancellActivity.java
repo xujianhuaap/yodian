@@ -108,7 +108,7 @@ public class OrderCancellActivity extends AppCompatActivity  {
                             }
                         });
                     }
-                }, "我要取消订单").setNegtiveListener(new ViewDialog.INegativeListener() {
+                }, "取消订单").setNegtiveListener(new ViewDialog.INegativeListener() {
                     @Override
                     public void negtiveClick() {
 
