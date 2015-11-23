@@ -3,7 +3,7 @@ package maimeng.yodian.app.client.android.view.dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.*;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +14,7 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import io.realm.internal.TableView;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
@@ -78,29 +79,45 @@ public class OrderCancellActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 //取消订单
-                long oid=getIntent().getLongExtra("oid",0);
-                Network.getService(OrderService.class).cancleOrder(oid, new Callback<ToastResponse>() {
+                ViewDialog.Builder builder=new ViewDialog.Builder(OrderCancellActivity.this);
+                builder.setTitle("").setMesage("你确定要取消订单吗？")
+                .setPositiveListener(new ViewDialog.IPositiveListener() {
                     @Override
-                    public void start() {
+                    public void positiveClick() {
+                        long oid = getIntent().getLongExtra("oid", 0);
+                        Network.getService(OrderService.class).cancleOrder(oid, new Callback<ToastResponse>() {
+                            @Override
+                            public void start() {
+
+                            }
+
+                            @Override
+                            public void success(ToastResponse toastResponse, Response response) {
+                                Toast.makeText(OrderCancellActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
+                            @Override
+                            public void failure(HNetError hNetError) {
+
+                            }
+
+                            @Override
+                            public void end() {
+
+                            }
+                        });
+                    }
+                }, "").setNegtiveListener(new ViewDialog.INegativeListener() {
+                    @Override
+                    public void negtiveClick() {
 
                     }
+                }, "");
+                android.support.v7.app.AlertDialog dialog=builder.create();
+                dialog.show();
 
-                    @Override
-                    public void success(ToastResponse toastResponse, Response response) {
-                        Toast.makeText(OrderCancellActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
 
-                    @Override
-                    public void failure(HNetError hNetError) {
-
-                    }
-
-                    @Override
-                    public void end() {
-
-                    }
-                });
             }
         });
 

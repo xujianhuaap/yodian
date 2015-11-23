@@ -145,6 +145,12 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        service.remanider(this);
+    }
+
+    @Override
     public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
         return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
     }
