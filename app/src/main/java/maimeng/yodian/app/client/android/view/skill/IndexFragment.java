@@ -63,6 +63,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
     private View mBtnPull;
     private RecyclerView mTypeList;
     private View mOverlay;
+    private WaitDialog mDialog;
 
     public static IndexFragment newInstance() {
         return new IndexFragment();
@@ -229,7 +230,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
     @Override
     public void start() {
-
+        mDialog=WaitDialog.show(getActivity());
     }
 
     @Override
@@ -258,7 +259,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
     @Override
     public void end() {
-
+        if(mDialog!=null){mDialog.dismiss();}
     }
 
     public boolean isShowPop() {

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 import org.parceler.Parcels;
@@ -25,9 +26,11 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.network.service.OrderService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
+import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 
 /**
  * Created by android on 2015/9/22.
@@ -38,6 +41,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
     private ActivityRemainderInfoBinding binding;
     private MoneyService service;
     private Remainder mAlipay;
+    private static final int REQUEST_MONEY_INFO_CERTIFY=0x23;
 
 
     public static void show(Context context, Remainder remainder) {
@@ -95,7 +99,21 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
             if (!TextUtils.isEmpty(mAlipay.getDraw_account())) {
                 showDuringDialog();
             } else {
-                Toast.makeText(this, R.string.toast_bind_bank_card, Toast.LENGTH_SHORT).show();
+                ViewDialog.Builder builder=new ViewDialog.Builder(RemainderInfoActivity.this);
+                builder.setTitle("").setMesage("提现信息尚未填写！")
+                        .setPositiveListener(new ViewDialog.IPositiveListener() {
+                            @Override
+                            public void positiveClick() {
+                               DrawMoneyInfoConfirmActivity.show(RemainderInfoActivity.this,REQUEST_MONEY_INFO_CERTIFY);
+                            }
+                        }, "立刻前往").setNegtiveListener(new ViewDialog.INegativeListener() {
+                    @Override
+                    public void negtiveClick() {
+
+                    }
+                }, "取消提现");
+                android.support.v7.app.AlertDialog dialog=builder.create();
+                dialog.show();
             }
         } else if (v == binding.mySaleOrder) {
             OrderListActivity.show(this, true);
@@ -157,5 +175,13 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
                 super.failure(hNetError);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            mAlipay.setDraw_account(data.getStringExtra("alipay"));
+        }
     }
 }
