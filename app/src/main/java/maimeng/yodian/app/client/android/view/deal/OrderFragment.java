@@ -30,6 +30,7 @@ import maimeng.yodian.app.client.android.network.response.OrderListRepsonse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
 import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
+import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
@@ -251,5 +252,13 @@ public class OrderFragment extends Fragment implements PtrHandler {
         public void end() {
             mRefreshLayout.refreshComplete();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPage=1;
+        mIsAppend = false;
+        freshData();
     }
 }

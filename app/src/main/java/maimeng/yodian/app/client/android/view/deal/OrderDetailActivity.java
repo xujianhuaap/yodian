@@ -39,6 +39,7 @@ import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.Buyer;
+import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
@@ -119,6 +120,13 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_order_detail_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshInfo();
     }
 
     private void refreshUI(final OrderInfo info) {
@@ -427,7 +435,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
         @Override
         public void failure(HNetError hNetError) {
-
+            ErrorUtils.checkError(OrderDetailActivity.this,hNetError);
         }
 
         @Override
