@@ -59,7 +59,6 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
     private SkillService service;
     private FragmentAdapter adapter;
     private TypeAdater typeAdapter;
-    private WaitDialog dialog;
     private View mBtnChat;
     private View mBtnPull;
     private RecyclerView mTypeList;
@@ -230,7 +229,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
     @Override
     public void start() {
-        dialog = WaitDialog.show(getActivity());
+
     }
 
     @Override
@@ -259,7 +258,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
     @Override
     public void end() {
-        if (dialog != null) dialog.dismiss();
+
     }
 
     public boolean isShowPop() {
