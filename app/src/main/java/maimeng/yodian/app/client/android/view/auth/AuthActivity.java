@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.UmengRegistrar;
 
 import org.henjue.library.hnet.Callback;
@@ -24,6 +25,7 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -46,7 +48,6 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
     private int mTotalTime = 0;
     private TextView mCode;
     private EditText mValidateCode;
-
 
 
     @Override
@@ -129,7 +130,9 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
                 service.getCode(text.toString(), new Callback<ToastResponse>() {
                     @Override
                     public void start() {
+                        MobclickAgent.onEvent(v.getContext(), UEvent.SMS_LOG_REG);
                         v.setEnabled(false);
+
                     }
 
                     @Override
