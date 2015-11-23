@@ -94,20 +94,40 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/btn_basic_info"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/chat_textColor"
-                    android:drawableLeft="@mipmap/ic_bank"
-                    android:drawablePadding="@dimen/normal_padding"
-                    android:gravity="center_vertical"
-                    android:minHeight="@dimen/normal_cell_row_mini_height"
-                    android:padding="@dimen/normal_padding"
-                    android:drawableRight="@mipmap/ic_enter_next"
-                    android:text="@string/certify_info"
-                    android:textColor="#4e4c4c"
-                    android:textSize="@dimen/btn_text_size" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/chat_textColor"
+                        android:drawableLeft="@mipmap/ic_bank"
+                        android:drawablePadding="@dimen/normal_padding"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/normal_cell_row_mini_height"
+                        android:padding="@dimen/normal_padding"
+                        android:text="@string/certify_info"
+                        android:textColor="#4e4c4c"
+                        android:textSize="@dimen/btn_text_size" />
+
+                    <TextView
+                        android:id="@+id/basic_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/chat_textColor"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/normal_cell_row_mini_height"
+                        android:padding="@dimen/normal_padding"
+                        android:drawableRight="@mipmap/ic_enter_next"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:text="@{remainder.}"
+                        android:textColor="@color/edit_color"
+                        android:textSize="@dimen/btn_text_size" />
+                </LinearLayout>
+
+
 
                 <View
                     android:layout_width="match_parent"
@@ -128,7 +148,6 @@
                         android:gravity="center_vertical"
                         android:minHeight="@dimen/normal_cell_row_mini_height"
                         android:padding="@dimen/normal_padding"
-                        android:layout_marginLeft="@dimen/margin_small"
                         android:text="@string/draw_money_info"
                         android:textColor="#4e4c4c"
                         android:textSize="@dimen/btn_text_size" />
