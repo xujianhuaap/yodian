@@ -336,20 +336,17 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
 
         @Override
         public void success(ToastResponse toastResponse, Response response) {
-                if(isGetCode){
-                    //收到手机验证码
 
-                }else {
-                    //个人信息提交成功
-                    if(toastResponse.getCode()==20000){
-                        Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
-                        CreateOrEditSkillActivity.backTo(BasicalInfoConfirmActivity.this);
-                        finish();
-                    }else{
-                        Toast.makeText(BasicalInfoConfirmActivity.this,getResources().getString(R.string.basic_info_certify_failure),Toast.LENGTH_SHORT).show();
-                    }
-
+                //个人信息提交成功
+                if(toastResponse.getCode()==20000){
+                    Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
+                    CreateOrEditSkillActivity.backTo(BasicalInfoConfirmActivity.this);
+                    finish();
+                }else{
+                    Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
                 }
+
+
 
         }
 

@@ -3,7 +3,7 @@
     <string name="NA">N/A</string>
     <string name="btn_submit">提交</string>
     <string name="digits">0123456789abcdefghijklmnopqrstuvwxyZABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
-    <string name="title_settings_user_info">设置信息</string>
+    <string name="title_settings_user_info">修改个人信息</string>
     <string name="action_settings">设置</string>
     <string name="lable_nickname">昵称</string>
     <string name="lable_sex">性别</string>

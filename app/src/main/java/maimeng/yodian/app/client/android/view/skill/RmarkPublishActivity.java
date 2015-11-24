@@ -79,7 +79,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
         mBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_rmark_publish);
-        mSkill = getIntent().getParcelableExtra("skill");
+        mSkill = Parcels.unwrap(getIntent().getParcelableExtra("skill"));
         mSkillService = Network.getService(SkillService.class);
         ViewCompat.setTransitionName(mBinding.btnBack, "back");
         EditTextProxy editTextProxy = new EditTextProxy();
