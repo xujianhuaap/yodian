@@ -1,9 +1,11 @@
 package maimeng.yodian.app.client.android.model.user;
 
+import org.parceler.Parcel;
+
 /**
  * Created by xujianhua on 9/29/15.
  */
-@org.parceler.Parcel
+@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
 public class Buyer {
 
     /**

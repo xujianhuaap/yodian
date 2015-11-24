@@ -23,7 +23,7 @@ import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 /**
  * Created by henjue on 2015/4/7.
  */
-@org.parceler.Parcel
+@org.parceler.Parcel(value = org.parceler.Parcel.Serialization.BEAN)
 public class User extends UserBaseColum {
     @SerializedName("nickname")
     private String nickname;
@@ -283,7 +283,8 @@ public class User extends UserBaseColum {
         }
     }
 
-    @org.parceler.Parcel
+    @org.parceler.Parcel(value = org.parceler.Parcel.Serialization.BEAN)
+
     public static class Info extends User {
 
 

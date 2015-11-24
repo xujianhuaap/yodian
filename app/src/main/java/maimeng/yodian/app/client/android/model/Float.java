@@ -1,9 +1,11 @@
 package maimeng.yodian.app.client.android.model;
 
+import org.parceler.Parcel;
+
 /**
  * Created by android on 2015/10/23.
  */
-@org.parceler.Parcel
+@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
 public class Float {
     private int type;
 

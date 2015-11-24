@@ -1,9 +1,11 @@
 package maimeng.yodian.app.client.android.model.chat;
 
+import org.parceler.Parcel;
+
 /**
  * 仅仅用于打开聊天界面的时候参数的传入
  */
-@org.parceler.Parcel
+@Parcel(value = Parcel.Serialization.BEAN)
 public class ChatUser {
     public ChatUser() {
 

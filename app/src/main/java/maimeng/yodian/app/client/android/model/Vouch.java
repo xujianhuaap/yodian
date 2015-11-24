@@ -1,9 +1,11 @@
 package maimeng.yodian.app.client.android.model;
 
+import org.parceler.Parcel;
+
 /**
  * Created by xujianhua on 9/25/15.
  */
-@org.parceler.Parcel
+@Parcel(value = Parcel.Serialization.BEAN)
 public class Vouch {
     //   {"id":"13","name":"\u623f\u7ba1\u5c40","telephone":"\u4f46ghjj","uid":"70","email":"\u8179\u80a1\u6c9f","qq":"\u623f\u7ba1\u5c40","content":"ghjj\u5443","bwid":"","back_detail":"","status":"0","createtime":"1443090834"}}
     private long id;

@@ -1,12 +1,14 @@
 package maimeng.yodian.app.client.android.model;
 
+import org.parceler.Parcel;
+
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.Buyer;
 
 /**
  * Created by xujianhua on 9/28/15.
  */
-@org.parceler.Parcel
+@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
 public class OrderInfo {
 
     /**

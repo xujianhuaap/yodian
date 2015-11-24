@@ -1,11 +1,13 @@
 package maimeng.yodian.app.client.android.model;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
 /**
  * Created by android on 2015/8/24.
  */
-@org.parceler.Parcel
+@Parcel(value = Parcel.Serialization.BEAN)
 public class Version {
 
     /**

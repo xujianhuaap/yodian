@@ -128,6 +128,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         }
         syncFloat();
     }
+
     //悬浮广告
     private void syncFloat() {
         create(CommonService.class).getFloat(new Callback<FloatResponse>() {
@@ -138,8 +139,8 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
 
             @Override
             public void success(FloatResponse res, Response response) {
-                if(res.isSuccess()){
-                    FloatActivity.start(MainTab2Activity.this,res.getData().getFloatPic());
+                if (res.isSuccess()) {
+                    FloatActivity.start(MainTab2Activity.this, res.getData().getFloatPic());
                 }
             }
 

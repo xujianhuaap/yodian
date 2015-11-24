@@ -7,11 +7,13 @@ import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.BR;
 
-@org.parceler.Parcel
+@Parcel(value = Parcel.Serialization.BEAN)
 @DatabaseTable(tableName = "_skillTemplate")
 public class SkillTemplate extends BaseObservable {
 

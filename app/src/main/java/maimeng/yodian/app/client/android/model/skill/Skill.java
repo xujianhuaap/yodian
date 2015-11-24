@@ -18,7 +18,7 @@ import maimeng.yodian.app.client.android.network.loader.Circle;
 /**
  * Created by xujianhua on 9/29/15.
  */
-@Parcel
+@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
 public class Skill extends BaseObservable {
 
     /**

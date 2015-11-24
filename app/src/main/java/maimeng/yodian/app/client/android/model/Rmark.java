@@ -1,11 +1,13 @@
 package maimeng.yodian.app.client.android.model;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
 /**
  * Created by android on 2015/7/28.
  */
-@org.parceler.Parcel
+@Parcel(value = Parcel.Serialization.BEAN)
 public class Rmark {
     private long id;
     private long uid;

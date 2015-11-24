@@ -1,6 +1,8 @@
 package maimeng.yodian.app.client.android.model.user;
 
-@org.parceler.Parcel
+import org.parceler.Parcel;
+
+@Parcel(value = Parcel.Serialization.BEAN)
 public class CertifyInfo {
 
     /**
