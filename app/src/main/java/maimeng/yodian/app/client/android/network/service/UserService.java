@@ -45,6 +45,23 @@ public interface UserService {
                     @Param("district") String district,
                     Callback<ModifyUserResponse> callback);
 
+
+    /**
+     * 昵称
+     *
+     * @param nickname
+     * @param callback
+     */
+    @Multipart
+    @Post(Api.USER_INFO_UPDATE)
+    void modifyInfo(@Param("nickname") String nickname, @Param("sex") int sex, @Param("job") String job, @Param("signature") String signature, @Param("weichat") String wechat,
+                    @Param("qq") String qq,
+                    @Param("contact") String contact,
+                    @Param("city") String city,
+                    @Param("province") String province,
+                    @Param("district") String district,
+                    Callback<ModifyUserResponse> callback);
+
     /***
      *
      * @param callback

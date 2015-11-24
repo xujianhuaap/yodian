@@ -128,21 +128,6 @@
                         android:textSize="@dimen/btn_text_size" />
                 </LinearLayout>
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/chat_textColor"
-                    android:drawableLeft="@mipmap/ic_bank"
-                    android:drawablePadding="@dimen/normal_padding"
-                    android:drawableRight="@mipmap/ic_enter_next"
-                    android:gravity="center_vertical"
-                    android:minHeight="@dimen/normal_cell_row_mini_height"
-                    android:padding="@dimen/normal_padding"
-                    android:text="@string/certify_info"
-                    android:textColor="#4e4c4c"
-                    android:textSize="@dimen/btn_text_size" />
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
