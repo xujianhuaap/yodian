@@ -130,7 +130,7 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
                 service.getCode(text.toString(), new Callback<ToastResponse>() {
                     @Override
                     public void start() {
-//                        MobclickAgent.onEvent(v.getContext(), UEvent.SMS_LOG_REG);
+                        MobclickAgent.onEvent(v.getContext(), UEvent.AUTH_SMS);
                         v.setEnabled(false);
 
                     }
