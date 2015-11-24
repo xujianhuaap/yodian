@@ -230,7 +230,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
     @Override
     public void start() {
-        mDialog=WaitDialog.show(getActivity());
+        mDialog = WaitDialog.show(getActivity());
     }
 
     @Override
@@ -259,7 +259,10 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
     @Override
     public void end() {
-        if(mDialog!=null){mDialog.dismiss();}
+        if (mDialog != null) {
+            mDialog.dismissAllowingStateLoss();
+
+        }
     }
 
     public boolean isShowPop() {
