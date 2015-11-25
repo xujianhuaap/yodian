@@ -27,8 +27,8 @@
             android:gravity="center"
             android:textSize="22sp"
             android:textColor="#fff"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
+            android:paddingBottom="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_small"
             android:visibility="invisible"
             android:src="@mipmap/ic_release_ok"
             android:layout_marginBottom="5dp"
@@ -58,8 +58,8 @@
                 android:gravity="center"
                 android:text="微信"
                 android:textColor="#fff"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
                 android:textSize="16sp" />
 
 
@@ -71,8 +71,8 @@
                 android:text="朋友圈"
                 android:textColor="#fff"
                 android:padding="@dimen/dialog_share_item_padding"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
                 android:textSize="16sp" />
 
 
@@ -83,8 +83,8 @@
                 android:text="微博"
                 android:padding="@dimen/dialog_share_item_padding"
                 android:textColor="#fff"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
                 android:textSize="16sp" />
 
             <TextView
@@ -94,8 +94,8 @@
                 android:text="QQ空间"
                 android:textColor="#fff"
                 android:padding="@dimen/dialog_share_item_padding"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
                 android:textSize="16sp" />
 
 
@@ -111,14 +111,14 @@
             <FrameLayout
                 android:padding="@dimen/dialog_share_item_padding"
                 android:gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small">
 
                 <TextView
                     android:id="@+id/report"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableTop="@mipmap/ic_reportlogo"
+                    android:drawableTop="@mipmap/ic_menu_report"
                     android:gravity="center"
                     android:text="举报"
                     android:textColor="#fff"

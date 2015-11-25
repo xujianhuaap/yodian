@@ -116,11 +116,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         final ImageView iv = new ImageView(this);
         iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         iv.setImageResource(R.mipmap.ic_no_rmark);
-        ViewGroup.LayoutParams param=iv.getLayoutParams();
-        param.height= ViewGroup.LayoutParams.WRAP_CONTENT;
-        param.width= ViewGroup.LayoutParams.WRAP_CONTENT;
+        FrameLayout.LayoutParams param=new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
         iv.setLayoutParams(param);
-        final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
         noSkillRmark.addView(iv, params);
         service = Network.getService(SkillService.class);
@@ -475,38 +473,27 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     @Override
     protected void initToolBar(Toolbar toolbar) {
         super.initToolBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setDisplayUseLogoEnabled(true);
-//            actionBar.setLogo(R.drawable.ic_go_back);
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
-            mTitle.setTextColor(Color.WHITE);
-            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.add(0, MENU_ID_SHARE, 10, null);
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        menuItem.setIcon(R.mipmap.btn_share);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                ActivityCompat.finishAfterTransition(SkillDetailsActivity.this);
-                return true;
-            }
-            case MENU_ID_SHARE: {
+        ImageView rigthButton=(ImageView)toolbar.findViewById(R.id.right_button);
+        ImageView leftButton=(ImageView)toolbar.findViewById(R.id.left_button);
+        rigthButton.setImageResource(R.mipmap.btn_share);
+        leftButton.setImageResource(R.mipmap.ic_go_back);
+        mTitle.setText(getResources().getString(R.string.skill_detail_activity_title));
+        mTitle.setTextColor(Color.WHITE);
+        toolbar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        rigthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 ShareDialog.show(SkillDetailsActivity.this, new ShareDialog.ShareParams(skill, skill.getQrcodeUrl(), skill.getUid(), skill.getNickname(), ""), 1);
             }
-        }
-        return super.onOptionsItemSelected(item);
+        });
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.finishAfterTransition(SkillDetailsActivity.this);
+            }
+        });
+
     }
+
 
 }
