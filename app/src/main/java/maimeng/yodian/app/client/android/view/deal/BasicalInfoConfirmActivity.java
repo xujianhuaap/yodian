@@ -339,9 +339,12 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
 
                 //个人信息提交成功
                 if(toastResponse.getCode()==20000){
-                    Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
-                    CreateOrEditSkillActivity.backTo(BasicalInfoConfirmActivity.this);
-                    finish();
+                    if(!isGetCode){
+                        Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
+                        CreateOrEditSkillActivity.backTo(BasicalInfoConfirmActivity.this);
+                        finish();
+                    }
+
                 }else{
                     Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
                 }

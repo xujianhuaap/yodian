@@ -29,21 +29,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/top_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true">
+                    android:gravity="bottom"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/user_nickname"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
                         android:layout_marginLeft="55dp"
-                        android:layout_marginTop="5dp"
                         android:text="@{skill.nickname}"
                         android:textColor="@color/colorPrimaryDark" />
 
@@ -51,40 +51,35 @@
                         android:id="@+id/btn_share"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignWithParentIfMissing="true"
-                        android:layout_toLeftOf="@+id/bottom_div"
+                        android:layout_alignParentRight="true"
                         android:paddingLeft="@dimen/margin_normal"
                         android:paddingRight="@dimen/margin_normal"
-                        android:src="@mipmap/btn_share" />
+                        android:src="@mipmap/btn_share_skill" />
 
                     <View
-                        android:id="@id/bottom_div"
+                        android:id="@+id/bottom_div"
                         android:layout_width="1dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/btn_edit"
-                        android:layout_alignTop="@id/btn_edit"
-                        android:layout_toLeftOf="@id/btn_edit"
+                        android:layout_gravity="bottom"
+                        android:layout_height="@dimen/margin_large"
+                        android:layout_marginBottom="@dimen/padding_small"
                         android:background="@color/colorPrimaryDark" />
 
                     <ImageView
-                        android:id="@id/btn_edit"
+                        android:id="@+id/btn_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
                         android:paddingLeft="@dimen/margin_normal"
                         android:paddingRight="@dimen/margin_normal"
                         android:src="@mipmap/btn_ic_edit_skill" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/pic"
                     android:layout_width="@dimen/skill_list_item_img_width"
                     android:layout_height="@dimen/skill_list_item_img_height"
                     android:layout_below="@+id/top_container"
-                    android:layout_marginTop="3dp"
                     android:adjustViewBounds="false"
                     android:scaleType="fitXY"
                     app:imgUrl="@{skill.pic}" />
@@ -201,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignWithParentIfMissing="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:layout_toRightOf="@+id/skill_name"
                         android:src="@mipmap/ic_skill_better"
                         android:visibility="gone" />
@@ -211,7 +206,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_marginBottom="@dimen/margin_small"
                         android:layout_toRightOf="@+id/icon_selector"
                         android:src="@mipmap/ic_skill_can_sell"
                         android:visibility="gone" />
@@ -238,6 +235,7 @@
             android:id="@+id/user_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginTop="@dimen/margin_big"
             android:layout_marginLeft="3dp"
             app:imgUrl="@{skill.avatar80}" />
 

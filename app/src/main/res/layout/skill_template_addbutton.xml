@@ -29,7 +29,7 @@
         android:layout_width="@dimen/skill_template_width"
         android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
-        android:background="#0000ff"
+        android:background="#17ace7"
         android:padding="@dimen/padding_normal"
         android:textColor="@android:color/white"
         android:textSize="18sp" />

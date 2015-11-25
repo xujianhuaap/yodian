@@ -20,7 +20,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@android:color/transparent"
         android:paddingBottom="@dimen/padding_normal"
         android:paddingTop="@dimen/padding_normal"
         android:layout_marginBottom="@dimen/margin_normal">
@@ -38,7 +38,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:background="@android:color/transparent">
             <maimeng.yodian.app.client.android.widget.CircleImageView
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/seller_avatar"

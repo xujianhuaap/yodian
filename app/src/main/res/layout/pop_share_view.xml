@@ -118,7 +118,7 @@
                     android:id="@+id/report"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableTop="@mipmap/ic_menu_report"
+                    android:drawableTop="@mipmap/ic_report"
                     android:gravity="center"
                     android:text="举报"
                     android:textColor="#fff"

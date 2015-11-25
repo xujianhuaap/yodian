@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.easemob.applib.controller.HXSDKHelper;
@@ -46,6 +48,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
 import maimeng.yodian.app.client.android.view.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
+import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 
 
 /**
@@ -64,7 +67,12 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     }
 
     private void refreshInfo() {
-        mService.info(mBinding.getOrderInfo().getOid(), this);
+        if(mBinding.getOrderInfo()!=null){
+            mService.info(mBinding.getOrderInfo().getOid(), this);
+        }else{
+            mService.info(getIntent().getLongExtra("oid", 0), this);
+        }
+
     }
 
     @Override
@@ -89,43 +97,37 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     @Override
     protected void initToolBar(Toolbar toolbar) {
         super.initToolBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            mTitle.setTextColor(Color.WHITE);
-            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }else if(item.getItemId()==R.id.menu_more){
-            int status=Integer.parseInt(info.getStatus());
-            if(isSaled){
-                OrderCancellActivity.show(this, info.getOid(),false);
-            }else {
-                boolean isCancel=(status==0||status==2);
-                OrderCancellActivity.show(this, info.getOid(),isCancel);
+        ImageView rigthButton=(ImageView)toolbar.findViewById(R.id.right_button);
+        ImageView leftButton=(ImageView)toolbar.findViewById(R.id.left_button);
+        rigthButton.setImageResource(R.mipmap.ic_more_white);
+        leftButton.setImageResource(R.mipmap.ic_go_back);
+        mTitle.setText(getResources().getString(R.string.skill_detail_activity_title));
+        mTitle.setTextColor(Color.WHITE);
+        toolbar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        rigthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int status=Integer.parseInt(info.getStatus());
+                if(isSaled){
+                    OrderCancellActivity.show(OrderDetailActivity.this, info.getOid(),false);
+                }else {
+                    boolean isCancel=(status==0||status==2);
+                    OrderCancellActivity.show(OrderDetailActivity.this, info.getOid(),isCancel);
+                }
             }
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_order_detail_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        });
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.finishAfterTransition(OrderDetailActivity.this);
+            }
+        });
     }
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         refreshInfo();
     }
 
@@ -379,17 +381,18 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = bindView(R.layout.activity_order_detail);
+        mService = Network.getService(OrderService.class);
         info = get("orderInfo");
         if (info != null) {
             refreshUI(info);
         } else {
-            Network.getService(OrderService.class).info(getIntent().getLongExtra("oid", 0), this);
+            mService.info(getIntent().getLongExtra("oid", 0), this);
         }
         mBinding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
         mBinding.refreshLayout.addPtrUIHandler(header);
         mBinding.refreshLayout.setHeaderView(header);
-        mService = Network.getService(OrderService.class);
+
     }
 
     @Override
