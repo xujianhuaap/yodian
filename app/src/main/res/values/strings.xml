@@ -262,8 +262,8 @@
     <!-- 个人账户信息-->
     <string name="certify_info">认证信息</string>
     <string name="draw_money_info">提现认证信息</string>
-    <string name="certify_info_tip"><![CDATA[<td style="line-height:40px"><font color="#ff0000">1.必须填写认证信息后才能实现线上交易<br/>
-    2.信息认证成功后，其他用户可以直接在线购买您的服务<br/>
+    <string name="certify_info_tip"><![CDATA[<td style="line-height:40px"><font color="#ff0000">1.必须填写认证信息后，技能才可以开启线上支付<br/>
+    2.填写提交认证信息并且开启在线支付后，其他用户可在线购买您的服务<br/>
     3.如果有任何其他问题，请添加我们的客服微信:iketie</font></td>]]></string>
 
     <!--提现信息认证-->

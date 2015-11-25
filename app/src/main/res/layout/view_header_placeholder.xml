@@ -138,6 +138,7 @@
                         android:gravity="center"
                         android:scaleType="centerInside"
                         android:text="@{skill.nickname}"
+                        android:visibility="invisible"
                         android:textColor="@color/colorPrimaryDark" />
 
                 </RelativeLayout>
@@ -164,7 +165,7 @@
                     android:paddingRight="@dimen/padding_normal"
                     android:paddingTop="@dimen/padding_small"
                     android:singleLine="true"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -250,7 +251,7 @@
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
                 android:text="@{skill.content}"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark5"
                 android:visibility="visible" />
         </LinearLayout>
 
