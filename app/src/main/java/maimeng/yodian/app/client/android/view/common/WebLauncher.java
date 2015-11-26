@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.view;
+package maimeng.yodian.app.client.android.view.common;
 
 import android.content.Intent;
 import android.net.Uri;

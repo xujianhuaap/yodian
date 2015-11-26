@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.view;
+package maimeng.yodian.app.client.android.view.common;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -12,8 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,8 +25,6 @@ import com.melnykov.fab.FloatingActionButton;
 
 import org.henjue.library.hnet.exception.HNetError;
 import org.parceler.Parcels;
-
-import java.lang.reflect.Type;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -128,6 +124,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     }
 
     public void setContentView(View view, boolean showTitle) {
+        this.showTitle = showTitle;
         if (showTitle) {
             setContentView(view);
         } else {
@@ -135,7 +132,14 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
         }
     }
 
+    public boolean isShowTitle() {
+        return showTitle;
+    }
+
+    private boolean showTitle;
+
     public void setContentView(int layoutResID, boolean showTitle) {
+        this.showTitle = showTitle;
         if (showTitle) {
             setContentView(layoutResID);
         } else {
@@ -205,8 +209,16 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     }
 
     protected void showError(boolean show) {
-        showProgress(show, mError);
+        mProgress.setVisibility(View.GONE);
+        if (show) {
+            mError.setVisibility(View.VISIBLE);
+            if (mContent != null) mContent.setVisibility(View.GONE);
+        } else {
+            mError.setVisibility(View.GONE);
+            if (mContent != null) mContent.setVisibility(View.VISIBLE);
+        }
     }
+
 
     @Deprecated
     protected void hideError() {

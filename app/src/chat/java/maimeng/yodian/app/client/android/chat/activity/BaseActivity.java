@@ -19,7 +19,7 @@ import android.view.View;
 
 import com.easemob.applib.controller.HXSDKHelper;
 
-import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 
 public class BaseActivity extends AbstractActivity {
 

@@ -35,6 +35,8 @@ import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
+import maimeng.yodian.app.client.android.view.common.CheckUpdateDelegate;
 import maimeng.yodian.app.client.android.view.common.FloatActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.IndexFragment;

@@ -9,16 +9,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderUserFristBinding;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.view.BaseFragment;
+import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
-import maimeng.yodian.app.client.android.view.PreviewActivity;
+import maimeng.yodian.app.client.android.view.common.PreviewActivity;
 
 /**
  * Created by android on 2015/10/14.
@@ -36,12 +35,12 @@ public class UserHeaderFrist extends BaseFragment {
         return fragment;
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mHeaderBinding = DataBindingUtil.inflate(inflater, R.layout.view_header_user_frist, container, false);
-        View view = mHeaderBinding.getRoot();
-        return view;
+    public View onCreateView(LayoutInflater inflater, boolean showTitle) {
+        setShowTitle(false);
+        mHeaderBinding = DataBindingUtil.inflate(inflater, R.layout.view_header_user_frist, null, false);
+        return mHeaderBinding.getRoot();
     }
 
     public View getButton() {

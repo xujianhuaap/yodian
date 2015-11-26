@@ -1,7 +1,5 @@
 package maimeng.yodian.app.client.android.view.skill;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,16 +8,11 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
-import android.view.animation.RotateAnimation;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -39,12 +32,11 @@ import maimeng.yodian.app.client.android.entry.skilltemplate.AddButtonViewEntry;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ViewEntry;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
-import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.view.BaseFragment;
+import maimeng.yodian.app.client.android.view.common.BaseFragment;
 
 public class SkillTemplateActivity extends AppCompatActivity implements Callback<SkillTemplateResponse>, AbstractAdapter.ViewHolderClickListener<SkillTemplateAdapter.ViewHolder> {
     private SkillService service;

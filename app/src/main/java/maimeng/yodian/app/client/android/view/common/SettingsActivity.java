@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.view;
+package maimeng.yodian.app.client.android.view.common;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -18,16 +18,11 @@ import android.widget.Toast;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 
-import org.henjue.library.hnet.Callback;
-import org.henjue.library.hnet.Response;
-import org.henjue.library.hnet.exception.HNetError;
-
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.DataCleanManager;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.view.user.TransActivity;
 

@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 
 import org.henjue.library.hnet.Callback;
@@ -30,7 +28,7 @@ import maimeng.yodian.app.client.android.model.remainder.WDModel;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.WDListHistoryResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
-import maimeng.yodian.app.client.android.view.AbstractActivity;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
 /**

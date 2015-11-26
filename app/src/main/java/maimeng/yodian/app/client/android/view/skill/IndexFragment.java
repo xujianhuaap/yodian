@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,7 +45,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.view.BaseFragment;
+import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
@@ -69,10 +68,11 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         return new IndexFragment();
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_index, container, false);
+    public View onCreateView(LayoutInflater inflater, boolean showTitle) {
+        setShowTitle(false);
+        View view = inflater.inflate(R.layout.fragment_index, null, false);
         service = Network.getService(SkillService.class);
         return view;
     }

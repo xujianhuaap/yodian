@@ -8,7 +8,7 @@ import android.view.Gravity;
 import android.view.Window;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.view.FeedBackActivity;
+import maimeng.yodian.app.client.android.view.common.FeedBackActivity;
 import maimeng.yodian.app.client.android.view.dialog.ChangeAccountActivity;
 
 /**

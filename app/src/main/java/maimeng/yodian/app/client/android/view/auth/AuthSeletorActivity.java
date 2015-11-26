@@ -23,7 +23,6 @@ import org.henjue.library.share.manager.WeiboAuthManager;
 import org.henjue.library.share.model.AuthInfo;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -31,7 +30,7 @@ import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
-import maimeng.yodian.app.client.android.view.WebViewActivity;
+import maimeng.yodian.app.client.android.view.common.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.ScrollImageView;
 

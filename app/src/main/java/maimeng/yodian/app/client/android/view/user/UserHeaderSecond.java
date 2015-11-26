@@ -6,18 +6,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.view.BaseFragment;
+import maimeng.yodian.app.client.android.view.common.BaseFragment;
 
 /**
  * Created by android on 2015/10/14.
@@ -39,9 +37,8 @@ public class UserHeaderSecond extends BaseFragment {
         super.onResume();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, boolean showTitle) {
         textView = new TextView(getContext());
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(16);

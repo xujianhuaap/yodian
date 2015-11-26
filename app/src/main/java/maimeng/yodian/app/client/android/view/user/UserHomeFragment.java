@@ -9,13 +9,11 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
@@ -61,9 +59,9 @@ import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.view.AbstractActivity;
-import maimeng.yodian.app.client.android.view.BaseFragment;
-import maimeng.yodian.app.client.android.view.SettingsActivity;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
+import maimeng.yodian.app.client.android.view.common.BaseFragment;
+import maimeng.yodian.app.client.android.view.common.SettingsActivity;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
 import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
@@ -114,10 +112,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     private Handler handler;
     private boolean isMe;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(LayoutInflater inflater, boolean showTitle) {
+        setShowTitle(false);
+        View view = inflater.inflate(R.layout.fragment_home, null, false);
         mActivity = (AbstractActivity) getActivity();
         return view;
     }

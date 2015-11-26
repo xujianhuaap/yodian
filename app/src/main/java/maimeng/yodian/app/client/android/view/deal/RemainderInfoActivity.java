@@ -11,9 +11,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 import org.parceler.Parcels;
@@ -21,14 +19,11 @@ import org.parceler.Parcels;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivityRemainderInfoBinding;
 import maimeng.yodian.app.client.android.model.remainder.Remainder;
-import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
-import maimeng.yodian.app.client.android.network.service.OrderService;
-import maimeng.yodian.app.client.android.view.AbstractActivity;
-import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 

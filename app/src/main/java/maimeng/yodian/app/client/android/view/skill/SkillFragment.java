@@ -13,7 +13,6 @@ import android.support.v4.util.Pair;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.easemob.applib.controller.HXSDKHelper;
 
@@ -51,9 +50,9 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.view.BaseFragment;
+import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
-import maimeng.yodian.app.client.android.view.WebViewActivity;
+import maimeng.yodian.app.client.android.view.common.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -98,14 +97,14 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         return skillFragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, boolean showTitle) {
+        setShowTitle(false);
         service = Network.getService(SkillService.class);
         handler = new Handler(Looper.getMainLooper());
         this.typeName = getArguments().getString("name");
         this.typeId = getArguments().getLong("id");
-        View view = inflater.inflate(R.layout.fragment_skill, container, false);
+        View view = inflater.inflate(R.layout.fragment_skill, null, false);
         this.mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         this.mRecyclerView = (PagerRecyclerView) view.findViewById(R.id.recyclerView);
         return view;
@@ -162,6 +161,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
 
     @Override
     public void start() {
+        mRefreshLayout.autoRefresh();
     }
 
     @Override
@@ -173,7 +173,14 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         } else {
             res.showMessage(getContext());
         }
+        int itemCount = adapter.getItemCount();
+        showError(itemCount <= 0);
+    }
 
+    @Override
+    protected void onRetry() {
+        super.onRetry();
+        syncRequest();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package maimeng.yodian.app.client.android.view;
+package maimeng.yodian.app.client.android.view.common;
 
 import android.content.Context;
 import android.content.Intent;
@@ -86,12 +86,14 @@ public class WebViewActivity extends AbstractActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                showProgress(true);
             }
 
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                showProgress(false);
             }
 
             @Override
