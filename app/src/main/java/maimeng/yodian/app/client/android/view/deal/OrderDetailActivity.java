@@ -129,8 +129,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
         refreshInfo();
     }
 
@@ -407,6 +407,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     @Override
     public void success(OrderInfoResponse res, Response response) {
         if (res.isSuccess()) {
+            this.info=res.getData();
             refreshUI(res.getData());
         } else {
             res.showMessage(this);
