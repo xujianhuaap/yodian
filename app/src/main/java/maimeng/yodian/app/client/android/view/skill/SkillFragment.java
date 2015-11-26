@@ -332,6 +332,20 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
 
     private void clickBanner(SkillListIndexAdapter.BannerViewHolder holder) {
         int current = holder.currentPage % holder.list.banners.size();
+        switch (current) {
+            case 0:
+                MobclickAgent.onEvent(getActivity(), UEvent.INDEX_BANNER1);
+                break;
+            case 1:
+                MobclickAgent.onEvent(getActivity(), UEvent.INDEX_BANNER2);
+                break;
+            case 2:
+                MobclickAgent.onEvent(getActivity(), UEvent.INDEX_BANNER3);
+                break;
+            case 3:
+                MobclickAgent.onEvent(getActivity(), UEvent.INDEX_BANNER4);
+                break;
+        }
         Banner banner = holder.list.banners.get(current);
         if (banner.getType() == 3) {
             startActivity(new Intent(getActivity(), SkillDetailsActivity.class).putExtra("sid", Long.parseLong(banner.getValue())));

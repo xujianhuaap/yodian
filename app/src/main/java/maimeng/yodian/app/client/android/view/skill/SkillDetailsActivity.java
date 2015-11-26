@@ -392,6 +392,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             }
         } else if (v == headBinding.btnBuySkill) {
             if (isMe) {
+                MobclickAgent.onEvent(this, UEvent.SKILL_DETAIL_PUBLISH_RMARK);
                 RmarkPublishActivity.show(this, skill, headBinding.btnBuySkill, REQEUST_RMARK_ADD);
             } else {
                 PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PLAY);
@@ -401,7 +402,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
 
     @Override
     public void onDelete(final RmarkListAdapter.ViewHolder holder) {
-
+        MobclickAgent.onEvent(this, UEvent.RMARK_DELETE);
         AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
             @Override
             public void onPositiveClick(final DialogInterface dialog) {

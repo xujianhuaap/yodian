@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.IconPagerAdapter;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
@@ -67,12 +69,26 @@ public class FloatActivity extends AppCompatActivity implements ViewPagerFix.OnP
             indicator.setVisibility(View.VISIBLE);
         }
         final List<View> views = new ArrayList<>();
+        int index = 0;
         for (Float flt : list) {
             ImageView iv = new ImageView(this);
             iv.setTag(R.id.tag_item, flt);
+            iv.setTag(R.id.tag_id, index++);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    switch ((Integer) v.getTag(R.id.tag_id)) {
+                        case 0:
+                            MobclickAgent.onEvent(v.getContext(), UEvent.FLOATING_AD_1_COUNT);
+                            break;
+                        case 1:
+                            MobclickAgent.onEvent(v.getContext(), UEvent.FLOATING_AD_2_COUNT);
+                            break;
+                        case 2:
+                            MobclickAgent.onEvent(v.getContext(), UEvent.FLOATING_AD_3_COUNT);
+                            break;
+
+                    }
                     Float flt = (Float) v.getTag(R.id.tag_item);
                     switch (flt.getType()) {
                         case 1:
@@ -116,6 +132,18 @@ public class FloatActivity extends AppCompatActivity implements ViewPagerFix.OnP
     @Override
     public void onPageSelected(int position) {
         this.currentPage = position;
+        switch (currentPage) {
+            case 0:
+                MobclickAgent.onEvent(this, UEvent.FLOATING_AD_1);
+                break;
+            case 1:
+                MobclickAgent.onEvent(this, UEvent.FLOATING_AD_2);
+                break;
+            case 2:
+                MobclickAgent.onEvent(this, UEvent.FLOATING_AD_3);
+                break;
+
+        }
     }
 
     @Override

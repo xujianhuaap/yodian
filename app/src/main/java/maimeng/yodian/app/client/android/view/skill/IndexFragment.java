@@ -75,7 +75,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onEvent(getActivity(), UEvent.INDEX);
+        setUEvent(UEvent.INDEX);
     }
 
     @Override
@@ -112,6 +112,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
     private final boolean rotationed[] = {false};
 
     public void toggleTypePop(View view) {
+        MobclickAgent.onEvent(view.getContext(), UEvent.INDEX_CATEGORY);
         final View root = findViewById(R.id.pop_layout);
         final TranslateAnimation rootAnim;
         if (root.getVisibility() != View.VISIBLE) {
@@ -378,7 +379,13 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
         @Override
         public void onClick(View v) {
-            mPager.setCurrentItem(getLayoutPosition(), false);
+            int position = getLayoutPosition();
+            switch (position) {
+                case 1:
+                    MobclickAgent.onEvent(getActivity(), UEvent.FLOATING_AD_1);
+                    break;
+            }
+            mPager.setCurrentItem(position, false);
             toggleTypePop(v);
         }
     }

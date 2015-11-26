@@ -22,6 +22,7 @@ import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.melnykov.fab.FloatingActionButton;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.exception.HNetError;
 import org.parceler.Parcels;
@@ -43,6 +44,10 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     private AlertDialog dialog;
     private View mProgress;
     private View mError;
+
+    protected void setUEvent(String tag) {
+        MobclickAgent.onEvent(this, tag);
+    }
 
     public FloatingActionButton getFloatButton() {
         return null;

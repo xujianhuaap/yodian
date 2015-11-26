@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -23,6 +25,7 @@ import java.util.TimerTask;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkReviewListAdapter;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
@@ -88,7 +91,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MobclickAgent.onEvent(this, UEvent.SKILL_PREVIEW);
         Intent intent = getIntent();
         mSkill = Parcels.unwrap(intent.getParcelableExtra("skill"));
         mEditStatus = intent.getIntExtra("editstatus", 0);

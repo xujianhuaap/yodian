@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.umeng.analytics.MobclickAgent;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.AsyncContactService;
+import maimeng.yodian.app.client.android.common.UEvent;
 
 /**
  * Created by android on 2015/7/22.
@@ -23,6 +26,7 @@ public class ChatMainActivity extends maimeng.yodian.app.client.android.chat.act
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mini = true;
+        MobclickAgent.onEvent(this, UEvent.CONVERSATIONLIST);
         startService(new Intent(this, AsyncContactService.class));
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();

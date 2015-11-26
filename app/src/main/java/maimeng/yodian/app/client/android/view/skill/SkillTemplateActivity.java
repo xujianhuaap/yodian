@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.j256.ormlite.dao.Dao;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -27,6 +28,7 @@ import java.util.List;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
 import maimeng.yodian.app.client.android.adapter.SkillTemplateAdapter;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.db.SQLiteHelper;
 import maimeng.yodian.app.client.android.entry.skilltemplate.AddButtonViewEntry;
 import maimeng.yodian.app.client.android.entry.skilltemplate.ItemViewEntry;
@@ -95,6 +97,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         animation.startNow();
 
         service.template(this);
+        MobclickAgent.onEvent(this, UEvent.TEMPLATE_SKILL);
     }
 
     @Override
@@ -142,7 +145,27 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
 
     @Override
     public void onItemClick(SkillTemplateAdapter.ViewHolder holder, int postion) {
+        switch (postion) {
+            case 0:
+                MobclickAgent.onEvent(this, UEvent.TEMPLATE_SKILL_FIRST);
+                break;
+            case 1:
+                MobclickAgent.onEvent(this, UEvent.TEMPLATE_SKILL_SECOND);
+                break;
+            case 2:
+                MobclickAgent.onEvent(this, UEvent.TEMPLATE_SKILL_THIRD);
+                break;
+            case 3:
+                MobclickAgent.onEvent(this, UEvent.TEMPLATE_SKILL_FOURTH);
+                break;
+            case 4:
+                MobclickAgent.onEvent(this, UEvent.TEMPLATE_SKILL_FIFTH);
+                break;
+            case 5:
+                MobclickAgent.onEvent(this, UEvent.TEMPLATE_SKILL_DEFINE);
+                break;
 
+        }
         if (holder.getItemViewType() == ViewEntry.VIEW_TYPE_ITEM) {
             SkillTemplateAdapter.ItemViewHolder itemHolder = (SkillTemplateAdapter.ItemViewHolder) holder;
             SkillTemplate template = itemHolder.getTemplate();
@@ -152,7 +175,6 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         }
         finish();
     }
-
 
 
     @Override

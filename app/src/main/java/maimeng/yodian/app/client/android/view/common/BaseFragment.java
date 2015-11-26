@@ -18,9 +18,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 
 /**
  * Created by android on 15-10-10.
@@ -172,5 +175,9 @@ public abstract class BaseFragment extends Fragment {
 
     protected <T> T get(String key) {
         return Parcels.unwrap(getArguments().getParcelable(key));
+    }
+
+    protected void setUEvent(String tag) {
+        MobclickAgent.onEvent(getActivity(), tag);
     }
 }
