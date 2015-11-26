@@ -58,6 +58,9 @@ public class UEvent {
     public static final String INDEX_IM = "yd052";//IM_右上角微信点击
     public static final String SKILL_PUBLISH_SUBMIT = "yd053";//日记发布页—提交点击
     public static final String SKILL_PREVIEW = "yd054";//编辑技能—技能预览页
+    //以上已添加
+
+
     public static final String REMAINDER_DRAWED = "yd055";//我的余额—已提现金额页
     public static final String ORDER_SALED_CLICK = "yd056";//已出售订单—接单、发货
     public static final String ORDER_SALED_DETAIL_CLICK = "yd057";//订单详情—接单、发货
@@ -112,6 +115,9 @@ public class UEvent {
     public static final String SKILL_IN_LOTTORY_TO_HTML5 = "yd106";//抽奖活动技能-技能详情-顶部倒计时模块-点击
     public static final String PAY_SUCESS_GET_LOTTORY = "yd107";//购买完成-抽奖-去抽奖
     public static final String PAY_SUCESS_QUIT_LOTTORY = "yd108";//购买完成-抽奖-放弃抽奖
+
+
+    //以下已添加
     public static final String FLOATING_AD_1 = "yd109";//浮层广告-1-展示
     public static final String FLOATING_AD_2 = "yd110";//浮层广告-2-展示
     public static final String FLOATING_AD_3 = "yd111";//浮层广告-３－展示

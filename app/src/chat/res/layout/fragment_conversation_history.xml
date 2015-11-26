@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_bg"
@@ -30,18 +31,32 @@
         android:id="@+id/rl_error_item"
         layout="@layout/item_chat_neterror"
         android:visibility="gone" />
+
     <ImageView
         android:id="@+id/no_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerInside"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
-    <ListView
-        android:id="@+id/list"
+    <in.srain.cube.views.ptr.PtrFrameLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:cacheColorHint="#00000000"
-        android:divider="@null" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:ptr_duration_to_close="300"
+        app:ptr_duration_to_close_header="1000"
+        app:ptr_keep_header_when_refresh="true"
+        app:ptr_pull_to_fresh="false"
+        app:ptr_ratio_of_header_height_to_refresh="1.2"
+        app:ptr_resistance="1.7">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="#00000000"
+            android:divider="@null" />
+    </in.srain.cube.views.ptr.PtrFrameLayout>
 </LinearLayout>

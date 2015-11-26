@@ -171,6 +171,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
         if (v == mBinding.btnBack) {
             ActivityCompat.finishAfterTransition(this);
         } else if (v == mBinding.btnDone) {
+            MobclickAgent.onEvent(this, UEvent.SKILL_PUBLISH_SUBMIT);
             if (mFile != null) {
                 Editable text = mBinding.editDiary.getText();
                 if (!TextUtils.isEmpty(text)) {

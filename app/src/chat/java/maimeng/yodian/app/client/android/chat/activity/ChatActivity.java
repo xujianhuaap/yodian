@@ -92,6 +92,7 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,12 +122,14 @@ import maimeng.yodian.app.client.android.chat.utils.ImageUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
+import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
 
@@ -280,7 +283,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        MobclickAgent.onEvent(this, UEvent.CONVERSATION_CHAT);
         Intent intent = getIntent();
         chatType = intent.getIntExtra("chatType", CHATTYPE_SINGLE);
         chatUser = get("chatUser");
@@ -385,7 +388,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         btnShowSkill.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent().setClassName(v.getContext(), "maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity").putExtra("skill", Parcels.wrap(skill)));
+                MobclickAgent.onEvent(v.getContext(), UEvent.CONVERSATION_VIEW_SKILL);
+                startActivity(new Intent(v.getContext(), SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
             }
         });
         BaseAdapter adapter = new BaseAdapter() {
@@ -973,6 +977,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_vcard_selector), "名片", new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(v.getContext(), UEvent.CONVERSATION_SEND_CARD);
                     sendText("", true);
                 }
             }));//微信名片
@@ -1030,7 +1035,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 public void run() {
                     skillContainer.setVisibility(View.VISIBLE);
                     final String pic = skill.getPic();
-                    new ImageLoaderManager.Loader(skillPic,pic).width(skillPic.getWidth()).height(skillPic.getHeight()).start(ChatActivity.this);
+                    new ImageLoaderManager.Loader(skillPic, pic).width(skillPic.getWidth()).height(skillPic.getHeight()).start(ChatActivity.this);
                     skillName.setText(skill.getName());
                     skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
                 }
