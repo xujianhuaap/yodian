@@ -73,6 +73,7 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
     @Override
     protected void initToolBar(Toolbar toolbar) {
         super.initToolBar(toolbar);
+        toolbar.setBackgroundResource(android.R.color.transparent);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -302,42 +303,42 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
             } else {
                 service.modifyInfo(nickname.toString(), 0, "", "", binding.wechat.getText().toString(), new TypedBitmap.Builder(bitmap).setMaxSize(300).setAutoMatch(getResources()).build(), binding.qq.getText().toString(), binding.mobile.getText().toString(), "", "", ""
                         , new Callback<ModifyUserResponse>() {
-                    @Override
-                    public void start() {
-                        if (!isFinishing()) {
-                            dialog = WaitDialog.show(AuthSettingInfoActivity.this);
-                        }
+                            @Override
+                            public void start() {
+                                if (!isFinishing()) {
+                                    dialog = WaitDialog.show(AuthSettingInfoActivity.this);
+                                }
 
-                    }
-
-                    @Override
-                    public void success(ModifyUserResponse res, Response response) {
-                        res.showMessage(AuthSettingInfoActivity.this);
-                        if (res.isSuccess()) {
-                            user = new User(user.getT_nickname(), user.getT_img(), user.loginType, user.getToken(), user.getUid(), nickname.toString(), user.getChatLoginName(), res.getData().getAvatar());
-                            User.Info info = user.getInfo();
-                            if (info == null) {
-                                info = new User.Info();
                             }
-                            info.setQq(binding.qq.getText().toString());
-                            info.setWechat(binding.wechat.getText().toString());
-                            info.setMobile(binding.mobile.getText().toString());
-                            user.write(AuthSettingInfoActivity.this);
-                            setResult(RESULT_OK);
-                            finish();
-                        }
-                    }
 
-                    @Override
-                    public void failure(HNetError hNetError) {
-                        ErrorUtils.checkError(AuthSettingInfoActivity.this, hNetError);
-                    }
+                            @Override
+                            public void success(ModifyUserResponse res, Response response) {
+                                res.showMessage(AuthSettingInfoActivity.this);
+                                if (res.isSuccess()) {
+                                    user = new User(user.getT_nickname(), user.getT_img(), user.loginType, user.getToken(), user.getUid(), nickname.toString(), user.getChatLoginName(), res.getData().getAvatar());
+                                    User.Info info = user.getInfo();
+                                    if (info == null) {
+                                        info = new User.Info();
+                                    }
+                                    info.setQq(binding.qq.getText().toString());
+                                    info.setWechat(binding.wechat.getText().toString());
+                                    info.setMobile(binding.mobile.getText().toString());
+                                    user.write(AuthSettingInfoActivity.this);
+                                    setResult(RESULT_OK);
+                                    finish();
+                                }
+                            }
 
-                    @Override
-                    public void end() {
-                        if (dialog != null) dialog.dismiss();
-                    }
-                });
+                            @Override
+                            public void failure(HNetError hNetError) {
+                                ErrorUtils.checkError(AuthSettingInfoActivity.this, hNetError);
+                            }
+
+                            @Override
+                            public void end() {
+                                if (dialog != null) dialog.dismiss();
+                            }
+                        });
             }
         } else if (v == binding.btnCleanNickname) {
             binding.nickname.setText("");
