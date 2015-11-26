@@ -129,7 +129,7 @@ public abstract class BaseFragment extends Fragment {
         mTitle = (TextView) root.findViewById(R.id.base_title);
         mToolBar = (Toolbar) root.findViewById(R.id.toolbar);
         if (!showTitle) {
-            mToolBar.setVisibility(View.GONE);
+            ((View) mToolBar.getParent()).setVisibility(View.GONE);
         }
         mProgress = root.findViewById(R.id.progress);
         mError = root.findViewById(R.id.error);
