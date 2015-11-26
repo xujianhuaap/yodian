@@ -15,5 +15,5 @@
         android:background="@drawable/index_pull_item_background"
         android:gravity="center"
         android:singleLine="true"
-        android:textColor="#FFA3A2A2" />
+        android:textColor="@color/colorPrimary" />
 </FrameLayout>

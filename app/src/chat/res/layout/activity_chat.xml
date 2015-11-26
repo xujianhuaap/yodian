@@ -86,6 +86,7 @@
                     android:paddingBottom="3dp"
                     android:paddingLeft="1dp"
                     android:paddingRight="1dp"
+                    android:imeOptions="actionSend"
                     android:paddingTop="3dp"
                     android:textColor="#000"
                     android:textSize="18sp" />
