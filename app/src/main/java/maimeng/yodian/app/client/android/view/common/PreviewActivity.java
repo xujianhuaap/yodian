@@ -19,7 +19,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 /**
  * Created by xujianhua on 9/22/15.
  */
-public class PreviewActivity extends AppCompatActivity {
+public class PreviewActivity extends AbstractActivity {
 
     private User mUser;
     private ImageView mPreview;
@@ -34,8 +34,8 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preview_pic);
-        mUser = getIntent().getParcelableExtra("user");
+        setContentView(R.layout.activity_preview_pic, false);
+        mUser = get("user");
         mPreview = (ImageView) findViewById(R.id.preview_pic);
         mPreview.setOnClickListener(new View.OnClickListener() {
             @Override

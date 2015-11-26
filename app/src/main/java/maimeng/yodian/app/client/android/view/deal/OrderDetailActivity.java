@@ -6,8 +6,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -62,9 +65,9 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     }
 
     private void refreshInfo() {
-        if(mBinding.getOrderInfo()!=null){
+        if (mBinding.getOrderInfo() != null) {
             mService.info(mBinding.getOrderInfo().getOid(), this);
-        }else{
+        } else {
             mService.info(getIntent().getLongExtra("oid", 0), this);
         }
 
@@ -92,33 +95,38 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     @Override
     protected void initToolBar(Toolbar toolbar) {
         super.initToolBar(toolbar);
-        ImageView rigthButton=(ImageView)toolbar.findViewById(R.id.right_button);
-        ImageView leftButton=(ImageView)toolbar.findViewById(R.id.left_button);
-        rigthButton.setImageResource(R.mipmap.ic_more_white);
-        leftButton.setImageResource(R.mipmap.ic_go_back);
-        mTitle.setText(getResources().getString(R.string.skill_detail_activity_title));
-        mTitle.setTextColor(Color.WHITE);
-        toolbar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-        rigthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int status=Integer.parseInt(info.getStatus());
-                if(isSaled){
-                    OrderCancellActivity.show(OrderDetailActivity.this, info.getOid(),false);
-                }else {
-                    boolean isCancel=(status==0||status==2);
-                    OrderCancellActivity.show(OrderDetailActivity.this, info.getOid(),isCancel);
-                }
-            }
-        });
-        leftButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(OrderDetailActivity.this);
-            }
-        });
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            mTitle.setTextColor(Color.WHITE);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
+        }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        } else if (item.getItemId() == R.id.menu_more) {
+            int status = Integer.parseInt(info.getStatus());
+            if (isSaled) {
+                OrderCancellActivity.show(this, info.getOid(), false);
+            } else {
+                boolean isCancel = (status == 0 || status == 2);
+                OrderCancellActivity.show(this, info.getOid(), isCancel);
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_order_detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onRestart() {
@@ -232,7 +240,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 if (!isSaled) {
                     operatorStr = getString(R.string.order_status_close);
                 } else {
-                    operatorStr = getString(R.string.order_status_buyer_close);;
+                    operatorStr = getString(R.string.order_status_buyer_close);
+                    ;
 
                 }
                 mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
@@ -433,7 +442,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
         @Override
         public void failure(HNetError hNetError) {
-            ErrorUtils.checkError(OrderDetailActivity.this,hNetError);
+            ErrorUtils.checkError(OrderDetailActivity.this, hNetError);
         }
 
         @Override

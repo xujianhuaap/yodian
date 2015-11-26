@@ -119,8 +119,13 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
 
     @Override
     protected void onTitleChanged(CharSequence title, int color) {
-        super.onTitleChanged(title, color);
+//        super.onTitleChanged(title, color);
         if (mTitle != null) mTitle.setText(title);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
     }
 
     public void setContentView(View view, boolean showTitle) {
