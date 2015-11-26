@@ -5,7 +5,7 @@ import org.parceler.Parcel;
 /**
  * 仅仅用于打开聊天界面的时候参数的传入
  */
-@Parcel(value = Parcel.Serialization.BEAN)
+@Parcel(value = Parcel.Serialization.FIELD)
 public class ChatUser {
     public ChatUser() {
 
