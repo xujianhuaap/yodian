@@ -19,6 +19,7 @@ import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -40,6 +41,7 @@ import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.UserHomeHeaderBinding;
 import maimeng.yodian.app.client.android.entry.skillhome.HeaderViewEntry;
 import maimeng.yodian.app.client.android.entry.skillhome.ItemViewEntry;
@@ -399,11 +401,12 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 Skill data = skill;
                 ShareDialog.show(mActivity, new ShareDialog.ShareParams(data, data.getQrcodeUrl(), data.getUid(), data.getNickname(), ""), 1);
             } else if (clickItem == itemViewHolder.getBinding().btnUpdate) {
-                User.Info userInfo = User.read(getActivity()).getInfo();
+                MobclickAgent.onEvent(getActivity(), UEvent.EDIT_SKILL);
                 CreateOrEditSkillActivity.show(getActivity(), REQUEST_EDIT_SKILL, skill);
                 mEditPostion = postion;
                 itemViewHolder.closeWithAnim();
             } else if (clickItem == itemViewHolder.getBinding().btnDelete) {
+                MobclickAgent.onEvent(getActivity(), UEvent.EDIT_SKILL_DELETE);
                 AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
                     @Override
                     public void onPositiveClick(final DialogInterface dialog) {
@@ -444,6 +447,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 }).show(mActivity.getFragmentManager(), "delete_dialog");
 
             } else if (clickItem == itemViewHolder.getBinding().btnChangeState) {
+                MobclickAgent.onEvent(getActivity(), UEvent.EDIT_SKILL_UP_DOWN);
                 service.up(skill.getId(), skill.isXiajia() ? 2 : 0, new ToastCallback(mActivity) {
                     @Override
                     public void success(ToastResponse res, Response response) {
@@ -456,6 +460,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
                 String chatLoginName = skill.getChatLoginName();
                 if (robotMap.containsKey(chatLoginName)) {
+                    MobclickAgent.onEvent(getActivity(), UEvent.CONTACT_TA);
                     ChatActivity.show(getActivity(), itemViewHolder.getData(), new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
                 } else {
                     RobotUser robot = new RobotUser();
@@ -481,7 +486,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     // 存入内存
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
-                    ;
+                    MobclickAgent.onEvent(getActivity(), UEvent.CONTACT_TA);
                     ChatActivity.show(getActivity(), itemViewHolder.getData(), new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
                 }
             }
@@ -492,12 +497,14 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 if (clickItem == headerMainHomeBinding.btnChat) {
                     mActivity.startActivity(new Intent(mActivity, ChatMainActivity.class));
                 } else if (clickItem == headerMainHomeBinding.btnSettings) {
+                    MobclickAgent.onEvent(getActivity(), UEvent.SETTING_SYSTEM_FROM_HOME);
                     mActivity.startActivity(new Intent(mActivity, SettingsActivity.class));
                 } else if (clickItem == headerMainHomeBinding.btnReport) {
                     report();
                 } else if (clickItem == headerMainHomeBinding.btnBack) {
                     mActivity.finish();
                 } else if (clickItem == headerMainHomeBinding.btnCreateskill) {
+                    MobclickAgent.onEvent(getActivity(), UEvent.PUBLISH_SKILL_FROM_HOME);
                     User user = User.read(getActivity());
                     String weChat = user.getInfo().getWechat();
                     String qq = user.getInfo().getQq();
@@ -548,11 +555,28 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Override
     public void onResume() {
         super.onResume();
-        if (user != null) {
-            syncRequest();
+        if (user.getId() == User.read(getActivity()).getId()) {
+            MobclickAgent.onEvent(getActivity(), UEvent.HOME);
         }
-        refreshMissMsgIcon();
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (user != null && user.getId() != User.read(getActivity()).getId()) {
+            return;
+        }
+        if (hidden) {
+
+        } else {
+            MobclickAgent.onEvent(getActivity(), UEvent.ENTRY_INDEX_FROM_HOME);
+            if (user != null) {
+                syncRequest();
+            }
+            refreshMissMsgIcon();
+        }
+    }
+
 
     private void report() {
         AlertDialog alert = AlertDialog.newInstance("提示", mActivity.getString(R.string.lable_alert_report_user));

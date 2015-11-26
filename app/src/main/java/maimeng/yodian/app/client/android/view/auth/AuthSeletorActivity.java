@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.UmengRegistrar;
 
 import org.henjue.library.hnet.Callback;
@@ -23,6 +24,7 @@ import org.henjue.library.share.manager.WeiboAuthManager;
 import org.henjue.library.share.model.AuthInfo;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -30,11 +32,12 @@ import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.ScrollImageView;
 
-public class AuthSeletorActivity extends AppCompatActivity implements View.OnClickListener {
+public class AuthSeletorActivity extends AbstractActivity implements View.OnClickListener {
     private static AuthInfo authInfo;
     private SsoHandler mSsoHandler;
     private AuthService service;
@@ -51,7 +54,7 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
             finish();
         } else {
             service = Network.getService(AuthService.class);
-            setContentView(R.layout.activity_auth_selector);
+            setContentView(R.layout.activity_auth_selector, false);
             ScrollImageView image = (ScrollImageView) findViewById(R.id.scrollImage);
             image.setImage(getResources().openRawResource(R.raw.scroll_bitmap));
             image.startScroll();
@@ -144,11 +147,21 @@ public class AuthSeletorActivity extends AppCompatActivity implements View.OnCli
         @Override
         public void start() {
             dialog = WaitDialog.show(AuthSeletorActivity.this);
+            if (typeValue == 1) {
+                MobclickAgent.onEvent(AuthSeletorActivity.this, UEvent.AUTH_WECHAT);
+            } else if (typeValue == 2) {
+                MobclickAgent.onEvent(AuthSeletorActivity.this, UEvent.AUTH_SINA);
+            }
         }
 
         @Override
         public void success(AuthResponse res, Response response) {
             if (res.isSuccess()) {
+                if (typeValue == 1) {
+                    MobclickAgent.onEvent(AuthSeletorActivity.this, UEvent.AUTH_WECHAT_SUCESS);
+                } else if (typeValue == 2) {
+                    MobclickAgent.onEvent(AuthSeletorActivity.this, UEvent.AUTH_SINA_SUCESS);
+                }
                 User.clear(AuthSeletorActivity.this);
                 User data = res.getData();
                 data.setLoginType(typeValue);

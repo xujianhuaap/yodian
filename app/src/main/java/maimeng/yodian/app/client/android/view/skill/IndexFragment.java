@@ -2,6 +2,8 @@ package maimeng.yodian.app.client.android.view.skill;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChatManager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -35,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.DataNode;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -68,6 +72,34 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         return new IndexFragment();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onEvent(getActivity(), UEvent.INDEX);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            EMChatManager.getInstance().unregisterEventListener(this);
+        } else {
+            MobclickAgent.onEvent(getActivity(), UEvent.ENTRY_HOME_FROM_INDEX);
+            int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+            if (unread > 0) {
+                findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.miss_msg_count).setVisibility(View.INVISIBLE);
+            }
+            if (User.read(getActivity()).isPushOn()) {
+                EMChatManager.getInstance().registerEventListener(this);
+            } else {
+                EMChatManager.getInstance().unregisterEventListener(this);
+            }
+
+            refreshMissMsgIcon();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, boolean showTitle) {
@@ -418,29 +450,6 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        int unread = EMChatManager.getInstance().getUnreadMsgsCount();
-        if (unread > 0) {
-            findViewById(R.id.miss_msg_count).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.miss_msg_count).setVisibility(View.INVISIBLE);
-        }
-        if (User.read(getActivity()).isPushOn()) {
-            EMChatManager.getInstance().registerEventListener(this);
-        } else {
-            EMChatManager.getInstance().unregisterEventListener(this);
-        }
-
-        refreshMissMsgIcon();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        EMChatManager.getInstance().unregisterEventListener(this);
-    }
 
     private void refreshMissMsgIcon() {
         getActivity().runOnUiThread(new Runnable() {

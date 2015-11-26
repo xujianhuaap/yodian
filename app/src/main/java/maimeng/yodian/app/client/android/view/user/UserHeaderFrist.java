@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderUserFristBinding;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.common.BaseFragment;
@@ -64,6 +67,7 @@ public class UserHeaderFrist extends BaseFragment {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (!(user.getUid() == User.read(getActivity()).getUid())) {
                         PreviewActivity.show(getActivity(), user);
+                        MobclickAgent.onEvent(getActivity(), UEvent.EDIT_BASIC_INFO_FROM_HOME);
                     } else {
 //                ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_from_right, R.anim.slide_out_to_left);
 //                ActivityCompat.startActivityForResult(getActivity(), new Intent(getActivity(), SettingUserInfo.class), REQUEST_UPDATEINFO, options.toBundle());

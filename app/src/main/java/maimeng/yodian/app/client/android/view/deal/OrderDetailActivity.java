@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.easemob.applib.controller.HXSDKHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -35,6 +36,7 @@ import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivityOrderDetailBinding;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
@@ -343,6 +345,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     chatUser.setMobile(buyer.getMobile());
                     chatUser.setQq(buyer.getQq());
                     chatUser.setWechat(buyer.getWeichat());
+                    MobclickAgent.onEvent(OrderDetailActivity.this, UEvent.CONTACT_TA);
                     ChatActivity.show(OrderDetailActivity.this, info.getSkill(), chatUser);
                 } else {
                     //联系买家或者卖家
@@ -375,6 +378,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     chatUser.setMobile(skill.getContact());
                     chatUser.setQq(skill.getQq());
                     chatUser.setWechat(skill.getWeichat());
+                    MobclickAgent.onEvent(OrderDetailActivity.this, UEvent.CONTACT_TA);
                     ChatActivity.show(OrderDetailActivity.this, info.getSkill(), chatUser);
                 }
             }

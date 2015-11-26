@@ -192,6 +192,7 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
     @Override
     public void success(AuthResponse res, Response response) {
         if (res.isSuccess()) {
+            MobclickAgent.onEvent(this, UEvent.AUTH_SMS_SUCESS);
             User data = res.getData();
             data.setT_img("");
             data.setT_nickname("");
