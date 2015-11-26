@@ -24,6 +24,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -294,6 +297,11 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             }
         });
         binding.onLinePay.setChecked(onLinePay);
+        if (isEdit) {
+            MobclickAgent.onEvent(this, UEvent.EDIT_SKILL);
+        } else {
+            MobclickAgent.onEvent(this, UEvent.SKILL_PUBLISH);
+        }
     }
 
     private void toggle() {

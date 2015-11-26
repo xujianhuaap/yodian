@@ -22,12 +22,15 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.henjue.library.hnet.Response;
 import org.parceler.Parcels;
 
 import java.io.File;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivityRmarkPublishBinding;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
@@ -93,7 +96,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
         mBinding.cheSelectPhoto.setOnCheckedChangeListener(this);
         mBinding.editDiary.addTextChangedListener(editTextProxy);
         mBinding.editDiary.setOnKeyListener(editTextProxy);
-
+        MobclickAgent.onEvent(this, UEvent.RMARK_PUBLISH);
     }
 
     private void refresh(Skill skill) {

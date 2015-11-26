@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.easemob.applib.controller.HXSDKHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -19,6 +20,7 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
@@ -30,18 +32,18 @@ import maimeng.yodian.app.client.android.view.deal.BindStatus;
 /**
  * Created by xujianhua on 10/16/15.
  */
-public class OrderCancellActivity extends AppCompatActivity  {
-    private static final int REQUEST_CERTIFY =0x234 ;
+public class OrderCancellActivity extends AppCompatActivity {
+    private static final int REQUEST_CERTIFY = 0x234;
     private BindStatus status;
 
     /***
      * @param context
      */
 
-    public static void show(Context context,long oid,boolean isCancel) {
+    public static void show(Context context, long oid, boolean isCancel) {
         Intent intent = new Intent(context, OrderCancellActivity.class);
-        intent.putExtra("oid",oid);
-        intent.putExtra("isCancle",isCancel);
+        intent.putExtra("oid", oid);
+        intent.putExtra("isCancle", isCancel);
         context.startActivity(intent);
     }
 
@@ -65,56 +67,57 @@ public class OrderCancellActivity extends AppCompatActivity  {
                 // 存入内存
                 ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
                 ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
-                ChatActivity.show(OrderCancellActivity.this,new ChatUser(user.getUsername(),0,null));
+                MobclickAgent.onEvent(OrderCancellActivity.this, UEvent.CONTACT_TA);
+                ChatActivity.show(OrderCancellActivity.this, new ChatUser(user.getUsername(), 0, null));
                 finish();
             }
         });
 
 
-        View view=findViewById(R.id.order_cancle);
-        if(getIntent().getBooleanExtra("isCancle",false)){
-           view.setVisibility(View.VISIBLE);
+        View view = findViewById(R.id.order_cancle);
+        if (getIntent().getBooleanExtra("isCancle", false)) {
+            view.setVisibility(View.VISIBLE);
         }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //取消订单
-                ViewDialog.Builder builder=new ViewDialog.Builder(OrderCancellActivity.this);
+                ViewDialog.Builder builder = new ViewDialog.Builder(OrderCancellActivity.this);
                 builder.setTitle("").setMesage("你确定要取消订单吗？")
-                .setPositiveListener(new ViewDialog.IPositiveListener() {
-                    @Override
-                    public void positiveClick() {
-                        long oid = getIntent().getLongExtra("oid", 0);
-                        Network.getService(OrderService.class).cancleOrder(oid, new Callback<ToastResponse>() {
+                        .setPositiveListener(new ViewDialog.IPositiveListener() {
                             @Override
-                            public void start() {
+                            public void positiveClick() {
+                                long oid = getIntent().getLongExtra("oid", 0);
+                                Network.getService(OrderService.class).cancleOrder(oid, new Callback<ToastResponse>() {
+                                    @Override
+                                    public void start() {
 
+                                    }
+
+                                    @Override
+                                    public void success(ToastResponse toastResponse, Response response) {
+                                        Toast.makeText(OrderCancellActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void failure(HNetError hNetError) {
+
+                                    }
+
+                                    @Override
+                                    public void end() {
+
+                                    }
+                                });
                             }
-
-                            @Override
-                            public void success(ToastResponse toastResponse, Response response) {
-                                Toast.makeText(OrderCancellActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-
-                            @Override
-                            public void failure(HNetError hNetError) {
-
-                            }
-
-                            @Override
-                            public void end() {
-
-                            }
-                        });
-                    }
-                }, "取消订单").setNegtiveListener(new ViewDialog.INegativeListener() {
+                        }, "取消订单").setNegtiveListener(new ViewDialog.INegativeListener() {
                     @Override
                     public void negtiveClick() {
 
                     }
                 }, "暂不取消");
-                android.support.v7.app.AlertDialog dialog=builder.create();
+                android.support.v7.app.AlertDialog dialog = builder.create();
                 dialog.show();
 
 

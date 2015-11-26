@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import net.glxn.qrgen.android.QRCode;
 
 import org.henjue.library.share.Type;
@@ -39,6 +41,7 @@ import java.io.IOException;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -399,6 +402,7 @@ public class ShareDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(0, R.style.ShareDialogStyle);
         app = (YApplication) getActivity().getApplication();
+        MobclickAgent.onEvent(getActivity(), UEvent.SKILL_SHARE);
     }
 
     @Override
@@ -415,6 +419,7 @@ public class ShareDialog extends DialogFragment {
     }
 
     public void qzone(final View v) {
+        MobclickAgent.onEvent(getActivity(), UEvent.SKILL_SHARE_QQ);
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.QQ);
         iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), QQShareManager.SHARE_TYPE_QZONE);
     }
@@ -463,7 +468,7 @@ public class ShareDialog extends DialogFragment {
     }
 
     public void ShareToWeiBo(View view) {
-
+        MobclickAgent.onEvent(getActivity(), UEvent.SKILL_SHARE_SINA);
         Bitmap bitmap = getShareBitmap(1, shareView);
         StringBuffer content = new StringBuffer();
         content.append(title).append(skill.getPrice()).append(skill.getUnit()).append("@优点APP");
@@ -480,9 +485,11 @@ public class ShareDialog extends DialogFragment {
 
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.WEIXIN);
         if (v.getId() == R.id.weixin) {
+            MobclickAgent.onEvent(getActivity(), UEvent.SKILL_SHARE_WECHAT);
             iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.toString()), WechatShareManager.WEIXIN_SHARE_TYPE_TALK/*,this*/);
 
         } else {
+            MobclickAgent.onEvent(getActivity(), UEvent.SKILL_SHARE_FRIENDS);
             Bitmap bitmap = getShareBitmap(2, shareView);
             iShareManager.share(new MessagePic(bitmap), WechatShareManager.WEIXIN_SHARE_TYPE_FRENDS/*,this*/);
         }

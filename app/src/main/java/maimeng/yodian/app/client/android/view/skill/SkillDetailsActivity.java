@@ -26,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.easemob.applib.controller.HXSDKHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -50,6 +51,7 @@ import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
@@ -109,6 +111,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobclickAgent.onEvent(this, UEvent.SKILL_DETIAL);
         user = User.read(this);
         noSkillRmark = new FrameLayout(this);
         noSkillRmark.setPadding(0, 50, 0, 0);
@@ -384,7 +387,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
                 }
-
+                MobclickAgent.onEvent(this, UEvent.CONTACT_TA);
                 ChatActivity.show(SkillDetailsActivity.this, skill, new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
             }
         } else if (v == headBinding.btnBuySkill) {

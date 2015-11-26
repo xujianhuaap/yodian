@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.easemob.applib.controller.HXSDKHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -36,6 +37,7 @@ import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.entry.skillseletor.BannerViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ItemViewEntry;
 import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
@@ -239,10 +241,12 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                     UserHomeActivity.show(getActivity(), skill.getUid(), holder.getDefaultAvatar(), skill.getNickname(), ((MainTab2Activity) getActivity()).getFloatButton(), null, holder.getBinding().userNickname);
                 }
             } else if (clickItem == holder.getBinding().btnUpdate) {
+                MobclickAgent.onEvent(getActivity(), UEvent.EDIT_SKILL);
                 CreateOrEditSkillActivity.show(getActivity(), REQUEST_EDIT_SKILL, skill);
                 mEditPostion = postion;
                 holder.closeWithAnim();
             } else if (clickItem == holder.getBinding().btnDelete) {
+                MobclickAgent.onEvent(getActivity(), UEvent.EDIT_SKILL_DELETE);
                 AlertDialog.newInstance("提示", "确定要删除吗?").setPositiveListener(new AlertDialog.PositiveListener() {
                     @Override
                     public void onPositiveClick(final DialogInterface dialog) {
@@ -280,6 +284,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                 }).show(getActivity().getFragmentManager(), "delete_dialog");
 
             } else if (clickItem == holder.getBinding().btnChangeState) {
+                MobclickAgent.onEvent(getActivity(), UEvent.EDIT_SKILL_UP_DOWN);
                 service.up(skill.getId(), skill.isXiajia() ? 2 : 0, new ToastCallback(getActivity()) {
                     @Override
                     public void success(ToastResponse res, Response response) {
@@ -317,7 +322,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
                 }
-
+                MobclickAgent.onEvent(getActivity(), UEvent.CONTACT_TA);
                 ChatActivity.show(getActivity(), skill, new ChatUser(chatLoginName, skill.getUid(), skill.getNickname()));
             }
         } else if (SkillListIndexAdapter.BannerViewHolder.class.isInstance(h)) {
