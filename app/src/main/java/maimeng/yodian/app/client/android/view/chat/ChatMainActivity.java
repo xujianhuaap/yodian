@@ -25,8 +25,7 @@ import maimeng.yodian.app.client.android.common.UEvent;
 public class ChatMainActivity extends maimeng.yodian.app.client.android.chat.activity.MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mini = true;
-        MobclickAgent.onEvent(this, UEvent.CONVERSATIONLIST);
+        setUEvent(UEvent.CONVERSATIONLIST);
         startService(new Intent(this, AsyncContactService.class));
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();

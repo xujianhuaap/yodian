@@ -44,6 +44,10 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
@@ -52,12 +56,13 @@ import maimeng.yodian.app.client.android.chat.adapter.ChatAllHistoryAdapter;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
+import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 
 /**
  * 显示所有会话记录，比较简单的实现，更好的可能是把陌生人存入本地，这样取到的聊天记录是可控的
  */
-public class ChatAllHistoryFragment extends Fragment implements View.OnClickListener {
+public class ChatAllHistoryFragment extends Fragment implements View.OnClickListener, PtrHandler {
 
     private static final String SHOW_TITLE = "_show_title";
     private InputMethodManager inputMethodManager;
@@ -66,6 +71,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     //	private EditText query;
 //	private ImageButton clearSearch;
     public RelativeLayout errorItem;
+    private PtrFrameLayout mRefreshLayout;
 
     public static ChatAllHistoryFragment getInstance(boolean showTitle) {
         ChatAllHistoryFragment fragment = new ChatAllHistoryFragment();
@@ -90,6 +96,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_conversation_history, container, false);
+
         root.findViewById(R.id.title_containar).setVisibility(getArguments().getBoolean(SHOW_TITLE, false) ? View.VISIBLE : View.GONE);
         return root;
     }
@@ -97,6 +104,12 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
+        mRefreshLayout.setPtrHandler(this);
+        StoreHouseHeader header = PullHeadView.create(getContext());
+        header.setTextColor(0x000000);
+        mRefreshLayout.addPtrUIHandler(header);
+        mRefreshLayout.setHeaderView(header);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         errorItem = (RelativeLayout) getView().findViewById(R.id.rl_error_item);
         errorText = (TextView) errorItem.findViewById(R.id.tv_connect_errormsg);
@@ -156,6 +169,17 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View content, View header) {
+        // 默认实现，根据实际情况做改动
+        return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, content, header);
+    }
+
+    @Override
+    public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+        refresh();
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
@@ -211,7 +235,9 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
      */
     public void refresh() {
         conversationList.clear();
-        conversationList.addAll(loadConversationsWithRecentChat());
+        List<EMConversation> collection = loadConversationsWithRecentChat();
+        conversationList.addAll(collection);
+        mRefreshLayout.refreshComplete();
         if (adapter != null)
             adapter.notifyDataSetChanged();
     }
