@@ -226,6 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_normal"
+                    android:visibility="invisible"
                     android:src="@mipmap/ic_skill_better" />
 
                 <ImageView
@@ -234,6 +235,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_small"
+                    android:visibility="invisible"
                     android:src="@mipmap/ic_skill_can_sell" />
             </LinearLayout>
 

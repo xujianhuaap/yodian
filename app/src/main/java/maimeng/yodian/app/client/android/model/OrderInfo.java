@@ -51,6 +51,15 @@ public class OrderInfo {
 
     private Skill skill;
     private Buyer buyer;
+    private float balance;
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(float balance) {
+        this.balance = balance;
+    }
 
     public String getId() {
         return id;

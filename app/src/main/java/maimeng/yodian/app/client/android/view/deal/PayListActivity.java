@@ -46,7 +46,6 @@ import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
  */
 public class PayListActivity extends AbstractActivity implements View.OnClickListener {
     private TextView mTitle;
-    private OrderInfo mInfo;
     private Skill mSkill;
     private BuyService mService;
     private OrderInfo mOrderInfo;
@@ -58,6 +57,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
     private final static int PAY_TYPE_WECHAT = 2;
     private TextView mBtnMoney;
     private float price;
+    private float money;
 
     /***
      * 订单支付
@@ -118,9 +118,9 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
 
             @Override
             public void success(RemainderResponse res, Response response) {
-                float money = res.getData().getMoney();
+                money = res.getData().getMoney();
                 mBtnMoney.setText(getString(R.string.pay_remainer, money));
-                if(money<price){
+                if(money <price){
                     canUseMoney =true;
                     mBtnMoney.setEnabled(false);
                     mBtnMoney.setTextColor(Color.parseColor("#cccccc"));
@@ -157,77 +157,21 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
     public void onClick(View v) {
         //生成订单信息
         if (isOrderPay) {
+            //订单列表购买
             if (v.getId() == R.id.pay_remainer) {
                 mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_REMAINDER,1, new CallBackProxy(PAY_TYPE_REMAINDER));
             } else if (v.getId() == R.id.pay_wechat) {
-                if(canUseMoney){
-                    AlertDialog dialog = AlertDialog.newInstance("提示", "是否使用余额？");
-                    dialog.setNegativeListener(new AlertDialog.NegativeListener() {
-                        @Override
-                        public void onNegativeClick(DialogInterface dialog) {
-                            dialog.dismiss();
-                            payByWechatOrder(true);
-                        }
-
-                        @Override
-                        public String negativeText() {
-                            return "是";
-                        }
-                    });
-                    dialog.setPositiveListener(new AlertDialog.PositiveListener() {
-                        @Override
-                        public void onPositiveClick(DialogInterface dialog) {
-                            dialog.dismiss();
-                            payByWechatOrder(false);
-                        }
-
-                        @Override
-                        public String positiveText() {
-                            return "否";
-                        }
-                    });
-                    dialog.show(getFragmentManager(), "payDialog");
-                }else{
-                    payByWechatSkill(false);
-                }
+                payByWechatOrder(mOrderInfo.getBalance()==0);
             } else if (v.getId() == R.id.pay_zhifubao) {
-                if(canUseMoney) {
-                    AlertDialog dialog = AlertDialog.newInstance("提示", "是否使用余额？");
-                    dialog.setNegativeListener(new AlertDialog.NegativeListener() {
-                        @Override
-                        public void onNegativeClick(DialogInterface dialog) {
-                            dialog.dismiss();
-                            payByAliPayOrder(true);
-                        }
-
-                        @Override
-                        public String negativeText() {
-                            return "是";
-                        }
-                    });
-                    dialog.setPositiveListener(new AlertDialog.PositiveListener() {
-                        @Override
-                        public void onPositiveClick(DialogInterface dialog) {
-                            dialog.dismiss();
-                            payByAliPayOrder(false);
-                        }
-
-                        @Override
-                        public String positiveText() {
-                            return "否";
-                        }
-                    });
-                    dialog.show(getFragmentManager(),"payDialog");
-                }else{
-                    payByAliPaySkill(false);
-                }
+                payByAliPayOrder(mOrderInfo.getBalance()==0);
             }
         } else {
+            //技能列表购买
             if (v.getId() == R.id.pay_remainer) {
                 mService.buySkill(mSkill.getId(), PAY_TYPE_REMAINDER, 1, new CallBackProxy(PAY_TYPE_REMAINDER));
             } else if (v.getId() == R.id.pay_wechat) {
                 if(canUseMoney){
-                    AlertDialog dialog = AlertDialog.newInstance("提示", "是否使用余额？");
+                    AlertDialog dialog = AlertDialog.newInstance("提示",getResources().getString(R.string.pay_remainder_enable,money));
                     dialog.setNegativeListener(new AlertDialog.NegativeListener() {
                         @Override
                         public void onNegativeClick(DialogInterface dialog) {
@@ -258,7 +202,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
                 }
             } else if (v.getId() == R.id.pay_zhifubao) {
                 if(canUseMoney) {
-                    AlertDialog dialog = AlertDialog.newInstance("提示", "是否使用余额？");
+                    AlertDialog dialog = AlertDialog.newInstance("提示", getResources().getString(R.string.pay_remainder_enable,money));
                     dialog.setNegativeListener(new AlertDialog.NegativeListener() {
                         @Override
                         public void onNegativeClick(DialogInterface dialog) {
