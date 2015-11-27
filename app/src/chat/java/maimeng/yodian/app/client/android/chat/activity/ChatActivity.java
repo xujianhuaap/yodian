@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -135,7 +135,7 @@ import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
 /**
  * 聊天页面
- * <p/>
+ * <p>
  * 技能属于卖家　聊天发起方可能是卖家也可能是买家
  * 如果买家发起聊天　即联系卖家　有以下入口：技能详情
  */
@@ -676,24 +676,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        JSONObject skillJson = msg.getJSONObjectAttribute("skill");
-                        if (skillJson != null) {
-                            Skill skill = new Skill();
-                            skill.setName(skillJson.getString("name"));
-                            skill.setId(skillJson.getLong("sid"));
-                            skill.setPrice(skillJson.getString("price"));
-                            skill.setUnit(skillJson.getString("unit"));
-                            skill.setPic(skillJson.getString("pic"));
-                            skill.setAvatar(skillJson.getString("avatar"));
-                            skill.setContact(skillJson.getString("contact"));
-                            skill.setQq(skillJson.getString("qq"));
-                            skill.setWeichat(skillJson.getString("weichat"));
-                            showSkill(skill);
-                        }
-                    } catch (EaseMobException | JSONException e) {
-                        e.printStackTrace();
-                    }
+                    showSkill(Skill.parse(msg));
                 }
             });
         }
@@ -755,15 +738,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         });
     }
 
-    protected void onGroupViewCreation() {
-        group = EMGroupManager.getInstance().getGroup(toChatUsername);
 
-        if (group != null) {
-            ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
-        } else {
-            ((TextView) findViewById(R.id.name)).setText(toChatUsername);
-        }
-    }
 
     protected void onChatRoomViewCreation() {
 
@@ -1053,7 +1028,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     /**
      * 事件监听
-     * <p/>
+     * <p>
      * see {@link EMNotifierEvent}
      */
     @Override
