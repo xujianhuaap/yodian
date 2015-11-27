@@ -278,7 +278,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
             final IPay pay;
             lottery=gson.fromJson(s,LotteryResponse.class).getData();
             String lotUrl=lottery.getLotUrl();
-            lottery.setLotUrl(lotUrl+"?uid="+User.read(PayListActivity.this).getUid()+"&oid="+lottery.getOid());
+            lottery.setLotUrl( String.format(lotUrl+"?uid=%1$d&oid=%2$d",User.read(PayListActivity.this).getUid(),lottery.getOid()));
             if (payType == PAY_TYPE_ZHIFUBAO) {
                 ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse = gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
                 IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid());
