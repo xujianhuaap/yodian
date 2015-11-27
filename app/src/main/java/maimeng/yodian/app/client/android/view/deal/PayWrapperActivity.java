@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import org.parceler.Parcels;
@@ -23,10 +24,34 @@ public class PayWrapperActivity extends AppCompatActivity {
      * @param context
      * @param info
      */
-    public static void show(Context context, OrderInfo info) {
+//    public static void show(Context context, OrderInfo info) {
+//        Intent intent = new Intent(context, PayWrapperActivity.class);
+//        intent.putExtra("info", Parcels.wrap(info));
+//        context.startActivity(intent);
+//    }
+
+    /***
+     * 订单支付
+     * @param context
+     * @param info
+     * @param requestCode
+     */
+    public static void show(Activity context, OrderInfo info, int requestCode) {
         Intent intent = new Intent(context, PayWrapperActivity.class);
         intent.putExtra("info", Parcels.wrap(info));
-        context.startActivity(intent);
+        context.startActivityForResult(intent, requestCode);
+    }
+
+    /***
+     * 订单支付
+     * @param context
+     * @param info
+     * @param requestCode
+     */
+    public static void show(Fragment context, OrderInfo info, int requestCode) {
+        Intent intent = new Intent(context.getContext(), PayWrapperActivity.class);
+        intent.putExtra("info", Parcels.wrap(info));
+        context.startActivityForResult(intent, requestCode);
     }
 
     /***
@@ -72,9 +97,7 @@ public class PayWrapperActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
-            if (getIntent().getBooleanExtra("result", false)) {
-                setResult(RESULT_OK, data);
-            }
+            setResult(RESULT_OK, data);
             finish();
         }
     }
