@@ -90,38 +90,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             bt.commitAllowingStateLoss();
             initFragment();
             Network.getService(CommonService.class).getFloat(this);
-            final float density = getResources().getDisplayMetrics().density;
-            int width = (int) (80 * density);
-            new ImageLoaderManager.Loader(floatButton, Uri.parse(User.read(this).getAvatar()))
-                    .width(width).height(width).callback(new ImageLoaderManager.Callback() {
-                @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    final int dpi = getResources().getDisplayMetrics().densityDpi;
-                    float rate = 0;
-                    if (dpi > 140 && dpi < 180) {
-                        rate = 0.4f;
-                    } else if (300 < dpi && dpi < 320) {
-                        rate = 0.6f;
-                    } else if (dpi >= 460 && dpi < 500) {
-                        rate = 0.8f;
-                    } else if (dpi > 640) {
-                        rate = 0.9f;
-                    }
-
-                    mAvatar = getCircleBitmap(bitmap, rate);
-                    floatButton.setImageBitmap(mAvatar);
-                }
-
-                @Override
-                public void onLoadEnd() {
-
-                }
-
-                @Override
-                public void onLoadFaild() {
-
-                }
-            }).start(this);
+            updateFloatButton();
             if (getIntent().hasExtra("home")) {
                 if (!userHomeFragment.isVisible()) {
                     floatButton.callOnClick();
@@ -129,6 +98,41 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             }
         }
         syncFloat();
+    }
+
+    private void updateFloatButton() {
+        final float density = getResources().getDisplayMetrics().density;
+        int width = (int) (80 * density);
+        new ImageLoaderManager.Loader(floatButton, Uri.parse(User.read(this).getAvatar()))
+                .width(width).height(width).callback(new ImageLoaderManager.Callback() {
+            @Override
+            public void onImageLoaded(Bitmap bitmap) {
+                final int dpi = getResources().getDisplayMetrics().densityDpi;
+                float rate = 0;
+                if (dpi > 140 && dpi < 180) {
+                    rate = 0.4f;
+                } else if (300 < dpi && dpi < 320) {
+                    rate = 0.6f;
+                } else if (dpi >= 460 && dpi < 500) {
+                    rate = 0.8f;
+                } else if (dpi > 640) {
+                    rate = 0.9f;
+                }
+
+                mAvatar = getCircleBitmap(bitmap, rate);
+                floatButton.setImageBitmap(mAvatar);
+            }
+
+            @Override
+            public void onLoadEnd() {
+
+            }
+
+            @Override
+            public void onLoadFaild() {
+
+            }
+        }).start(this);
     }
 
     //悬浮广告
@@ -223,6 +227,14 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
     @Override
     public void onPositiveClick(DialogInterface dialog) {
         startActivityForResult(new Intent(this, AuthSettingInfoActivity.class), REQUEST_UPDATEINFO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_UPDATEINFO) {
+            syncFloat();
+        }
     }
 
     @Override
