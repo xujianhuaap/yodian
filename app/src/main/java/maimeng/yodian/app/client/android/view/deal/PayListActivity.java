@@ -23,10 +23,13 @@ import org.henjue.library.share.manager.WechatAuthManager;
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.LotteryResponse;
 import maimeng.yodian.app.client.android.network.response.RemainderPayParamsResponse;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.response.WXPayParamResponse;
@@ -59,6 +62,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
     private TextView mBtnMoney;
     private float price;
     private float money;
+    private Lottery lottery;
 
     /***
      * 订单支付
@@ -272,7 +276,9 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
         public void success(final String s, Response response) {
             final Gson gson = Network.getOne().getGson();
             final IPay pay;
-
+            lottery=gson.fromJson(s,LotteryResponse.class).getData();
+            String lotUrl=lottery.getLotUrl();
+            lottery.setLotUrl(lotUrl+"?uid="+User.read(PayListActivity.this).getUid()+"&oid="+lottery.getOid());
             if (payType == PAY_TYPE_ZHIFUBAO) {
                 ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse = gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
                 IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid());
@@ -363,7 +369,9 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
                     .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
                 @Override
                 public void positiveClick() {
-                    setResult(RESULT_OK, new Intent().putExtra("oid", oid));
+                    Intent intent=new Intent();
+                    intent.putExtra("lottery",Parcels.wrap(lottery));
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
             }, btnTip).create().show();

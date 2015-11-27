@@ -55,6 +55,7 @@ import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
+import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -81,7 +82,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private static final String LOG_TAG = SkillDetailsActivity.class.getName();
     private static final int REQEUST_RMARK_ADD = 0x1001;
     private static final int REQEUST_RMARK_AUTH = 0x1002;
-    private static final int REQEUST_PLAY = 0x1003;//如果是支付成功返回的就进入订单界面
+    private static final int REQEUST_PAY = 0x1003;//如果是支付成功返回的就进入订单界面
     private static final int MENU_ID_SHARE = 0x5001;
     private SkillService service;
     private long sid;
@@ -203,9 +204,10 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         if (resultCode == RESULT_OK) {
             if (requestCode == REQEUST_RMARK_ADD) {
                 binding.refreshLayout.autoRefresh();
-            } else if (requestCode == REQEUST_PLAY) {//如果是支付成功返回的就进入订单界面
+            } else if (requestCode == REQEUST_PAY) {//如果是支付成功返回的就进入订单界面
                 if (data != null) {
-                    OrderDetailActivity.show(this, data.getLongExtra("oid", 0), false);
+                    Lottery lottery=Parcels.unwrap(data.getParcelableExtra("lottery"));
+                    OrderDetailActivity.show(this,lottery);
                 }
             }
         }
@@ -395,7 +397,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 MobclickAgent.onEvent(this, UEvent.SKILL_DETAIL_PUBLISH_RMARK);
                 RmarkPublishActivity.show(this, skill, headBinding.btnBuySkill, REQEUST_RMARK_ADD);
             } else {
-                PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PLAY);
+                PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PAY);
             }
         }
     }

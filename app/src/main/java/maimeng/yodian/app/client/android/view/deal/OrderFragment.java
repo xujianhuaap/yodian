@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.deal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -23,12 +25,15 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.OrderListAdapter;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderListRepsonse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.common.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -49,6 +54,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
     private OrderService mService;
     private boolean mIsAppend;
     private WaitDialog mWaitDialog;
+    private static final int REQUEST_ORDER_BUY=0x24;
 
 
     /***
@@ -169,7 +175,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
                     //购买订单
                     if (status == 0) {
                         //支付
-                        PayWrapperActivity.show(getActivity(), info);
+                        PayWrapperActivity.show(OrderFragment.this, info,REQUEST_ORDER_BUY);
                     } else if (status == 4) {
                         //确认发货
                         mService.confirmOrder(oid, proxy);
@@ -260,5 +266,20 @@ public class OrderFragment extends Fragment implements PtrHandler {
         mPage=1;
         mIsAppend = false;
         freshData();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==getActivity().RESULT_OK){
+            if(requestCode==REQUEST_ORDER_BUY){
+                Lottery lottery= Parcels.unwrap(data.getParcelableExtra("lottery"));
+                if(lottery.getIsLottery()==1){
+                    OrderDetailActivity.show(getActivity(),lottery);
+                }
+
+            }
+        }
     }
 }

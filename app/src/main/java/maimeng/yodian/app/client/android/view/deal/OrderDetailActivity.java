@@ -12,6 +12,7 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivityOrderDetailBinding;
+import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -47,7 +49,9 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
+import maimeng.yodian.app.client.android.view.common.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
 
 
@@ -60,6 +64,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     private OrderService mService;
     private boolean isSaled;
     private OrderInfo info;
+    private static final int REQUEST_ORDER_BUY=0x23;
+    private Lottery mLottery;
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
@@ -84,6 +90,18 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra("oid", oid);
         intent.putExtra("isSaled", isSaled);
+        context.startActivity(intent);
+    }
+
+    /****
+     * 在订单列表购买完成后直接对应订单详情
+     * @param context
+     * @param lottery
+     */
+    public static void show(Context context, Lottery lottery) {
+        Intent intent = new Intent(context, OrderDetailActivity.class);
+        intent.putExtra("lottery", Parcels.wrap(lottery));
+        intent.putExtra("isSaled", false);
         context.startActivity(intent);
     }
 
@@ -292,7 +310,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     //购买订单
                     if (status == 0) {
                         //支付
-                        PayWrapperActivity.show(OrderDetailActivity.this, info);
+                        PayWrapperActivity.show(OrderDetailActivity.this, info, REQUEST_ORDER_BUY);
                     } else if (status == 4) {
                         //确认收货
                         mService.confirmOrder(oid, new OrderOperatorCallBackProxy() {
@@ -391,10 +409,20 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         mBinding = bindView(R.layout.activity_order_detail);
         mService = Network.getService(OrderService.class);
         info = get("orderInfo");
+        mLottery=get("lottery");
         if (info != null) {
             refreshUI(info);
         } else {
-            mService.info(getIntent().getLongExtra("oid", 0), this);
+            if(mLottery!=null){
+                //购买完成后跳到订单详情
+                mService.info(mLottery.getOid(), this);
+                if(mLottery.getIsLottery()==1){
+                    WebViewActivity.show(this,mLottery.getLotUrl());
+                }
+            }else {
+                mService.info(getIntent().getLongExtra("oid", 0), this);
+            }
+
         }
         mBinding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
@@ -463,5 +491,22 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     private String formatDate(String time) {
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         return format.format(new Date(Long.parseLong(time) * 1000));
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(requestCode==REQUEST_ORDER_BUY){
+                Lottery lottery=Parcels.unwrap(data.getParcelableExtra("lottery"));
+                LogUtil.d(OrderDetailActivity.class.getName(), "lottery" + lottery.getLotUrl());
+                LogUtil.d(OrderDetailActivity.class.getName(), "lottery" + lottery.getIsLottery());
+                if(lottery.getIsLottery()==1){
+                    WebViewActivity.show(OrderDetailActivity.this,lottery.getLotUrl());
+                }
+
+            }
+        }
     }
 }
