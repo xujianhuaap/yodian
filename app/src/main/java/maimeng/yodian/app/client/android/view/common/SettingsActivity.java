@@ -30,8 +30,6 @@ import maimeng.yodian.app.client.android.view.user.TransActivity;
  * Created by android on 2015/7/21.
  */
 public class SettingsActivity extends AbstractActivity {
-    private View mBtnBack;
-    private View mBtnYijian;
     private View mBtnChangeAccount;
     private View mBtnCleanCache;
     private CheckBox mPush;
@@ -94,9 +92,6 @@ public class SettingsActivity extends AbstractActivity {
                 }
             }
         });
-        mBtnBack = findViewById(R.id.btn_back);
-        mBtnBack.setVisibility(View.INVISIBLE);
-        mBtnYijian = findViewById(R.id.btn_yijian);
         mBtnChangeAccount = findViewById(R.id.btn_change_account);
         mBtnCleanCache = findViewById(R.id.btn_cleancache);
         mCurrentVersion = (TextView) findViewById(R.id.current_version);
@@ -113,33 +108,18 @@ public class SettingsActivity extends AbstractActivity {
                 }
             }
         });
-        ViewCompat.setTransitionName(mBtnBack, "back");
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             mCurrentVersion.setText(getString(R.string.currentVersion, packageInfo.versionName));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        mBtnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(SettingsActivity.this);
-            }
-        });
-        mBtnYijian.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TransActivity.show(SettingsActivity.this, 0x1);
-//                Pair<View, String> back = Pair.create((View) mBtnBack, "back");
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingsActivity.this, back);
-//                ActivityCompat.startActivity(SettingsActivity.this, new Intent(SettingsActivity.this, FeedBackActivity.class), options.toBundle());
-            }
 
-        });
+
         mBtnChangeAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TransActivity.show(SettingsActivity.this, 0x2);
+                TransActivity.show(SettingsActivity.this);
             }
         });
         mBtnCleanCache.setOnClickListener(new View.OnClickListener() {

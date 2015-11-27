@@ -5,7 +5,7 @@ import org.parceler.Parcel;
 /**
  * 仅仅用于打开聊天界面的时候参数的传入
  */
-@Parcel(value = Parcel.Serialization.FIELD)
+@Parcel(value = Parcel.Serialization.BEAN)
 public class ChatUser {
     public ChatUser() {
 
@@ -17,6 +17,18 @@ public class ChatUser {
     private String qq = "";
     private String wechat = "";
     private String mobile = "";
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public void setChatName(String chatName) {
+        this.chatName = chatName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public String getChatName() {
         return chatName;

@@ -111,9 +111,6 @@
             android:label=""
             android:theme="@style/activity_trans" />
         <activity
-            android:name=".view.common.FeedBackActivity"
-            android:label="@string/lable_feedback" />
-        <activity
             android:name=".view.common.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.Dark" />

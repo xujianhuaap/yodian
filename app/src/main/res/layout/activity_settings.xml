@@ -38,27 +38,11 @@
                 android:layout_width="@dimen/btn_width"
                 android:layout_height="@dimen/btn_height"
                 android:layout_marginRight="@dimen/margin_normal"
-                android:button="@drawable/selector_switch_button"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                android:button="@drawable/selector_switch_button" />
 
         </LinearLayout>
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/div_line" />
-
-        <TextView
-            android:id="@+id/btn_yijian"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_icon_margin"
-            android:drawableLeft="@mipmap/ic_yijian"
-            android:drawablePadding="@dimen/top_icon_margin"
-            android:gravity="center_vertical|left"
-            android:text="@string/lable_feedback"
-            android:textColor="@color/black_40" />
 
         <View
             android:layout_width="match_parent"
@@ -113,14 +97,4 @@
             android:background="@color/div_line" />
     </LinearLayout>
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|bottom"
-        android:layout_margin="@dimen/floating_btn_margin"
-        android:src="@mipmap/btn_back"
-        app:fab_colorNormal="@color/float_colorNormal"
-        app:fab_colorPressed="@color/float_colorPressed"
-        app:fab_colorRipple="@color/float_colorRipple" />
 </FrameLayout>
