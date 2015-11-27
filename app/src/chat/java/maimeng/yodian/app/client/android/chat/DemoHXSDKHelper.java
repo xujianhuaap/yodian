@@ -36,12 +36,10 @@ import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
-import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.EasyUtils;
 
 import org.json.JSONObject;
-import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -53,10 +51,10 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
-import maimeng.yodian.app.client.android.chat.domain.Skill;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
+import maimeng.yodian.app.client.android.model.skill.Skill;
 
 /**
  * Demo UI HX SDK helper class which subclass HXSDKHelper
@@ -283,7 +281,7 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             @Override
             public int getSmallIcon(EMMessage message) {
                 //设置小图标，这里为默认
-                return 0;
+                return R.mipmap.icon_app;
             }
 
             @Override

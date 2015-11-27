@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.common;
 
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,11 +19,15 @@ import android.widget.Toast;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 
+import org.henjue.library.hnet.Response;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.DataCleanManager;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.view.user.TransActivity;
 
@@ -57,6 +62,24 @@ public class SettingsActivity extends AbstractActivity {
         }
     }
 
+    public static boolean isPush(Context context) {
+        return context.getSharedPreferences("push", Context.MODE_PRIVATE).getBoolean("_push", false);
+    }
+
+    private void setPush(final boolean statu) {
+        getSharedPreferences("push", Context.MODE_PRIVATE).edit().putBoolean("_push", statu).apply();
+        mPushService.push(statu ? 0 : 1, new ToastCallback(this) {
+            @Override
+            public void success(ToastResponse toastResponse, Response response) {
+                if (toastResponse.isSuccess()) {
+                    user.setPushOn(statu);
+                    user.write(SettingsActivity.this);
+                }
+                //                super.success(toastResponse, response);
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,34 +87,13 @@ public class SettingsActivity extends AbstractActivity {
         user = User.read(SettingsActivity.this);
         mPushService = Network.getService(CommonService.class);
         mPush = (CheckBox) findViewById(R.id.push);
-        mPush.setChecked(user.isPushOn());
         mPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    EMChatManager.getInstance().logout();
-                } else {
-                    String userName = user.getChatLoginName();
-                    String passWord = "hx123456";
-                    EMChatManager.getInstance().login(userName, passWord, new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError(int i, String s) {
-
-                        }
-
-                        @Override
-                        public void onProgress(int i, String s) {
-
-                        }
-                    });
-                }
+                setPush(isChecked);
             }
         });
+        mPush.setChecked(user.isPushOn());
         mBtnChangeAccount = findViewById(R.id.btn_change_account);
         mBtnCleanCache = findViewById(R.id.btn_cleancache);
         mCurrentVersion = (TextView) findViewById(R.id.current_version);

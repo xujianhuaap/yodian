@@ -130,7 +130,7 @@ public class ChatAllHistoryAdapter extends BaseAdapter implements Filterable {
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
         } else {
 //            if("hx_admin".equals(username)){
-//                holder.avatar.setImageResource(R.mipmap.ic_launcher);
+//                holder.avatar.setImageResource(R.mipmap.icon_app);
 //            }else {
                 UserUtils.setUserAvatar(mContext, username, holder.avatar);
 //            }

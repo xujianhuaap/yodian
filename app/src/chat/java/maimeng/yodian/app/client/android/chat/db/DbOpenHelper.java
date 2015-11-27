@@ -45,7 +45,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     private final String[] initInsert=new String[2];
     private DbOpenHelper(Context context) {
         super(context, getUserDatabaseName(), null, DATABASE_VERSION);
-        String avatar="android.resource://" + context.getPackageName() + "/mipmap/ic_launcher";
+        String avatar="android.resource://" + context.getPackageName() + "/mipmap/icon_app";
         initInsert[0]=String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID, UserDao.COLUMN_NAME_NICK, UserDao.COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar);
         initInsert[1]=String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.ROBOT_TABLE_NAME, UserDao.ROBOT_COLUMN_NAME_ID, UserDao.ROBOT_COLUMN_NAME_NICK, UserDao.ROBOT_COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar);
     }

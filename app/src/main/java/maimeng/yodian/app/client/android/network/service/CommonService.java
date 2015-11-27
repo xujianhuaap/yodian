@@ -55,10 +55,11 @@ public interface CommonService {
     }
 
     @Post(Api.PUSH)
-    void push(@Param("eclose") String eclose, Callback<ToastResponse> callback);
+    void push(@Param("eclose") int eclose, Callback<ToastResponse> callback);
 
     @Get(Api.FLOAT)
     void getFloat(Callback<FloatResponse> callback);
+
     @Get(Api.FLOAT_ADV)
     void getFloatADV(Callback<String> callback);
 }

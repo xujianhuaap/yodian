@@ -4,8 +4,11 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.net.Uri;
 
+import com.easemob.chat.EMMessage;
+import com.easemob.exceptions.EaseMobException;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import java.util.Date;
@@ -13,6 +16,7 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.databings.ImageBindable;
+import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.loader.Circle;
 
 /**
@@ -20,6 +24,17 @@ import maimeng.yodian.app.client.android.network.loader.Circle;
  */
 @org.parceler.Parcel(value = Parcel.Serialization.BEAN)
 public class Skill extends BaseObservable {
+    public static Skill parse(EMMessage message) {
+        try {
+            JSONObject jsonObject = message.getJSONObjectAttribute("skill");
+            if (jsonObject != null) {
+                return Network.getOne().getGson().fromJson(jsonObject.toString(), Skill.class);
+            }
+        } catch (EaseMobException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * id : 72
