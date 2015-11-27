@@ -38,6 +38,7 @@ import maimeng.yodian.app.client.android.view.deal.pay.IPay;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayFactory;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayStatus;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
+import maimeng.yodian.app.client.android.view.dialog.RemainderCustomDialog;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
@@ -170,64 +171,58 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
             if (v.getId() == R.id.pay_remainer) {
                 mService.buySkill(mSkill.getId(), PAY_TYPE_REMAINDER, 1, new CallBackProxy(PAY_TYPE_REMAINDER));
             } else if (v.getId() == R.id.pay_wechat) {
-                if(canUseMoney){
-                    AlertDialog dialog = AlertDialog.newInstance("提示",getResources().getString(R.string.pay_remainder_enable,money));
-                    dialog.setNegativeListener(new AlertDialog.NegativeListener() {
+                if(canUseMoney) {
+                    RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(PayListActivity.this);
+                    builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable,money+"",price-money+"")));
+                    builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
-                        public void onNegativeClick(DialogInterface dialog) {
-                            dialog.dismiss();
+                        public void positiveClick() {
                             payByWechatSkill(true);
                         }
-
+                    }, "使用");
+                    builder.setNegtiveListener(new RemainderCustomDialog.INegativeListener() {
                         @Override
-                        public String negativeText() {
-                            return "是";
-                        }
-                    });
-                    dialog.setPositiveListener(new AlertDialog.PositiveListener() {
-                        @Override
-                        public void onPositiveClick(DialogInterface dialog) {
-                            dialog.dismiss();
+                        public void negtiveClick() {
                             payByWechatSkill(false);
                         }
-
+                    }, "全额付款");
+                    builder.setCloseListener(new RemainderCustomDialog.ICloseListener() {
                         @Override
-                        public String positiveText() {
-                            return "否";
+                        public void closeClick() {
+                            finish();
                         }
                     });
-                    dialog.show(getFragmentManager(),"payDialog");
+
+                    builder.create().show();
                 }else{
                     payByWechatSkill(false);
                 }
+
+
             } else if (v.getId() == R.id.pay_zhifubao) {
                 if(canUseMoney) {
-                    AlertDialog dialog = AlertDialog.newInstance("提示", getResources().getString(R.string.pay_remainder_enable,money));
-                    dialog.setNegativeListener(new AlertDialog.NegativeListener() {
+                    RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(PayListActivity.this);
+                    builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, money + "", price - money + "")));
+                    builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
-                        public void onNegativeClick(DialogInterface dialog) {
-                            dialog.dismiss();
+                        public void positiveClick() {
                             payByAliPaySkill(true);
                         }
-
+                    }, "使用");
+                    builder.setNegtiveListener(new RemainderCustomDialog.INegativeListener() {
                         @Override
-                        public String negativeText() {
-                            return "是";
-                        }
-                    });
-                    dialog.setPositiveListener(new AlertDialog.PositiveListener() {
-                        @Override
-                        public void onPositiveClick(DialogInterface dialog) {
-                            dialog.dismiss();
+                        public void negtiveClick() {
                             payByAliPaySkill(false);
                         }
-
+                    }, "全额付款");
+                    builder.setCloseListener(new RemainderCustomDialog.ICloseListener() {
                         @Override
-                        public String positiveText() {
-                            return "否";
+                        public void closeClick() {
+                            finish();
                         }
                     });
-                    dialog.show(getFragmentManager(),"payDialog");
+
+                    builder.create().show();
                 }else{
                     payByAliPaySkill(false);
                 }
