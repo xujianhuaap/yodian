@@ -140,6 +140,12 @@
 
 
     </style>
+    <style name="alert_dialog_theme" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMinor">75%</item>
+        <item name="android:windowMinWidthMajor">75%</item>
+    </style>
 
 
     <style name="AnimFade3" parent="@android:style/Animation">
