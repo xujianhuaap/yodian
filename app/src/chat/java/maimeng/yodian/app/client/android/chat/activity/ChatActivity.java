@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -135,7 +135,7 @@ import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
 /**
  * 聊天页面
- * <p>
+ * <p/>
  * 技能属于卖家　聊天发起方可能是卖家也可能是买家
  * 如果买家发起聊天　即联系卖家　有以下入口：技能详情
  */
@@ -355,7 +355,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
         ViewHolder(TextView v) {
             this.icon = v;
-            this.icon.setTextColor(getResources().getColor(android.R.color.black));
+            this.icon.setTextColor(getResources().getColor(R.color.colorPrimary));
+            this.icon.setPadding(0, 40, 0, 40);
             this.icon.setGravity(Gravity.CENTER);
         }
     }
@@ -413,7 +414,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 ViewHolder holder;
                 if (convertView == null) {
                     final TextView textView = new TextView(ChatActivity.this);
-                    textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                     convertView = textView;
 
                     holder = new ViewHolder((TextView) convertView);
@@ -426,6 +426,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 holder.icon.setTag(R.id.tag_item, item);
                 holder.icon.setEnabled(item.enable);
                 holder.icon.setCompoundDrawablesWithIntrinsicBounds(null, item.icon, null, null);
+                holder.icon.setCompoundDrawablePadding(10);
                 if (item.onClickListener != null && item.intent == null) {
                     holder.icon.setOnClickListener(item.onClickListener);
                 }
@@ -673,12 +674,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }
         final EMMessage msg = conversation.getMessage(0);
         if (msg != null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    showSkill(Skill.parse(msg));
-                }
-            });
+            showSkill(Skill.parse(msg));
         }
         EMChatManager.getInstance().addChatRoomChangeListener(new EMChatRoomChangeListener() {
 
@@ -738,7 +734,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         });
     }
 
+    protected void onGroupViewCreation() {
+        group = EMGroupManager.getInstance().getGroup(toChatUsername);
 
+        if (group != null) {
+            ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
+        } else {
+            ((TextView) findViewById(R.id.name)).setText(toChatUsername);
+        }
+    }
 
     protected void onChatRoomViewCreation() {
 
@@ -1028,7 +1032,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     /**
      * 事件监听
-     * <p>
+     * <p/>
      * see {@link EMNotifierEvent}
      */
     @Override

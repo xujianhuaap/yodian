@@ -80,13 +80,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="35dip"
                     android:background="@null"
+                    android:imeOptions="actionSend"
                     android:maxLines="3"
                     android:minHeight="40dp"
                     android:onClick="editClick"
                     android:paddingBottom="3dp"
                     android:paddingLeft="1dp"
                     android:paddingRight="1dp"
-                    android:imeOptions="actionSend"
                     android:paddingTop="3dp"
                     android:textColor="#000"
                     android:textSize="18sp" />
@@ -169,7 +169,7 @@
                 android:id="@+id/ll_btn_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ccc"
+                android:background="#313131"
                 android:numColumns="4" />
         </LinearLayout>
     </LinearLayout>
@@ -188,8 +188,8 @@
             android:layout_height="@dimen/btn_height_large"
             android:background="@color/colorPrimaryDark5"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/padding_small"
             android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
             android:visibility="gone">
 
             <ImageView
@@ -197,16 +197,15 @@
                 android:layout_width="@dimen/btn_width_large"
                 android:layout_height="@dimen/btn_height_large"
                 android:layout_marginLeft="@dimen/margin_small"
-                android:scaleType="fitXY"
-                />
+                android:scaleType="fitXY" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/margin_small"
-                android:gravity="center_vertical|left"
                 android:layout_weight="1"
+                android:gravity="center_vertical|left"
                 android:orientation="vertical">
 
                 <TextView
@@ -214,8 +213,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_normal" />
 
                 <TextView
                     android:id="@+id/skill_price"
@@ -223,8 +222,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/colorPrimaryDark3" />
+                    android:textColor="@color/colorPrimaryDark3"
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
             <TextView
@@ -232,12 +231,12 @@
                 android:layout_width="@dimen/btn_width_smalll"
                 android:layout_height="@dimen/btn_width_smalll"
                 android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/margin_small"
+                android:background="@drawable/btn_circle_blue"
                 android:gravity="center"
                 android:text="查看"
-                android:layout_marginRight="@dimen/margin_small"
-                android:textSize="@dimen/text_size_normal"
                 android:textColor="@color/colorPrimary"
-                android:background="@drawable/btn_circle_blue"/>
+                android:textSize="@dimen/text_size_normal" />
         </LinearLayout>
 
         <RelativeLayout
