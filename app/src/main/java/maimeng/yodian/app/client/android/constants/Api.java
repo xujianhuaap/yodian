@@ -32,7 +32,7 @@ public class Api {
 
 
     public static final String MONEY_MY = "/money/mybalance";//我的余额
-    public static final String MONEY_WITHDRAW = "/money/withdraw";//提现申请
+    public static final String MONEY_WITHDRAW = "/money/appwithdraw";//提现申请
     public static final String MONEY_WDLIST = "/money/wdlist";//提现历史
     public static final String MONEY_ADD_ACCOUNT="/money/addaccount";//增加提现账户
 
