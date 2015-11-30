@@ -560,6 +560,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 MobclickAgent.onEvent(getActivity(), UEvent.HOME);
             }
         }
+
     }
 
     @Override
