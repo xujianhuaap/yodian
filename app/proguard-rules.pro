@@ -240,7 +240,6 @@
 
 -flattenpackagehierarchy
 -allowaccessmodification
--printmapping map.txt
 
 -optimizationpasses 7
 -verbose

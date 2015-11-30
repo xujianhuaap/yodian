@@ -68,6 +68,7 @@ import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
+import maimeng.yodian.app.client.android.view.common.WebViewActivity;
 import maimeng.yodian.app.client.android.view.deal.OrderDetailActivity;
 import maimeng.yodian.app.client.android.view.deal.PayWrapperActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
@@ -206,8 +207,8 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 binding.refreshLayout.autoRefresh();
             } else if (requestCode == REQEUST_PAY) {//如果是支付成功返回的就进入订单界面
                 if (data != null) {
-                    Lottery lottery=Parcels.unwrap(data.getParcelableExtra("lottery"));
-                    OrderDetailActivity.show(this,lottery);
+                    Lottery lottery = Parcels.unwrap(data.getParcelableExtra("lottery"));
+                    OrderDetailActivity.show(this, lottery);
                 }
             }
         }
@@ -275,6 +276,13 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 headBinding.iconActivie.setVisibility(View.VISIBLE);
                 headBinding.iconActivie.setText(skill.getActive_price());
                 headBinding.activeBanner.setVisibility(View.VISIBLE);
+                headBinding.activeBanner.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_IN_LOTTORY_TO_HTML5);
+                        WebViewActivity.show(v.getContext(), skill.getActiveUrl());
+                    }
+                });
                 Calendar systemC = Calendar.getInstance();
                 Calendar startC = Calendar.getInstance();
                 systemC.setTimeInMillis(skill.getSystime() * 1000);
@@ -397,6 +405,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 MobclickAgent.onEvent(this, UEvent.SKILL_DETAIL_PUBLISH_RMARK);
                 RmarkPublishActivity.show(this, skill, headBinding.btnBuySkill, REQEUST_RMARK_ADD);
             } else {
+                MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_DETAIL_PAY_CLICK);
                 PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PAY);
             }
         }
@@ -489,7 +498,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         }
     }
-
 
 
     @Override

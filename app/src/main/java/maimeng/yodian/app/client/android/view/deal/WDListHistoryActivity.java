@@ -15,12 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractAdapter;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivityWdlistHistoryBinding;
 import maimeng.yodian.app.client.android.databinding.ItemWdlistHistoryBinding;
 import maimeng.yodian.app.client.android.model.remainder.WDList;
@@ -50,6 +53,7 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
         bind.historyList.setAdapter(adapter);
         service = Network.getService(MoneyService.class);
         service.wdlist(page, this);
+        MobclickAgent.onEvent(this, UEvent.REMAINDER_DRAWED);
     }
 
     @Override
@@ -110,7 +114,7 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
 
     }
 
-    protected  final class HistoryAdaper extends AbstractAdapter<WDModel, HistoryHolder> {
+    protected final class HistoryAdaper extends AbstractAdapter<WDModel, HistoryHolder> {
 
         public HistoryAdaper(Context context, ViewHolderClickListener<HistoryHolder> viewHolderClickListener) {
             super(context, viewHolderClickListener);
@@ -128,7 +132,7 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
         }
     }
 
-    protected  final class HistoryHolder extends AbstractAdapter.BindViewHolder<WDModel, ItemWdlistHistoryBinding> {
+    protected final class HistoryHolder extends AbstractAdapter.BindViewHolder<WDModel, ItemWdlistHistoryBinding> {
 
         private String alipayStr;
 
@@ -143,18 +147,18 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
             binding.drawAccount.setVisibility(View.GONE);
             binding.btnPull.setVisibility(View.VISIBLE);
             alipayStr = null;
-            if(!TextUtils.isEmpty(item.getCard_id())&Integer.parseInt(item.getCard_id())!=0){
-                alipayStr ="提现账号：银行卡";
+            if (!TextUtils.isEmpty(item.getCard_id()) & Integer.parseInt(item.getCard_id()) != 0) {
+                alipayStr = "提现账号：银行卡";
                 binding.drawAccount.setText(alipayStr);
-            }else{
+            } else {
 
-               alipayStr =item.getAlipay();
-                Spanned span=Html.fromHtml(WDListHistoryActivity.this.getResources().getString(R.string.zhifubao_account, alipayStr));
+                alipayStr = item.getAlipay();
+                Spanned span = Html.fromHtml(WDListHistoryActivity.this.getResources().getString(R.string.zhifubao_account, alipayStr));
                 binding.drawAccount.setText(span);
 
             }
-            String backWhyStr=item.getBackwhy();
-            if(TextUtils.isEmpty(backWhyStr)&&TextUtils.isEmpty(alipayStr)){
+            String backWhyStr = item.getBackwhy();
+            if (TextUtils.isEmpty(backWhyStr) && TextUtils.isEmpty(alipayStr)) {
                 binding.btnPull.setVisibility(View.INVISIBLE);
             }
             binding.backwhy.setText(backWhyStr);

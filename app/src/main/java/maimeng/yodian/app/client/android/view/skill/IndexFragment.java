@@ -259,6 +259,72 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
         mTypeList.setAdapter(typeAdapter);
         service.choose(1, 0, this);
         mOverlay = findViewById(R.id.pull_overy);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_1);
+                        break;
+                    case 2:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_2);
+                        break;
+                    case 3:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_3);
+                        break;
+                    case 4:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_4);
+                        break;
+                    case 5:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_5);
+                        break;
+                    case 6:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_6);
+                        break;
+                    case 7:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_7);
+                        break;
+                    case 8:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_8);
+                        break;
+                    case 9:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_9);
+                        break;
+                    case 10:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_10);
+                        break;
+                    case 11:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_11);
+                        break;
+                    case 12:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_12);
+                        break;
+                    case 13:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_13);
+                        break;
+                    case 14:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_14);
+                        break;
+                    case 15:
+                        MobclickAgent.onEvent(getActivity(), UEvent.INDEX_CATORY_15);
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     @Override

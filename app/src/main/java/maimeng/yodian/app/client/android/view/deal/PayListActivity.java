@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -23,6 +24,7 @@ import org.henjue.library.share.manager.WechatAuthManager;
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -87,12 +89,14 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
         intent.putExtra("skill", Parcels.wrap(orderInfo));
         context.startActivityForResult(intent, requestCode);
     }
-    private boolean canUseMoney =false;//是否使用余额
+
+    private boolean canUseMoney = false;//是否使用余额
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setGravity(Gravity.BOTTOM);
-        setContentView(R.layout.activity_pay_list,false);
+        setContentView(R.layout.activity_pay_list, false);
 
         mTitle = (TextView) findViewById(R.id.pay_title);
         findViewById(R.id.pay_wechat).setOnClickListener(this);
@@ -103,13 +107,13 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
         mBtnMoney = ((TextView) findViewById(R.id.btn_money));
         if (intent.hasExtra("orderInfo")) {
             mOrderInfo = get("orderInfo");
-            price= Float.parseFloat(mOrderInfo.getTotal_fee());
+            price = Float.parseFloat(mOrderInfo.getTotal_fee());
             isOrderPay = true;
         } else {
             mSkill = get("skill");
-            price =  Float.parseFloat(mSkill.getPrice());
+            price = Float.parseFloat(mSkill.getPrice());
         }
-        mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title,price)));
+        mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, price)));
 
 //        HNet net = new HNet.Builder()
 //                .setEndpoint(BuildConfig.API_HOST)
@@ -125,8 +129,8 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
             public void success(RemainderResponse res, Response response) {
                 money = res.getData().getMoney();
                 mBtnMoney.setText(getString(R.string.pay_remainer, money));
-                if(money <price){
-                    canUseMoney =true;
+                if (money < price) {
+                    canUseMoney = true;
                     mBtnMoney.setEnabled(false);
                     mBtnMoney.setTextColor(Color.parseColor("#cccccc"));
                     findViewById(R.id.pay_remainer).setEnabled(false);
@@ -164,20 +168,23 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
         if (isOrderPay) {
             //订单列表购买
             if (v.getId() == R.id.pay_remainer) {
-                mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_REMAINDER,1, new CallBackProxy(PAY_TYPE_REMAINDER));
+                MobclickAgent.onEvent(this, UEvent.PAY_REMAINDER);
+                mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_REMAINDER, 1, new CallBackProxy(PAY_TYPE_REMAINDER));
             } else if (v.getId() == R.id.pay_wechat) {
-                payByWechatOrder(mOrderInfo.getBalance()==0);
+                payByWechatOrder(mOrderInfo.getBalance() == 0);
             } else if (v.getId() == R.id.pay_zhifubao) {
-                payByAliPayOrder(mOrderInfo.getBalance()==0);
+                payByAliPayOrder(mOrderInfo.getBalance() == 0);
             }
         } else {
+            MobclickAgent.onEvent(this, UEvent.PAY_CLICK);
             //技能列表购买
             if (v.getId() == R.id.pay_remainer) {
+                MobclickAgent.onEvent(this, UEvent.PAY_REMAINDER);
                 mService.buySkill(mSkill.getId(), PAY_TYPE_REMAINDER, 1, new CallBackProxy(PAY_TYPE_REMAINDER));
             } else if (v.getId() == R.id.pay_wechat) {
-                if(canUseMoney) {
+                if (canUseMoney) {
                     RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(PayListActivity.this);
-                    builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable,money+"",price-money+"")));
+                    builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, money + "", price - money + "")));
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
                         public void positiveClick() {
@@ -198,13 +205,13 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
                     });
 
                     builder.create().show();
-                }else{
+                } else {
                     payByWechatSkill(false);
                 }
 
 
             } else if (v.getId() == R.id.pay_zhifubao) {
-                if(canUseMoney) {
+                if (canUseMoney) {
                     RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(PayListActivity.this);
                     builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, money + "", price - money + "")));
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
@@ -227,36 +234,45 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
                     });
 
                     builder.create().show();
-                }else{
+                } else {
                     payByAliPaySkill(false);
                 }
             }
         }
 
     }
-    private void payByAliPayOrder(boolean useMoney){
-        mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_ZHIFUBAO,useMoney?1:0, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
+
+    private void payByAliPayOrder(boolean useMoney) {
+        MobclickAgent.onEvent(this, UEvent.PAY_ZHIFUBAO);
+        mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_ZHIFUBAO, useMoney ? 1 : 0, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
     }
-    private void payByWechatOrder(boolean useMoney){
+
+    private void payByWechatOrder(boolean useMoney) {
+        MobclickAgent.onEvent(this, UEvent.PAY_WECHAT);
         WechatAuthManager manager = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);//代码一定不能删除，保证IWXAPI已经初始化
         if (manager.getIWXAPI().isWXAppInstalled()) {
-            mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_WECHAT,useMoney?1:0, new CallBackProxy(PAY_TYPE_WECHAT));
+            mService.buyOrder(mOrderInfo.getOid(), PAY_TYPE_WECHAT, useMoney ? 1 : 0, new CallBackProxy(PAY_TYPE_WECHAT));
         } else {
             Toast.makeText(this, "没有安装微信", Toast.LENGTH_SHORT).show();
         }
 
     }
-    private void payByAliPaySkill(boolean useMoney){
-        mService.buySkill(mSkill.getId(), PAY_TYPE_ZHIFUBAO, useMoney ?1:0, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
+
+    private void payByAliPaySkill(boolean useMoney) {
+        MobclickAgent.onEvent(this, UEvent.PAY_ZHIFUBAO);
+        mService.buySkill(mSkill.getId(), PAY_TYPE_ZHIFUBAO, useMoney ? 1 : 0, new CallBackProxy(PAY_TYPE_ZHIFUBAO));
     }
-    private void payByWechatSkill(boolean useMoney){
+
+    private void payByWechatSkill(boolean useMoney) {
+        MobclickAgent.onEvent(this, UEvent.PAY_WECHAT);
         WechatAuthManager manager = (WechatAuthManager) AuthFactory.create(this, Type.Platform.WEIXIN);//代码一定不能删除，保证IWXAPI已经初始化
         if (manager.getIWXAPI().isWXAppInstalled()) {
-            mService.buySkill(mSkill.getId(), PAY_TYPE_WECHAT, useMoney ?1:0, new CallBackProxy(PAY_TYPE_WECHAT));
+            mService.buySkill(mSkill.getId(), PAY_TYPE_WECHAT, useMoney ? 1 : 0, new CallBackProxy(PAY_TYPE_WECHAT));
         } else {
             Toast.makeText(this, "没有安装微信", Toast.LENGTH_SHORT).show();
         }
     }
+
     /***
      *
      */
@@ -276,9 +292,9 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
         public void success(final String s, Response response) {
             final Gson gson = Network.getOne().getGson();
             final IPay pay;
-            lottery=gson.fromJson(s,LotteryResponse.class).getData();
-            String lotUrl=lottery.getLotUrl();
-            lottery.setLotUrl( String.format(lotUrl+"?uid=%1$d&oid=%2$d",User.read(PayListActivity.this).getUid(),lottery.getOid()));
+            lottery = gson.fromJson(s, LotteryResponse.class).getData();
+            String lotUrl = lottery.getLotUrl();
+            lottery.setLotUrl(String.format(lotUrl + "?uid=%1$d&oid=%2$d", User.read(PayListActivity.this).getUid(), lottery.getOid()));
             if (payType == PAY_TYPE_ZHIFUBAO) {
                 ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse = gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
                 IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid());
@@ -369,8 +385,8 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
                     .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
                 @Override
                 public void positiveClick() {
-                    Intent intent=new Intent();
-                    intent.putExtra("lottery",Parcels.wrap(lottery));
+                    Intent intent = new Intent();
+                    intent.putExtra("lottery", Parcels.wrap(lottery));
                     setResult(RESULT_OK, intent);
                     finish();
                 }

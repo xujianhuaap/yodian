@@ -289,6 +289,16 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         //设置技能允许卖
                         onLinePay = !onLinePay;
                         binding.onLinePay.setChecked(onLinePay);
+                        if (!isEdit && onLinePay) {
+                            MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_PUBLISH_START_ONLINE);
+                        } else if (isEdit) {
+                            if (onLinePay) {
+                                MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_PUBLISH_OPENE_ONLINE);
+                            } else {
+                                MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_PUBLISH_CLOSE_ONLINE);
+                            }
+                        }
+
                     } else {
                         binding.onLinePay.setChecked(false);
                         VouchDealActivity.show(CreateOrEditSkillActivity.this);
