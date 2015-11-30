@@ -4,10 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -39,6 +45,7 @@ import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
@@ -47,7 +54,7 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 /**
  * Created by android on 15-8-6.
  */
-public class SkillPreviewActivity extends AppCompatActivity implements View.OnClickListener,
+public class SkillPreviewActivity extends AbstractActivity implements View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String LOG_TAG = SkillPreviewActivity.class.getName();
@@ -113,14 +120,13 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         ViewHolderClickListenerProxy viewHolderClickListenerProxy = new ViewHolderClickListenerProxy();
         mAdapter = new RmarkReviewListAdapter(this, mSkill, viewHolderClickListenerProxy);
 
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_skill_preview);
+        mBinding = bindView(R.layout.activity_skill_preview);
         mBinding.setSkill(mSkill);
         mBinding.recDiary.setLayoutManager(linearLayoutManager);
         mBinding.recDiary.setHasFixedSize(true);
         mBinding.recDiary.addOnScrollListener(endlessRecyclerOnScrollListener);
         mBinding.recDiary.setAdapter(mAdapter);
         mBinding.fabGoback.setOnClickListener(this);
-        mBinding.ivShare.setOnClickListener(this);
         mBinding.btnDone.setOnClickListener(this);
         mBinding.swipeLayout.setOnRefreshListener(this);
 
@@ -170,18 +176,7 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
         if (v == mBinding.fabGoback) {
             finish();
         }
-        if (v == mBinding.ivShare) {
-            if (mShareDialog != null) {
-                mShareDialog.dismiss();
-                mShareDialog = null;
-            }
-            if (mShareDialog == null) {
-                ShareDialog.ShareParams shareParams = new ShareDialog.ShareParams(mSkill,
-                        mSkill.getQrcodeUrl(), mSkill.getUid(), mSkill.getNickname(), "");
-                mShareDialog = ShareDialog.show(this, shareParams, 1);
-            }
-
-        } else if (mBinding.btnDone == v) {
+        if (mBinding.btnDone == v) {
             submitSkill();
 
         }
@@ -345,5 +340,45 @@ public class SkillPreviewActivity extends AppCompatActivity implements View.OnCl
                 submitSkill();
             }
         }
+    }
+
+    @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
+        mTitle.setTextColor(Color.WHITE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_skill_preview,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            finish();
+        }else if(item.getItemId()==R.id.menu_share){
+            if (mShareDialog != null) {
+                mShareDialog.dismiss();
+                mShareDialog = null;
+            }
+            if (mShareDialog == null) {
+                ShareDialog.ShareParams shareParams = new ShareDialog.ShareParams(mSkill,
+                        mSkill.getQrcodeUrl(), mSkill.getUid(), mSkill.getNickname(), "");
+                mShareDialog = ShareDialog.show(this, shareParams, 1);
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

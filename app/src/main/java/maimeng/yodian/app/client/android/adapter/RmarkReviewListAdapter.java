@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ItemRmarkListBinding;
+import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPreviewDiaryBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -72,7 +73,7 @@ public class RmarkReviewListAdapter extends AbstractHeaderAdapter<Rmark, RmarkRe
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
-            ViewHeaderPreviewDiaryBinding headerBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_header_preview_diary, parent, false);
+            ViewHeaderPlaceholderBinding headerBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_header_placeholder, parent, false);
             HeaderViewHolder viewHolder = new HeaderViewHolder(headerBinding);
             return viewHolder;
         } else {
@@ -98,12 +99,20 @@ public class RmarkReviewListAdapter extends AbstractHeaderAdapter<Rmark, RmarkRe
     }
 
     public final class HeaderViewHolder extends ViewHolder {
-        public final ViewHeaderPreviewDiaryBinding binding;
+        public final ViewHeaderPlaceholderBinding binding;
 
-        public HeaderViewHolder(ViewHeaderPreviewDiaryBinding binding) {
+        public HeaderViewHolder(ViewHeaderPlaceholderBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.pic.setLayoutParams(new FrameLayout.LayoutParams(SCREEN_WIDTH, SCREEN_WIDTH * 4 / 5));
+            if(mSkill!=null){
+                if(mSkill.getAllow_sell()==1){
+                   binding.skillAllowSell.setVisibility(View.VISIBLE);
+                }
+                if(mSkill.isSelector()){
+                    binding.skillSlector.setVisibility(View.VISIBLE);
+                }
+            }
+            binding.pic.setLayoutParams(new RelativeLayout.LayoutParams(SCREEN_WIDTH, SCREEN_WIDTH * 4 / 5));
         }
     }
 

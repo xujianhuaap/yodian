@@ -100,6 +100,7 @@
         <activity
             android:name=".view.skill.SkillPreviewActivity"
             android:theme="@style/AppThemeTransparent"
+            android:label="@string/skill_preview_title_bar"
             android:windowSoftInputMode="adjustPan">
 
         </activity>

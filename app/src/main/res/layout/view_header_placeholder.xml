@@ -217,7 +217,7 @@
                     android:singleLine="true"
                     android:text="@{skill.name}"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/text_size_small"
                     android:visibility="visible" />
 
                 <ImageView
@@ -226,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_normal"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:src="@mipmap/ic_skill_better" />
 
                 <ImageView
@@ -235,7 +235,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:src="@mipmap/ic_skill_can_sell" />
             </LinearLayout>
 
