@@ -555,7 +555,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     @Override
     public void onResume() {
         super.onResume();
-        if(user!=null){
+        if (user != null) {
             if (user.getId() == User.read(getActivity()).getId()) {
                 MobclickAgent.onEvent(getActivity(), UEvent.HOME);
             }

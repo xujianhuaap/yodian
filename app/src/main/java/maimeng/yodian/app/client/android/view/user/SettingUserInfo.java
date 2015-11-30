@@ -132,8 +132,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         }
         tempFile = new File(dir, getPhotoFileName());
         service = Network.getService(UserService.class);
-        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_setting_user_info, null, false);
-        setContentView(binding.getRoot());
+        binding = bindView(R.layout.activity_setting_user_info);
         binding.cities.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,11 +167,11 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 City city = cityAdapter.getDatas().get(cityList.getCurrentItem());
                 City district;
                 if (cityList.getCurrentItem() > 0) {
-                    ArrayList<City> districts=districtAdapter.getDatas();
-                    if(districts.size()>0){
-                        district =districts.get(districtList.getCurrentItem());
-                    }else{
-                        district=new City();
+                    ArrayList<City> districts = districtAdapter.getDatas();
+                    if (districts.size() > 0) {
+                        district = districts.get(districtList.getCurrentItem());
+                    } else {
+                        district = new City();
                     }
 
                 } else {
@@ -390,15 +389,15 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         boolean qqEmpty = TextUtils.isEmpty(user.getInfo().getQq());
         boolean phomeEmpty = TextUtils.isEmpty(user.getInfo().getContact());
         if (phomeEmpty && qqEmpty && wechatEmpty) {
-            Toast.makeText(this,R.string.contact_input_empty_message,Toast.LENGTH_SHORT);
+            Toast.makeText(this, R.string.contact_input_empty_message, Toast.LENGTH_SHORT);
             return;
         }
         Sex sex = user.getInfo().getSex();
 
         if (updateAvatar) {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob()+"", user.getInfo().getSignature()+"", user.getWechat()+"", new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq()+"", user.getInfo().getContact()+"", user.getInfo().getCity(), user.getInfo().getProvince(), user.getInfo().getDistrict(), this);
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), user.getInfo().getDistrict(), this);
         } else {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob()+"", user.getInfo().getSignature()+"", user.getWechat()+"", user.getInfo().getQq()+"", user.getInfo().getContact()+"", user.getInfo().getCity(), user.getInfo().getProvince(), user.getInfo().getDistrict(), this);
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), user.getInfo().getDistrict(), this);
         }
     }
 
