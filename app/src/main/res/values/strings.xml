@@ -110,8 +110,7 @@
     <string name="skill_date_format">MM-dd HH:mm</string>
 
     <string name="skill_detail_activity_title">技能详情</string>
-
-
+    <string name="rmark_pulish_title">日记编辑</string>
     <!-- basic info confirm-->
     <string name="basic_info_activity_title">个人信息认证</string>
     <string name="basic_info_name">姓名</string>

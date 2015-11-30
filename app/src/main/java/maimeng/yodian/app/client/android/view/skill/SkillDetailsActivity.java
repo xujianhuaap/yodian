@@ -490,6 +490,8 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         }
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem menuItem = menu.add(0, MENU_ID_SHARE, 10, null);

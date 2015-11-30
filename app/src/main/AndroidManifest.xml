@@ -103,7 +103,8 @@
             android:windowSoftInputMode="adjustPan">
 
         </activity>
-        <activity android:name=".view.skill.RmarkPublishActivity">
+        <activity android:name=".view.skill.RmarkPublishActivity"
+            android:label="@string/rmark_pulish_title">
 
         </activity>
         <activity

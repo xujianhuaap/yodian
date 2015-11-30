@@ -21,12 +21,12 @@
         <LinearLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1">
 
                 <LinearLayout
@@ -117,12 +117,15 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/pic"
                     android:layout_marginRight="10dp"
+                    android:paddingBottom="@dimen/padding_normal"
+                    android:paddingTop="@dimen/padding_normal"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="@dimen/margin_normal"
                         android:layout_weight="1">
 
                         <TextView
@@ -133,18 +136,21 @@
 
                     <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="@dimen/margin_normal"
                         android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/btn_update"
                             style="@style/slideItemStyle"
+
                             android:text="@string/update" />
                     </FrameLayout>
 
                     <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="@dimen/margin_normal"
                         android:layout_weight="1">
 
                         <TextView
@@ -155,7 +161,8 @@
 
                     <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="@dimen/margin_normal"
                         android:layout_weight="1">
 
                         <TextView

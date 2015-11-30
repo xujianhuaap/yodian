@@ -4,17 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
@@ -40,12 +45,13 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
  * 日记发布
  */
-public class RmarkPublishActivity extends AppCompatActivity implements View.OnClickListener,
+public class RmarkPublishActivity extends AbstractActivity implements View.OnClickListener,
         CheckBox.OnCheckedChangeListener {
 
     private static final String IMAGE_UNSPECIFIED = "image/*";
@@ -80,15 +86,12 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
 
         mScreenWidth = getResources().getDisplayMetrics().widthPixels;
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
-        mBinding = DataBindingUtil.setContentView(this,
-                R.layout.activity_rmark_publish);
+        mBinding=bindView(R.layout.activity_rmark_publish);
         mSkill = Parcels.unwrap(getIntent().getParcelableExtra("skill"));
         mSkillService = Network.getService(SkillService.class);
-        ViewCompat.setTransitionName(mBinding.btnBack, "back");
         EditTextProxy editTextProxy = new EditTextProxy();
 
         mBinding.ivPic.setOnClickListener(this);
-        mBinding.btnBack.setOnClickListener(this);
         mBinding.btnDone.setOnClickListener(this);
         mBinding.btnCamera.setOnClickListener(this);
         mBinding.btnAlbum.setOnClickListener(this);
@@ -168,9 +171,7 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        if (v == mBinding.btnBack) {
-            ActivityCompat.finishAfterTransition(this);
-        } else if (v == mBinding.btnDone) {
+       if (v == mBinding.btnDone) {
             MobclickAgent.onEvent(this, UEvent.SKILL_PUBLISH_SUBMIT);
             if (mFile != null) {
                 Editable text = mBinding.editDiary.getText();
@@ -295,5 +296,29 @@ public class RmarkPublishActivity extends AppCompatActivity implements View.OnCl
     public void onBackPressed() {
         super.onBackPressed();
         LogUtil.d(LOG_TAG, "onback");
+    }
+
+
+    @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
+        mTitle.setTextColor(Color.WHITE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

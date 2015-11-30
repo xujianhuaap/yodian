@@ -113,31 +113,22 @@
                     android:padding="5dp"
                     android:text="0/150" />
 
+
+                <TextView
+                    android:id="@+id/btn_done"
+                    android:layout_width="@dimen/btn_width_large"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_submit"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_small"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_large"
+                    android:layout_marginTop="@dimen/margin_Xlarge"
+                    android:background="@drawable/btn_oval_black"
+                    />
+
             </LinearLayout>
-
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|bottom"
-                android:layout_margin="@dimen/floating_btn_margin"
-                android:src="@mipmap/btn_back"
-                app:fab_colorNormal="@color/float_colorNormal"
-                app:fab_colorPressed="@color/float_colorPressed"
-                app:fab_colorRipple="@color/float_colorRipple">
-
-            </com.melnykov.fab.FloatingActionButton>
-
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/btn_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_margin="@dimen/floating_btn_margin"
-                android:src="@mipmap/btn_submit_normal"
-                app:fab_colorNormal="@color/float_colorNormal"
-                app:fab_colorPressed="@color/float_colorPressed"
-                app:fab_colorRipple="@color/float_colorRipple" />
 
         </FrameLayout>
 
