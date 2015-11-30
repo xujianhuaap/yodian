@@ -253,14 +253,14 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
                 setUIWhenIsMe();
-            } else {
-                if (skill.getAllow_sell() != 1) {
-                    headBinding.btnBuySkill.setVisibility(View.GONE);
-                    headBinding.divinder.setVisibility(View.GONE);
-                } else {
-                    headBinding.skillAllowSell.setVisibility(View.VISIBLE);
-                }
             }
+            if (skill.getAllow_sell() != 1) {
+                headBinding.btnBuySkill.setVisibility(View.GONE);
+                headBinding.divinder.setVisibility(View.GONE);
+            } else {
+                headBinding.skillAllowSell.setVisibility(View.VISIBLE);
+            }
+
             if (skill.isSelector()) {
                 headBinding.skillSlector.setVisibility(View.VISIBLE);
             }

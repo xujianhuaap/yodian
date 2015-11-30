@@ -382,7 +382,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
                     if (res.isSuccess()) {
-                        Skill skill = getIntent().getParcelableExtra("skill");
+                        Skill skill = get("skill");
                         skill.setPic(template.getPic());
                         skill.setUnit(template.getUnit());
                         skill.setPrice(template.getPrice());
