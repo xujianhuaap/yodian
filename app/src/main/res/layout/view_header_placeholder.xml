@@ -50,7 +50,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/padding_normal">
 
-                <RelativeLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
@@ -66,12 +66,12 @@
                     <LinearLayout
                         android:id="@+id/header_logo_bg"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/skill_price_height"
+                        android:layout_height= "@dimen/skill_price_height"
                         android:layout_alignParentBottom="true"
                         android:background="#cc000000"
                         android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
+                        android:layout_gravity="bottom"
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/btn_buy_skill"
@@ -106,7 +106,7 @@
                             android:textSize="@dimen/btn_text_size"
                             android:visibility="visible" />
                     </LinearLayout>
-                </RelativeLayout>
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -157,7 +157,7 @@
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_Xlarge"
                     android:background="@drawable/fragment_kill_item_price_background"
                     android:gravity="left|center_vertical"
                     android:paddingBottom="@dimen/padding_small"

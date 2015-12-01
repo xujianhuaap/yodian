@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_normal"
+                    android:layout_marginBottom="@dimen/margin_large"
                     android:background="@drawable/fragment_kill_item_price_background"
                     android:gravity="left|center_vertical"
                     android:padding="5dp"

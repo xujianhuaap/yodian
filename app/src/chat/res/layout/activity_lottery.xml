@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:gravity="center"
+    android:weightSum="1"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="@string/pay_result_sucess_tip"
+            android:drawableLeft="@mipmap/ic_indicator_sucess"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_normal"
+            android:visibility="visible" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="@string/pay_result_sucess_lottery"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_large"
+            android:visibility="visible" />
+
+
+
+        <ImageView
+            android:id="@+id/btn_go"
+            android:layout_width="wrap_content"
+            android:minWidth="@dimen/btn_width_big"
+            android:padding="@dimen/padding_normal"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:minHeight="@dimen/btn_height"
+            android:layout_margin="@dimen/margin_normal"
+            android:src="@mipmap/ic_go_lottery"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_normal" />
+
+        <ImageView
+            android:id="@+id/btn_quit"
+            android:layout_width="wrap_content"
+            android:minWidth="@dimen/btn_width_big"
+            android:padding="@dimen/padding_normal"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:minHeight="@dimen/btn_height"
+            android:layout_margin="@dimen/margin_normal"
+            android:src="@mipmap/ic_lottery_quit"
+            android:gravity="center"
+            android:visibility="visible" />
+
+</LinearLayout>

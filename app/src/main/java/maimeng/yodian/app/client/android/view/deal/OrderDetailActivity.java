@@ -52,7 +52,9 @@ import maimeng.yodian.app.client.android.network.service.OrderService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.WebViewActivity;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
+import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 
 
 /**
@@ -408,11 +410,9 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         mLottery=get("lottery");
         //购买完成后跳到订单详情
         if(mLottery!=null){
-            LogUtil.d(OrderDetailActivity.class.getName(), "lottery" + mLottery.getLotUrl());
-            LogUtil.d(OrderDetailActivity.class.getName(), "lottery" + mLottery.getIsLottery());
             oid=mLottery.getOid();
             if(mLottery.getIsLottery()==1){
-                WebViewActivity.show(this,mLottery.getLotUrl());
+                LotteryActivity.show(this,mLottery);
             }
         }
 
@@ -498,7 +498,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
             if(requestCode==REQUEST_ORDER_BUY){
                 Lottery lottery=Parcels.unwrap(data.getParcelableExtra("lottery"));
                 if(lottery.getIsLottery()==1){
-                    WebViewActivity.show(OrderDetailActivity.this,lottery.getLotUrl());
+                    LotteryActivity.show(this,lottery);
                 }
 
             }

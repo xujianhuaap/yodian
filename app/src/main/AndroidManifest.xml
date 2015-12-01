@@ -176,6 +176,9 @@
             android:name=".view.deal.OrderDetailActivity"
             android:theme="@style/NoAnimTheme"
             android:label="@string/order_detail_title" />
+        <activity android:name=".view.deal.LotteryActivity"
+            android:label=""
+            android:theme="@style/PayWrapperActivity"></activity>
         <activity
             android:name=".view.deal.DrawMoneyInfoConfirmActivity"
             android:theme="@style/AppTheme.Dark"

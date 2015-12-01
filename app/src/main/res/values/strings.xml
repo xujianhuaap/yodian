@@ -249,6 +249,8 @@
     <string name="pay_deal_title">支付提示</string>
     <string name="pay_deal_remainder_shortage">余额不足！</string>
     <string name="pay_online_pay">开启在线支付</string>
+    <string name="pay_result_sucess_tip">支付成功</string>
+    <string name="pay_result_sucess_lottery">您获得一次抽奖机会</string>
 
     <!-- contact_dialog-->
     <string name="contact_button_positive">去加好友</string>
