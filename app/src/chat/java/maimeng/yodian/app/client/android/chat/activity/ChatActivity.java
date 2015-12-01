@@ -42,6 +42,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -51,6 +52,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -492,6 +494,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
             }
         });
+
         mEditTextContent.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -527,7 +530,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
             }
         });
-
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.chat_swipe_layout);
 
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
