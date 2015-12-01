@@ -30,7 +30,7 @@
             android:paddingBottom="@dimen/margin_small"
             android:paddingTop="@dimen/margin_small"
             android:visibility="invisible"
-            android:src="@mipmap/ic_release_ok"
+            android:src="@mipmap/ic_indicator_sucess"
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" />
         <TextView
