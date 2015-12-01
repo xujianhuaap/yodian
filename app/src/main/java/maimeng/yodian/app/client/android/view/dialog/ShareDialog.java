@@ -74,7 +74,7 @@ public class ShareDialog extends DialogFragment {
     private long sid;
     private long rid;
     private View shareView;
-    private ImageView releaseok;
+    private TextView releaseok;
     private TextView weixin;
     private TextView fridens;
     private TextView sina;
@@ -204,7 +204,7 @@ public class ShareDialog extends DialogFragment {
                 ShareToWeiXin(v);
             }
         });
-        this.releaseok = (ImageView) inflate.findViewById(R.id.release_ok);
+        this.releaseok = (TextView) inflate.findViewById(R.id.release_ok);
         if (releaseOk) {
             inflate.findViewById(R.id.release_ok).setVisibility(View.VISIBLE);
         }
