@@ -38,6 +38,7 @@ import maimeng.yodian.app.client.android.network.response.WXPayParamResponse;
 import maimeng.yodian.app.client.android.network.response.ZhiFuBaoPayParamsResponse;
 import maimeng.yodian.app.client.android.network.service.BuyService;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.pay.IPay;
 import maimeng.yodian.app.client.android.view.deal.pay.IPayFactory;
@@ -279,7 +280,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
     public final class CallBackProxy implements Callback<String> {
         private final int payType;
 
-        public CallBackProxy(int payType) {
+        public  CallBackProxy(int payType) {
             this.payType = payType;
         }
 

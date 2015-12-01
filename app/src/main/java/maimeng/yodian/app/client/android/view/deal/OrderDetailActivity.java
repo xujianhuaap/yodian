@@ -66,6 +66,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     private OrderInfo info;
     private static final int REQUEST_ORDER_BUY=0x23;
     private Lottery mLottery;
+    private long oid;
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
@@ -73,12 +74,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     }
 
     private void refreshInfo() {
-        if (mBinding.getOrderInfo() != null) {
-            mService.info(mBinding.getOrderInfo().getOid(), this);
-        } else {
-            mService.info(getIntent().getLongExtra("oid", 0), this);
-        }
-
+        mService.info(oid, this);
     }
 
     @Override
@@ -410,19 +406,20 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         mService = Network.getService(OrderService.class);
         info = get("orderInfo");
         mLottery=get("lottery");
+        //购买完成后跳到订单详情
+        if(mLottery!=null){
+            LogUtil.d(OrderDetailActivity.class.getName(), "lottery" + mLottery.getLotUrl());
+            LogUtil.d(OrderDetailActivity.class.getName(), "lottery" + mLottery.getIsLottery());
+            oid=mLottery.getOid();
+            if(mLottery.getIsLottery()==1){
+                WebViewActivity.show(this,mLottery.getLotUrl());
+            }
+        }
+
+        //从技能详情或订单列表跳到订单详情
         if (info != null) {
             refreshUI(info);
-        } else {
-            if(mLottery!=null){
-                //购买完成后跳到订单详情
-                mService.info(mLottery.getOid(), this);
-                if(mLottery.getIsLottery()==1){
-                    WebViewActivity.show(this,mLottery.getLotUrl());
-                }
-            }else {
-                mService.info(getIntent().getLongExtra("oid", 0), this);
-            }
-
+            oid=info.getOid();
         }
         mBinding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
@@ -500,8 +497,6 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         if(resultCode==RESULT_OK){
             if(requestCode==REQUEST_ORDER_BUY){
                 Lottery lottery=Parcels.unwrap(data.getParcelableExtra("lottery"));
-                LogUtil.d(OrderDetailActivity.class.getName(), "lottery" + lottery.getLotUrl());
-                LogUtil.d(OrderDetailActivity.class.getName(), "lottery" + lottery.getIsLottery());
                 if(lottery.getIsLottery()==1){
                     WebViewActivity.show(OrderDetailActivity.this,lottery.getLotUrl());
                 }

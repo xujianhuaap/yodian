@@ -5,7 +5,7 @@ import org.parceler.Parcel;
 /**
  * Created by xujianhua on 11/27/15.
  */
-@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
+@Parcel(value = Parcel.Serialization.BEAN)
 public class Lottery {
     private int isLottery;
     private String lotUrl;

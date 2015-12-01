@@ -8,7 +8,7 @@ import maimeng.yodian.app.client.android.model.user.Buyer;
 /**
  * Created by xujianhua on 9/28/15.
  */
-@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
+@Parcel(value = Parcel.Serialization.BEAN)
 public class OrderInfo {
 
     /**

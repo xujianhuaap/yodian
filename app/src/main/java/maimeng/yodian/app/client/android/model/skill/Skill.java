@@ -22,7 +22,7 @@ import maimeng.yodian.app.client.android.network.loader.Circle;
 /**
  * Created by xujianhua on 9/29/15.
  */
-@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
+@Parcel(value = Parcel.Serialization.BEAN)
 public class Skill extends BaseObservable {
     public static Skill parse(EMMessage message) {
         try {

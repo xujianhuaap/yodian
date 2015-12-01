@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**®
  * Created by android on 15-10-19.
  */
-@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
+@Parcel(value = Parcel.Serialization.BEAN)
 public class City {
     private int type;
     private String name;

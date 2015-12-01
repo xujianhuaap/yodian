@@ -67,6 +67,7 @@ import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.WebViewActivity;
 import maimeng.yodian.app.client.android.view.deal.OrderDetailActivity;
@@ -208,6 +209,8 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             } else if (requestCode == REQEUST_PAY) {//如果是支付成功返回的就进入订单界面
                 if (data != null) {
                     Lottery lottery = Parcels.unwrap(data.getParcelableExtra("lottery"));
+                    LogUtil.d(SkillDetailsActivity.class.getName(),"lottery"+lottery.getIsLottery());
+                    LogUtil.d(SkillDetailsActivity.class.getName(),"lottery"+lottery.getLotUrl());
                     OrderDetailActivity.show(this, lottery);
                 }
             }

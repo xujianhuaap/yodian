@@ -2,7 +2,7 @@ package maimeng.yodian.app.client.android.model.skill;
 
 import org.parceler.Parcel;
 
-@org.parceler.Parcel(value = Parcel.Serialization.BEAN)
+@Parcel(value = Parcel.Serialization.BEAN)
 public class Banner {
 
     /**
