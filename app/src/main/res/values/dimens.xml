@@ -71,6 +71,8 @@
     <eat-comment />
     <dimen name="skill_detail_head_height">250dp</dimen>
     <dimen name="skill_price_height">48dp</dimen>
+    <dimen name="skill_price_margin_bottom">30dp</dimen>
+    <dimen name="skill_list_price_margin_bottom">15dp</dimen>
     <!--<dimen name="skill_detail_head_overlay_height">650dp</dimen>-->
 
     <!-- activity_preview_skill-->
