@@ -197,6 +197,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private void setUIWhenIsMe() {
         headBinding.btnContact.setVisibility(View.GONE);
         headBinding.divinder.setVisibility(View.GONE);
+        headBinding.btnBuySkill.setVisibility(View.VISIBLE);
         headBinding.btnBuySkill.setImageResource(R.mipmap.ic_remark_add);
     }
 
@@ -259,7 +260,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 setUIWhenIsMe();
             }
             if (skill.getAllow_sell() != 1) {
-                headBinding.btnBuySkill.setVisibility(View.GONE);
+                headBinding.skillAllowSell.setVisibility(View.GONE);
                 headBinding.divinder.setVisibility(View.GONE);
             } else {
                 headBinding.skillAllowSell.setVisibility(View.VISIBLE);

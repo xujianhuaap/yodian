@@ -20,9 +20,9 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <ImageView
+        <TextView
             android:id="@+id/release_ok"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:text="@string/release_title"
             android:gravity="center"
             android:textSize="22sp"
@@ -30,7 +30,8 @@
             android:paddingBottom="@dimen/margin_small"
             android:paddingTop="@dimen/margin_small"
             android:visibility="invisible"
-            android:src="@mipmap/ic_indicator_sucess"
+            android:drawablePadding="@dimen/padding_small"
+            android:drawableLeft="@mipmap/ic_indicator_sucess"
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" />
         <TextView
