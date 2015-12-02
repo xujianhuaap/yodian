@@ -63,7 +63,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                finish();
+                onBackPressed();
                 return true;
             }
         }
@@ -109,14 +109,14 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     @Override
     public void onClick(View v) {
         if (v == binding.btnRemainder) {
-           RemainderInfoActivity.show(this,binding.getRemainder());
+            RemainderInfoActivity.show(this, binding.getRemainder());
         } else if (v == binding.btnRemaindered) {
             startActivity(new Intent(this, WDListHistoryActivity.class).putExtra("mony", binding.getRemainder().getWithdraw()));
         } else if (v == binding.btnConfirmInfo) {
             startActivity(new Intent(this, BasicalInfoConfirmActivity.class));
         } else if (binding.btnDrawMoneyInfo == v) {
             //必须获得Remainder之后binding.getRemainder()才有效
-            DrawMoneyInfoConfirmActivity.show(this,binding.getRemainder().getDraw_account());
+            DrawMoneyInfoConfirmActivity.show(this, binding.getRemainder().getDraw_account());
         }
     }
 
