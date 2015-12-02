@@ -161,7 +161,7 @@
                         android:inputType="numberDecimal"
                         android:singleLine="true"
                         android:text="@{template.price}"
-                        android:textColor="#000"
+                        android:textColor="@color/colorPrimaryDark3"
                         android:textColorHint="#55000000" />
                 </LinearLayout>
 
@@ -188,7 +188,7 @@
                         android:maxLength="4"
                         android:singleLine="true"
                         android:text="@{template.unit}"
-                        android:textColor="#000"
+                        android:textColor="@color/colorPrimaryDark3"
                         android:textColorHint="#55000000" />
                 </LinearLayout>
 
