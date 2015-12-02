@@ -304,6 +304,9 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 }
             }
         });
+        if(info.getCertifi_status()==CertifyStatus.PASS){
+            onLinePay=true;
+        }
         binding.onLinePay.setChecked(onLinePay);
         if (isEdit) {
             MobclickAgent.onEvent(this, UEvent.EDIT_SKILL);
