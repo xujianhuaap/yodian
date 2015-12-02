@@ -45,6 +45,7 @@
     <dimen name="logo_margin_top">60dp</dimen>
     <dimen name="star_margin_top">40dp</dimen>
     <dimen name="skill_template_width">20dp</dimen>
+    <dimen name="skill_no_view_height">340dp</dimen>
 
     <eat-comment />
     <dimen name="share_dialog_content_marginTop">30dp</dimen>
