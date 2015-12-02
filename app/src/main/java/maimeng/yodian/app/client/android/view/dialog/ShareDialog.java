@@ -408,6 +408,10 @@ public class ShareDialog extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+        if (tempFile != null) tempFile.deleteOnExit();
+        if (this.listener != null) {
+            this.listener.onClose();
+        }
 
     }
 
@@ -505,12 +509,4 @@ public class ShareDialog extends DialogFragment {
         showMessage(context, message);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (tempFile != null) tempFile.deleteOnExit();
-        if (this.listener != null) {
-            this.listener.onClose();
-        }
-    }
 }

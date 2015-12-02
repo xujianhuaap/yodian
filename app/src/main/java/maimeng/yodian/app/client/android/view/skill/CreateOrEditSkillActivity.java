@@ -138,7 +138,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
         if (template != null) {
             intent.putExtra("template", Parcels.wrap(template));
         }
-        context.startActivity(intent);
+        context.startActivityForResult(intent, requestCode);
     }
 
     /***
