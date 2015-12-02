@@ -265,9 +265,9 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
                 binding.btnShare.setVisibility(View.VISIBLE);
                 binding.bottomDiv.setVisibility(View.VISIBLE);
             } else {
-                binding.btnEdit.setVisibility(View.GONE);
-                binding.btnShare.setVisibility(View.GONE);
-                binding.bottomDiv.setVisibility(View.GONE);
+                binding.btnEdit.setVisibility(View.INVISIBLE);
+                binding.btnShare.setVisibility(View.INVISIBLE);
+                binding.bottomDiv.setVisibility(View.INVISIBLE);
             }
 //            defaultAvatar = ImageLoaderManager.image(mContext, Uri.parse(item.getAvatar80()));
             new ImageLoaderManager.Loader(mContext, item.getAvatar80().getUri()).callback(new ImageLoaderManager.Callback() {

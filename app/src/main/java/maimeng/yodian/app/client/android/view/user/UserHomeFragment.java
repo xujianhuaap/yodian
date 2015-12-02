@@ -557,6 +557,8 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         super.onResume();
         if (user != null) {
             if (user.getId() == User.read(getActivity()).getId()) {
+                page = 1;
+                syncRequest();
                 MobclickAgent.onEvent(getActivity(), UEvent.HOME);
             }
         }
