@@ -20,6 +20,8 @@ import com.umeng.analytics.MobclickAgent;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcel;
+import org.parceler.Parcels;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -173,9 +175,17 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         } else {
             CreateOrEditSkillActivity.show(this, BaseFragment.REQUEST_EDIT_SKILL);
         }
-        finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            data.setClass(this, SkillDetailsActivity.class);
+            startActivity(data);
+            finish();
+        }
+    }
 
     @Override
     public void onClick(SkillTemplateAdapter.ViewHolder holder, View clickItem, int postion) {

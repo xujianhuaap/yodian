@@ -164,7 +164,6 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
 
     @Override
     public void start() {
-        mRefreshLayout.autoRefresh();
     }
 
     @Override
