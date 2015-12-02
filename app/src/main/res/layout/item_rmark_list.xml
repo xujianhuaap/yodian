@@ -18,20 +18,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/margin_small">
+        android:layout_marginTop="@dimen/margin_small"
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_small">
+
         <RelativeLayout
             android:id="@+id/rmark_header"
-            android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
+
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="@dimen/titme_margin_top"
-                android:text="11111"
                 android:gravity="bottom"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="14sp" />
 
             <FrameLayout
@@ -39,9 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/time"
-                android:paddingTop="@dimen/padding_small"
                 android:layout_marginRight="@dimen/margin_small"
-                android:layout_toRightOf="@id/time">
+                android:layout_toRightOf="@id/time"
+                android:paddingTop="@dimen/padding_small">
 
                 <ImageView
                     android:id="@+id/btn_menu_delete"
@@ -64,9 +68,9 @@
                     android:id="@+id/btn_menu_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
                     android:maxWidth="@dimen/btn_width"
                     android:scaleType="fitCenter"
-                    android:layout_gravity="right|center_vertical"
                     android:src="@mipmap/ic_menu_more" />
             </FrameLayout>
         </RelativeLayout>

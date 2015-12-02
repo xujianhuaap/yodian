@@ -3,6 +3,8 @@ package maimeng.yodian.app.client.android.view.common;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +14,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -57,7 +64,45 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setEnterTransition();
+        }
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setEnterTransition() {
+        Transition transitionSlideRight = TransitionInflater.from(this).inflateTransition(R.transition.slide_right);
+        getWindow().setEnterTransition(transitionSlideRight);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        this.startActivity(intent, null);
+    }
+
+    @Override
+    public void startActivity(Intent intent, Bundle options) {
+        if (options == null) {
+            ActivityOptionsCompat transitionActivity = ActivityOptionsCompat.makeSceneTransitionAnimation(AbstractActivity.this);
+            Bundle bundle = transitionActivity.toBundle();
+            if (bundle == null) bundle = new Bundle();
+            ActivityCompat.startActivity(this, intent, bundle);
+        } else {
+            super.startActivity(intent, options);
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+        if (options == null) {
+            ActivityOptionsCompat transitionActivity = ActivityOptionsCompat.makeSceneTransitionAnimation(AbstractActivity.this);
+            Bundle bundle = transitionActivity.toBundle();
+            if (bundle == null) bundle = new Bundle();
+            ActivityCompat.startActivityForResult(this, intent, requestCode, bundle);
+        } else {
+            super.startActivityForResult(intent, requestCode, options);
+        }
     }
 
     @Override

@@ -42,7 +42,8 @@
             android:theme="@style/paylistactivity">
 
         </activity>
-        <activity android:name=".view.dialog.OrderCancellActivity"
+        <activity
+            android:name=".view.dialog.OrderCancellActivity"
             android:label=""
             android:theme="@style/paylistactivity">
 
@@ -55,8 +56,11 @@
             android:name=".view.splash.DefaultActivity"
             android:screenOrientation="nosensor"
             android:theme="@style/AppThemeWhite" />
-        <activity android:name=".view.splash.SplashAdvertiseActivity" android:screenOrientation="nosensor"
+        <activity
+            android:name=".view.splash.SplashAdvertiseActivity"
+            android:screenOrientation="nosensor"
             android:theme="@style/AppThemeWhite" />
+
         <activity-alias
             android:name=".SplashActivity"
             android:targetActivity=".view.splash.${LAUNCHER_ACTIVITY}" />
@@ -71,16 +75,20 @@
         <activity
             android:name=".view.user.LauncherGuideActivity"
             android:theme="@style/AppThemeWhite" />
-        <activity android:name=".chat.activity.ChatActivity"
-            android:theme="@style/NoAnimTheme"/>
-        <activity android:name=".view.chat.ContactPathActivity"
+        <activity
+            android:name=".chat.activity.ChatActivity"
+            android:theme="@style/NoAnimTheme" />
+        <activity
+            android:name=".view.chat.ContactPathActivity"
             android:label=""
             android:theme="@style/paylistactivity"></activity>
-        <activity android:name=".view.dialog.ContactDialog"
+        <activity
+            android:name=".view.dialog.ContactDialog"
             android:label=""
-            android:theme="@style/contact_dialog"/>
-        <activity android:name=".view.auth.AuthActivity"
-            android:label="@string/app_name"/>
+            android:theme="@style/contact_dialog" />
+        <activity
+            android:name=".view.auth.AuthActivity"
+            android:label="@string/app_name" />
         <activity android:name=".view.common.WebViewActivity" />
         <activity
             android:name=".view.user.UserHomeActivity"
@@ -88,7 +96,7 @@
         <activity
             android:name=".view.skill.CreateOrEditSkillActivity"
             android:label="@string/add_skill"
-            android:theme="@style/AppThemeWhite"
+            android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.skill.SkillTemplateActivity"
@@ -99,12 +107,13 @@
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.skill.SkillPreviewActivity"
-            android:theme="@style/AppThemeTransparent"
             android:label="@string/skill_preview_title_bar"
+            android:theme="@style/AppThemeTransparent"
             android:windowSoftInputMode="adjustPan">
 
         </activity>
-        <activity android:name=".view.skill.RmarkPublishActivity"
+        <activity
+            android:name=".view.skill.RmarkPublishActivity"
             android:label="@string/rmark_pulish_title">
 
         </activity>
@@ -119,8 +128,8 @@
         <activity
             android:name=".view.chat.ChatMainActivity"
             android:label="@string/lable_chat"
-            android:theme="@style/AppTheme.Dark"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.Dark" />
 
         <activity
             android:name=".view.skill.SkillDetailsActivity"
@@ -144,6 +153,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="www.ketie.me"
                     android:path="/launcher/yodian"
@@ -167,22 +177,22 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name=".view.deal.OrderListActivity"
             android:label="@string/order_list_btn_ordered" />
         <activity
             android:name=".view.deal.OrderDetailActivity"
-            android:theme="@style/NoAnimTheme"
-            android:label="@string/order_detail_title" />
-        <activity android:name=".view.deal.LotteryActivity"
+            android:label="@string/order_detail_title"
+            android:theme="@style/NoAnimTheme" />
+        <activity
+            android:name=".view.deal.LotteryActivity"
             android:label=""
             android:theme="@style/PayWrapperActivity"></activity>
         <activity
             android:name=".view.deal.DrawMoneyInfoConfirmActivity"
-            android:theme="@style/AppTheme.Dark"
-            android:label="@string/draw_money_inof_certify_title" />
+            android:label="@string/draw_money_inof_certify_title"
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.deal.RemainderMainActivity"
             android:label="@string/my_remainder"

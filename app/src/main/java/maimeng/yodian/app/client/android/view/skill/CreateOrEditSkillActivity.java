@@ -91,8 +91,6 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            mTitle.setTextColor(Color.WHITE);
-            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
         }
     }

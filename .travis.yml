@@ -1,0 +1,29 @@
+language: android
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-23.0.2
+    - android-23
+    - add-on
+    - extra
+  licenses:
+    - android-sdk-license-5be876d5
+
+jdk:
+  - oraclejdk7
+
+script:
+  - ./gradlew clean build
+
+notifications:
+  recipients:
+    - 1091041307@qq.com
+    - 1923873@qq.com
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.gradle
