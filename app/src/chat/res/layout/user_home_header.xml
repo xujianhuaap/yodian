@@ -8,169 +8,183 @@
             type="maimeng.yodian.app.client.android.model.user.User" />
     </data>
 
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <maimeng.yodian.app.client.android.widget.ViewPager
-            android:id="@+id/banner_pager"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/user_header_height"
-            android:background="@mipmap/user_bg_pic" />
-
-        <com.viewpagerindicator.IconPageIndicator
-            android:id="@+id/titles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="60dp" />
-
-        <RelativeLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="@dimen/top_icon_margin"
-                android:layout_marginTop="12dp">
 
-                <ImageView
-                    android:id="@+id/btn_chat"
+            <maimeng.yodian.app.client.android.widget.ViewPager
+                android:id="@+id/banner_pager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/user_header_height"
+                android:background="@mipmap/user_bg_pic" />
+
+            <com.viewpagerindicator.IconPageIndicator
+                android:id="@+id/titles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="60dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:src="@mipmap/ic_msg"
-                    android:visibility="visible" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="@dimen/top_icon_margin"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:id="@+id/btn_chat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|left"
+                        android:src="@mipmap/ic_msg"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:id="@+id/miss_msg_count"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="right|top"
+                        android:src="@drawable/miss_msg_count"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|left"
+                        android:src="@mipmap/ic_go_back_black"
+                        android:visibility="invisible" />
+
+                </FrameLayout>
 
                 <ImageView
-                    android:id="@+id/miss_msg_count"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="right|top"
-                    android:src="@drawable/miss_msg_count"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/btn_back"
+                    android:id="@+id/btn_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:src="@mipmap/ic_go_back_black"
-                    android:visibility="invisible" />
-
-            </FrameLayout>
-
-            <ImageView
-                android:id="@+id/btn_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="top|right"
-                android:layout_marginLeft="@dimen/top_icon_margin"
-                android:layout_marginTop="@dimen/top_icon_margin"
-                android:paddingBottom="5dp"
-                android:paddingRight="16dp"
-                android:src="@mipmap/ic_settings" />
-
-            <ImageView
-                android:id="@+id/btn_report"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="top|right"
-                android:layout_marginLeft="@dimen/top_icon_margin"
-                android:layout_marginTop="@dimen/top_icon_margin"
-                android:paddingBottom="5dp"
-                android:paddingRight="16dp"
-                android:src="@mipmap/ic_report_userhome"
-                android:visibility="invisible" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/bottom"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/btn_createskill"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_weight="1"
-                android:background="@drawable/index_pull_item_background"
-                android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_add_skill"
-                android:textSize="16sp" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_weight="1">
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="top|right"
+                    android:layout_marginLeft="@dimen/top_icon_margin"
+                    android:layout_marginTop="@dimen/top_icon_margin"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="16dp"
+                    android:src="@mipmap/ic_settings" />
 
                 <ImageView
-                    android:id="@+id/btn_my_order"
+                    android:id="@+id/btn_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="top|right"
+                    android:layout_marginLeft="@dimen/top_icon_margin"
+                    android:layout_marginTop="@dimen/top_icon_margin"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="16dp"
+                    android:src="@mipmap/ic_report_userhome"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/btn_createskill"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/padding_small"
+                    android:layout_marginRight="@dimen/padding_small"
+                    android:layout_weight="1"
                     android:background="@drawable/index_pull_item_background"
                     android:gravity="center"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_my_order"
-                    android:textSize="16sp"
-                    android:visibility="visible" />
+                    android:src="@mipmap/ic_add_skill"
+                    android:textSize="16sp" />
 
-                <ImageView
-                    android:id="@+id/msg_order_topic"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="top"
-                    android:layout_marginLeft="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:src="@drawable/miss_msg_count"
-                    android:visibility="gone" />
-            </FrameLayout>
-
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_weight="1"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/btn_my_remainder"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/index_pull_item_background"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_my_account"
-                    android:visibility="visible" />
+                    android:layout_marginLeft="@dimen/padding_small"
+                    android:layout_marginRight="@dimen/padding_small"
+                    android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/msg_money_topic"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="top"
-                    android:layout_marginLeft="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:src="@drawable/miss_msg_count"
-                    android:visibility="gone" />
-            </FrameLayout>
+                    <ImageView
+                        android:id="@+id/btn_my_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/index_pull_item_background"
+                        android:gravity="center"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/ic_my_order"
+                        android:textSize="16sp"
+                        android:visibility="visible" />
 
-        </LinearLayout>
-    </FrameLayout>
+                    <ImageView
+                        android:id="@+id/msg_order_topic"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:src="@drawable/miss_msg_count"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/padding_small"
+                    android:layout_marginRight="@dimen/padding_small"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/btn_my_remainder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/index_pull_item_background"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/ic_my_account"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:id="@+id/msg_money_topic"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:src="@drawable/miss_msg_count"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+            </LinearLayout>
+        </FrameLayout>
+        <ImageView
+            android:id="@+id/exception"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/pic_height"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/margin_XXlarge"
+            android:src="@mipmap/ic_logo"/>
+    </LinearLayout>
+
 </layout>
