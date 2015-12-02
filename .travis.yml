@@ -18,7 +18,9 @@ script:
   - ./gradlew clean build
 
 notifications:
-  email: false
+  recipients:
+    - 1091041307@qq.com
+    - 1923873@qq.com
 
 sudo: false
 
