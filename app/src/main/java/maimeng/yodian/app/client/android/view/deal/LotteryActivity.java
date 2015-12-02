@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.WebViewActivity;
@@ -44,8 +47,10 @@ public class LotteryActivity extends AbstractActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.btn_go){
+            MobclickAgent.onEvent(this, UEvent.PAY_SUCESS_GET_LOTTORY);
             WebViewActivity.show(LotteryActivity.this, mLottery.getLotUrl());
         }else{
+            MobclickAgent.onEvent(this, UEvent.PAY_SUCESS_QUIT_LOTTORY);
             finish();
         }
     }

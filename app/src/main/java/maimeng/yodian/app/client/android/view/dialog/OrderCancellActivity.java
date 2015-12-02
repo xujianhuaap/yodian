@@ -87,6 +87,7 @@ public class OrderCancellActivity extends AppCompatActivity {
                         .setPositiveListener(new ViewDialog.IPositiveListener() {
                             @Override
                             public void positiveClick() {
+                                MobclickAgent.onEvent(OrderCancellActivity.this, UEvent.ORDER_CANCEL_YES);
                                 long oid = getIntent().getLongExtra("oid", 0);
                                 Network.getService(OrderService.class).cancleOrder(oid, new Callback<ToastResponse>() {
                                     @Override
@@ -114,7 +115,7 @@ public class OrderCancellActivity extends AppCompatActivity {
                         }, "取消订单").setNegtiveListener(new ViewDialog.INegativeListener() {
                     @Override
                     public void negtiveClick() {
-
+                        MobclickAgent.onEvent(OrderCancellActivity.this, UEvent.ORDER_CANCEL_NO);
                     }
                 }, "暂不取消");
                 android.support.v7.app.AlertDialog dialog = builder.create();

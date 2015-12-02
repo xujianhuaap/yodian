@@ -9,9 +9,11 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.umeng.analytics.MobclickAgent;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
+import maimeng.yodian.app.client.android.common.UEvent;
 
 /**
  * Created by xujianhua on 10/14/15.
@@ -35,6 +37,7 @@ public class ZhiFuBaoPay implements IPay{
 
     @Override
     public void sendReq() {
+        MobclickAgent.onEvent(mActivity, UEvent.ENTRY_PAY_ZHIFUBAO);
         mHandler=new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -50,9 +53,10 @@ public class ZhiFuBaoPay implements IPay{
 
                         // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                         if (TextUtils.equals(resultStatus, "9000")) {
+                            MobclickAgent.onEvent(mActivity, UEvent.PAY_ZHIFUBAO_SUBMIT);
                             mstatus.sucessPay(IPayStatus.PAY_SUCESS);
                         } else {
-
+                            MobclickAgent.onEvent(mActivity, UEvent.PAY_ZHIFUBAO_CANCEL);
                             mstatus.failurepay(IPayStatus.PAY_ERROR_ELSE);
 
                         }

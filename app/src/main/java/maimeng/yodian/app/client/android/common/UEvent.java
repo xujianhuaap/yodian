@@ -90,27 +90,12 @@ public class UEvent {
     public static final String FLOATING_AD_1 = "yd109";//浮层广告-1-展示
     public static final String FLOATING_AD_2 = "yd110";//浮层广告-2-展示
     public static final String FLOATING_AD_3 = "yd111";//浮层广告-３－展示
-    //以上已添加
-    /**
-     * ==================================================================
-     */
-
-
     public static final String PAY_SUCESS_GET_LOTTORY = "yd107";//购买完成-抽奖-去抽奖
     public static final String PAY_SUCESS_QUIT_LOTTORY = "yd108";//购买完成-抽奖-放弃抽奖
     public static final String ORDER_SALED_CLICK = "yd056";//已出售订单—接单、发货
     public static final String ORDER_SALED_DETAIL_CLICK = "yd057";//订单详情—接单、发货
     public static final String ORDER_BUYED_CLICK = "yd058";//已购买订单—付款、确认收货
     public static final String ORDER_BUYED_DETAILED_CLICK = "yd059";//订单详情—付款、确认收货
-
-    public static final String MAIN_BUY_SKILL = "yd060";//主页-点击购买技能
-    public static final String BINDING_BANK_CARD = "yd065";//绑定银行卡页
-    public static final String BINDING_BANK_SUBMIT = "yd066";//申请绑定银行卡-提交
-
-    public static final String VOUCH_ONLINE = "yd067";//申请担保交易页
-    public static final String VOUCH_ONLINE_SUBMIT = "yd068";//申请担保交易功能-提交
-
-
     public static final String INFO_BASIC_CERTIFY_ENTRY = "yd074";//认证信息的入口
     public static final String INFO_BASIC_CERTIFY_CODE = "yd075";//认证信息-手机获取验证码
     public static final String INFO_BASIC_CERTIFY_SUBMIT = "yd076";//认证信息-提交
@@ -119,14 +104,20 @@ public class UEvent {
     public static final String PAY_ZHIFUBAO_CANCEL = "yd079";//支付宝信息页的取消
     public static final String PAY_ZHIFUBAO_SUBMIT = "yd080";//支付宝信息页的提交
     public static final String ODER_DETAIL_CANCEL_CLICK = "yd081";//订单详情-右上角-取消订单
-    public static final String ORDER_CANCEL_YES_ = "yd082";//订单详情-右上角-取消订单-确定取消
+    public static final String ORDER_CANCEL_YES= "yd082";//订单详情-右上角-取消订单-确定取消
     public static final String ORDER_CANCEL_NO = "yd083";//订单详情-右上角-取消订单-不取消
-
-
     public static final String INFO_CERTIFY_GO = "yd087";//开通在线支付-绑定填写信息-是
     public static final String INFO_CERTIFY_LATER = "yd088";//开通在线支付-绑定填写信息-否
     public static final String PAY_MUTIFY_REMAINDER_YES = "yd089";//购买技能-支付方式（wx、alipay）-使用余额抵扣-是
     public static final String PAY_MUTIFY_REMAINDER_NO = "yd090";//购买技能-支付方式（wx、alipay）-使用余额抵扣-否
 
+    /***
+     * 已经取消
+     */
+    public static final String MAIN_BUY_SKILL = "yd060";//主页-点击购买技能
+    public static final String BINDING_BANK_CARD = "yd065";//绑定银行卡页
+    public static final String BINDING_BANK_SUBMIT = "yd066";//申请绑定银行卡-提交
+    public static final String VOUCH_ONLINE = "yd067";//申请担保交易页
+    public static final String VOUCH_ONLINE_SUBMIT = "yd068";//申请担保交易功能-提交
 
 }

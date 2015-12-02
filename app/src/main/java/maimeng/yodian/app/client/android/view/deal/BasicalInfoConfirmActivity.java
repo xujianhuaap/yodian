@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -26,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.user.CertifyInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -53,6 +56,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     private String mMobileStr;
     private String mCodeStr;
     private String mNullInfo;
+    private boolean isSucess;
     private boolean isCanClick=true;//可以请求ｇｅｔＣｏｄｅ
 
     private AuthService mService;
@@ -75,6 +79,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MobclickAgent.onEvent(this, UEvent.INFO_BASIC_CERTIFY_ENTRY);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_info_confirm);
@@ -215,6 +220,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         if (v == mSubmit) {
             if(checkNotNull()){
                 if(checkId(mIdStr)){
+                    MobclickAgent.onEvent(this, UEvent.INFO_BASIC_CERTIFY_SUBMIT);
                     mService.certifyUserInfo(mNameStr,mIdStr,mMobileStr,mCodeStr,new CallBackProxy(false));
                 }else{
                     Toast.makeText(this,getResources().getString(R.string.basic_info_id_illegal),Toast.LENGTH_SHORT).show();
@@ -225,6 +231,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
             }
         }else if(v==mGetCode){
             if(isCanClick){
+                MobclickAgent.onEvent(this, UEvent.INFO_BASIC_CERTIFY_CODE);
                 if(!TextUtils.isEmpty(mMobileStr)){
 
                     timeout=new CountDownTimer(mGetCode,getResources().getInteger(R.integer.code_duration));
@@ -337,6 +344,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
                     }
 
                 }else{
+                    isSucess=true;
                     Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
                 }
 
@@ -355,7 +363,11 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         }
     }
 
-
-
-
+    @Override
+    public void finish() {
+        super.finish();
+        if(!isSucess){
+            MobclickAgent.onEvent(BasicalInfoConfirmActivity.this, UEvent.INFO_BASIC_CERTIFY_CANCEL);
+        }
+    }
 }

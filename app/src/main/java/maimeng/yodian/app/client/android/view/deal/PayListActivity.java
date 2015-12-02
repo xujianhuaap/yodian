@@ -189,12 +189,14 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
                         public void positiveClick() {
+                            MobclickAgent.onEvent(PayListActivity.this, UEvent.PAY_MUTIFY_REMAINDER_YES);
                             payByWechatSkill(true);
                         }
                     }, "使用");
                     builder.setNegtiveListener(new RemainderCustomDialog.INegativeListener() {
                         @Override
                         public void negtiveClick() {
+                            MobclickAgent.onEvent(PayListActivity.this, UEvent.PAY_MUTIFY_REMAINDER_NO);
                             payByWechatSkill(false);
                         }
                     }, "全额付款");
@@ -213,17 +215,20 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
 
             } else if (v.getId() == R.id.pay_zhifubao) {
                 if (canUseMoney) {
+
                     RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(PayListActivity.this);
                     builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, money + "", price - money + "")));
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
                         public void positiveClick() {
+                            MobclickAgent.onEvent(PayListActivity.this, UEvent.PAY_MUTIFY_REMAINDER_YES);
                             payByAliPaySkill(true);
                         }
                     }, "使用");
                     builder.setNegtiveListener(new RemainderCustomDialog.INegativeListener() {
                         @Override
                         public void negtiveClick() {
+                            MobclickAgent.onEvent(PayListActivity.this, UEvent.PAY_MUTIFY_REMAINDER_NO);
                             payByAliPaySkill(false);
                         }
                     }, "全额付款");

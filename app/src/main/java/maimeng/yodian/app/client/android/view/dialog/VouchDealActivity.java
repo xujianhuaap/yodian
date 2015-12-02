@@ -7,11 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -46,6 +49,7 @@ public class VouchDealActivity extends AppCompatActivity  {
         findViewById(R.id.vouch_now).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(VouchDealActivity.this, UEvent.INFO_CERTIFY_GO);
                 BasicalInfoConfirmActivity.show(VouchDealActivity.this);
             }
         });
@@ -54,7 +58,7 @@ public class VouchDealActivity extends AppCompatActivity  {
         findViewById(R.id.vouch_later).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MobclickAgent.onEvent(VouchDealActivity.this, UEvent.INFO_CERTIFY_LATER);
                 finish();
             }
         });

@@ -133,6 +133,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 OrderCancellActivity.show(this, info.getOid(), false);
             } else {
                 boolean isCancel = (status == 0 || status == 2);
+                MobclickAgent.onEvent(this, UEvent.ODER_DETAIL_CANCEL_CLICK);
                 OrderCancellActivity.show(this, info.getOid(), isCancel);
             }
 
@@ -296,6 +297,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 long oid = info.getOid();
                 OrderOperatorCallBackProxy proxy = new OrderOperatorCallBackProxy();
                 if (isSaled) {
+                    MobclickAgent.onEvent(OrderDetailActivity.this, UEvent.ORDER_SALED_DETAIL_CLICK);
                     //出售订单
                     if (status == 2) {
                         //接单
@@ -306,6 +308,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     }
                 } else {
                     //购买订单
+                    MobclickAgent.onEvent(OrderDetailActivity.this, UEvent.ORDER_BUYED_DETAILED_CLICK);
                     if (status == 0) {
                         //支付
                         PayWrapperActivity.show(OrderDetailActivity.this, info, REQUEST_ORDER_BUY);

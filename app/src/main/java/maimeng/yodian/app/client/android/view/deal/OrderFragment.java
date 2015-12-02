@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -25,6 +27,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.OrderListAdapter;
 import maimeng.yodian.app.client.android.common.PullHeadView;
+import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
@@ -163,6 +166,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
             OrderOperatorCallBackProxy proxy = new OrderOperatorCallBackProxy();
             if (holder.mBinding.acceptOrder == clickItem) {
                 if (mAdapter.isSaled()) {
+                    MobclickAgent.onEvent(getActivity(), UEvent.ORDER_SALED_CLICK);
                     //出售订单
                     if (status == 2) {
                         //接单
@@ -173,6 +177,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
                     }
                 } else {
                     //购买订单
+                    MobclickAgent.onEvent(getActivity(), UEvent.ORDER_BUYED_CLICK);
                     if (status == 0) {
                         //支付
                         PayWrapperActivity.show(OrderFragment.this, info,REQUEST_ORDER_BUY);
