@@ -11,9 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#fff"
-        android:orientation="vertical"
-        android:paddingBottom="2dip"
-        android:paddingTop="2dip">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/rl_bottom"
@@ -142,7 +140,7 @@
             android:id="@+id/more"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -169,6 +167,7 @@
                 android:id="@+id/ll_btn_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:background="#313131"
                 android:numColumns="4" />
         </LinearLayout>
@@ -186,7 +185,7 @@
             android:id="@+id/skill_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_height_large"
-            android:background="@color/colorPrimaryDark5"
+            android:background="@color/colorPrimaryDark2"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/padding_small"
             android:paddingTop="@dimen/padding_small"
