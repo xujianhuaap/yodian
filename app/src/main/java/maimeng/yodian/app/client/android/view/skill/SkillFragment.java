@@ -78,6 +78,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
     private String typeName;
     private long typeId;
     private WaitDialog dialog;
+    private Runnable openSkill;
 
     public static SkillFragment newInstance(String name, long scid) {
         final SkillFragment skillFragment = new SkillFragment();
@@ -210,18 +211,19 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
 
     @Override
     public void onItemClick(final SkillListIndexAdapter.BaseViewHolder h, int postion) {
-        if (h instanceof SkillListIndexAdapter.ItemViewHolder) {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
-                    Skill skill = ((SkillListIndexAdapter.ItemViewHolder) h).getData();
-                    if (!skill.isXiajia()) {
-                        startActivity(new Intent(getContext(), SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
-                    }
 
-                }
-            }, 200);
+        if (h instanceof SkillListIndexAdapter.ItemViewHolder) {
+            Skill skill = ((SkillListIndexAdapter.ItemViewHolder) h).getData();
+            if (!skill.isXiajia()) {
+                ((SkillListIndexAdapter.ItemViewHolder) h).itemView.setClickable(false);
+                startActivity(new Intent(getContext(), SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((SkillListIndexAdapter.ItemViewHolder) h).itemView.setClickable(true);
+                    }
+                }, 1000);
+            }
         }
     }
 
@@ -348,6 +350,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         }
         Banner banner = holder.list.banners.get(current);
         if (banner.getType() == 3) {
+            holder.itemView.setEnabled(true);
             startActivity(new Intent(getActivity(), SkillDetailsActivity.class).putExtra("sid", Long.parseLong(banner.getValue())));
         } else if (banner.getType() == 2) {
             Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");

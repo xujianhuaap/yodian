@@ -373,19 +373,19 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     }
 
     @Override
-    public void onItemClick(final SkillListHomeAdapter.ViewHolder holder, int postion) {
-        if (holder instanceof SkillListHomeAdapter.ItemViewHolder) {
-            final SkillListHomeAdapter.ItemViewHolder itemViewHolder = (SkillListHomeAdapter.ItemViewHolder) holder;
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Skill skill = itemViewHolder.getData();
-                    if (!skill.isXiajia()) {
-                        startActivity(new Intent(mActivity, SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
+    public void onItemClick(final SkillListHomeAdapter.ViewHolder h, int postion) {
+        if (h instanceof SkillListHomeAdapter.ItemViewHolder) {
+            Skill skill = ((SkillListHomeAdapter.ItemViewHolder) h).getData();
+            if (!skill.isXiajia()) {
+                ((SkillListHomeAdapter.ItemViewHolder) h).itemView.setClickable(false);
+                startActivity(new Intent(getContext(), SkillDetailsActivity.class).putExtra("skill", Parcels.wrap(skill)));
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((SkillListHomeAdapter.ItemViewHolder) h).itemView.setClickable(true);
                     }
-
-                }
-            }, 200);
+                }, 1000);
+            }
         }
 
 
