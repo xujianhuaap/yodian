@@ -39,6 +39,7 @@ public class UserHeaderSecond extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, boolean showTitle) {
+        setShowTitle(false);
         textView = new TextView(getContext());
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(16);
