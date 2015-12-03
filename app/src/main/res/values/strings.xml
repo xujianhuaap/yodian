@@ -216,7 +216,11 @@
 
     <!-- 订单详情-->
     <string name="order_detail_title">订单详情</string>
-    <string name="order_detail_tip">10天后买家未付款订单自动取消</string>
+    <string name="tip_for_buyer_pay">支付有效期还剩%s,有效期过后订单将关闭</string>
+    <string name="tip_for_buyer_confirm">主动收货操作时间还剩%s,超过时间将自动收货</string>
+    <string name="tip_for_seller_accept">接单有限期还剩%s,有效期过后订单将关闭</string>
+    <string name="tip_for_seller_send">发货有效期还剩%s,有效期过后订单将关闭</string>
+
     <string name="order_saled_total_fee"><![CDATA[<font color="#000000">出售订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
     <string name="order_buyed_total_fee"><![CDATA[<font color="#000000">已购订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
     <string name="order_skill_price"><![CDATA[<b><font >%1$s元/%2$s</font></b>]]></string>

@@ -170,10 +170,23 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
         mBinding.contactBuyer.setText(btnContactStr);
         final int status = Integer.parseInt(info.getStatus());
+        String diffTime=info.getDifftime();
+        String diffStr=null;
+        if(diffTime!=null){
+            long time=Long.parseLong(diffTime)*1000;
+            if(time/(24*60*60*1000)>0){
+                diffStr=time/(24*60*60*1000)+"天";
+            }else{
+               SimpleDateFormat dateFormat=new SimpleDateFormat("HH小时mm分");
+                diffStr=dateFormat.format(new Date(time));
+            }
+        }
         String operatorStr = null;
+        String tipStr=null;
         switch (status) {
             case 0:
                 //未支付
+                tipStr=getResources().getString(R.string.tip_for_buyer_pay);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_pay);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
@@ -191,10 +204,12 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 break;
             case 2:
                 //支付
+                tipStr=getResources().getString(R.string.tip_for_seller_accept);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_accept);
                     mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 } else {
+
                     operatorStr = getString(R.string.seller_operator_accept);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
                     mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.btn_oval_blue));
@@ -206,6 +221,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 break;
             case 3:
                 //已经接单
+                tipStr=getResources().getString(R.string.tip_for_seller_send);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_send);
                     mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
@@ -223,7 +239,9 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 break;
             case 4:
                 //已经发货
+                tipStr=getResources().getString(R.string.tip_for_buyer_confirm);
                 if (!isSaled) {
+                    tipStr=getResources().getString(R.string.tip_for_buyer_confirm);
                     operatorStr = getString(R.string.buyer_operator_confirm);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
                     mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.btn_oval_blue));
@@ -243,6 +261,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
             case 5:
                 //交易完成
                 operatorStr = getString(R.string.order_status_confirm_deal);
+                mBinding.tip.setVisibility(View.GONE);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.processPay.setChecked(true);
                 mBinding.processAccept.setChecked(true);
@@ -260,9 +279,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     operatorStr = getString(R.string.order_status_close);
                 } else {
                     operatorStr = getString(R.string.order_status_buyer_close);
-                    ;
-
                 }
+                mBinding.tip.setVisibility(View.GONE);
                 mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.orderStatusPay.setChecked(true);
@@ -277,6 +295,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 } else {
                     operatorStr = getString(R.string.order_status_buyer_cancle);
                 }
+                mBinding.tip.setVisibility(View.GONE);
                 mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
@@ -288,6 +307,10 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
 
         }
+        if(diffTime!=null){
+            mBinding.tip.setText(String.format(tipStr,diffStr));
+        }
+
         mBinding.orderOperator.setText(operatorStr);
         mBinding.orderNumber.setText(Html.fromHtml(getResources().getString(R.string.order_number, info.getNumber())));
         mBinding.orderSkillPrice.setText(Html.fromHtml(getResources().getString(R.string.order_skill_price, info.getSkill().getPrice(), info.getSkill().getUnit())));
@@ -320,6 +343,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                                 super.success(toastResponse, response);
                                 if (toastResponse.isSuccess()) {
                                     mBinding.refreshLayout.autoRefresh();
+                                    mBinding.tip.setVisibility(View.GONE);
                                 }
                             }
                         });
@@ -499,9 +523,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
             if(requestCode==REQUEST_ORDER_BUY){
-                Lottery lottery=Parcels.unwrap(data.getParcelableExtra("lottery"));
-                if(lottery.getIsLottery()==1){
-                    LotteryActivity.show(this,lottery);
+                if(data!=null){
+                    Lottery lottery= Parcels.unwrap(data.getParcelableExtra("lottery"));
+                    if(lottery.getIsLottery()==1){
+                        OrderDetailActivity.show(OrderDetailActivity.this,lottery);
+                    }
                 }
 
             }

@@ -279,11 +279,12 @@ public class OrderFragment extends Fragment implements PtrHandler {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==getActivity().RESULT_OK){
             if(requestCode==REQUEST_ORDER_BUY){
-                Lottery lottery= Parcels.unwrap(data.getParcelableExtra("lottery"));
-                if(lottery.getIsLottery()==1){
-                    OrderDetailActivity.show(getActivity(),lottery);
+                if(data!=null){
+                    Lottery lottery= Parcels.unwrap(data.getParcelableExtra("lottery"));
+                    if(lottery.getIsLottery()==1){
+                        OrderDetailActivity.show(getActivity(),lottery);
+                    }
                 }
-
             }
         }
     }
