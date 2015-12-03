@@ -55,6 +55,7 @@ import maimeng.yodian.app.client.android.view.common.WebViewActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
+import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 
 
 /**
@@ -452,6 +453,16 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
         mBinding.refreshLayout.addPtrUIHandler(header);
         mBinding.refreshLayout.setHeaderView(header);
+
+        mBinding.skillDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OrderDetailActivity.this,SkillDetailsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("skill",Parcels.wrap(info.getSkill()));
+                startActivity(intent);
+            }
+        });
 
     }
 
