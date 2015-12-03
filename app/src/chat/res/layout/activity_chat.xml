@@ -70,6 +70,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:layout_weight="1"
+                android:background="#f00"
                 android:gravity="bottom">
 
                 <maimeng.yodian.app.client.android.chat.widget.PasteEditText
