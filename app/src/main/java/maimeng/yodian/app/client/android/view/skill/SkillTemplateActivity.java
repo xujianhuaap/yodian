@@ -40,9 +40,10 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillTemplateResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.BaseFragment;
 
-public class SkillTemplateActivity extends AppCompatActivity implements Callback<SkillTemplateResponse>, AbstractAdapter.ViewHolderClickListener<SkillTemplateAdapter.ViewHolder> {
+public class SkillTemplateActivity extends AbstractActivity implements Callback<SkillTemplateResponse>, AbstractAdapter.ViewHolderClickListener<SkillTemplateAdapter.ViewHolder> {
     private SkillService service;
     private RecyclerView mTemplateList;
     private SkillTemplateAdapter adapter;
@@ -64,7 +65,7 @@ public class SkillTemplateActivity extends AppCompatActivity implements Callback
         super.onCreate(savedInstanceState);
 
         service = Network.getService(SkillService.class);
-        setContentView(R.layout.activity_skill_template);
+        setContentView(R.layout.activity_skill_template, false);
         View floatbutton = findViewById(R.id.btn_back);
         ViewCompat.setTransitionName(floatbutton, "floatbutton");
         floatbutton.setOnClickListener(new View.OnClickListener() {

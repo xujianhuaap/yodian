@@ -3,23 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    android:layout_marginBottom="20dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvAccountName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingTop="8dp"
         android:background="@drawable/round_corner_white"
         android:gravity="top|center_horizontal"
+        android:paddingTop="8dp"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tvChangeAccount"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:background="@drawable/round_corner_white"
         android:gravity="center"
         android:text="退出登录"
@@ -30,7 +29,7 @@
         android:id="@+id/tvCancel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="1dp"
         android:background="@drawable/round_corner_white"
         android:gravity="center"
         android:text="取消"
