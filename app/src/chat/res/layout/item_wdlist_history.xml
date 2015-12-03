@@ -34,22 +34,6 @@
                 app:dateFormat="@{@string/data_format}" />
 
             <TextView
-                android:id="@+id/mony"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_large"
-                android:text="@{model.money}"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_large"
-                android:textColor="@color/colorPrimaryDark3"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-            <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -58,12 +42,30 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/mony"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:text="@{model.money}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_small"
+                android:textColor="@color/colorPrimaryDark3"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
             <LinearLayout
                 android:id="@+id/btn_pull"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
                 android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small"
                 android:orientation="horizontal"
@@ -74,7 +76,7 @@
                     android:clickable="false"
                     android:layout_width="@dimen/btn_arrow_width"
                     android:layout_height="@dimen/btn_arrow_height"
-                    android:layout_margin="@dimen/margin_normal"
+                    android:layout_margin="@dimen/margin_small"
                     android:scaleType="centerInside"
                     android:background="@mipmap/ic_index_pull_arrow"
                     android:button="@null" />

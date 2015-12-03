@@ -39,7 +39,7 @@
                 android:id="@+id/alert_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 android:padding="5dp"
                 android:textColor="#333"
@@ -53,7 +53,7 @@
                 android:layout_gravity="top|right"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/btn_height"
-                android:layout_margin="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_small"
                 android:src="@mipmap/ic_delete" />
 
         </FrameLayout>
@@ -71,27 +71,27 @@
             android:id="@+id/btn_positive"
             android:layout_width="wrap_content"
             android:minWidth="@dimen/btn_width_big"
-            android:padding="@dimen/padding_normal"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/btn_height"
-            android:layout_margin="@dimen/margin_normal"
+            android:padding="@dimen/padding_small"
+            android:layout_height="@dimen/btn_height_small"
+            android:maxHeight="@dimen/btn_height_small"
+            android:layout_margin="@dimen/margin_small"
             android:background="@drawable/btn_oval_blue"
             android:gravity="center"
             android:textColor="#fff"
-            android:textSize="@dimen/text_size_normal" />
+            android:textSize="@dimen/text_size_small" />
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:minWidth="@dimen/btn_width_big"
-            android:padding="@dimen/padding_normal"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/btn_height"
-            android:layout_margin="@dimen/margin_normal"
+            android:padding="@dimen/padding_small"
+            android:layout_height="@dimen/btn_height_small"
+            android:maxHeight="@dimen/btn_height_small"
+            android:layout_margin="@dimen/margin_small"
             android:background="@drawable/btn_oval_black"
             android:gravity="center"
             android:textColor="#fff"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/text_size_small"
             android:visibility="visible" />
     </LinearLayout>
 
