@@ -146,8 +146,23 @@
         <Button
             android:id="@+id/btn_get_code"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btn_height_small"
+            android:maxHeight="@dimen/btn_height"
+            android:paddingLeft="@dimen/padding_normal"
+            android:paddingRight="@dimen/padding_normal"
+            android:background="@color/colorPrimaryDark3"
+            android:layout_marginBottom="@dimen/margin_normal"
             android:text="@string/get_code" />
+        <Button
+            android:id="@+id/btn_code"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_height_small"
+            android:maxHeight="@dimen/btn_height"
+            android:paddingLeft="@dimen/padding_normal"
+            android:paddingRight="@dimen/padding_normal"
+            android:background="@color/colorPrimaryGrey"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/margin_normal" />
 
 
 
@@ -178,8 +193,8 @@
         android:textColor="@android:color/white"
         android:layout_marginTop="@dimen/margin_Xlarge"
         android:background="@drawable/btn_oval_black"
-        android:layout_marginLeft="@dimen/margin_XXlarge"
-        android:layout_marginRight="@dimen/margin_XXlarge"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
         android:layout_marginBottom="@dimen/apply_edit_margin_top"
         android:textColorHint="@color/hint_color" />
 

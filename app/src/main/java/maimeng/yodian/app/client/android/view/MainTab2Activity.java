@@ -100,6 +100,9 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         syncFloat();
     }
 
+    /***
+     * 更新头像
+     */
     private void updateFloatButton() {
         final float density = getResources().getDisplayMetrics().density;
         int width = (int) (80 * density);
@@ -203,7 +206,12 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         } else {
             bt.setCustomAnimations(R.anim.translation_to_top_in, R.anim.translation_to_top_out);
             bt.show(indexFragment).hide(userHomeFragment);
-            floatButton.setImageBitmap(mAvatar);
+            if(mAvatar==null){
+                updateFloatButton();
+            }else{
+                floatButton.setImageBitmap(mAvatar);
+            }
+
 
         }
         bt.commitAllowingStateLoss();

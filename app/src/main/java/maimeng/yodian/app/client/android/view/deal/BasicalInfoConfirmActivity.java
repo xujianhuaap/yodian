@@ -3,6 +3,8 @@ package maimeng.yodian.app.client.android.view.deal;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -35,6 +37,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.CertifyInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
 
@@ -50,6 +53,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     private EditText mConfirmCode;
     private Button mSubmit;
     private Button mGetCode;
+    private Button mCode;
 
     private String mNameStr;
     private String mIdStr;
@@ -89,6 +93,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         mSubmit=(Button)findViewById(R.id.apply_submit);
         mConfirmCode=(EditText)findViewById(R.id.basic_code);
         mGetCode=(Button)findViewById(R.id.btn_get_code);
+        mCode=(Button)findViewById(R.id.btn_code);
         mTip=(TextView)findViewById(R.id.tip);
 
         Spanned span= Html.fromHtml(getResources().getString(R.string.certify_info_tip));
@@ -132,8 +137,6 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
 
             }
         });
-
-
 
     }
 
@@ -234,8 +237,10 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
                 MobclickAgent.onEvent(this, UEvent.INFO_BASIC_CERTIFY_CODE);
                 if(!TextUtils.isEmpty(mMobileStr)){
 
-                    timeout=new CountDownTimer(mGetCode,getResources().getInteger(R.integer.code_duration));
+                    timeout=new CountDownTimer(mCode,getResources().getInteger(R.integer.code_duration));
                     timeout.start();
+                    mGetCode.setVisibility(View.GONE);
+                    mCode.setVisibility(View.VISIBLE);
                     isCanClick=false;
                     Matcher m=p.matcher(mMobileStr);
                     if(m.matches()){
@@ -316,6 +321,8 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
             tv.setEnabled(true);
             tv.setText(oldText);
             isCanClick=true;
+            mCode.setVisibility(View.GONE);
+            mGetCode.setVisibility(View.VISIBLE);
         }
     }
 

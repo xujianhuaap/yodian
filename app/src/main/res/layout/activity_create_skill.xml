@@ -223,11 +223,13 @@
 
                 <TextView
                     android:id="@+id/btn_done"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/padding_large"
                     android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginLeft="@dimen/margin_large"
                     android:background="@drawable/btn_oval_black"
                     android:gravity="center"
                     android:paddingBottom="@dimen/margin_small"
