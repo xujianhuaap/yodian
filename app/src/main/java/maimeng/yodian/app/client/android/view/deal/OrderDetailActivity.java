@@ -290,8 +290,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time()))));
                 mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
-                mBinding.orderStatusPay.setChecked(true);
-                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time, formatDate(info.getPay_time()))));
+                mBinding.orderStatusPay.setChecked(false);
+                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time, formatDate(info.getPay_time()))));
                 mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));
                 mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
                 break;
@@ -302,10 +302,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 } else {
                     operatorStr = getString(R.string.order_status_buyer_cancle);
                 }
-                mBinding.tip.setVisibility(View.GONE);
-                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time()))));
                 mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
+                mBinding.tip.setVisibility(View.GONE);
+                mBinding.orderStatusPay.setChecked(false);
+                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time()))));
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
                 mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));
                 mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
@@ -552,7 +553,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 if(data!=null){
                     Lottery lottery= Parcels.unwrap(data.getParcelableExtra("lottery"));
                     if(lottery.getIsLottery()==1){
-                        OrderDetailActivity.show(OrderDetailActivity.this,lottery);
+                        LotteryActivity.show(this,lottery);
                     }
                 }
 

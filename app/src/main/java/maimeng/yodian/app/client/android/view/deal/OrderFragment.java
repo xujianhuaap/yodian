@@ -269,6 +269,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.d("ceshi","===="+(data.getBooleanExtra("isOperator",false)));
         if(resultCode==getActivity().RESULT_OK){
             if(data!=null){
                 if(requestCode==REQUEST_ORDER_BUY){
