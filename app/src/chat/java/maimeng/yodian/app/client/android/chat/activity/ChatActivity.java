@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -137,7 +137,7 @@ import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
 /**
  * 聊天页面
- * <p/>
+ * <p>
  * 技能属于卖家　聊天发起方可能是卖家也可能是买家
  * 如果买家发起聊天　即联系卖家　有以下入口：技能详情
  */
@@ -222,7 +222,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 
     private ImageView iv_emoticons_normal;
-    private ImageView iv_emoticons_checked;
     private RelativeLayout edittext_layout;
     private ProgressBar loadmorePB;
     private boolean isloading;
@@ -244,6 +243,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     public EMChatRoom room;
     public boolean isRobot;
     private ChatUser chatUser;
+    private int MENU_ID_CONTACT;
 
     public Skill getSkill() {
         return skill;
@@ -323,6 +323,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_chat_menu, menu);
+        if ("hx_admin".equals(chatUser.getChatName())) {
+            MENU_ID_CONTACT = 1001;
+            menu.add(0, MENU_ID_CONTACT, 0, "").setIcon(R.mipmap.ic_contact_path).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -447,13 +451,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         btnContainer.setAdapter(adapter);
         initEntryData(entries);
         iv_emoticons_normal = (ImageView) findViewById(R.id.iv_emoticons_normal);
-        iv_emoticons_checked = (ImageView) findViewById(R.id.iv_emoticons_checked);
         loadmorePB = (ProgressBar) findViewById(R.id.pb_load_more);
         btnMore = (Button) findViewById(R.id.btn_more);
         iv_emoticons_normal.setVisibility(View.VISIBLE);
-        iv_emoticons_checked.setVisibility(View.INVISIBLE);
         more = findViewById(R.id.more);
-        edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_normal);
         // 动画资源文件,用于录制语音时
         micImages = new Drawable[]{getResources().getDrawable(R.mipmap.record_animate_01),
                 getResources().getDrawable(R.mipmap.record_animate_02),
@@ -482,27 +483,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         edittext_layout.requestFocus();
         voiceRecorder = new VoiceRecorder(micImageHandler);
         buttonPressToSpeak.setOnTouchListener(new PressToSpeakListen());
-        mEditTextContent.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_active);
-                } else {
-                    edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_normal);
-                }
-
-            }
-        });
 
         mEditTextContent.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                edittext_layout.setBackgroundResource(R.mipmap.input_bar_bg_active);
                 more.setVisibility(View.GONE);
                 iv_emoticons_normal.setVisibility(View.VISIBLE);
-                iv_emoticons_checked.setVisibility(View.INVISIBLE);
                 emojiIconContainer.setVisibility(View.GONE);
                 btnContainer.setVisibility(View.GONE);
             }
@@ -513,10 +500,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s)) {
-                    btnMore.setVisibility(View.GONE);
                     buttonSend.setVisibility(View.VISIBLE);
                 } else {
-                    btnMore.setVisibility(View.VISIBLE);
                     buttonSend.setVisibility(View.GONE);
                 }
             }
@@ -596,7 +581,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     private void setUpView() {
         iv_emoticons_normal.setOnClickListener(this);
-        iv_emoticons_checked.setOnClickListener(this);
         // position = getIntent().getIntExtra("position", -1);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -639,7 +623,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             emptyHistory();
         }
         int itemId = item.getItemId();
-        if (itemId == android.R.id.home) {
+        if (itemId == MENU_ID_CONTACT) {
+            ContactPathActivity.show(ChatActivity.this, chatUser.getQq(), chatUser.getMobile(), chatUser.getWechat());
+        } else if (itemId == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -728,7 +714,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 hideKeyboard();
                 more.setVisibility(View.GONE);
                 iv_emoticons_normal.setVisibility(View.VISIBLE);
-                iv_emoticons_checked.setVisibility(View.INVISIBLE);
                 emojiIconContainer.setVisibility(View.GONE);
                 btnContainer.setVisibility(View.GONE);
                 return false;
@@ -989,18 +974,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             sendText(s);
         } else if (id == R.id.iv_emoticons_normal) { // 点击显示表情框
             more.setVisibility(View.VISIBLE);
-            iv_emoticons_normal.setVisibility(View.INVISIBLE);
-            iv_emoticons_checked.setVisibility(View.VISIBLE);
             btnContainer.setVisibility(View.GONE);
             emojiIconContainer.setVisibility(View.VISIBLE);
             hideKeyboard();
-        } else if (id == R.id.iv_emoticons_checked) { // 点击隐藏表情框
-            iv_emoticons_normal.setVisibility(View.VISIBLE);
-            iv_emoticons_checked.setVisibility(View.INVISIBLE);
-            btnContainer.setVisibility(View.VISIBLE);
-            emojiIconContainer.setVisibility(View.GONE);
-            more.setVisibility(View.GONE);
-
         }
     }
 
@@ -1034,7 +1010,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     /**
      * 事件监听
-     * <p/>
+     * <p>
      * see {@link EMNotifierEvent}
      */
     @Override
@@ -1600,7 +1576,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         btnMore.setVisibility(View.VISIBLE);
         buttonPressToSpeak.setVisibility(View.VISIBLE);
         iv_emoticons_normal.setVisibility(View.VISIBLE);
-        iv_emoticons_checked.setVisibility(View.INVISIBLE);
         btnContainer.setVisibility(View.VISIBLE);
         emojiIconContainer.setVisibility(View.GONE);
 
@@ -1633,7 +1608,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             btnMore.setVisibility(View.VISIBLE);
             buttonSend.setVisibility(View.GONE);
         } else {
-            btnMore.setVisibility(View.GONE);
             buttonSend.setVisibility(View.VISIBLE);
         }
 
@@ -1666,7 +1640,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 emojiIconContainer.setVisibility(View.GONE);
                 btnContainer.setVisibility(View.VISIBLE);
                 iv_emoticons_normal.setVisibility(View.VISIBLE);
-                iv_emoticons_checked.setVisibility(View.INVISIBLE);
             } else {
                 more.setVisibility(View.GONE);
             }
@@ -1685,7 +1658,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (more.getVisibility() == View.VISIBLE) {
             more.setVisibility(View.GONE);
             iv_emoticons_normal.setVisibility(View.VISIBLE);
-            iv_emoticons_checked.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -1980,7 +1952,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (more.getVisibility() == View.VISIBLE) {
             more.setVisibility(View.GONE);
             iv_emoticons_normal.setVisibility(View.VISIBLE);
-            iv_emoticons_checked.setVisibility(View.INVISIBLE);
         } else {
             super.onBackPressed();
             if (chatType == CHATTYPE_CHATROOM) {
