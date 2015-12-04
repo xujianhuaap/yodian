@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.deal;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -70,6 +71,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     private static final int REQUEST_ORDER_BUY=0x23;
     private Lottery mLottery;
     private long oid;
+    private boolean isOperator=false;
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
@@ -104,11 +106,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         context.startActivity(intent);
     }
 
-    public static void show(Context context, OrderInfo orderInfo, boolean isSaled) {
+    public static void show(Activity context, OrderInfo orderInfo, boolean isSaled,int requestCode) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra("orderInfo", Parcels.wrap(orderInfo));
         intent.putExtra("isSaled", isSaled);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,requestCode);
     }
 
     @Override
@@ -194,6 +196,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.btn_oval_blue));
                 } else {
                     operatorStr = getString(R.string.seller_operator_wait_pay);
+                    mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                     mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 }
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
@@ -208,6 +211,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 tipStr=getResources().getString(R.string.tip_for_seller_accept);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_accept);
+                    mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                     mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 } else {
 
@@ -225,6 +229,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 tipStr=getResources().getString(R.string.tip_for_seller_send);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_send);
+                    mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                     mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 } else {
                     operatorStr = getString(R.string.seller_operator_send);
@@ -242,13 +247,13 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 //已经发货
                 tipStr=getResources().getString(R.string.tip_for_buyer_confirm);
                 if (!isSaled) {
-                    tipStr=getResources().getString(R.string.tip_for_buyer_confirm);
                     operatorStr = getString(R.string.buyer_operator_confirm);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
                     mBinding.orderOperator.setBackground(getResources().getDrawable(R.drawable.btn_oval_blue));
                 } else {
 
                     operatorStr = getString(R.string.order_status_send_goods);
+                    mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                     mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 }
                 mBinding.processPay.setChecked(true);
@@ -282,6 +287,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     operatorStr = getString(R.string.order_status_buyer_close);
                 }
                 mBinding.tip.setVisibility(View.GONE);
+                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time()))));
                 mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.orderStatusPay.setChecked(true);
@@ -297,6 +303,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     operatorStr = getString(R.string.order_status_buyer_cancle);
                 }
                 mBinding.tip.setVisibility(View.GONE);
+                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time()))));
                 mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
@@ -326,18 +333,22 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                     if (status == 2) {
                         //接单
                         mService.acceptOrder(oid, proxy);
+                        isOperator=true;
                     } else if (status == 3) {
                         //发货
                         mService.sendGoods(oid, proxy);
+                        isOperator=true;
                     }
                 } else {
                     //购买订单
                     MobclickAgent.onEvent(OrderDetailActivity.this, UEvent.ORDER_BUYED_DETAILED_CLICK);
                     if (status == 0) {
                         //支付
+                        isOperator=true;
                         PayWrapperActivity.show(OrderDetailActivity.this, info, REQUEST_ORDER_BUY);
                     } else if (status == 4) {
                         //确认收货
+                        isOperator=true;
                         mService.confirmOrder(oid, new OrderOperatorCallBackProxy() {
                             @Override
                             public void success(ToastResponse toastResponse, Response response) {
@@ -350,6 +361,10 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                         });
 
                     }
+                }
+
+                if(isOperator){
+                    setResult(RESULT_OK,getIntent().putExtra("isOperator",isOperator));
                 }
 
             }

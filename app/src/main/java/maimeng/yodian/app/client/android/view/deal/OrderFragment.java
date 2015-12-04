@@ -58,6 +58,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
     private boolean mIsAppend;
     private WaitDialog mWaitDialog;
     private static final int REQUEST_ORDER_BUY=0x24;
+    private static final int REQUEST_SKILL_DETAIL=0x25;
 
 
     /***
@@ -155,7 +156,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
         @Override
         public void onItemClick(OrderListAdapter.ViewHolder holder, int postion) {
             OrderInfo orderInfo = mAdapter.getItem(postion);
-            OrderDetailActivity.show(getActivity(), orderInfo, mAdapter.isSaled());
+            OrderDetailActivity.show(getActivity(), orderInfo, mAdapter.isSaled(),REQUEST_SKILL_DETAIL);
         }
 
         @Override
@@ -266,26 +267,24 @@ public class OrderFragment extends Fragment implements PtrHandler {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mPage=1;
-        mIsAppend = false;
-        freshData();
-    }
-
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==getActivity().RESULT_OK){
-            if(requestCode==REQUEST_ORDER_BUY){
-                if(data!=null){
+            if(data!=null){
+                if(requestCode==REQUEST_ORDER_BUY){
                     Lottery lottery= Parcels.unwrap(data.getParcelableExtra("lottery"));
                     if(lottery.getIsLottery()==1){
                         OrderDetailActivity.show(getActivity(),lottery);
                     }
+                }else if(requestCode==REQUEST_SKILL_DETAIL){
+                    if(data.getBooleanExtra("isOperator",false)){
+                        mPage=1;
+                        mIsAppend = false;
+                        freshData();
+                    }
                 }
             }
+
         }
     }
 }

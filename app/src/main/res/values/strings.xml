@@ -127,7 +127,9 @@
     <string name="get_code">获取验证码</string>
 
     <string name="during_dialog_title"> 本次提现(元):</string>
-    <string name="during_dialog_title_error"><![CDATA[<font color="#ff0000">单词提现金额不得低于50元</font>]]></string>
+    <string name="during_dialog_title_error_null"><![CDATA[<font color="#ff0000">请填写提款金额</font>]]></string>
+    <string name="during_dialog_title_error_format"><![CDATA[<font color="#ff0000">填写格式不正确</font>]]></string>
+    <string name="during_dialog_title_error"><![CDATA[<font color="#ff0000">单次提现金额不得低于50元</font>]]></string>
     <string name="during_dialog_edit_hint">本次要提现的余额</string>
     <string name="during_dialog_sumit">提现</string>
     <string name="activity_bind_bank">绑定银行卡</string>
@@ -229,6 +231,7 @@
     <string name="order_seller_name"><![CDATA[<font color="#000000">卖家名称: %1$s<font>]]></string>
 
     <string name="order_pay_time"><![CDATA[<font color="#1e90ff">已支付<br/>%1$s</font>]]></string>
+    <string name="order_pay_time_on_cancel"><![CDATA[<font color="#55000000">已支付<br/>%1$s</font>]]></string>
     <string name="order_accept_time"><![CDATA[<font color="#1e90ff">已接单<br/>%1$s</font>]]></string>
     <string name="order_confirm_time"><![CDATA[<font color="#1e90ff">已完成<br/>%1$s</font>]]></string>
 

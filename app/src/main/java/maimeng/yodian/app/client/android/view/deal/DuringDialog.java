@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.view.deal;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -63,13 +64,13 @@ public class DuringDialog extends DialogFragment implements View.OnClickListener
     public void onClick(View v) {
         String money=binding.money.getText().toString();
         if(TextUtils.isEmpty(money)){
-            Toast.makeText(v.getContext(),"请填写提款金额",Toast.LENGTH_SHORT).show();
+            binding.title.setText(Html.fromHtml(getString(R.string.during_dialog_title_error_null)));
             return;
         }
         Pattern pattern=Pattern.compile("[0-9]*.[0-9]*");
         Matcher m=pattern.matcher(money);
         if(!m.matches()){
-            Toast.makeText(v.getContext(),"填写格式不正确",Toast.LENGTH_SHORT).show();
+            binding.title.setText(Html.fromHtml(getString(R.string.during_dialog_title_error_format)));
             return;
         }
         final double during = Double.parseDouble(money);
