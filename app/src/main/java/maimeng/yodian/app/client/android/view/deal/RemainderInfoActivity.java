@@ -26,6 +26,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
@@ -155,7 +156,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
     }
 
     public void onInputDuring(final float during) {
-        service.withdraw(during, new ToastCallback(this) {
+        service.withdraw(during+"", new ToastCallback(this) {
             @Override
             public void success(ToastResponse res, Response response) {
                 super.success(res, response);

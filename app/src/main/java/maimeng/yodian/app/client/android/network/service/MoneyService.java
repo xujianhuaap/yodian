@@ -34,7 +34,7 @@ public interface MoneyService {
      * @param response
      */
     @Post(Api.MONEY_WITHDRAW)
-    void withdraw(@Param("money") double money, ToastCallback response);
+    void withdraw(@Param("money") String money, ToastCallback response);
 
     /**
      * 提现历史
