@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -106,8 +107,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         context.startActivity(intent);
     }
 
-    public static void show(Activity context, OrderInfo orderInfo, boolean isSaled,int requestCode) {
-        Intent intent = new Intent(context, OrderDetailActivity.class);
+    public static void show(Fragment context, OrderInfo orderInfo, boolean isSaled, int requestCode) {
+        Intent intent = new Intent(context.getContext(), OrderDetailActivity.class);
         intent.putExtra("orderInfo", Parcels.wrap(orderInfo));
         intent.putExtra("isSaled", isSaled);
         context.startActivityForResult(intent,requestCode);

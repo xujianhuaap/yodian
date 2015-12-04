@@ -156,7 +156,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
         @Override
         public void onItemClick(OrderListAdapter.ViewHolder holder, int postion) {
             OrderInfo orderInfo = mAdapter.getItem(postion);
-            OrderDetailActivity.show(getActivity(), orderInfo, mAdapter.isSaled(),REQUEST_SKILL_DETAIL);
+            OrderDetailActivity.show(OrderFragment.this, orderInfo, mAdapter.isSaled(),REQUEST_SKILL_DETAIL);
         }
 
         @Override
@@ -269,7 +269,6 @@ public class OrderFragment extends Fragment implements PtrHandler {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtil.d("ceshi","===="+(data.getBooleanExtra("isOperator",false)));
         if(resultCode==getActivity().RESULT_OK){
             if(data!=null){
                 if(requestCode==REQUEST_ORDER_BUY){
