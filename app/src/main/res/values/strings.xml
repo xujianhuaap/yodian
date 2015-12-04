@@ -127,7 +127,9 @@
     <string name="get_code">获取验证码</string>
 
     <string name="during_dialog_title"> 本次提现(元):</string>
-    <string name="during_dialog_title_error"><![CDATA[<font color="#ff0000">单词提现金额不得低于50元</font>]]></string>
+    <string name="during_dialog_title_error_null"><![CDATA[<font color="#ff0000">请填写提款金额</font>]]></string>
+    <string name="during_dialog_title_error_format"><![CDATA[<font color="#ff0000">填写格式不正确</font>]]></string>
+    <string name="during_dialog_title_error"><![CDATA[<font color="#ff0000">单次提现金额不得低于50元</font>]]></string>
     <string name="during_dialog_edit_hint">本次要提现的余额</string>
     <string name="during_dialog_sumit">提现</string>
     <string name="activity_bind_bank">绑定银行卡</string>
@@ -216,7 +218,11 @@
 
     <!-- 订单详情-->
     <string name="order_detail_title">订单详情</string>
-    <string name="order_detail_tip">10天后买家未付款订单自动取消</string>
+    <string name="tip_for_buyer_pay">支付有效期还剩%s,有效期过后订单将关闭</string>
+    <string name="tip_for_buyer_confirm">主动收货操作时间还剩%s,超过时间将自动收货</string>
+    <string name="tip_for_seller_accept">接单有限期还剩%s,有效期过后订单将关闭</string>
+    <string name="tip_for_seller_send">发货有效期还剩%s,有效期过后订单将关闭</string>
+
     <string name="order_saled_total_fee"><![CDATA[<font color="#000000">出售订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
     <string name="order_buyed_total_fee"><![CDATA[<font color="#000000">已购订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
     <string name="order_skill_price"><![CDATA[<b><font >%1$s元/%2$s</font></b>]]></string>
@@ -225,6 +231,7 @@
     <string name="order_seller_name"><![CDATA[<font color="#000000">卖家名称: %1$s<font>]]></string>
 
     <string name="order_pay_time"><![CDATA[<font color="#1e90ff">已支付<br/>%1$s</font>]]></string>
+    <string name="order_pay_time_on_cancel"><![CDATA[<font color="#55000000">已支付<br/>%1$s</font>]]></string>
     <string name="order_accept_time"><![CDATA[<font color="#1e90ff">已接单<br/>%1$s</font>]]></string>
     <string name="order_confirm_time"><![CDATA[<font color="#1e90ff">已完成<br/>%1$s</font>]]></string>
 

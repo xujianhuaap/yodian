@@ -170,6 +170,7 @@
                 android:paddingRight="@dimen/padding_small" />
 
             <RelativeLayout
+                android:id="@+id/skill_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary">
@@ -184,7 +185,7 @@
                     app:imgUrl="@{orderInfo.skill.pic}" />
 
                 <TextView
-                    android:id="@+id/order_skill_content"
+                    android:id="@+id/order_skill_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/order_skill_pic"
@@ -194,7 +195,7 @@
                     android:layout_toRightOf="@+id/order_skill_pic"
                     android:maxLength="@integer/text_lenght_six"
                     android:singleLine="true"
-                    android:text="@{orderInfo.skill.content}"
+                    android:text="@{orderInfo.skill.name}"
                     android:textSize="@dimen/text_size_normal" />
 
                 <TextView
@@ -227,13 +228,14 @@
 
             </RelativeLayout>
             <TextView
+                android:id="@+id/tip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark3"
                 android:gravity="center"
-                android:padding="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:paddingBottom="@dimen/padding_normal"
                 android:textColor="@color/colorPrimary"
-                android:text="@string/order_detail_tip"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView

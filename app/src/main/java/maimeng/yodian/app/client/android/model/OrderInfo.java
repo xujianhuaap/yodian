@@ -40,6 +40,9 @@ public class OrderInfo {
     private String pay_time;
     private String accept_time;
     private String send_time;
+    private String difftime;
+    private String endtime;
+    private String systime;
     private String confirm_time;
     private String total_fee;
     private String real_fee;
@@ -52,6 +55,30 @@ public class OrderInfo {
     private Skill skill;
     private Buyer buyer;
     private float balance;
+
+    public String getDifftime() {
+        return difftime;
+    }
+
+    public void setDifftime(String difftime) {
+        this.difftime = difftime;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
+
+    public String getSystime() {
+        return systime;
+    }
+
+    public void setSystime(String systime) {
+        this.systime = systime;
+    }
 
     public float getBalance() {
         return balance;
