@@ -98,7 +98,6 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                 }
             }
         }
-        syncFloat();
     }
 
     /***
@@ -207,9 +206,9 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         } else {
             bt.setCustomAnimations(R.anim.translation_to_top_in, R.anim.translation_to_top_out);
             bt.show(indexFragment).hide(userHomeFragment);
-            if(mAvatar==null){
+            if (mAvatar == null) {
                 updateFloatButton();
-            }else{
+            } else {
                 floatButton.setImageBitmap(mAvatar);
             }
 
@@ -265,6 +264,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                 dialog.show(getFragmentManager(), "dialog");
             } else {
                 showDefault();
+                syncFloat();
             }
         }
     }
