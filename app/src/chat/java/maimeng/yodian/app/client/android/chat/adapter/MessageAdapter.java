@@ -699,7 +699,7 @@ public class MessageAdapter extends BaseAdapter {
             public boolean onLongClick(View v) {
                 activity.startActivityForResult(
                         (new Intent(activity, ContextMenu.class)).putExtra("position", position).putExtra("type",
-                                EMMessage.Type.TXT.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU);
+                                EMMessage.Type.TXT.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU, new Bundle());
                 return true;
             }
         });
@@ -825,7 +825,7 @@ public class MessageAdapter extends BaseAdapter {
             public boolean onLongClick(View v) {
                 activity.startActivityForResult(
                         (new Intent(activity, ContextMenu.class)).putExtra("position", position).putExtra("type",
-                                EMMessage.Type.IMAGE.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU);
+                                EMMessage.Type.IMAGE.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU, new Bundle());
                 return true;
             }
         });
@@ -948,7 +948,7 @@ public class MessageAdapter extends BaseAdapter {
             public boolean onLongClick(View v) {
                 activity.startActivityForResult(
                         new Intent(activity, ContextMenu.class).putExtra("position", position).putExtra("type",
-                                EMMessage.Type.VIDEO.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU);
+                                EMMessage.Type.VIDEO.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU, new Bundle());
                 return true;
             }
         });
@@ -1079,7 +1079,7 @@ public class MessageAdapter extends BaseAdapter {
             public boolean onLongClick(View v) {
                 activity.startActivityForResult(
                         (new Intent(activity, ContextMenu.class)).putExtra("position", position).putExtra("type",
-                                EMMessage.Type.VOICE.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU);
+                                EMMessage.Type.VOICE.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU, new Bundle());
                 return true;
             }
         });
@@ -1294,7 +1294,7 @@ public class MessageAdapter extends BaseAdapter {
             public boolean onLongClick(View v) {
                 activity.startActivityForResult(
                         (new Intent(activity, ContextMenu.class)).putExtra("position", position).putExtra("type",
-                                EMMessage.Type.LOCATION.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU);
+                                EMMessage.Type.LOCATION.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU, new Bundle());
                 return false;
             }
         });
