@@ -43,6 +43,7 @@ public class FloatActivity extends AppCompatActivity implements ViewPagerFix.OnP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("FloatActivity");
         setContentView(R.layout.activity_float_dialog);
         findViewById(R.id.btn_close).setOnClickListener(new View.OnClickListener() {
             @Override
