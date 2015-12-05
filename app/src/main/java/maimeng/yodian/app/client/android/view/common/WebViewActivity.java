@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -27,7 +30,7 @@ import maimeng.yodian.app.client.android.javascripts.YoDianJavaScript;
 public class WebViewActivity extends AbstractActivity {
 
     public static final String URL = "_url";
-    private View mBtnBack;
+    private WebView web;
 
     public static Intent newIntent(Context context, String url) {
         Intent intent = new Intent(context, WebViewActivity.class);
@@ -46,9 +49,20 @@ public class WebViewActivity extends AbstractActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            ActivityCompat.finishAfterTransition(WebViewActivity.this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void initToolBar(Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back_black);
+        }
     }
 
     @Override
@@ -62,19 +76,7 @@ public class WebViewActivity extends AbstractActivity {
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //        }
         final String imgth = getIntent().getStringExtra(URL);
-        final WebView web = (WebView) findViewById(R.id.web);
-        mBtnBack = findViewById(R.id.btn_back);
-        ViewCompat.setTransitionName(mBtnBack, "back");
-        mBtnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (web.canGoBack()) {
-                    web.goBack();
-                } else {
-                    ActivityCompat.finishAfterTransition(WebViewActivity.this);
-                }
-            }
-        });
+        web = (WebView) findViewById(R.id.web);
         WebSettings webSettings = web.getSettings();
         webSettings.setBlockNetworkLoads(false);
         webSettings.setBlockNetworkImage(false);
@@ -99,7 +101,7 @@ public class WebViewActivity extends AbstractActivity {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                Toast.makeText(WebViewActivity.this, error.getDescription(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(WebViewActivity.this, error.getDescription(), Toast.LENGTH_SHORT).show();
             }
 
 
@@ -117,4 +119,15 @@ public class WebViewActivity extends AbstractActivity {
         web.loadUrl(imgth);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (web.canGoBack()) {
+                web.goBack();
+            } else {
+                ActivityCompat.finishAfterTransition(WebViewActivity.this);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

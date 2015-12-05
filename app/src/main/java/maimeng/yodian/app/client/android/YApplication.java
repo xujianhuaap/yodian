@@ -30,14 +30,13 @@ import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
  * Created by android on 15-7-13.
  */
 public class YApplication extends DemoApplication {
-    private final Object lock=new Object();
+    private final Object lock = new Object();
     public static int channelId = -1;
     public static String channelName;
     public static int versionCode;
     public static String versionName = "";
     private List<Activity> activityList = new ArrayList<>();
     private static YApplication instance;
-
 
 
     public static YApplication getInstance() {
@@ -131,6 +130,7 @@ public class YApplication extends DemoApplication {
         Network.getOne().init(this);
         ShareSDK.getInstance().initShare(BuildConfig.WEIXIN_APP_KEY, BuildConfig.WEIBO_APP_KEY, BuildConfig.QQ_APP_KEY, BuildConfig.WEIXIN_APP_SECRET, BuildConfig.REDIRECT_URL);
         EMChat.getInstance().setDebugMode(BuildConfig.DEBUG);
+        MobclickAgent.setDebugMode(BuildConfig.DEBUG);
 
 
     }
