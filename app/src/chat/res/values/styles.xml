@@ -101,7 +101,8 @@
     <style name="MyAlertDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
@@ -113,7 +114,9 @@
         <!-- 是否浮现在activity之上 -->
         <item name="android:windowIsTranslucent">true</item>
         <!-- 半透明 -->
-        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+
         <!-- 无标题 -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <!-- 背景透明 -->
