@@ -12,11 +12,12 @@
     </data>
 
     <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/padding_normal"
         android:paddingRight="@dimen/padding_normal"
-        android:paddingBottom="@dimen/padding_large">
+        android:paddingBottom="@dimen/padding_normal">
 
         <LinearLayout
             android:id="@+id/root"
@@ -236,6 +237,15 @@
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
                     android:text="@{skill.content}" />
+                <TextView
+                    android:id="@+id/bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_height"
+                    android:layout_margin="1dp"
+                    android:visibility="gone"
+                    android:gravity="left|center_vertical"
+                    android:singleLine="true"
+                    />
             </LinearLayout>
         </LinearLayout>
 
