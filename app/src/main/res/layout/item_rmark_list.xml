@@ -93,7 +93,6 @@
             android:layout_below="@+id/pic"
             android:background="#fff"
             android:lineSpacingExtra="3dp"
-            android:lineSpacingMultiplier="1"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:text="@{rmark.content}"

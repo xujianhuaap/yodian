@@ -81,7 +81,7 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
         if(!TextUtils.isEmpty(alipay)){
             mIsModify=true;
         }
-        mZhiFuBaoAccount.setText(alipay);
+
         Spanned span= Html.fromHtml(getResources().getString(R.string.draw_money_info_certify_tip));
         mTip.setText(span);
         mSubmit.setOnClickListener(this);
@@ -89,7 +89,7 @@ public class DrawMoneyInfoConfirmActivity extends AbstractActivity implements Vi
 
         mConfirmAccount.addTextChangedListener(new TextWatcherProxy(mConfirmAccount));
         mZhiFuBaoAccount.addTextChangedListener(new TextWatcherProxy(mZhiFuBaoAccount));
-
+        mZhiFuBaoAccount.setText(alipay);
         mService = Network.getService(MoneyService.class);
 
 

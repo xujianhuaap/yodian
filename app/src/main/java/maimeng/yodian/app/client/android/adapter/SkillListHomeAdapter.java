@@ -219,7 +219,7 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             }
             List<android.support.v4.app.Fragment> fragments = new ArrayList<>(2);
             fragments.add(UserHeaderFrist.newInstance(user));
-//            fragments.add(UserHeaderSecond.newInstance(user));
+            fragments.add(UserHeaderSecond.newInstance(user));
             if(fragments.size()<2){
                 mHeaderBinding.titles.setVisibility(View.GONE);
             }else {

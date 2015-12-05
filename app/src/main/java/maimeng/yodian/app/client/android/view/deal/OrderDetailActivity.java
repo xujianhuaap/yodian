@@ -524,6 +524,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         @Override
         public void success(ToastResponse toastResponse, Response response) {
             if (toastResponse.getCode() == 20000) {
+                refreshInfo();
                 Toast.makeText(OrderDetailActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
             }
 

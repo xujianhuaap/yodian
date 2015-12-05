@@ -99,6 +99,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private WaitDialog dialog;
     private FrameLayout noSkillRmark;
     private Bitmap defaultAvatar;
+    private boolean canBuy=true;
 
 
     @Override
@@ -204,6 +205,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQEUST_PAY){
+            canBuy=true;
+        }
         if (resultCode == RESULT_OK) {
             if (requestCode == REQEUST_RMARK_ADD) {
                 binding.refreshLayout.autoRefresh();
@@ -410,7 +414,11 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 RmarkPublishActivity.show(this, skill, headBinding.btnBuySkill, REQEUST_RMARK_ADD);
             } else {
                 MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_DETAIL_PAY_CLICK);
-                PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PAY);
+                if(canBuy){
+                    PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PAY);
+                    canBuy=false;
+                }
+
             }
         }
     }
