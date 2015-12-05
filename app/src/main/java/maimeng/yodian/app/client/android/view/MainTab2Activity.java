@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
@@ -49,6 +50,7 @@ import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
 public class MainTab2Activity extends AbstractActivity implements AlertDialog.PositiveListener, Callback<FloatResponse> {
     private User user;
     private Bitmap mAvatar;
+    private long exitTime;
 
     @Override
     public FloatingActionButton getFloatButton() {
@@ -98,7 +100,6 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                 }
             }
         }
-        syncFloat();
     }
 
     /***
@@ -191,6 +192,14 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         if (indexFragment.onKeyDown(keyCode, event) || userHomeFragment.onKeyDown(keyCode, event)) {
             return true;
         }
+        if (System.currentTimeMillis() - exitTime > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            // 将系统当前的时间赋值给exitTime
+            exitTime = System.currentTimeMillis();
+            return true;
+        } else {
+            finish();
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -207,9 +216,9 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         } else {
             bt.setCustomAnimations(R.anim.translation_to_top_in, R.anim.translation_to_top_out);
             bt.show(indexFragment).hide(userHomeFragment);
-            if(mAvatar==null){
+            if (mAvatar == null) {
                 updateFloatButton();
-            }else{
+            } else {
                 floatButton.setImageBitmap(mAvatar);
             }
 
@@ -265,6 +274,12 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                 dialog.show(getFragmentManager(), "dialog");
             } else {
                 showDefault();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        syncFloat();
+                    }
+                }, 2000);
             }
         }
     }
