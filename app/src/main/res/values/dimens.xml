@@ -58,6 +58,7 @@
     <dimen name="btn_width">65dp</dimen>
     <dimen name="btn_width_normal">75dp</dimen>
     <dimen name="btn_width_smalll">50dp</dimen>
+    <dimen name="btn_width_Xsmalll">35dp</dimen>
     <dimen name="btn_width_big">95dp</dimen>
     <dimen name="btn_width_large">120dp</dimen>
 

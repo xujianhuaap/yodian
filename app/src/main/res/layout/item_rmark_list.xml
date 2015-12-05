@@ -42,6 +42,7 @@
                 android:id="@+id/fra_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_alignBottom="@+id/time"
                 android:layout_marginRight="@dimen/margin_small"
                 android:layout_toRightOf="@id/time"
@@ -49,8 +50,8 @@
 
                 <ImageView
                     android:id="@+id/btn_menu_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/btn_width_Xsmalll"
+                    android:layout_height="@dimen/btn_width_Xsmalll"
                     android:layout_gravity="right|center_vertical"
                     android:alpha="0"
                     android:scaleType="centerInside"
@@ -58,18 +59,18 @@
 
                 <ImageView
                     android:id="@+id/btn_menu_report"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/btn_width_Xsmalll"
+                    android:layout_height="@dimen/btn_width_Xsmalll"
                     android:layout_gravity="right|center_vertical"
+                    android:scaleType="centerInside"
                     android:alpha="0"
                     android:src="@mipmap/ic_menu_report" />
 
                 <ImageView
                     android:id="@+id/btn_menu_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/btn_width_Xsmalll"
+                    android:layout_height="@dimen/btn_width_Xsmalll"
                     android:layout_gravity="right|center_vertical"
-                    android:maxWidth="@dimen/btn_width"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/ic_menu_more" />
             </FrameLayout>

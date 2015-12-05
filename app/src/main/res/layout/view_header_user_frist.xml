@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/user_header_height"
+        android:gravity="center"
         android:layout_marginBottom="10dp"
         android:orientation="vertical"
         android:paddingBottom="10dp">
