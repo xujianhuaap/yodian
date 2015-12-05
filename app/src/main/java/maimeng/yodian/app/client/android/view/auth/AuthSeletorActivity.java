@@ -63,7 +63,6 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
             findViewById(R.id.btn_loginphone).setOnClickListener(this);
             findViewById(R.id.btn_user_protocol).setOnClickListener(this);
             User.clear(AuthSeletorActivity.this);
-            startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
         }
     }
 
