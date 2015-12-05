@@ -209,7 +209,7 @@ public final class ImageLoaderManager {
         }
 
         public void start(Activity activity) {
-            if (activity.isFinishing()) return;
+            if (activity.isFinishing() || uri == null) return;
             ensureSaneDefaults();
             Log.w(ImageLoaderManager.class.getName(), String.format("start Reqeust Image:%s", this.uri.toString()));
             ImageLoaderManager instance = ImageLoaderManager.getInstance();
