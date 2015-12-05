@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/padding_normal"
         android:paddingRight="@dimen/padding_normal"
-        android:paddingTop="20dp">
+        android:paddingBottom="@dimen/padding_large">
 
         <LinearLayout
             android:id="@+id/root"
