@@ -169,8 +169,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         } else {
             btnContactStr = getString(R.string.button_contact_seller);
             mBinding.orderBuyer.setText(Html.fromHtml(getResources().getString(R.string.order_seller_name, info.getSkill().getNickname())));
-            mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_buyed_total_fee, info.getTotal_fee())));
-
+            if(info.getBalance()>0){
+                mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_buyed_total_fee_for_balance, info.getTotal_fee(),info.getBalance()+"")));
+            }else{
+                mBinding.orderTotalFee.setText(Html.fromHtml(getResources().getString(R.string.order_buyed_total_fee, info.getTotal_fee())));
+            }
         }
 
         mBinding.contactBuyer.setText(btnContactStr);

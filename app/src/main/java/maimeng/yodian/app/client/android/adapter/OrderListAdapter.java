@@ -185,6 +185,13 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
 
                 mBinding.orderStatus.setText(statusStr);
                 Spanned html = Html.fromHtml(mContext.getString(R.string.order_total_fee));
+               if(mOrder.getBalance()>0){
+                   mBinding.orderBalance.setVisibility(View.VISIBLE);
+                   mBinding.orderBalance.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee_for_balance,
+                          mOrder.getBalance()+"")));
+               }else {
+                   mBinding.orderBalance.setVisibility(View.GONE);
+               }
                 mBinding.orderPrice.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee,
                         mOrder.getTotal_fee())));
                 SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月 HH:mm");
