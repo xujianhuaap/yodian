@@ -70,6 +70,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     private boolean isSaled;
     private OrderInfo info;
     private static final int REQUEST_ORDER_BUY=0x23;
+    private static final int REQUEST_ORDER_CANCEL=0x24;
     private Lottery mLottery;
     private long oid;
     private boolean isOperator=false;
@@ -134,11 +135,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         } else if (item.getItemId() == R.id.menu_more) {
             int status = Integer.parseInt(info.getStatus());
             if (isSaled) {
-                OrderCancellActivity.show(this, info.getOid(), false);
+                OrderCancellActivity.show(this, info.getOid(), false,REQUEST_ORDER_CANCEL);
             } else {
                 boolean isCancel = (status == 0 || status == 2);
                 MobclickAgent.onEvent(this, UEvent.ODER_DETAIL_CANCEL_CLICK);
-                OrderCancellActivity.show(this, info.getOid(), isCancel);
+                OrderCancellActivity.show(this, info.getOid(), isCancel,REQUEST_ORDER_CANCEL);
             }
 
         }
@@ -550,15 +551,18 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
-            if(requestCode==REQUEST_ORDER_BUY){
-                if(data!=null){
+
+            if(data!=null){
+                if(requestCode==REQUEST_ORDER_BUY){
                     Lottery lottery= Parcels.unwrap(data.getParcelableExtra("lottery"));
                     if(lottery.getIsLottery()==1){
                         LotteryActivity.show(this,lottery);
                     }
+                }else if(requestCode==REQUEST_ORDER_CANCEL){
+                    setResult(RESULT_OK,data);
                 }
-
             }
+
         }
     }
 }

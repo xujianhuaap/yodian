@@ -101,21 +101,29 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_pay_list);
 
         mTitle = (TextView) findViewById(R.id.pay_title);
+        View remainder=findViewById(R.id.pay_remainer);
         findViewById(R.id.pay_wechat).setOnClickListener(this);
         findViewById(R.id.pay_zhifubao).setOnClickListener(this);
-        findViewById(R.id.pay_remainer).setOnClickListener(this);
+        remainder.setOnClickListener(this);
 
         Intent intent = getIntent();
         mBtnMoney = ((TextView) findViewById(R.id.btn_money));
         if (intent.hasExtra("orderInfo")) {
             mOrderInfo = get("orderInfo");
-            price = Float.parseFloat(mOrderInfo.getTotal_fee());
+            price = Float.parseFloat(mOrderInfo.getTotal_fee())- mOrderInfo.getBalance();
             isOrderPay = true;
         } else {
             mSkill = get("skill");
             price = Float.parseFloat(mSkill.getPrice());
         }
-        mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, price)));
+        String priceStr=getResources().getString(R.string.pay_list_title, price);
+        if(mOrderInfo!=null&&mOrderInfo.getBalance()>0){
+            priceStr=getResources().getString(R.string.pay_list_title_using_balance, price);
+            remainder.setVisibility(View.GONE);
+        }else {
+            remainder.setVisibility(View.VISIBLE);
+        }
+        mTitle.setText(Html.fromHtml(priceStr));
 
 //        HNet net = new HNet.Builder()
 //                .setEndpoint(BuildConfig.API_HOST)

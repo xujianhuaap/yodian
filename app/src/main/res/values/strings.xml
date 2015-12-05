@@ -90,7 +90,7 @@
     <string name="no_newversion">没有新版本!</string>
     <string name="my_remainder">我的余额</string>
     <string name="my_remainder_lb">我的余额(元)</string>
-    <string name="withdraw_lb">已提现金额(元)</string>
+    <string name="withdraw_lb">已提现金额</string>
     <string name="bind_bank_card">绑定银行卡</string>
     <string name="toast_bind_bank_card">支付宝账号未绑定</string>
     <string name="apply_vouch">申请担保交易</string>
@@ -220,7 +220,7 @@
     <string name="order_detail_title">订单详情</string>
     <string name="tip_for_buyer_pay">支付有效期还剩%s,有效期过后订单将关闭</string>
     <string name="tip_for_buyer_confirm">主动收货操作时间还剩%s,超过时间将自动收货</string>
-    <string name="tip_for_seller_accept">接单有限期还剩%s,有效期过后订单将关闭</string>
+    <string name="tip_for_seller_accept">接单有效期还剩%s,有效期过后订单将关闭</string>
     <string name="tip_for_seller_send">发货有效期还剩%s,有效期过后订单将关闭</string>
 
     <string name="order_saled_total_fee"><![CDATA[<font color="#000000">出售订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
@@ -247,6 +247,7 @@
     <string name="pay_zhifubao">支付宝支付</string>
     <string name="pay_remainer">余额(%.2f)支付</string>
     <string name="pay_remainder_enable"><![CDATA[<b> 使用余额<font color="#17ACE7">(%1$s)</font>抵扣<br/>只需支付<font color="#17ACE7">%2$s</font>元</b>]]></string>
+    <string name="pay_list_title_using_balance"><![CDATA[<font color="#000000">本次交易还需要支付</font><font color="#FFA739"><big>%1$s</big></font><font color="#000000">元</font><br/></br><font color="#FFA739"><small><small>请选择支付方式</font>]]></string>
     <string name="pay_list_title"><![CDATA[<font color="#000000">本次交易支付金额</font><font color="#FFA739"><big>%1$s</big></font><font color="#000000">元</font><br/></br><font color="#FFA739"><small><small>请选择支付方式</font>]]></string>
     <string name="pay_result_fail"><![CDATA[<font color="#55000000"><big>支付失败</big></font>]]></string>
     <string name="pay_result_sucess"><![CDATA[<font color="#55000000"><big>支付成功</big></font>]]></string>
