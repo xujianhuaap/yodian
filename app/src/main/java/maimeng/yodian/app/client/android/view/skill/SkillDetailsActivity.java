@@ -182,6 +182,10 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
                 setUIWhenIsMe();
+            }else {
+                headBinding.btnContact.setVisibility(View.VISIBLE);
+                headBinding.divinder.setVisibility(View.VISIBLE);
+                headBinding.btnBuySkill.setVisibility(View.VISIBLE);
             }
             binding.refreshLayout.autoRefresh();
         } else {
@@ -262,10 +266,13 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
                 setUIWhenIsMe();
+            }else {
+                headBinding.btnContact.setVisibility(View.VISIBLE);
+                headBinding.divinder.setVisibility(View.VISIBLE);
+                headBinding.btnBuySkill.setVisibility(View.VISIBLE);
             }
             if (skill.getAllow_sell() != 1) {
                 headBinding.skillAllowSell.setVisibility(View.GONE);
-                headBinding.divinder.setVisibility(View.GONE);
             } else {
                 headBinding.skillAllowSell.setVisibility(View.VISIBLE);
             }

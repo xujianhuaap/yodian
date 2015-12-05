@@ -288,8 +288,10 @@ public class SkillListHomeAdapter extends AbstractAdapter<ViewEntry, SkillListHo
             isMe = item.getUid() == user.getUid();
             if (isMe) {
                 binding.btnEdit.setVisibility(View.VISIBLE);
+                binding.bottomDiv.setVisibility(View.VISIBLE);
             } else {
                 binding.btnEdit.setVisibility(View.GONE);
+                binding.bottomDiv.setVisibility(View.GONE);
             }
 
             binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(), item.getUnit())));
