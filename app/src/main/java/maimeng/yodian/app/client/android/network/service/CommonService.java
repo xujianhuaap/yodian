@@ -62,4 +62,7 @@ public interface CommonService {
 
     @Get(Api.FLOAT_ADV)
     void getFloatADV(Callback<String> callback);
+
+    @Get(Api.CUSTOMER)
+    void getCustomer(Callback<String> callback);
 }

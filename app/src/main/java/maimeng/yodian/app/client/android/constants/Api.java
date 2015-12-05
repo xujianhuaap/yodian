@@ -10,8 +10,7 @@ public class Api {
     public static final String PUSH = "/user/push";//消息开关设置
     public static final String FLOAT = "/index/getfloatad";//获取弹窗图片
     public static final String FLOAT_ADV = "/index/getsplash";//获取启动弹窗广告
-
-
+    public static final String CUSTOMER = "/user/getcustomer";//获取官方君资料
 
 
     public static final String SKILL_LIST = "/skill/list";//我/他的技能列表
@@ -34,7 +33,7 @@ public class Api {
     public static final String MONEY_MY = "/money/mybalance";//我的余额
     public static final String MONEY_WITHDRAW = "/money/appwithdraw";//提现申请
     public static final String MONEY_WDLIST = "/money/wdlist";//提现历史
-    public static final String MONEY_ADD_ACCOUNT="/money/addaccount";//增加提现账户
+    public static final String MONEY_ADD_ACCOUNT = "/money/addaccount";//增加提现账户
 
     //bank
     public static final String BANK_LIST
@@ -68,8 +67,8 @@ public class Api {
 
     public static final String SENDSERVICE = "/user/sendservice";
     //basic info
-    public static final String INFO_CODE="/user/getcode";//个人手机验证码
-    public static final String INFO_CERTIFY="/user/certifi";//个人信息验证
-    public static final String INFO_GET="/user/getcertifi";//获得个人认证信息
+    public static final String INFO_CODE = "/user/getcode";//个人手机验证码
+    public static final String INFO_CERTIFY = "/user/certifi";//个人信息验证
+    public static final String INFO_GET = "/user/getcertifi";//获得个人认证信息
 
 }

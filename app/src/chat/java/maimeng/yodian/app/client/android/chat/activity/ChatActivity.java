@@ -96,6 +96,9 @@ import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
 import com.umeng.analytics.MobclickAgent;
 
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -130,6 +133,7 @@ import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
+import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
@@ -289,6 +293,40 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         Intent intent = getIntent();
         chatType = intent.getIntExtra("chatType", CHATTYPE_SINGLE);
         chatUser = get("chatUser");
+        if ("hx_admin".equals(chatUser.getChatName())) {
+            create(CommonService.class).getCustomer(new Callback<String>() {
+                @Override
+                public void start() {
+
+                }
+
+                @Override
+                public void success(String s, Response response) {
+                    try {
+                        JSONObject res = new JSONObject(s);
+                        if (res.getInt("code") == 20000) {
+                            JSONObject customer = res.getJSONObject("data").getJSONObject("customer");
+                            chatUser.setMobile(customer.getString("contact"));
+                            chatUser.setQq(customer.getString("qq"));
+                            chatUser.setWechat(customer.getString("weichat"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+
+                    }
+                }
+
+                @Override
+                public void failure(HNetError hNetError) {
+
+                }
+
+                @Override
+                public void end() {
+
+                }
+            });
+        }
         setTitle(chatUser.getNickName());
         if (intent.hasExtra("skill")) {
             skill = get("skill");
