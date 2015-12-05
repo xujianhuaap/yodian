@@ -16,8 +16,11 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 
+import java.util.Map;
+
 import io.realm.internal.TableView;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
@@ -41,11 +44,11 @@ public class OrderCancellActivity extends AppCompatActivity {
      * @param context
      */
 
-    public static void show(Activity context, long oid, boolean isCancel,int requestCode) {
+    public static void show(Activity context, long oid, boolean isCancel, int requestCode) {
         Intent intent = new Intent(context, OrderCancellActivity.class);
         intent.putExtra("oid", oid);
         intent.putExtra("isCancle", isCancel);
-        context.startActivityForResult(intent,requestCode);
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -57,19 +60,14 @@ public class OrderCancellActivity extends AppCompatActivity {
         findViewById(R.id.contact_us).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //请联系客服
-
-                RobotUser robot = new RobotUser();
-                robot.setUsername("hx_admin");
-
-                maimeng.yodian.app.client.android.chat.domain.User user = new maimeng.yodian.app.client.android.chat.domain.User();
-                user.setUsername("hx_admin");
-
-                // 存入内存
-                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(robot);
-                ((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveOrUpdate(user);
-                MobclickAgent.onEvent(OrderCancellActivity.this, UEvent.CONTACT_TA);
-                ChatActivity.show(OrderCancellActivity.this, new ChatUser(user.getUsername(), 0, null));
+                Map<String, maimeng.yodian.app.client.android.chat.domain.User> users = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList();
+                maimeng.yodian.app.client.android.chat.domain.User user = users.get("hx_admin");
+//                Skill skill = Skill.parse(msg);
+                ChatUser chatUser = new ChatUser(user.getUsername(), user.getId(), user.getNick());
+                chatUser.setMobile(user.getMobile());
+                chatUser.setQq(user.getQq());
+                chatUser.setWechat(user.getWechat());
+                ChatActivity.show(v.getContext(), chatUser);
                 finish();
             }
         });
@@ -99,7 +97,7 @@ public class OrderCancellActivity extends AppCompatActivity {
                                     @Override
                                     public void success(ToastResponse toastResponse, Response response) {
                                         Toast.makeText(OrderCancellActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                                        setResult(RESULT_OK,getIntent().putExtra("isOperator",true));
+                                        setResult(RESULT_OK, getIntent().putExtra("isOperator", true));
                                         finish();
                                     }
 
