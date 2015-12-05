@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.Gravity;
@@ -51,7 +52,7 @@ import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 /**
  * Created by xujianhua on 10/12/15.
  */
-public class PayListActivity extends AbstractActivity implements View.OnClickListener {
+public class PayListActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mTitle;
     private Skill mSkill;
     private BuyService mService;
@@ -75,7 +76,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
     public static void show(Activity context, OrderInfo orderInfo, int requestCode) {
         Intent intent = new Intent(context, PayListActivity.class);
         intent.putExtra("orderInfo", Parcels.wrap(orderInfo));
-        context.startActivityForResult(intent, requestCode);
+        context.startActivityForResult(intent, requestCode, new Bundle());
     }
 
     /***
@@ -88,7 +89,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
     public static void show(Activity context, Skill orderInfo, int requestCode) {
         Intent intent = new Intent(context, PayListActivity.class);
         intent.putExtra("skill", Parcels.wrap(orderInfo));
-        context.startActivityForResult(intent, requestCode);
+        context.startActivityForResult(intent, requestCode, new Bundle());
     }
 
     private boolean canUseMoney = false;//是否使用余额
@@ -97,7 +98,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setGravity(Gravity.BOTTOM);
-        setContentView(R.layout.activity_pay_list, false);
+        setContentView(R.layout.activity_pay_list);
 
         mTitle = (TextView) findViewById(R.id.pay_title);
         findViewById(R.id.pay_wechat).setOnClickListener(this);
@@ -153,12 +154,6 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
 
 
     }
-
-    @Override
-    protected void onRetry() {
-
-    }
-
 
     /***
      * @param v
@@ -285,7 +280,7 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
     public final class CallBackProxy implements Callback<String> {
         private final int payType;
 
-        public  CallBackProxy(int payType) {
+        public CallBackProxy(int payType) {
             this.payType = payType;
         }
 
@@ -398,5 +393,9 @@ public class PayListActivity extends AbstractActivity implements View.OnClickLis
                 }
             }, btnTip).create().show();
         }
+    }
+
+    protected <T> T get(String key) {
+        return Parcels.unwrap(getIntent().getParcelableExtra(key));
     }
 }

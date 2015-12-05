@@ -32,6 +32,7 @@ public class PayWrapperActivity extends AppCompatActivity {
 
     /***
      * 订单支付
+     *
      * @param context
      * @param info
      * @param requestCode
@@ -39,11 +40,12 @@ public class PayWrapperActivity extends AppCompatActivity {
     public static void show(Activity context, OrderInfo info, int requestCode) {
         Intent intent = new Intent(context, PayWrapperActivity.class);
         intent.putExtra("info", Parcels.wrap(info));
-        context.startActivityForResult(intent, requestCode);
+        context.startActivityForResult(intent, requestCode, new Bundle());
     }
 
     /***
      * 订单支付
+     *
      * @param context
      * @param info
      * @param requestCode
@@ -51,7 +53,7 @@ public class PayWrapperActivity extends AppCompatActivity {
     public static void show(Fragment context, OrderInfo info, int requestCode) {
         Intent intent = new Intent(context.getContext(), PayWrapperActivity.class);
         intent.putExtra("info", Parcels.wrap(info));
-        context.startActivityForResult(intent, requestCode);
+        context.getActivity().startActivityForResult(intent, requestCode, new Bundle());
     }
 
     /***
@@ -63,7 +65,7 @@ public class PayWrapperActivity extends AppCompatActivity {
     public static void show(Context context, Skill info) {
         Intent intent = new Intent(context, PayWrapperActivity.class);
         intent.putExtra("skill", Parcels.wrap(info));
-        context.startActivity(intent);
+        context.startActivity(intent, new Bundle());
     }
 
     /***
@@ -76,7 +78,7 @@ public class PayWrapperActivity extends AppCompatActivity {
         Intent intent = new Intent(context, PayWrapperActivity.class);
         intent.putExtra("skill", Parcels.wrap(info));
         intent.putExtra("result", true);
-        context.startActivityForResult(intent, requestCode);
+        context.startActivityForResult(intent, requestCode, new Bundle());
     }
 
     @Override
@@ -84,7 +86,7 @@ public class PayWrapperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if (intent.hasExtra("info")) {
-            OrderInfo info =  Parcels.unwrap(intent.getParcelableExtra("info"));
+            OrderInfo info = Parcels.unwrap(intent.getParcelableExtra("info"));
             PayListActivity.show(this, info, REQUEST_CODE);
         } else {
             Skill skill = Parcels.unwrap(intent.getParcelableExtra("skill"));
