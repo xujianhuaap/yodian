@@ -66,38 +66,34 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (LauncherCheck.isFirstRun(this)) {
-            finish();
-        } else {
-            PushAgent mPushAgent = PushAgent.getInstance(this);
-            mPushAgent.enable();
-            mPushAgent.onAppStart();
-            setContentView(R.layout.activity_yodian_main2, false);
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.enable();
+        mPushAgent.onAppStart();
+        setContentView(R.layout.activity_yodian_main2, false);
 
-            floatButton = (FloatingActionButton) findViewById(R.id.btn_float);
-            floatButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    toggle();
-                }
-            });
-            floatButton.setShadow(false);
-            new CheckUpdateDelegate(this, false).checkUpdate();
-            FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
-            userHomeFragment = UserHomeFragment.newInstance();
-            indexFragment = IndexFragment.newInstance();
-            bt.add(R.id.container, userHomeFragment, UserHomeFragment.class.getName());
-            bt.add(R.id.container, indexFragment, IndexFragment.class.getName());
+        floatButton = (FloatingActionButton) findViewById(R.id.btn_float);
+        floatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggle();
+            }
+        });
+        floatButton.setShadow(false);
+        new CheckUpdateDelegate(this, false).checkUpdate();
+        FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
+        userHomeFragment = UserHomeFragment.newInstance();
+        indexFragment = IndexFragment.newInstance();
+        bt.add(R.id.container, userHomeFragment, UserHomeFragment.class.getName());
+        bt.add(R.id.container, indexFragment, IndexFragment.class.getName());
 //            bt.addToBackStack(null);
-            bt.hide(userHomeFragment).show(indexFragment);
-            bt.commitAllowingStateLoss();
-            initFragment();
-            Network.getService(CommonService.class).getFloat(this);
-            updateFloatButton();
-            if (getIntent().hasExtra("home")) {
-                if (!userHomeFragment.isVisible()) {
-                    floatButton.callOnClick();
-                }
+        bt.hide(userHomeFragment).show(indexFragment);
+        bt.commitAllowingStateLoss();
+        initFragment();
+        Network.getService(CommonService.class).getFloat(this);
+        updateFloatButton();
+        if (getIntent().hasExtra("home")) {
+            if (!userHomeFragment.isVisible()) {
+                floatButton.callOnClick();
             }
         }
     }

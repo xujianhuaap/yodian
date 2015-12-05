@@ -63,7 +63,12 @@
 
         <activity-alias
             android:name=".SplashActivity"
-            android:targetActivity=".view.splash.${LAUNCHER_ACTIVITY}" />
+            android:targetActivity=".view.splash.${LAUNCHER_ACTIVITY}">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <activity
             android:name=".view.MainTab2Activity"
@@ -137,12 +142,7 @@
         <activity
             android:name=".view.auth.AuthSeletorActivity"
             android:exported="true"
-            android:theme="@style/AppThemeWhite">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppThemeWhite"></activity>
         <activity android:name=".view.auth.AuthSettingInfoActivity" />
         <activity
             android:name=".view.common.WebLauncher"
