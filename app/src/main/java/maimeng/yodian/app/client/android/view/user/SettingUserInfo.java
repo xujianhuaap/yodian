@@ -195,8 +195,14 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                     d = "";
                 } else {
                     d = district.getName();
+
                 }
-                binding.cities.setText(p + c + d);
+                if(TextUtils.isEmpty(d)){
+                    binding.cities.setText(p + c);
+                }else{
+                    binding.cities.setText(p + c + d);
+                }
+
                 user.getInfo().setProvince(p);
                 user.getInfo().setCity(c);
                 user.getInfo().setDistrict(d);

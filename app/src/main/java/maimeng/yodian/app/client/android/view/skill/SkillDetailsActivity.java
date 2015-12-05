@@ -99,6 +99,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private WaitDialog dialog;
     private FrameLayout noSkillRmark;
     private Bitmap defaultAvatar;
+    private boolean canBuy=true;
 
 
     @Override
@@ -181,6 +182,10 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
                 setUIWhenIsMe();
+            }else {
+                headBinding.btnContact.setVisibility(View.VISIBLE);
+                headBinding.divinder.setVisibility(View.VISIBLE);
+                headBinding.btnBuySkill.setVisibility(View.VISIBLE);
             }
             binding.refreshLayout.autoRefresh();
         } else {
@@ -204,6 +209,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQEUST_PAY){
+            canBuy=true;
+        }
         if (resultCode == RESULT_OK) {
             if (requestCode == REQEUST_RMARK_ADD) {
                 binding.refreshLayout.autoRefresh();
@@ -258,10 +266,13 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
                 setUIWhenIsMe();
+            }else {
+                headBinding.btnContact.setVisibility(View.VISIBLE);
+                headBinding.divinder.setVisibility(View.VISIBLE);
+                headBinding.btnBuySkill.setVisibility(View.VISIBLE);
             }
             if (skill.getAllow_sell() != 1) {
                 headBinding.skillAllowSell.setVisibility(View.GONE);
-                headBinding.divinder.setVisibility(View.GONE);
             } else {
                 headBinding.skillAllowSell.setVisibility(View.VISIBLE);
             }
@@ -410,7 +421,11 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 RmarkPublishActivity.show(this, skill, headBinding.btnBuySkill, REQEUST_RMARK_ADD);
             } else {
                 MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_DETAIL_PAY_CLICK);
-                PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PAY);
+                if(canBuy){
+                    PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PAY);
+                    canBuy=false;
+                }
+
             }
         }
     }
