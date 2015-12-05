@@ -139,7 +139,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             public void success(RemainderResponse res, Response response) {
                 money = res.getData().getMoney();
                 mBtnMoney.setText(getString(R.string.pay_remainer, money));
-                if (money < price) {
+                if (money < price&&money>0) {
                     canUseMoney = true;
                     mBtnMoney.setEnabled(false);
                     mBtnMoney.setTextColor(Color.parseColor("#cccccc"));

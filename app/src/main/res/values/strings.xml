@@ -203,8 +203,8 @@
     <string name="order_status_cancle">已取消</string>
     <string name="order_status_buyer_cancle">已取消 </string>
     <string name="order_status_buyer_close">已取消</string>
-    <string name="order_total_fee"><![CDATA[<b><font color="#ffffff"><strong>订单价格为：<big>%1$s</big></strong>元</font></b> ]]></string>
-
+    <string name="order_total_fee"><![CDATA[<b><font color="#ffffff"><strong>订单价格为：<big>%1$s</big></strong>元</font></b><br/>]]></string>
+    <string name="order_total_fee_for_balance"><![CDATA[<b><font color="#17ace7"><small>余额已经抵扣%1$s元<small></font></b> ]]></string>
 
     <string name="buyer_operator_pay">支付</string>
     <string name="buyer_operator_confirm">确认收货</string>
@@ -223,8 +223,9 @@
     <string name="tip_for_seller_accept">接单有效期还剩%s,有效期过后订单将关闭</string>
     <string name="tip_for_seller_send">发货有效期还剩%s,有效期过后订单将关闭</string>
 
-    <string name="order_saled_total_fee"><![CDATA[<font color="#000000">出售订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
-    <string name="order_buyed_total_fee"><![CDATA[<font color="#000000">已购订单合计：</font><b><font color="#FFA739"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
+    <string name="order_saled_total_fee"><![CDATA[<font color="#000000">出售订单合计：</font><b><font color="#1e90ff"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
+    <string name="order_buyed_total_fee"><![CDATA[<font color="#000000">订单合计：</font><b><font color="#1e90ff"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font>]]></string>
+    <string name="order_buyed_total_fee_for_balance"><![CDATA[<font color="#000000">订单合计：</font><b><font color="#17ace7"><big><big><strong>%1$s</strong></big></big></font></b><font color="#000000"> 元</font><br/><font color="#17ace7"><small>余额已经抵扣%2$s元<small></font>]]></string>
     <string name="order_skill_price"><![CDATA[<b><font >%1$s元/%2$s</font></b>]]></string>
     <string name="order_number"><![CDATA[<font color="#000000">订单编号: %1$s<font>]]></string>
     <string name="order_buyer_name"><![CDATA[<font color="#000000">买家名称: %1$s<font>]]></string>
