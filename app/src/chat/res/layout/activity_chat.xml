@@ -79,8 +79,10 @@
 
                 <maimeng.yodian.app.client.android.chat.widget.PasteEditText
                     android:id="@+id/et_sendmessage"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/iv_emoticons_normal"
                     android:background="@drawable/edit_circle_bg"
                     android:hint="输入新消息"
                     android:imeOptions="actionSend"
@@ -91,7 +93,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/iv_emoticons_normal"
+                    android:id="@id/iv_emoticons_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
