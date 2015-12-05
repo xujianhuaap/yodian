@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,11 +41,11 @@ public class OrderCancellActivity extends AppCompatActivity {
      * @param context
      */
 
-    public static void show(Context context, long oid, boolean isCancel) {
+    public static void show(Activity context, long oid, boolean isCancel,int requestCode) {
         Intent intent = new Intent(context, OrderCancellActivity.class);
         intent.putExtra("oid", oid);
         intent.putExtra("isCancle", isCancel);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,requestCode);
     }
 
     @Override
@@ -98,6 +99,7 @@ public class OrderCancellActivity extends AppCompatActivity {
                                     @Override
                                     public void success(ToastResponse toastResponse, Response response) {
                                         Toast.makeText(OrderCancellActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                                        setResult(RESULT_OK,getIntent().putExtra("isOperator",true));
                                         finish();
                                     }
 

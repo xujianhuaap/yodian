@@ -109,13 +109,17 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         mBtnMoney = ((TextView) findViewById(R.id.btn_money));
         if (intent.hasExtra("orderInfo")) {
             mOrderInfo = get("orderInfo");
-            price = Float.parseFloat(mOrderInfo.getTotal_fee());
+            price = Float.parseFloat(mOrderInfo.getTotal_fee())- mOrderInfo.getBalance();
             isOrderPay = true;
         } else {
             mSkill = get("skill");
             price = Float.parseFloat(mSkill.getPrice());
         }
-        mTitle.setText(Html.fromHtml(getResources().getString(R.string.pay_list_title, price)));
+        String priceStr=getResources().getString(R.string.pay_list_title, price);
+        if(mOrderInfo!=null&&mOrderInfo.getBalance()>0){
+            priceStr=getResources().getString(R.string.pay_list_title_using_balance, price);
+        }
+        mTitle.setText(Html.fromHtml(priceStr));
 
 //        HNet net = new HNet.Builder()
 //                .setEndpoint(BuildConfig.API_HOST)
