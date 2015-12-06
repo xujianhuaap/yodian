@@ -77,9 +77,9 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
      * @param context
      * @param
      */
-    public static void show(Activity context){
+    public static void show(Activity context,int requestCode){
         Intent intent=new Intent(context,BasicalInfoConfirmActivity.class);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,requestCode);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -346,7 +346,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
                 if(toastResponse.getCode()==20000){
                     if(!isGetCode){
                         Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
-                        CreateOrEditSkillActivity.backTo(BasicalInfoConfirmActivity.this);
+                        setResult(RESULT_OK,getIntent());
                         finish();
                     }
 

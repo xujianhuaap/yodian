@@ -1,5 +1,6 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.transfuse.annotations.OnActivityResult;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
@@ -20,6 +22,7 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.BasicalInfoConfirmActivity;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
@@ -35,9 +38,9 @@ public class VouchDealActivity extends AppCompatActivity  {
      * @param context
      */
 
-    public static void show(Context context) {
+    public static void show(Activity context, int requestCode) {
         Intent intent = new Intent(context, VouchDealActivity.class);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,requestCode);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class VouchDealActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 MobclickAgent.onEvent(VouchDealActivity.this, UEvent.INFO_CERTIFY_GO);
-                BasicalInfoConfirmActivity.show(VouchDealActivity.this);
+                BasicalInfoConfirmActivity.show(VouchDealActivity.this,REQUEST_CERTIFY);
             }
         });
 
@@ -64,5 +67,15 @@ public class VouchDealActivity extends AppCompatActivity  {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(requestCode==REQUEST_CERTIFY){
+                setResult(RESULT_OK,data);
+                finish();
+            }
+        }
 
+    }
 }

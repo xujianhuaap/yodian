@@ -53,6 +53,7 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -68,6 +69,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     private static final int REQUEST_AUTH = 0x1001;
     private static final int REQUEST_SELECT_PHOTO = 0x2001;
     private static final int REQUEST_DONE = 0x1003;
+    private static final int REQUEST_INFO_CERTIFY = 0x1004;
     private SkillService service;
     private ActivityCreateSkillBinding binding;
     private Bitmap mBitmap;
@@ -300,7 +302,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
 
                     } else {
                         binding.onLinePay.setChecked(false);
-                        VouchDealActivity.show(CreateOrEditSkillActivity.this);
+                        VouchDealActivity.show(CreateOrEditSkillActivity.this,REQUEST_INFO_CERTIFY);
                     }
                 }
             }
@@ -549,8 +551,10 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                     toggle();
                     tempFile.deleteOnExit();
                 }
-            } else if (requestCode == REQUEST_DONE) {
-
+            } else if (requestCode == REQUEST_INFO_CERTIFY) {
+                onLinePay = true;
+                info.setCertifi_status(CertifyStatus.PASS);
+                binding.onLinePay.setChecked(onLinePay);
             }
         }
 

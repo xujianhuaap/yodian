@@ -272,6 +272,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
             case 5:
                 //交易完成
                 operatorStr = getString(R.string.order_status_confirm_deal);
+                mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
                 mBinding.tip.setVisibility(View.GONE);
                 mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
                 mBinding.processPay.setChecked(true);
