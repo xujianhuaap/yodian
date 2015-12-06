@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -20,8 +21,8 @@ import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 /**
  * Created by xujianhua on 9/2/15.
  */
-public class LauncherGuideActivity extends Activity implements View.OnClickListener
-        , ViewPager.OnPageChangeListener {
+public class LauncherGuideActivity extends Activity
+        implements ViewPager.OnPageChangeListener {
     private ViewPager viewPager;
     private PagerAdapter adapter;
     private ArrayList<View> views = new ArrayList<View>();
@@ -48,7 +49,6 @@ public class LauncherGuideActivity extends Activity implements View.OnClickListe
                 imageView.setImageResource(resId);
                 views.add(root);
             }
-            views.get(views.size() - 1).setOnClickListener(this);
             adapter = new GuideAdapter(views);
             viewPager.setAdapter(adapter);
             viewPager.addOnPageChangeListener(this);
@@ -56,12 +56,12 @@ public class LauncherGuideActivity extends Activity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
-        LauncherCheck.updateFirstRun(this, false);
-        AuthRedirect.toHome(this);
-        finish();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
-
 
     private class GuideAdapter extends PagerAdapter {
         private final ArrayList<View> views = new ArrayList<View>();
@@ -107,7 +107,7 @@ public class LauncherGuideActivity extends Activity implements View.OnClickListe
                 @Override
                 public void run() {
                     LauncherCheck.updateFirstRun(LauncherGuideActivity.this, false);
-                    AuthRedirect.toHome(LauncherGuideActivity.this);
+                    setResult(RESULT_OK);
                     finish();
                 }
             };

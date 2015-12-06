@@ -48,22 +48,16 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (!TextUtils.isEmpty(User.read(this).getToken())) {
-            startActivity(new Intent(this, MainTab2Activity.class));
-            startActivity(new Intent().setClassName(this, getPackageName() + ".SplashActivity"));
-            finish();
-        } else {
-            service = Network.getService(AuthService.class);
-            setContentView(R.layout.activity_auth_selector, false);
-            ScrollImageView image = (ScrollImageView) findViewById(R.id.scrollImage);
-            image.setImage(getResources().openRawResource(R.raw.scroll_bitmap));
-            image.startScroll();
-            findViewById(R.id.btn_loginwechat).setOnClickListener(this);
-            findViewById(R.id.btn_loginweibo).setOnClickListener(this);
-            findViewById(R.id.btn_loginphone).setOnClickListener(this);
-            findViewById(R.id.btn_user_protocol).setOnClickListener(this);
-            User.clear(AuthSeletorActivity.this);
-        }
+        service = Network.getService(AuthService.class);
+        setContentView(R.layout.activity_auth_selector, false);
+        ScrollImageView image = (ScrollImageView) findViewById(R.id.scrollImage);
+        image.setImage(getResources().openRawResource(R.raw.scroll_bitmap));
+        image.startScroll();
+        findViewById(R.id.btn_loginwechat).setOnClickListener(this);
+        findViewById(R.id.btn_loginweibo).setOnClickListener(this);
+        findViewById(R.id.btn_loginphone).setOnClickListener(this);
+        findViewById(R.id.btn_user_protocol).setOnClickListener(this);
+        User.clear(AuthSeletorActivity.this);
     }
 
     @Override

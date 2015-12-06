@@ -17,8 +17,11 @@ import org.json.JSONObject;
 
 import io.realm.Realm;
 import maimeng.yodian.app.client.android.common.AdvertiseStatus;
+import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.service.CommonService;
+import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
+import maimeng.yodian.app.client.android.view.user.LauncherGuideActivity;
 
 
 /**
@@ -27,6 +30,8 @@ import maimeng.yodian.app.client.android.network.service.CommonService;
 public abstract class AbsSplashActivity extends AppCompatActivity implements Callback<String> {
     private final Handler handler = new Handler();
     private boolean show = true;
+    private int REQUEST_GUIDE = 0x1006;
+    private int REQUEST_ADV = 0x1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public abstract class AbsSplashActivity extends AppCompatActivity implements Cal
                 if (obj != null && !TextUtils.isEmpty(obj.getPic()) && obj.isShow() && show) {
                     startActivityForResult(new Intent(AbsSplashActivity.this, SplashAdvertiseActivity.class).putExtra("pic", obj.getPic()), 1001);
                 } else {
-                    onTimeout();
+                    handlerOther();
                 }
                 instance.close();
             }
@@ -53,11 +58,27 @@ public abstract class AbsSplashActivity extends AppCompatActivity implements Cal
         updateAdvertise();
     }
 
+    private void handlerOther() {
+        if (LauncherCheck.isFirstRun(AbsSplashActivity.this)) {
+            startActivityForResult(new Intent(AbsSplashActivity.this, LauncherGuideActivity.class), REQUEST_GUIDE);
+        } else {
+            if (TextUtils.isEmpty(maimeng.yodian.app.client.android.model.user.User.read(AbsSplashActivity.this).getToken())) {
+                AuthRedirect.toAuth(AbsSplashActivity.this);
+            } else {
+                AuthRedirect.toHome(AbsSplashActivity.this);
+            }
+            onTimeout();
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1001 && resultCode == RESULT_OK) {
-            onTimeout();
+        if (requestCode == REQUEST_ADV && resultCode == RESULT_OK) {
+            handlerOther();
+        }
+        if (requestCode == REQUEST_GUIDE && resultCode == RESULT_OK) {
+            handlerOther();
         }
     }
 
