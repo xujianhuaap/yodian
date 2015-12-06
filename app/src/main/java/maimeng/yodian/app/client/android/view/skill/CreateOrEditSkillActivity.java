@@ -238,9 +238,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 }
             }).width((int) getResources().getDimension(R.dimen.skill_list_item_img_width)).height((int) getResources().getDimension(R.dimen.skill_list_item_img_width) * 2 / 3).start(this);
         }
-        binding.setTemplate(mTemplate);
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
-
         binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));
         binding.skillPrice.addTextChangedListener(new EditTextChangeListener(binding.skillPrice, binding, mTemplate));
         binding.skillUnit.addTextChangedListener(new EditTextChangeListener(binding.skillUnit, binding, mTemplate));
@@ -316,6 +314,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
         } else {
             MobclickAgent.onEvent(this, UEvent.SKILL_PUBLISH);
         }
+        binding.setTemplate(mTemplate);
     }
 
     private void toggle() {
@@ -376,6 +375,10 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             binding.skillUnit.setError(getText(R.string.create_not_empty_unit));
             return;
         }
+        if (TextUtils.isEmpty(binding.skillPrice.getText().toString())){
+            binding.skillPrice.setError(getText(R.string.create_not_empty_pirce));
+            return;
+        }
         if (mBitmap == null) {
             Toast.makeText(this, R.string.create_not_empty_pic, Toast.LENGTH_SHORT).show();
             return;
@@ -403,7 +406,11 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         data.putExtra("skill", Parcels.wrap(skill));
                         setResult(RESULT_OK, data);
                         finish();
-                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) ;
+                    } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)){
+
+                    } else {
+                        res.showMessage(CreateOrEditSkillActivity.this,res.getMsg());
+                    };
                 }
 
                 @Override
@@ -426,6 +433,9 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
+                        if(res.getCode()==55000){
+                            res.showMessage(CreateOrEditSkillActivity.this,res.getMsg());
+                        }
                         if (res.isSuccess()) {
                             final Skill newSkill = res.getData();
                             if (mShareDialog == null) {
@@ -443,7 +453,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)) {
 
                         } else {
-                            res.showMessage(CreateOrEditSkillActivity.this);
+                            res.showMessage(CreateOrEditSkillActivity.this,res.getMsg());
                         }
                     }
 
@@ -606,10 +616,23 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 int posDot = temp.indexOf(".");
                 if (posDot > 0) {
                     if (temp.length() - posDot - 1 > 2) {
-                        s.delete(posDot + 3, posDot + 4);
+                        temp=temp.substring(0,posDot+3);
+                        mText.setText(temp);
+                    }
+                }else if(posDot==0){
+                    if(temp.startsWith(".")){
+                        temp="0"+temp;
                     }
                 }
-                mTemplate.setPrice(java.lang.Float.parseFloat(s.toString()));
+                if(!TextUtils.isEmpty(temp)){
+                    if(temp.endsWith(".")){
+                        temp=temp+"00";
+                    }
+                    mTemplate.setPrice(java.lang.Float.parseFloat(temp.toString()));
+                }else {
+                    mTemplate.setPrice(0.00f);
+                    temp="0.00";
+                }
             } else if (mText == binding.skillUnit) {
                 mTemplate.setUnit(name);
             }
