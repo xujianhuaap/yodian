@@ -16,8 +16,17 @@ public class Remainder {
     private float money;
     private float withdraw;
     private float during;
+    private float freeze;
     private String draw_account;
     private int readicon;
+
+    public float getFreeze() {
+        return freeze;
+    }
+
+    public void setFreeze(float freeze) {
+        this.freeze = freeze;
+    }
 
     public void setMoney(float money) {
         this.money = money;

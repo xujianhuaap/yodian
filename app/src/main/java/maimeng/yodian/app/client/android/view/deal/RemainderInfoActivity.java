@@ -62,6 +62,12 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
         setContentView(binding.getRoot());
         binding.htmlComment.setText(Html.fromHtml(getResources().getString(R.string.during_comment3)));
         binding.setRemainder(mAlipay);
+        if(mAlipay.getFreeze()>0){
+            binding.freeze.setVisibility(View.VISIBLE);
+        }else {
+            binding.freeze.setVisibility(View.GONE);
+        }
+        binding.freeze.setText(Html.fromHtml(getResources().getString(R.string.remainder_freeze,String.format("%.2f",mAlipay.getFreeze()))));
         binding.btnDuring.setOnClickListener(this);
         binding.mySaleOrder.setOnClickListener(this);
         service = Network.getService(MoneyService.class);

@@ -63,6 +63,7 @@
     <dimen name="btn_width_large">120dp</dimen>
 
     <dimen name="btn_height">40dp</dimen>
+    <dimen name="btn_height_big">55dp</dimen>
     <dimen name="btn_height_small">35dp</dimen>
     <dimen name="btn_height_Xsmall">30dp</dimen>
     <dimen name="btn_height_large">80dp</dimen>
