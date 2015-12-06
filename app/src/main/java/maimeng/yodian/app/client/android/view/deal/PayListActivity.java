@@ -112,16 +112,15 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             mOrderInfo = get("orderInfo");
             price = mOrderInfo.getTotal_fee()- mOrderInfo.getBalance();
             isOrderPay = true;
+            remainder.setVisibility(View.GONE);
         } else {
             mSkill = get("skill");
             price = mSkill.getPrice();
+            remainder.setVisibility(View.VISIBLE);
         }
         String priceStr=getResources().getString(R.string.pay_list_title, price);
         if(mOrderInfo!=null&&mOrderInfo.getBalance()>0){
             priceStr=getResources().getString(R.string.pay_list_title_using_balance, price);
-            remainder.setVisibility(View.GONE);
-        }else {
-            remainder.setVisibility(View.VISIBLE);
         }
         mTitle.setText(Html.fromHtml(priceStr));
 
@@ -188,9 +187,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             } else if (v.getId() == R.id.pay_wechat) {
                 if (canUseMoney) {
                     RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(PayListActivity.this);
-                    builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, money + "", price - money + "")));
-                    LogUtil.d("ceshi","prce"+price);
-                    LogUtil.d("cehsi","money"+money);
+                    builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, String.format("%.2f",money), String.format("%.2f",price - money ))));
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
                         public void positiveClick() {
