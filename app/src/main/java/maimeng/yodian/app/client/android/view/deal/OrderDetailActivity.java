@@ -313,7 +313,6 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 mBinding.tip.setVisibility(View.GONE);
                 mBinding.orderStatusPay.setChecked(false);
                 mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time()))));
-                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time)));
                 mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));
                 mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
                 break;
