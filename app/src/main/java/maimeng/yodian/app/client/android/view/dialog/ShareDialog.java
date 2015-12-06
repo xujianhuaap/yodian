@@ -327,7 +327,7 @@ public class ShareDialog extends DialogFragment {
         }
 
         title.setText(skill.getName());
-        price.setText(skill.getPrice());
+        price.setText(String.format("%.2f",skill.getPrice()));
         content.setText(skill.getContent());
         nickname.setText(skill.getNickname());
 

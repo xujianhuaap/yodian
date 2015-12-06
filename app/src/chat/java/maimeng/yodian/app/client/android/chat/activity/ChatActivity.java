@@ -129,6 +129,7 @@ import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
+import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
@@ -1152,7 +1153,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                         Skill skill = new Skill();
                         skill.setName(skillJson.getString("name"));
                         skill.setId(skillJson.getLong("sid"));
-                        skill.setPrice(skillJson.getString("price"));
+                        skill.setPrice(java.lang.Float.parseFloat(skillJson.getString("price")));
                         skill.setUnit(skillJson.getString("unit"));
                         skill.setPic(skillJson.getString("pic"));
                         skill.setAvatar(skillJson.getString("avatar"));

@@ -55,7 +55,7 @@ public interface SkillService {
     @Multipart
     @Post(Api.SKILL_ADD)
     void add(@Param("name") String name, @Param("content") String content,
-             @Param("pic") TypedBitmap pic, @Param("price") String price,
+             @Param("pic") TypedBitmap pic, @Param("price") float price,
              @Param("unit") String unit, @Param("allow_sell") int allowSell, Callback<SkillAllResponse> callback);
 
     /**
@@ -73,7 +73,7 @@ public interface SkillService {
     @Post(Api.SKILL_UPDATE)
     void update(@Param("sid") long sid, @Param("name") String name,
                 @Param("content") String content, @Param("pic") TypedBitmap pic,
-                @Param("price") String price, @Param("unit") String unit,
+                @Param("price") float price, @Param("unit") String unit,
                 @Param("allow_sell") int allowSell, ToastCallback callback);
 
 

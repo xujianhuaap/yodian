@@ -44,8 +44,8 @@ public class OrderInfo {
     private String endtime;
     private String systime;
     private String confirm_time;
-    private String total_fee;
-    private String real_fee;
+    private float total_fee;
+    private float real_fee;
     private String skill_name;
     private String paytype;
     private String status;
@@ -168,19 +168,19 @@ public class OrderInfo {
         this.confirm_time = confirm_time;
     }
 
-    public String getTotal_fee() {
+    public float getTotal_fee() {
         return total_fee;
     }
 
-    public void setTotal_fee(String total_fee) {
+    public void setTotal_fee(float total_fee) {
         this.total_fee = total_fee;
     }
 
-    public String getReal_fee() {
+    public float getReal_fee() {
         return real_fee;
     }
 
-    public void setReal_fee(String real_fee) {
+    public void setReal_fee(float real_fee) {
         this.real_fee = real_fee;
     }
 

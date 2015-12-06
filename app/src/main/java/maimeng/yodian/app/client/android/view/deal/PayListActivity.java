@@ -110,11 +110,11 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         mBtnMoney = ((TextView) findViewById(R.id.btn_money));
         if (intent.hasExtra("orderInfo")) {
             mOrderInfo = get("orderInfo");
-            price = Float.parseFloat(mOrderInfo.getTotal_fee())- mOrderInfo.getBalance();
+            price = mOrderInfo.getTotal_fee()- mOrderInfo.getBalance();
             isOrderPay = true;
         } else {
             mSkill = get("skill");
-            price = Float.parseFloat(mSkill.getPrice());
+            price = mSkill.getPrice();
         }
         String priceStr=getResources().getString(R.string.pay_list_title, price);
         if(mOrderInfo!=null&&mOrderInfo.getBalance()>0){
@@ -189,6 +189,8 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
                 if (canUseMoney) {
                     RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(PayListActivity.this);
                     builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, money + "", price - money + "")));
+                    LogUtil.d("ceshi","prce"+price);
+                    LogUtil.d("cehsi","money"+money);
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
                         public void positiveClick() {

@@ -36,7 +36,7 @@ public class SkillTemplate extends BaseObservable {
     @DatabaseField(columnName = "_content")
     private String content;
     @DatabaseField(columnName = "_price")
-    private String price;
+    private float price;
     @DatabaseField(columnName = "_unit")
     private String unit;
     @DatabaseField(columnName = "_status")
@@ -77,11 +77,11 @@ public class SkillTemplate extends BaseObservable {
         notifyPropertyChanged(BR.pic);
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

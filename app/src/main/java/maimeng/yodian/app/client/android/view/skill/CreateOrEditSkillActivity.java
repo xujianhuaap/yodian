@@ -39,6 +39,7 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
+import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -368,10 +369,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             binding.skillContent.setError(getText(R.string.create_not_empty_content));
             return;
         }
-        if (TextUtils.isEmpty(template.getPrice())) {
-            binding.skillPrice.setError(getText(R.string.create_not_empty_pirce));
-            return;
-        }
+
         if (TextUtils.isEmpty(template.getUnit())) {
             binding.skillUnit.setError(getText(R.string.create_not_empty_unit));
             return;
@@ -381,11 +379,9 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             return;
         }
 
-        String price = template.getPrice();
-        if (!price.contains(".")) {
-            price = price + ".00";
-            binding.getTemplate().setPrice(price);
-        }
+        float price = template.getPrice();
+        binding.getTemplate().setPrice(price);
+
 
         if (isEdit) {
             service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new ToastCallback(this) {
@@ -609,7 +605,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         s.delete(posDot + 3, posDot + 4);
                     }
                 }
-                mTemplate.setPrice(s.toString());
+                mTemplate.setPrice(java.lang.Float.parseFloat(s.toString()));
             } else if (mText == binding.skillUnit) {
                 mTemplate.setUnit(name);
             }

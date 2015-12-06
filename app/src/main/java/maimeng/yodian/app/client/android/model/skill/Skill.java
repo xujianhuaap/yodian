@@ -85,7 +85,7 @@ public class Skill extends BaseObservable {
     private String name;
     private String pic;
     private String content;
-    private String price;
+    private float price;
     private String unit;
     private String contentcount;
     private String daycontentcount;
@@ -204,7 +204,7 @@ public class Skill extends BaseObservable {
         this.content = content;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -349,7 +349,7 @@ public class Skill extends BaseObservable {
         return content;
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return price;
     }
 
