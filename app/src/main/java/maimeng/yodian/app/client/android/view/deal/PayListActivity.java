@@ -219,7 +219,7 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
                 if (canUseMoney) {
 
                     RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(PayListActivity.this);
-                    builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, money + "", price - money + "")));
+                    builder.setMesage(Html.fromHtml(getResources().getString(R.string.pay_remainder_enable, String.format("%.2f",money), String.format("%.2f",price - money))));
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
                         public void positiveClick() {
