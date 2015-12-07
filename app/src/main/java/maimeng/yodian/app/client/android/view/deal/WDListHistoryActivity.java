@@ -47,7 +47,7 @@ public class WDListHistoryActivity extends AbstractActivity implements Callback<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bind = bindView(R.layout.activity_wdlist_history);
-        bind.money.setText(String.valueOf(getIntent().getDoubleExtra("mony", 0.0)));
+        bind.money.setText(String.format("%.2f", getIntent().getDoubleExtra("mony", 0)));
         bind.historyList.setLayoutManager(new ListLayoutManager(this));
         adapter = new HistoryAdaper(this, this);
         bind.historyList.setAdapter(adapter);
