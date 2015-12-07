@@ -93,7 +93,8 @@
             android:theme="@style/contact_dialog" />
         <activity
             android:name=".view.auth.AuthActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".view.common.WebViewActivity" />
         <activity
             android:name=".view.user.UserHomeActivity"
