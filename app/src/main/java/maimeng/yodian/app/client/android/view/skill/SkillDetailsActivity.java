@@ -97,7 +97,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private User user;
     private boolean isMe;
     private WaitDialog dialog;
-    private FrameLayout noSkillRmark;
+    private View noSkillRmark;
     private Bitmap defaultAvatar;
     private boolean canBuy=true;
 
@@ -117,16 +117,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         super.onCreate(savedInstanceState);
         MobclickAgent.onEvent(this, UEvent.SKILL_DETIAL);
         user = User.read(this);
-        noSkillRmark = new FrameLayout(this);
-        noSkillRmark.setPadding(0, 50, 0, 0);
-        final ImageView iv = new ImageView(this);
-        iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        iv.setImageResource(R.mipmap.ic_no_rmark);
-        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        iv.setLayoutParams(param);
-        final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.CENTER;
-        noSkillRmark.addView(iv, params);
+        noSkillRmark =View.inflate(this,R.layout.view_header_exception,null);
         service = Network.getService(SkillService.class);
         binding = bindView(R.layout.activity_skill_details);
         headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, binding.recyclerView, false);
@@ -543,3 +534,4 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
 
 
 }
+

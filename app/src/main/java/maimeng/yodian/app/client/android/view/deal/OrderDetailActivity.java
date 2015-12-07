@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +48,7 @@ import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.Buyer;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderInfoResponse;
@@ -74,6 +77,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     private Lottery mLottery;
     private long oid;
     private boolean isOperator=false;
+    private Timer timer;
+    private String tipStr;
 
     @Override
     public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
@@ -89,10 +94,9 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view1);
     }
 
-    public static void show(Context context, long oid, boolean isSaled) {
+    public static void show(Context context, long oid) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra("oid", oid);
-        intent.putExtra("isSaled", isSaled);
         context.startActivity(intent);
     }
 
@@ -104,14 +108,12 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     public static void show(Context context, Lottery lottery) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra("lottery", Parcels.wrap(lottery));
-        intent.putExtra("isSaled", false);
         context.startActivity(intent);
     }
 
-    public static void show(Fragment context, OrderInfo orderInfo, boolean isSaled, int requestCode) {
+    public static void show(Fragment context, OrderInfo orderInfo,int requestCode) {
         Intent intent = new Intent(context.getContext(), OrderDetailActivity.class);
         intent.putExtra("orderInfo", Parcels.wrap(orderInfo));
-        intent.putExtra("isSaled", isSaled);
         context.startActivityForResult(intent,requestCode);
     }
 
@@ -159,6 +161,13 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     }
 
     private void refreshUI(final OrderInfo info) {
+        info.setDifftime("1000");
+        isSaled=info.getSeller_id()==User.read(OrderDetailActivity.this).getUid();
+        if(timer!=null){
+            timer.cancel();
+        }
+        timer=new Timer(Long.parseLong(info.getDifftime())*1000,1000);
+        timer.start();
         isSaled = getIntent().getBooleanExtra("isSaled", false);
         mBinding.setOrderInfo(info);
         String btnContactStr = null;
@@ -178,23 +187,13 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
         mBinding.contactBuyer.setText(btnContactStr);
         final int status = Integer.parseInt(info.getStatus());
-        String diffTime=info.getDifftime();
-        String diffStr=null;
-        if(diffTime!=null){
-            long time=Long.parseLong(diffTime)*1000;
-            if(time/(24*60*60*1000)>0){
-                diffStr=time/(24*60*60*1000)+"天";
-            }else{
-               SimpleDateFormat dateFormat=new SimpleDateFormat("HH小时mm分");
-                diffStr=dateFormat.format(new Date(time));
-            }
-        }
+
+
         String operatorStr = null;
-        String tipStr=null;
         switch (status) {
             case 0:
                 //未支付
-                tipStr=getResources().getString(R.string.tip_for_buyer_pay);
+                tipStr =getResources().getString(R.string.tip_for_buyer_pay);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_pay);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
@@ -213,7 +212,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 break;
             case 2:
                 //支付
-                tipStr=getResources().getString(R.string.tip_for_seller_accept);
+                tipStr =getResources().getString(R.string.tip_for_seller_accept);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_accept);
                     mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
@@ -231,7 +230,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 break;
             case 3:
                 //已经接单
-                tipStr=getResources().getString(R.string.tip_for_seller_send);
+                tipStr =getResources().getString(R.string.tip_for_seller_send);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_wait_send);
                     mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
@@ -250,7 +249,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 break;
             case 4:
                 //已经发货
-                tipStr=getResources().getString(R.string.tip_for_buyer_confirm);
+                tipStr =getResources().getString(R.string.tip_for_buyer_confirm);
                 if (!isSaled) {
                     operatorStr = getString(R.string.buyer_operator_confirm);
                     mBinding.orderOperator.setTextColor(Color.WHITE);
@@ -292,14 +291,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 } else {
                     operatorStr = getString(R.string.order_status_buyer_close);
                 }
-                mBinding.tip.setVisibility(View.GONE);
-                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time()))));
-                mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
-                mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
-                mBinding.orderStatusPay.setChecked(false);
-                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_unpay_time, formatDate(info.getPay_time()))));
-                mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));
-                mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
+                cancelOrder(info);
                 break;
             case 7:
                 //订单取消
@@ -308,23 +300,16 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 } else {
                     operatorStr = getString(R.string.order_status_buyer_cancle);
                 }
-                mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
-                mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
-                mBinding.tip.setVisibility(View.GONE);
-                mBinding.orderStatusPay.setChecked(false);
-                mBinding.orderPayTimeContent.setText(Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time()))));
-                mBinding.orderAcceptTimeContent.setText(Html.fromHtml(getString(R.string.order_unaccept_time)));
-                mBinding.orderConfirmTimeContent.setText(Html.fromHtml(getString(R.string.order_unconfirm_time)));
+                cancelOrder(info);
                 break;
             default:
                 break;
 
 
         }
-        if(diffTime!=null){
-            mBinding.tip.setText(String.format(tipStr,diffStr));
+        if(status<5){
+            refreshTip(info,tipStr);
         }
-
         mBinding.orderOperator.setText(operatorStr);
         mBinding.orderNumber.setText(Html.fromHtml(getResources().getString(R.string.order_number, info.getNumber())));
         mBinding.orderSkillPrice.setText(Html.fromHtml(getResources().getString(R.string.order_skill_price, info.getSkill().getPrice(), info.getSkill().getUnit())));
@@ -450,6 +435,34 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         });
     }
 
+    private void cancelOrder(OrderInfo info) {
+        mBinding.tip.setVisibility(View.GONE);
+        Spanned payStr=null;
+        Spanned acceptStr=null;
+        Spanned confirmStr=null;
+        if(Long.parseLong(info.getPay_time())>0){
+            payStr= Html.fromHtml(getString(R.string.order_pay_time_on_cancel, formatDate(info.getPay_time())));
+        }else{
+            payStr=Html.fromHtml(getString(R.string.order_unpay_time));
+        }
+        if(Long.parseLong(info.getAccept_time())>0){
+            acceptStr=Html.fromHtml(getString(R.string.order_accept_time_on_cancel, formatDate(info.getAccept_time())));
+        }else{
+            acceptStr=Html.fromHtml(getString(R.string.order_unaccept_time));
+        }
+        if(Long.parseLong(info.getConfirm_time())>0){
+            confirmStr=Html.fromHtml(getString(R.string.order_confirm_time_on_cancel, formatDate(info.getConfirm_time())));
+        }else{
+            confirmStr=Html.fromHtml(getString(R.string.order_unconfirm_time));
+        }
+        mBinding.orderOperator.setBackgroundColor(Color.TRANSPARENT);
+        mBinding.orderOperator.setTextColor(getResources().getColor(R.color.colorPrimaryDark3));
+        mBinding.orderStatusPay.setChecked(false);
+        mBinding.orderPayTimeContent.setText(payStr);
+        mBinding.orderAcceptTimeContent.setText(acceptStr);
+        mBinding.orderConfirmTimeContent.setText(confirmStr);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -568,5 +581,59 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
             }
 
         }
+    }
+
+
+    public class Timer extends CountDownTimer{
+
+        public Timer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            refreshTime(millisUntilFinished,tipStr);
+        }
+
+        @Override
+        public void onFinish() {
+            refreshInfo();
+        }
+    }
+
+    /***
+     *
+     * @param info
+     * @param tipStr
+     */
+    public void refreshTip(OrderInfo info,String tipStr){
+        String diffTime=info.getDifftime();
+        if(diffTime!=null){
+            long time=Long.parseLong(diffTime)*1000;
+            if(Integer.parseInt(info.getStatus())<5){
+                refreshTime(time,tipStr);
+            }
+        }
+
+    }
+
+    /***
+     *  time 单位为毫秒
+     * @param time
+     * @param tipStr
+     */
+    public void refreshTime(long time,String tipStr){
+        String diffStr=null;
+        if(time/(24*60*60*1000)>0){
+            diffStr=time/(24*60*60*1000)+"天";
+        }else{
+            SimpleDateFormat dateFormat=new SimpleDateFormat("HH小时mm分ss秒");
+            diffStr=dateFormat.format(new Date(time));
+        }
+        if(tipStr!=null){
+            mBinding.tip.setText(String.format(tipStr,diffStr));
+        }
+
+
     }
 }

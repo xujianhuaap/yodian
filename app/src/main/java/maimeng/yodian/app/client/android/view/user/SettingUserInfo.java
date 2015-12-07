@@ -399,11 +399,14 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             return;
         }
         Sex sex = user.getInfo().getSex();
-
+        String distr=user.getInfo().getDistrict();
+        if(TextUtils.isEmpty(distr)){
+            distr="";
+        }
         if (updateAvatar) {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), user.getInfo().getDistrict(), this);
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(),distr , this);
         } else {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), user.getInfo().getDistrict(), this);
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(),distr, this);
         }
     }
 

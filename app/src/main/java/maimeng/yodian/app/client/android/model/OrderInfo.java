@@ -33,14 +33,14 @@ public class OrderInfo {
 
     private String id;
     private String number;
-    private String seller_id;
-    private String uid;
-    private String sid;
-    private String scid;
+    private long seller_id;
+    private long uid;
+    private long sid;
+    private long scid;
     private String pay_time;
     private String accept_time;
     private String send_time;
-    private String difftime;
+    private String difftime; //
     private String endtime;
     private String systime;
     private String confirm_time;
@@ -104,35 +104,35 @@ public class OrderInfo {
         this.number = number;
     }
 
-    public String getSeller_id() {
+    public long getSeller_id() {
         return seller_id;
     }
 
-    public void setSeller_id(String seller_id) {
+    public void setSeller_id(long seller_id) {
         this.seller_id = seller_id;
     }
 
-    public String getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 
-    public String getSid() {
+    public long getSid() {
         return sid;
     }
 
-    public void setSid(String sid) {
+    public void setSid(long sid) {
         this.sid = sid;
     }
 
-    public String getScid() {
+    public long getScid() {
         return scid;
     }
 
-    public void setScid(String scid) {
+    public void setScid(long scid) {
         this.scid = scid;
     }
 

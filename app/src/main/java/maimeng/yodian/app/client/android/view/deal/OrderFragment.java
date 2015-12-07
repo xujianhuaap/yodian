@@ -156,7 +156,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
         @Override
         public void onItemClick(OrderListAdapter.ViewHolder holder, int postion) {
             OrderInfo orderInfo = mAdapter.getItem(postion);
-            OrderDetailActivity.show(OrderFragment.this, orderInfo, mAdapter.isSaled(),REQUEST_SKILL_DETAIL);
+            OrderDetailActivity.show(OrderFragment.this, orderInfo,REQUEST_SKILL_DETAIL);
         }
 
         @Override
