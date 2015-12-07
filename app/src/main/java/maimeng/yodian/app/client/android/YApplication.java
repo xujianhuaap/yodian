@@ -35,6 +35,7 @@ import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
+import maimeng.yodian.app.client.android.view.deal.OrderDetailActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
 /**
@@ -145,12 +146,13 @@ public class YApplication extends DemoApplication {
                     JSONObject custom = msg.getRaw().getJSONObject("extra").getJSONObject("custom");
                     int type = custom.getInt("yd_type");//1技能;2人;3聊天;4订单
                     long id = custom.getLong("yd_yid");
+                    LogUtil.i("YApplication", custom.toString());
                     switch (type) {
                         case 2:
-                            UserHomeActivity.show(context, id);
+                            startActivity(new Intent(context, UserHomeActivity.class).putExtra("uid", id).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             break;
                         case 4:
-
+                            startActivity(new Intent(context, OrderDetailActivity.class).putExtra("oid", id).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             break;
                     }
                 } catch (JSONException e) {
