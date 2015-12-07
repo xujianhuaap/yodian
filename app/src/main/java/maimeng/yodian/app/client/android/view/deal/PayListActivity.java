@@ -305,21 +305,21 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             lottery.setLotUrl(String.format(lotUrl + "?uid=%1$d&oid=%2$d", User.read(PayListActivity.this).getUid(), lottery.getOid()));
             if (payType == PAY_TYPE_ZHIFUBAO) {
                 ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse = gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
-                IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid());
+                IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid(),PAY_TYPE_ZHIFUBAO);
                 pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Alipay, zhiFuBaoPayParamsResponse.getData(), status);
                 if (pay != null) {
                     pay.sendReq();
                 }
             } else if (payType == PAY_TYPE_WECHAT) {
                 WXPayParamResponse paramResponse = gson.fromJson(s, WXPayParamResponse.class);
-                IPayStatus status = new PayStatus(paramResponse.getData().getOid());
+                IPayStatus status = new PayStatus(paramResponse.getData().getOid(),PAY_TYPE_WECHAT);
                 pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Wechat, paramResponse.getData().getParams(), status);
                 if (pay != null) {
                     pay.sendReq();
                 }
             } else if (payType == PAY_TYPE_REMAINDER) {
                 RemainderPayParamsResponse remainderPayParamsResponse = gson.fromJson(s, RemainderPayParamsResponse.class);
-                IPayStatus status = new PayStatus(remainderPayParamsResponse.getData().getOid());
+                IPayStatus status = new PayStatus(remainderPayParamsResponse.getData().getOid(),PAY_TYPE_REMAINDER);
                 pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Remainder, remainderPayParamsResponse.getData(), status);
                 final android.support.v7.app.AlertDialog alertDialog = new ViewDialog.Builder(PayListActivity.this).setMesage(getResources().getString(R.string.pay_deal_tip))
                         .setPositiveListener(new ViewDialog.IPositiveListener() {
@@ -358,9 +358,11 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
      */
     public class PayStatus implements IPayStatus {
         private final long oid;
+        private final int payType;
 
-        public PayStatus(long oid) {
+        public PayStatus(long oid, int payType) {
             this.oid = oid;
+            this.payType = payType;
         }
 
         @Override
@@ -386,19 +388,10 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public void sucessPay(int errCode) {
-            Spanned sucess = Html.fromHtml(getResources().getString(R.string.pay_result_sucess));
-            String btnTip = getResources().getString(R.string.btn_name);
-            String title = getResources().getString(R.string.pay_deal_title);
-            new ViewDialog.Builder(PayListActivity.this).setMesage(sucess.toString())
-                    .setTitle(title).setPositiveListener(new ViewDialog.IPositiveListener() {
-                @Override
-                public void positiveClick() {
-                    Intent intent = new Intent();
-                    intent.putExtra("lottery", Parcels.wrap(lottery));
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-            }, btnTip).create().show();
+            Intent intent = new Intent();
+            intent.putExtra("lottery", Parcels.wrap(lottery));
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 

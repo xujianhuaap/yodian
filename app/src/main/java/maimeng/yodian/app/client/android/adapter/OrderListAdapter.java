@@ -104,13 +104,12 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
             mOrder = orderInfo;
             mBinding.setBuyer(orderInfo.getBuyer());
             mBinding.setIsSaled(isSaled);
-            String status = mOrder.getStatus();
+            int status = mOrder.getStatus();
 
-            if (!TextUtils.isEmpty(status)) {
                 String statusStr = null;
                 String operatorStr = null;
                 mBinding.acceptOrder.setVisibility(View.VISIBLE);
-                switch (Integer.parseInt(status)) {
+                switch (status) {
                     case 0:
                         statusStr = mContext.getString(R.string.order_status_unpay);
                         if (!isSaled) {
@@ -191,11 +190,11 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                 mBinding.orderPrice.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee,
                         mOrder.getTotal_fee())));
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                String dateStr = format.format(new java.util.Date(Long.parseLong(mOrder.getCreatetime()) * 1000));
+                String dateStr = format.format(new java.util.Date(mOrder.getCreatetime() * 1000));
                 ;
                 mBinding.orderTime.setText(dateStr);
                 mBinding.acceptOrder.setText(operatorStr);
-            }
+
 
         }
     }

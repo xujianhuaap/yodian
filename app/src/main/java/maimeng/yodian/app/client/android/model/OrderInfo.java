@@ -37,46 +37,46 @@ public class OrderInfo {
     private long uid;
     private long sid;
     private long scid;
-    private String pay_time;
-    private String accept_time;
-    private String send_time;
-    private String difftime; //
-    private String endtime;
-    private String systime;
-    private String confirm_time;
+    private long pay_time;
+    private long accept_time;
+    private long send_time;
+    private long difftime; //
+    private long endtime;
+    private long systime;
+    private long confirm_time;
     private float total_fee;
     private float real_fee;
     private String skill_name;
-    private String paytype;
-    private String status;
-    private String createtime;
+    private int paytype;
+    private int status;
+    private long createtime;
     private long oid;
 
     private Skill skill;
     private Buyer buyer;
     private float balance;
 
-    public String getDifftime() {
+    public long getDifftime() {
         return difftime;
     }
 
-    public void setDifftime(String difftime) {
+    public void setDifftime(long difftime) {
         this.difftime = difftime;
     }
 
-    public String getEndtime() {
+    public long getEndtime() {
         return endtime;
     }
 
-    public void setEndtime(String endtime) {
+    public void setEndtime(long endtime) {
         this.endtime = endtime;
     }
 
-    public String getSystime() {
+    public long getSystime() {
         return systime;
     }
 
-    public void setSystime(String systime) {
+    public void setSystime(long systime) {
         this.systime = systime;
     }
 
@@ -136,35 +136,35 @@ public class OrderInfo {
         this.scid = scid;
     }
 
-    public String getPay_time() {
+    public long getPay_time() {
         return pay_time;
     }
 
-    public void setPay_time(String pay_time) {
+    public void setPay_time(long pay_time) {
         this.pay_time = pay_time;
     }
 
-    public String getAccept_time() {
+    public long getAccept_time() {
         return accept_time;
     }
 
-    public void setAccept_time(String accept_time) {
+    public void setAccept_time(long accept_time) {
         this.accept_time = accept_time;
     }
 
-    public String getSend_time() {
+    public long getSend_time() {
         return send_time;
     }
 
-    public void setSend_time(String send_time) {
+    public void setSend_time(long send_time) {
         this.send_time = send_time;
     }
 
-    public String getConfirm_time() {
+    public long getConfirm_time() {
         return confirm_time;
     }
 
-    public void setConfirm_time(String confirm_time) {
+    public void setConfirm_time(long confirm_time) {
         this.confirm_time = confirm_time;
     }
 
@@ -192,27 +192,27 @@ public class OrderInfo {
         this.skill_name = skill_name;
     }
 
-    public String getPaytype() {
+    public int getPaytype() {
         return paytype;
     }
 
-    public void setPaytype(String paytype) {
+    public void setPaytype(int paytype) {
         this.paytype = paytype;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public String getCreatetime() {
+    public long getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(String createtime) {
+    public void setCreatetime(long createtime) {
         this.createtime = createtime;
     }
 
