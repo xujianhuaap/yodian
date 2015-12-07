@@ -74,8 +74,9 @@ public class ContactDialog extends AppCompatActivity implements View.OnClickList
 
         if (v.getId() == R.id.btn_enter_contact) {
             if (isWechat) {
-                if (WechatAuthManager.getInstance(this).getIWXAPI().isWXAppInstalled()) {
-                    WechatAuthManager.getInstance(this).getIWXAPI().openWXApp();
+                AuthFactory.create(this, Type.Platform.WEIXIN);
+                if (WechatAuthManager.getIWXAPI().isWXAppInstalled()) {
+                    WechatAuthManager.getIWXAPI().openWXApp();
                     finish();
                 }
             } else {
