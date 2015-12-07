@@ -26,6 +26,7 @@ import com.umeng.analytics.MobclickAgent;
 import net.glxn.qrgen.android.QRCode;
 
 import org.henjue.library.share.Type;
+import org.henjue.library.share.manager.IAuthManager;
 import org.henjue.library.share.manager.IShareManager;
 import org.henjue.library.share.manager.QQAuthManager;
 import org.henjue.library.share.manager.QQShareManager;
@@ -357,7 +358,7 @@ public class ShareDialog extends DialogFragment {
 
     /**
      * @param drawableId Type.Platform.WeiBo drawableId为R.drawble.ic_market_sina
-     *                   <p>
+     *                   <p/>
      *                   Type.Platform.WEIXIN  drawableId为R.drawble.ic_market_wechat
      */
     private Bitmap generatePlatformBitmap(int drawableId) {
@@ -425,9 +426,14 @@ public class ShareDialog extends DialogFragment {
     }
 
     public void qzone(final View v) {
-        MobclickAgent.onEvent(getActivity(), UEvent.SKILL_SHARE_QQ);
-        IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.QQ);
-        iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), QQShareManager.SHARE_TYPE_QZONE);
+        boolean isInstall = SystemUtils.checkMobileQQ(getActivity());
+        if (isInstall) {
+            MobclickAgent.onEvent(getActivity(), UEvent.SKILL_SHARE_QQ);
+            IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.QQ);
+            iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), QQShareManager.SHARE_TYPE_QZONE);
+        } else {
+            Toast.makeText(getActivity(), "请安装QQ客户端", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
