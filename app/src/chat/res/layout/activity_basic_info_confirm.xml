@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/apply_edit_margin_top"
         android:layout_marginLeft="@dimen/apply_edit_margin"
-        android:layout_marginRight="@dimen/apply_edit_margin">
+        android:layout_marginRight="@dimen/apply_edit_margin"
+        android:layout_marginTop="@dimen/apply_edit_margin_top"
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center_vertical"
-            android:textSize="@dimen/text_size_normal"
+            android:scaleType="centerInside"
             android:text="@string/basic_info_name"
             android:textColor="@color/edit_color"
-            android:scaleType="centerInside" />
+            android:textSize="@dimen/text_size_normal" />
+
         <EditText
             android:id="@+id/basic_name"
             android:layout_width="match_parent"
@@ -31,32 +31,34 @@
             android:background="@android:color/white"
             android:minHeight="@dimen/apply_edit_height"
             android:paddingLeft="@dimen/apply_edit_padding_left"
+            android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textColorHint="@color/hint_color"
-            android:singleLine="true"/>
+            android:textColorHint="@color/hint_color" />
 
     </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/division_height"
-        android:background="@color/edit_color"
-        />
+        android:background="@color/edit_color" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/apply_edit_margin_top"
         android:layout_marginLeft="@dimen/apply_edit_margin"
-        android:layout_marginRight="@dimen/apply_edit_margin">
+        android:layout_marginRight="@dimen/apply_edit_margin"
+        android:layout_marginTop="@dimen/apply_edit_margin_top"
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center_vertical"
-            android:textSize="@dimen/text_size_normal"
+            android:scaleType="centerInside"
             android:text="@string/basic_info_id"
             android:textColor="@color/edit_color"
-            android:scaleType="centerInside" />
+            android:textSize="@dimen/text_size_normal" />
+
         <EditText
             android:id="@+id/basic_id"
             android:layout_width="match_parent"
@@ -64,36 +66,39 @@
             android:background="@android:color/white"
             android:minHeight="@dimen/apply_edit_height"
             android:paddingLeft="@dimen/apply_edit_padding_left"
+            android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textColorHint="@color/hint_color"
-            android:singleLine="true"/>
+            android:textColorHint="@color/hint_color" />
 
     </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/division_height"
         android:background="@color/edit_color" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/division_height"
-        android:background="@color/edit_color"
-        />
+        android:background="@color/edit_color" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/apply_edit_margin_top"
         android:layout_marginLeft="@dimen/apply_edit_margin"
-        android:layout_marginRight="@dimen/apply_edit_margin">
+        android:layout_marginRight="@dimen/apply_edit_margin"
+        android:layout_marginTop="@dimen/apply_edit_margin_top"
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center_vertical"
-            android:textSize="@dimen/text_size_normal"
+            android:scaleType="centerInside"
             android:text="@string/basic_info_mobile"
             android:textColor="@color/edit_color"
-            android:scaleType="centerInside" />
+            android:textSize="@dimen/text_size_normal" />
+
         <EditText
             android:id="@+id/basic_mobile"
             android:layout_width="match_parent"
@@ -101,102 +106,108 @@
             android:background="@android:color/white"
             android:minHeight="@dimen/apply_edit_height"
             android:paddingLeft="@dimen/apply_edit_padding_left"
+            android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textColorHint="@color/hint_color"
-            android:singleLine="true"/>
+            android:textColorHint="@color/hint_color" />
 
     </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/division_height"
         android:background="@color/edit_color" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/division_height"
-        android:background="@color/edit_color"
-        />
+        android:background="@color/edit_color" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/apply_edit_margin_top"
         android:layout_marginLeft="@dimen/apply_edit_margin"
-        android:layout_marginRight="@dimen/apply_edit_margin">
+        android:layout_marginRight="@dimen/apply_edit_margin"
+        android:layout_marginTop="@dimen/apply_edit_margin_top"
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center_vertical"
-            android:textSize="@dimen/text_size_normal"
+            android:scaleType="centerInside"
             android:text="@string/basic_info_code"
             android:textColor="@color/edit_color"
-            android:scaleType="centerInside" />
+            android:textSize="@dimen/text_size_normal" />
 
         <EditText
             android:id="@+id/basic_code"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@android:color/white"
             android:minHeight="@dimen/apply_edit_height"
             android:paddingLeft="@dimen/apply_edit_padding_left"
+            android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textColorHint="@color/hint_color"
-            android:singleLine="true"/>
+            android:textColorHint="@color/hint_color" />
+
         <Button
             android:id="@+id/btn_get_code"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/btn_height_small"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:background="@drawable/btn_oval_blue"
             android:maxHeight="@dimen/btn_height"
             android:paddingLeft="@dimen/padding_normal"
             android:paddingRight="@dimen/padding_normal"
-            android:background="@color/colorPrimaryDark3"
-            android:layout_marginBottom="@dimen/margin_normal"
             android:text="@string/get_code" />
+
         <Button
             android:id="@+id/btn_code"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/btn_height_small"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:background="@color/colorPrimaryGrey"
             android:maxHeight="@dimen/btn_height"
             android:paddingLeft="@dimen/padding_normal"
             android:paddingRight="@dimen/padding_normal"
-            android:background="@color/colorPrimaryGrey"
-            android:visibility="gone"
-            android:layout_marginBottom="@dimen/margin_normal" />
-
+            android:visibility="gone" />
 
 
     </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/division_height"
         android:background="@color/edit_color" />
+
     <TextView
         android:id="@+id/tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_normal"
-        android:paddingRight="@dimen/padding_normal"
-        android:lineSpacingExtra="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_normal"
         android:gravity="left|center_vertical"
-        android:textSize="@dimen/text_size_small"
+        android:lineSpacingExtra="@dimen/margin_small"
+        android:paddingLeft="@dimen/padding_normal"
+        android:paddingRight="@dimen/padding_normal"
+        android:scaleType="centerInside"
         android:text=""
         android:textColor="@color/edit_color"
-        android:scaleType="centerInside" />
+        android:textSize="@dimen/text_size_small" />
+
     <Button
         android:id="@+id/apply_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/apply_button_submit"
-        android:textSize="@dimen/text_size_normal"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="@dimen/margin_Xlarge"
-        android:background="@drawable/btn_oval_black"
+        android:layout_marginBottom="@dimen/apply_edit_margin_top"
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/apply_edit_margin_top"
-        android:textColorHint="@color/hint_color" />
+        android:layout_marginTop="@dimen/margin_Xlarge"
+        android:background="@drawable/btn_oval_black"
+        android:text="@string/apply_button_submit"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/hint_color"
+        android:textSize="@dimen/text_size_normal" />
 
 </LinearLayout>
 
