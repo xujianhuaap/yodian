@@ -119,6 +119,14 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (decoder != null) {
+            decoder.recycle();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_loginphone) {
             startActivityForResult(new Intent(this, AuthActivity.class), REQUEST_MOBILE_AUTH);
