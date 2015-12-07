@@ -296,10 +296,10 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     if (user.getInfo().getMoneyMsg() > 0) {
                         headerMainHomeBinding.msgMoneyTopic.setVisibility(View.VISIBLE);
                     }
-                    if(adapter.getHeaderBinding()!=null){
-                        if(page==1&&list.size()==0){
+                    if (adapter.getHeaderBinding() != null) {
+                        if (page == 1 && list.size() == 0) {
                             adapter.getHeaderBinding().exception.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             adapter.getHeaderBinding().exception.setVisibility(View.GONE);
                         }
                     }
@@ -583,9 +583,6 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
         } else {
             MobclickAgent.onEvent(getActivity(), UEvent.ENTRY_INDEX_FROM_HOME);
-            if (user != null) {
-                syncRequest();
-            }
             refreshMissMsgIcon();
         }
     }

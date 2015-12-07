@@ -42,9 +42,9 @@
                 android:id="@+id/fra_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_alignBottom="@+id/time"
                 android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_toRightOf="@id/time"
                 android:paddingTop="@dimen/padding_small">
 
@@ -62,8 +62,8 @@
                     android:layout_width="@dimen/btn_width_Xsmalll"
                     android:layout_height="@dimen/btn_width_Xsmalll"
                     android:layout_gravity="right|center_vertical"
-                    android:scaleType="centerInside"
                     android:alpha="0"
+                    android:scaleType="centerInside"
                     android:src="@mipmap/ic_menu_report" />
 
                 <ImageView
@@ -83,8 +83,7 @@
             android:layout_below="@id/rmark_header"
             android:layout_centerHorizontal="true"
             android:maxHeight="2048px"
-            android:scaleType="fitXY"
-            app:imgUrl="@{rmark.pic}" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/content"

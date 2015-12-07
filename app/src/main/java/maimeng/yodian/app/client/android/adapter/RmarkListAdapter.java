@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -45,7 +47,9 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.bind(getItem(position), position);
+        Rmark item = getItem(position);
+        holder.bind(item, position);
+        Glide.with(mContext).load(item.getPic()).crossFade().into(holder.binding.pic);
         return convertView;
     }
 
@@ -92,21 +96,21 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
             this.binding.setRmark(rmark);
             this.position = position;
 
-            Date date=rmark.getCreatetime();
-            float days=(float)((System.currentTimeMillis()-date.getTime())/1000/3600/24);
-            String formatStr=null;
-            if(days<2){
-                formatStr="HH:mm";
-            }else {
-                formatStr="MM-dd HH:mm";
+            Date date = rmark.getCreatetime();
+            float days = (float) ((System.currentTimeMillis() - date.getTime()) / 1000 / 3600 / 24);
+            String formatStr = null;
+            if (days < 2) {
+                formatStr = "HH:mm";
+            } else {
+                formatStr = "MM-dd HH:mm";
             }
-            SimpleDateFormat format=new SimpleDateFormat(formatStr);
-            String creatTime=format.format(date);
-            if (days<1){
-                creatTime="今天"+creatTime;
+            SimpleDateFormat format = new SimpleDateFormat(formatStr);
+            String creatTime = format.format(date);
+            if (days < 1) {
+                creatTime = "今天" + creatTime;
             }
-            if(days<2&&days>=1){
-                creatTime="昨天"+creatTime;
+            if (days < 2 && days >= 1) {
+                creatTime = "昨天" + creatTime;
             }
             binding.time.setText(creatTime);
             reset();
