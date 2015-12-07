@@ -3,11 +3,20 @@ package maimeng.yodian.app.client.android.view.auth;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Rect;
+import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.umeng.analytics.MobclickAgent;
@@ -22,6 +31,8 @@ import org.henjue.library.share.manager.AuthFactory;
 import org.henjue.library.share.manager.IAuthManager;
 import org.henjue.library.share.manager.WeiboAuthManager;
 import org.henjue.library.share.model.AuthInfo;
+
+import java.io.IOException;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
@@ -43,6 +54,11 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
     private AuthService service;
     private WaitDialog dialog;
     private static final int REQUEST_MOBILE_AUTH = 0x5001;
+    private BitmapRegionDecoder decoder;
+    int left, right, top, bottom;
+    private Bitmap bitmap;
+    boolean toRight = true;
+    private static Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +66,49 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         service = Network.getService(AuthService.class);
         setContentView(R.layout.activity_auth_selector, false);
-        ScrollImageView image = (ScrollImageView) findViewById(R.id.scrollImage);
-        image.setImage(getResources().openRawResource(R.raw.scroll_bitmap));
-        image.startScroll();
+        left = 0;
+        right = getResources().getDisplayMetrics().widthPixels;
+        bottom = getResources().getDisplayMetrics().heightPixels;
+        top = 0;
+        final ImageView image = (ImageView) findViewById(R.id.scroll_image);
+        final int seek = 2;
+        try {
+            decoder = BitmapRegionDecoder.newInstance(getResources().openRawResource(R.raw.scroll_bitmap), false);
+            handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    if (bitmap != null && !bitmap.isRecycled()) {
+                        bitmap.recycle();
+                        bitmap = null;
+                    }
+                    bitmap = decoder.decodeRegion(new Rect(left, top, right, bottom), null);
+                    if (toRight) {
+                        if (right + seek < decoder.getWidth()) {
+                            left += seek;
+                            right += seek;
+                        } else {
+                            toRight = false;
+                            left -= seek;
+                            right -= seek;
+                        }
+                    } else {
+                        if (left - seek > 0) {
+                            left -= seek;
+                            right -= seek;
+                        } else {
+                            toRight = true;
+                            left += seek;
+                            right += seek;
+                        }
+                    }
+                    image.setImageBitmap(bitmap);
+                    obtainMessage(0).sendToTarget();
+                }
+            };
+            handler.sendEmptyMessage(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         findViewById(R.id.btn_loginwechat).setOnClickListener(this);
         findViewById(R.id.btn_loginweibo).setOnClickListener(this);
         findViewById(R.id.btn_loginphone).setOnClickListener(this);

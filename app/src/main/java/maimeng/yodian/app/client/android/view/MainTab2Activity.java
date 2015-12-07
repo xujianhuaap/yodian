@@ -275,7 +275,7 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
                     public void run() {
                         syncFloat();
                     }
-                }, 2000);
+                }, 500);
             }
         }
     }
