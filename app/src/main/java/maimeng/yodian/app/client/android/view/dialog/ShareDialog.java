@@ -20,12 +20,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.open.utils.SystemUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import net.glxn.qrgen.android.QRCode;
 
 import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.IShareManager;
+import org.henjue.library.share.manager.QQAuthManager;
 import org.henjue.library.share.manager.QQShareManager;
 import org.henjue.library.share.manager.ShareFactory;
 import org.henjue.library.share.manager.WechatShareManager;
@@ -327,7 +329,7 @@ public class ShareDialog extends DialogFragment {
         }
 
         title.setText(skill.getName());
-        price.setText(String.format("%.2f",skill.getPrice()));
+        price.setText(String.format("%.2f", skill.getPrice()));
         content.setText(skill.getContent());
         nickname.setText(skill.getNickname());
 
@@ -355,7 +357,7 @@ public class ShareDialog extends DialogFragment {
 
     /**
      * @param drawableId Type.Platform.WeiBo drawableId为R.drawble.ic_market_sina
-     *                   <p/>
+     *                   <p>
      *                   Type.Platform.WEIXIN  drawableId为R.drawble.ic_market_wechat
      */
     private Bitmap generatePlatformBitmap(int drawableId) {
@@ -426,6 +428,7 @@ public class ShareDialog extends DialogFragment {
         MobclickAgent.onEvent(getActivity(), UEvent.SKILL_SHARE_QQ);
         IShareManager iShareManager = ShareFactory.create(getActivity(), Type.Platform.QQ);
         iShareManager.share(new MessageWebpage(title, skill.getContent(), redirect_url, tempFile.getPath()), QQShareManager.SHARE_TYPE_QZONE);
+
     }
 
     public void report(View v) {

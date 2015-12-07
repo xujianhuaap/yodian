@@ -139,7 +139,7 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
         if (requestCode == REQUEST_MOBILE_AUTH && resultCode == RESULT_OK) {
             handlerFinsh();
         } else {
-            mSsoHandler = WeiboAuthManager.getSsoHandler();
+            mSsoHandler = WeiboAuthManager.getInstance(this).getSsoHandler();
             if (mSsoHandler != null) {
                 mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
             }
