@@ -10,21 +10,32 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.easemob.chat.EMChat;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.push.FeedbackPush;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UHandler;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.entity.UMessage;
 
 import org.henjue.library.share.ShareSDK;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
+import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 
 /**
  * Created by android on 15-7-13.
@@ -126,6 +137,27 @@ public class YApplication extends DemoApplication {
             strategy.setAppReportDelay(5000);
             CrashReport.initCrashReport(this, "900004839", BuildConfig.DEBUG, strategy);  //初始化SDK
         }
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.setNotificationClickHandler(new UmengNotificationClickHandler() {
+            @Override
+            public void dealWithCustomAction(Context context, UMessage msg) {
+                try {
+                    JSONObject custom = msg.getRaw().getJSONObject("extra").getJSONObject("custom");
+                    int type = custom.getInt("yd_type");//1技能;2人;3聊天;4订单
+                    long id = custom.getLong("yd_yid");
+                    switch (type) {
+                        case 2:
+                            UserHomeActivity.show(context, id);
+                            break;
+                        case 4:
+
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         FeedbackPush.getInstance(this).init(true);
         Network.getOne().init(this);
         ShareSDK.getInstance().initShare(BuildConfig.WEIXIN_APP_KEY, BuildConfig.WEIBO_APP_KEY, BuildConfig.QQ_APP_KEY, BuildConfig.WEIXIN_APP_SECRET, BuildConfig.REDIRECT_URL);

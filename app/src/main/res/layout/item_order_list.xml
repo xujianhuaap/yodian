@@ -79,7 +79,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="@{buyer.nickname}"
+                    android:text="@{isSaled?buyer.nickname:skill.nickname}"
                     android:textColor="@color/colorPrimaryDark" />
             </LinearLayout>
 
