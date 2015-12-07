@@ -61,10 +61,10 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     private String mCodeStr;
     private String mNullInfo;
     private boolean isSucess;
-    private boolean isCanClick=true;//可以请求ｇｅｔＣｏｄｅ
+    private boolean isCanClick = true;//可以请求ｇｅｔＣｏｄｅ
 
     private AuthService mService;
-    private static final int TYPE_CERTIFY_CODE=2;
+    private static final int TYPE_CERTIFY_CODE = 2;
     CountDownTimer timeout;
     Pattern p = Pattern.compile("^170|((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
     final int[] weight = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};    //十七位数字本体码权重
@@ -73,30 +73,30 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
 
 
     /***
-     *
      * @param context
      * @param
      */
-    public static void show(Activity context,int requestCode){
-        Intent intent=new Intent(context,BasicalInfoConfirmActivity.class);
-        context.startActivityForResult(intent,requestCode);
+    public static void show(Activity context, int requestCode) {
+        Intent intent = new Intent(context, BasicalInfoConfirmActivity.class);
+        context.startActivityForResult(intent, requestCode);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MobclickAgent.onEvent(this, UEvent.INFO_BASIC_CERTIFY_ENTRY);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_info_confirm);
-        mName=(EditText)findViewById(R.id.basic_name);
-        mID=(EditText)findViewById(R.id.basic_id);
-        mMobile=(EditText)findViewById(R.id.basic_mobile);
-        mSubmit=(Button)findViewById(R.id.apply_submit);
-        mConfirmCode=(EditText)findViewById(R.id.basic_code);
-        mGetCode=(Button)findViewById(R.id.btn_get_code);
-        mCode=(Button)findViewById(R.id.btn_code);
-        mTip=(TextView)findViewById(R.id.tip);
+        mName = (EditText) findViewById(R.id.basic_name);
+        mID = (EditText) findViewById(R.id.basic_id);
+        mMobile = (EditText) findViewById(R.id.basic_mobile);
+        mSubmit = (Button) findViewById(R.id.apply_submit);
+        mConfirmCode = (EditText) findViewById(R.id.basic_code);
+        mGetCode = (Button) findViewById(R.id.btn_get_code);
+        mCode = (Button) findViewById(R.id.btn_code);
+        mTip = (TextView) findViewById(R.id.tip);
 
-        Spanned span= Html.fromHtml(getResources().getString(R.string.certify_info_tip));
+        Spanned span = Html.fromHtml(getResources().getString(R.string.certify_info_tip));
         mTip.setText(span);
 
         mID.addTextChangedListener(new InputListener(mID));
@@ -107,7 +107,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         mSubmit.setOnClickListener(this);
         mGetCode.setOnClickListener(this);
 
-        mService= Network.getService(AuthService.class);
+        mService = Network.getService(AuthService.class);
         mService.getCertifyInfo(new Callback<CertifyInfoResponse>() {
             @Override
             public void start() {
@@ -116,9 +116,9 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
 
             @Override
             public void success(CertifyInfoResponse certifyInfoResponse, Response response) {
-                if(certifyInfoResponse.getCode()==20000){
-                    CertifyInfo info=certifyInfoResponse.getData().getCertifi();
-                    if(info!=null){
+                if (certifyInfoResponse.getCode() == 20000) {
+                    CertifyInfo info = certifyInfoResponse.getData().getCertifi();
+                    if (info != null) {
                         mName.setText(info.getCname());
                         mMobile.setText(info.getMobile());
                         mID.setText(info.getIdcard());
@@ -129,7 +129,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
 
             @Override
             public void failure(HNetError hNetError) {
-                ErrorUtils.checkError(BasicalInfoConfirmActivity.this,hNetError);
+                ErrorUtils.checkError(BasicalInfoConfirmActivity.this, hNetError);
             }
 
             @Override
@@ -139,7 +139,6 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         });
 
     }
-
 
 
     @Override
@@ -183,14 +182,14 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
 
         @Override
         public void afterTextChanged(Editable s) {
-            if(mEdit==mName){
-                mNameStr=s.toString();
-            }else  if(mEdit==mMobile){
-                mMobileStr=s.toString();
-            }else  if(mEdit==mID){
-                mIdStr=s.toString();
-            }else{
-                mCodeStr=s.toString();
+            if (mEdit == mName) {
+                mNameStr = s.toString();
+            } else if (mEdit == mMobile) {
+                mMobileStr = s.toString();
+            } else if (mEdit == mID) {
+                mIdStr = s.toString();
+            } else {
+                mCodeStr = s.toString();
             }
 
         }
@@ -199,57 +198,59 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     }
 
     private boolean checkNotNull() {
-        if (TextUtils.isEmpty(mCodeStr) ) {
-            mNullInfo=getResources().getString(R.string.basic_info_code_null);
+        if (TextUtils.isEmpty(mCodeStr)) {
+            mNullInfo = getResources().getString(R.string.basic_info_code_null);
             return false;
         }
         if (TextUtils.isEmpty(mIdStr)) {
-            mNullInfo=getResources().getString(R.string.basic_info_id_null);
+            mNullInfo = getResources().getString(R.string.basic_info_id_null);
             return false;
         }
         if (TextUtils.isEmpty(mMobileStr)) {
-            mNullInfo=getResources().getString(R.string.basic_info_mobile_null);
+            mNullInfo = getResources().getString(R.string.basic_info_mobile_null);
             return false;
         }
         if (TextUtils.isEmpty(mNameStr)) {
-            mNullInfo=getResources().getString(R.string.basic_info_name_null);
+            mNullInfo = getResources().getString(R.string.basic_info_name_null);
             return false;
         }
 
         return true;
     }
+
     @Override
     public void onClick(View v) {
         if (v == mSubmit) {
-            if(checkNotNull()){
-                if(checkId(mIdStr)){
+            if (checkNotNull()) {
+                if (checkId(mIdStr)) {
                     MobclickAgent.onEvent(this, UEvent.INFO_BASIC_CERTIFY_SUBMIT);
-                    mService.certifyUserInfo(mNameStr,mIdStr,mMobileStr,mCodeStr,new CallBackProxy(false));
-                }else{
-                    Toast.makeText(this,getResources().getString(R.string.basic_info_id_illegal),Toast.LENGTH_SHORT).show();
+                    mService.certifyUserInfo(mNameStr, mIdStr, mMobileStr, mCodeStr, new CallBackProxy(false));
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.basic_info_id_illegal), Toast.LENGTH_SHORT).show();
                 }
 
-            }else{
-                Toast.makeText(this,mNullInfo,Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, mNullInfo, Toast.LENGTH_SHORT).show();
             }
-        }else if(v==mGetCode){
-            if(isCanClick){
+        } else if (v == mGetCode) {
+            if (isCanClick) {
                 MobclickAgent.onEvent(this, UEvent.INFO_BASIC_CERTIFY_CODE);
-                if(!TextUtils.isEmpty(mMobileStr)){
+                if (!TextUtils.isEmpty(mMobileStr)) {
 
-                    timeout=new CountDownTimer(mCode,getResources().getInteger(R.integer.code_duration));
-                    timeout.start();
-                    mGetCode.setVisibility(View.GONE);
-                    mCode.setVisibility(View.VISIBLE);
-                    isCanClick=false;
-                    Matcher m=p.matcher(mMobileStr);
-                    if(m.matches()){
-                        mService.getMobileCode(mMobileStr,TYPE_CERTIFY_CODE,new CallBackProxy(true));
-                    }else{
-                        Toast.makeText(this,getResources().getString(R.string.basic_info_mobile_illegal),Toast.LENGTH_SHORT).show();
+                    Matcher m = p.matcher(mMobileStr);
+                    if (m.matches()) {
+                        timeout = new CountDownTimer(mCode, getResources().getInteger(R.integer.code_duration));
+                        timeout.start();
+                        mGetCode.setVisibility(View.GONE);
+                        mCode.setVisibility(View.VISIBLE);
+                        isCanClick = false;
+                        mConfirmCode.requestFocus();
+                        mService.getMobileCode(mMobileStr, TYPE_CERTIFY_CODE, new CallBackProxy(true));
+                    } else {
+                        Toast.makeText(this, getResources().getString(R.string.basic_info_mobile_illegal), Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(this,getResources().getString(R.string.basic_info_mobile_null),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.basic_info_mobile_null), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -280,7 +281,6 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     }
 
 
-
     private void toast(String msg) {
         if (toast != null) {
             toast.cancel();
@@ -301,7 +301,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
      * 计时器
      */
 
-    private  class CountDownTimer extends android.os.CountDownTimer {
+    private class CountDownTimer extends android.os.CountDownTimer {
         private final TextView tv;
         private final CharSequence oldText;
 
@@ -320,14 +320,14 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         public void onFinish() {
             tv.setEnabled(true);
             tv.setText(oldText);
-            isCanClick=true;
+            isCanClick = true;
             mCode.setVisibility(View.GONE);
             mGetCode.setVisibility(View.VISIBLE);
         }
     }
 
 
-    public final class CallBackProxy implements Callback<ToastResponse>{
+    public final class CallBackProxy implements Callback<ToastResponse> {
         private boolean isGetCode;
 
         public CallBackProxy(boolean isGetCode) {
@@ -342,26 +342,25 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         @Override
         public void success(ToastResponse toastResponse, Response response) {
 
-                //个人信息提交成功
-                if(toastResponse.getCode()==20000){
-                    if(!isGetCode){
-                        Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK,getIntent());
-                        finish();
-                    }
-
-                }else{
-                    isSucess=true;
-                    Toast.makeText(BasicalInfoConfirmActivity.this,toastResponse.getMsg(),Toast.LENGTH_SHORT).show();
+            //个人信息提交成功
+            if (toastResponse.getCode() == 20000) {
+                if (!isGetCode) {
+                    Toast.makeText(BasicalInfoConfirmActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK, getIntent());
+                    finish();
                 }
 
+            } else {
+                isSucess = true;
+                Toast.makeText(BasicalInfoConfirmActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
+            }
 
 
         }
 
         @Override
         public void failure(HNetError hNetError) {
-            ErrorUtils.checkError(BasicalInfoConfirmActivity.this,hNetError);
+            ErrorUtils.checkError(BasicalInfoConfirmActivity.this, hNetError);
         }
 
         @Override
@@ -373,7 +372,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     @Override
     public void finish() {
         super.finish();
-        if(!isSucess){
+        if (!isSucess) {
             MobclickAgent.onEvent(BasicalInfoConfirmActivity.this, UEvent.INFO_BASIC_CERTIFY_CANCEL);
         }
     }
