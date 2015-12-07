@@ -72,6 +72,7 @@
     </style>
 
     <style name="DialogNotTitle" parent="Theme.AppCompat.Dialog">
+        <item name="vpiIconPageIndicatorStyle">@style/vpiIconPageIndicatorStyle</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
@@ -140,6 +141,7 @@
 
 
     </style>
+
     <style name="alert_dialog_theme" parent="Base.Theme.AppCompat.Light.Dialog">
         <item name="android:colorBackground">@android:color/transparent</item>
         <item name="android:windowBackground">@android:color/transparent</item>
