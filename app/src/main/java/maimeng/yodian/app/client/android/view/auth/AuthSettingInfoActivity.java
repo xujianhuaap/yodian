@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -41,6 +42,7 @@ import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
+import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 
@@ -57,17 +59,9 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-//            ActivityCompat.finishAfterTransition(SettingUserInfo.this);
-            User.clear(AuthSettingInfoActivity.this);
-            AuthRedirect.toHome(AuthSettingInfoActivity.this);
+            ActivityCompat.finishAfterTransition(AuthSettingInfoActivity.this);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
     }
 
     @Override
@@ -271,13 +265,13 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
     }
 
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            return false;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 
     @Override
@@ -302,42 +296,42 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
             } else {
                 service.modifyInfo(nickname.toString(), 0, "", "", binding.wechat.getText().toString(), new TypedBitmap.Builder(bitmap).setMaxSize(300).setAutoMatch(getResources()).build(), binding.qq.getText().toString(), binding.mobile.getText().toString(), "", "", ""
                         , new Callback<ModifyUserResponse>() {
-                    @Override
-                    public void start() {
-                        if (!isFinishing()) {
-                            dialog = WaitDialog.show(AuthSettingInfoActivity.this);
-                        }
+                            @Override
+                            public void start() {
+                                if (!isFinishing()) {
+                                    dialog = WaitDialog.show(AuthSettingInfoActivity.this);
+                                }
 
-                    }
-
-                    @Override
-                    public void success(ModifyUserResponse res, Response response) {
-                        res.showMessage(AuthSettingInfoActivity.this);
-                        if (res.isSuccess()) {
-                            user = new User(user.getT_nickname(), user.getT_img(), user.loginType, user.getToken(), user.getUid(), nickname.toString(), user.getChatLoginName(), res.getData().getAvatar());
-                            User.Info info = user.getInfo();
-                            if (info == null) {
-                                info = new User.Info();
                             }
-                            info.setQq(binding.qq.getText().toString());
-                            info.setWechat(binding.wechat.getText().toString());
-                            info.setMobile(binding.mobile.getText().toString());
-                            user.write(AuthSettingInfoActivity.this);
-                            setResult(RESULT_OK);
-                            finish();
-                        }
-                    }
 
-                    @Override
-                    public void failure(HNetError hNetError) {
-                        ErrorUtils.checkError(AuthSettingInfoActivity.this, hNetError);
-                    }
+                            @Override
+                            public void success(ModifyUserResponse res, Response response) {
+                                res.showMessage(AuthSettingInfoActivity.this);
+                                if (res.isSuccess()) {
+                                    user = new User(user.getT_nickname(), user.getT_img(), user.loginType, user.getToken(), user.getUid(), nickname.toString(), user.getChatLoginName(), res.getData().getAvatar());
+                                    User.Info info = user.getInfo();
+                                    if (info == null) {
+                                        info = new User.Info();
+                                    }
+                                    info.setQq(binding.qq.getText().toString());
+                                    info.setWechat(binding.wechat.getText().toString());
+                                    info.setMobile(binding.mobile.getText().toString());
+                                    user.write(AuthSettingInfoActivity.this);
+                                    AuthRedirect.toHome(AuthSettingInfoActivity.this);
+                                    finish();
+                                }
+                            }
 
-                    @Override
-                    public void end() {
-                        if (dialog != null) dialog.dismiss();
-                    }
-                });
+                            @Override
+                            public void failure(HNetError hNetError) {
+                                ErrorUtils.checkError(AuthSettingInfoActivity.this, hNetError);
+                            }
+
+                            @Override
+                            public void end() {
+                                if (dialog != null) dialog.dismiss();
+                            }
+                        });
             }
         } else if (v == binding.btnCleanNickname) {
             binding.nickname.setText("");

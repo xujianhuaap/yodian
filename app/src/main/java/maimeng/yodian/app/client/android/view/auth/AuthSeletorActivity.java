@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.view.auth;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapRegionDecoder;
@@ -45,6 +46,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.WebViewActivity;
+import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.ScrollImageView;
 
@@ -159,8 +161,14 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
         if (result) {
             finish();
         } else {
-            startActivity(new Intent(AuthSeletorActivity.this, MainTab2Activity.class));
-            finish();
+            User user = User.read(this);
+            if (TextUtils.isEmpty(user.getNickname()) || TextUtils.isEmpty(user.getAvatar())) {
+                startActivity(new Intent(this, AuthSettingInfoActivity.class));
+            } else {
+                startActivity(new Intent(AuthSeletorActivity.this, MainTab2Activity.class));
+                finish();
+            }
+
         }
     }
 

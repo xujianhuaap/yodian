@@ -47,7 +47,7 @@ import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
 /**
  * Created by android on 15-10-10.
  */
-public class MainTab2Activity extends AbstractActivity implements AlertDialog.PositiveListener, Callback<FloatResponse> {
+public class MainTab2Activity extends AbstractActivity implements Callback<FloatResponse> {
     private User user;
     private Bitmap mAvatar;
     private long exitTime;
@@ -238,24 +238,6 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
         MobclickAgent.onPause(this);
     }
 
-    @Override
-    public void onPositiveClick(DialogInterface dialog) {
-        startActivityForResult(new Intent(this, AuthSettingInfoActivity.class), REQUEST_UPDATEINFO);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == REQUEST_UPDATEINFO) {
-            updateFloatButton();
-            syncFloat();
-        }
-    }
-
-    @Override
-    public String positiveText() {
-        return "是";
-    }
 
     private void initFragment() {
         user = User.read(this);
@@ -263,20 +245,13 @@ public class MainTab2Activity extends AbstractActivity implements AlertDialog.Po
             AuthSeletorActivity.start(this, REQUEST_AUTH);
         } else {
             startService(new Intent(this, ChatServiceLoginService.class));
-            if (TextUtils.isEmpty(user.getNickname()) || TextUtils.isEmpty(user.getAvatar())) {
-                AlertDialog dialog = AlertDialog.newInstance("资料补全", "你的资料不完整，请补全资料!");
-                dialog.setCancelable(false);
-                dialog.setPositiveListener(this);
-                dialog.show(getFragmentManager(), "dialog");
-            } else {
-                showDefault();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        syncFloat();
-                    }
-                }, 500);
-            }
+            showDefault();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    syncFloat();
+                }
+            }, 500);
         }
     }
 

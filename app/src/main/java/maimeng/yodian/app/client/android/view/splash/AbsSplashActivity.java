@@ -18,9 +18,11 @@ import org.json.JSONObject;
 import io.realm.Realm;
 import maimeng.yodian.app.client.android.common.AdvertiseStatus;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
+import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.user.LauncherGuideActivity;
 
 
@@ -62,7 +64,8 @@ public abstract class AbsSplashActivity extends AppCompatActivity implements Cal
         if (LauncherCheck.isFirstRun(AbsSplashActivity.this)) {
             startActivityForResult(new Intent(AbsSplashActivity.this, LauncherGuideActivity.class), REQUEST_GUIDE);
         } else {
-            if (TextUtils.isEmpty(maimeng.yodian.app.client.android.model.user.User.read(AbsSplashActivity.this).getToken())) {
+            User user = User.read(this);
+            if (TextUtils.isEmpty(user.getToken()) || TextUtils.isEmpty(user.getNickname()) || TextUtils.isEmpty(user.getAvatar())) {
                 AuthRedirect.toAuth(AbsSplashActivity.this);
             } else {
                 AuthRedirect.toHome(AbsSplashActivity.this);
