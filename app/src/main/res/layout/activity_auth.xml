@@ -1,103 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/login_bg"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_phone" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/auth_input_marginStart"
+        android:layout_marginRight="@dimen/auth_input_marginEnd"
+        android:layout_marginTop="@dimen/margin_XXlarge"
+        android:background="@drawable/btn_submit_background"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_clean"
+            android:background="@null"
+            android:gravity="center_horizontal"
+            android:hint="@string/mobile_input_empty_message"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:paddingLeft="@dimen/auth_input_edit_paddingStart"
+            android:paddingRight="@dimen/auth_input_edit_paddingEnd"
+            android:singleLine="true"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary" />
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/btn_clean"
+            android:layout_width="@dimen/auth_input_clean_size"
+            android:layout_height="@dimen/auth_input_clean_size"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
+            android:layout_marginRight="@dimen/auth_input_clean_marginRight"
+            android:layout_marginTop="@dimen/auth_input_clean_marginTop"
+            android:padding="@dimen/auth_input_clean_padding"
+            android:src="@mipmap/btn_clear" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_XXXlarge"
+        android:layout_marginLeft="@dimen/auth_input_marginStart"
+        android:layout_marginRight="@dimen/auth_input_marginEnd"
+        android:layout_marginTop="@dimen/auth_input_space_height"
+        android:background="@drawable/btn_submit_background"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_getcode"
+            android:background="@null"
+            android:gravity="center_horizontal"
+            android:hint="@string/input_valicode_hint"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:paddingLeft="@dimen/auth_input_edit_paddingStart"
+            android:paddingRight="@dimen/auth_input_edit_paddingEnd"
+            android:singleLine="true"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/btn_getcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_phone" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/auth_input_marginStart"
-            android:layout_marginRight="@dimen/auth_input_marginEnd"
-            android:layout_marginTop="@dimen/margin_XXlarge"
-            android:background="@drawable/btn_submit_background"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/btn_clean"
-                android:background="@null"
-                android:gravity="center_horizontal"
-                android:hint="@string/mobile_input_empty_message"
-                android:inputType="phone"
-                android:maxLength="11"
-                android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                android:paddingRight="@dimen/auth_input_edit_paddingEnd"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="@color/colorPrimary" />
-
-            <ImageView
-                android:id="@+id/btn_clean"
-                android:layout_width="@dimen/auth_input_clean_size"
-                android:layout_height="@dimen/auth_input_clean_size"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
-                android:layout_marginRight="@dimen/auth_input_clean_marginRight"
-                android:layout_marginTop="@dimen/auth_input_clean_marginTop"
-                android:padding="@dimen/auth_input_clean_padding"
-                android:src="@mipmap/btn_clear" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/auth_input_marginStart"
-            android:layout_marginRight="@dimen/auth_input_marginEnd"
-            android:layout_marginTop="@dimen/auth_input_space_height"
-            android:layout_marginBottom="@dimen/margin_XXXlarge"
-            android:background="@drawable/btn_submit_background"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/btn_getcode"
-                android:background="@null"
-                android:gravity="center_horizontal"
-                android:hint="@string/input_valicode_hint"
-                android:inputType="phone"
-                android:maxLength="11"
-                android:paddingLeft="@dimen/auth_input_edit_paddingStart"
-                android:paddingRight="@dimen/auth_input_edit_paddingEnd"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="@color/colorPrimary" />
-
-            <TextView
-                android:id="@+id/btn_getcode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
-                android:layout_marginRight="@dimen/auth_input_clean_marginRight"
-                android:layout_marginTop="@dimen/auth_input_clean_marginTop"
-                android:background="@drawable/btn_fill_white_background"
-                android:padding="@dimen/auth_input_clean_padding"
-                android:text="@string/get_valicode" />
-        </RelativeLayout>
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/auth_input_clean_marginBottom"
+            android:layout_marginRight="@dimen/auth_input_clean_marginRight"
+            android:layout_marginTop="@dimen/auth_input_clean_marginTop"
+            android:background="@drawable/btn_fill_white_background"
+            android:padding="@dimen/auth_input_clean_padding"
+            android:text="@string/get_valicode" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_login"
@@ -111,4 +108,6 @@
         android:text="提交"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp" />
-</FrameLayout>
+</LinearLayout>
+
+
