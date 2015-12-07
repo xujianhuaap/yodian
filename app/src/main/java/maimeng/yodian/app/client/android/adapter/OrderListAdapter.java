@@ -126,7 +126,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
 
                         break;
                     case 2:
-                        statusStr =  mContext.getString(R.string.buyer_operator_wait_accept);
+                        statusStr = mContext.getString(R.string.buyer_operator_wait_accept);
                         if (!isSaled) {
                             mBinding.acceptOrder.setVisibility(View.GONE);
                         } else {
@@ -135,7 +135,7 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                         }
                         break;
                     case 3:
-                        statusStr =  mContext.getString(R.string.buyer_operator_wait_send);
+                        statusStr = mContext.getString(R.string.buyer_operator_wait_send);
                         if (!isSaled) {
                             mBinding.acceptOrder.setVisibility(View.GONE);
                         } else {
@@ -160,19 +160,19 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
                         break;
                     case 6:
                         //订单关闭
-                        if(isSaled){
+                        if (isSaled) {
                             statusStr = mContext.getString(R.string.order_status_buyer_close);
-                        }else {
-                            statusStr= mContext.getString(R.string.order_status_close);
+                        } else {
+                            statusStr = mContext.getString(R.string.order_status_close);
                         }
 
                         mBinding.acceptOrder.setVisibility(View.GONE);
                         break;
                     case 7:
                         //订单取消
-                        if(isSaled){
+                        if (isSaled) {
                             statusStr = mContext.getString(R.string.order_status_buyer_cancle);
-                        }else {
+                        } else {
                             statusStr = mContext.getString(R.string.order_status_cancle);
                         }
                         mBinding.acceptOrder.setVisibility(View.GONE);
@@ -185,16 +185,16 @@ public class OrderListAdapter extends AbstractAdapter<OrderInfo, OrderListAdapte
 
                 mBinding.orderStatus.setText(statusStr);
                 Spanned html = Html.fromHtml(mContext.getString(R.string.order_total_fee));
-               if(mOrder.getBalance()>0){
-                   mBinding.orderBalance.setVisibility(View.VISIBLE);
-                   mBinding.orderBalance.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee_for_balance,
-                          mOrder.getBalance()+"")));
-               }else {
-                   mBinding.orderBalance.setVisibility(View.GONE);
-               }
+                if (mOrder.getBalance() > 0) {
+                    mBinding.orderBalance.setVisibility(View.VISIBLE);
+                    mBinding.orderBalance.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee_for_balance,
+                            mOrder.getBalance() + "")));
+                } else {
+                    mBinding.orderBalance.setVisibility(View.GONE);
+                }
                 mBinding.orderPrice.setText(Html.fromHtml(mContext.getString(R.string.order_total_fee,
                         mOrder.getTotal_fee())));
-                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月 HH:mm");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 String dateStr = format.format(new java.util.Date(Long.parseLong(mOrder.getCreatetime()) * 1000));
                 ;
                 mBinding.orderTime.setText(dateStr);
