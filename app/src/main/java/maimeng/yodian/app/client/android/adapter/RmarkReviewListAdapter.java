@@ -112,7 +112,7 @@ public class RmarkReviewListAdapter extends AbstractHeaderAdapter<Rmark, RmarkRe
                     binding.skillSlector.setVisibility(View.VISIBLE);
                 }
             }
-            binding.pic.setLayoutParams(new RelativeLayout.LayoutParams(SCREEN_WIDTH, SCREEN_WIDTH * 4 / 5));
+            binding.pic.setLayoutParams(new FrameLayout.LayoutParams(SCREEN_WIDTH, SCREEN_WIDTH * 4 / 5));
         }
     }
 
