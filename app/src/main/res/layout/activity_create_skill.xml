@@ -30,6 +30,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="0.3"
                     android:background="#fff">
 
@@ -38,6 +39,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="false"
+                        android:background="#cccccc"
                         android:minHeight="@dimen/skill_pic_height"
                         android:scaleType="fitXY" />
 
@@ -227,9 +229,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/padding_large"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_large"
                     android:background="@drawable/btn_oval_black"
                     android:gravity="center"
                     android:paddingBottom="@dimen/margin_small"

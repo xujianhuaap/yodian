@@ -281,7 +281,7 @@
 
     <!--提现信息认证-->
     <string name="zhi_fu_bao_account">支付宝账号</string>
-    <string name="twice_confirm_account">确认账号</string>
+    <string name="twice_confirm_account">确  认  账  号</string>
     <string name="draw_money_inof_certify_title">提现信息</string>
     <string name="draw_money_info_certify_tip"><![CDATA[<p style="line-height:12px"><font color="#ff0000">1.请你正确填写支付宝账号信息<br/>
     2.申请提现后，我们会在工作日的24小时内打款到您的支付宝账号<br/>

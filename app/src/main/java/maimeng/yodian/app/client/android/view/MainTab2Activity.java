@@ -226,10 +226,10 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         if (TextUtils.isEmpty(User.read(this).getToken())) {
             AuthRedirect.toAuth(this);
         }
-        MobclickAgent.onResume(this);
     }
 
     @Override

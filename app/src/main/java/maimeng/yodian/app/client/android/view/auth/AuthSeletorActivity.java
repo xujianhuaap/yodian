@@ -61,6 +61,8 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
     private Bitmap bitmap;
     boolean toRight = true;
     private static Handler handler;
+    final int seek = 2;
+    private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,55 +70,16 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         service = Network.getService(AuthService.class);
         setContentView(R.layout.activity_auth_selector, false);
-        left = 0;
-        right = getResources().getDisplayMetrics().widthPixels;
-        bottom = getResources().getDisplayMetrics().heightPixels;
-        top = 0;
-        final ImageView image = (ImageView) findViewById(R.id.scroll_image);
-        final int seek = 2;
-        try {
-            decoder = BitmapRegionDecoder.newInstance(getResources().openRawResource(R.raw.scroll_bitmap), false);
-            handler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    if (bitmap != null && !bitmap.isRecycled()) {
-                        bitmap.recycle();
-                        bitmap = null;
-                    }
-                    bitmap = decoder.decodeRegion(new Rect(left, top, right, bottom), null);
-                    if (toRight) {
-                        if (right + seek < decoder.getWidth()) {
-                            left += seek;
-                            right += seek;
-                        } else {
-                            toRight = false;
-                            left -= seek;
-                            right -= seek;
-                        }
-                    } else {
-                        if (left - seek > 0) {
-                            left -= seek;
-                            right -= seek;
-                        } else {
-                            toRight = true;
-                            left += seek;
-                            right += seek;
-                        }
-                    }
-                    image.setImageBitmap(bitmap);
-                    obtainMessage(0).sendToTarget();
-                }
-            };
-            handler.sendEmptyMessage(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ScrollImageView image = (ScrollImageView) findViewById(R.id.scrollImage);
+        image.setImage(getResources().openRawResource(R.raw.scroll_bitmap));
+        image.startScroll();
         findViewById(R.id.btn_loginwechat).setOnClickListener(this);
         findViewById(R.id.btn_loginweibo).setOnClickListener(this);
         findViewById(R.id.btn_loginphone).setOnClickListener(this);
         findViewById(R.id.btn_user_protocol).setOnClickListener(this);
         User.clear(AuthSeletorActivity.this);
     }
+
 
     @Override
     public void onClick(View v) {

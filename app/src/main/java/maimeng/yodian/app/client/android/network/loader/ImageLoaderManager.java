@@ -179,6 +179,7 @@ public final class ImageLoaderManager {
                 instance.addRequest(request, context);
             }
             DrawableTypeRequest<Uri> loader = request.load(this.uri);
+            loader.crossFade();
             loader.diskCacheStrategy(DiskCacheStrategy.ALL);
             if (width > 0 && height > 0) {
                 loader.override(width, height);

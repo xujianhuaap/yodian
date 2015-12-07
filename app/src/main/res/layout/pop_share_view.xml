@@ -100,32 +100,17 @@
                 android:textColor="#fff"
                 android:textSize="16sp" />
 
-
-            <!--<View-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:paddingLeft="20dp"-->
-            <!--android:paddingRight="20dp"-->
-            <!--android:layout_columnSpan="4"-->
-            <!--android:background="#000" />-->
-
-
-            <FrameLayout
+            <TextView
+                android:id="@+id/report"
                 android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
+                android:drawableTop="@mipmap/ic_report"
                 android:gravity="center"
-                android:padding="@dimen/dialog_share_item_padding">
+                android:padding="11dp"
+                android:text="举报  "
+                android:textColor="#fff"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/report"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableTop="@mipmap/ic_report"
-                    android:gravity="center"
-                    android:text="举报"
-                    android:textColor="#fff"
-                    android:textSize="16sp" />
-            </FrameLayout>
         </GridLayout>
 
     </LinearLayout>
