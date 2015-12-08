@@ -42,16 +42,6 @@
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <TextView
-                    android:id="@+id/skill_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left|center_vertical"
-                    android:singleLine="true"
-                    android:text="@{skill.name}"
-                    android:textColor="#fff"
-                    app:layout_scrollFlags="scroll|enterAlways" />
-
-                <TextView
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
