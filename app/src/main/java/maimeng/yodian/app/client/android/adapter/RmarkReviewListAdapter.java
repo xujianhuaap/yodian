@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ItemRmarkListBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
-import maimeng.yodian.app.client.android.databinding.ViewHeaderPreviewDiaryBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -104,11 +103,11 @@ public class RmarkReviewListAdapter extends AbstractHeaderAdapter<Rmark, RmarkRe
         public HeaderViewHolder(ViewHeaderPlaceholderBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            if(mSkill!=null){
-                if(mSkill.getAllow_sell()==1){
-                   binding.skillAllowSell.setVisibility(View.VISIBLE);
+            if (mSkill != null) {
+                if (mSkill.getAllow_sell() == 1) {
+                    binding.skillAllowSell.setVisibility(View.VISIBLE);
                 }
-                if(mSkill.isSelector()){
+                if (mSkill.isSelector()) {
                     binding.skillSlector.setVisibility(View.VISIBLE);
                 }
             }
