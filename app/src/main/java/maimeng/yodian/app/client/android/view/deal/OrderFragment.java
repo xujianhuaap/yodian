@@ -237,7 +237,6 @@ public class OrderFragment extends Fragment implements PtrHandler {
 
         @Override
         public void success(OrderListRepsonse orderListRepsonse, Response response) {
-            orderListRepsonse.showMessage(getActivity());
             if (orderListRepsonse.getCode() == 20000) {
                 List<OrderInfo> orders = orderListRepsonse.getData().getList();
                 if (orders.size() == 0 && mPage == 1) {
