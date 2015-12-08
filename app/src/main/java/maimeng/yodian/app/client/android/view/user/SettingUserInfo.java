@@ -197,16 +197,22 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                     d = district.getName();
 
                 }
-                if(TextUtils.isEmpty(d)){
-                    binding.cities.setText(p + c);
-                    user.getInfo().setDistrict("");
+                int type=province.getType();
+                if(type==0){
+                    //直辖市
+                    user.getInfo().setProvince("");
+                    user.getInfo().setCity(p);
+                    user.getInfo().setDistrict(c);
+                    binding.cities.setText(p + c );
                 }else{
-                    binding.cities.setText(p + c + d);
+                    user.getInfo().setProvince(p);
+                    user.getInfo().setCity(c);
                     user.getInfo().setDistrict(d);
+                    binding.cities.setText(p + c + d);
                 }
 
-                user.getInfo().setProvince(p);
-                user.getInfo().setCity(c);
+
+
 
                 hideBankList();
             }
