@@ -99,7 +99,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private WaitDialog dialog;
     private View noSkillRmark;
     private Bitmap defaultAvatar;
-    private boolean canBuy=true;
+    private boolean canBuy = true;
 
 
     @Override
@@ -117,7 +117,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         super.onCreate(savedInstanceState);
         MobclickAgent.onEvent(this, UEvent.SKILL_DETIAL);
         user = User.read(this);
-        noSkillRmark =View.inflate(this,R.layout.view_header_exception,null);
+        noSkillRmark = View.inflate(this, R.layout.view_header_exception, null);
         service = Network.getService(SkillService.class);
         binding = bindView(R.layout.activity_skill_details);
         headBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.view_header_placeholder, binding.recyclerView, false);
@@ -173,7 +173,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
                 setUIWhenIsMe();
-            }else {
+            } else {
                 headBinding.btnContact.setVisibility(View.VISIBLE);
                 headBinding.divinder.setVisibility(View.VISIBLE);
                 headBinding.btnBuySkill.setVisibility(View.VISIBLE);
@@ -200,8 +200,8 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQEUST_PAY){
-            canBuy=true;
+        if (requestCode == REQEUST_PAY) {
+            canBuy = true;
         }
         if (resultCode == RESULT_OK) {
             if (requestCode == REQEUST_RMARK_ADD) {
@@ -209,8 +209,8 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             } else if (requestCode == REQEUST_PAY) {//如果是支付成功返回的就进入订单界面
                 if (data != null) {
                     Lottery lottery = Parcels.unwrap(data.getParcelableExtra("lottery"));
-                    LogUtil.d(SkillDetailsActivity.class.getName(),"lottery"+lottery.getIsLottery());
-                    LogUtil.d(SkillDetailsActivity.class.getName(),"lottery"+lottery.getLotUrl());
+                    LogUtil.d(SkillDetailsActivity.class.getName(), "lottery" + lottery.getIsLottery());
+                    LogUtil.d(SkillDetailsActivity.class.getName(), "lottery" + lottery.getLotUrl());
                     OrderDetailActivity.show(this, lottery);
                 }
             }
@@ -257,7 +257,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
                 setUIWhenIsMe();
-            }else {
+            } else {
                 headBinding.btnContact.setVisibility(View.VISIBLE);
                 headBinding.divinder.setVisibility(View.VISIBLE);
                 headBinding.btnBuySkill.setVisibility(View.VISIBLE);
@@ -388,7 +388,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                     robot.setUsername(chatLoginName);
                     robot.setNick(skill.getNickname());
                     robot.setAvatar(skill.getAvatar());
-                    user.setWechat(skill.getWeichat());
+                    robot.setWechat(skill.getWeichat());
                     robot.setQq(skill.getQq());
                     robot.setMobile(skill.getContact());
 
@@ -412,9 +412,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 RmarkPublishActivity.show(this, skill, headBinding.btnBuySkill, REQEUST_RMARK_ADD);
             } else {
                 MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_DETAIL_PAY_CLICK);
-                if(canBuy){
+                if (canBuy) {
                     PayWrapperActivity.show(SkillDetailsActivity.this, skill, REQEUST_PAY);
-                    canBuy=false;
+                    canBuy = false;
                 }
 
             }

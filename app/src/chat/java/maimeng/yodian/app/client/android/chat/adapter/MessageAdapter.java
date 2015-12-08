@@ -544,26 +544,13 @@ public class MessageAdapter extends BaseAdapter {
                                     final String contact = user.getMobile();
                                     final String qq = user.getQq();
                                     final String wechat = user.getWechat();
-                                    new android.app.AlertDialog.Builder(v.getContext()).setTitle("点击接收列表").setMessage(String.format("mobile:%s\nqq:%s\nweChat:%s\n", contact, qq, wechat)).setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            ContactPathActivity.show(activity, qq, contact, wechat);
-                                        }
-                                    }).show();
+                                    ContactPathActivity.show(activity, qq, contact, wechat);
                                 } else {
                                     final maimeng.yodian.app.client.android.model.user.User.Info user = maimeng.yodian.app.client.android.model.user.User.read(activity).getInfo();
                                     final String contact = user.getContact();
                                     final String qq = user.getQq();
                                     final String wechat = user.getWechat();
-                                    new android.app.AlertDialog.Builder(v.getContext()).setTitle("点击发送列表").setMessage(String.format("mobile:%s\nqq:%s\nweChat:%s\n", contact, qq, wechat)).setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            ContactPathActivity.show(activity, qq, contact, wechat);
-                                        }
-                                    }).show();
-
+                                    ContactPathActivity.show(activity, qq, contact, wechat);
                                 }
 
 
