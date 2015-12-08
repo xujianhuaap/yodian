@@ -142,7 +142,7 @@ import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 
 /**
  * 聊天页面
- * <p>
+ * <p/>
  * 技能属于卖家　聊天发起方可能是卖家也可能是买家
  * 如果买家发起聊天　即联系卖家　有以下入口：技能详情
  */
@@ -261,7 +261,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private TextView skillName;
     private TextView skillPrice;
 
-    private maimeng.yodian.app.client.android.model.user.User mCurrentUser;
 
     public static void show(Context context, ChatUser chatUser, int chatType) {
         Intent intent = new Intent(context, ChatActivity.class);
@@ -341,7 +340,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         initView();
         setUpView();
         showSkill(skill);
-        mCurrentUser = maimeng.yodian.app.client.android.model.user.User.read(this);
 
     }
 
@@ -1049,7 +1047,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     /**
      * 事件监听
-     * <p>
+     * <p/>
      * see {@link EMNotifierEvent}
      */
     @Override
@@ -1264,11 +1262,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (isRobot) {
                 message.setAttribute("em_robot_message", true);
             }
-            if (sendVcard) {
-                setExtAttribute(message, MESSAGE_NAME_CARD);
-            } else {
-                setExtAttribute(message, MESSAGE_TEXT);
-            }
 
             if (sendVcard) {
                 maimeng.yodian.app.client.android.model.user.User user = maimeng.yodian.app.client.android.model.user.User.read(this);
@@ -1287,8 +1280,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                             return "确定";
                         }
                     }).show(getFragmentManager(), "dialog");
+                    return;
                 }
             }
+            if (sendVcard) {
+                setExtAttribute(message, MESSAGE_NAME_CARD);
+            } else {
+                setExtAttribute(message, MESSAGE_TEXT);
+            }
+
             final TextMessageBody txtBody = new TextMessageBody(content);
             // 设置消息body
             message.addBody(txtBody);
@@ -1323,7 +1323,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      * @param message
      */
     private void setExtAttribute(EMMessage message, int messageType) {
-        maimeng.yodian.app.client.android.model.user.User currentUser = mCurrentUser;
+        maimeng.yodian.app.client.android.model.user.User currentUser = maimeng.yodian.app.client.android.model.user.User.read(this);
         String nick = currentUser.getNickname();
         String avatar = currentUser.getAvatar();
         String id = currentUser.getUid() + "";
@@ -1331,9 +1331,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         message.setAttribute("avatar", avatar);
         message.setAttribute("uid", id);
         if (messageType == MESSAGE_NAME_CARD) {
-            message.setAttribute("mobile", currentUser.getInfo().getContact());
-            message.setAttribute("qq", currentUser.getInfo().getQq());
-            message.setAttribute("weChat", currentUser.getInfo().getWechat());
+            String contact = currentUser.getInfo().getContact();
+            String qq = currentUser.getInfo().getQq();
+            String wechat = currentUser.getInfo().getWechat();
+            contact = TextUtils.isEmpty(contact) ? "暂无" : contact;
+            qq = TextUtils.isEmpty(qq) ? "暂无" : qq;
+            wechat = TextUtils.isEmpty(wechat) ? "暂无" : wechat;
+            message.setAttribute("mobile", contact);
+            message.setAttribute("qq", qq);
+            message.setAttribute("weChat", wechat);
         }
 
         message.setAttribute("yd_type", FLAG_PUSH);
@@ -1387,7 +1393,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 message.setAttribute("em_robot_message", true);
             }
             setExtAttribute(message, MESSAGE_VOICE);
-
             conversation.addMessage(message);
             onNewMessage(message);
             adapter.refreshSelectLast();
