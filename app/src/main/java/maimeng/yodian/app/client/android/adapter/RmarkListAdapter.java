@@ -49,7 +49,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
         }
         Rmark item = getItem(position);
         holder.bind(item, position);
-        Glide.with(mContext).load(item.getPic()).crossFade().into(holder.binding.pic);
+//        Glide.with(mContext).load(item.getPic()).crossFade().into(holder.binding.pic);
         return convertView;
     }
 
