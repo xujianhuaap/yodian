@@ -196,7 +196,7 @@
     <string name="pay_zhifubao">支付宝支付</string>
     <string name="pay_remainer">余额(%.2f)支付</string>
     <string name="pay_remainder_enable"><![CDATA[<b> 使用余额<font color="#17ACE7">(%1$s)</font>抵扣<br/>只需支付<font color="#17ACE7">%2$s</font>元</b>]]></string>
-    <string name="pay_list_title_using_balance"><![CDATA[<font color="#000000">本次交易还需要支付</font><font color="#FFA739"><big>%1$s</big></font><font color="#000000">元</font><br/></br><font color="#FFA739"><small><small>请选择支付方式</font>]]></string>
+    <string name="pay_list_title_using_balance"><![CDATA[<font color="#000000">本次交易还需支付</font><font color="#FFA739"><big>%1$s</big></font><font color="#000000">元</font><br/></br><font color="#FFA739"><small><small>请选择支付方式</font>]]></string>
     <string name="pay_list_title"><![CDATA[<font color="#000000">本次交易支付金额</font><font color="#FFA739"><big>%1$s</big></font><font color="#000000">元</font><br/></br><font color="#FFA739"><small><small>请选择支付方式</font>]]></string>
     <string name="pay_result_fail"><![CDATA[<font color="#55000000"><big>支付失败</big></font>]]></string>
     <string name="pay_deal_tip">你确定要支付吗？</string>
