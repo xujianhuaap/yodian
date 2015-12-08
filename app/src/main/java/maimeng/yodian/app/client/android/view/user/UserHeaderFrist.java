@@ -114,7 +114,9 @@ public class UserHeaderFrist extends BaseFragment {
                 mHeaderBinding.userSign.setText(String.format("来至%s的%s", city, job));
             } else if (TextUtils.isEmpty(city)) {
                 mHeaderBinding.userSign.setText(job);
-            } else if (!"请选择".equals(city)) {
+            } else if(TextUtils.isEmpty(job)){
+                mHeaderBinding.userSign.setText(String.format("来至%s", city));
+            }else if (!"请选择".equals(city)) {
                 mHeaderBinding.userSign.setText(String.format("来至%s", city));
             }
 
