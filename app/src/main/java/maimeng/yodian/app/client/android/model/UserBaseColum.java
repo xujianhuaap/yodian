@@ -15,12 +15,12 @@ public abstract class UserBaseColum extends BaseObservable {
     public static final String KEY_UID = "_uid";
     public static final String KEY_TOKEN = "_token";
     public static final String KEY_TYPE = "_type";
-    public static final String KEY_MOBILE = "_key_mobile";
+    public static final String KEY_MOBILE = "_key_mobile";//注册手机号
     public static final String KEY_WECHAT = "_key_wechat";
-    public static final String KEY_QQ="_qq";
+    public static final String KEY_QQ = "_qq";
     public static final String KEY_CONTACT = "_contact";
     public static final String KEY_PUSH = "_PUSH";
-    public static final String KEY_VOUCH_STATUS="_vouch_status";
+    public static final String KEY_VOUCH_STATUS = "_vouch_status";
 
 
 }

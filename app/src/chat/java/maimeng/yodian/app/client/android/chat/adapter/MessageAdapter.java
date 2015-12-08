@@ -542,10 +542,8 @@ public class MessageAdapter extends BaseAdapter {
                                     User user = User.parse(msg);
                                     ContactPathActivity.show(activity, user.getQq(), user.getMobile(), user.getWechat());
                                 } else {
-//                                        User.Info info = User.read(activity).getInfo();
-//                                        ContactPathActivity.show(activity, info.getQq(), info.getContact(), info.getWechat());
-                                    User user = User.parse(msg);
-                                    ContactPathActivity.show(activity, user.getQq(), user.getMobile(), user.getWechat());
+                                    maimeng.yodian.app.client.android.model.user.User.Info user = maimeng.yodian.app.client.android.model.user.User.read(activity).getInfo();
+                                    ContactPathActivity.show(activity, user.getQq(), user.getContact(), user.getWechat());
                                 }
 
 
