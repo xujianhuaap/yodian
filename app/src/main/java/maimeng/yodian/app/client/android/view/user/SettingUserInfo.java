@@ -199,13 +199,15 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 }
                 if(TextUtils.isEmpty(d)){
                     binding.cities.setText(p + c);
+                    user.getInfo().setDistrict("");
                 }else{
                     binding.cities.setText(p + c + d);
+                    user.getInfo().setDistrict(d);
                 }
 
                 user.getInfo().setProvince(p);
                 user.getInfo().setCity(c);
-                user.getInfo().setDistrict(d);
+
                 hideBankList();
             }
         });
@@ -395,7 +397,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         boolean qqEmpty = TextUtils.isEmpty(user.getInfo().getQq());
         boolean phomeEmpty = TextUtils.isEmpty(user.getInfo().getContact());
         if (phomeEmpty && qqEmpty && wechatEmpty) {
-            Toast.makeText(this, R.string.contact_input_empty_message, Toast.LENGTH_SHORT);
+            Toast.makeText(this, R.string.contact_input_empty_message, Toast.LENGTH_SHORT).show();
             return;
         }
         Sex sex = user.getInfo().getSex();

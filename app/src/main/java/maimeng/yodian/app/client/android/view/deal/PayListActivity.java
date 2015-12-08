@@ -372,6 +372,9 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             if (errCode == IPayStatus.PAY_ERROR_REMAINDER_SHORT) {
                 failStr = getResources().getString(R.string.pay_deal_remainder_shortage);
             }
+            if(errCode==IPayStatus.PAY_ERROR_CANCEL_USER){
+                failStr = getResources().getString(R.string.pay_deal_user_cancel);
+            }
             String btnTip = getResources().getString(R.string.btn_name);
             String title = getResources().getString(R.string.pay_deal_title);
 
