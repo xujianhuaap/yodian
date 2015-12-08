@@ -1340,6 +1340,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             message.setAttribute("mobile", contact);
             message.setAttribute("qq", qq);
             message.setAttribute("weChat", wechat);
+            new android.app.AlertDialog.Builder(this).setTitle("发送调试").setMessage(String.format("mobile:%s\nqq:%s\nweChat:%s\n", contact, qq, wechat)).setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
         }
 
         message.setAttribute("yd_type", FLAG_PUSH);

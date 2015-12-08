@@ -16,6 +16,7 @@ package maimeng.yodian.app.client.android.chat.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
@@ -540,10 +541,29 @@ public class MessageAdapter extends BaseAdapter {
                                 EMMessage msg = (EMMessage) v.getTag();
                                 if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
                                     User user = User.parse(msg);
-                                    ContactPathActivity.show(activity, user.getQq(), user.getMobile(), user.getWechat());
+                                    final String contact = user.getMobile();
+                                    final String qq = user.getQq();
+                                    final String wechat = user.getWechat();
+                                    new android.app.AlertDialog.Builder(v.getContext()).setTitle("点击接收列表").setMessage(String.format("mobile:%s\nqq:%s\nweChat:%s\n", contact, qq, wechat)).setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            ContactPathActivity.show(activity, qq, contact, wechat);
+                                        }
+                                    }).show();
                                 } else {
-                                    maimeng.yodian.app.client.android.model.user.User.Info user = maimeng.yodian.app.client.android.model.user.User.read(activity).getInfo();
-                                    ContactPathActivity.show(activity, user.getQq(), user.getContact(), user.getWechat());
+                                    final maimeng.yodian.app.client.android.model.user.User.Info user = maimeng.yodian.app.client.android.model.user.User.read(activity).getInfo();
+                                    final String contact = user.getContact();
+                                    final String qq = user.getQq();
+                                    final String wechat = user.getWechat();
+                                    new android.app.AlertDialog.Builder(v.getContext()).setTitle("点击发送列表").setMessage(String.format("mobile:%s\nqq:%s\nweChat:%s\n", contact, qq, wechat)).setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            ContactPathActivity.show(activity, qq, contact, wechat);
+                                        }
+                                    }).show();
+
                                 }
 
 
