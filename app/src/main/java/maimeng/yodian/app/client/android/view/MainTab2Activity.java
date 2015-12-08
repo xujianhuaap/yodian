@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
 import maimeng.yodian.app.client.android.model.*;
+import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
@@ -151,9 +152,13 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
             public void success(FloatResponse res, Response response) {
                 if (res.isSuccess()) {
                     FloatResponse.Data list = res.getData();
-                    ArrayList<maimeng.yodian.app.client.android.model.Float> floatPic = list.getFloatPic();
-                    if (list != null && floatPic != null && floatPic.size() > 0)
-                        FloatActivity.start(MainTab2Activity.this, floatPic);
+
+                    if (list != null) {
+                        ArrayList<Float> floats = list.getFloatPic();
+                        if (floats != null && floats.size() > 0) {
+                            FloatActivity.start(MainTab2Activity.this, floats);
+                        }
+                    }
                 }
             }
 
