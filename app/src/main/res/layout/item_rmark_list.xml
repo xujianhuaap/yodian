@@ -83,7 +83,8 @@
             android:layout_below="@id/rmark_header"
             android:layout_centerHorizontal="true"
             android:maxHeight="2048px"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            app:imgUrl="@{rmark.pic}" />
 
         <TextView
             android:id="@+id/content"
