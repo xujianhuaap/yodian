@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <color name="colorPrimary">#ffff</color>
     <color name="colorPrimary_hint">#99cecaca</color>
     <color name="colorPrimaryGrey">#dedede</color>
-    <color name="colorPrimaryGreen">#00ff00</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorPrimaryDark2">#1e1e1e</color>
     <color name="colorPrimaryDark3">#17ace7</color>
@@ -16,10 +15,6 @@
     <color name="float_colorRipple">#8000</color>
     <color name="chat_textColor">#e6e4e4</color>
 
-    <color name="colorPrimaryDarkTransparent">#1e1e1e</color>
-    <color name="circle_border_color">#ffffff</color>
     <color name="hint_color">#55000000</color>
     <color name="edit_color">#33000000</color>
-    <color name="text_red_color">#c1e40c3a</color>
-    <color name="text_blue_color">#c10c25e4</color>
-</resources>
+    </resources>
