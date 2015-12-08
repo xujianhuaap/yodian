@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -1273,7 +1273,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (sendVcard) {
                 maimeng.yodian.app.client.android.model.user.User user = maimeng.yodian.app.client.android.model.user.User.read(this);
                 boolean weChatIsEmpty = TextUtils.isEmpty(user.getWechat());
-                boolean mobileIsEmpty = TextUtils.isEmpty(user.getInfo().getMobile());
+                boolean mobileIsEmpty = TextUtils.isEmpty(user.getInfo().getContact());
                 boolean qqIsEmpty = TextUtils.isEmpty(user.getInfo().getQq());
                 if (weChatIsEmpty && mobileIsEmpty && qqIsEmpty) {
                     maimeng.yodian.app.client.android.view.dialog.AlertDialog.newInstance("提示", "请完善信息").setNegativeListener(new maimeng.yodian.app.client.android.view.dialog.AlertDialog.NegativeListener() {

@@ -91,21 +91,6 @@ public class ShareDialog extends DialogFragment {
         super.onDestroyView();
     }
 
-//    @Override
-//    public void onSuccess() {
-//        dismiss();
-//        Toast.makeText(getActivity(),R.string.share_success,Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onFaild() {
-//        Toast.makeText(getActivity(),R.string.share_failed,Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onCancel() {
-//        Toast.makeText(getActivity(),R.string.share_cancel,Toast.LENGTH_SHORT).show();
-//    }
 
     public static class ShareParams {
         public final long targetUid;
@@ -297,10 +282,11 @@ public class ShareDialog extends DialogFragment {
         if (User.read(getActivity()).getUid() != targetUid) {
             mReport.setVisibility(View.VISIBLE);
         } else {
-            final View parent = (View) mReport.getParent();
-            if (parent != null) {
-                parent.setVisibility(View.GONE);
-            }
+            mReport.setVisibility(View.GONE);
+//            final View parent = (View) mReport.getParent();
+//            if (parent != null) {
+//                parent.setVisibility(View.GONE);
+//            }
             mContent.setRowCount(1);
         }
 
