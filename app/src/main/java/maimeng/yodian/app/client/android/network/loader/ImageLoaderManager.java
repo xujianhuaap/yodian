@@ -18,11 +18,14 @@ import com.bumptech.glide.BitmapTypeRequest;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.GifTypeRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.MemoryCategory;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.signature.StringSignature;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -176,6 +179,7 @@ public final class ImageLoaderManager {
             RequestManager request = instance.getRequest(context);
             if (request == null) {
                 request = Glide.with(context);
+                Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
                 instance.addRequest(request, context);
             }
             DrawableTypeRequest<Uri> loader = request.load(this.uri);
