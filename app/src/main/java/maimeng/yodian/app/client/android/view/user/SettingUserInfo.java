@@ -199,13 +199,15 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 }
                 if(TextUtils.isEmpty(d)){
                     binding.cities.setText(p + c);
+                    user.getInfo().setDistrict("");
                 }else{
                     binding.cities.setText(p + c + d);
+                    user.getInfo().setDistrict(d);
                 }
 
                 user.getInfo().setProvince(p);
                 user.getInfo().setCity(c);
-                user.getInfo().setDistrict(d);
+
                 hideBankList();
             }
         });
