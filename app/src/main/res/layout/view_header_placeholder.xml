@@ -254,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="left|center_vertical"
-                android:singleLine="true"
+                android:singleLine="false"
                 android:text="@{skill.content}"
                 android:textColor="@color/colorPrimaryDark5"
                 android:visibility="visible" />
