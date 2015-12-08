@@ -236,7 +236,7 @@
                 android:paddingTop="@dimen/padding_normal"
                 android:paddingBottom="@dimen/padding_normal"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_Xsmall" />
 
             <TextView
                 android:id="@+id/order_number"

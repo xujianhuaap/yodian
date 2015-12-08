@@ -157,20 +157,20 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        refreshInfo();
-    }
 
     private void refreshUI(final OrderInfo info) {
         isSaled=info.getSeller_id()==User.read(OrderDetailActivity.this).getUid();
+
         if(timer!=null){
             timer.cancel();
         }
-        timer=new Timer(info.getDifftime()*1000,1000);
-        timer.start();
-        isSaled = getIntent().getBooleanExtra("isSaled", false);
+        long diffTime=info.getDifftime();
+        if(diffTime>0){
+            timer=new Timer(diffTime*1000,1000);
+            timer.start();
+        }
+
+
         mBinding.setOrderInfo(info);
         String btnContactStr = null;
         if (isSaled) {
@@ -479,7 +479,6 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
         //从技能详情或订单列表跳到订单详情
         if (info != null) {
-            refreshUI(info);
             oid=info.getOid();
         }
         mBinding.refreshLayout.setPtrHandler(this);
@@ -496,6 +495,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 startActivity(intent);
             }
         });
+
+        refreshInfo();
 
     }
 
@@ -526,7 +527,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
      */
     private void systemDealWithOrder() {
         if(!isSaled){
-            if(info.getStatus()<3){
+            if(info.getStatus()<4){
                 mService.cancleOrder(info.getOid(), new Callback<ToastResponse>() {
                     @Override
                     public void start() {
@@ -632,7 +633,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
 
     public class Timer extends CountDownTimer{
-
+        private long millisUtilFinished;
         public Timer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
 
@@ -640,6 +641,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
         @Override
         public void onTick(long millisUntilFinished) {
+            this.millisUtilFinished=millisUntilFinished;
             refreshTime(millisUntilFinished,tipStr);
         }
 
@@ -647,6 +649,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         public void onFinish() {
             refreshInfo();
             isCancel=true;
+
         }
     }
 

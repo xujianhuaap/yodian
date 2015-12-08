@@ -88,6 +88,7 @@
 
     <!-- text size-->
     <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_Xsmall">11sp</dimen>
     <dimen name="text_size_normal">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
 
