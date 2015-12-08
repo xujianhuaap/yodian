@@ -541,9 +541,8 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                         if (toastResponse.isSuccess()) {
                             isOperator = true;
                             refreshInfo();
-                        } else {
-                            Toast.makeText(OrderDetailActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
                         }
+                        toastResponse.showMessage(OrderDetailActivity.this);
 
                     }
 
@@ -589,11 +588,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
             if (toastResponse.getCode() == 20000) {
                 refreshInfo();
             }
-            String msg = toastResponse.getMsg();
-            if (!TextUtils.isEmpty(msg)) {
-                Toast.makeText(OrderDetailActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-
+            toastResponse.showMessage(OrderDetailActivity.this);
         }
 
         @Override
@@ -706,6 +701,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
             @Override
             public void success(ToastResponse toastResponse, Response response) {
                 super.success(toastResponse, response);
+                toastResponse.showMessage(OrderDetailActivity.this);
                 if (toastResponse.isSuccess()) {
                     mBinding.refreshLayout.autoRefresh();
                     mBinding.tip.setVisibility(View.GONE);

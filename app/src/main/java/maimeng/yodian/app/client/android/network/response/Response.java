@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.network.response;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import maimeng.yodian.app.client.android.model.user.User;
@@ -33,10 +34,12 @@ public class Response {
     }
 
     public void showMessage(Context context) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isEmpty(msg)) {
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void showMessage(Context context,String msg) {
+    public void showMessage(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 

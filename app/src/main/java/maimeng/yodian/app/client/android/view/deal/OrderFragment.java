@@ -57,8 +57,8 @@ public class OrderFragment extends Fragment implements PtrHandler {
     private OrderService mService;
     private boolean mIsAppend;
     private WaitDialog mWaitDialog;
-    private static final int REQUEST_ORDER_BUY=0x24;
-    private static final int REQUEST_SKILL_DETAIL=0x25;
+    private static final int REQUEST_ORDER_BUY = 0x24;
+    private static final int REQUEST_SKILL_DETAIL = 0x25;
 
 
     /***
@@ -156,13 +156,13 @@ public class OrderFragment extends Fragment implements PtrHandler {
         @Override
         public void onItemClick(OrderListAdapter.ViewHolder holder, int postion) {
             OrderInfo orderInfo = mAdapter.getItem(postion);
-            OrderDetailActivity.show(OrderFragment.this, orderInfo,REQUEST_SKILL_DETAIL);
+            OrderDetailActivity.show(OrderFragment.this, orderInfo, REQUEST_SKILL_DETAIL);
         }
 
         @Override
         public void onClick(OrderListAdapter.ViewHolder holder, View clickItem, int postion) {
             OrderInfo info = mAdapter.getItem(postion);
-            int status =info.getStatus();
+            int status = info.getStatus();
             long oid = info.getOid();
             OrderOperatorCallBackProxy proxy = new OrderOperatorCallBackProxy();
             if (holder.mBinding.acceptOrder == clickItem) {
@@ -181,12 +181,12 @@ public class OrderFragment extends Fragment implements PtrHandler {
                     MobclickAgent.onEvent(getActivity(), UEvent.ORDER_BUYED_CLICK);
                     if (status == 0) {
                         //支付
-                        PayWrapperActivity.show(OrderFragment.this, info,REQUEST_ORDER_BUY);
+                        PayWrapperActivity.show(OrderFragment.this, info, REQUEST_ORDER_BUY);
                     } else if (status == 4) {
                         //确认发货
                         mService.confirmOrder(oid, proxy);
 
-                    }else if(status==2){
+                    } else if (status == 2) {
 
                     }
 
@@ -206,9 +206,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
 
         @Override
         public void success(ToastResponse toastResponse, Response response) {
-            if (toastResponse.getCode() == 20000) {
-                Toast.makeText(getActivity(), toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
-            }
+            toastResponse.showMessage(getActivity());
 
         }
 
@@ -239,6 +237,7 @@ public class OrderFragment extends Fragment implements PtrHandler {
 
         @Override
         public void success(OrderListRepsonse orderListRepsonse, Response response) {
+            orderListRepsonse.showMessage(getActivity());
             if (orderListRepsonse.getCode() == 20000) {
                 List<OrderInfo> orders = orderListRepsonse.getData().getList();
                 if (orders.size() == 0 && mPage == 1) {
@@ -269,16 +268,16 @@ public class OrderFragment extends Fragment implements PtrHandler {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==getActivity().RESULT_OK){
-            if(data!=null){
-                if(requestCode==REQUEST_ORDER_BUY){
-                    Lottery lottery= Parcels.unwrap(data.getParcelableExtra("lottery"));
-                    if(lottery.getIsLottery()==1){
-                        OrderDetailActivity.show(getActivity(),lottery);
+        if (resultCode == getActivity().RESULT_OK) {
+            if (data != null) {
+                if (requestCode == REQUEST_ORDER_BUY) {
+                    Lottery lottery = Parcels.unwrap(data.getParcelableExtra("lottery"));
+                    if (lottery.getIsLottery() == 1) {
+                        OrderDetailActivity.show(getActivity(), lottery);
                     }
-                }else if(requestCode==REQUEST_SKILL_DETAIL){
-                    if(data.getBooleanExtra("isOperator",false)){
-                        mPage=1;
+                } else if (requestCode == REQUEST_SKILL_DETAIL) {
+                    if (data.getBooleanExtra("isOperator", false)) {
+                        mPage = 1;
                         mIsAppend = false;
                         freshData();
                     }
