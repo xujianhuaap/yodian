@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -136,6 +137,18 @@ public class YApplication extends DemoApplication {
             CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
             strategy.setAppChannel(channelName);
             strategy.setAppReportDelay(5000);
+            strategy.setCrashHandleCallback(new CrashReport.CrashHandleCallback() {
+                @Override
+                public synchronized Map<String, String> onCrashHandleStart(int crashType, String errorType, String errorMessage, String errorStack) {
+                    exit();
+                    return super.onCrashHandleStart(crashType, errorType, errorMessage, errorStack);
+                }
+
+                @Override
+                public synchronized byte[] onCrashHandleStart2GetExtraDatas(int crashType, String errorType, String errorMessage, String errorStack) {
+                    return super.onCrashHandleStart2GetExtraDatas(crashType, errorType, errorMessage, errorStack);
+                }
+            });
             CrashReport.initCrashReport(this, "900004839", BuildConfig.DEBUG, strategy);  //初始化SDK
         }
         PushAgent mPushAgent = PushAgent.getInstance(this);
