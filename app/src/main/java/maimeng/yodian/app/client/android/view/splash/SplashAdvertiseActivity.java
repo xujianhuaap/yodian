@@ -30,9 +30,9 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
  * Created by android on 2015/11/18.
  */
 public class SplashAdvertiseActivity extends AppCompatActivity implements Runnable {
-    public static final String UPDATE_ADVERTISE_CLOSE ="maimeng.yodian.app.client.android.UPDATE_ADVERTISE_CLOSE";
+    public static final String UPDATE_ADVERTISE_CLOSE = "maimeng.yodian.app.client.android.UPDATE_ADVERTISE_CLOSE";
     private final Handler handler = new Handler();
-    private BroadcastReceiver receiver=new BroadcastReceiver() {
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             finish();
@@ -48,7 +48,7 @@ public class SplashAdvertiseActivity extends AppCompatActivity implements Runnab
         setContentView(iv);
         registerReceiver(receiver, new IntentFilter(UPDATE_ADVERTISE_CLOSE));
         handler.postDelayed(this, getResources().getInteger(R.integer.splash_duration));
-        String pic=getIntent().getStringExtra("pic");
+        String pic = getIntent().getStringExtra("pic");
         DrawableTypeRequest<String> load = Glide.with(this).load(pic);
         load.diskCacheStrategy(DiskCacheStrategy.ALL);
         load.into(new SimpleTarget<GlideDrawable>() {
@@ -68,7 +68,7 @@ public class SplashAdvertiseActivity extends AppCompatActivity implements Runnab
 
     @Override
     public void run() {
-            setResult(RESULT_OK);
-            finish();
+        setResult(RESULT_OK);
+        finish();
     }
 }

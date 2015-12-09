@@ -50,7 +50,7 @@ public abstract class AbsSplashActivity extends AppCompatActivity implements Cal
                 Realm instance = Realm.getInstance(AbsSplashActivity.this);
                 AdvertiseStatus obj = instance.where(AdvertiseStatus.class).findFirst();
                 if (obj != null && !TextUtils.isEmpty(obj.getPic()) && obj.isShow() && show) {
-                    startActivityForResult(new Intent(AbsSplashActivity.this, SplashAdvertiseActivity.class).putExtra("pic", obj.getPic()), 1001);
+                    startActivityForResult(new Intent(AbsSplashActivity.this, SplashAdvertiseActivity.class).putExtra("pic", obj.getPic()), REQUEST_ADV);
                 } else {
                     handlerOther();
                 }
