@@ -232,7 +232,9 @@ public class OrderFragment extends Fragment implements PtrHandler {
     public final class CallBackProxy implements Callback<OrderListRepsonse> {
         @Override
         public void start() {
-
+            if(mWaitDialog==null){
+                mWaitDialog=WaitDialog.show(getActivity());
+            }
         }
 
         @Override
@@ -260,6 +262,9 @@ public class OrderFragment extends Fragment implements PtrHandler {
 
         @Override
         public void end() {
+            if(mWaitDialog!=null){
+                mWaitDialog.dismiss();
+            }
             mRefreshLayout.refreshComplete();
         }
     }
