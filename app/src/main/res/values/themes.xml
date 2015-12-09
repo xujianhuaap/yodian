@@ -18,6 +18,7 @@
 
     <style name="PageIndicator" parent="AppTheme">
         <item name="vpiIconPageIndicatorStyle">@style/vpiIconPageIndicatorStyle</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="vpiIconPageIndicatorStyle" parent="Widget.IconPageIndicator">

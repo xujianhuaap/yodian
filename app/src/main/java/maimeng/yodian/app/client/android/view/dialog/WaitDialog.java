@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -31,16 +30,23 @@ public class WaitDialog extends DialogFragment {
     }
 
     public static WaitDialog show(Activity activity, String message) {
-        FragmentManager fragmentManager = activity.getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        WaitDialog waitDialog = (WaitDialog) fragmentManager.findFragmentByTag(activity.hashCode() + "");
-        if (waitDialog == null) {
-            waitDialog = newInstance(message);
+        if(!activity.isFinishing()){
+            FragmentManager fragmentManager = activity.getFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            WaitDialog waitDialog = (WaitDialog) fragmentManager.findFragmentByTag(activity.hashCode() + "");
+            if (waitDialog == null) {
+                waitDialog = newInstance(message);
+            }
+            if (!waitDialog.isVisible()) {
+                if(!activity.isFinishing()){
+                    waitDialog.show(transaction, activity.hashCode() + "");
+                }
+
+            }
+            return waitDialog;
         }
-        if (!waitDialog.isVisible()) {
-            waitDialog.show(transaction, activity.hashCode() + "");
-        }
-        return waitDialog;
+        return null;
+
     }
 
 
