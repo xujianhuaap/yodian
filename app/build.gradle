@@ -145,23 +145,3 @@ dependencies {
     compile "org.parceler:parceler-api:1.0.1"
     provided 'org.parceler:parceler:1.0.1'
 }
-task cleanUnUseRes() << {
-    def lint_results = new XmlSlurper().parse(new File(project.getBuildDir(), "outputs/lint-results.xml"))
-    lint_results.issue.each { issus ->
-        if ("UnusedResources" == issus.@id.toString()) {
-            def location = issus.location
-            def column = location.@column
-            def line = location.@line
-            def file = location.@file
-            if (column.toString() == "" && line.toString() == "") {
-                println "This is Resouce"
-                new File(file.toString()).delete()
-            } else {
-                println "This is String"
-                //f.
-            }
-        }
-    }
-    println "UnusedResources is remove end"
-}
-//cleanUnUseRes.dependsOn lint
