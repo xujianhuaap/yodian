@@ -15,7 +15,10 @@ import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.easemob.chat.EMChat;
+import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.push.FeedbackPush;
@@ -196,6 +199,10 @@ public class YApplication extends DemoApplication {
         ShareSDK.getInstance().initShare(BuildConfig.WEIXIN_APP_KEY, BuildConfig.WEIBO_APP_KEY, BuildConfig.QQ_APP_KEY, BuildConfig.WEIXIN_APP_SECRET, BuildConfig.REDIRECT_URL);
         EMChat.getInstance().setDebugMode(BuildConfig.DEBUG);
         MobclickAgent.setDebugMode(BuildConfig.DEBUG);
+//        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+//                .setMainDiskCacheConfig(DiskCacheConfig.newBuilder().build())
+//                .build();
+//        Fresco.initialize(this, config);
         Fresco.initialize(this);
 
     }
