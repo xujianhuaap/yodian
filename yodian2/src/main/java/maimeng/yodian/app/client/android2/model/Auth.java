@@ -4,22 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.AuthRealmProxy;
 /**
  * Created by android on 2015/11/12.
  */
 @Parcel(
-        implementations = AuthRealmProxy.class,
-
-        value = Parcel.Serialization.BEAN,
-                analyze = { Auth.class })
-public class Auth extends RealmObject {
+        value = Parcel.Serialization.BEAN, analyze = {Auth.class})
+public class Auth {
     @SerializedName("nickname")
     private String nickname;
     @SerializedName("uid")
-    @PrimaryKey
     private long uid;
     @SerializedName("SN_KEY_API")
     private String token;

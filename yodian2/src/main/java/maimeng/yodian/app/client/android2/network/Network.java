@@ -1,11 +1,8 @@
 package maimeng.yodian.app.client.android2.network;
 
 import android.app.Application;
-import android.os.Build;
 import android.util.Log;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
@@ -17,7 +14,6 @@ import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-import io.realm.RealmObject;
 import maimeng.yodian.app.client.android2.BuildConfig;
 import maimeng.yodian.app.client.android2.YApplication;
 import retrofit.GsonConverterFactory;
@@ -43,8 +39,10 @@ public class Network {
             }
         }
     }
+
     private Network() {
     }
+
     public static Retrofit getNet() {
         return getOne().retrofit;
     }
@@ -59,28 +57,30 @@ public class Network {
             return service;
         }
     }
+
     public void init(Application app) {
-        OkHttpClient client=new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Log.d("OkHttp",convert(message));
+                Log.d("OkHttp", convert(message));
 //                Log.d("OkHttp",message);
             }
-            public String convert(String utfString){
+
+            public String convert(String utfString) {
                 StringBuilder sb = new StringBuilder();
                 int i = -1;
                 int pos = 0;
-                boolean handle=false;
-                while((i=utfString.indexOf("\\u", pos)) != -1){
-                    handle=true;
+                boolean handle = false;
+                while ((i = utfString.indexOf("\\u", pos)) != -1) {
+                    handle = true;
                     sb.append(utfString.substring(pos, i));
-                    if(i+5 < utfString.length()){
-                        pos = i+6;
-                        sb.append((char)Integer.parseInt(utfString.substring(i+2, i+6), 16));
+                    if (i + 5 < utfString.length()) {
+                        pos = i + 6;
+                        sb.append((char) Integer.parseInt(utfString.substring(i + 2, i + 6), 16));
                     }
                 }
-                if(!handle){
+                if (!handle) {
                     return utfString;
                 }
                 return sb.toString();
@@ -114,26 +114,17 @@ public class Network {
         });
         client.interceptors().add(logging);
         gson = new GsonBuilder()
-                .setExclusionStrategies(new ExclusionStrategy() {
-                    @Override
-                    public boolean shouldSkipField(FieldAttributes f) {
-                        return f.getDeclaringClass().equals(RealmObject.class);
-                    }
 
-                    @Override
-                    public boolean shouldSkipClass(Class<?> clazz) {
-                        return false;
-                    }
-                })
                 .create();
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.client(client)
                 .baseUrl(BuildConfig.API_HOST)
                 .addConverterFactory(GsonConverterFactory.create(gson));
-        retrofit=builder.build();
+        retrofit = builder.build();
     }
-    public Gson getGson(){
+
+    public Gson getGson() {
         return this.gson;
     }
 }

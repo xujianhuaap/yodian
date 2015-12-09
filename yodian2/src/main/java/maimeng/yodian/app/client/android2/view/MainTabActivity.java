@@ -22,11 +22,9 @@ public class MainTabActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        auth = where(Auth.class).findFirst();
         if (auth == null) {
             startActivityForResult(new Intent(this, LoginByPhoneActivity.class), REQUEST_AUTH);
         } else if (TextUtils.isEmpty(auth.getToken())) {
-            remove(auth);
             startActivityForResult(new Intent(this, LoginByPhoneActivity.class), REQUEST_AUTH);
         } else {
         }
