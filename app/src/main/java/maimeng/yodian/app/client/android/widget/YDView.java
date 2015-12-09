@@ -14,17 +14,21 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.image.QualityInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**
- * Created by android on 2015/12/9.
+ * app:roundAsCircle="true"
+ * app:roundedCornerRadius="5dp"
+ * app:roundBottomLeft="false"
+ * app:roundBottomRight="false"
+ * app:roundWithOverlayColor="@color/blue"
+ * app:roundingBorderWidth="1dp"
+ * app:roundingBorderColor="@color/red"
  */
 public class YDView extends SimpleDraweeView {
 
-    private YDViewListener listener;
 
     public YDView(Context context, GenericDraweeHierarchy hierarchy) {
         super(context, hierarchy);
@@ -46,10 +50,14 @@ public class YDView extends SimpleDraweeView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-//    @Override
+    //    @Override
 //    public void setImageURI(Uri uri) {
 //        setImageURI(uri, null);
 //    }
+
+    protected ImageRequest getRequest(Uri uri) {
+        return null;
+    }
 
     @Override
     public void setImageURI(Uri uri, Object callerContext) {
@@ -61,12 +69,9 @@ public class YDView extends SimpleDraweeView {
         if (BuildConfig.DEBUG) {
             controllerBuilder.setControllerListener(new ControllerListener(uri.toString()));
         }
-        if (listener != null) {
-            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
-                    .setPostprocessor(listener).build();
-
+        ImageRequest request = getRequest(uri);
+        if (request != null) {
             controllerBuilder.setImageRequest(request);
-
         }
         DraweeController controller = controllerBuilder
                 .setCallerContext(callerContext)
@@ -74,10 +79,6 @@ public class YDView extends SimpleDraweeView {
                 .setOldController(getController())
                 .build();
         setController(controller);
-    }
-
-    public void setListener(YDViewListener listener) {
-        this.listener = listener;
     }
 
 
