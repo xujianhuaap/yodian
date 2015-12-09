@@ -7,11 +7,18 @@ import android.widget.ImageView;
 
 import maimeng.yodian.app.client.android.network.loader.Circle;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
+import maimeng.yodian.app.client.android.widget.YDView;
+import maimeng.yodian.app.client.android.widget.YDViewListener;
 
 /**
  * Created by android on 9/1/15.
  */
 public class ImageAdapter {
+
+    @android.databinding.BindingAdapter("app:listener")
+    public static void image(YDView iv, YDViewListener listener) {
+        iv.setListener(listener);
+    }
 
     @android.databinding.BindingAdapter("app:imgUrl")
     public static void image(ImageView iv, String url) {

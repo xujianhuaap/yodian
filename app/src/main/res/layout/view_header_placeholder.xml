@@ -55,13 +55,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
-                    <ImageView
+                    <maimeng.yodian.app.client.android.widget.YDView
                         android:id="@+id/pic"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/skill_list_item_img_height"
                         android:adjustViewBounds="false"
                         android:scaleType="fitXY"
-                        app:imgUrl="@{skill.pic}" />
+                        android:src="@{skill.pic}" />
 
                     <LinearLayout
                         android:id="@+id/header_logo_bg"
@@ -116,12 +116,17 @@
                 android:orientation="horizontal"
                 android:paddingTop="5dp">
 
-                <maimeng.yodian.app.client.android.widget.CircleImageView
+                <maimeng.yodian.app.client.android.widget.YDView
                     android:id="@+id/user_avatar"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    app:imgUrl="@{skill.avatar80}" />
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:scaleType="centerInside"
+                    android:src="@{skill.avatar}"
+                    app:roundAsCircle="true"
+                    app:roundingBorderColor="#ffffff"
+                    app:roundingBorderWidth="2dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
