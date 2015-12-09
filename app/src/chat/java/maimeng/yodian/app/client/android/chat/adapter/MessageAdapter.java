@@ -16,6 +16,7 @@ package maimeng.yodian.app.client.android.chat.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
@@ -540,10 +541,16 @@ public class MessageAdapter extends BaseAdapter {
                                 EMMessage msg = (EMMessage) v.getTag();
                                 if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
                                     User user = User.parse(msg);
-                                    ContactPathActivity.show(activity, user.getQq(), user.getMobile(), user.getWechat());
+                                    final String contact = user.getMobile();
+                                    final String qq = user.getQq();
+                                    final String wechat = user.getWechat();
+                                    ContactPathActivity.show(activity, qq, contact, wechat);
                                 } else {
-                                    maimeng.yodian.app.client.android.model.user.User.Info user = maimeng.yodian.app.client.android.model.user.User.read(activity).getInfo();
-                                    ContactPathActivity.show(activity, user.getQq(), user.getContact(), user.getWechat());
+                                    final maimeng.yodian.app.client.android.model.user.User.Info user = maimeng.yodian.app.client.android.model.user.User.read(activity).getInfo();
+                                    final String contact = user.getContact();
+                                    final String qq = user.getQq();
+                                    final String wechat = user.getWechat();
+                                    ContactPathActivity.show(activity, qq, contact, wechat);
                                 }
 
 
