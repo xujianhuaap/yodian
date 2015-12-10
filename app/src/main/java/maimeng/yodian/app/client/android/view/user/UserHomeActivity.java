@@ -19,64 +19,29 @@ import maimeng.yodian.app.client.android.view.common.AbstractActivity;
  * Created by android on 2015/8/13.
  */
 public class UserHomeActivity extends AbstractActivity {
-    private View mBtnSettings;
-    private User user;
-
 
     public static void show(Context context, long uid, boolean isSingleTask) {
         Intent intent = new Intent(context, UserHomeActivity.class);
         if (isSingleTask) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
-
         intent.putExtra("uid", uid);
         context.startActivity(intent);
     }
-
 
     public static void show(Context context, long uid) {
         show(context, uid, false);
     }
 
-    public static void show(Activity activity, long uid, View btnBack, View avatar, View nickname) {
-        show(activity, uid, null, "", btnBack, avatar, nickname);
-    }
-
-    public static void show(Activity activity, long uid, Bitmap avatar, String nickname, View btnBackView, View avatarView, View nicknameView) {
+    public static void show(Activity activity, long uid) {
         UserIntent intent = create(activity, uid);
-        intent.putExtra("avatar", avatar);
-        intent.putExtra("nickname", nickname);
-        ActivityOptionsCompat activityOptionsCompat = null;
-        if (btnBackView != null) {
-            activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(btnBackView, "back"));
-        }
-        if (avatarView != null) {
-            if (activityOptionsCompat != null) {
-                activityOptionsCompat.update(ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(avatarView, "avatar")));
-            } else {
-                activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(avatarView, "avatar"));
-            }
-        }
-        if (nicknameView != null) {
-            if (activityOptionsCompat != null) {
-                activityOptionsCompat.update(ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(nicknameView, "nickname")));
-            } else {
-                activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(nicknameView, "nickname"));
-            }
-        }
-        if (activityOptionsCompat != null) {
-            final Bundle options = activityOptionsCompat.toBundle();
-            ActivityCompat.startActivity(activity, intent, options);
-        } else {
-            activity.startActivity(intent);
-        }
+        activity.startActivity(intent);
     }
 
     @Deprecated
     public static UserIntent create(Context context, long uid) {
         return new UserIntent(context, uid);
     }
-
 
 
     @SuppressLint("ParcelCreator")
@@ -91,7 +56,7 @@ public class UserHomeActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home, false);
-        UserHomeFragment fragment = UserHomeFragment.newInstance((Bitmap) getIntent().getParcelableExtra("avatar"), getIntent().getStringExtra("nickname"), getIntent().getLongExtra("uid", 0));
+        UserHomeFragment fragment = UserHomeFragment.newInstance(getIntent().getLongExtra("uid", 0));
         getSupportFragmentManager().beginTransaction().add(R.id.content, fragment).commitAllowingStateLoss();
 
     }

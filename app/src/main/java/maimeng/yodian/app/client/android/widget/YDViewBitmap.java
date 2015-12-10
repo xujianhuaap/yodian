@@ -16,7 +16,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 /**
- * Created by android on 2015/12/9.
+ * 没事不要随便用这个View，否则出现什么不科学的问题自己搞定哈
  */
 public class YDViewBitmap extends YDView {
     private Bitmap mBitmap;

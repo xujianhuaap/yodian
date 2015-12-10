@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.AppBarLayout;
@@ -17,13 +16,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -54,7 +49,6 @@ import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillDetailsBinding;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderPlaceholderBinding;
-import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
@@ -98,18 +92,12 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
     private boolean isMe;
     private WaitDialog dialog;
     private View noSkillRmark;
-    private Bitmap defaultAvatar;
     private boolean canBuy = true;
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (defaultAvatar != null && !defaultAvatar.isRecycled()) {
-            defaultAvatar.recycle();
-            defaultAvatar = null;
-            System.gc();
-        }
     }
 
     @Override
@@ -126,8 +114,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             @Override
             public void onClick(View v) {
                 if (!isMe) {
-                    UserHomeActivity.show(SkillDetailsActivity.this, skill.getUid(), defaultAvatar, skill.getNickname(), headBinding.btnBuySkill, null,
-                            headBinding.userNickname);
+                    UserHomeActivity.show(SkillDetailsActivity.this, skill.getUid());
                 }
 
             }
@@ -144,31 +131,6 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
         binding.recyclerView.setAdapter(adapter);
         if (getIntent().hasExtra("skill")) {
             Skill skill = Parcels.unwrap(getIntent().getParcelableExtra("skill"));
-            ImageBindable imageBindable = skill.getAvatar80();
-            if (imageBindable != null && imageBindable.getUri() != null) {
-                new ImageLoaderManager.Loader(SkillDetailsActivity.this, imageBindable.getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
-                    @Override
-                    public void onImageLoaded(Bitmap bitmap) {
-                        SkillDetailsActivity.this.defaultAvatar = bitmap;
-                    }
-
-                    @Override
-                    public void onLoadEnd() {
-
-                    }
-
-                    @Override
-                    public void onLoadFaild() {
-
-                    }
-                }).start(this);
-            } else {
-                if (skill.getAvatar() != null) {
-                    SkillDetailsActivity.this.defaultAvatar = ImageLoaderManager.image(SkillDetailsActivity.this, Uri.parse(skill.getAvatar()));
-                }
-
-            }
-
             sid = skill.getId();
             isMe = skill.getUid() == user.getUid();
             if (isMe) {
@@ -315,25 +277,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
                 headBinding.iconActivie.setVisibility(View.GONE);
                 headBinding.activeBanner.setVisibility(View.GONE);
             }
-
-
             binding.setSkill(skill);
-            new ImageLoaderManager.Loader(SkillDetailsActivity.this, skill.getAvatar80().getUri()).width(80).height(80).callback(new ImageLoaderManager.Callback() {
-                @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    SkillDetailsActivity.this.defaultAvatar = bitmap;
-                }
-
-                @Override
-                public void onLoadEnd() {
-
-                }
-
-                @Override
-                public void onLoadFaild() {
-
-                }
-            }).start(this);
             Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
             headBinding.price.setText(text);
             if (isMe) {
