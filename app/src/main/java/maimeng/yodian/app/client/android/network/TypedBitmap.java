@@ -1,6 +1,5 @@
 package maimeng.yodian.app.client.android.network;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 
@@ -17,17 +16,13 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 
 public class TypedBitmap implements TypedInput, TypedOutput {
     /**
-     * 图片最大大小
-     */
-    private int maxSize = -1;
-    /**
      * 图片宽
      */
-    private int maxWidth = -1;
+    private int maxWidth = 960;
     /**
      * 图片高
      */
-    private int maxHeight = -1;
+    private int maxHeight = 1280;
     private Bitmap mBitmap;
 
     public static class Builder {
@@ -36,8 +31,8 @@ public class TypedBitmap implements TypedInput, TypedOutput {
         private Bitmap.CompressFormat format;
         private final Bitmap bitmap;
 
-        public Builder setMaxHeight(int maxHeight) {
-            this.maxHeight = maxHeight;
+        public Builder setHeight(int height) {
+            this.height = height;
             return this;
         }
 
@@ -46,53 +41,45 @@ public class TypedBitmap implements TypedInput, TypedOutput {
             return this;
         }
 
-        public Builder setMaxSize(int maxSize) {
-            this.maxSize = maxSize;
+
+        public Builder setWidth(int width) {
+            this.width = width;
             return this;
         }
 
-        public Builder setMaxWidth(int maxWidth) {
-            this.maxWidth = maxWidth;
-            return this;
-        }
-
-        public Builder setAutoMatch(Resources res) {
-            this.maxHeight = res.getDisplayMetrics().heightPixels;
-            this.maxWidth = res.getDisplayMetrics().widthPixels;
-            return this;
-        }
-
-        /**
-         * 图片最大大小
-         */
-        private int maxSize = -1;
         /**
          * 图片宽
          */
-        private int maxWidth = -1;
+        private int width = 960;
         /**
          * 图片高
          */
-        private int maxHeight = -1;
+        private int height = 1280;
 
         public Builder(Bitmap bitmap) {
             this(bitmap, String.valueOf(System.currentTimeMillis()), -1, -1);
         }
 
-        public Builder(Bitmap bitmap, int maxWidth, int maxHeight) {
-            this(bitmap, String.valueOf(System.currentTimeMillis()), maxWidth, maxHeight);
+        public Builder setSize(int size) {
+            this.height = size;
+            this.width = size;
+            return this;
         }
 
-        public Builder(Bitmap bitmap, String name, int maxWidth, int maxHeight) {
+        public Builder(Bitmap bitmap, int width, int height) {
+            this(bitmap, String.valueOf(System.currentTimeMillis()), width, height);
+        }
+
+        public Builder(Bitmap bitmap, String name, int width, int height) {
             this.name = name;
             this.bitmap = bitmap;
-            this.maxWidth = maxWidth;
-            this.maxHeight = maxHeight;
+            this.width = width;
+            this.height = height;
             this.format = Bitmap.CompressFormat.PNG;
         }
 
         public TypedBitmap build() {
-            return new TypedBitmap(maxWidth, maxHeight, maxSize, bitmap, name, format);
+            return new TypedBitmap(width, height, bitmap, name, format);
         }
 
     }
@@ -102,13 +89,12 @@ public class TypedBitmap implements TypedInput, TypedOutput {
     private byte[] bytes;
 
 
-    private TypedBitmap(int maxW, int maxH, int maxSize, Bitmap bitmap, String name, Bitmap.CompressFormat format) {
+    private TypedBitmap(int maxW, int maxH, Bitmap bitmap, String name, Bitmap.CompressFormat format) {
         this.name = name;
         this.format = format;
         this.mBitmap = bitmap;
         this.maxWidth = maxW;
-        this.maxHeight = maxW;
-        this.maxSize = maxSize;
+        this.maxHeight = maxH;
     }
 
     @Override
@@ -143,11 +129,11 @@ public class TypedBitmap implements TypedInput, TypedOutput {
             bytes = getBytes(this.mBitmap);
             if (maxWidth > 0 || maxHeight > 0) {
                 this.mBitmap = ThumbnailUtils.extractThumbnail(this.mBitmap, this.maxWidth, this.maxHeight);
-                if(mBitmap!=null) {
+                if (mBitmap != null) {
                     bytes = getBytes(this.mBitmap);
                 }
             } else {
-                //throw new IllegalArgumentException("maxWidth > 0 and maxHeight > 0");
+                //throw new IllegalArgumentException("width > 0 and height > 0");
             }
         }
         if (bytes != null) {

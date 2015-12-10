@@ -32,32 +32,6 @@
             </android.support.v4.widget.SwipeRefreshLayout>
 
 
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/fab_goback"
-                android:layout_width="@dimen/floating_btn_width"
-                android:layout_height="@dimen/floating_btn_height"
-                android:layout_marginBottom="@dimen/floating_btn_margin"
-                android:layout_marginLeft="@dimen/floating_btn_margin"
-                android:src="@mipmap/btn_back"
-                android:visibility="gone"
-                app:fab_colorNormal="@color/float_colorNormal"
-                app:fab_colorPressed="@color/float_colorPressed"
-                app:layout_anchor="@+id/rec_diary"
-                app:layout_anchorGravity="bottom|left" />
-
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/btn_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_margin="@dimen/floating_btn_margin"
-                android:src="@mipmap/btn_submit_normal"
-                android:visibility="gone"
-                app:fab_colorNormal="@color/float_colorPressed"
-                app:fab_colorPressed="@color/float_colorNormal"
-                app:fab_colorRipple="@color/float_colorRipple"></com.melnykov.fab.FloatingActionButton>
-
-
         </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
 

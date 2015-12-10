@@ -73,7 +73,7 @@ public class YDViewBitmap extends YDView {
 
             @Override
             protected void onNewResultImpl(Bitmap bitmap) {
-                mBitmap = bitmap;
+                mBitmap = bitmap.copy(bitmap.getConfig(), true);
                 dataSource.close();
             }
 

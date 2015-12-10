@@ -407,7 +407,8 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             distr = "";
         }
         if (updateAvatar) {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), distr, this);
+            TypedBitmap build = new TypedBitmap.Builder(mBitmap).setSize(540).build();
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", build, user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), distr, this);
         } else {
             service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), distr, this);
         }
