@@ -16,6 +16,7 @@ import android.text.TextUtils;
 
 import com.easemob.chat.EMChat;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.tendcloud.tenddata.TCAgent;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.push.FeedbackPush;
 import com.umeng.message.PushAgent;
@@ -150,6 +151,9 @@ public class YApplication extends DemoApplication {
                 }
             });
             CrashReport.initCrashReport(this, "900004839", BuildConfig.DEBUG, strategy);  //初始化SDK
+            TCAgent.LOG_ON = false;
+            TCAgent.init(this);
+            TCAgent.setReportUncaughtExceptions(false);
         }
         PushAgent mPushAgent = PushAgent.getInstance(this);
         mPushAgent.setNotificationClickHandler(new UmengNotificationClickHandler() {

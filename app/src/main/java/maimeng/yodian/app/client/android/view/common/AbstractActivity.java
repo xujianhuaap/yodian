@@ -29,6 +29,7 @@ import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.melnykov.fab.FloatingActionButton;
+import com.tendcloud.tenddata.TCAgent;
 import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.exception.HNetError;
@@ -108,6 +109,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     @Override
     protected void onResume() {
         super.onResume();
+        TCAgent.onResume(this);
         EMChatManager.getInstance().addConnectionListener(this);
     }
 
@@ -115,6 +117,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     protected void onPause() {
         super.onPause();
         EMChatManager.getInstance().removeConnectionListener(this);
+        TCAgent.onPause(this);
     }
 
     @Override
