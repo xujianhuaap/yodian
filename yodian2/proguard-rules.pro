@@ -25,5 +25,44 @@
 -keep @io.realm.annotations.RealmModule class *
 -keep class io.realm.internal.Keep
 -keep @io.realm.internal.Keep class *
+
+-dontwarn io.realm.internal.Keep
 -dontwarn javax.**
 -dontwarn io.realm.**
+
+-keep class com.squareup.**{*;}
+-dontwarn com.squareup.**
+
+-keep class com.google.vending.licensing.ILicensingService
+-dontwarn com.google.vending.licensing.ILicensingService
+-dontnote com.google.vending.licensing.ILicensingService
+
+-keep class org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontnote org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+-keep class com.android.vending.licensing.ILicensingService
+-dontwarn com.android.vending.licensing.ILicensingService
+-dontnote com.android.vending.licensing.ILicensingService
+
+-keep class org.parceler.**
+-dontwarn org.parceler
+
+-keep class org.robolectric.**
+-dontwarn org.robolectric
+
+# 重复的类
+-dontnote android.net.http.SslError
+-dontnote android.net.http.SslCertificate
+-dontnote android.net.http.SslCertificate$DName
+-dontnote org.apache.http.conn.scheme.HostNameResolver
+-dontnote org.apache.http.conn.scheme.SocketFactory
+-dontnote org.apache.http.conn.ConnectTimeoutException
+-dontnote org.apache.http.params.HttpParams
+
+#反射
+-keepattributes *Annotation*.
+#由于预编译
+-dontwarn java.nio.file.Files
+-dontwarn java.nio.file.Path
+-dontwarn java.nio.file.OpenOption
