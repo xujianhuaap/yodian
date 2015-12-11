@@ -19,9 +19,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.easemob.applib.controller.HXSDKHelper;
 
+import maimeng.yodian.app.client.android.utils.LogUtil;
+
 public class DbOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 6;
+    private static final String LOG_TAG = DbOpenHelper.class.getSimpleName();
     private static DbOpenHelper instance;
 
     private static final String USERNAME_TABLE_CREATE = "CREATE TABLE "
@@ -42,17 +45,17 @@ public class DbOpenHelper extends SQLiteOpenHelper {
             + UserDao.PREF_TABLE_NAME + " ("
             + UserDao.COLUMN_NAME_DISABLED_GROUPS + " TEXT, "
             + UserDao.COLUMN_NAME_DISABLED_IDS + " TEXT);";
-    private final String[] initInsert=new String[2];
+    private final Context mContext;
+
     private DbOpenHelper(Context context) {
         super(context, getUserDatabaseName(), null, DATABASE_VERSION);
-        String avatar="android.resource://" + context.getPackageName() + "/mipmap/icon_app";
-        initInsert[0]=String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID, UserDao.COLUMN_NAME_NICK, UserDao.COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar);
-        initInsert[1]=String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.ROBOT_TABLE_NAME, UserDao.ROBOT_COLUMN_NAME_ID, UserDao.ROBOT_COLUMN_NAME_NICK, UserDao.ROBOT_COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar);
+        this.mContext = context;
+
     }
 
     public static DbOpenHelper getInstance(Context context) {
         if (instance == null) {
-            instance = new DbOpenHelper(context.getApplicationContext());
+            instance = new DbOpenHelper(context);
         }
         return instance;
     }
@@ -66,16 +69,29 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         db.execSQL(USERNAME_TABLE_CREATE);
         db.execSQL(CREATE_PREF_TABLE);
         db.execSQL(ROBOT_TABLE_CREATE);
-        db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
-                UserDao.COLUMN_NAME_MOBILE + " TEXT ;");
-        db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
-                UserDao.COLUMN_NAME_QQ + " TEXT ;");
-        db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
-                UserDao.ROBOT_COLUMN_NAME_MOBILE + " TEXT;");
-        db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
-                UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
-        for(String sql:initInsert){
-            db.execSQL(sql);
+        updateVersionTo6(db);
+    }
+
+    private void updateVersionTo6(SQLiteDatabase db) {
+        db.beginTransaction();
+        LogUtil.i(LOG_TAG, "updateVersionTo6 Begin");
+        try {
+            db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
+                    UserDao.COLUMN_NAME_MOBILE + " TEXT ;");
+            db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
+                    UserDao.COLUMN_NAME_QQ + " TEXT ;");
+            db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
+                    UserDao.ROBOT_COLUMN_NAME_MOBILE + " TEXT;");
+            db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
+                    UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
+            String avatar = "android.resource://" + mContext.getPackageName() + "/mipmap/icon_app";
+            db.execSQL(String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID, UserDao.COLUMN_NAME_NICK, UserDao.COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar));
+            db.execSQL(String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.ROBOT_TABLE_NAME, UserDao.ROBOT_COLUMN_NAME_ID, UserDao.ROBOT_COLUMN_NAME_NICK, UserDao.ROBOT_COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar));
+            db.setTransactionSuccessful();
+            LogUtil.i(LOG_TAG, "updateVersionTo6 Success");
+        } finally {
+            LogUtil.i(LOG_TAG, "updateVersionTo6 End");
+            db.endTransaction();
         }
     }
 
@@ -85,7 +101,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
                     UserDao.COLUMN_NAME_AVATAR + " TEXT ;");
         }
-
         if (oldVersion < 3) {
             db.execSQL(CREATE_PREF_TABLE);
         }
@@ -102,10 +117,8 @@ public class DbOpenHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
                     UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
         }
-        if(oldVersion<6){
-            for(String sql:initInsert){
-                db.execSQL(sql);
-            }
+        if (oldVersion < 6) {
+            updateVersionTo6(db);
         }
     }
 
