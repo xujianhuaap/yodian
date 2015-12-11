@@ -69,6 +69,14 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         db.execSQL(USERNAME_TABLE_CREATE);
         db.execSQL(CREATE_PREF_TABLE);
         db.execSQL(ROBOT_TABLE_CREATE);
+        db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
+                UserDao.COLUMN_NAME_MOBILE + " TEXT ;");
+        db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
+                UserDao.COLUMN_NAME_QQ + " TEXT ;");
+        db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
+                UserDao.ROBOT_COLUMN_NAME_MOBILE + " TEXT;");
+        db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
+                UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
         updateVersionTo6(db);
     }
 
@@ -76,14 +84,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         LogUtil.i(LOG_TAG, "updateVersionTo6 Begin");
         try {
-            db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
-                    UserDao.COLUMN_NAME_MOBILE + " TEXT ;");
-            db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
-                    UserDao.COLUMN_NAME_QQ + " TEXT ;");
-            db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
-                    UserDao.ROBOT_COLUMN_NAME_MOBILE + " TEXT;");
-            db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
-                    UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
             String avatar = "android.resource://" + mContext.getPackageName() + "/mipmap/icon_app";
             db.execSQL(String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID, UserDao.COLUMN_NAME_NICK, UserDao.COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar));
             db.execSQL(String.format("INSERT INTO %s (%s,%s,%s) VALUES('%s','%s','%s')", UserDao.ROBOT_TABLE_NAME, UserDao.ROBOT_COLUMN_NAME_ID, UserDao.ROBOT_COLUMN_NAME_NICK, UserDao.ROBOT_COLUMN_NAME_AVATAR, "hx_admin", "官方君", avatar));
@@ -108,6 +108,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
             db.execSQL(ROBOT_TABLE_CREATE);
         }
         if (oldVersion < 5) {
+            LogUtil.i(LOG_TAG, "updateVersionTo5 begin");
             db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
                     UserDao.COLUMN_NAME_MOBILE + " TEXT ;");
             db.execSQL("ALTER TABLE " + UserDao.TABLE_NAME + " ADD COLUMN " +
@@ -116,6 +117,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                     UserDao.ROBOT_COLUMN_NAME_MOBILE + " TEXT;");
             db.execSQL("ALTER TABLE " + UserDao.ROBOT_TABLE_NAME + " ADD COLUMN " +
                     UserDao.ROBOT_COLUMN_NAME_QQ + " TEXT ;");
+            LogUtil.i(LOG_TAG, "updateVersionTo5 End");
         }
         if (oldVersion < 6) {
             updateVersionTo6(db);
