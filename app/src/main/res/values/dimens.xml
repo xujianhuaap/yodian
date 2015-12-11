@@ -66,6 +66,7 @@
 
     <dimen name="btn_arrow_width">18dp</dimen>
     <dimen name="btn_arrow_height">12dp</dimen>
+    <dimen name="btn_width_dot">10dp</dimen>
 
 
     <eat-comment/>
@@ -80,6 +81,7 @@
     <dimen name="text_size_Xsmall">11sp</dimen>
     <dimen name="text_size_normal">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_Xlarge">22sp</dimen>
 
     <!-- Rmark ImageView-->
     <dimen name="titme_margin_top">25dp</dimen>
