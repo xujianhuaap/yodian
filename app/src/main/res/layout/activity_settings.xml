@@ -35,7 +35,7 @@
 
             <CheckBox
                 android:id="@+id/push"
-                android:layout_width="@dimen/btn_width"
+                android:layout_width="@dimen/btn_width_switcher"
                 android:layout_height="@dimen/btn_height"
                 android:layout_marginRight="@dimen/margin_normal"
                 android:background="@android:color/transparent"

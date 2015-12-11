@@ -252,17 +252,17 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         provinceAdapter = new Adapter(this, datas);
         cityAdapter = new Adapter(this, new ArrayList<City>());
         districtAdapter = new Adapter(this, new ArrayList<City>());
-        provinceList.setVisibleItems(5); // Number of items
+        provinceList.setVisibleItems(6); // Number of items
         provinceList.setWheelBackground(android.R.color.white);
         provinceList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
         provinceList.setViewAdapter(provinceAdapter);
 
-        cityList.setVisibleItems(5); // Number of items
+        cityList.setVisibleItems(6); // Number of items
         cityList.setWheelBackground(android.R.color.white);
         cityList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
         cityList.setViewAdapter(cityAdapter);
 
-        districtList.setVisibleItems(5); // Number of items
+        districtList.setVisibleItems(6); // Number of items
         districtList.setWheelBackground(android.R.color.white);
         districtList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
         districtList.setViewAdapter(districtAdapter);

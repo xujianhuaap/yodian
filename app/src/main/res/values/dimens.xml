@@ -40,7 +40,7 @@
     <dimen name="logo_margin_top">60dp</dimen>
     <dimen name="star_margin_top">40dp</dimen>
     <dimen name="skill_template_width">20dp</dimen>
-    <dimen name="skill_no_view_height">340dp</dimen>
+    <dimen name="skill_no_view_height">320dp</dimen>
 
     <eat-comment/>
     <dimen name="share_dialog_content_marginTop">30dp</dimen>
@@ -66,6 +66,7 @@
 
     <dimen name="btn_arrow_width">18dp</dimen>
     <dimen name="btn_arrow_height">12dp</dimen>
+    <dimen name="btn_width_dot">10dp</dimen>
 
 
     <eat-comment/>
@@ -80,6 +81,7 @@
     <dimen name="text_size_Xsmall">11sp</dimen>
     <dimen name="text_size_normal">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_Xlarge">22sp</dimen>
 
     <!-- Rmark ImageView-->
     <dimen name="titme_margin_top">25dp</dimen>
@@ -123,6 +125,8 @@
     <dimen name="order_contact">100dp</dimen>
     <dimen name="order_contact_height">40dp</dimen>
     <dimen name="order_operator_height">35dp</dimen>
+    <!--settingActivity-->
+    <dimen name="btn_width_switcher">68dp</dimen>
 
 
 </resources>

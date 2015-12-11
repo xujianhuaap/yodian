@@ -336,16 +336,15 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             }).start(this);
             Spanned text = Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit()));
             headBinding.price.setText(text);
-            if (isMe) {
-                binding.recyclerView.removeHeaderView(noSkillRmark);
-                if (list.size() > 0 || page > 1) {
-                } else {
-                    ////pic_no_skill_rmark
-                    if (isMe) {
-                        binding.recyclerView.addHeaderView(noSkillRmark);
-                    }
-                }
+
+            binding.recyclerView.removeHeaderView(noSkillRmark);
+            if (list.size() > 0 || page > 1) {
+            } else {
+                ////pic_no_skill_rmark
+                binding.recyclerView.addHeaderView(noSkillRmark);
+
             }
+
             adapter.reload(list, page != 1);
             adapter.notifyDataSetChanged();
         } else {

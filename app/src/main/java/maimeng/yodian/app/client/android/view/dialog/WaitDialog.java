@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,15 +58,24 @@ public class WaitDialog extends DialogFragment {
 
     @Override
     public android.app.Dialog onCreateDialog(Bundle savedInstanceState) {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity(), R.style.WaitDialogStyle);
-        builder.setCancelable(false);
+
         View inflate = getActivity().getLayoutInflater().inflate(R.layout.dialog_wait, null, false);
-        builder.setView(inflate);
         imageView = (ImageView) inflate.findViewById(R.id.loading);
         Drawable image = imageView.getDrawable();
         android.graphics.drawable.AnimationDrawable drawable = (android.graphics.drawable.AnimationDrawable) image;
         drawable.start();
-        builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+
+        TextView tv = (TextView) inflate.findViewById(R.id.title);
+        String string = getArguments().getString("alert-message");
+        if (string != null) {
+            tv.setText(string);
+        } else {
+            tv.setVisibility(View.GONE);
+        }
+        Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(inflate);
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -73,14 +84,6 @@ public class WaitDialog extends DialogFragment {
                 return false;
             }
         });
-        TextView tv = (TextView) inflate.findViewById(R.id.title);
-        String string = getArguments().getString("alert-message");
-        if (string != null) {
-            tv.setText(string);
-        } else {
-            tv.setVisibility(View.GONE);
-        }
-        android.app.AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCanceledOnTouchOutside(false);
         return dialog;
