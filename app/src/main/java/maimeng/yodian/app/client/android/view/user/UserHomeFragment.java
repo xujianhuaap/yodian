@@ -127,7 +127,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         User loginUser = User.read(getActivity());
         Bundle args = getArguments();
         long uid = args.getLong("uid", 0);
-        if (loginUser.getId() == uid) {
+        if (uid == 0 || loginUser.getId() == uid) {
             isMe = true;
         }
         service = Network.getService(SkillService.class);
