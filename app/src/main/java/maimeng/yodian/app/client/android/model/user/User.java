@@ -463,6 +463,9 @@ public class User extends UserBaseColum {
                 editor.putString(KEY_ADDRESS, this.address == null ? "" : this.address);
                 editor.putString(KEY_SIGNATURE, this.signature == null ? "" : this.signature);
                 editor.putString(KEY_JOB, this.job == null ? "" : this.job);
+                if (this.sex != null) {
+                    editor.putInt(KEY_SEX, sex.getCode());
+                }
                 if (this.vouch_status != null) {
                     editor.putInt(KEY_VOUCH_STATUS, vouch_status.getValue());
                 }
@@ -488,6 +491,8 @@ public class User extends UserBaseColum {
                 String job = pref.getString(KEY_JOB, "");
                 int vouch_status = pref.getInt(KEY_VOUCH_STATUS, 3);
                 int certify_status = pref.getInt(KEY_CERTIFY_STATUS, 2);
+                int sex = pref.getInt(KEY_SEX, 2);
+                info.setSex(Sex.create(sex));
                 info.setCertifi_status(CertifyStatus.create(certify_status));
                 info.setVouch_status(BindStatus.create(vouch_status));
                 info.setWechat(wechat);

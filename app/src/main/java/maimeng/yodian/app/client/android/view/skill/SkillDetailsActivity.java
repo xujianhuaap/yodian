@@ -360,7 +360,9 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
 
     @Override
     public void end() {
-        dialog.dismiss();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
         binding.refreshLayout.refreshComplete();
 
     }
