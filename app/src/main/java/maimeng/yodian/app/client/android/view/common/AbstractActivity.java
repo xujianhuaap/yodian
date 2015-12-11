@@ -75,9 +75,8 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setEnterTransition() {
-//        Transition transitionSlideRight = TransitionInflater.from(this).inflateTransition(R.transition.slide_right);
-//        getWindow().setEnterTransition(transitionSlideRight);
-        getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+        Transition transitionSlideRight = TransitionInflater.from(this).inflateTransition(R.transition.slide_right);
+        getWindow().setEnterTransition(transitionSlideRight);
     }
 
     @Override
