@@ -18,8 +18,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -73,8 +75,9 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setEnterTransition() {
-        Transition transitionSlideRight = TransitionInflater.from(this).inflateTransition(R.transition.slide_right);
-        getWindow().setEnterTransition(transitionSlideRight);
+//        Transition transitionSlideRight = TransitionInflater.from(this).inflateTransition(R.transition.slide_right);
+//        getWindow().setEnterTransition(transitionSlideRight);
+        getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
     }
 
     @Override
