@@ -123,6 +123,8 @@
     <dimen name="order_contact">100dp</dimen>
     <dimen name="order_contact_height">40dp</dimen>
     <dimen name="order_operator_height">35dp</dimen>
+    <!--settingActivity-->
+    <dimen name="btn_width_switcher">68dp</dimen>
 
 
 </resources>
