@@ -26,6 +26,7 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 public class DbOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 7;
+
     private static final String LOG_TAG = DbOpenHelper.class.getSimpleName();
     private static DbOpenHelper instance;
 

@@ -50,32 +50,10 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    protected void initToolBar(Toolbar toolbar) {
-        super.initToolBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            mTitle.setTextColor(Color.WHITE);
-            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
-        }
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         service = Network.getService(AuthService.class);
-        setContentView(R.layout.activity_auth);
+        setContentView(R.layout.activity_auth,false);
         ViewCompat.setTransitionName(findViewById(R.id.icon), "icon");
         mMobile = (EditText) findViewById(R.id.mobile);
 //        setTitle("登录");
@@ -83,6 +61,12 @@ public class AuthActivity extends AbstractActivity implements View.OnClickListen
         mValidateCode = ((EditText) findViewById(R.id.code));
         mCode = (TextView) findViewById(R.id.btn_getcode);
         mCode.setOnClickListener(this);
+        findViewById(R.id.btn_go_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 //        mCode.addTextChangedListener(new TextWatcher() {
 //            @Override
 //            public void beforeTextChanged(CharSequence s, int start, int count, int after) {

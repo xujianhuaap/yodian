@@ -6,15 +6,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/login_bg"
-    android:gravity="center"
     android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_phone" />
+        android:layout_marginBottom="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_normal"
+        >
+        <ImageView
+            android:id="@+id/btn_go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_gravity="left"
+            android:src="@mipmap/ic_go_back_black" />
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_XXlarge"
+            android:src="@mipmap/ic_phone" />
+        <ImageView
+            android:id="@+id/dot"
+            android:layout_width="@dimen/btn_width_dot"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_normal"
+            android:layout_marginLeft="@dimen/margin_Xlarge"
+            android:layout_marginBottom="@dimen/margin_Xlarge"
+            android:layout_gravity="bottom|center_horizontal"
+            android:src="@mipmap/ic_dot_black" />
+
+        <TextView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_Xlarge"
+            android:paddingLeft="@dimen/margin_Xlarge"
+            android:layout_gravity="bottom|center_horizontal"
+            android:text="TEL"
+            android:layout_marginLeft="@dimen/margin_XXlarge"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_Xlarge"
+            />
+
+    </FrameLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -101,7 +140,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/margin_XXlarge"
+        android:layout_marginTop="@dimen/margin_Xlarge"
+        android:layout_marginBottom="@dimen/margin_normal"
         android:background="@drawable/btn_submit_background"
         android:paddingLeft="100dp"
         android:paddingRight="100dp"

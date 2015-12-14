@@ -180,13 +180,13 @@
         </FrameLayout>
         <ImageView
             android:id="@+id/exception"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/margin_Xlarge"
+            android:layout_width="@dimen/btn_width_Xlarge"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_height="@dimen/skill_no_view_height"
             android:maxHeight="@dimen/skill_no_view_height"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
-            android:visibility="gone"
+            android:visibility="visible"
             android:src="@mipmap/ic_no_skill"/>
     </LinearLayout>
 

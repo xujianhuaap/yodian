@@ -18,8 +18,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -29,6 +31,7 @@ import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.melnykov.fab.FloatingActionButton;
+import com.tendcloud.tenddata.TCAgent;
 import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.exception.HNetError;
@@ -108,6 +111,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     @Override
     protected void onResume() {
         super.onResume();
+        TCAgent.onResume(this);
         EMChatManager.getInstance().addConnectionListener(this);
     }
 
@@ -115,6 +119,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     protected void onPause() {
         super.onPause();
         EMChatManager.getInstance().removeConnectionListener(this);
+        TCAgent.onPause(this);
     }
 
     @Override

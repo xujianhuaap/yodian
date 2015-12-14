@@ -119,7 +119,7 @@
         <activity
             android:name=".view.skill.SkillPreviewActivity"
             android:label="@string/skill_preview_title_bar"
-            android:theme="@style/AppThemeTransparent"
+            android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="adjustPan">
 
         </activity>
@@ -385,5 +385,12 @@
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle" />
+
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="309FC765AD6A9A303141A87AB34A2F14" />
+        <meta-data
+            android:name="TD_CHANNEL_ID"
+            android:value="${UMENG_CHANNEL_VALUE}" />
     </application>
 </manifest>

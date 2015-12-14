@@ -296,6 +296,8 @@
 
 -keep class org.parceler.Parceler$$Parcels
 
+-keep public class com.tendcloud.tenddata.** { public protected *;}
+
 #alipay end
 
 

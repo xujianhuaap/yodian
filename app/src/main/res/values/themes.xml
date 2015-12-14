@@ -18,6 +18,7 @@
 
     <style name="PageIndicator" parent="AppTheme">
         <item name="vpiIconPageIndicatorStyle">@style/vpiIconPageIndicatorStyle</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="vpiIconPageIndicatorStyle" parent="Widget.IconPageIndicator">
@@ -94,6 +95,8 @@
     <style name="WaitDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">#00000000</item>
         <!--<item name="android:cacheColorHint">@android:color/transparent</item>-->
         <item name="android:windowBackground">@android:color/transparent</item>
         <!--<item name="android:windowEnterAnimation">@anim/push_bottom_in</item>-->
