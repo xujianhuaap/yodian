@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -56,25 +57,6 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
     private UserService service;
     private ActivityAuthSettingInfoBinding binding;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            ActivityCompat.finishAfterTransition(AuthSettingInfoActivity.this);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void initToolBar(Toolbar toolbar) {
-        super.initToolBar(toolbar);
-        toolbar.setBackgroundResource(android.R.color.transparent);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back_black);
-        }
-    }
 
     @Override
     protected void onTitleChanged(CharSequence title, int color) {
@@ -86,7 +68,8 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
         super.onCreate(savedInstanceState);
         user = User.read(this);
         service = Network.getService(UserService.class);
-        binding = bindView(R.layout.activity_auth_setting_info);
+        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_auth_setting_info, null, false);
+        setContentView(binding.getRoot(),false);
         binding.imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

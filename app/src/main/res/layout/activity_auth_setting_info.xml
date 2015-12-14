@@ -11,10 +11,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/login_bg">
+        <ImageView
+            android:id="@+id/btn_go_back"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:padding="@dimen/auth_input_clean_padding"
+            android:src="@mipmap/ic_go_back_black"
+            android:visibility="visible" />
+        <ImageView
+            android:id="@+id/tip_name"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/auth_setting_tip_name_margin_top"
+            android:layout_marginLeft="@dimen/auth_setting_tip_name_margin_left"
+            android:padding="@dimen/auth_input_clean_padding"
+            android:src="@mipmap/ic_tip_name"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/tip_photo"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+           android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/auth_setting_tip_photo_margin_top"
+            android:layout_marginLeft="@dimen/auth_setting_tip_photo_margin_left"
+            android:padding="@dimen/auth_input_clean_padding"
+            android:src="@mipmap/ic_tip_photo"
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_Xlarge"
             android:orientation="vertical">
 
             <maimeng.yodian.app.client.android.widget.CircleImageView

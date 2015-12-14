@@ -128,5 +128,11 @@
     <!--settingActivity-->
     <dimen name="btn_width_switcher">68dp</dimen>
 
+    <!--auth_setting-->
+    <dimen name="auth_setting_tip_name_margin_top">143dp</dimen>
+    <dimen name="auth_setting_tip_name_margin_left">22dp</dimen>
+    <dimen name="auth_setting_tip_photo_margin_top">25dp</dimen>
+    <dimen name="auth_setting_tip_photo_margin_left">80dp</dimen>
+
 
 </resources>
