@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
         ViewHolder holder;
         if (convertView == null) {
             ItemRmarkListBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_rmark_list, parent, false);
+            binding.pic.setAspectRatio(1.0f);
             holder = new ViewHolder(binding);
             convertView = binding.getRoot();
             convertView.setTag(holder);
@@ -94,6 +96,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
 
         public void bind(Rmark rmark, int position) {
             this.binding.setRmark(rmark);
+            this.binding.pic.setImageURI(Uri.parse(rmark.getPic()));
             this.position = position;
 
             Date date = rmark.getCreatetime();

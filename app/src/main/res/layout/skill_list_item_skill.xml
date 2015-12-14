@@ -15,9 +15,9 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/padding_normal"
         android:paddingLeft="@dimen/padding_normal"
-        android:paddingRight="@dimen/padding_normal"
-        android:paddingBottom="@dimen/padding_normal">
+        android:paddingRight="@dimen/padding_normal">
 
         <LinearLayout
             android:id="@+id/root"
@@ -77,14 +77,14 @@
 
                 </LinearLayout>
 
-                <ImageView
+                <maimeng.yodian.app.client.android.widget.YDView
                     android:id="@+id/pic"
                     android:layout_width="@dimen/skill_list_item_img_width"
                     android:layout_height="@dimen/skill_list_item_img_height"
                     android:layout_below="@+id/top_container"
-                    android:adjustViewBounds="false"
                     android:scaleType="fitXY"
-                    app:imgUrl="@{skill.pic}" />
+                    android:src="@{skill.pic}"
+                    app:placeholderImage="@mipmap/default_image" />
 
 
                 <ImageView
@@ -237,26 +237,29 @@
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
                     android:text="@{skill.content}" />
+
                 <TextView
                     android:id="@+id/bottom"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/btn_height"
                     android:layout_margin="1dp"
-                    android:visibility="gone"
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
-                    />
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 
-        <maimeng.yodian.app.client.android.widget.CircleImageView
+        <maimeng.yodian.app.client.android.widget.YDView
             android:id="@+id/user_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="@dimen/margin_small"
-            app:imgUrl="@{skill.avatar80}" />
-
+            android:scaleType="centerInside"
+            android:src="@{skill.avatar}"
+            app:roundAsCircle="true"
+            app:roundingBorderColor="#ffffff"
+            app:roundingBorderWidth="2dp" />
 
     </FrameLayout>
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,14 +42,12 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
-import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.model.City;
 import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
@@ -61,7 +58,8 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 /**
  * Created by android on 15-7-20.
  */
-public class SettingUserInfo extends AbstractActivity implements View.OnClickListener, Callback<ModifyUserResponse>, ImageLoaderManager.Callback {
+public class SettingUserInfo extends AbstractActivity implements View.OnClickListener, Callback<ModifyUserResponse> {
+    private static final String LOG_TAG = SettingUserInfo.class.getSimpleName();
     private ActivitySettingUserInfoBinding binding;
     private Bitmap mBitmap = null;
     private User user;
@@ -147,7 +145,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 toggle();
             }
         });
-        new ImageLoaderManager.Loader(this, Uri.parse(user.getAvatar())).callback(this).start(this);
         binding.nickname.addTextChangedListener(new EditTextChangeListener(binding.nickname, binding, user));
 
         View view = getLayoutInflater().inflate(R.layout.pop_cities, null, false);
@@ -197,21 +194,19 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                     d = district.getName();
 
                 }
-                int type=province.getType();
-                if(type==0){
+                int type = province.getType();
+                if (type == 0) {
                     //直辖市
                     user.getInfo().setProvince("");
                     user.getInfo().setCity(p);
                     user.getInfo().setDistrict(c);
-                    binding.cities.setText(p + c );
-                }else{
+                    binding.cities.setText(p + c);
+                } else {
                     user.getInfo().setProvince(p);
                     user.getInfo().setCity(c);
                     user.getInfo().setDistrict(d);
                     binding.cities.setText(p + c + d);
                 }
-
-
 
 
                 hideBankList();
@@ -350,7 +345,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 }).show();
             }
         });
-        ImageAdapter.image(binding.userAvatar, user.getAvatar());
 
     }
 
@@ -391,6 +385,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         binding.invalidateAll();
+        mBitmap = binding.userAvatar.getBitmap();
         if (mBitmap == null) {
             Toast.makeText(this, R.string.avatar_input_empty_message, Toast.LENGTH_SHORT).show();
             return;
@@ -407,14 +402,15 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             return;
         }
         Sex sex = user.getInfo().getSex();
-        String distr=user.getInfo().getDistrict();
-        if(TextUtils.isEmpty(distr)){
-            distr="";
+        String distr = user.getInfo().getDistrict();
+        if (TextUtils.isEmpty(distr)) {
+            distr = "";
         }
         if (updateAvatar) {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", new TypedBitmap.Builder(mBitmap).setMaxSize(300).setMaxHeight(540).setMaxWidth(540).build(), user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(),distr , this);
+            TypedBitmap build = new TypedBitmap.Builder(mBitmap).setSize(540).build();
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", build, user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), distr, this);
         } else {
-            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(),distr, this);
+            service.modifyInfo(user.getNickname(), sex.getCode(), user.getInfo().getJob() + "", user.getInfo().getSignature() + "", user.getWechat() + "", user.getInfo().getQq() + "", user.getInfo().getContact() + "", user.getInfo().getCity(), user.getInfo().getProvince(), distr, this);
         }
     }
 
@@ -432,6 +428,9 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                 user.setAvatar(res.getData().getAvatar());
                 tempFile.deleteOnExit();
             }
+            if (mBitmap != null && !mBitmap.isRecycled()) {
+                mBitmap.recycle();
+            }
             user.write(this);
             setResult(RESULT_OK);
             finish();
@@ -443,20 +442,6 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         ErrorUtils.checkError(this, hNetError);
     }
 
-    @Override
-    public void onImageLoaded(Bitmap bitmap) {
-        this.mBitmap = bitmap;
-    }
-
-    @Override
-    public void onLoadEnd() {
-
-    }
-
-    @Override
-    public void onLoadFaild() {
-
-    }
 
     @Override
     public void end() {
@@ -480,8 +465,7 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             }
             if (tempFile != null) {
                 Uri uri = Uri.fromFile(tempFile);
-                ImageAdapter.image(binding.userAvatar, uri.toString());
-                new ImageLoaderManager.Loader(this, uri.toString()).callback(this).start(this);
+                binding.userAvatar.setImageURI(uri);
                 updateAvatar = true;
             }
 //            toggle();

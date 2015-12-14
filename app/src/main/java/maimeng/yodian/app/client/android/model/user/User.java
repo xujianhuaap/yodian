@@ -491,10 +491,10 @@ public class User extends UserBaseColum {
                 String job = pref.getString(KEY_JOB, "");
                 int vouch_status = pref.getInt(KEY_VOUCH_STATUS, 3);
                 int certify_status = pref.getInt(KEY_CERTIFY_STATUS, 2);
-                int sex = pref.getInt(KEY_SEX, 2);
-                info.setSex(Sex.create(sex));
+                int sex = pref.getInt(KEY_SEX, 0);
                 info.setCertifi_status(CertifyStatus.create(certify_status));
                 info.setVouch_status(BindStatus.create(vouch_status));
+                info.setSex(Sex.create(sex));
                 info.setWechat(wechat);
                 info.setMobile(mobile);
                 info.setContact(contact);

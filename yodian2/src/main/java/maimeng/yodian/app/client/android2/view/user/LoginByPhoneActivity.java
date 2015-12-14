@@ -28,7 +28,7 @@ import retrofit.Retrofit;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginByPhoneActivity extends AbstractActivity{
+public class LoginByPhoneActivity extends AbstractActivity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -96,8 +96,6 @@ public class LoginByPhoneActivity extends AbstractActivity{
     }
 
 
-
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -147,13 +145,13 @@ public class LoginByPhoneActivity extends AbstractActivity{
                 @Override
                 public void onResponse(Response<AuthResponse> response, Retrofit retrofit) {
                     showProgress(false);
-                    if(response.isSuccess()&& response.body().isSuccess()){
-                        Auth auth = saveOrUpdate(response.body().getData());
-                        Toast.makeText(LoginByPhoneActivity.this,response.body().getData().getNickname(),Toast.LENGTH_SHORT).show();
+                    if (response.isSuccess() && response.body().isSuccess()) {
+                        Auth auth = response.body().getData();
+                        Toast.makeText(LoginByPhoneActivity.this, response.body().getData().getNickname(), Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK, new Intent().putExtra("auth", Parcels.wrap(auth)));
                         finish();
-                    }else {
-                        Toast.makeText(LoginByPhoneActivity.this,response.body().getMsg(),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginByPhoneActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -169,7 +167,7 @@ public class LoginByPhoneActivity extends AbstractActivity{
 
     private boolean isPhoneValid(String phone) {
         //TODO: Replace this with your own logic
-        return phone.length()>=11;
+        return phone.length() >= 11;
     }
 
     private boolean isPasswordValid(String password) {

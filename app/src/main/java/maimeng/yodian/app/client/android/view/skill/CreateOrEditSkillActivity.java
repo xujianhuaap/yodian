@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -39,7 +37,6 @@ import java.util.Date;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivityCreateSkillBinding;
-import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.model.SkillTemplate;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -53,7 +50,6 @@ import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.SkillService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.pay.CertifyStatus;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -389,7 +385,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
 
 
         if (isEdit) {
-            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new ToastCallback(this) {
+            service.update(template.getId(), template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new ToastCallback(this) {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
@@ -430,7 +426,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
 
         } else {
             if (mBitmap != null) {
-                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new Callback<SkillAllResponse>() {
+                service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
                         if(res.getCode()==55000){

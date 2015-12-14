@@ -89,11 +89,9 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         return userHomeFragment;
     }
 
-    public static UserHomeFragment newInstance(Bitmap avatar, String nickname, long uid) {
+    public static UserHomeFragment newInstance(long uid) {
         UserHomeFragment userHomeFragment = new UserHomeFragment();
         Bundle args = new Bundle();
-        args.putParcelable("avatar", avatar);
-        args.putString("nickname", nickname);
         args.putLong("uid", uid);
         userHomeFragment.setArguments(args);
         return userHomeFragment;
@@ -112,7 +110,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     private SkillListHomeAdapter adapter;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private Handler handler;
-    private boolean isMe;
+    private boolean isMe = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, boolean showTitle) {
@@ -126,7 +124,12 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         handler = new Handler(Looper.getMainLooper());
-
+        User loginUser = User.read(getActivity());
+        Bundle args = getArguments();
+        long uid = args.getLong("uid", 0);
+        if (uid == 0 || loginUser.getId() == uid) {
+            isMe = true;
+        }
         service = Network.getService(SkillService.class);
         mRefreshLayout = (PtrFrameLayout) view.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -152,18 +155,13 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
         } else {
             EMChatManager.getInstance().unregisterEventListener(this);
         }
-        Bundle args = getArguments();
-        long uid = args.getLong("uid", 0);
-        if (uid > 0) {
-            isMe = false;
-            service.list(uid, page, this);
-        } else {
-            isMe = true;
-            user = User.read(getActivity());
+        if (isMe) {
+            user = loginUser;
             init();
+            refreshMissMsgIcon();
+        } else {
+            service.list(uid, page, this);
         }
-
-        refreshMissMsgIcon();
     }
 
 
@@ -189,34 +187,34 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 }
             } else if (requestCode == REQUEST_UPDATEINFO) {
                 user = User.read(this.mActivity);
-                initUsrInfo();
+                initUsrInfoWithOthers();
             }
         }
     }
 
-    private boolean inited = true;
 
     public void init() {
-        final User read = User.read(this.mActivity);
-        init(read);
-        final SharedPreferences sendservice = getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE);
-        boolean aBoolean = sendservice.getBoolean("flag" + read.getUid(), false);
-        if (!aBoolean) {
-            Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
-                @Override
-                public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
-                    if (response.getStatus() == 200) {
+        init(user);
+        if (isMe) {
+            final SharedPreferences sendservice = getActivity().getSharedPreferences("sendservice", Context.MODE_PRIVATE);
+            boolean aBoolean = sendservice.getBoolean("flag" + user.getUid(), false);
+            if (!aBoolean) {
+                Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
+                    @Override
+                    public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
+                        if (response.getStatus() == 200) {
 
-                        LogUtil.i(UserHomeFragment.class.getName(), "Send Admin Msg Success url:%s", response.getUrl());
-                        sendservice.edit().putBoolean("flag" + read.getUid(), true).apply();
+                            LogUtil.i(UserHomeFragment.class.getName(), "Send Admin Msg Success url:%s", response.getUrl());
+                            sendservice.edit().putBoolean("flag" + user.getUid(), true).apply();
+                        }
                     }
-                }
 
-                @Override
-                public void failure(HNetError hNetError) {
-                    hNetError.printStackTrace();
-                }
-            });
+                    @Override
+                    public void failure(HNetError hNetError) {
+                        hNetError.printStackTrace();
+                    }
+                });
+            }
         }
     }
 
@@ -228,22 +226,13 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     public static final String ACTION_UPDATE_INFO = "maimeng.yodian.client.app.android.UPDATE_INFO";
 
     public void init(User user) {
-        if (this.user == null) {
-            this.user = user;
-        }
-//        if (user != null) {
-//            adapter.reload(new HeaderViewEntry(user));
-//            adapter.notifyDataSetChanged();
-//        }
-
         LogUtil.i(LOG_TAG, "init().uid:%d,token:%s", user.getId(), user.getToken());
-        inited = true;
         initSkillInfo();
 
 
     }
 
-    private void initUsrInfo() {
+    private void initUsrInfoWithOthers() {
         adapter.update(0, new HeaderViewEntry(user));
     }
 
@@ -285,32 +274,30 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
             if (user != null) {
                 if (!isMe) {
                     //他人信息页面
-                    inited = false;
                     this.user = user;
+                    initUsrInfoWithOthers();
                 } else {
                     //个人主页
-
+                    if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
+                    }
                     this.user.update(user);//更新登录信息——个人的部分信息
                     this.user.setInfo(user);
                     this.user.writeInfo(getActivity());
                     if (user.getInfo().getMoneyMsg() > 0) {
                         headerMainHomeBinding.msgMoneyTopic.setVisibility(View.VISIBLE);
                     }
-                    if(adapter.getHeaderBinding()!=null){
-                        if(page==1&&list.size()==0){
+                    if (adapter.getHeaderBinding() != null) {
+                        if (page == 1 && list.size() == 0) {
                             adapter.getHeaderBinding().exception.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             adapter.getHeaderBinding().exception.setVisibility(View.GONE);
                         }
                     }
-
+                    initUserInfoWidthMe();
                 }
             }
-            showUserInfo();
         } else {
             res.showMessage(mActivity);
-            if (!res.isValidateAuth(mActivity, REQUEST_AUTH)) {
-            }
         }
 
     }
@@ -328,43 +315,35 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
     /***
      * 数据本地化 开启了聊天服务
      */
-    private void showUserInfo() {
-        final User read = User.read(mActivity);
-        LogUtil.i(LOG_TAG, "showUserInfo().read.id:%d,user.id:%d", read.getId(), user.getId());
-        LogUtil.i(LOG_TAG, "showUserInfo().read.token:%s,user.token:%s", read.getToken(), user.getToken());
+    private void initUserInfoWidthMe() {
+        Network.getService(UserService.class).getInfo(user.getUid(), new Callback<UserInfoResponse>() {
+            @Override
+            public void start() {
 
-        if (read.getUid() == user.getUid()) {
-            Network.getService(UserService.class).getInfo(user.getUid(), new Callback<UserInfoResponse>() {
-                @Override
-                public void start() {
+            }
 
-                }
-
-                @Override
-                public void success(UserInfoResponse res, Response response) {
-                    if (res.isSuccess()) {
-                        final User.Info data = res.getData().getUser();
-                        if (UserHomeFragment.this.user.getUid() == data.getUid()) {
-                            UserHomeFragment.this.user.write(mActivity);
-                            mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
-                        }
-                        initUsrInfo();
+            @Override
+            public void success(UserInfoResponse res, Response response) {
+                if (res.isSuccess()) {
+                    final User.Info data = res.getData().getUser();
+                    if (UserHomeFragment.this.user.getUid() == data.getUid()) {
+                        UserHomeFragment.this.user.write(mActivity);
+                        mActivity.startService(new Intent(mActivity, ChatServiceLoginService.class));
                     }
+                    initUsrInfoWithOthers();
                 }
+            }
 
-                @Override
-                public void failure(HNetError hNetError) {
-                    ErrorUtils.checkError(mActivity, hNetError);
-                }
+            @Override
+            public void failure(HNetError hNetError) {
+                ErrorUtils.checkError(mActivity, hNetError);
+            }
 
-                @Override
-                public void end() {
+            @Override
+            public void end() {
 
-                }
-            });
-        } else {
-            initUsrInfo();
-        }
+            }
+        });
     }
 
 

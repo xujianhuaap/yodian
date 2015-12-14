@@ -2,7 +2,6 @@ package maimeng.yodian.app.client.android.view.skill;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,18 +30,13 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkReviewListAdapter;
 import maimeng.yodian.app.client.android.common.UEvent;
-import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.TypedBitmap;
-import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.RmarkListResponse;
-import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
-import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
@@ -54,7 +47,7 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 /**
  * Created by android on 15-8-6.
  */
-public class SkillPreviewActivity extends AbstractActivity implements View.OnClickListener,
+public class SkillPreviewActivity extends AbstractActivity implements
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String LOG_TAG = SkillPreviewActivity.class.getName();
@@ -126,15 +119,8 @@ public class SkillPreviewActivity extends AbstractActivity implements View.OnCli
         mBinding.recDiary.setHasFixedSize(true);
         mBinding.recDiary.addOnScrollListener(endlessRecyclerOnScrollListener);
         mBinding.recDiary.setAdapter(mAdapter);
-        mBinding.fabGoback.setOnClickListener(this);
-        mBinding.btnDone.setOnClickListener(this);
         mBinding.swipeLayout.setOnRefreshListener(this);
 
-        if (mEditStatus > 0) {
-            mBinding.btnDone.setVisibility(View.VISIBLE);
-        } else {
-            mBinding.btnDone.setVisibility(View.INVISIBLE);
-        }
 
         refresh(mSkill);
         new ImageLoaderManager.Loader(this, Uri.parse(mSkill.getPic())).callback(new ImageLoaderManager.Callback() {
@@ -169,95 +155,6 @@ public class SkillPreviewActivity extends AbstractActivity implements View.OnCli
 
         mSkillService.rmark_list(skill.getId(), page, mCallBackProxy);
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == mBinding.fabGoback) {
-            finish();
-        }
-        if (mBinding.btnDone == v) {
-            submitSkill();
-
-        }
-    }
-
-    /***
-     *
-     */
-    private void submitSkill() {
-        if (mEditStatus == 1) {
-            mSkillService.update(mSkill.getId(), mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), mSkill.getAllow_sell(), new ToastCallback(this) {
-                @Override
-                public void success(ToastResponse res, Response response) {
-                    super.success(res, response);
-                    if (res.isSuccess()) {
-                        Skill skill = Parcels.unwrap(getIntent().getParcelableExtra("skill"));
-                        skill.setPic(mSkill.getPic());
-                        skill.setUnit(mSkill.getUnit());
-                        skill.setPrice(mSkill.getPrice());
-                        skill.setName(mSkill.getName());
-                        skill.setContent(mSkill.getContent());
-                        skill.setCreatetime(mSkill.getCreatetime());
-                        skill.setXiajia(mSkill.isXiajia());
-                        Intent data = new Intent();
-                        data.putExtra("skill", Parcels.wrap(skill));
-                        setResult(RESULT_OK, data);
-                        finish();
-                    } else if (res.isValidateAuth(SkillPreviewActivity.this, REQUEST_AUTH)) ;
-                }
-
-                @Override
-                public void start() {
-                    super.start();
-                    dialog = WaitDialog.show(SkillPreviewActivity.this);
-
-                }
-
-                @Override
-                public void end() {
-                    super.end();
-
-                    if (dialog != null) dialog.dismiss();
-                }
-            });
-        } else {
-            if (mBitmap != null) {
-                mSkillService.add(mSkill.getName(), mSkill.getContent(), new TypedBitmap.Builder(mBitmap).setMaxSize(300).setAutoMatch(getResources()).build(), mSkill.getPrice(), mSkill.getUnit(), mSkill.getAllow_sell(), new Callback<SkillAllResponse>() {
-                    @Override
-                    public void success(SkillAllResponse res, Response response) {
-                        if (res.isSuccess()) {
-                            setResult(RESULT_OK);
-                            String qurode = mSkill.getQrcodeUrl();
-                            if (qurode.equals("")) mSkill.setQrcodeUrl(Api.QRODE_URL);
-                            ShareDialog.ShareParams params = new ShareDialog.ShareParams(mSkill, mSkill.getQrcodeUrl(),
-                                    mSkill.getId(), mSkill.getNickname(), "");
-                            ShareDialog.show(SkillPreviewActivity.this, params, true, 1);
-
-                        } else if (res.isValidateAuth(SkillPreviewActivity.this, REQUEST_AUTH)) ;
-                    }
-
-                    @Override
-                    public void failure(HNetError hNetError) {
-                        ErrorUtils.checkError(SkillPreviewActivity.this, hNetError);
-                    }
-
-                    @Override
-                    public void start() {
-                        dialog = WaitDialog.show(SkillPreviewActivity.this);
-
-                    }
-
-                    @Override
-                    public void end() {
-                        if (dialog != null) dialog.dismiss();
-                    }
-                });
-            } else {
-
-            }
-
-        }
     }
 
 
@@ -333,20 +230,10 @@ public class SkillPreviewActivity extends AbstractActivity implements View.OnCli
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_AUTH) {
-                submitSkill();
-            }
-        }
-    }
-
-    @Override
     protected void initToolBar(Toolbar toolbar) {
         super.initToolBar(toolbar);
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null){
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
@@ -357,16 +244,16 @@ public class SkillPreviewActivity extends AbstractActivity implements View.OnCli
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_skill_preview,menu);
+        getMenuInflater().inflate(R.menu.activity_skill_preview, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
-        }else if(item.getItemId()==R.id.menu_share){
+        } else if (item.getItemId() == R.id.menu_share) {
             if (mShareDialog != null) {
                 mShareDialog.dismiss();
                 mShareDialog = null;

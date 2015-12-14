@@ -12,7 +12,6 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
  * Created by android on 9/1/15.
  */
 public class ImageAdapter {
-
     @android.databinding.BindingAdapter("app:imgUrl")
     public static void image(ImageView iv, String url) {
         image(iv, url, null, null, null);

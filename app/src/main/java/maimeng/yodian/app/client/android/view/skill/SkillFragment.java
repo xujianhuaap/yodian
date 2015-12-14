@@ -239,7 +239,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
             } else if (clickItem == holder.getBinding().userAvatar) {
                 if (skill.getUid() == User.read(getContext()).getId()) {
                 } else {
-                    UserHomeActivity.show(getActivity(), skill.getUid(), holder.getDefaultAvatar(), skill.getNickname(), ((MainTab2Activity) getActivity()).getFloatButton(), null, holder.getBinding().userNickname);
+                    UserHomeActivity.show(getActivity(), skill.getUid());
                 }
             } else if (clickItem == holder.getBinding().btnUpdate) {
                 MobclickAgent.onEvent(getActivity(), UEvent.EDIT_SKILL);

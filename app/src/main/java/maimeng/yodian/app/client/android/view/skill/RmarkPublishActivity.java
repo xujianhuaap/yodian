@@ -86,7 +86,7 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
 
         mScreenWidth = getResources().getDisplayMetrics().widthPixels;
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
-        mBinding=bindView(R.layout.activity_rmark_publish);
+        mBinding = bindView(R.layout.activity_rmark_publish);
         mSkill = Parcels.unwrap(getIntent().getParcelableExtra("skill"));
         mSkillService = Network.getService(SkillService.class);
         EditTextProxy editTextProxy = new EditTextProxy();
@@ -105,7 +105,7 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
     private void refresh(Skill skill) {
 
         if (mBitmap != null) {
-            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap, 720, 720 * mScreenHeight / mScreenWidth).build();
+            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap, mScreenWidth, mScreenWidth * mScreenHeight / mScreenWidth).build();
 
             mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
                 @Override
@@ -158,7 +158,7 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             LogUtil.d(LOG_TAG, "count" + count);
-            mBinding.tvNumber.setText("" + s.length() + " / 150");
+            mBinding.tvNumber.setText(s.length() + " / 150");
         }
 
         @Override
@@ -171,7 +171,7 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
     @Override
     public void onClick(View v) {
 
-       if (v == mBinding.btnDone) {
+        if (v == mBinding.btnDone) {
             MobclickAgent.onEvent(this, UEvent.SKILL_PUBLISH_SUBMIT);
             if (mFile != null) {
                 Editable text = mBinding.editDiary.getText();
@@ -245,7 +245,7 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
             }
 
             mBinding.cheSelectPhoto.setChecked(false);
-            new ImageLoaderManager.Loader(mBinding.skillPic, uri).width(720).height(720 * mScreenHeight / mScreenWidth).callback(new ImageLoaderManager.Callback() {
+            new ImageLoaderManager.Loader(mBinding.skillPic, uri).width(mScreenWidth).height(mScreenWidth * mScreenHeight / mScreenWidth).callback(new ImageLoaderManager.Callback() {
                 @Override
                 public void onImageLoaded(Bitmap bitmap) {
                     RmarkPublishActivity.this.mBitmap = bitmap;
@@ -302,8 +302,8 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
     @Override
     protected void initToolBar(Toolbar toolbar) {
         super.initToolBar(toolbar);
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null){
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
@@ -315,7 +315,7 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
 

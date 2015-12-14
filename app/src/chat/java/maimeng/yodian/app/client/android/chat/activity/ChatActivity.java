@@ -174,7 +174,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     public static final int RESULT_CODE_COPY = 1;
     public static final int RESULT_CODE_DELETE = 2;
-    public static final int RESULT_CODE_FORWARD = 3;
     public static final int RESULT_CODE_OPEN = 4;
     public static final int RESULT_CODE_DWONLOAD = 5;
     public static final int RESULT_CODE_TO_CLOUD = 6;
@@ -832,14 +831,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     EMMessage deleteMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", -1));
                     conversation.removeMessage(deleteMsg.getMsgId());
                     adapter.refreshSeekTo(data.getIntExtra("position", adapter.getCount()) - 1);
-                    break;
-
-                case RESULT_CODE_FORWARD: // 转发消息
-                    EMMessage forwardMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", 0));
-                    Intent intent = new Intent(this, ForwardMessageActivity.class);
-                    intent.putExtra("forward_msg_id", forwardMsg.getMsgId());
-                    startActivity(intent);
-
                     break;
 
                 default:

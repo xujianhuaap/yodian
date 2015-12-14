@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -43,7 +42,6 @@ import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
-import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 
@@ -277,7 +275,7 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
             } else if (TextUtils.isEmpty(binding.wechat.getText()) && TextUtils.isEmpty(binding.qq.getText()) && TextUtils.isEmpty(binding.mobile.getText())) {
                 Toast.makeText(this, R.string.contact_input_empty_message, Toast.LENGTH_SHORT).show();
             } else {
-                service.modifyInfo(nickname.toString(), 0, "", "", binding.wechat.getText().toString(), new TypedBitmap.Builder(bitmap).setMaxSize(300).setAutoMatch(getResources()).build(), binding.qq.getText().toString(), binding.mobile.getText().toString(), "", "", ""
+                service.modifyInfo(nickname.toString(), 0, "", "", binding.wechat.getText().toString(), new TypedBitmap.Builder(bitmap).setSize(300).build(), binding.qq.getText().toString(), binding.mobile.getText().toString(), "", "", ""
                         , new Callback<ModifyUserResponse>() {
                             @Override
                             public void start() {

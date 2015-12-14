@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="user"
             type="maimeng.yodian.app.client.android.model.user.User" />
+
     </data>
 
 
@@ -29,6 +31,7 @@
                 android:text="@string/lable_avatar"
                 android:textSize="14sp" />
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,11 +39,13 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <maimeng.yodian.app.client.android.widget.CircleImageView
+                <maimeng.yodian.app.client.android.widget.YDViewBitmap
                     android:id="@+id/user_avatar"
                     android:layout_width="@dimen/user_avatar_dimen"
                     android:layout_height="@dimen/user_avatar_dimen"
-                    android:layout_margin="10dp" />
+                    android:layout_margin="10dp"
+                    android:src="@{user.avatar}"
+                    app:roundAsCircle="true" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -317,9 +322,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="@dimen/margin_large"
                 android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/btn_submit_background"
                 android:paddingLeft="100dp"
                 android:paddingRight="100dp"

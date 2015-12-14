@@ -292,37 +292,17 @@ public class MessageAdapter extends BaseAdapter {
 
     private View createViewByMessage(EMMessage message, int position) {
         switch (message.getType()) {
-            case LOCATION:
-                return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_location, null) : inflater.inflate(
-                        R.layout.row_sent_location, null);
             case IMAGE:
                 return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_picture, null) : inflater.inflate(
                         R.layout.row_sent_picture, null);
             case VOICE:
                 return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_voice, null) : inflater.inflate(
                         R.layout.row_sent_voice, null);
-            case VIDEO:
-                return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_video, null) : inflater.inflate(
-                        R.layout.row_sent_video, null);
-            case FILE:
-                return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_file, null) : inflater.inflate(
-                        R.layout.row_sent_file, null);
             default:
                 if (getItemViewType(position) == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
                     return inflater.inflate(R.layout.row_sent_wechat_vcard, null);
                 } else if (getItemViewType(position) == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
                     return inflater.inflate(R.layout.row_received_wechat_vcard, null);
-                } else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)) { // 语音通话
-                    return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_voice_call, null) : inflater
-                            .inflate(R.layout.row_sent_voice_call, null);
-                    // 视频通话
-                } else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false)) {
-                    return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_video_call,
-                            null) : inflater.inflate(R.layout.row_sent_video_call, null);
-                    // 含有菜单的消息
-                } else if (((DemoHXSDKHelper) HXSDKHelper.getInstance()).isRobotMenuMessage(message)) {
-                    return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_menu, null)
-                            : inflater.inflate(R.layout.row_sent_message, null);
                 } else {
                     return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_message,
                             null) : inflater.inflate(R.layout.row_sent_message, null);
@@ -345,8 +325,6 @@ public class MessageAdapter extends BaseAdapter {
                 holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
                 holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
 
-                holder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-                holder.tvList = (LinearLayout) convertView.findViewById(R.id.ll_layout);
                 holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
                 holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
@@ -356,8 +334,6 @@ public class MessageAdapter extends BaseAdapter {
                 holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
                 holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
 
-                holder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-                holder.tvList = (LinearLayout) convertView.findViewById(R.id.ll_layout);
                 holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
                 holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
@@ -382,16 +358,7 @@ public class MessageAdapter extends BaseAdapter {
                     holder.tv = (TextView) convertView.findViewById(R.id.tv_chatcontent);
                     holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
 
-                    holder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-                    holder.tvList = (LinearLayout) convertView.findViewById(R.id.ll_layout);
                 } catch (Exception e) {
-                }
-
-                // 语音通话及视频通话
-                if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)
-                        || message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false)) {
-                    holder.iv = (ImageView) convertView.findViewById(R.id.iv_call_icon);
-                    holder.tv = (TextView) convertView.findViewById(R.id.tv_chatcontent);
                 }
 
             } else if (message.getType() == EMMessage.Type.VOICE) {
@@ -403,47 +370,6 @@ public class MessageAdapter extends BaseAdapter {
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
                     holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
                     holder.iv_read_status = (ImageView) convertView.findViewById(R.id.iv_unread_voice);
-                } catch (Exception e) {
-                }
-            } else if (message.getType() == EMMessage.Type.LOCATION) {
-                try {
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
-                    holder.tv = (TextView) convertView.findViewById(R.id.tv_location);
-                    holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
-                    holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
-                    holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
-                } catch (Exception e) {
-                }
-            } else if (message.getType() == EMMessage.Type.VIDEO) {
-                try {
-                    holder.iv = ((ImageView) convertView.findViewById(R.id.chatting_content_iv));
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
-                    holder.tv = (TextView) convertView.findViewById(R.id.percentage);
-                    holder.pb = (ProgressBar) convertView.findViewById(R.id.progressBar);
-                    holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
-                    holder.size = (TextView) convertView.findViewById(R.id.chatting_size_iv);
-                    holder.timeLength = (TextView) convertView.findViewById(R.id.chatting_length_iv);
-                    holder.playBtn = (ImageView) convertView.findViewById(R.id.chatting_status_btn);
-                    holder.container_status_btn = (LinearLayout) convertView.findViewById(R.id.container_status_btn);
-                    holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
-
-                } catch (Exception e) {
-                }
-            } else if (message.getType() == EMMessage.Type.FILE) {
-                try {
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
-                    holder.tv_file_name = (TextView) convertView.findViewById(R.id.tv_file_name);
-                    holder.tv_file_size = (TextView) convertView.findViewById(R.id.tv_file_size);
-                    holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
-                    holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
-                    holder.tv_file_download_state = (TextView) convertView.findViewById(R.id.tv_file_state);
-                    holder.ll_container = (LinearLayout) convertView.findViewById(R.id.ll_file_container);
-                    // 这里是进度值
-                    holder.tv = (TextView) convertView.findViewById(R.id.percentage);
-                } catch (Exception e) {
-                }
-                try {
-                    holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
                 } catch (Exception e) {
                 }
             }
@@ -582,28 +508,11 @@ public class MessageAdapter extends BaseAdapter {
                     }
                     break;
                 }
-                if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)
-                        || message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false))
-                    // 音视频通话
-                    handleCallMessage(message, holder, position);
-                else if (((DemoHXSDKHelper) HXSDKHelper.getInstance()).isRobotMenuMessage(message))
-                    //含有列表的消息
-                    handleRobotMenuMessage(message, holder, position);
-                else
-                    handleTextMessage(message, holder, position);
-                break;
-            case LOCATION: // 位置
-                handleLocationMessage(message, holder, position, convertView);
+
+                handleTextMessage(message, holder, position);
                 break;
             case VOICE: // 语音
                 handleVoiceMessage(message, holder, position, convertView);
-                break;
-            case VIDEO: // 视频
-                handleVideoMessage(message, holder, position, convertView);
-                break;
-            case FILE: // 一般文件
-                handleFileMessage(message, holder, position, convertView);
-                break;
             default:
                 // not supported
         }
@@ -760,51 +669,6 @@ public class MessageAdapter extends BaseAdapter {
         }
 
 
-    }
-
-    private void handleRobotMenuMessage(EMMessage message, ViewHolder holder, final int postion) {
-        try {
-            JSONObject jsonObj = message.getJSONObjectAttribute(Constant.MESSAGE_ATTR_ROBOT_MSGTYPE);
-            if (jsonObj.has("choice")) {
-                JSONObject jsonChoice = jsonObj.getJSONObject("choice");
-                String title = jsonChoice.getString("title");
-                holder.tvTitle.setText(title);
-                setRobotMenuMessageLayout(holder.tvList, jsonChoice.getJSONArray("list"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (message.direct == EMMessage.Direct.SEND) {
-            switch (message.status) {
-                case SUCCESS: // 发送成功
-                    holder.pb.setVisibility(View.GONE);
-                    holder.staus_iv.setVisibility(View.GONE);
-                    break;
-                case FAIL: // 发送失败
-                    holder.pb.setVisibility(View.GONE);
-                    holder.staus_iv.setVisibility(View.VISIBLE);
-                    break;
-                case INPROGRESS: // 发送中
-                    holder.pb.setVisibility(View.VISIBLE);
-                    holder.staus_iv.setVisibility(View.GONE);
-                    break;
-                default:
-                    // 发送消息
-                    sendMsgInBackground(message, holder);
-            }
-        }
-    }
-
-    /**
-     * 音视频通话记录
-     *
-     * @param message
-     * @param holder
-     * @param position
-     */
-    private void handleCallMessage(EMMessage message, ViewHolder holder, final int position) {
-        TextMessageBody txtBody = (TextMessageBody) message.getBody();
-        holder.tv.setText(txtBody.getMessage());
     }
 
     private boolean isCard(EMMessage message) {
@@ -1283,49 +1147,6 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     /**
-     * 处理位置消息
-     *
-     * @param message
-     * @param holder
-     * @param position
-     * @param convertView
-     */
-    private void handleLocationMessage(final EMMessage message, final ViewHolder holder, final int position, View convertView) {
-        TextView locationView = ((TextView) convertView.findViewById(R.id.tv_location));
-        LocationMessageBody locBody = (LocationMessageBody) message.getBody();
-        locationView.setText(locBody.getAddress());
-        locationView.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                activity.startActivityForResult(
-                        (new Intent(activity, ContextMenu.class)).putExtra("position", position).putExtra("type",
-                                EMMessage.Type.LOCATION.ordinal()), ChatActivity.REQUEST_CODE_CONTEXT_MENU, new Bundle());
-                return false;
-            }
-        });
-
-        if (message.direct == EMMessage.Direct.RECEIVE) {
-            return;
-        }
-        // deal with send message
-        switch (message.status) {
-            case SUCCESS:
-                holder.pb.setVisibility(View.GONE);
-                holder.staus_iv.setVisibility(View.GONE);
-                break;
-            case FAIL:
-                holder.pb.setVisibility(View.GONE);
-                holder.staus_iv.setVisibility(View.VISIBLE);
-                break;
-            case INPROGRESS:
-                holder.pb.setVisibility(View.VISIBLE);
-                break;
-            default:
-                sendMsgInBackground(message, holder);
-        }
-    }
-
-    /**
      * 发送消息
      *
      * @param message
@@ -1649,8 +1470,6 @@ public class MessageAdapter extends BaseAdapter {
         TextView tv_file_size;
         TextView tv_file_download_state;
 
-        TextView tvTitle;
-        LinearLayout tvList;
         TextView vcard_nickname;
         ImageView vcard_avatar;
         View wechat_vcard_item;
