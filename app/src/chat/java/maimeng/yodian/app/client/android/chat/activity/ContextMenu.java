@@ -89,11 +89,6 @@ public class ContextMenu extends AppCompatActivity {
         finish();
     }
 
-    public void forward(View view) {
-        setResult(ChatActivity.RESULT_CODE_FORWARD, new Intent().putExtra("position", position));
-        finish();
-    }
-
     public void open(View v) {
         setResult(ChatActivity.RESULT_CODE_OPEN, new Intent().putExtra("position", position));
         finish();
