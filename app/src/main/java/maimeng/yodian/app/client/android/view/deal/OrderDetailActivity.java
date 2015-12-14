@@ -497,6 +497,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
                 startActivity(intent);
             }
         });
+        mBinding.orderSkillPic.setAspectRatio(1.8f);
 
         refreshInfo();
 
