@@ -1,6 +1,5 @@
 package maimeng.yodian.app.client.android.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +17,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.imagepipeline.request.ImageRequest;
 import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
@@ -28,23 +34,17 @@ import org.henjue.library.hnet.exception.HNetError;
 import java.util.ArrayList;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.LauncherCheck;
-import maimeng.yodian.app.client.android.model.*;
 import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.FloatResponse;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
-import maimeng.yodian.app.client.android.view.auth.AuthSettingInfoActivity;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.CheckUpdateDelegate;
 import maimeng.yodian.app.client.android.view.common.FloatActivity;
-import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.skill.IndexFragment;
 import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
 
@@ -106,12 +106,10 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
      * 更新头像
      */
     private void updateFloatButton() {
-        final float density = getResources().getDisplayMetrics().density;
-        int width = (int) (80 * density);
-        new ImageLoaderManager.Loader(floatButton, Uri.parse(User.read(this).getAvatar()))
-                .width(width).height(width).callback(new ImageLoaderManager.Callback() {
+        final DataSource<CloseableReference<CloseableImage>> sub = Fresco.getImagePipeline().fetchDecodedImage(ImageRequest.fromUri(Uri.parse(User.read(this).getAvatar())),this);
+        sub.subscribe(new BaseBitmapDataSubscriber() {
             @Override
-            public void onImageLoaded(Bitmap bitmap) {
+            protected void onNewResultImpl(Bitmap bitmap) {
                 final int dpi = getResources().getDisplayMetrics().densityDpi;
                 float rate = 0;
                 if (dpi > 140 && dpi < 180) {
@@ -126,18 +124,14 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
 
                 mAvatar = getCircleBitmap(bitmap, rate);
                 floatButton.setImageBitmap(mAvatar);
+                sub.close();
             }
 
             @Override
-            public void onLoadEnd() {
-
+            protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+                sub.close();
             }
-
-            @Override
-            public void onLoadFaild() {
-
-            }
-        }).start(this);
+        }, AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     //悬浮广告

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +29,6 @@ import maimeng.yodian.app.client.android.entry.skillseletor.ViewEntry;
 import maimeng.yodian.app.client.android.model.skill.Banner;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.AutoScrollViewPager;
 import maimeng.yodian.app.client.android.widget.ViewPagerFix;
@@ -218,12 +216,6 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
         private final User user;
         private boolean isMe;
 
-        public Bitmap getDefaultAvatar() {
-            return defaultAvatar;
-        }
-
-        private Bitmap defaultAvatar;
-
         public Skill getData() {
             return data;
         }
@@ -263,23 +255,6 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
             binding.btnEdit.setVisibility(View.INVISIBLE);
             binding.btnShare.setVisibility(View.INVISIBLE);
             binding.bottomDiv.setVisibility(View.INVISIBLE);
-//            defaultAvatar = ImageLoaderManager.image(mContext, Uri.parse(item.getAvatar80()));
-            new ImageLoaderManager.Loader(mContext, item.getAvatar80().getUri()).callback(new ImageLoaderManager.Callback() {
-                @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    defaultAvatar = bitmap;
-                }
-
-                @Override
-                public void onLoadEnd() {
-
-                }
-
-                @Override
-                public void onLoadFaild() {
-
-                }
-            }).start(mContext);
             binding.price.setText(Html.fromHtml(itemView.getResources().getString(R.string.lable_price, item.getPrice(), item.getUnit())));
             if (item.getAllow_sell() == 1) {
                 binding.iconCanbuy.setVisibility(View.VISIBLE);
