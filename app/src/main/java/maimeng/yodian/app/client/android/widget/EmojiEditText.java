@@ -61,7 +61,7 @@ public class EmojiEditText extends EditText {
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!resetText) {
-                    if (count >= 2) {// 表情符号的字符长度最小为2
+                    if (count >= 2 && s.length()>=cursorPos+count) {// 表情符号的字符长度最小为2
                         CharSequence input = s.subSequence(cursorPos, cursorPos
                                 + count);
                         if (containsEmoji(input.toString())) {
