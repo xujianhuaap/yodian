@@ -94,6 +94,7 @@ import maimeng.yodian.app.client.android.chat.utils.UserUtils;
 import maimeng.yodian.app.client.android.databings.ImageAdapter;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
+import maimeng.yodian.app.client.android.widget.YDView;
 
 public class MessageAdapter extends BaseAdapter {
 
@@ -102,28 +103,14 @@ public class MessageAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_RECV_TXT = 0;
     private static final int MESSAGE_TYPE_SENT_TXT = 1;
     private static final int MESSAGE_TYPE_SENT_IMAGE = 2;
-    private static final int MESSAGE_TYPE_SENT_LOCATION = 3;
-    private static final int MESSAGE_TYPE_RECV_LOCATION = 4;
-    private static final int MESSAGE_TYPE_RECV_IMAGE = 5;
-    private static final int MESSAGE_TYPE_SENT_VOICE = 6;
-    private static final int MESSAGE_TYPE_RECV_VOICE = 7;
-    private static final int MESSAGE_TYPE_SENT_VIDEO = 8;
-    private static final int MESSAGE_TYPE_RECV_VIDEO = 9;
-    private static final int MESSAGE_TYPE_SENT_FILE = 10;
-    private static final int MESSAGE_TYPE_RECV_FILE = 11;
-    private static final int MESSAGE_TYPE_SENT_VOICE_CALL = 12;
-    private static final int MESSAGE_TYPE_RECV_VOICE_CALL = 13;
-    private static final int MESSAGE_TYPE_SENT_VIDEO_CALL = 14;
-    private static final int MESSAGE_TYPE_RECV_VIDEO_CALL = 15;
-    private static final int MESSAGE_TYPE_SENT_ROBOT_MENU = 16;
-    private static final int MESSAGE_TYPE_RECV_ROBOT_MENU = 17;
-    private static final int MESSAGE_TYPE_SENT_WECHAT_VCARD = 18;
-    private static final int MESSAGE_TYPE_RECV_WECHAT_VCARD = 19;
+    private static final int MESSAGE_TYPE_RECV_IMAGE = 3;
+    private static final int MESSAGE_TYPE_SENT_VOICE = 4;
+    private static final int MESSAGE_TYPE_RECV_VOICE = 5;
+    private static final int MESSAGE_TYPE_SENT_WECHAT_VCARD = 6;
+    private static final int MESSAGE_TYPE_RECV_WECHAT_VCARD = 7;
 
 
     public static final String IMAGE_DIR = "chat/image/";
-    public static final String VOICE_DIR = "chat/audio/";
-    public static final String VIDEO_DIR = "chat/video";
 
     private String username;
     private LayoutInflater inflater;
@@ -245,7 +232,7 @@ public class MessageAdapter extends BaseAdapter {
      * 获取item类型数
      */
     public int getViewTypeCount() {
-        return 20;
+        return 8;
     }
 
     /**
@@ -260,30 +247,15 @@ public class MessageAdapter extends BaseAdapter {
             if (isCard(message)) {
                 return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_WECHAT_VCARD : MESSAGE_TYPE_SENT_WECHAT_VCARD;
             }
-            if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false))
-                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE_CALL : MESSAGE_TYPE_SENT_VOICE_CALL;
-            else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false))
-                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VIDEO_CALL : MESSAGE_TYPE_SENT_VIDEO_CALL;
-            else if (((DemoHXSDKHelper) HXSDKHelper.getInstance()).isRobotMenuMessage(message))
-                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_ROBOT_MENU : MESSAGE_TYPE_SENT_ROBOT_MENU;
-            else
-                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
+
+            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
         }
         if (message.getType() == EMMessage.Type.IMAGE) {
             return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_IMAGE : MESSAGE_TYPE_SENT_IMAGE;
 
         }
-        if (message.getType() == EMMessage.Type.LOCATION) {
-            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_LOCATION : MESSAGE_TYPE_SENT_LOCATION;
-        }
         if (message.getType() == EMMessage.Type.VOICE) {
             return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE : MESSAGE_TYPE_SENT_VOICE;
-        }
-        if (message.getType() == EMMessage.Type.VIDEO) {
-            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VIDEO : MESSAGE_TYPE_SENT_VIDEO;
-        }
-        if (message.getType() == EMMessage.Type.FILE) {
-            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_FILE : MESSAGE_TYPE_SENT_FILE;
         }
 
         return -1;// invalid
@@ -322,7 +294,7 @@ public class MessageAdapter extends BaseAdapter {
             if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
                 holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                 holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
-                holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
                 holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
 
                 holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
@@ -331,7 +303,7 @@ public class MessageAdapter extends BaseAdapter {
             } else if (itemViewType == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
                 holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                 holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
-                holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
                 holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
 
                 holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
@@ -340,7 +312,7 @@ public class MessageAdapter extends BaseAdapter {
             } else if (message.getType() == EMMessage.Type.IMAGE) {
                 try {
                     holder.iv = ((ImageView) convertView.findViewById(R.id.iv_sendPicture));
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv = (TextView) convertView.findViewById(R.id.percentage);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.progressBar);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -353,7 +325,7 @@ public class MessageAdapter extends BaseAdapter {
                 try {
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
                     // 这里是文字内容
                     holder.tv = (TextView) convertView.findViewById(R.id.tv_chatcontent);
                     holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
@@ -364,7 +336,7 @@ public class MessageAdapter extends BaseAdapter {
             } else if (message.getType() == EMMessage.Type.VOICE) {
                 try {
                     holder.iv = ((ImageView) convertView.findViewById(R.id.iv_voice));
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv = (TextView) convertView.findViewById(R.id.tv_length);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -590,7 +562,7 @@ public class MessageAdapter extends BaseAdapter {
      * @param message
      * @param imageView
      */
-    private void setUserAvatar(EMMessage message, ImageView imageView) {
+    private void setUserAvatar(EMMessage message, YDView imageView) {
         String from = message.getFrom();
         UserUtils.setUserAvatar(context, from, imageView);
     }
@@ -1453,7 +1425,7 @@ public class MessageAdapter extends BaseAdapter {
         TextView tv;
         ProgressBar pb;
         ImageView staus_iv;
-        ImageView iv_avatar;
+        YDView iv_avatar;
         TextView tv_usernick;
         ImageView playBtn;
         TextView timeLength;

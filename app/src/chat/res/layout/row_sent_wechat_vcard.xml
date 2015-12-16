@@ -17,7 +17,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_chat_activity">
 
-        <maimeng.yodian.app.client.android.widget.CircleImageView
+        <maimeng.yodian.app.client.android.widget.YDView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:roundAsCircle="true"
+            app:roundingBorderColor="@color/colorPrimary"
+            app:roundingBorderWidth="1dp"
             android:id="@+id/iv_userhead"
             android:layout_width="@dimen/size_avatar"
             android:layout_height="@dimen/size_avatar"

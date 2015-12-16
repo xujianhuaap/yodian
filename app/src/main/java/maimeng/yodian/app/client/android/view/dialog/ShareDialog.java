@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -20,15 +21,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.imagepipeline.request.ImageRequest;
 import com.tencent.open.utils.SystemUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import net.glxn.qrgen.android.QRCode;
 
 import org.henjue.library.share.Type;
-import org.henjue.library.share.manager.IAuthManager;
 import org.henjue.library.share.manager.IShareManager;
-import org.henjue.library.share.manager.QQAuthManager;
 import org.henjue.library.share.manager.QQShareManager;
 import org.henjue.library.share.manager.ShareFactory;
 import org.henjue.library.share.manager.WechatShareManager;
@@ -50,8 +55,8 @@ import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.widget.YDView;
 
 
 /**
@@ -71,7 +76,6 @@ public class ShareDialog extends DialogFragment {
     private YApplication app;
     private Skill skill;
     private Rmark rmark;
-    private Bitmap shareBitmap;
     private int type;
     private long scid;
     private long sid;
@@ -252,30 +256,39 @@ public class ShareDialog extends DialogFragment {
         redirect_url = args.getString("redirect_url");
         reportContent = args.getString("reportContent");
         targetNickname = args.getString("targetNickname");
+
         if (skill.getPic() != null && (skill.getPic().startsWith("http") || skill.getPic().startsWith("ftp"))) {
             Toast.makeText(getActivity(), "正在分享路上...", Toast.LENGTH_SHORT).show();
-            new ImageLoaderManager.Loader(getActivity(), Uri.parse(skill.getPic())).callback(new ImageLoaderManager.Callback() {
+            DataSource<CloseableReference<CloseableImage>> sub = Fresco.getImagePipeline().fetchDecodedImage(ImageRequest.fromUri(Uri.parse(skill.getPic())), null);
+            sub.subscribe(new BaseBitmapDataSubscriber() {
+
                 @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    try {
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(tempFile));
-//                        skill.setPic(tempFile.toString());
-                        end = true;
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+
+                }
+
+                @Override
+                protected void onNewResultImpl(@Nullable Bitmap bitmap) {
+                    if (bitmap != null) {
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(tempFile);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                            end = true;
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } finally {
+                            if (fos != null) {
+                                try {
+                                    fos.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
                     }
                 }
-
-                @Override
-                public void onLoadEnd() {
-
-                }
-
-                @Override
-                public void onLoadFaild() {
-
-                }
-            }).start(this);
+            }, AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
             end = true;
         }
@@ -293,9 +306,11 @@ public class ShareDialog extends DialogFragment {
 
         shareView = view.findViewById(R.id.share);
 
-        ImageView avater = (ImageView) shareView.findViewById(R.id.avatar);
-        ImageView contentPic = (ImageView) shareView.findViewById(R.id.contenPic);
-
+        YDView avater = (YDView) shareView.findViewById(R.id.avatar);
+        YDView contentPic = (YDView) shareView.findViewById(R.id.contenPic);
+        ViewGroup.LayoutParams lp = contentPic.getLayoutParams();
+        lp.width=getResources().getDisplayMetrics().widthPixels;
+        contentPic.setLayoutParams(lp);
 
         TextView title = (TextView) shareView.findViewById(R.id.tv_skill_title);
         TextView price = (TextView) shareView.findViewById(R.id.tv_skill_price);
@@ -306,12 +321,11 @@ public class ShareDialog extends DialogFragment {
         String avaterPath = skill.getAvatar();
 
         if (path != null) {
-
-            new ImageLoaderManager.Loader(contentPic, Uri.parse(path)).start(this);
+            contentPic.setImageURI(Uri.parse(path));
         }
 
         if (avaterPath != null) {
-            new ImageLoaderManager.Loader(avater, Uri.parse(avaterPath)).start(this);
+            avater.setImageURI(Uri.parse(avaterPath));
 
         }
 
@@ -382,7 +396,9 @@ public class ShareDialog extends DialogFragment {
         view.destroyDrawingCache();
         view.buildDrawingCache();
         Bitmap bitmap = view.getDrawingCache();
-
+//        bitmap=Bitmap.createBitmap( view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+//        Canvas canvas=new Canvas(bitmap);
+//        view.draw(canvas);
         return bitmap;
     }
 

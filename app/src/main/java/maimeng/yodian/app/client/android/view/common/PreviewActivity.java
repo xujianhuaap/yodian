@@ -2,19 +2,16 @@ package maimeng.yodian.app.client.android.view.common;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.widget.YDView;
 
 /**
@@ -44,6 +41,11 @@ public class PreviewActivity extends AbstractActivity {
                 finish();
             }
         });
+        ViewGroup.LayoutParams lp = mPreview.getLayoutParams();
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        lp.width= displayMetrics.widthPixels;
+        lp.height= displayMetrics.heightPixels;
+        mPreview.setLayoutParams(lp);
         mPreview.setImageURI(Uri.parse(mUser.getAvatar()));
 
     }
