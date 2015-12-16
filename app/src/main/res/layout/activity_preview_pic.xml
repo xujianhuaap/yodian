@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <maimeng.yodian.app.client.android.widget.YDView
         android:id="@+id/preview_pic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
