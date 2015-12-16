@@ -2,19 +2,17 @@ package maimeng.yodian.app.client.android.view.common;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
+import maimeng.yodian.app.client.android.widget.YDView;
 
 /**
  * Created by xujianhua on 9/22/15.
@@ -22,7 +20,7 @@ import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 public class PreviewActivity extends AbstractActivity {
 
     private User mUser;
-    private ImageView mPreview;
+    private YDView mPreview;
 
 
     public static void show(Context context, User user) {
@@ -36,35 +34,22 @@ public class PreviewActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_pic, false);
         mUser = get("user");
-        mPreview = (ImageView) findViewById(R.id.preview_pic);
+        mPreview = (YDView) findViewById(R.id.preview_pic);
         mPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        new ImageLoaderManager.Loader(mPreview,
-                Uri.parse(mUser.getAvatar())).callback(new ImageCallBackProxy()).start(this);
+        ViewGroup.LayoutParams lp = mPreview.getLayoutParams();
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        lp.width= displayMetrics.widthPixels;
+        lp.height= displayMetrics.heightPixels;
+        mPreview.setLayoutParams(lp);
+        mPreview.setImageURI(Uri.parse(mUser.getAvatar()));
 
     }
 
-
-    private final class ImageCallBackProxy implements ImageLoaderManager.Callback {
-        @Override
-        public void onLoadFaild() {
-            Toast.makeText(PreviewActivity.this, "查看大图失败", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onLoadEnd() {
-
-        }
-
-        @Override
-        public void onImageLoaded(Bitmap bitmap) {
-            mPreview.setImageBitmap(bitmap);
-        }
-    }
 
 
 }

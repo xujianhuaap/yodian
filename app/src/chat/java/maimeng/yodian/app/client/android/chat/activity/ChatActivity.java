@@ -42,17 +42,14 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -101,7 +98,6 @@ import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.io.File;
@@ -119,7 +115,6 @@ import maimeng.yodian.app.client.android.chat.adapter.ExpressionAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.ExpressionPagerAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.MessageAdapter;
 import maimeng.yodian.app.client.android.chat.adapter.VoicePlayClickListener;
-import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
@@ -128,16 +123,14 @@ import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.common.UEvent;
-import maimeng.yodian.app.client.android.databings.ImageAdapter;
-import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
+import maimeng.yodian.app.client.android.widget.YDView;
 
 
 /**
@@ -256,7 +249,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private Skill skill;
     private LinearLayout skillContainer;
     private View btnShowSkill;
-    private ImageView skillPic;
+    private YDView skillPic;
     private TextView skillName;
     private TextView skillPrice;
 
@@ -424,7 +417,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         emojiIconContainer = (LinearLayout) findViewById(R.id.ll_face_container);
         btnContainer = (GridView) findViewById(R.id.ll_btn_container);
         skillContainer = (LinearLayout) findViewById(R.id.skill_container);
-        skillPic = (ImageView) findViewById(R.id.skill_pic);
+        skillPic = (YDView) findViewById(R.id.skill_pic);
         skillName = (TextView) findViewById(R.id.skill_name);
         skillPrice = (TextView) findViewById(R.id.skill_price);
         btnShowSkill = findViewById(R.id.btn_show_skill);
@@ -1020,7 +1013,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 public void run() {
                     skillContainer.setVisibility(View.VISIBLE);
                     final String pic = skill.getPic();
-                    new ImageLoaderManager.Loader(skillPic, pic).width(skillPic.getWidth()).height(skillPic.getHeight()).start(ChatActivity.this);
+                    skillPic.setImageURI(Uri.parse(pic));
                     skillName.setText(skill.getName());
                     skillPrice.setText(Html.fromHtml(getResources().getString(R.string.lable_price, skill.getPrice(), skill.getUnit())));
                 }

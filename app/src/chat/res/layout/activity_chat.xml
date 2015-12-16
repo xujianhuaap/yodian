@@ -185,12 +185,11 @@
             android:paddingTop="@dimen/padding_small"
             android:visibility="gone">
 
-            <ImageView
+            <maimeng.yodian.app.client.android.widget.YDView
                 android:id="@+id/skill_pic"
                 android:layout_width="@dimen/btn_width_large"
                 android:layout_height="@dimen/btn_height_large"
-                android:layout_marginLeft="@dimen/margin_small"
-                android:scaleType="fitXY" />
+                android:layout_marginLeft="@dimen/margin_small" />
 
             <LinearLayout
                 android:layout_width="match_parent"

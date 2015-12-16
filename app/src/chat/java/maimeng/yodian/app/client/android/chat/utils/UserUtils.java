@@ -1,18 +1,12 @@
 package maimeng.yodian.app.client.android.chat.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.widget.ImageView;
 
-import maimeng.yodian.app.client.android.BuildConfig;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import maimeng.yodian.app.client.android.network.loader.Circle;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.widget.YDView;
 

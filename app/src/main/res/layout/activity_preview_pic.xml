@@ -3,8 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <maimeng.yodian.app.client.android.widget.YDView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/preview_pic"
+        app:actualImageScaleType="fitCenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter" />
