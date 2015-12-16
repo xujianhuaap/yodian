@@ -123,6 +123,7 @@ public class SkillPreviewActivity extends AbstractActivity implements
 
 
         refresh(mSkill);
+
         new ImageLoaderManager.Loader(this, Uri.parse(mSkill.getPic())).callback(new ImageLoaderManager.Callback() {
             @Override
             public void onImageLoaded(Bitmap bitmap) {

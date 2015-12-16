@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
+         <maimeng.yodian.app.client.android.widget.YDViewBitmap
             android:id="@+id/iv_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,7 +34,7 @@
                     android:layout_height="300dp"
                     android:background="#d2d2d2">
 
-                    <ImageView
+                    <maimeng.yodian.app.client.android.widget.YDViewBitmap
                         android:id="@+id/skill_pic"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
@@ -116,12 +116,14 @@
 
                 <TextView
                     android:id="@+id/btn_done"
-                    android:layout_width="@dimen/btn_width_large"
+                    android:layout_width="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_submit"
                     android:gravity="center"
                     android:padding="@dimen/padding_small"
+                    android:layout_marginLeft="@dimen/margin_Xlarge"
+                    android:layout_marginRight="@dimen/margin_Xlarge"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_large"
                     android:layout_marginTop="@dimen/margin_Xlarge"
