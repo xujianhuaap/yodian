@@ -7,8 +7,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <maimeng.yodian.app.client.android.widget.RoundImageView
+            <maimeng.yodian.app.client.android.widget.YDView
                 android:id="@+id/avatar"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                app:roundAsCircle="true"
+                app:roundingBorderColor="@color/colorPrimary"
+                app:roundingBorderWidth="1dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginRight="25dp"
@@ -78,7 +82,7 @@
 
 
 
-    <ImageView
+    <maimeng.yodian.app.client.android.widget.YDView
         android:id="@+id/contenPic"
         android:layout_width="match_parent"
         android:layout_height="200dp"
