@@ -11,7 +11,11 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true">
 
-        <maimeng.yodian.app.client.android.widget.CircleImageView
+        <maimeng.yodian.app.client.android.widget.YDView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:roundAsCircle="true"
+            app:roundingBorderColor="@color/colorPrimary"
+            app:roundingBorderWidth="1dp"
             android:id="@+id/avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"

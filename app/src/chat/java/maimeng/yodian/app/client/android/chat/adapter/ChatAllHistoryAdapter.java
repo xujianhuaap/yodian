@@ -52,6 +52,7 @@ import maimeng.yodian.app.client.android.chat.utils.CommonUtils;
 import maimeng.yodian.app.client.android.chat.utils.DateUtils;
 import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.utils.UserUtils;
+import maimeng.yodian.app.client.android.widget.YDView;
 
 /**
  * 显示所有聊天记录adpater
@@ -104,7 +105,7 @@ public class ChatAllHistoryAdapter extends BaseAdapter implements Filterable {
             holder.unreadLabel = (TextView) convertView.findViewById(R.id.unread_msg_number);
             holder.message = (TextView) convertView.findViewById(R.id.message);
             holder.time = (TextView) convertView.findViewById(R.id.time);
-            holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
+            holder.avatar = (YDView) convertView.findViewById(R.id.avatar);
             holder.msgState = convertView.findViewById(R.id.msg_state);
             holder.list_item_layout = (RelativeLayout) convertView.findViewById(R.id.list_item_layout);
             convertView.setTag(holder);
@@ -264,7 +265,7 @@ public class ChatAllHistoryAdapter extends BaseAdapter implements Filterable {
         /**
          * 用户头像
          */
-        ImageView avatar;
+        YDView avatar;
         /**
          * 最后一条消息的发送状态
          */
