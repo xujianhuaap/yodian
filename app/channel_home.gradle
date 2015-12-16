@@ -4,7 +4,4 @@ android {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "home", CHANNEL_ID: 0, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
     }
-//    productFlavors.all {
-//        flavor -> flavor.manifestPlaceholders = [CHANNEL_ID: channel_id, UMENG_CHANNEL_VALUE: channel_name]
-//    }
 }
