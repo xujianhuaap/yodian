@@ -155,7 +155,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
 
     }
 
-    private boolean onLinePay = false;
+    private boolean onLinePay = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,9 +305,6 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 }
             }
         });
-        if(info.getCertifi_status()==CertifyStatus.PASS){
-            onLinePay=true;
-        }
         binding.onLinePay.setChecked(onLinePay);
         if (isEdit) {
             MobclickAgent.onEvent(this, UEvent.EDIT_SKILL);
