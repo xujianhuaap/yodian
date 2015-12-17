@@ -8,6 +8,7 @@
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/login_bg">
@@ -46,13 +47,14 @@
             android:layout_marginTop="@dimen/margin_Xlarge"
             android:orientation="vertical">
 
-            <maimeng.yodian.app.client.android.widget.CircleImageView
+            <maimeng.yodian.app.client.android.widget.YDViewBitmap
                 android:id="@+id/img_avatar"
                 android:layout_width="@dimen/setup_wizard_avatar_size"
                 android:layout_height="@dimen/setup_wizard_avatar_size"
                 android:layout_gravity="center_horizontal"
                 android:background="@null"
-                android:scaleType="fitCenter"
+                app:actualImageScaleType="fitCenter"
+                app:roundAsCircle="true"
                 android:src="@drawable/user_avatar_default" />
 
 

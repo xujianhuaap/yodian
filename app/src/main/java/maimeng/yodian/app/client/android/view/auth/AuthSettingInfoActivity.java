@@ -152,22 +152,8 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
 
     private void setDefaultInfo(String nickname, String headUrl) {
         if (headUrl == null) return;
-        new ImageLoaderManager.Loader(binding.imgAvatar, Uri.parse(headUrl)).circle(Circle.obtain()).callback(new ImageLoaderManager.Callback() {
-            @Override
-            public void onImageLoaded(Bitmap bitmap) {
-                AuthSettingInfoActivity.this.bitmap = bitmap;
-            }
-
-            @Override
-            public void onLoadEnd() {
-
-            }
-
-            @Override
-            public void onLoadFaild() {
-
-            }
-        }).start(this);
+        binding.imgAvatar.setImageURI(Uri.parse(headUrl));
+        bitmap=binding.imgAvatar.getBitmap();
         binding.nickname.setText(nickname);
     }
 
