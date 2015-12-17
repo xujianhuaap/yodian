@@ -153,7 +153,6 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
     private void setDefaultInfo(String nickname, String headUrl) {
         if (headUrl == null) return;
         binding.imgAvatar.setImageURI(Uri.parse(headUrl));
-        bitmap=binding.imgAvatar.getBitmap();
         binding.nickname.setText(nickname);
     }
 
@@ -208,22 +207,7 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
                         dialogAlert.dismiss();
                     }
                     if (tempFile != null) {
-                        new ImageLoaderManager.Loader(binding.imgAvatar, Uri.fromFile(tempFile)).circle(Circle.obtain()).callback(new ImageLoaderManager.Callback() {
-                            @Override
-                            public void onImageLoaded(Bitmap bitmap) {
-                                AuthSettingInfoActivity.this.bitmap = bitmap;
-                            }
-
-                            @Override
-                            public void onLoadEnd() {
-
-                            }
-
-                            @Override
-                            public void onLoadFaild() {
-
-                            }
-                        }).start(this);
+                        binding.imgAvatar.setImageURI(Uri.fromFile(tempFile));
                     }
 
                     break;
@@ -252,6 +236,7 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_submit) {
+            bitmap=binding.imgAvatar.getBitmap();
             final Editable nickname = binding.nickname.getText();
             if (TextUtils.isEmpty(nickname)) {
                 Toast.makeText(this, R.string.nickname_input_empty_message, Toast.LENGTH_SHORT).show();
