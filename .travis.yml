@@ -2,31 +2,17 @@ language: android
 
 android:
   components:
-    - platform-tools
-    - tools
     - build-tools-23.0.2
     - android-23
-    - add-on
-    - extra
-  licenses:
-    - 'android-sdk-preview-license-*'
-    - 'android-sdk-license-.+'
-    - 'google-gdk-license-.+'
-
-jdk:
-  - oraclejdk7
-
+    - extra-android-m2repository
+    - extra-android-support
 script:
-  - ./gradlew clean build
-
+  - ./gradlew :yodian_app:assemblePreview
+after_success:
+    - fir p app/build/outputs/apk/yodian_app-preview.apk -T 39795a5d8682393820e55dcf750809f6
 notifications:
   recipients:
     - 1091041307@qq.com
     - 1923873@qq.com
 
 sudo: false
-
-cache:
-  directories:
-    - $HOME/.gradle
-    - $HOME/.gradle/wrapper/

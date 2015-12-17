@@ -13,7 +13,7 @@ android {
                 if (buildName == 'debug') {
                     def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}.apk")
                     output.outputFile = new File(outputFile.parent, fileName)
-                } else {
+                } else if(buildName == 'release'){
                     def timemillis = Calendar.getInstance().getTimeInMillis();
                     def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}-${year}${month}${day}-${timemillis}.apk")
                     output.outputFile = new File(outputFile.parent, fileName)
