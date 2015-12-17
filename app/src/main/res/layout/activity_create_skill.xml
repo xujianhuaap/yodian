@@ -34,7 +34,7 @@
                     android:layout_weight="0.3"
                     android:background="#fff">
 
-                    <ImageView
+                    <maimeng.yodian.app.client.android.widget.YDViewBitmap
                         android:id="@+id/skill_pic"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

@@ -216,23 +216,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             }
         });
         if (mTemplate.getPic() != null) {
-            new ImageLoaderManager.Loader(binding.skillPic, Uri.parse(mTemplate.getPic())).callback(new ImageLoaderManager.Callback() {
-                @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
-                        CreateOrEditSkillActivity.this.mBitmap = null;
-                    }
-                    CreateOrEditSkillActivity.this.mBitmap = bitmap;
-                }
-
-                @Override
-                public void onLoadEnd() {
-                }
-
-                @Override
-                public void onLoadFaild() {
-                }
-            }).width((int) getResources().getDimension(R.dimen.skill_list_item_img_width)).height((int) getResources().getDimension(R.dimen.skill_list_item_img_width) * 2 / 3).start(this);
+            binding.skillPic.setImageURI(Uri.parse(mTemplate.getPic()));
         }
         binding.skillName.addTextChangedListener(new EditTextChangeListener(binding.skillName, binding, mTemplate));
         binding.skillContent.addTextChangedListener(new EditTextChangeListener(binding.skillContent, binding, mTemplate));
@@ -353,6 +337,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     }
 
     private void doDone() {
+        mBitmap=binding.skillPic.getBitmap();
         final SkillTemplate template = binding.getTemplate();
         if (TextUtils.isEmpty(template.getName())) {
             binding.getTemplate();
@@ -530,27 +515,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             } else if (requestCode == REQUEST_PHOTORESOULT) {
                 if (tempFile != null) {
                     final Uri url = Uri.fromFile(tempFile);
-                    int width = binding.skillPic.getWidth();
-                    new ImageLoaderManager.Loader(binding.skillPic, url).callback(new ImageLoaderManager.Callback() {
-                        @Override
-                        public void onImageLoaded(Bitmap bitmap) {
-                            if (CreateOrEditSkillActivity.this.mBitmap != null && !CreateOrEditSkillActivity.this.mBitmap.isRecycled()) {
-                                CreateOrEditSkillActivity.this.mBitmap.recycle();
-                                CreateOrEditSkillActivity.this.mBitmap = null;
-                            }
-                            CreateOrEditSkillActivity.this.mBitmap = bitmap;
-                        }
-
-                        @Override
-                        public void onLoadEnd() {
-
-                        }
-
-                        @Override
-                        public void onLoadFaild() {
-
-                        }
-                    }).width(width).height(width * 2 / 3).start(this);
+                    binding.skillPic.setImageURI(url);
                     toggle();
                     tempFile.deleteOnExit();
                 }
