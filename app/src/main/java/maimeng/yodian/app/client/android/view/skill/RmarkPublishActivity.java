@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -27,6 +28,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imageutils.BitmapUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.henjue.library.hnet.Response;
@@ -105,7 +110,7 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
     private void refresh(Skill skill) {
 
         if (mBitmap != null) {
-            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap, mScreenWidth, mScreenWidth * mScreenHeight / mScreenWidth).build();
+            TypedBitmap typedBitmap = new TypedBitmap.Builder(mBitmap, mBitmap.getWidth(), mBitmap.getHeight()).build();
 
             mSkillService.add_rmark(mSkill.getId(), skill.getContent(), typedBitmap, new ToastCallback(this) {
                 @Override
@@ -245,26 +250,45 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
             }
 
             mBinding.cheSelectPhoto.setChecked(false);
-            new ImageLoaderManager.Loader(mBinding.skillPic, uri).width(mScreenWidth).height(mScreenWidth * mScreenHeight / mScreenWidth).callback(new ImageLoaderManager.Callback() {
-                @Override
-                public void onImageLoaded(Bitmap bitmap) {
-                    RmarkPublishActivity.this.mBitmap = bitmap;
-                    mBinding.ivPic.setImageBitmap(bitmap);
-                }
 
-                @Override
-                public void onLoadEnd() {
 
-                }
-
-                @Override
-                public void onLoadFaild() {
-
-                }
-            }).start(this);
+            mBitmap = getScaledBitmap(uri);
+            mBinding.skillPic.setImageBitmap(mBitmap);
+            mBinding.ivPic.setImageBitmap(mBitmap);
+            if(mBitmap!=null){
+                LogUtil.d(LOG_TAG ,"mBitmap bytecount: %d,width: %d,rowByte: %d",mBitmap.getByteCount(),mBitmap.getWidth(),mBitmap.getRowBytes());
+            }
 
 
         }
+    }
+
+    private Bitmap getScaledBitmap(Uri uri) {
+        BitmapFactory.Options options=new BitmapFactory.Options();
+        options.inJustDecodeBounds=true;
+        options.inSampleSize=1;
+        BitmapFactory.decodeFile(uri.getPath(),options);
+        int height=options.outHeight;
+        int width=options.outWidth;
+        int temWidth=width;
+        int temHeight=0;
+        while (true){
+            temHeight=temWidth*height/width;
+            if(temWidth*temHeight*4<2.5*1024*1024){
+                width=temWidth;
+                height=temHeight;
+                break;
+            }
+            temWidth-=1;
+        }
+        Bitmap bitmap=BitmapFactory.decodeFile(uri.getPath());
+        if(bitmap!=null){
+            Bitmap bmp=Bitmap.createScaledBitmap(bitmap, width, height, false);
+            LogUtil.d(LOG_TAG, "Bitmap bytecount: %d,width: %d,rowByte: %d", bitmap.getByteCount(), bitmap.getWidth(), bitmap.getRowBytes());
+            return bmp;
+        }
+        return null;
+
     }
 
     /**

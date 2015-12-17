@@ -42,7 +42,7 @@ public class RmarkListAdapter extends AbstractListAdapter<Rmark> {
         ViewHolder holder;
         if (convertView == null) {
             ItemRmarkListBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_rmark_list, parent, false);
-            binding.pic.setAspectRatio(1.0f);
+            binding.pic.setAspectRatio(0.2f);
             holder = new ViewHolder(binding);
             convertView = binding.getRoot();
             convertView.setTag(holder);

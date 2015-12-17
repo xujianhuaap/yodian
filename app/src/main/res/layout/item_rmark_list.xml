@@ -79,11 +79,10 @@
         <maimeng.yodian.app.client.android.widget.YDView
             android:id="@+id/pic"
             android:layout_width="@dimen/skill_list_item_img_width"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/skill_list_item_img_width"
             android:layout_below="@id/rmark_header"
             android:layout_centerHorizontal="true"
-            android:maxHeight="2048px"
-            app:actualImageScaleType="centerInside"
+            app:actualImageScaleType="centerCrop"
             app:placeholderImage="@mipmap/default_image" />
 
         <TextView

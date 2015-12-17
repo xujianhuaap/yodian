@@ -59,7 +59,6 @@ public class SkillPreviewActivity extends AbstractActivity implements
     private int mEditStatus;
 
     private Skill mSkill;
-    private Bitmap mBitmap;
     private RmarkReviewListAdapter mAdapter;
     private CallBackProxy mCallBackProxy;
     private SkillService mSkillService;
@@ -123,24 +122,6 @@ public class SkillPreviewActivity extends AbstractActivity implements
 
 
         refresh(mSkill);
-
-        new ImageLoaderManager.Loader(this, Uri.parse(mSkill.getPic())).callback(new ImageLoaderManager.Callback() {
-            @Override
-            public void onImageLoaded(Bitmap bitmap) {
-                mBitmap = Bitmap.createScaledBitmap(bitmap, 720, 720, false);
-            }
-
-            @Override
-            public void onLoadEnd() {
-
-            }
-
-            @Override
-            public void onLoadFaild() {
-
-            }
-        }).width(240).height(240).start(this);
-
     }
 
 
