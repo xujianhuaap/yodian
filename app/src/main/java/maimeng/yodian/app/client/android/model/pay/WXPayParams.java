@@ -124,4 +124,11 @@ public class WXPayParams implements IPayParams,Parcelable{
             return new WXPayParams[size];
         }
     };
+
+
+    @Override
+    public String toString() {
+        super.toString();
+        return String.format("appid: %s,partnerId: %s,prepayid:%s,packageX:%s,noncestr: %s,timestamp: %s ,sign %s",appid,partnerid,prepayid,packageX,noncestr,timestamp,sign);
+    }
 }

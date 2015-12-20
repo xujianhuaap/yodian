@@ -67,7 +67,9 @@ import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 
 
 /**
- * Created by xujianhua on 10/10/15.
+ * Created by xujianhua on
+ * `-++--
+ * 10/10/15.
  */
 public class OrderDetailActivity extends AbstractActivity implements PtrHandler, Callback<OrderInfoResponse> {
 
@@ -619,6 +621,7 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
 
             if (data != null) {
                 if (requestCode == REQUEST_ORDER_BUY) {
+                    refreshInfo();
                     Lottery lottery = Parcels.unwrap(data.getParcelableExtra("lottery"));
                     if (lottery.getIsLottery() == 1) {
                         LotteryActivity.show(this, lottery);

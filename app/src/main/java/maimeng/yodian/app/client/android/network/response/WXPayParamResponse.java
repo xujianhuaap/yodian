@@ -5,7 +5,7 @@ import maimeng.yodian.app.client.android.model.pay.WXPayParams;
 /**
  * Created by xujianhua on 10/13/15.
  */
-public class WXPayParamResponse {
+public class WXPayParamResponse extends Response{
     private DataNode data;
 
     public DataNode getData() {

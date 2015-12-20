@@ -91,8 +91,11 @@ public class WaitDialog extends DialogFragment {
 
     @Override
     public void dismiss() {
-        if(!getActivity().isFinishing()){
-            super.dismiss();
+        Activity activity=getActivity();
+        if(activity!=null){
+            if(!getActivity().isFinishing()){
+                super.dismiss();
+            }
         }
 
     }
