@@ -305,37 +305,52 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
             lottery.setLotUrl(String.format(lotUrl + "?uid=%1$d&oid=%2$d", User.read(PayListActivity.this).getUid(), lottery.getOid()));
             if (payType == PAY_TYPE_ZHIFUBAO) {
                 ZhiFuBaoPayParamsResponse zhiFuBaoPayParamsResponse = gson.fromJson(s, ZhiFuBaoPayParamsResponse.class);
-                IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid(),PAY_TYPE_ZHIFUBAO);
-                pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Alipay, zhiFuBaoPayParamsResponse.getData(), status);
-                if (pay != null) {
-                    pay.sendReq();
+                if(zhiFuBaoPayParamsResponse.isSuccess()){
+                    IPayStatus status = new PayStatus(zhiFuBaoPayParamsResponse.getData().getOid(),PAY_TYPE_ZHIFUBAO);
+                    pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Alipay, zhiFuBaoPayParamsResponse.getData(), status);
+                    if (pay != null) {
+                        pay.sendReq();
+                    }
+                }else {
+                    Toast.makeText(PayListActivity.this,zhiFuBaoPayParamsResponse.getMsg(),Toast.LENGTH_SHORT).show();
                 }
+
             } else if (payType == PAY_TYPE_WECHAT) {
                 WXPayParamResponse paramResponse = gson.fromJson(s, WXPayParamResponse.class);
-                IPayStatus status = new PayStatus(paramResponse.getData().getOid(),PAY_TYPE_WECHAT);
-                pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Wechat, paramResponse.getData().getParams(), status);
-                if (pay != null) {
-                    pay.sendReq();
+                if(paramResponse.isSuccess()){
+                    IPayStatus status = new PayStatus(paramResponse.getData().getOid(),PAY_TYPE_WECHAT);
+                    pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Wechat, paramResponse.getData().getParams(), status);
+                    if (pay != null) {
+                        pay.sendReq();
+                    }
+                }else {
+                    Toast.makeText(PayListActivity.this,paramResponse.getMsg(),Toast.LENGTH_SHORT).show();
                 }
+
             } else if (payType == PAY_TYPE_REMAINDER) {
                 RemainderPayParamsResponse remainderPayParamsResponse = gson.fromJson(s, RemainderPayParamsResponse.class);
-                IPayStatus status = new PayStatus(remainderPayParamsResponse.getData().getOid(),PAY_TYPE_REMAINDER);
-                pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Remainder, remainderPayParamsResponse.getData(), status);
-                final android.support.v7.app.AlertDialog alertDialog = new ViewDialog.Builder(PayListActivity.this).setMesage(getResources().getString(R.string.pay_deal_tip))
-                        .setPositiveListener(new ViewDialog.IPositiveListener() {
-                            @Override
-                            public void positiveClick() {
-                                if (pay != null) {
-                                    pay.sendReq();
+                if(remainderPayParamsResponse.isSuccess()){
+                    IPayStatus status = new PayStatus(remainderPayParamsResponse.getData().getOid(),PAY_TYPE_REMAINDER);
+                    pay = IPayFactory.createPay(PayListActivity.this, IPayFactory.Type.Remainder, remainderPayParamsResponse.getData(), status);
+                    final android.support.v7.app.AlertDialog alertDialog = new ViewDialog.Builder(PayListActivity.this).setMesage(getResources().getString(R.string.pay_deal_tip))
+                            .setPositiveListener(new ViewDialog.IPositiveListener() {
+                                @Override
+                                public void positiveClick() {
+                                    if (pay != null) {
+                                        pay.sendReq();
+                                    }
                                 }
-                            }
-                        }, "").setNegtiveListener(new ViewDialog.INegativeListener() {
-                            @Override
-                            public void negtiveClick() {
-                                finish();
-                            }
-                        }, "").create();
-                alertDialog.show();
+                            }, "").setNegtiveListener(new ViewDialog.INegativeListener() {
+                                @Override
+                                public void negtiveClick() {
+                                    finish();
+                                }
+                            }, "").create();
+                    alertDialog.show();
+                }else{
+                    Toast.makeText(PayListActivity.this,remainderPayParamsResponse.getMsg(),Toast.LENGTH_SHORT).show();
+                }
+
 
             }
 
@@ -391,10 +406,12 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public void sucessPay(int errCode) {
+
             Intent intent = new Intent();
             intent.putExtra("lottery", Parcels.wrap(lottery));
             setResult(RESULT_OK, intent);
             finish();
+
         }
     }
 
