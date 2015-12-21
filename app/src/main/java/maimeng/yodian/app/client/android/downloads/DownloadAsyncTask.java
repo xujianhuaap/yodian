@@ -53,14 +53,13 @@ public class DownloadAsyncTask extends AsyncTask<String, Long, File> {
         }
 
         getResponse(params[0],"GET",target);
-
         return target;
     }
 
     @Override
     protected void onProgressUpdate(Long... values) {
         super.onProgressUpdate(values);
-        LogUtil.i(DownloadAsyncTask.class.getSimpleName(), "Max:%d,current:%d", values[0], values[1]);
+//        LogUtil.i(DownloadAsyncTask.class.getSimpleName(), "Max:%d,current:%d", values[0], values[1]);
         handler.sendProgress(values[0].intValue(), values[1].intValue());
     }
 
@@ -91,20 +90,19 @@ public class DownloadAsyncTask extends AsyncTask<String, Long, File> {
             urlConnection.setDoInput(true);//允许下载
             urlConnection.setDoOutput(false);//允上传
             urlConnection.setDefaultUseCaches(false);//是否允许缓存
-            urlConnection.setRequestProperty("Content-type", "application/x-java-serialized-object");
+//            urlConnection.setRequestProperty("Content-type", "application/x-java-serialized-object");
             urlConnection.connect();
             is=urlConnection.getInputStream();
-            long max=is.available();
+            long max=urlConnection.getContentLength();
             long cnt=0;
             fileOutputStream=new FileOutputStream(file);
             byte[] buffer=new byte[1024];
-            int read=0;
+            int read;
             while ((read=is.read(buffer))!=-1){
+                cnt+=read;
+                publishProgress(max,cnt);
                 fileOutputStream.write(buffer,0,read);
-                fileOutputStream.flush();
-                cnt+=buffer.length;
-                publishProgress(max,cnt*100/max);
-
+                //fileOutputStream.flush();
             }
 
         } catch (MalformedURLException e) {

@@ -28,11 +28,21 @@ public class CheckUpdateDelegate implements Callback<VersionResponse>, AlertDial
     private final boolean showMsg;
     private final CommonService service;
     public static boolean checking = false;
+    private final ProgressDialog dialog1;
 
     public CheckUpdateDelegate(Activity activity, boolean showMsg) {
         this.mContext = activity;
         this.showMsg = showMsg;
         this.service = Network.getService(CommonService.class);
+        dialog1 = new ProgressDialog(mContext);
+        dialog1.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog1.setTitle("下载中...");
+        dialog1.setMax(100);
+        dialog1.setProgress(0);
+        dialog1.setCancelable(false);
+        dialog1.setCanceledOnTouchOutside(false);
+        dialog1.setProgressNumberFormat("%1d KB/%2d KB");
+
     }
 
     public void checkUpdate() {
@@ -75,22 +85,8 @@ public class CheckUpdateDelegate implements Callback<VersionResponse>, AlertDial
                 dialog.setNegativeListener(new AlertDialog.NegativeListener() {
                     @Override
                     public void onNegativeClick(DialogInterface dialog) {
-                        ProgressDialog dialog1 = new ProgressDialog(mContext);
-                        dialog1.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                        dialog1.setTitle("下载中...");
-                        dialog1.setMax(100);
-                        dialog1.setProgress(0);
+                        dialog.dismiss();
                         dialog1.show();
-                        dialog1.setCancelable(false);
-                        dialog1.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                            @Override
-                            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                                    return true;
-                                }
-                                return false;
-                            }
-                        });
                         DownloadHandler handler = new DownloadHandler(Looper.getMainLooper(), mContext, dialog1);
                         new DownloadAsyncTask(handler).execute(string);
                     }
