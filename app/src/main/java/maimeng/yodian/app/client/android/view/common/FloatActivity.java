@@ -26,6 +26,7 @@ import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 import maimeng.yodian.app.client.android.widget.AutoScrollViewPager;
 import maimeng.yodian.app.client.android.widget.ViewPagerFix;
+import maimeng.yodian.app.client.android.widget.YDView;
 
 /**
  * Created by android on 2015/10/23.
@@ -72,7 +73,7 @@ public class FloatActivity extends AppCompatActivity implements ViewPagerFix.OnP
         final List<View> views = new ArrayList<>();
         int index = 0;
         for (Float flt : list) {
-            ImageView iv = new ImageView(this);
+            YDView iv = new YDView(this);
             iv.setTag(R.id.tag_item, flt);
             iv.setTag(R.id.tag_id, index++);
             iv.setOnClickListener(new View.OnClickListener() {
