@@ -4,20 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
-
-import com.bumptech.glide.DrawableTypeRequest;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.widget.YDView;
 
 /**
  * Created by android on 2015/11/18.
@@ -36,20 +31,12 @@ public class SplashAdvertiseActivity extends AppCompatActivity implements Runnab
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        final ImageView iv = new ImageView(this);
-        iv.setScaleType(ImageView.ScaleType.MATRIX);
-        setContentView(iv);
+        final YDView iv = new YDView(this);
+        setContentView(iv,new ViewGroup.LayoutParams(getResources().getDisplayMetrics().widthPixels,getResources().getDisplayMetrics().heightPixels));
         registerReceiver(receiver, new IntentFilter(UPDATE_ADVERTISE_CLOSE));
         handler.postDelayed(this, getResources().getInteger(R.integer.splash_duration));
         String pic = getIntent().getStringExtra("pic");
-        DrawableTypeRequest<String> load = Glide.with(this).load(pic);
-        load.diskCacheStrategy(DiskCacheStrategy.ALL);
-        load.into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                iv.setBackground(resource);
-            }
-        });
+        iv.setImageURI(Uri.parse(pic));
     }
 
     @Override
