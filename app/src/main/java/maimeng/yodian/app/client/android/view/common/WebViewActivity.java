@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.view.common;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.javascripts.YoDianJavaScript;
+import maimeng.yodian.app.client.android.utils.WebLauncherUtils;
 
 
 /**
@@ -85,6 +87,21 @@ public class WebViewActivity extends AbstractActivity {
         webSettings.setAllowUniversalAccessFromFileURLs(true);
 
         WebViewClient webViewClient = new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url!=null && url.startsWith("intent")){
+                    String[] urls = url.split(";");
+                    for(String u:urls){
+                        Uri filter = Uri.parse(u);
+                        if(filter.getScheme().equals("intent") && filter.getHost().equals("www.ketie.me") && filter.getPath().equals("/launcher/yodian")){
+                            return WebLauncherUtils.handler(WebViewActivity.this,u.replaceFirst("intent","yodian"));
+                        }
+                    }
+                    return true;
+                }
+                return super.shouldOverrideUrlLoading(view,url);
+            }
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
