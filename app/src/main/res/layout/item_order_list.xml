@@ -66,11 +66,12 @@
                 android:layout_margin="@dimen/margin_small"
                 android:orientation="vertical">
 
-                <maimeng.yodian.app.client.android.widget.CircleImageView
+                <maimeng.yodian.app.client.android.widget.YDView
                     android:id="@+id/avatar"
                     android:layout_width="@dimen/seller_avatar"
                     android:layout_height="@dimen/seller_avatar"
-                    android:scaleType="centerInside"
+                    app:actualImageScaleType="centerInside"
+                    app:roundAsCircle="true"
                     app:imgUrl="@{isSaled?buyer.avatar:skill.avatar}" />
 
                 <TextView
@@ -91,7 +92,7 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
 
-                <maimeng.yodian.app.client.android.widget.CircleImageView
+                <maimeng.yodian.app.client.android.widget.YDView
                     android:id="@+id/skill_pic"
                     android:layout_width="@dimen/seller_avatar"
                     android:layout_height="@dimen/seller_avatar"
@@ -99,7 +100,8 @@
                     android:layout_marginBottom="@dimen/padding_normal"
                     android:layout_marginLeft="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/padding_normal"
-                    android:scaleType="fitCenter"
+                    app:actualImageScaleType="centerInside"
+                    app:roundAsCircle="true"
                     app:imgUrl="@{skill.pic}" />
 
                 <LinearLayout
