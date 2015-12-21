@@ -297,7 +297,7 @@ public class MessageAdapter extends BaseAdapter {
                 holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
                 holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
 
-                holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
+                holder.vcard_avatar = (YDView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
                 holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
             } else if (itemViewType == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
@@ -306,7 +306,7 @@ public class MessageAdapter extends BaseAdapter {
                 holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
                 holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
 
-                holder.vcard_avatar = (ImageView) convertView.findViewById(R.id.vcard_avatar);
+                holder.vcard_avatar = (YDView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
                 holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
             } else if (message.getType() == EMMessage.Type.IMAGE) {
@@ -1443,7 +1443,7 @@ public class MessageAdapter extends BaseAdapter {
         TextView tv_file_download_state;
 
         TextView vcard_nickname;
-        ImageView vcard_avatar;
+        YDView vcard_avatar;
         View wechat_vcard_item;
     }
 

@@ -32,6 +32,7 @@ import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.skill.SkillPreviewActivity;
 import maimeng.yodian.app.client.android.widget.AutoScrollViewPager;
 import maimeng.yodian.app.client.android.widget.ViewPagerFix;
+import maimeng.yodian.app.client.android.widget.YDView;
 
 /**
  * Created by android on 15-7-13.
@@ -159,7 +160,7 @@ public class SkillListIndexAdapter extends AbstractAdapter<ViewEntry, SkillListI
             }
             final List<View> views = new ArrayList<>();
             for (Banner banner : item.banners) {
-                ImageView iv = new ImageView(mContext);
+                YDView iv = new YDView(mContext);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 views.add(iv);
 //                iv.setOnClickListener(this);
