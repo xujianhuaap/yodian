@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.os.Message;
 
 import java.io.File;
+import java.net.MalformedURLException;
 
 import maimeng.yodian.app.client.android.utils.LogUtil;
 
@@ -27,6 +28,7 @@ public final class DownloadHandler extends android.os.Handler {
     public static final int MSG_UPDATE_PROGRESS=0x1001;
     public static final int MSG_CLOSE_DIALOG=0x1002;
     public static final int MSG_COMPLITE=0x1003;
+    public static final int MSG_ERROR=0x1004;
     public void sendProgress(int max, int progress) {
         obtainMessage(MSG_UPDATE_PROGRESS,max,progress).sendToTarget();
     }
@@ -43,6 +45,10 @@ public final class DownloadHandler extends android.os.Handler {
                 LogUtil.d(LOG_TAG,"close dialog");
                 dialog.dismiss();
                 break;
+            case MSG_ERROR:
+                ((Throwable)msg.obj).printStackTrace();
+                mActivity.finish();
+                break;
             case MSG_COMPLITE:
                 LogUtil.d(LOG_TAG,"Download Complite");
                 File file=(File)msg.obj;
@@ -56,7 +62,6 @@ public final class DownloadHandler extends android.os.Handler {
                     mActivity.startActivity(intent);
                     LogUtil.d(LOG_TAG,"Install Apk:%s",file.toString());
                 }
-
                 break;
         }
     }
@@ -64,5 +69,9 @@ public final class DownloadHandler extends android.os.Handler {
     public void complite(File file) {
         obtainMessage(MSG_CLOSE_DIALOG).sendToTarget();
         sendMessageDelayed(obtainMessage(MSG_COMPLITE,file),1000);
+    }
+
+    public void error(Throwable e) {
+        obtainMessage(MSG_ERROR,e).sendToTarget();
     }
 }

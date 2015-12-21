@@ -107,9 +107,11 @@ public class DownloadAsyncTask extends AsyncTask<String, Long, File> {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            handler.error(e);
         } catch (IOException e) {
             file.delete();
             e.printStackTrace();
+            handler.error(e);
         }finally {
             if(fileOutputStream!=null){
                 try {
