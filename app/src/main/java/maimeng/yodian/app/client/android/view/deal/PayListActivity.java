@@ -110,9 +110,14 @@ public class PayListActivity extends AppCompatActivity implements View.OnClickLi
         mBtnMoney = ((TextView) findViewById(R.id.btn_money));
         if (intent.hasExtra("orderInfo")) {
             mOrderInfo = get("orderInfo");
-            price = mOrderInfo.getTotal_fee()- mOrderInfo.getBalance();
+            float balance=mOrderInfo.getBalance();
+            price = mOrderInfo.getTotal_fee()-balance ;
             isOrderPay = true;
-            remainder.setVisibility(View.GONE);
+            if(balance>0){
+                remainder.setVisibility(View.GONE);
+            }else{
+                remainder.setVisibility(View.VISIBLE);
+            }
         } else {
             mSkill = get("skill");
             price = mSkill.getPrice();
