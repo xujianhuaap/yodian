@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
@@ -14,7 +15,7 @@ import maimeng.yodian.app.client.android.view.user.UserHomeActivity;
 public class WebLauncherUtils {
     public static boolean handler(Activity mContext, Uri uri) {
         if (uri == null) return false;
-        if (uri.getScheme().equalsIgnoreCase("intent")) {
+        if (uri.getScheme().equalsIgnoreCase("yodian")) {
             String _type = uri.getQueryParameter("ydtype");
             String _id = uri.getQueryParameter("ydid");
             if (!TextUtils.isEmpty(_type) && !TextUtils.isEmpty(_id)) {
@@ -27,6 +28,9 @@ public class WebLauncherUtils {
                     case 1:
                         mContext.startActivity(new Intent(mContext, SkillDetailsActivity.class).putExtra("sid", id));
                         return true;
+                    default:
+                        Toast.makeText(mContext,"参数错误",Toast.LENGTH_SHORT).show();
+                        return false;
                 }
             }
 
