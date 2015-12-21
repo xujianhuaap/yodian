@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -314,7 +315,6 @@ public class ShareDialog extends DialogFragment {
 
         TextView title = (TextView) shareView.findViewById(R.id.tv_skill_title);
         TextView price = (TextView) shareView.findViewById(R.id.tv_skill_price);
-        TextView content = (TextView) shareView.findViewById(R.id.tv_skill_content);
         TextView nickname = (TextView) shareView.findViewById(R.id.tv_nickname);
 
         String path = skill.getPic();
@@ -330,8 +330,7 @@ public class ShareDialog extends DialogFragment {
         }
 
         title.setText(skill.getName());
-        price.setText(String.format("%.2f", skill.getPrice()));
-        content.setText(skill.getContent());
+        price.setText(Html.fromHtml(getResources().getString(R.string.lable_price,skill.getPrice(),skill.getUnit())));
         nickname.setText(skill.getNickname());
 
 
