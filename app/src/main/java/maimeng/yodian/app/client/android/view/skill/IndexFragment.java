@@ -2,8 +2,6 @@ package maimeng.yodian.app.client.android.view.skill;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -49,8 +47,8 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
+import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**

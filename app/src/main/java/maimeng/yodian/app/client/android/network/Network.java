@@ -4,9 +4,6 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
 
 import org.henjue.library.hnet.HNet;
 import org.henjue.library.hnet.converter.StringConverter;
@@ -15,7 +12,6 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 import maimeng.yodian.app.client.android.BuildConfig;
-import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.model.user.Sex;
 import maimeng.yodian.app.client.android.network.common.GsonConverter;
 import maimeng.yodian.app.client.android.network.common.RequestIntercept;
@@ -59,7 +55,6 @@ public class Network {
         gsonBuilder = gsonBuilder.registerTypeAdapter(CertifyStatus.class, new GsonConverter.CertifiStatusAdapter());
         gsonBuilder = gsonBuilder.registerTypeAdapter(Date.class, new GsonConverter.DateAdapter());
         gsonBuilder = gsonBuilder.registerTypeAdapter(String.class, new GsonConverter.StringAdapter());
-        gsonBuilder = gsonBuilder.registerTypeAdapter(ImageBindable.class, new GsonConverter.ImageBindableAdapter());
         gsonBuilder = gsonBuilder.registerTypeAdapter(BindStatus.class, new GsonConverter.BindStatusAdapter());
         gsonBuilder = gsonBuilder.registerTypeAdapter(Sex.class, new GsonConverter.SexAdapter());
         gson = gsonBuilder.create();

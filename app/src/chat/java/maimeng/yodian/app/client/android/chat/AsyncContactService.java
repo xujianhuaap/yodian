@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,11 +12,6 @@ import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
-import com.easemob.exceptions.EaseMobException;
-
-import org.henjue.library.hnet.Callback;
-import org.henjue.library.hnet.Response;
-import org.henjue.library.hnet.exception.HNetError;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,14 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import maimeng.yodian.app.client.android.BuildConfig;
-import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.StringResponse;
-import maimeng.yodian.app.client.android.network.service.ChatService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**
  * Created by android on 2015/7/27.

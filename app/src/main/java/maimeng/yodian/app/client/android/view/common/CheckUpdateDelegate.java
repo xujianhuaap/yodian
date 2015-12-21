@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Looper;
-import android.view.KeyEvent;
 import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;

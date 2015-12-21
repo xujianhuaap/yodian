@@ -44,7 +44,6 @@ import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
-import maimeng.yodian.app.client.android.network.loader.ImageLoaderManager;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.response.SkillAllResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;

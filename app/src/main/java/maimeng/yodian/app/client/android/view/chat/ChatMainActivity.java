@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
-import com.umeng.analytics.MobclickAgent;
-
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.AsyncContactService;
 import maimeng.yodian.app.client.android.common.UEvent;

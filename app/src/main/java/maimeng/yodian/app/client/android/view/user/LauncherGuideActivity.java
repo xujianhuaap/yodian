@@ -16,7 +16,6 @@ import java.util.TimerTask;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.LauncherCheck;
-import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 
 /**
  * Created by xujianhua on 9/2/15.

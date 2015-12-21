@@ -19,12 +19,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
@@ -43,10 +41,6 @@ import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.easemob.util.NetUtils;
 
-import org.henjue.library.hnet.Callback;
-import org.henjue.library.hnet.Response;
-import org.henjue.library.hnet.exception.HNetError;
-
 import java.util.List;
 
 import maimeng.yodian.app.client.android.R;
@@ -54,11 +48,7 @@ import maimeng.yodian.app.client.android.chat.AsyncContactService;
 import maimeng.yodian.app.client.android.chat.Constant;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
-import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.User;
-import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.StringResponse;
-import maimeng.yodian.app.client.android.network.service.ChatService;
 
 
 public abstract class MainActivity extends BaseActivity implements EMEventListener {

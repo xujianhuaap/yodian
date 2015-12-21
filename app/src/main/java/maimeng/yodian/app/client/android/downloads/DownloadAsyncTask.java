@@ -2,10 +2,7 @@ package maimeng.yodian.app.client.android.downloads;
 
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
-import android.widget.Toast;
 
-import org.henjue.library.hnet.Request;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.anntoation.Get;
 import org.henjue.library.hnet.anntoation.Path;
@@ -19,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 
 
 /**

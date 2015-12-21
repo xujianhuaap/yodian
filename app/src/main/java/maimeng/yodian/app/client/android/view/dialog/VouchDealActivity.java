@@ -1,7 +1,6 @@
 package maimeng.yodian.app.client.android.view.dialog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,22 +9,11 @@ import android.view.View;
 
 import com.umeng.analytics.MobclickAgent;
 
-import org.henjue.library.hnet.Callback;
-import org.henjue.library.hnet.Response;
-import org.henjue.library.hnet.exception.HNetError;
-import org.parceler.transfuse.annotations.OnActivityResult;
-
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.network.ErrorUtils;
-import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.response.RemainderResponse;
-import maimeng.yodian.app.client.android.network.service.MoneyService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.deal.BasicalInfoConfirmActivity;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
-import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
 
 /**
  * Created by xujianhua on 10/16/15.

@@ -4,15 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.view.View;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 
 /**

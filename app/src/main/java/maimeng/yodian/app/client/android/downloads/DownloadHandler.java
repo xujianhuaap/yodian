@@ -8,7 +8,6 @@ import android.os.Looper;
 import android.os.Message;
 
 import java.io.File;
-import java.net.MalformedURLException;
 
 import maimeng.yodian.app.client.android.utils.LogUtil;
 

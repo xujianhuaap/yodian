@@ -3,7 +3,6 @@ package maimeng.yodian.app.client.android.view.deal;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,14 +11,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.DuringDialogBinding;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**
  * Created by android on 2015/9/22.
