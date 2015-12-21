@@ -11,6 +11,7 @@ import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**
  * Created by xujianhua on 10/12/15.
@@ -53,7 +54,7 @@ public class PayWrapperActivity extends AppCompatActivity {
     public static void show(Fragment context, OrderInfo info, int requestCode) {
         Intent intent = new Intent(context.getContext(), PayWrapperActivity.class);
         intent.putExtra("info", Parcels.wrap(info));
-        context.getActivity().startActivityForResult(intent, requestCode, new Bundle());
+        context.startActivityForResult(intent, requestCode);
     }
 
     /***

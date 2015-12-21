@@ -48,13 +48,17 @@ public class WXPay implements IPay{
     private void genReq() {
 
         req = new PayReq();
-        req.appId=params.getAppid();
-        req.nonceStr=params.getNoncestr();
-        req.packageValue=params.getPackageX();
-        req.partnerId=params.getPartnerid();
-        req.prepayId=params.getPrepayid();
-        req.sign=params.getSign();
-        req.timeStamp=params.getTimestamp()+"";
+        if(params!=null){
+            req.appId=params.getAppid();
+            req.nonceStr=params.getNoncestr();
+            req.packageValue=params.getPackageX();
+            req.partnerId=params.getPartnerid();
+            req.prepayId=params.getPrepayid();
+            req.sign=params.getSign();
+            req.timeStamp=params.getTimestamp()+"";
+            LogUtil.d(WXPay.class.getName(),"WXPay params:"+params.toString());
+        }
+
     }
 
     /***

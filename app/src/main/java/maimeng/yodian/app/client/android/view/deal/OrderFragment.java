@@ -272,9 +272,13 @@ public class OrderFragment extends Fragment implements PtrHandler {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.d(OrderFragment.class.getName(),"requestCode: %d,REQUEST_CODE: %d",requestCode,REQUEST_ORDER_BUY);
         if (resultCode == getActivity().RESULT_OK) {
             if (data != null) {
                 if (requestCode == REQUEST_ORDER_BUY) {
+                    mPage=1;
+                    mIsAppend=false;
+                    freshData();
                     Lottery lottery = Parcels.unwrap(data.getParcelableExtra("lottery"));
                     if (lottery.getIsLottery() == 1) {
                         OrderDetailActivity.show(getActivity(), lottery);

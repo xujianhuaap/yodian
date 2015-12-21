@@ -88,4 +88,15 @@ public class WaitDialog extends DialogFragment {
         dialog.setCanceledOnTouchOutside(false);
         return dialog;
     }
+
+    @Override
+    public void dismiss() {
+        Activity activity=getActivity();
+        if(activity!=null){
+            if(!getActivity().isFinishing()){
+                super.dismiss();
+            }
+        }
+
+    }
 }
