@@ -3,16 +3,11 @@ package maimeng.yodian.app.client.android.view.deal.pay;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Html;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.umeng.analytics.MobclickAgent;
 
-import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 import maimeng.yodian.app.client.android.common.UEvent;
 
 /**

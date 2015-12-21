@@ -2,21 +2,14 @@ package maimeng.yodian.app.client.android.view.auth;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapRegionDecoder;
-import android.graphics.Rect;
-import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
@@ -33,8 +26,6 @@ import org.henjue.library.share.manager.IAuthManager;
 import org.henjue.library.share.manager.WeiboAuthManager;
 import org.henjue.library.share.model.AuthInfo;
 
-import java.io.IOException;
-
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.user.User;
@@ -46,7 +37,6 @@ import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.WebViewActivity;
-import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.ScrollImageView;
 

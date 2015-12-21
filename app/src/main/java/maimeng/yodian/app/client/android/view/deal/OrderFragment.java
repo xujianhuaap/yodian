@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -36,9 +35,6 @@ import maimeng.yodian.app.client.android.network.response.OrderListRepsonse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
-import maimeng.yodian.app.client.android.view.common.WebViewActivity;
-import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
-import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;

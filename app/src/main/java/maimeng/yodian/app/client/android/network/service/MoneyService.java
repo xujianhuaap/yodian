@@ -10,7 +10,6 @@ import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
-import maimeng.yodian.app.client.android.network.response.VouchResponse;
 import maimeng.yodian.app.client.android.network.response.WDListHistoryResponse;
 
 /**

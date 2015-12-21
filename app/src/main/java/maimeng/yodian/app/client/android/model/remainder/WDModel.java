@@ -1,8 +1,5 @@
 package maimeng.yodian.app.client.android.model.remainder;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.Date;
 
 /**

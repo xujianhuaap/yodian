@@ -15,9 +15,7 @@ import java.util.Date;
 
 import maimeng.yodian.app.client.android.BR;
 import maimeng.yodian.app.client.android.BuildConfig;
-import maimeng.yodian.app.client.android.databings.ImageBindable;
 import maimeng.yodian.app.client.android.network.Network;
-import maimeng.yodian.app.client.android.network.loader.Circle;
 
 /**
  * Created by xujianhua on 9/29/15.
@@ -487,17 +485,16 @@ public class Skill extends BaseObservable {
 
     }
 
-    public ImageBindable getAvatar80() {
-        ImageBindable img = new ImageBindable();
+    public String getAvatar80() {
         if (avatar != null) {
             final int i = avatar.lastIndexOf(".");
             if (i != -1) {
                 String url = avatar.substring(0, i);
                 String suffix = avatar.substring(i, avatar.length());
-                img = new ImageBindable().setUri(Uri.parse(url + "_80x80" + suffix)).setCircle(Circle.obtain().setBorderSize(3));
+                return url + "_80x80" + suffix;
             }
         }
-        return img;
+        return avatar;
     }
 
     @Override

@@ -23,7 +23,6 @@ import com.umeng.analytics.MobclickAgent;
 import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.R;
-import maimeng.yodian.app.client.android.common.UEvent;
 
 /**
  * Created by android on 15-10-10.

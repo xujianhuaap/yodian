@@ -9,22 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tencent.connect.auth.QQAuth;
-
-import org.henjue.library.share.AuthListener;
-import org.henjue.library.share.ShareSDK;
 import org.henjue.library.share.Type;
 import org.henjue.library.share.manager.AuthFactory;
-import org.henjue.library.share.manager.IAuthManager;
-import org.henjue.library.share.manager.IShareManager;
-import org.henjue.library.share.manager.QQAuthManager;
-import org.henjue.library.share.manager.QQShareManager;
-import org.henjue.library.share.manager.ShareFactory;
 import org.henjue.library.share.manager.WechatAuthManager;
-import org.henjue.library.share.model.AuthInfo;
 
 import maimeng.yodian.app.client.android.R;
 

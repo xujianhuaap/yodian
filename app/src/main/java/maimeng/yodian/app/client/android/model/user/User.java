@@ -3,8 +3,6 @@ package maimeng.yodian.app.client.android.model.user;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.Bindable;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.easemob.applib.controller.HXSDKHelper;
@@ -13,7 +11,6 @@ import com.google.gson.annotations.SerializedName;
 import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.chat.DemoApplication;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
-import maimeng.yodian.app.client.android.chat.db.UserDao;
 import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.model.UserBaseColum;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;

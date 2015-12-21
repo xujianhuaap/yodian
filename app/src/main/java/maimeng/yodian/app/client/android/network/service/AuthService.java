@@ -10,11 +10,9 @@ import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.Api;
-import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.response.CertifyInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
-import maimeng.yodian.app.client.android.view.deal.DrawMoneyInfoConfirmActivity;
 
 /**
  * Created by android on 15-7-13.

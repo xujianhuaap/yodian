@@ -3,10 +3,8 @@ package maimeng.yodian.app.client.android.view.deal;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -17,7 +15,6 @@ import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.model.Lottery;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.WebViewActivity;
-import maimeng.yodian.app.client.android.widget.ViewPager;
 
 /**
  * Created by xujianhua on 12/1/15.

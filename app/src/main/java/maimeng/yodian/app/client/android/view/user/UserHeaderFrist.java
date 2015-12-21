@@ -18,8 +18,8 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ViewHeaderUserFristBinding;
 import maimeng.yodian.app.client.android.model.user.User;
-import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
+import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.common.PreviewActivity;
 
 /**

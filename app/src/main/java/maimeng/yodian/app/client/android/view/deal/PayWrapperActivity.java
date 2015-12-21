@@ -11,7 +11,6 @@ import org.parceler.Parcels;
 
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.skill.Skill;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**
  * Created by xujianhua on 10/12/15.

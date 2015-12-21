@@ -1,25 +1,19 @@
 package maimeng.yodian.app.client.android.view.deal;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.easemob.applib.controller.HXSDKHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -57,12 +51,8 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.OrderInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
-import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
-import maimeng.yodian.app.client.android.view.common.WebViewActivity;
-import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.OrderCancellActivity;
-import maimeng.yodian.app.client.android.view.dialog.ViewDialog;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 
 
