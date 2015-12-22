@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1"
-    android:background="@mipmap/ic_share_background"
-    android:visibility="visible">
-
+    android:layout_height="@dimen/share_container_height"
+    android:background="@color/colorPrimary"
+    android:layout_gravity="center">
     <maimeng.yodian.app.client.android.widget.YDView
         android:id="@+id/contenPic"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.85"
+        android:layout_height="@dimen/share_skill_height"
         app:actualImageScaleType="centerCrop"
-        android:background="#0f0"
-        android:layout_gravity="center" />
+        android:layout_gravity="top|center_horizontal" />
+    <maimeng.yodian.app.client.android.widget.YDView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:backgroundImage="@mipmap/ic_share_background"
+        android:layout_gravity="center_vertical" />
         <LinearLayout
             android:weightSum="1"
-            android:layout_weight="0.14"
+            android:layout_marginBottom="@dimen/margin_normal"
             android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/share_skill_height"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_weight="0.6"
+                android:layout_weight="0.75"
                 android:orientation="vertical"
-                android:layout_gravity="center"
+                android:gravity="bottom"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
                 <maimeng.yodian.app.client.android.widget.YDView
                     android:id="@+id/avatar"
                     app:roundAsCircle="true"
@@ -35,22 +38,20 @@
                     app:roundingBorderWidth="@dimen/share_avatar_border_width"
                     android:layout_width="@dimen/share_avatar_width"
                     android:layout_height="@dimen/share_avatar_width"
-                    android:background="#0ef"
-                    android:layout_marginTop="@dimen/margin_Xlarge"
-                    android:layout_marginLeft="@dimen/margin_large"/>
+                    android:layout_marginLeft="@dimen/margin_normal"/>
                 <TextView
                     android:id="@+id/tv_nickname"
                     android:layout_width="@dimen/share_nick_name_width"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="apidf"
-                    android:textSize="@dimen/text_size_Xlarge"
-                    android:padding="@dimen/padding_small"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_large"
+                    android:textColor="@color/colorPrimaryGrey"
+                    android:paddingTop="@dimen/padding_normal"
                     android:maxLength="@integer/share_nick_name_length"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:layout_marginLeft="@dimen/margin_large" />
+                    android:layout_marginLeft="@dimen/margin_normal" />
 
                 <TextView
                     android:id="@+id/tv_skill_title"
@@ -59,39 +60,40 @@
                     android:gravity="center_vertical"
                     android:text="apidf"
                     android:textSize="@dimen/text_size_large"
-                    android:padding="@dimen/padding_small"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:maxLength="@integer/share_skill_name_length"
                     android:textColor="@color/colorPrimaryDark"
-                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginLeft="@dimen/margin_normal"
                     android:layout_toRightOf="@+id/avatar"/>
                 <TextView
                     android:id="@+id/tv_skill_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:gravity="center_vertical"
                     android:text="apidf"
-                    android:textSize="@dimen/text_size_Xlarge"
-                    android:padding="@dimen/padding_small"
+                    android:textSize="@dimen/text_size_large"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimaryDark"
-                    android:layout_marginLeft="@dimen/margin_large"/>
-                </LinearLayout>
+                    android:layout_marginLeft="@dimen/margin_normal"/>
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="0.4"
+                android:layout_weight="0.25"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="bottom"
-                android:layout_marginBottom="@dimen/margin_Xlarge"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:gravity="right|bottom"
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/share_brand"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
+                    android:layout_width="@dimen/qrode_width"
+                    android:layout_height="@dimen/qrode_width"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_gravity="right"
                     android:background="#000"
                     android:scaleType="centerCrop"/>
 
@@ -99,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:layout_gravity="center"
+                    android:layout_gravity="right"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:src="@mipmap/ic_slogan_yodian"
                     android:gravity="center" />
@@ -109,4 +111,4 @@
 
         </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

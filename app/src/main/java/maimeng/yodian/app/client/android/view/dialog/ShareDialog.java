@@ -161,6 +161,7 @@ public class ShareDialog extends DialogFragment {
         }
 //        getDialog().getWindow().getAttributes().windowAnimations = R.style.ShareDialogAnimation;
         View inflate = inflater.inflate(R.layout.pop_share_view, container, false);
+        shareView =inflater.inflate(R.layout.view_share,null);
         this.mContent = (GridLayout) inflate.findViewById(R.id.content);
         this.mReport = (TextView) inflate.findViewById(R.id.report);
         mReport.setOnClickListener(new View.OnClickListener() {
@@ -304,9 +305,6 @@ public class ShareDialog extends DialogFragment {
             mContent.setRowCount(1);
         }
 
-
-        shareView = view.findViewById(R.id.share);
-
         YDView avater = (YDView) shareView.findViewById(R.id.avatar);
         YDView contentPic = (YDView) shareView.findViewById(R.id.contenPic);
         ViewGroup.LayoutParams lp = contentPic.getLayoutParams();
@@ -330,7 +328,7 @@ public class ShareDialog extends DialogFragment {
         }
 
         title.setText(skill.getName());
-        price.setText(Html.fromHtml(getResources().getString(R.string.lable_price,skill.getPrice(),skill.getUnit())));
+        price.setText(Html.fromHtml(getResources().getString(R.string.share_price,skill.getPrice(),skill.getUnit())));
         nickname.setText(skill.getNickname());
 
 
@@ -341,12 +339,7 @@ public class ShareDialog extends DialogFragment {
      */
 
     private Bitmap getShareBitmap(int type, View shareView) {
-        Bitmap QRCodeBitmap = null;
-        if (type == 1) {
-            QRCodeBitmap = generatePlatformBitmap(R.mipmap.ic_market_sina);
-        } else if (type == 2) {
-            QRCodeBitmap = generatePlatformBitmap(R.mipmap.ic_market_wechat);
-        }
+        Bitmap QRCodeBitmap = generatePlatformBitmap();;
         ImageView shareBrand = (ImageView) shareView.findViewById(R.id.share_brand);
 
         shareBrand.setImageBitmap(QRCodeBitmap);
@@ -356,11 +349,8 @@ public class ShareDialog extends DialogFragment {
     }
 
     /**
-     * @param drawableId Type.Platform.WeiBo drawableId为R.drawble.ic_market_sina
-     *                   <p/>
-     *                   Type.Platform.WEIXIN  drawableId为R.drawble.ic_market_wechat
      */
-    private Bitmap generatePlatformBitmap(int drawableId) {
+    private Bitmap generatePlatformBitmap() {
         int size = getResources().getDimensionPixelSize(R.dimen.qrcode_size);
         int left = getResources().getDimensionPixelSize(R.dimen.qrcode_left);
         int top = getResources().getDimensionPixelSize(R.dimen.qrcode_top);
@@ -368,20 +358,7 @@ public class ShareDialog extends DialogFragment {
         from.withSize(size, size);
         int border = 25;
         Bitmap qrcode = from.bitmap();
-        Bitmap bitmap = Bitmap.createBitmap(qrcode.getWidth() - border * 0, qrcode.getHeight() - border * 0, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Rect rect = new Rect(border, border, bitmap.getWidth() - border, bitmap.getHeight() - border);
-        canvas.clipRect(rect);
-        canvas.drawBitmap(qrcode, 0, 0, new Paint());
-        Bitmap temp = BitmapFactory.decodeResource(getResources(), drawableId);
-        Bitmap bg = temp.copy(temp.getConfig(), true);
-        temp.recycle();
-        Bitmap QRCodeBitmap = Bitmap.createBitmap(bg.getWidth(), bg.getHeight(), Bitmap.Config.RGB_565);
-        Canvas can = new Canvas(QRCodeBitmap);
-        can.drawBitmap(bg, 0, 0, new Paint());
-        can.drawBitmap(bitmap, left, top, new Paint());
-
-        return QRCodeBitmap;
+        return qrcode;
     }
 
 

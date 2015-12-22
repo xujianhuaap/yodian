@@ -101,6 +101,7 @@
 
 
     <!-- item_order_list-->
+    <dimen name="padding_Xsmall">2dp</dimen>
     <dimen name="padding_large">20dp</dimen>
     <dimen name="padding_normal">10dp</dimen>
     <dimen name="padding_small">5dp</dimen>
@@ -135,11 +136,17 @@
     <dimen name="auth_setting_tip_photo_margin_left">80dp</dimen>
 
     <!-- shareDialog-->
-    <dimen name="share_avatar_width">60dp</dimen>
-    <dimen name="share_avatar_border_width">1dp</dimen>
+    <dimen name="share_container_width">200dp</dimen>
+    <dimen name="share_container_height">420dp</dimen>
+    <dimen name="share_skill_width">150dp</dimen>
+    <dimen name="share_skill_height">275dp</dimen>
+    <dimen name="share_avatar_width">55dp</dimen>
+    <dimen name="share_avatar_border_width">3dp</dimen>
     <dimen name="share_nick_name_width">160dp</dimen>
-    <integer name="share_nick_name_length">10</integer>
+    <integer name="share_nick_name_length">7</integer>
+    <integer name="share_skill_name_length">10</integer>
     <dimen name="share_content_title_width">160dp</dimen>
+    <dimen name="qrode_width">68dp</dimen>
 
 
 </resources>

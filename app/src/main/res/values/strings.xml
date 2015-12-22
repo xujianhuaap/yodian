@@ -53,6 +53,7 @@
     <string name="lb_sig">个性签名</string>
     <string name="lb_sig_hint">这家伙是不是有点懒？</string>
     <string name="share_title">将该技能分享至：</string>
+    <string name="share_price"><![CDATA[<b><big>%1$s</big></b><small>元/%2$s</small>]]></string>
     <string name="release_title">发布成功！</string>
     <string name="lable_skill_addbutton">ELSE  自定义 +</string>
     <string name="add_skill">添加技能</string>
