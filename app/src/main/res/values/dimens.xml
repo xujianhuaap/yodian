@@ -80,6 +80,7 @@
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_Xsmall">11sp</dimen>
     <dimen name="text_size_normal">18sp</dimen>
+    <dimen name="text_size_normal_16">16sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_Xlarge">22sp</dimen>
 
@@ -106,6 +107,7 @@
     <dimen name="padding_normal">10dp</dimen>
     <dimen name="padding_small">5dp</dimen>
     <dimen name="margin_normal">10dp</dimen>
+    <dimen name="margin_Xsmall">3dp</dimen>
     <dimen name="margin_small">5dp</dimen>
     <dimen name="margin_large">20dp</dimen>
     <dimen name="margin_Xlarge">40dp</dimen>
@@ -146,7 +148,7 @@
     <integer name="share_nick_name_length">7</integer>
     <integer name="share_skill_name_length">10</integer>
     <dimen name="share_content_title_width">160dp</dimen>
-    <dimen name="qrode_width">68dp</dimen>
+    <dimen name="qrode_width">80dp</dimen>
 
 
 </resources>

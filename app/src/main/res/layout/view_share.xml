@@ -19,7 +19,6 @@
         android:layout_gravity="center_vertical" />
         <LinearLayout
             android:weightSum="1"
-            android:layout_marginBottom="@dimen/margin_normal"
             android:orientation="horizontal"
             android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/share_skill_height"
@@ -35,6 +34,7 @@
                     android:id="@+id/avatar"
                     app:roundAsCircle="true"
                     app:roundingBorderColor="@color/colorPrimary"
+                    android:layout_gravity="bottom"
                     app:roundingBorderWidth="@dimen/share_avatar_border_width"
                     android:layout_width="@dimen/share_avatar_width"
                     android:layout_height="@dimen/share_avatar_width"
@@ -45,8 +45,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="apidf"
-                    android:textSize="@dimen/text_size_large"
-                    android:textColor="@color/colorPrimaryGrey"
+                    android:layout_gravity="bottom"
+                    android:textSize="@dimen/text_size_normal_16"
+                    android:textColor="@color/colorPrimaryGrey1"
                     android:paddingTop="@dimen/padding_normal"
                     android:maxLength="@integer/share_nick_name_length"
                     android:ellipsize="end"
@@ -62,6 +63,7 @@
                     android:textSize="@dimen/text_size_large"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:layout_gravity="bottom"
                     android:maxLength="@integer/share_skill_name_length"
                     android:textColor="@color/colorPrimaryDark"
                     android:layout_marginLeft="@dimen/margin_normal"
@@ -84,25 +86,24 @@
                 android:layout_weight="0.25"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|right"
+                android:layout_gravity="bottom|right"
                 android:layout_marginRight="@dimen/margin_normal"
-                android:gravity="right|bottom"
+                android:gravity="right|center_vertical"
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/share_brand"
                     android:layout_width="@dimen/qrode_width"
                     android:layout_height="@dimen/qrode_width"
-                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_Xlarge"
                     android:layout_gravity="right"
-                    android:background="#000"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="fitXY"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
+                    android:scaleType="centerInside"
                     android:layout_gravity="right"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:src="@mipmap/ic_slogan_yodian"
                     android:gravity="center" />
 
