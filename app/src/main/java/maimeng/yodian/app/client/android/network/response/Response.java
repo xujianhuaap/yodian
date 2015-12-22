@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import maimeng.yodian.app.client.android.model.user.User;
+import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 
 public class Response {
@@ -34,7 +35,7 @@ public class Response {
     }
 
     public void showMessage(Context context) {
-        if (!TextUtils.isEmpty(msg)) {
+        if (context!=null && !TextUtils.isEmpty(msg)) {
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
         }
     }
@@ -46,20 +47,18 @@ public class Response {
     public boolean isValidateAuth(Activity context) {
         return isValidateAuth(context, -1);
     }
-
     public boolean isValidateAuth(Activity context, int requestCode) {
         if (code == 10011) {
             User.clear(context);
-            Intent intent = new Intent(context, AuthSeletorActivity.class);
-            if (requestCode != -1) {
-                intent.putExtra("result", true);
-                context.startActivityForResult(intent, requestCode);
-            } else {
-                context.startActivity(intent);
-            }
+            AuthRedirect.toAuth(context,requestCode);
             return false;
-        } else {
+        } else if(code==10036) {
+            showMessage(context);
+            AuthRedirect.toAuth(context);
+            return false;
+        }else{
             return true;
         }
     }
+
 }

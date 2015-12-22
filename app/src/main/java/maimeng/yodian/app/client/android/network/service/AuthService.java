@@ -5,6 +5,7 @@ import org.henjue.library.hnet.RequestFacade;
 import org.henjue.library.hnet.RequestFilter;
 import org.henjue.library.hnet.anntoation.Filter;
 import org.henjue.library.hnet.anntoation.FormUrlEncoded;
+import org.henjue.library.hnet.anntoation.Get;
 import org.henjue.library.hnet.anntoation.NoneEncoded;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
@@ -30,7 +31,8 @@ public interface AuthService {
     @Post(Api.AUTH_LOGIN)
     @Filter(LoginPhoneFilter.class)
     void login(@Param("mobile") String mobile, @Param("code") String code, @Param("etoken") String pushtoken, Callback<AuthResponse> callback);
-
+    @Get(Api.AUTO_LOGIN)
+    void autologin(Callback<AuthResponse> callback);
     /**
      * 第三方登录
      *

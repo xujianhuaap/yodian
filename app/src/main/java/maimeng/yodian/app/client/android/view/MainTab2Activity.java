@@ -37,7 +37,9 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.response.FloatResponse;
+import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
@@ -45,6 +47,7 @@ import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.CheckUpdateDelegate;
 import maimeng.yodian.app.client.android.view.common.FloatActivity;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.view.skill.IndexFragment;
 import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
 
@@ -55,6 +58,7 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
     private User user;
     private Bitmap mAvatar;
     private long exitTime;
+    private WaitDialog dialog;
 
     @Override
     public FloatingActionButton getFloatButton() {
@@ -74,7 +78,6 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
         mPushAgent.enable();
         mPushAgent.onAppStart();
         setContentView(R.layout.activity_yodian_main2, false);
-
         floatButton = (FloatingActionButton) findViewById(R.id.btn_float);
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,22 +87,46 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
         });
         floatButton.setShadow(false);
         new CheckUpdateDelegate(this, false).checkUpdate();
-        FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
-        userHomeFragment = UserHomeFragment.newInstance();
-        indexFragment = IndexFragment.newInstance();
-        bt.add(R.id.container, userHomeFragment, UserHomeFragment.class.getName());
-        bt.add(R.id.container, indexFragment, IndexFragment.class.getName());
-//            bt.addToBackStack(null);
-        bt.hide(userHomeFragment).show(indexFragment);
-        bt.commitAllowingStateLoss();
-        initFragment();
+
         Network.getService(CommonService.class).getFloat(this);
-        updateFloatButton();
-        if (getIntent().hasExtra("home")) {
-            if (!userHomeFragment.isVisible()) {
-                floatButton.callOnClick();
+        Network.getService(AuthService.class).autologin(new Callback<AuthResponse>() {
+            @Override
+            public void start() {
             }
-        }
+
+            @Override
+            public void success(AuthResponse res, Response response) {
+
+                if(res.isValidateAuth(MainTab2Activity.this) && res.isSuccess()){
+                    initFragment();
+
+                }
+            }
+
+            @Override
+            public void failure(HNetError hNetError) {
+
+            }
+
+            @Override
+            public void end() {
+                FragmentTransaction bt = getSupportFragmentManager().beginTransaction();
+                userHomeFragment = UserHomeFragment.newInstance();
+                indexFragment = IndexFragment.newInstance();
+                bt.add(R.id.container, userHomeFragment, UserHomeFragment.class.getName());
+                bt.add(R.id.container, indexFragment, IndexFragment.class.getName());
+//            bt.addToBackStack(null);
+                bt.hide(userHomeFragment).show(indexFragment);
+                bt.commitAllowingStateLoss();
+                if (getIntent().hasExtra("home")) {
+                    if (!userHomeFragment.isVisible()) {
+                        floatButton.callOnClick();
+                    }
+                }
+            }
+        });
+        updateFloatButton();
+
     }
 
     /***
@@ -109,21 +136,26 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
         final DataSource<CloseableReference<CloseableImage>> sub = Fresco.getImagePipeline().fetchDecodedImage(ImageRequest.fromUri(Uri.parse(User.read(this).getAvatar())),this);
         sub.subscribe(new BaseBitmapDataSubscriber() {
             @Override
-            protected void onNewResultImpl(Bitmap bitmap) {
+            protected void onNewResultImpl(final Bitmap bitmap) {
                 final int dpi = getResources().getDisplayMetrics().densityDpi;
-                float rate = 0;
+                final float[] rate = new float[1];
                 if (dpi > 140 && dpi < 180) {
-                    rate = 0.4f;
+                    rate[0] = 0.4f;
                 } else if (300 < dpi && dpi < 320) {
-                    rate = 0.6f;
+                    rate[0] = 0.6f;
                 } else if (dpi >= 460 && dpi < 500) {
-                    rate = 0.8f;
+                    rate[0] = 0.8f;
                 } else if (dpi > 640) {
-                    rate = 0.9f;
+                    rate[0] = 0.9f;
                 }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAvatar = getCircleBitmap(bitmap, rate[0]);
+                        floatButton.setImageBitmap(mAvatar);
+                    }
+                });
 
-                mAvatar = getCircleBitmap(bitmap, rate);
-                floatButton.setImageBitmap(mAvatar);
                 sub.close();
             }
 

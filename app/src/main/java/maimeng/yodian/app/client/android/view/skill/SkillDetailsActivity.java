@@ -206,7 +206,7 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
 
     @Override
     public void success(RmarkListResponse res, Response response) {
-        if (res.isSuccess()) {
+        if (res.isValidateAuth(this) && res.isSuccess()) {
             List<Rmark> list = res.getData().getList();
 
             if (list.size() > 0) {
