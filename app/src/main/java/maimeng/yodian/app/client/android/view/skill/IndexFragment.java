@@ -332,7 +332,7 @@ public class IndexFragment extends BaseFragment implements Callback<SkillRespons
 
     @Override
     public void success(SkillResponse res, Response response) {
-        if (res.isSuccess()) {
+        if (res.isValidateAuth(getActivity()) && res.isSuccess()) {
             DataNode data = res.getData();
             List<Theme> navs = data.getCategory();
             if (navs != null) {

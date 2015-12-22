@@ -370,7 +370,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 @Override
                 public void success(ToastResponse res, Response response) {
                     super.success(res, response);
-                    if (res.isSuccess()) {
+                    if (res.isValidateAuth(CreateOrEditSkillActivity.this) && res.isSuccess()) {
                         Skill skill = get("skill");
                         skill.setPic(template.getPic());
                         skill.setUnit(template.getUnit());
@@ -410,9 +410,6 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 service.add(template.getName(), template.getContent(), new TypedBitmap.Builder(mBitmap).setSize(300).build(), template.getPrice(), template.getUnit(), binding.onLinePay.isChecked() ? 1 : 0, new Callback<SkillAllResponse>() {
                     @Override
                     public void success(SkillAllResponse res, Response response) {
-                        if(res.getCode()==55000){
-                            res.showMessage(CreateOrEditSkillActivity.this,res.getMsg());
-                        }
                         if (res.isSuccess()) {
                             final Skill newSkill = res.getData();
                             if (mShareDialog == null) {

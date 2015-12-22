@@ -296,7 +296,15 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                 }
             }
         } else {
-            res.showMessage(mActivity);
+            if( isMe){
+                if(res.isValidateAuth(getActivity())){
+
+                }else{
+                    res.showMessage(mActivity);
+                }
+            }else{
+                res.showMessage(mActivity);
+            }
         }
 
     }
