@@ -7,10 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -21,9 +23,12 @@ import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.AcitivityRemainderMainBinding;
 import maimeng.yodian.app.client.android.model.remainder.Remainder;
+import maimeng.yodian.app.client.android.model.user.CertifyInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.CertifyInfoResponse;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
+import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 
@@ -35,10 +40,10 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     private AcitivityRemainderMainBinding binding;
     private Remainder defaultValue;
     private static final int REQUEST_SHOW_DURING = 0x1001;
-    private static final int REQUEST_BIND_BANK = 0x1002;
+    private static final int REQUEST_INFO_CERTIFY = 0x1002;
     private static final int REQUEST_VOUCH_APPLY = 0x1003;
     private boolean isObtainRemainder = false;
-
+    private CertifyInfo certifyInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +62,38 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         binding.refreshLayout.addPtrUIHandler(header);
         binding.refreshLayout.setHeaderView(header);
         binding.refreshLayout.autoRefresh();
+
+
+        Network.getService(AuthService.class).getCertifyInfo(new Callback<CertifyInfoResponse>() {
+            @Override
+            public void start() {
+
+            }
+
+            @Override
+            public void success(CertifyInfoResponse certifyInfoResponse, Response response) {
+                if (certifyInfoResponse.getCode() == 20000) {
+                    certifyInfo= certifyInfoResponse.getData().getCertifi();
+                    if (certifyInfo != null) {
+                        binding.basicName.setText(certifyInfo.getCname());
+                    }
+
+                }else {
+                    Toast.makeText(RemainderMainActivity.this,certifyInfoResponse.getMsg(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void failure(HNetError hNetError) {
+                ErrorUtils.checkError(RemainderMainActivity.this, hNetError);
+            }
+
+            @Override
+            public void end() {
+
+            }
+        });
+
     }
 
     @Override
@@ -113,7 +150,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         } else if (v == binding.btnRemaindered) {
             startActivity(new Intent(this, WDListHistoryActivity.class).putExtra("mony", binding.getRemainder().getWithdraw()));
         } else if (v == binding.btnConfirmInfo) {
-            startActivity(new Intent(this, BasicalInfoConfirmActivity.class));
+            BasicalInfoConfirmActivity.show(RemainderMainActivity.this,certifyInfo,REQUEST_INFO_CERTIFY);
         } else if (binding.btnDrawMoneyInfo == v) {
             //必须获得Remainder之后binding.getRemainder()才有效
             DrawMoneyInfoConfirmActivity.show(this, binding.getRemainder().getDraw_account());
@@ -129,7 +166,11 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
                 if (remainder != null) {
                     binding.setRemainder(remainder);
                 }
-            } else if (requestCode == REQUEST_BIND_BANK) {
+            } else if (requestCode == REQUEST_INFO_CERTIFY) {
+                certifyInfo= Parcels.unwrap(data.getParcelableExtra("certifyinfo"));
+                if(certifyInfo!=null){
+                    binding.basicName.setText(certifyInfo.getCname());
+                }
 
             } else if (requestCode == REQUEST_VOUCH_APPLY) {
                 //申请完成

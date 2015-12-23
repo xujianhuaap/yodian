@@ -24,6 +24,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,7 +69,17 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     final int[] weight = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};    //十七位数字本体码权重
     final char[] validate = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};    //mod11,对应校验码字符值
     private TextView mTip;
+    private CertifyInfo mCertifyInfo;
 
+    /***
+     * @param context
+     * @param
+     */
+    public static void show(Activity context,CertifyInfo certifyInfo, int requestCode) {
+        Intent intent = new Intent(context, BasicalInfoConfirmActivity.class);
+        intent.putExtra("info", Parcels.wrap(certifyInfo));
+        context.startActivityForResult(intent, requestCode);
+    }
 
     /***
      * @param context
@@ -85,6 +96,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_info_confirm);
+        mCertifyInfo=Parcels.unwrap(getIntent().getParcelableExtra("info"));
         mName = (EditText) findViewById(R.id.basic_name);
         mID = (EditText) findViewById(R.id.basic_id);
         mMobile = (EditText) findViewById(R.id.basic_mobile);
@@ -105,37 +117,12 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
         mSubmit.setOnClickListener(this);
         mGetCode.setOnClickListener(this);
 
+        if (mCertifyInfo != null) {
+            mName.setText(mCertifyInfo.getCname());
+            mMobile.setText(mCertifyInfo.getMobile());
+            mID.setText(mCertifyInfo.getIdcard());
+        }
         mService = Network.getService(AuthService.class);
-        mService.getCertifyInfo(new Callback<CertifyInfoResponse>() {
-            @Override
-            public void start() {
-
-            }
-
-            @Override
-            public void success(CertifyInfoResponse certifyInfoResponse, Response response) {
-                if (certifyInfoResponse.getCode() == 20000) {
-                    CertifyInfo info = certifyInfoResponse.getData().getCertifi();
-                    if (info != null) {
-                        mName.setText(info.getCname());
-                        mMobile.setText(info.getMobile());
-                        mID.setText(info.getIdcard());
-                    }
-
-                }
-            }
-
-            @Override
-            public void failure(HNetError hNetError) {
-                ErrorUtils.checkError(BasicalInfoConfirmActivity.this, hNetError);
-            }
-
-            @Override
-            public void end() {
-
-            }
-        });
-
     }
 
 
@@ -349,7 +336,13 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
                         public void positiveClick() {
-                            setResult(RESULT_OK, getIntent());
+                            if(mCertifyInfo!=null){
+                                mCertifyInfo=new CertifyInfo();
+                            }
+                            mCertifyInfo.setCname(mNameStr);
+                            mCertifyInfo.setIdcard(mIdStr);
+                            mCertifyInfo.setMobile(mMobileStr);
+                            setResult(RESULT_OK, getIntent().putExtra("certifyinfo", Parcels.wrap(mCertifyInfo)));
                             finish();
                         }
                     }, "知道了");

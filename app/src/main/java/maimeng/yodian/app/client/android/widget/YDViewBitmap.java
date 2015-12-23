@@ -15,6 +15,8 @@ import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
+import maimeng.yodian.app.client.android.utils.LogUtil;
+
 /**
  * 没事不要随便用这个View，否则出现什么不科学的问题自己搞定哈
  */
@@ -73,8 +75,13 @@ public class YDViewBitmap extends YDView {
 
             @Override
             protected void onNewResultImpl(Bitmap bitmap) {
-                mBitmap = bitmap.copy(bitmap.getConfig(), true);
-                dataSource.close();
+                if(bitmap!=null){
+                    if(bitmap.getConfig()!=null){
+                        mBitmap = bitmap.copy(bitmap.getConfig(), true);
+                        dataSource.close();
+                    }
+                }
+
             }
 
             @Override
