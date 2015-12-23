@@ -224,6 +224,8 @@
     2.填写提交认证信息并且开启在线支付后，其他用户可在线购买您的服务<br/>
     3.如果有任何其他问题，请添加我们的客服微信:iketie</font></td>]]></string>
 
+      <string name="certify_info_success"><![CDATA[<td>你的历史技能现在也能开通在线支付了哦~</td>]]></string>
+
     <!--提现信息认证-->
     <string name="zhi_fu_bao_account">支付宝账号</string>
     <string name="twice_confirm_account">确  认  账  号</string>

@@ -113,6 +113,8 @@ public class RemainderCustomDialog {
                 });
 
 
+            }else{
+                btnPositive.setVisibility(View.GONE);
             }
 
             if(negtiveListener!=null){
@@ -130,15 +132,21 @@ public class RemainderCustomDialog {
                     }
                 });
 
+            }else{
+                btnNegtive.setVisibility(View.GONE);
+            }
+            if(closeListener!=null){
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        closeListener.closeClick();
+                        alertDialog.dismiss();
+                    }
+                });
+            }else{
+                btnClose.setVisibility(View.GONE);
             }
 
-            btnClose.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    closeListener.closeClick();
-                    alertDialog.dismiss();
-                }
-            });
             return alertDialog;
         }
     }

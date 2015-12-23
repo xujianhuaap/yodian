@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -36,6 +37,7 @@ import maimeng.yodian.app.client.android.network.response.CertifyInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
+import maimeng.yodian.app.client.android.view.dialog.RemainderCustomDialog;
 
 /**
  * 绑定银行卡表单界面
@@ -342,8 +344,17 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
             if (toastResponse.getCode() == 20000) {
                 if (!isGetCode) {
                     Toast.makeText(BasicalInfoConfirmActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK, getIntent());
-                    finish();
+                    RemainderCustomDialog.Builder builder = new RemainderCustomDialog.Builder(BasicalInfoConfirmActivity.this);
+                    builder.setMesage((Html.fromHtml(getResources().getString(R.string.certify_info_success))));
+                    builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
+                        @Override
+                        public void positiveClick() {
+                            setResult(RESULT_OK, getIntent());
+                            finish();
+                        }
+                    }, "知道了");
+                    builder.create().show();
+
                 }
 
             } else {

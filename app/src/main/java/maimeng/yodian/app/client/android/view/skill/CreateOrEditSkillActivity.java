@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
@@ -169,12 +170,15 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             binding.onLinePay.setClickable(false);
         }
         if (getIntent().hasExtra("template")) {
+            //模板增加技能
             mTemplate = get("template");
             ViewCompat.setTransitionName(binding.skillPic, "avatar");
             ViewCompat.setTransitionName(binding.skillName, "title");
         } else {
+
             mTemplate = new SkillTemplate();
             if (getIntent().hasExtra("skill")) {
+                //编辑技能
                 Skill skill = get("skill");
                 mTemplate.setPic(skill.getPic());
                 mTemplate.setUnit(skill.getUnit());
@@ -186,6 +190,9 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 mTemplate.setStatus(skill.isXiajia());
                 onLinePay = skill.getAllow_sell() == 1;
                 isEdit = true;
+            }else{
+                // 自定义技能
+
             }
         }
         Network.getService(MoneyService.class).remanider(new Callback<RemainderResponse>() {
@@ -259,37 +266,20 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 startActivityForResult(intentPhoto, REQUEST_SELECT_PHOTO);
             }
         });
-        binding.onLinePay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (info != null) {
-                    if (info.getCertifi_status() == CertifyStatus.PASS) {
-                        //设置技能允许卖
-                        onLinePay = !onLinePay;
-                        binding.onLinePay.setChecked(onLinePay);
-                        if (!isEdit && onLinePay) {
-                            MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_PUBLISH_START_ONLINE);
-                        } else if (isEdit) {
-                            if (onLinePay) {
-                                MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_PUBLISH_OPENE_ONLINE);
-                            } else {
-                                MobclickAgent.onEvent(v.getContext(), UEvent.SKILL_PUBLISH_CLOSE_ONLINE);
-                            }
-                        }
-
-                    } else {
-                        binding.onLinePay.setChecked(false);
-                        VouchDealActivity.show(CreateOrEditSkillActivity.this,REQUEST_INFO_CERTIFY);
-                    }
-                }
-            }
-        });
-        binding.onLinePay.setChecked(onLinePay);
         if (isEdit) {
             MobclickAgent.onEvent(this, UEvent.EDIT_SKILL);
         } else {
+            onLinePay=true;
             MobclickAgent.onEvent(this, UEvent.SKILL_PUBLISH);
         }
+        binding.onLinePay.setChecked(onLinePay);
+        binding.onLinePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLinePay = !onLinePay;
+                binding.onLinePay.setChecked(onLinePay);
+            }
+        });
         binding.setTemplate(mTemplate);
     }
 
@@ -336,6 +326,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     }
 
     private void doDone() {
+
         mBitmap=binding.skillPic.getBitmap();
         final SkillTemplate template = binding.getTemplate();
         if (TextUtils.isEmpty(template.getName())) {
@@ -360,7 +351,26 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
             Toast.makeText(this, R.string.create_not_empty_pic, Toast.LENGTH_SHORT).show();
             return;
         }
+        if(onLinePay){
+            if (info != null) {
+                if (info.getCertifi_status() == CertifyStatus.PASS) {
+                    //设置技能允许卖
+                    if (!isEdit && onLinePay) {
+                        MobclickAgent.onEvent(CreateOrEditSkillActivity.this, UEvent.SKILL_PUBLISH_START_ONLINE);
+                    } else if (isEdit) {
+                        if (onLinePay) {
+                            MobclickAgent.onEvent(CreateOrEditSkillActivity.this, UEvent.SKILL_PUBLISH_OPENE_ONLINE);
+                        } else {
+                            MobclickAgent.onEvent(CreateOrEditSkillActivity.this, UEvent.SKILL_PUBLISH_CLOSE_ONLINE);
+                        }
+                    }
 
+                } else {
+                    VouchDealActivity.show(CreateOrEditSkillActivity.this,REQUEST_INFO_CERTIFY);
+                    return;
+                }
+            }
+        }
         float price = template.getPrice();
         binding.getTemplate().setPrice(price);
 
@@ -382,7 +392,6 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         Intent data = new Intent();
                         data.putExtra("skill", Parcels.wrap(skill));
                         setResult(RESULT_OK, data);
-                        finish();
                     } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)){
 
                     } else {
@@ -401,6 +410,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 public void end() {
                     super.end();
                     if (dialog != null) dialog.dismiss();
+                    finish();
                 }
             });
 
@@ -420,7 +430,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                                     @Override
                                     public void onClose() {
                                         setResult(RESULT_OK, new Intent().putExtra("skill", Parcels.wrap(newSkill)));
-                                        finish();
+
                                     }
                                 });
                             }
@@ -444,7 +454,9 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
 
                     @Override
                     public void end() {
+
                         if (dialog != null) dialog.dismiss();
+                        finish();
                     }
                 });
 
@@ -525,15 +537,6 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        if (mBitmap != null && !mBitmap.isRecycled()) {
-//            mBitmap.recycle();
-//            mBitmap = null;
-//            System.gc();
-//        }
-    }
 
     class EditTextChangeListener implements TextWatcher {
         private final EditText mText;

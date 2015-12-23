@@ -93,8 +93,8 @@ public class WaitDialog extends DialogFragment {
     public void dismiss() {
         Activity activity=getActivity();
         if(activity!=null){
-            if(!getActivity().isFinishing()){
-                super.dismiss();
+            if(!activity.isFinishing()){
+                super.dismissAllowingStateLoss();
             }
         }
 
