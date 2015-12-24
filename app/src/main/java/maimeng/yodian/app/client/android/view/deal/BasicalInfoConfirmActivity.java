@@ -336,7 +336,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
                     builder.setPositiveListener(new RemainderCustomDialog.IPositiveListener() {
                         @Override
                         public void positiveClick() {
-                            if(mCertifyInfo!=null){
+                            if(mCertifyInfo==null){
                                 mCertifyInfo=new CertifyInfo();
                             }
                             mCertifyInfo.setCname(mNameStr);
