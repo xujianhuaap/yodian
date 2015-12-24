@@ -79,7 +79,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
                     }
 
                 }else {
-                    Toast.makeText(RemainderMainActivity.this,certifyInfoResponse.getMsg(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RemainderMainActivity.this,certifyInfoResponse.getMsg(),Toast.LENGTH_SHORT).show();
                 }
             }
 
