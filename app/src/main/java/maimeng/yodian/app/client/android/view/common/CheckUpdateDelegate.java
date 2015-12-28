@@ -80,7 +80,7 @@ public class CheckUpdateDelegate implements Callback<VersionResponse>, AlertDial
                 }
                 sb.append("<br/><br/>");
                 sb.append(res.getData().getContent());
-                dialog = AlertDialog.newInstance("更新提示", sb.toString());
+                dialog = AlertDialog.newInstance(null, sb.toString());
                 dialog.setNegativeListener(new AlertDialog.NegativeListener() {
                     @Override
                     public void onNegativeClick(DialogInterface dialog) {

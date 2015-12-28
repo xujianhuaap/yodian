@@ -3,6 +3,7 @@ package maimeng.yodian.app.client.android.view.dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 
 
 /**
@@ -15,7 +16,9 @@ public class AlertDialog extends DialogFragment {
     public static AlertDialog newInstance(String title, String message) {
         AlertDialog adf = new AlertDialog();
         Bundle bundle = new Bundle();
-        bundle.putString("alert-title", title);
+        if (!TextUtils.isEmpty(title)){
+            bundle.putString("alert-title", title);
+        }
         bundle.putString("alert-message", message);
         adf.setArguments(bundle);
         return adf;
