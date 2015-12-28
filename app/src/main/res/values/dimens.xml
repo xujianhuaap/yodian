@@ -130,6 +130,7 @@
     <dimen name="order_operator_height">35dp</dimen>
     <!--settingActivity-->
     <dimen name="btn_width_switcher">68dp</dimen>
+    <dimen name="btn_logo_height">25dp</dimen>
 
     <!--auth_setting-->
     <dimen name="auth_setting_tip_name_margin_top">143dp</dimen>

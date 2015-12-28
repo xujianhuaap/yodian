@@ -63,6 +63,40 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/div_line" />
+        <LinearLayout
+            android:id="@+id/btn_common_question"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/btn_logo_height"
+                android:layout_height="@dimen/btn_logo_height"
+                android:src="@mipmap/ic_common_question"
+                android:scaleType="centerInside"
+                android:layout_marginTop="@dimen/top_icon_margin"
+                android:layout_marginBottom="@dimen/top_icon_margin"
+                android:layout_marginLeft="@dimen/top_icon_margin"
+                android:drawablePadding="@dimen/top_icon_margin"
+                android:gravity="center_vertical|left" />
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/top_icon_margin"
+                android:drawablePadding="@dimen/top_icon_margin"
+                android:gravity="center_vertical|left"
+                android:text="@string/lable_common_question"
+                android:textColor="@color/black_40" />
+
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/div_line" />
 
         <TextView
             android:id="@+id/current_version"

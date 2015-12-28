@@ -38,6 +38,7 @@ public class SettingsActivity extends AbstractActivity {
     PopupWindow window;
     User user;
     private CommonService mPushService;
+    private View mCommonQuestion;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -93,6 +94,8 @@ public class SettingsActivity extends AbstractActivity {
         mBtnChangeAccount = findViewById(R.id.btn_change_account);
         mBtnCleanCache = findViewById(R.id.btn_cleancache);
         mCurrentVersion = (TextView) findViewById(R.id.current_version);
+
+        mCommonQuestion = findViewById(R.id.btn_common_question);
         mCurrentVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +128,14 @@ public class SettingsActivity extends AbstractActivity {
             public void onClick(View v) {
                 clearCache();
                 Toast.makeText(SettingsActivity.this, R.string.clearSuccess, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mCommonQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final  String url="http://share.yodian.me/qa.html";
+                WebViewActivity.show(SettingsActivity.this,url);
             }
         });
 
