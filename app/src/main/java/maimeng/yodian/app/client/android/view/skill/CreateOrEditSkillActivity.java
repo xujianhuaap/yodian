@@ -392,6 +392,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                         Intent data = new Intent();
                         data.putExtra("skill", Parcels.wrap(skill));
                         setResult(RESULT_OK, data);
+                        finish();
                     } else if (res.isValidateAuth(CreateOrEditSkillActivity.this, REQUEST_AUTH)){
 
                     } else {
@@ -410,7 +411,6 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                 public void end() {
                     super.end();
                     if (dialog != null) dialog.dismiss();
-                    finish();
                 }
             });
 
@@ -430,7 +430,7 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                                     @Override
                                     public void onClose() {
                                         setResult(RESULT_OK, new Intent().putExtra("skill", Parcels.wrap(newSkill)));
-
+                                        finish();
                                     }
                                 });
                             }
@@ -456,7 +456,6 @@ public class CreateOrEditSkillActivity extends AbstractActivity {
                     public void end() {
 
                         if (dialog != null) dialog.dismiss();
-                        finish();
                     }
                 });
 

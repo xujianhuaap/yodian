@@ -35,8 +35,6 @@
 -keepattributes Signature
 -keepattributes Exceptions
 
-<<<<<<< HEAD
-
 -keepattributes Exceptions,InnerClasses,Signature
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
@@ -56,7 +54,7 @@
 -keep class * extends android.app.Activity{*;}
 -keep class * extends android.support.v7.app.AppCompatActivity{*;}
 -keep class * extends android.app.Service{*;}
-=======
+
 -keep class io.realm.annotations.RealmModule
 -keep @io.realm.annotations.RealmModule class *
 -keep class io.realm.internal.Keep
@@ -102,4 +100,4 @@
 -dontwarn java.nio.file.Files
 -dontwarn java.nio.file.Path
 -dontwarn java.nio.file.OpenOption
->>>>>>> e41dc5babcf219cdeb6718aaabbcc756865bc69a
+
