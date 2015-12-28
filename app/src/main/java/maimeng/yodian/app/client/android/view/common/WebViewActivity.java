@@ -3,6 +3,8 @@ package maimeng.yodian.app.client.android.view.common;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -58,9 +60,11 @@ public class WebViewActivity extends AbstractActivity {
         super.initToolBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            mTitle.setTextColor(Color.WHITE);
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back_black);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_go_back);
         }
     }
 
