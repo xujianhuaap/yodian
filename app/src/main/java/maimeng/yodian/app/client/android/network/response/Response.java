@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import maimeng.yodian.app.client.android.model.user.User;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 
@@ -48,6 +49,10 @@ public class Response {
         return isValidateAuth(context, -1);
     }
     public boolean isValidateAuth(Activity context, int requestCode) {
+        if(context==null){
+            LogUtil.w(this.getClass().getSimpleName(),"isValidateAuth(),context is null");
+            return true;
+        }
         if (code == 10011) {
             User.clear(context);
             AuthRedirect.toAuth(context,requestCode);

@@ -168,7 +168,7 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
 
     @Override
     public void success(SkillResponse res, Response response) {
-        if (res.isSuccess()) {
+        if (res.isValidateAuth(getActivity()) && res.isSuccess()) {
             DataNode data = res.getData();
             List<Skill> list = data.getList();
             callRefreshAdapter(list, data.getBanner());
