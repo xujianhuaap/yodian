@@ -609,10 +609,9 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
+            refreshInfo();
             if (data != null) {
                 if (requestCode == REQUEST_ORDER_BUY) {
-                    refreshInfo();
                     Lottery lottery = Parcels.unwrap(data.getParcelableExtra("lottery"));
                     if (lottery.getIsLottery() == 1) {
                         LotteryActivity.show(this, lottery);

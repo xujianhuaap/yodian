@@ -42,6 +42,7 @@ import maimeng.yodian.app.client.android.network.response.FloatResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 import maimeng.yodian.app.client.android.view.auth.AuthSeletorActivity;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
@@ -133,19 +134,21 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
      * 更新头像
      */
     private void updateFloatButton() {
+        final int dpi = getResources().getDisplayMetrics().densityDpi;
+        LogUtil.d(MainTab2Activity.class.getName(),"dpi: %d",dpi);
         final DataSource<CloseableReference<CloseableImage>> sub = Fresco.getImagePipeline().fetchDecodedImage(ImageRequest.fromUri(Uri.parse(User.read(this).getAvatar())),this);
         sub.subscribe(new BaseBitmapDataSubscriber() {
             @Override
             protected void onNewResultImpl(final Bitmap bitmap) {
                 final int dpi = getResources().getDisplayMetrics().densityDpi;
                 final float[] rate = new float[1];
-                if (dpi > 140 && dpi < 180) {
+                if ( dpi <=160) {
                     rate[0] = 0.4f;
-                } else if (300 < dpi && dpi < 320) {
-                    rate[0] = 0.6f;
-                } else if (dpi >= 460 && dpi < 500) {
+                } else if (dpi>160 && dpi <=320) {
                     rate[0] = 0.8f;
-                } else if (dpi > 640) {
+                } else if (dpi > 320 && dpi <=480) {
+                    rate[0] = 0.8f;
+                } else if (dpi > 480) {
                     rate[0] = 0.9f;
                 }
                 runOnUiThread(new Runnable() {
