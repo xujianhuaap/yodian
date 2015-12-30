@@ -201,7 +201,7 @@
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.deal.RemainderMainActivity"
-            android:label="@string/my_remainder"
+            android:label="@string/my_account"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".view.deal.RemainderInfoActivity"

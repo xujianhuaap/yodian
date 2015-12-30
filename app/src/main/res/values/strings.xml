@@ -74,6 +74,7 @@
     <string name="check_newversion_faild">检查版本更新失败!</string>
     <string name="no_newversion">没有新版本!</string>
     <string name="my_remainder">我的余额</string>
+    <string name="my_account">账户信息</string>
     <string name="my_remainder_lb">我的余额(元)</string>
     <string name="withdraw_lb">已提现金额</string>
     <string name="remainder_lb">余额(元)</string>
