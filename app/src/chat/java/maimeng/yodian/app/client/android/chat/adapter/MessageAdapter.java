@@ -101,8 +101,8 @@ public class MessageAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_RECV_IMAGE = 3;
     private static final int MESSAGE_TYPE_SENT_VOICE = 4;
     private static final int MESSAGE_TYPE_RECV_VOICE = 5;
-    private static final int MESSAGE_TYPE_SENT_WECHAT_VCARD = 6;
-    private static final int MESSAGE_TYPE_RECV_WECHAT_VCARD = 7;
+    private static final int MESSAGE_TYPE_SENT_VCARD = 6;
+    private static final int MESSAGE_TYPE_RECV_VCARD = 7;
 
 
     public static final String IMAGE_DIR = "chat/image/";
@@ -240,7 +240,7 @@ public class MessageAdapter extends BaseAdapter {
         }
         if (message.getType() == EMMessage.Type.TXT) {
             if (isCard(message)) {
-                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_WECHAT_VCARD : MESSAGE_TYPE_SENT_WECHAT_VCARD;
+                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VCARD : MESSAGE_TYPE_SENT_VCARD;
             }
 
             return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
@@ -266,10 +266,10 @@ public class MessageAdapter extends BaseAdapter {
                 return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_voice, null) : inflater.inflate(
                         R.layout.row_sent_voice, null);
             default:
-                if (getItemViewType(position) == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
-                    return inflater.inflate(R.layout.row_sent_wechat_vcard, null);
-                } else if (getItemViewType(position) == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
-                    return inflater.inflate(R.layout.row_received_wechat_vcard, null);
+                if (getItemViewType(position) == MESSAGE_TYPE_SENT_VCARD) {
+                    return inflater.inflate(R.layout.row_sent_vcard, null);
+                } else if (getItemViewType(position) == MESSAGE_TYPE_RECV_VCARD) {
+                    return inflater.inflate(R.layout.row_received_vcard, null);
                 } else {
                     return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_message,
                             null) : inflater.inflate(R.layout.row_sent_message, null);
@@ -286,7 +286,7 @@ public class MessageAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = createViewByMessage(message, position);
-            if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
+            if (itemViewType == MESSAGE_TYPE_RECV_VCARD) {
                 holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                 holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
                 holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
@@ -295,7 +295,7 @@ public class MessageAdapter extends BaseAdapter {
                 holder.vcard_avatar = (YDView) convertView.findViewById(R.id.vcard_avatar);
                 holder.vcard_nickname = (TextView) convertView.findViewById(R.id.vcard_nickname);
                 holder.wechat_vcard_item = convertView.findViewById(R.id.vcard_wechat_item);
-            } else if (itemViewType == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
+            } else if (itemViewType == MESSAGE_TYPE_SENT_VCARD) {
                 holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                 holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
                 holder.iv_avatar = (YDView) convertView.findViewById(R.id.iv_userhead);
@@ -419,7 +419,7 @@ public class MessageAdapter extends BaseAdapter {
                 handleImageMessage(message, holder, position, convertView);
                 break;
             case TXT: // 文本
-                if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD || itemViewType == MESSAGE_TYPE_SENT_WECHAT_VCARD) {
+                if (itemViewType == MESSAGE_TYPE_RECV_VCARD || itemViewType == MESSAGE_TYPE_SENT_VCARD) {
                     try {
                         String avatar = message.getStringAttribute("avatar");
                         String nickName = message.getStringAttribute("nickName");
@@ -432,7 +432,7 @@ public class MessageAdapter extends BaseAdapter {
                             @Override
                             public void onClick(View v) {
                                 EMMessage msg = (EMMessage) v.getTag();
-                                if (itemViewType == MESSAGE_TYPE_RECV_WECHAT_VCARD) {
+                                if (itemViewType == MESSAGE_TYPE_RECV_VCARD) {
                                     User user = User.parse(msg);
                                     final String contact = user.getMobile();
                                     final String qq = user.getQq();
