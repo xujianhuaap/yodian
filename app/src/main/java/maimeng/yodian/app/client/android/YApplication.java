@@ -187,7 +187,6 @@ public class YApplication extends DemoApplication {
                 builder.setSmallIcon(R.mipmap.icon_app);
                 builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_app));
                 builder.setWhen(System.currentTimeMillis());
-                builder.setTicker("msg.text");
                 builder.setContentTitle(msg.title);
                 builder.setContentText(msg.text);
                 Notification build = builder.build();
@@ -200,10 +199,6 @@ public class YApplication extends DemoApplication {
         ShareSDK.getInstance().initShare(BuildConfig.WEIXIN_APP_KEY, BuildConfig.WEIBO_APP_KEY, BuildConfig.QQ_APP_KEY, BuildConfig.WEIXIN_APP_SECRET, BuildConfig.REDIRECT_URL);
         EMChat.getInstance().setDebugMode(BuildConfig.DEBUG);
         MobclickAgent.setDebugMode(BuildConfig.DEBUG);
-//        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
-//                .setMainDiskCacheConfig(DiskCacheConfig.newBuilder().build())
-//                .build();
-//        Fresco.initialize(this, config);
         Fresco.initialize(this);
 
     }
