@@ -1,4 +1,0 @@
-/home/xujianhua/Documents/codes/yodian_android/app/build/outputs/mapping/release/yodian_app-mapping.txt --> fcea327cc4824ab5b9c11d8da34a90b0c8b32238
-/home/xujianhua/Documents/codes/yodian_android/app/build/outputs/mapping/release/yodian_app-mapping.txt --> 1214bef602472ea5138687339d999042f1c5dfe4
-/home/xujianhua/Documents/codes/yodian_android/app/build/outputs/mapping/release/yodian_app-mapping.txt --> 54a23c337fb709e57a5a10f89e87ec83836e398d
-/home/xujianhua/Documents/codes/yodian_android/app/build/outputs/mapping/release/yodian_app-mapping.txt --> 7dad5238f203205aab469e51d891a8d141433fb8
