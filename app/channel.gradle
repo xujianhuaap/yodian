@@ -1,4 +1,9 @@
 apply from: 'channel_home.gradle'
+
+
+
+
+
 android {
     productFlavors {
         baidu {
