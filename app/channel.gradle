@@ -10,6 +10,9 @@ android {
         _360 {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360", CHANNEL_ID: 3, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
+        oppo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "oppo", CHANNEL_ID: 6, LAUNCHER_ACTIVITY: "DefaultActivity"]
+        }
         xiaomi {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi", CHANNEL_ID: 1, LAUNCHER_ACTIVITY: "DefaultActivity"]
         }
