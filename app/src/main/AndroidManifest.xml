@@ -207,6 +207,10 @@
             android:name=".view.deal.RemainderInfoActivity"
             android:label="@string/my_remainder"
             android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".view.deal.RemainderDetailActivity"
+            android:label="@string/my_remainder_detail">
+
+        </activity>
         <activity
             android:name=".view.deal.WDListHistoryActivity"
             android:label="@string/withdraw_lb"

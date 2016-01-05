@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -92,8 +94,19 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
                 finish();
                 return true;
             }
+            case R.id.remainder_detail:{
+                RemainderDetailActivity.show(this);
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.activity_remainder_info,menu);
+        return true;
     }
 
     @Override

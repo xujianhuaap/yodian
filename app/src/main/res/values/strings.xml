@@ -74,6 +74,7 @@
     <string name="check_newversion_faild">检查版本更新失败!</string>
     <string name="no_newversion">没有新版本!</string>
     <string name="my_remainder">我的余额</string>
+    <string name="my_remainder_detail">余额收支明细</string>
     <string name="my_account">账户信息</string>
     <string name="my_remainder_lb">我的余额(元)</string>
     <string name="withdraw_lb">已提现金额</string>
@@ -243,4 +244,9 @@
     <string name="order_contact_us">联系客服</string>
     <string name="order_cancel">取消订单</string>
     <string name="order_go_back">返回</string>
+
+    <!-- remainderdetail-->
+    <string name="remainder_title_income">收入</string>
+    <string name="remainder_title_fee">支出</string>
+    <string name="remainder_title_total">全部</string>
 </resources>
