@@ -285,14 +285,16 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
                     if (user.getInfo().getMoneyMsg() > 0) {
                         headerMainHomeBinding.msgMoneyTopic.setVisibility(View.VISIBLE);
                     }
-                    if (adapter.getHeaderBinding() != null) {
-                        if (page == 1 && list.size() == 0) {
-                            adapter.getHeaderBinding().exception.setVisibility(View.VISIBLE);
-                        } else {
-                            adapter.getHeaderBinding().exception.setVisibility(View.GONE);
-                        }
-                    }
+
                     initUserInfoWidthMe();
+                }
+
+                if (adapter.getHeaderBinding() != null) {
+                    if (page == 1 && list.size() == 0) {
+                        adapter.getHeaderBinding().exception.setVisibility(View.VISIBLE);
+                    } else {
+                        adapter.getHeaderBinding().exception.setVisibility(View.GONE);
+                    }
                 }
             }
         } else {
