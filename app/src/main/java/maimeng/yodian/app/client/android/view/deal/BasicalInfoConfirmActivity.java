@@ -37,6 +37,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.CertifyInfoResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
+import maimeng.yodian.app.client.android.utils.RegUtils;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.dialog.RemainderCustomDialog;
 
@@ -65,7 +66,6 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
     private AuthService mService;
     private static final int TYPE_CERTIFY_CODE = 2;
     CountDownTimer timeout;
-    Pattern p = Pattern.compile("^170|((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
     final int[] weight = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};    //十七位数字本体码权重
     final char[] validate = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};    //mod11,对应校验码字符值
     private TextView mTip;
@@ -221,9 +221,7 @@ public class BasicalInfoConfirmActivity extends AbstractActivity implements View
             if (isCanClick) {
                 MobclickAgent.onEvent(this, UEvent.INFO_BASIC_CERTIFY_CODE);
                 if (!TextUtils.isEmpty(mMobileStr)) {
-
-                    Matcher m = p.matcher(mMobileStr);
-                    if (m.matches()) {
+                    if (RegUtils.isMobile(BasicalInfoConfirmActivity.this,mMobileStr)) {
                         timeout = new CountDownTimer(mCode, getResources().getInteger(R.integer.code_duration));
                         timeout.start();
                         mGetCode.setVisibility(View.GONE);
