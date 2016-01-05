@@ -24,6 +24,7 @@ import com.umeng.message.PushAgent;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
+import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import org.henjue.library.share.ShareSDK;
 import org.json.JSONException;
@@ -88,6 +89,8 @@ public class YApplication extends DemoApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        OnlineConfigAgent.getInstance().setDebugMode(BuildConfig.DEBUG);
+        OnlineConfigAgent.getInstance().updateOnlineConfig(this);
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -200,7 +203,6 @@ public class YApplication extends DemoApplication {
         EMChat.getInstance().setDebugMode(BuildConfig.DEBUG);
         MobclickAgent.setDebugMode(BuildConfig.DEBUG);
         Fresco.initialize(this);
-
     }
 
     public User getAuthUser() {
