@@ -174,6 +174,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#bbb" />
+                <LinearLayout
+                    android:id="@+id/btn_address_accept"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/chat_textColor"
+                        android:drawableLeft="@mipmap/ic_address_accept"
+                        android:drawablePadding="@dimen/normal_padding"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/normal_cell_row_mini_height"
+                        android:padding="@dimen/normal_padding"
+                        android:text="@string/address_accept"
+                        android:textColor="#4e4c4c"
+                        android:textSize="@dimen/btn_text_size" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:background="@color/chat_textColor"
+                        android:drawableRight="@mipmap/ic_enter_next"
+                        android:drawablePadding="@dimen/padding_large"
+                        android:gravity="center_vertical|right"
+                        android:minHeight="@dimen/normal_cell_row_mini_height"
+                        android:padding="@dimen/normal_padding"
+                        android:text="@{remainder.draw_account}"
+                        android:textColor="@color/edit_color"
+                        android:textSize="@dimen/btn_text_size" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#bbb" />
             </LinearLayout>
 
         </LinearLayout>

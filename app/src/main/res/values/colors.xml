@@ -3,6 +3,7 @@
     <color name="colorPrimary">#ffff</color>
     <color name="colorPrimary_hint">#99cecaca</color>
     <color name="colorPrimaryGrey">#dedede</color>
+    <color name="colorPrimaryGrey2">#8b8787</color>
     <color name="colorPrimaryGrey1">#313131</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorPrimaryDark2">#1e1e1e</color>
