@@ -19,6 +19,15 @@ public class Remainder {
     private float freeze;
     private String draw_account;
     private int readicon;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public float getFreeze() {
         return freeze;

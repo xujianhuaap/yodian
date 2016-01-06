@@ -4,12 +4,15 @@ import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.anntoation.FormUrlEncoded;
 import org.henjue.library.hnet.anntoation.Get;
 import org.henjue.library.hnet.anntoation.Multipart;
+import org.henjue.library.hnet.anntoation.NoneEncoded;
 import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
+import maimeng.yodian.app.client.android.network.response.AddressRespoonse;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.UserInfoResponse;
 
 /**
@@ -76,6 +79,28 @@ public interface UserService {
     @Post(Api.GET_USER_INFO)
     void getInfo(@Param("uid")long uid,Callback<UserInfoResponse> callback);
 
+    /***
+     * 设置收货地址
+     * @param province
+     * @param city
+     * @param district
+     * @param address
+     * @param name
+     * @param mobile
+     * @param callback
+     */
+    @Post(Api.SETTING_ADDRESS)
+    void setAddress(@Param("province")String province,@Param("city")String city,
+                    @Param("district")String district,@Param("address")String address,
+                    @Param("name")String name,@Param("mobile")String mobile,
+                    Callback<ToastResponse> callback);
 
+    /****
+     *
+     * @param callback
+     */
+    @Post(Api.GET_ADDRESS)
+    @NoneEncoded
+    void getAddress(Callback<AddressRespoonse>callback);
 
 }

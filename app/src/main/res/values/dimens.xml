@@ -151,5 +151,8 @@
     <dimen name="share_content_title_width">160dp</dimen>
     <dimen name="qrode_width">80dp</dimen>
 
+    <!-- address-->
+    <dimen name="address_detail_height">140dp</dimen>
+
 
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/address_detail_height"
+        android:gravity="top"
+        android:background="@color/chat_textColor"/>
+    <TextView
+        android:id="@+id/text_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/padding_normal"
+        android:paddingBottom="@dimen/padding_normal"
+        android:textSize="@dimen/text_size_large"
+        android:background="@color/chat_textColor"
+        android:gravity="right"
+        android:text="0/80"/>
+
+</LinearLayout>

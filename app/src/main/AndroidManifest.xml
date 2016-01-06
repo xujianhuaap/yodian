@@ -223,6 +223,10 @@
             android:name=".view.deal.BindBankCompliteActivity"
             android:label=""
             android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".view.common.AcceptAddressActivity"
+            android:label="@string/address_accept"></activity>
+        <activity android:name=".view.common.DetailAddressActivity"
+            android:label="@string/address_detail"></activity>
 
         <activity
             android:name=".view.common.PreviewActivity"

@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
+import maimeng.yodian.app.client.android.view.common.AcceptAddressActivity;
 
 /**
  * 我的余额主页
@@ -42,6 +44,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
     private static final int REQUEST_SHOW_DURING = 0x1001;
     private static final int REQUEST_INFO_CERTIFY = 0x1002;
     private static final int REQUEST_VOUCH_APPLY = 0x1003;
+    private static final int REQUEST_ADDRESS_SETTING = 0x1004;
     private boolean isObtainRemainder = false;
     private CertifyInfo certifyInfo;
     @Override
@@ -56,6 +59,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         binding.btnRemaindered.setOnClickListener(this);
         binding.btnConfirmInfo.setOnClickListener(this);
         binding.btnDrawMoneyInfo.setOnClickListener(this);
+        binding.btnAddressAccept.setOnClickListener(this);
 
         binding.refreshLayout.setPtrHandler(this);
         StoreHouseHeader header = PullHeadView.create(this).setTextColor(0x0);
@@ -154,6 +158,16 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         } else if (binding.btnDrawMoneyInfo == v) {
             //必须获得Remainder之后binding.getRemainder()才有效
             DrawMoneyInfoConfirmActivity.show(this, binding.getRemainder().getDraw_account());
+        }else if(binding.btnAddressAccept==v){
+            Remainder remainder=binding.getRemainder();
+            if(remainder!=null){
+                if(!TextUtils.isEmpty(remainder.getAddress())){
+                    AcceptAddressActivity.show(this,REQUEST_ADDRESS_SETTING,true);
+                }else {
+                    AcceptAddressActivity.show(this,REQUEST_ADDRESS_SETTING,false);
+                }
+            }
+
         }
     }
 
@@ -179,6 +193,12 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
                     AlertDialog.show(this, "", getString(R.string.apply_alertdialog_tip), getString(R.string.btn_name));
                 }
 
+            }else if(requestCode==REQUEST_ADDRESS_SETTING){
+                    Remainder remainder=binding.getRemainder();
+                    if(remainder!=null&&data!=null){
+                        remainder.setAddress(data.getStringExtra("address"));
+                        binding.setRemainder(remainder);
+                    }
             }
 
         }
