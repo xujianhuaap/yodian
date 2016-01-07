@@ -1269,6 +1269,17 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             }
             if (sendVcard) {
                 setExtAttribute(message, MESSAGE_NAME_CARD);
+                if("hx_admin".equals(chatUser.getChatName())){
+                    try {
+                        StringBuffer sb=new StringBuffer();
+                        sb.append("QQ:").append(message.getStringAttribute("qq")).append("\n");
+                        sb.append("电话:").append(message.getStringAttribute("mobile")).append("\n");
+                        sb.append("微信:").append(message.getStringAttribute("weChat"));
+                        content=sb.toString();
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    }
+                }
             } else {
                 setExtAttribute(message, MESSAGE_TEXT);
             }
