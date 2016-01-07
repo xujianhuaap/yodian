@@ -64,8 +64,8 @@ import maimeng.yodian.app.client.android.view.chat.ChatMainActivity;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.common.SettingsActivity;
+import maimeng.yodian.app.client.android.view.deal.AccountMainActivity;
 import maimeng.yodian.app.client.android.view.deal.OrderListActivity;
-import maimeng.yodian.app.client.android.view.deal.RemainderMainActivity;
 import maimeng.yodian.app.client.android.view.dialog.AlertDialog;
 import maimeng.yodian.app.client.android.view.dialog.ShareDialog;
 import maimeng.yodian.app.client.android.view.skill.CreateOrEditSkillActivity;
@@ -540,7 +540,7 @@ public class UserHomeFragment extends BaseFragment implements EMEventListener, P
 
 
                 } else if (clickItem == headerMainHomeBinding.btnMyRemainder) {
-                    Intent intent = new Intent(getActivity(), RemainderMainActivity.class);
+                    Intent intent = new Intent(getActivity(), AccountMainActivity.class);
                     startActivity(intent);
                 }
             }

@@ -200,7 +200,7 @@
             android:label="@string/draw_money_inof_certify_title"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".view.deal.RemainderMainActivity"
+            android:name=".view.deal.AccountMainActivity"
             android:label="@string/my_account"
             android:theme="@style/AppTheme.Dark" />
         <activity

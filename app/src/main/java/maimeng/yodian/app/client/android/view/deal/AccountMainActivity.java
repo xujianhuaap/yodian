@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -35,9 +34,9 @@ import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.AcceptAddressActivity;
 
 /**
- * 我的余额主页
+ * 账户信息
  */
-public class RemainderMainActivity extends AbstractActivity implements Callback<RemainderResponse>, View.OnClickListener, PtrHandler {
+public class AccountMainActivity extends AbstractActivity implements Callback<RemainderResponse>, View.OnClickListener, PtrHandler {
     private MoneyService service;
     private AcitivityRemainderMainBinding binding;
     private Remainder defaultValue;
@@ -83,13 +82,13 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
                     }
 
                 }else {
-//                    Toast.makeText(RemainderMainActivity.this,certifyInfoResponse.getMsg(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AccountMainActivity.this,certifyInfoResponse.getMsg(),Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void failure(HNetError hNetError) {
-                ErrorUtils.checkError(RemainderMainActivity.this, hNetError);
+                ErrorUtils.checkError(AccountMainActivity.this, hNetError);
             }
 
             @Override
@@ -154,7 +153,7 @@ public class RemainderMainActivity extends AbstractActivity implements Callback<
         } else if (v == binding.btnRemaindered) {
             startActivity(new Intent(this, WDListHistoryActivity.class).putExtra("mony", binding.getRemainder().getWithdraw()));
         } else if (v == binding.btnConfirmInfo) {
-            BasicalInfoConfirmActivity.show(RemainderMainActivity.this,certifyInfo,REQUEST_INFO_CERTIFY);
+            BasicalInfoConfirmActivity.show(AccountMainActivity.this,certifyInfo,REQUEST_INFO_CERTIFY);
         } else if (binding.btnDrawMoneyInfo == v) {
             //必须获得Remainder之后binding.getRemainder()才有效
             DrawMoneyInfoConfirmActivity.show(this, binding.getRemainder().getDraw_account());
