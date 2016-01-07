@@ -13,6 +13,13 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <!-- Required -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -394,11 +401,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle" />
 
+
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"/>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="LtOR1KaUOuKMhSGTgUuK5KlV" />
         <meta-data
             android:name="TD_APP_ID"
             android:value="309FC765AD6A9A303141A87AB34A2F14" />
         <meta-data
             android:name="TD_CHANNEL_ID"
             android:value="${UMENG_CHANNEL_VALUE}" />
+
     </application>
 </manifest>

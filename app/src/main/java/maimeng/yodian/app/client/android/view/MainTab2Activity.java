@@ -17,6 +17,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -55,11 +59,13 @@ import maimeng.yodian.app.client.android.view.user.UserHomeFragment;
 /**
  * Created by android on 15-10-10.
  */
-public class MainTab2Activity extends AbstractActivity implements Callback<FloatResponse> {
+public class MainTab2Activity extends AbstractActivity implements Callback<FloatResponse>, BDLocationListener {
+    private static final String LOG_TAG = MainTab2Activity.class.getSimpleName();
     private User user;
     private Bitmap mAvatar;
     private long exitTime;
     private WaitDialog dialog;
+    private LocationClient mLocationClient;
 
     @Override
     public FloatingActionButton getFloatButton() {
@@ -127,7 +133,13 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
             }
         });
         updateFloatButton();
-
+        mLocationClient=new LocationClient(getApplicationContext());
+        LocationClientOption options=new LocationClientOption();
+        options.setCoorType("wgs84");
+        options.setIsNeedAddress(true);
+        mLocationClient.setLocOption(options);
+        mLocationClient.registerLocationListener(this);
+        mLocationClient.start();
     }
 
     /***
@@ -321,5 +333,27 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
     @Override
     public void end() {
 
+    }
+
+    @Override
+    public void onReceiveLocation(BDLocation location) {
+        StringBuffer sb = new StringBuffer(256);
+        sb.append("time : ");
+        sb.append(location.getTime());
+        sb.append("\nerror code : ");
+        int locType = location.getLocType();
+        sb.append(locType);
+        sb.append("\nlatitude : ");
+        sb.append(location.getLatitude());
+        sb.append("\nlontitude : ");
+        sb.append(location.getLongitude());
+        sb.append("\nradius : ");
+        sb.append(location.getRadius());
+        sb.append("\naddr : ");
+        sb.append(location.getAddrStr());
+        LogUtil.i(LOG_TAG,sb.toString());
+        if(locType==BDLocation.TypeNetWorkLocation || locType== BDLocation.TypeGpsLocation || locType==BDLocation.TypeOffLineLocation){
+            mLocationClient.stop();
+        }
     }
 }
