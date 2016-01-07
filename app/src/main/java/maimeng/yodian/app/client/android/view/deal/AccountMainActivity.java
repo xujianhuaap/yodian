@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
@@ -22,16 +23,20 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.activity.AlertDialog;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.databinding.AcitivityRemainderMainBinding;
+import maimeng.yodian.app.client.android.model.Address;
 import maimeng.yodian.app.client.android.model.remainder.Remainder;
 import maimeng.yodian.app.client.android.model.user.CertifyInfo;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.response.AddressRespoonse;
 import maimeng.yodian.app.client.android.network.response.CertifyInfoResponse;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.AcceptAddressActivity;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
  * 账户信息
@@ -46,6 +51,10 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
     private static final int REQUEST_ADDRESS_SETTING = 0x1004;
     private boolean isObtainRemainder = false;
     private CertifyInfo certifyInfo;
+    private UserService userService;
+    private WaitDialog waitDialog;
+    private Address address;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +63,37 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
         defaultValue = new Remainder();
         service = Network.getService(MoneyService.class);
         service.remanider(this);
+        userService=Network.getService(UserService.class);
+        userService.getAddress(new Callback<AddressRespoonse>() {
+            @Override
+            public void start() {
+
+                if (waitDialog == null) {
+                    waitDialog = WaitDialog.show(AccountMainActivity.this);
+                }
+            }
+
+            @Override
+            public void success(AddressRespoonse addressRespoonse, Response response) {
+                if (addressRespoonse.isSuccess()) {
+                    address = addressRespoonse.getData().getAddress();
+                } else {
+                    Toast.makeText(AccountMainActivity.this, addressRespoonse.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void failure(HNetError hNetError) {
+                ErrorUtils.checkError(AccountMainActivity.this, hNetError);
+            }
+
+            @Override
+            public void end() {
+                if (waitDialog != null) {
+                    waitDialog.dismiss();
+                }
+            }
+        });
         binding.btnRemainder.setOnClickListener(this);
         binding.btnRemaindered.setOnClickListener(this);
         binding.btnConfirmInfo.setOnClickListener(this);
@@ -158,14 +198,7 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
             //必须获得Remainder之后binding.getRemainder()才有效
             DrawMoneyInfoConfirmActivity.show(this, binding.getRemainder().getDraw_account());
         }else if(binding.btnAddressAccept==v){
-            Remainder remainder=binding.getRemainder();
-            if(remainder!=null){
-                if(!TextUtils.isEmpty(remainder.getAddress())){
-                    AcceptAddressActivity.show(this,REQUEST_ADDRESS_SETTING,true);
-                }else {
-                    AcceptAddressActivity.show(this,REQUEST_ADDRESS_SETTING,false);
-                }
-            }
+            AcceptAddressActivity.show(this,REQUEST_ADDRESS_SETTING,address);
 
         }
     }
@@ -195,8 +228,12 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
             }else if(requestCode==REQUEST_ADDRESS_SETTING){
                     Remainder remainder=binding.getRemainder();
                     if(remainder!=null&&data!=null){
-                        remainder.setAddress(data.getStringExtra("address"));
-                        binding.setRemainder(remainder);
+                        address=Parcels.unwrap(data.getParcelableExtra("address"));
+                        if(address!=null){
+                            remainder.setAddress(address.getAddress());
+                            binding.setRemainder(remainder);
+                        }
+
                     }
             }
 

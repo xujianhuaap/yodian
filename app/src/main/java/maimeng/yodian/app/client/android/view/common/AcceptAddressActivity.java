@@ -26,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -52,8 +53,7 @@ import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 public class AcceptAddressActivity extends AbstractActivity implements View.OnClickListener{
 
     public static final int REQUEST_DETAIL_ADDRESS=0x12;
-
-
+    
     private String provinceStr;
     private String cityStr;
     private String districtStr;
@@ -76,10 +76,14 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
     private boolean isModify;
     private ActivityAcceptAddressBinding binding;
     private Address address;
+    private WheelView provinceList;
+    private WheelView cityList;
+    private WheelView districtList;
+    private WaitDialog waitDialog1;
 
-    public static void show(Activity activity,int requestCode,boolean isModify){
+    public static void show(Activity activity,int requestCode,Address address){
         Intent intent=new Intent(activity,AcceptAddressActivity.class);
-        intent.putExtra("isModify",isModify);
+        intent.putExtra("address", Parcels.wrap(address));
         activity.startActivityForResult(intent,requestCode);
 
     }
@@ -110,62 +114,45 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = bindView(R.layout.activity_accept_address);
-        isModify=getIntent().getBooleanExtra("isModify", false);
+        address=Parcels.unwrap(getIntent().getParcelableExtra("address"));
+        if(address==null){address=new Address();}
+        isModify=!TextUtils.isEmpty(address.getProvince());
         userService = Network.getService(UserService.class);
-        address=new Address();
-
         binding.name.addTextChangedListener(new TextWatcherProxy(binding.name));
         binding.phone.addTextChangedListener(new TextWatcherProxy(binding.phone));
         binding.submit.setOnClickListener(this);
         binding.city.setOnClickListener(this);
         binding.address.setOnClickListener(this);
 
+        final ArrayList<City> datas = readFile();
+        initWheelViewWindow();
+        initWheelViewUI(datas);
+        addWheelViewChangListener();
         User user= User.read(this);
         if(user!=null){
             info=user.getInfo();
         }
-        if(isModify){
-            userService.getAddress(new Callback<AddressRespoonse>() {
-                @Override
-                public void start() {
-
-                }
-
-                @Override
-                public void success(AddressRespoonse addressRespoonse, Response response) {
-                        if(addressRespoonse.isSuccess()){
-                            address=addressRespoonse.getData().getAddress();
-                            binding.setAddress(address);
-                        }else {
-                            Toast.makeText(AcceptAddressActivity.this,addressRespoonse.getMsg(),Toast.LENGTH_SHORT).show();
-                        }
-                }
-
-                @Override
-                public void failure(HNetError hNetError) {
-                    ErrorUtils.checkError(AcceptAddressActivity.this,hNetError);
-                }
-
-                @Override
-                public void end() {
-
-                }
-            });
-        }else{
+        if(!isModify){
             address.setProvince(info.getProvince());
             address.setCity(info.getCity());
             address.setDistrict(info.getDistrict());
             address.setName(user.getNickname());
             address.setMobile(info.getMobile());
-            binding.setAddress(address);
         }
+        binding.setAddress(address);
+        initWheelViewIndex(address, datas);
+        setWheelViewIndex(indexP, indexC, indexD);
 
+    }
 
-
+    /***
+     *
+     */
+    private void initWheelViewWindow() {
         View view = getLayoutInflater().inflate(R.layout.pop_cities, null, false);
-        final WheelView provinceList = (WheelView) view.findViewById(R.id.province);
-        final WheelView cityList = (WheelView) view.findViewById(R.id.city);
-        final WheelView districtList = (WheelView) view.findViewById(R.id.district);
+        provinceList = (WheelView) view.findViewById(R.id.province);
+        cityList = (WheelView) view.findViewById(R.id.city);
+        districtList = (WheelView) view.findViewById(R.id.district);
         view.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,67 +162,88 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
         view.findViewById(R.id.btn_done).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                City province = provinceAdapter.getDatas().get(provinceList.getCurrentItem());
-                City city = cityAdapter.getDatas().get(cityList.getCurrentItem());
-                City district;
-                if (cityList.getCurrentItem() > 0) {
-                    ArrayList<City> districts = districtAdapter.getDatas();
-                    if (districts.size() > 0) {
-                        district = districts.get(districtList.getCurrentItem());
-                    } else {
-                        district = new City();
-                    }
-
-                } else {
-                    district = new City();
-                    district.setName("请选择");
-                }
-                final String p;
-                final String c;
-                final String d;
-                if ("请选择".equals(province.getName())) {
-                    p = "";
-                } else {
-                    p = province.getName();
-                }
-                if ("请选择".equals(city.getName())) {
-                    c = "";
-                } else {
-                    c = city.getName();
-                }
-                if ("请选择".equals(district.getName())) {
-                    d = "";
-                } else {
-                    d = district.getName();
-
-                }
-                int type = province.getType();
-                if (type == 0) {
-                    //直辖市
-                    provinceStr=p;
-                    cityStr=p;
-                    districtStr=c;
-                } else {
-                    provinceStr=p+"省";
-                    cityStr=c;
-                    districtStr=d;
-
-                }
-                cityStr=cityStr+"市";
-                address.setProvince(provinceStr);
-                address.setCity(cityStr);
-                address.setDistrict(districtStr);
-                binding.setAddress(address);
-
-                hideaddressWindow();
+                chooseAddressByWheelView();
             }
         });
-        ArrayList<City> datas = readFile();
-        if (user.getInfo() != null) {
-            User.Info info = user.getInfo();
-            String p = info.getProvince();
-            String d = info.getDistrict();
-            String c = info.getCity();
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        addressWindow = new PopupWindow(view, displayMetrics.widthPixels, displayMetrics.heightPixels / 3, true);
+        addressWindow.setTouchable(true);
+
+    }
+
+    /***
+     *
+     * @param indexP
+     * @param indexC
+     * @param indexD
+     */
+    private void setWheelViewIndex(int indexP,int indexC,int indexD) {
+        provinceList.setCurrentItem(indexP);
+        cityList.setCurrentItem(indexC);
+        districtList.setCurrentItem(indexD);
+    }
+
+    /***
+     *
+     */
+    private void addWheelViewChangListener() {
+        provinceList.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                City item = provinceAdapter.getDatas().get(newValue);
+                ArrayList<City> sub = item.getSub();
+                cityAdapter.reload(sub);
+                cityList.setCurrentItem(0, true);
+                districtAdapter.reload(new ArrayList<City>());
+                districtList.setCurrentItem(-1);
+            }
+        });
+        cityList.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                City item = cityAdapter.getDatas().get(newValue);
+                ArrayList<City> sub = item.getSub();
+                if (sub != null) {
+                    districtAdapter.reload(sub);
+                }
+            }
+        });
+    }
+
+    /***
+     * 配置滑轮的UI
+     * @param datas
+     */
+    private void initWheelViewUI( ArrayList<City> datas) {
+        provinceAdapter = new Adapter(this, datas);
+        cityAdapter = new Adapter(this, new ArrayList<City>());
+        districtAdapter = new Adapter(this, new ArrayList<City>());
+        provinceList.setVisibleItems(6); // Number of items
+        provinceList.setWheelBackground(android.R.color.white);
+        provinceList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
+        provinceList.setViewAdapter(provinceAdapter);
+
+        cityList.setVisibleItems(6); // Number of items
+        cityList.setWheelBackground(android.R.color.white);
+        cityList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
+        cityList.setViewAdapter(cityAdapter);
+
+        districtList.setVisibleItems(6); // Number of items
+        districtList.setWheelBackground(android.R.color.white);
+        districtList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
+        districtList.setViewAdapter(districtAdapter);
+    }
+
+    /****
+     * 初始化 三个滑轮的显示位置
+     * @param address
+     * @param datas
+     */
+    private void initWheelViewIndex(Address address, ArrayList<City> datas) {
+        if (address != null) {
+            String p = address.getProvince().replace("省","").trim();
+            String d = address.getDistrict();
+            String c = address.getCity().replace("市","").trim();
             for (int i = 0; i < datas.size(); i++) {
                 City province = datas.get(i);
                 if (province.getName().equals(p)) {
@@ -262,55 +270,67 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
                 }
             }
         }
-        provinceAdapter = new Adapter(this, datas);
-        cityAdapter = new Adapter(this, new ArrayList<City>());
-        districtAdapter = new Adapter(this, new ArrayList<City>());
-        provinceList.setVisibleItems(6); // Number of items
-        provinceList.setWheelBackground(android.R.color.white);
-        provinceList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
-        provinceList.setViewAdapter(provinceAdapter);
-
-        cityList.setVisibleItems(6); // Number of items
-        cityList.setWheelBackground(android.R.color.white);
-        cityList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
-        cityList.setViewAdapter(cityAdapter);
-
-        districtList.setVisibleItems(6); // Number of items
-        districtList.setWheelBackground(android.R.color.white);
-        districtList.setShadowColor(0x00000000, 0x00000000, 0x00000000);
-        districtList.setViewAdapter(districtAdapter);
-
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        addressWindow = new PopupWindow(view, displayMetrics.widthPixels, displayMetrics.heightPixels / 3, true);
-        addressWindow.setTouchable(true);
-        provinceList.addChangingListener(new OnWheelChangedListener() {
-            @Override
-            public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                City item = provinceAdapter.getDatas().get(newValue);
-                ArrayList<City> sub = item.getSub();
-                cityAdapter.reload(sub);
-                cityList.setCurrentItem(0, true);
-                districtAdapter.reload(new ArrayList<City>());
-                districtList.setCurrentItem(-1);
-            }
-        });
-        cityList.addChangingListener(new OnWheelChangedListener() {
-            @Override
-            public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                City item = cityAdapter.getDatas().get(newValue);
-                ArrayList<City> sub = item.getSub();
-                if (sub != null) {
-                    districtAdapter.reload(sub);
-                }
-            }
-        });
-        provinceList.setCurrentItem(indexP);
-        cityList.setCurrentItem(indexC);
-        districtList.setCurrentItem(indexD);
-        
-
     }
 
+
+    /***
+     * 转动滑轮选取地址信息
+     */
+    private void chooseAddressByWheelView() {
+        City province = provinceAdapter.getDatas().get(provinceList.getCurrentItem());
+        City city = cityAdapter.getDatas().get(cityList.getCurrentItem());
+        City district;
+        if (cityList.getCurrentItem() > 0) {
+            ArrayList<City> districts = districtAdapter.getDatas();
+            if (districts.size() > 0) {
+                district = districts.get(districtList.getCurrentItem());
+            } else {
+                district = new City();
+            }
+
+        } else {
+            district = new City();
+            district.setName("请选择");
+        }
+        final String p;
+        final String c;
+        final String d;
+        if ("请选择".equals(province.getName())) {
+            p = "";
+        } else {
+            p = province.getName();
+        }
+        if ("请选择".equals(city.getName())) {
+            c = "";
+        } else {
+            c = city.getName();
+        }
+        if ("请选择".equals(district.getName())) {
+            d = "";
+        } else {
+            d = district.getName();
+
+        }
+        int type = province.getType();
+        if (type == 0) {
+            //直辖市
+            provinceStr=p;
+            cityStr=p;
+            districtStr=c;
+        } else {
+            provinceStr=p+"省";
+            cityStr=c;
+            districtStr=d;
+
+        }
+        cityStr=cityStr+"市";
+        address.setProvince(provinceStr);
+        address.setCity(cityStr);
+        address.setDistrict(districtStr);
+        binding.setAddress(address);
+
+        hideaddressWindow();
+    }
 
 
     private ArrayList<City> readFile() {
@@ -342,22 +362,22 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
     public void onClick(View v) {
 
         if(v==binding.submit){
-            if(TextUtils.isEmpty(nameStr)){
+            if(TextUtils.isEmpty(address.getName())){
                 Toast.makeText(AcceptAddressActivity.this,"收货人姓名不能为空",Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(TextUtils.isEmpty(mobileStr)){
+            if(TextUtils.isEmpty(address.getMobile())){
                 Toast.makeText(AcceptAddressActivity.this,"收货人电话不能为空",Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(addressStr)){
+            if(TextUtils.isEmpty(address.getAddress())){
                 Toast.makeText(AcceptAddressActivity.this,"收货人详细地址不能为空",Toast.LENGTH_SHORT).show();
                 return;
             }
 
 
-            userService.setAddress(provinceStr, cityStr, districtStr, addressStr, nameStr, mobileStr, new Callback<ToastResponse>() {
+            userService.setAddress(address.getProvince(), address.getCity(), address.getDistrict(), address.getAddress(), address.getName(), address.getMobile(), new Callback<ToastResponse>() {
                 @Override
                 public void start() {
                     if (waitDialog == null) {
@@ -368,7 +388,7 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
                 @Override
                 public void success(ToastResponse toastResponse, Response response) {
                     Toast.makeText(AcceptAddressActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK,getIntent().putExtra("address",address.getAddress()));
+                    setResult(RESULT_OK, getIntent().putExtra("address", Parcels.wrap(address)));
                     finish();
                 }
 
@@ -415,8 +435,10 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
         public void afterTextChanged(Editable s) {
                 if(view==binding.name){
                     nameStr=binding.name.getText().toString();
+                    address.setName(nameStr);
                 }else if(view==binding.phone){
                     mobileStr=binding.phone.getText().toString();
+                    address.setMobile(mobileStr);
                 }
         }
     }
@@ -461,8 +483,11 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
             if(requestCode==REQUEST_DETAIL_ADDRESS){
                 if(data!=null){
                     addressStr= data.getStringExtra("address");
-                    address.setAddress(addressStr);
-                    binding.setAddress(address);
+                    if(!TextUtils.isEmpty(addressStr)){
+                        address.setAddress(addressStr);
+                        binding.setAddress(address);
+                    }
+
                 }
             }
         }
