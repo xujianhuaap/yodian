@@ -324,12 +324,6 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                     value.setWechat(user.getWechat());
                     intent.putExtra("chatUser", Parcels.wrap(value));
                     intent.putExtra("skill", Parcels.wrap(skill));
-                    intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
-                } else { // 群聊信息
-                    // message.getTo()为群聊id
-                    intent.putExtra("groupId", message.getTo());
-                    intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
-
                 }
                 return intent;
             }

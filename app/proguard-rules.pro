@@ -300,6 +300,11 @@
 
 #alipay end
 
+#baidu map sdk start
+-keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
+-dontwarn com.baidu.**
+#baidu map sdk end
 
 
 

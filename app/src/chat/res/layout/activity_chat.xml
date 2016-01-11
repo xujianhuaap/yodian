@@ -176,7 +176,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/skill_container"
+            android:id="@+id/banner_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_height_large"
             android:background="@color/colorPrimaryDark2"
@@ -186,7 +186,7 @@
             android:visibility="gone">
 
             <maimeng.yodian.app.client.android.widget.YDView
-                android:id="@+id/skill_pic"
+                android:id="@+id/banner_pic"
                 android:layout_width="@dimen/btn_width_large"
                 android:layout_height="@dimen/btn_height_large"
                 android:layout_marginLeft="@dimen/margin_small" />
@@ -201,7 +201,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/skill_name"
+                    android:id="@+id/banner_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -209,7 +209,7 @@
                     android:textSize="@dimen/text_size_normal" />
 
                 <TextView
-                    android:id="@+id/skill_price"
+                    android:id="@+id/banner_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -219,7 +219,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/btn_show_skill"
+                android:id="@+id/btn_banner_show"
                 android:layout_width="@dimen/btn_width_smalll"
                 android:layout_height="@dimen/btn_width_smalll"
                 android:layout_gravity="center_vertical"
