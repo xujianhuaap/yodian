@@ -42,7 +42,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_weight="0.7"
+                android:layout_weight="0.6"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 >
@@ -58,12 +58,13 @@
 
                 <TextView
                     android:id="@+id/skill_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:scrollHorizontally="true"
                     android:maxLength="@integer/share_skill_name_length"
-                    android:ellipsize="middle"
                     android:text="@{orderinfo.name}"
                     android:gravity="top"
                     android:textSize="@dimen/text_size_large"
@@ -73,7 +74,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_weight="0.3"
+                android:layout_weight="0.4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 >

@@ -201,6 +201,8 @@
                         android:background="@color/chat_textColor"
                         android:drawableRight="@mipmap/ic_enter_next"
                         android:drawablePadding="@dimen/padding_large"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:gravity="center_vertical|right"
                         android:minHeight="@dimen/normal_cell_row_mini_height"
                         android:padding="@dimen/normal_padding"
