@@ -30,6 +30,7 @@ public class Api {
     public static final String GET_USER_INFO = "/user/getinfo";//用户信息
     public static final String SETTING_ADDRESS="/user/setaddress";//设置收货地址
     public static final String GET_ADDRESS="/user/getaddress";//获得收货地址
+    public static final String USER_LOCATION="/user/setposition";//地址位置
     public static final String QRODE_URL = "http://share.yodian.me/";
 
 

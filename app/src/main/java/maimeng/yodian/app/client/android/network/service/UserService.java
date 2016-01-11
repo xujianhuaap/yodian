@@ -10,6 +10,7 @@ import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.Api;
 import maimeng.yodian.app.client.android.network.TypedBitmap;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.AddressRespoonse;
 import maimeng.yodian.app.client.android.network.response.ModifyUserResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
@@ -94,7 +95,12 @@ public interface UserService {
                     @Param("district")String district,@Param("address")String address,
                     @Param("name")String name,@Param("mobile")String mobile,
                     Callback<ToastResponse> callback);
-
+    /****
+     *
+     * @param callback
+     */
+    @Post(Api.USER_LOCATION)
+    void userLocation(@Param("lng") double lng, @Param("lat") double lat, ToastCallback callback);
     /****
      *
      * @param callback

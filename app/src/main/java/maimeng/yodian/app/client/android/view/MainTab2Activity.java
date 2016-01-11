@@ -41,10 +41,13 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.model.Float;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.AuthResponse;
 import maimeng.yodian.app.client.android.network.response.FloatResponse;
+import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.network.service.CommonService;
+import maimeng.yodian.app.client.android.network.service.UserService;
 import maimeng.yodian.app.client.android.service.ChatServiceLoginService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
@@ -354,6 +357,11 @@ public class MainTab2Activity extends AbstractActivity implements Callback<Float
         LogUtil.i(LOG_TAG,sb.toString());
         if(locType==BDLocation.TypeNetWorkLocation || locType== BDLocation.TypeGpsLocation || locType==BDLocation.TypeOffLineLocation){
             mLocationClient.stop();
+            Network.getService(UserService.class).userLocation(location.getLongitude(),location.getLatitude(),new ToastCallback(this){
+                @Override
+                public void success(ToastResponse toastResponse, Response response) {
+                }
+            });
         }
     }
 }
