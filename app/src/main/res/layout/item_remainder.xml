@@ -1,91 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="orderinfo"
-            type="maimeng.yodian.app.client.android.model.OrderInfo">
+            type="maimeng.yodian.app.client.android.model.BalanceInfo">
 
         </variable>
 
     </data>
-   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:weightSum="1"
-    android:background="@color/colorPrimaryGrey">
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:background="@color/colorPrimaryDark" />
-        <maimeng.yodian.app.client.android.widget.YDView
-            android:layout_marginTop="13dp"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:src="@mipmap/ic_dot_black"
-            app:actualImageScaleType="centerInside"
-            app:roundAsCircle="true"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:background="@color/colorPrimaryDark" />
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_weight="0.7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         >
-
-        <TextView
-            android:id="@+id/time"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
+            android:weightSum="1"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:background="@color/colorPrimaryGrey">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:background="@color/colorPrimaryDark" />
+                <maimeng.yodian.app.client.android.widget.YDView
+                    android:layout_marginTop="9dp"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    app:overlayImage="@mipmap/ic_dot_black"
+                    app:actualImageScaleType="centerInside"
+                    app:roundAsCircle="true"
+                    android:layout_marginLeft="@dimen/margin_small" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="0.7"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left|bottom"
+                    android:paddingLeft="@dimen/padding_normal"
+                    android:textSize="@dimen/text_size_normal_16" />
+
+                <TextView
+                    android:id="@+id/skill_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:maxLength="@integer/share_skill_name_length"
+                    android:ellipsize="middle"
+                    android:text="@{orderinfo.name}"
+                    android:gravity="top"
+                    android:textSize="@dimen/text_size_large"
+                    android:paddingLeft="@dimen/padding_normal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="0.3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:id="@+id/remainder"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right|bottom"
+                    android:textColor="@color/colorPrimaryDark3"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    android:paddingRight="@dimen/padding_normal"
+                    android:text="@{orderinfo.money}"/>
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right|top"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@{orderinfo.ostatus}"
+                    android:paddingRight="@dimen/padding_normal" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_line"
+            android:gravity="left|bottom"
             android:padding="@dimen/padding_normal"
-            android:text="2016-1-5"/>
-
-        <TextView
-            android:id="@+id/skill_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{orderinfo.skill.name}"
-            android:textSize="@dimen/text_size_large"
-            android:padding="@dimen/padding_normal" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_weight="0.3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-
-        <TextView
-            android:id="@+id/remainder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textColor="@color/colorPrimaryDark3"
-            android:padding="@dimen/padding_normal"
-            android:text="@{orderinfo.balance}"/>
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="@{orderinfo.status}"
-            android:padding="@dimen/padding_normal" />
-
-      </LinearLayout>
-
+            android:layout_marginLeft="@dimen/margin_large"
+            android:background="@color/colorPrimaryGrey3" />
 
 
     </LinearLayout>

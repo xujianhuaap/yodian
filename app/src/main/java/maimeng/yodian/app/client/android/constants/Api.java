@@ -38,6 +38,7 @@ public class Api {
     public static final String MONEY_WITHDRAW = "/money/appwithdraw";//提现申请
     public static final String MONEY_WDLIST = "/money/wdlist";//提现历史
     public static final String MONEY_ADD_ACCOUNT = "/money/addaccount";//增加提现账户
+    public static final String MONEY_BALANCE_INFO="/money/balanceinfo";
 
     //bank
     public static final String BANK_LIST

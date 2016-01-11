@@ -86,14 +86,19 @@ public class RemainderDetailActivity extends AbstractActivity{
         totalDivinder =findViewById(R.id.divinder_total);
 
 
+        initFragment();
+
         final FragmentManager manager=getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction=manager.beginTransaction();
-        init(fragmentTransaction);
+        fragmentTransaction.add(R.id.content, incomeFragment)
+                .add(R.id.content, feeFragment)
+                .add(R.id.content, totalFragment).commit();
         income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 refreshTitle(0);
-                fragmentTransaction.show(incomeFragment).hide(feeFragment).hide(totalFragment);
+                final FragmentTransaction fragmentTransaction=manager.beginTransaction();
+                fragmentTransaction.show(incomeFragment).hide(feeFragment).hide(totalFragment).commit();
             }
         });
 
@@ -101,7 +106,8 @@ public class RemainderDetailActivity extends AbstractActivity{
             @Override
             public void onClick(View v) {
                 refreshTitle(1);
-                fragmentTransaction.hide(incomeFragment).show(feeFragment).hide(totalFragment);
+                final FragmentTransaction fragmentTransaction=manager.beginTransaction();
+                fragmentTransaction.hide(incomeFragment).show(feeFragment).hide(totalFragment).commit();
             }
         });
 
@@ -109,9 +115,12 @@ public class RemainderDetailActivity extends AbstractActivity{
            @Override
            public void onClick(View v) {
                refreshTitle(2);
-               fragmentTransaction.hide(incomeFragment).hide(feeFragment).show(totalFragment);
+               final FragmentTransaction fragmentTransaction=manager.beginTransaction();
+               fragmentTransaction.hide(incomeFragment).hide(feeFragment).show(totalFragment).commit();
            }
        });
+
+        income.callOnClick();
 
 
 
@@ -122,13 +131,10 @@ public class RemainderDetailActivity extends AbstractActivity{
     /***
      *
      */
-    private void init( FragmentTransaction transaction) {
-        incomeFragment = RemainderDetailFragment.newInstance(0);
-        feeFragment = RemainderDetailFragment.newInstance(1);
-        totalFragment = RemainderDetailFragment.newInstance(2);
-        transaction.add(R.id.content, incomeFragment)
-                .add(R.id.content, feeFragment)
-                .add(R.id.content, totalFragment).commit();
+    private void initFragment( ) {
+        incomeFragment = RemainderDetailFragment.newInstance(1);
+        feeFragment = RemainderDetailFragment.newInstance(2);
+        totalFragment = RemainderDetailFragment.newInstance(0);
     }
 
     /***
