@@ -7,41 +7,50 @@
         android:id="@+id/title_containar"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/padding_normal"
+        android:paddingBottom="@dimen/padding_normal">
         <LinearLayout
             android:orientation="vertical"
             android:layout_weight="1"
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             >
             <TextView
                 android:id="@+id/title_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/padding_large"
+                android:paddingBottom="@dimen/padding_small"
+                android:textSize="@dimen/text_size_normal"
                 android:text="@string/remainder_title_income"/>
 
             <TextView
                 android:id="@+id/divinder_income"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/divider_line"
+                android:layout_marginLeft="@dimen/margin_Xlarge"
+                android:layout_marginRight="@dimen/margin_Xlarge"
                 android:background="@color/colorPrimaryDark"
-                android:padding="@dimen/padding_large" />
+                />
 
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_weight="1"
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             >
             <TextView
                 android:id="@+id/title_fee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/padding_large"
+                android:paddingBottom="@dimen/padding_small"
+                android:textSize="@dimen/text_size_normal"
                 android:text="@string/remainder_title_fee"/>
 
             <TextView
@@ -49,22 +58,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/divider_line"
                 android:background="@color/colorPrimaryDark"
-                android:visibility="invisible"
-                android:padding="@dimen/padding_large" />
+                android:layout_marginLeft="@dimen/margin_Xlarge"
+                android:layout_marginRight="@dimen/margin_Xlarge"
+                android:visibility="visible" />
 
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_weight="1"
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             >
             <TextView
                 android:id="@+id/title_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/padding_large"
+                android:paddingBottom="@dimen/padding_small"
+                android:textSize="@dimen/text_size_normal"
                 android:text="@string/remainder_title_total"/>
 
             <TextView
@@ -72,8 +84,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/divider_line"
                 android:background="@color/colorPrimaryDark"
-                android:visibility="invisible"
-                android:padding="@dimen/padding_large" />
+                android:layout_marginLeft="@dimen/margin_Xlarge"
+                android:layout_marginRight="@dimen/margin_Xlarge"
+                android:visibility="visible" />
 
         </LinearLayout>
     </LinearLayout>
@@ -81,7 +94,8 @@
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+       >
 
     </FrameLayout>
 </LinearLayout>

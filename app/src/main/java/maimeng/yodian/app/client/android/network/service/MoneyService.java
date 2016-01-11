@@ -7,7 +7,9 @@ import org.henjue.library.hnet.anntoation.Param;
 import org.henjue.library.hnet.anntoation.Post;
 
 import maimeng.yodian.app.client.android.constants.Api;
+import maimeng.yodian.app.client.android.model.BalanceInfo;
 import maimeng.yodian.app.client.android.network.common.ToastCallback;
+import maimeng.yodian.app.client.android.network.response.BalanceResponse;
 import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.response.WDListHistoryResponse;
@@ -50,5 +52,8 @@ public interface MoneyService {
      */
     @Post(Api.MONEY_ADD_ACCOUNT)
     void addAccount(@Param("alipay")String account,Callback<ToastResponse> callback);
+
+    @Post(Api.MONEY_BALANCE_INFO)
+    void getBalaceInfo(@Param("flag")int flag,@Param("p")int p,Callback<BalanceResponse> callback);
 
 }

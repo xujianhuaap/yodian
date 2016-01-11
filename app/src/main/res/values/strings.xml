@@ -249,6 +249,9 @@
     <string name="remainder_title_income">收入</string>
     <string name="remainder_title_fee">支出</string>
     <string name="remainder_title_total">全部</string>
+    <string name="no_balance_income">无收入记录,快去出售你的技能吧</string>
+    <string name="no_balance_fee">无支出记录,人生在世唯有买买</string>
+    <string name="no_balance_total">无收支记录,快去逛逛优点吧!</string>
 
     <!-- address accept-->
     <string name="address_accept">详细地址</string>

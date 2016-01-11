@@ -44,6 +44,19 @@ public class ResourceAdapter {
         }
 
     }
+    @BindingAdapter({"android:text","currentYear","otherYear"})
+    public static void text(TextView tv, Date time,String currentYearFormat,String otherYearFormat) {
+        Calendar ca = Calendar.getInstance();
+        ca.setTimeInMillis(time.getTime());
+        int createYear = ca.get(Calendar.YEAR);
+        int curYear = Calendar.getInstance().get(Calendar.YEAR);
+        if (createYear != curYear) {
+            text(tv, time, otherYearFormat);
+        } else {
+            text(tv, time, currentYearFormat);
+        }
+
+    }
 
     @BindingAdapter({"android:text", "dateFormat"})
     public static void text(TextView tv, Date time, String format) {
@@ -51,4 +64,5 @@ public class ResourceAdapter {
         fmt.setTimeZone(TimeZone.getDefault());
         tv.setText(fmt.format(time));
     }
+
 }
