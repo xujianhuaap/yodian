@@ -58,8 +58,8 @@ android {
         multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 22//适配Android6.0之前，这里不要修改
-        versionCode 1140
-        versionName "1.1.4.0"
+        versionCode 1150
+        versionName "1.1.5.0"
         buildConfigField "String", "WEIXIN_APP_KEY", APP_WEIXIN_APP_KEY
         buildConfigField "String", "WEIXIN_APP_SECRET", APP_WEIXIN_APP_SECRET
         buildConfigField "String", "WEIBO_APP_KEY", APP_WEIBO_APP_KEY

@@ -134,11 +134,11 @@ public class OrderDetailActivity extends AbstractActivity implements PtrHandler,
         } else if (item.getItemId() == R.id.menu_more) {
             int status = info.getStatus();
             if (isSaled) {
-                OrderCancellActivity.show(this, info.getOid(), false, REQUEST_ORDER_CANCEL);
+                OrderCancellActivity.show(this, info, false, REQUEST_ORDER_CANCEL);
             } else {
                 boolean isCancel = (status == 0 || status == 2);
                 MobclickAgent.onEvent(this, UEvent.ODER_DETAIL_CANCEL_CLICK);
-                OrderCancellActivity.show(this, info.getOid(), isCancel, REQUEST_ORDER_CANCEL);
+                OrderCancellActivity.show(this, info, isCancel, REQUEST_ORDER_CANCEL);
             }
 
         }

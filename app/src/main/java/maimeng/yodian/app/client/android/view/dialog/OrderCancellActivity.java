@@ -14,6 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
+import org.parceler.Parcels;
 
 import java.util.Map;
 
@@ -21,17 +22,19 @@ import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.chat.DemoHXSDKHelper;
 import maimeng.yodian.app.client.android.chat.activity.ChatActivity;
 import maimeng.yodian.app.client.android.common.UEvent;
+import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.OrderService;
+import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.deal.BindStatus;
 
 /**
  * Created by xujianhua on 10/16/15.
  */
-public class OrderCancellActivity extends AppCompatActivity {
+public class OrderCancellActivity extends AbstractActivity {
     private static final int REQUEST_CERTIFY = 0x234;
     private BindStatus status;
 
@@ -39,9 +42,9 @@ public class OrderCancellActivity extends AppCompatActivity {
      * @param context
      */
 
-    public static void show(Activity context, long oid, boolean isCancel, int requestCode) {
+    public static void show(Activity context, OrderInfo info, boolean isCancel, int requestCode) {
         Intent intent = new Intent(context, OrderCancellActivity.class);
-        intent.putExtra("oid", oid);
+        intent.putExtra("info", Parcels.wrap(info));
         intent.putExtra("isCancle", isCancel);
         context.startActivityForResult(intent, requestCode);
     }
@@ -51,7 +54,7 @@ public class OrderCancellActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         status = User.read(this).getInfo().getVouch_status();
         getWindow().setGravity(Gravity.BOTTOM);
-        setContentView(R.layout.activity_order_cancel);
+        setContentView(R.layout.activity_order_cancel,false);
         findViewById(R.id.contact_us).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +65,7 @@ public class OrderCancellActivity extends AppCompatActivity {
                 chatUser.setMobile(user.getMobile());
                 chatUser.setQq(user.getQq());
                 chatUser.setWechat(user.getWechat());
-                ChatActivity.show(v.getContext(), chatUser);
+                ChatActivity.show(v.getContext(),(OrderInfo) get("info"),chatUser);
                 finish();
             }
         });
@@ -82,7 +85,7 @@ public class OrderCancellActivity extends AppCompatActivity {
                             @Override
                             public void positiveClick() {
                                 MobclickAgent.onEvent(OrderCancellActivity.this, UEvent.ORDER_CANCEL_YES);
-                                long oid = getIntent().getLongExtra("oid", 0);
+                                long oid = ((OrderInfo)get("info")).getOid();
                                 Network.getService(OrderService.class).cancleOrder(oid, new Callback<ToastResponse>() {
                                     @Override
                                     public void start() {

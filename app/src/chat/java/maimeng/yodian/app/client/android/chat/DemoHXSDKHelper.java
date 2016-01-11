@@ -323,7 +323,7 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                     value.setQq(user.getQq());
                     value.setWechat(user.getWechat());
                     intent.putExtra("chatUser", Parcels.wrap(value));
-                    intent.putExtra("skill", Parcels.wrap(skill));不知
+                    intent.putExtra("skill", Parcels.wrap(skill));
                 }
                 return intent;
             }
