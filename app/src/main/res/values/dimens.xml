@@ -153,6 +153,8 @@
 
     <!-- address-->
     <dimen name="address_detail_height">140dp</dimen>
+    <!-- remainder item-->
+    <dimen name="skill_name_width">240dp</dimen>
 
 
 </resources>
