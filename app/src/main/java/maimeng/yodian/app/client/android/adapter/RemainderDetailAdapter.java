@@ -10,13 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.Float;
 import java.util.List;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.databinding.ItemRemainderBinding;
 import maimeng.yodian.app.client.android.databings.ResourceAdapter;
-import maimeng.yodian.app.client.android.model.BalanceInfo;
-import maimeng.yodian.app.client.android.model.OrderInfo;
+import maimeng.yodian.app.client.android.model.*;
 
 /**
  * Created by xujianhua on 05/01/16.
@@ -52,6 +52,13 @@ public class RemainderDetailAdapter extends AbstractAdapter<BalanceInfo,Remainde
         }
         public void bind(BalanceInfo orderInfo){
             viewDataBinding.setOrderinfo(orderInfo);
+            float money=orderInfo.getMoney();
+            if(money>0){
+                viewDataBinding.remainder.setText("+" + money);
+
+            }else {
+                viewDataBinding.remainder.setText(""+money);
+            }
             ResourceAdapter.text(viewDataBinding.time,orderInfo.getCreatetime(),"MM/dd\t\tHH:mm","yyyy/MM/dd\t\tHH:mm");
             viewDataBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override

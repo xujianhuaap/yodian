@@ -85,8 +85,7 @@
                     android:textColor="@color/colorPrimaryDark3"
                     android:textSize="@dimen/text_size_large"
                     android:textStyle="bold"
-                    android:paddingRight="@dimen/padding_normal"
-                    android:text="@{orderinfo.money}"/>
+                    android:paddingRight="@dimen/padding_normal" />
 
                 <TextView
                     android:id="@+id/status"

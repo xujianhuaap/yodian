@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -20,15 +23,20 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.viewpagerindicator.IconPageIndicator;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
+import maimeng.yodian.app.client.android.widget.AutoScrollViewPager;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
 /**
  * Created by xujianhua on 05/01/16.
  */
 public class RemainderDetailActivity extends AbstractActivity{
-
 
     private View title;
     private RecyclerView list;
@@ -43,6 +51,9 @@ public class RemainderDetailActivity extends AbstractActivity{
     private RemainderDetailFragment feeFragment;
     private RemainderDetailFragment totalFragment;
 
+    private ViewPager viewPager;
+    private List<RemainderDetailFragment>fragments;
+    private FragmentrAdapter fragmentrAdapter;
 
     public static void show(Activity activity){
         Intent intent=new Intent(activity,RemainderDetailActivity.class);
@@ -85,20 +96,32 @@ public class RemainderDetailActivity extends AbstractActivity{
         feeDivinder =findViewById(R.id.divinder_fee);
         totalDivinder =findViewById(R.id.divinder_total);
 
+        viewPager=(ViewPager)findViewById(R.id.content);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                refreshTitle(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         initFragment();
+        fragmentrAdapter = new FragmentrAdapter(getSupportFragmentManager(), fragments);
+        viewPager.setAdapter(fragmentrAdapter);
 
-        final FragmentManager manager=getSupportFragmentManager();
-        final FragmentTransaction fragmentTransaction=manager.beginTransaction();
-        fragmentTransaction.add(R.id.content, incomeFragment)
-                .add(R.id.content, feeFragment)
-                .add(R.id.content, totalFragment).commit();
         income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 refreshTitle(0);
-                final FragmentTransaction fragmentTransaction=manager.beginTransaction();
-                fragmentTransaction.show(incomeFragment).hide(feeFragment).hide(totalFragment).commit();
+                viewPager.setCurrentItem(0);
             }
         });
 
@@ -106,8 +129,7 @@ public class RemainderDetailActivity extends AbstractActivity{
             @Override
             public void onClick(View v) {
                 refreshTitle(1);
-                final FragmentTransaction fragmentTransaction=manager.beginTransaction();
-                fragmentTransaction.hide(incomeFragment).show(feeFragment).hide(totalFragment).commit();
+                viewPager.setCurrentItem(1);
             }
         });
 
@@ -115,8 +137,7 @@ public class RemainderDetailActivity extends AbstractActivity{
            @Override
            public void onClick(View v) {
                refreshTitle(2);
-               final FragmentTransaction fragmentTransaction=manager.beginTransaction();
-               fragmentTransaction.hide(incomeFragment).hide(feeFragment).show(totalFragment).commit();
+               viewPager.setCurrentItem(2);
            }
        });
 
@@ -132,9 +153,13 @@ public class RemainderDetailActivity extends AbstractActivity{
      *
      */
     private void initFragment( ) {
+        fragments=new ArrayList<RemainderDetailFragment>();
         incomeFragment = RemainderDetailFragment.newInstance(1);
         feeFragment = RemainderDetailFragment.newInstance(2);
         totalFragment = RemainderDetailFragment.newInstance(0);
+        fragments.add(incomeFragment);
+        fragments.add(feeFragment);
+        fragments.add(totalFragment);
     }
 
     /***
@@ -162,6 +187,27 @@ public class RemainderDetailActivity extends AbstractActivity{
         }else{
             total.setTextColor(getResources().getColor(R.color.colorPrimaryGrey2));
             totalDivinder.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
+    public final class FragmentrAdapter extends android.support.v4.app.FragmentPagerAdapter{
+
+        private List<RemainderDetailFragment> fragments;
+
+        public FragmentrAdapter(FragmentManager fm, List<RemainderDetailFragment> fragments) {
+            super(fm);
+            this.fragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
         }
     }
 
