@@ -28,6 +28,7 @@ import org.henjue.library.share.model.AuthInfo;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
+import maimeng.yodian.app.client.android.model.Address;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
@@ -173,6 +174,7 @@ public class AuthSeletorActivity extends AbstractActivity implements View.OnClic
                     MobclickAgent.onEvent(AuthSeletorActivity.this, UEvent.AUTH_SINA_SUCESS);
                 }
                 User.clear(AuthSeletorActivity.this);
+                Address.clear(AuthSeletorActivity.this);
                 User data = res.getData();
                 data.setLoginType(typeValue);
                 data.setT_nickname(authInfo.nickname);

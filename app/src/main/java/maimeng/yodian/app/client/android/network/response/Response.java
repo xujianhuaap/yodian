@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import maimeng.yodian.app.client.android.model.Address;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
@@ -55,6 +56,7 @@ public class Response {
         }
         if (code == 10011) {
             User.clear(context);
+            Address.clear(context);
             AuthRedirect.toAuth(context,requestCode);
             return false;
         } else if(code==10036) {

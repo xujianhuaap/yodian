@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.YApplication;
+import maimeng.yodian.app.client.android.model.Address;
 import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.view.auth.AuthRedirect;
 
@@ -56,6 +57,7 @@ public class ChangeAccountActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View v) {
                 User.clear(ChangeAccountActivity.this);
+                Address.clear(ChangeAccountActivity.this);
                 YApplication.getInstance().exit();
                 AuthRedirect.toAuth(ChangeAccountActivity.this);
             }

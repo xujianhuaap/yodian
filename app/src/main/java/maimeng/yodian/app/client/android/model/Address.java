@@ -145,7 +145,7 @@ public class Address {
         SharedPreferences sharedPreferences=context.getSharedPreferences(ACCEPT_ADDRESS_SHARE_PREFERENCE_NAME, Context.MODE_PRIVATE);
         write(sharedPreferences);
     }
-    public synchronized boolean write(SharedPreferences sharedPreferences){
+    private synchronized boolean write(SharedPreferences sharedPreferences){
         synchronized (Address.class){
             SharedPreferences.Editor editor=sharedPreferences.edit();
             editor.putLong(KEY_ID,id);
@@ -177,7 +177,7 @@ public class Address {
         return acceptAddressInfo;
     }
 
-    public static synchronized Address read(SharedPreferences sharedPreferences){
+    private static synchronized Address read(SharedPreferences sharedPreferences){
         synchronized (Address.class){
             long id=sharedPreferences.getLong(KEY_ID,0);
             long uid=sharedPreferences.getLong(KEY_UID,0);
@@ -194,6 +194,13 @@ public class Address {
             return acceptAddressInfo;
         }
     }
+
+    public static boolean clear(Context context){
+        SharedPreferences sharedPreferences=context.getSharedPreferences(ACCEPT_ADDRESS_SHARE_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
+        return true;
+    }
+
 
     public Address(long id, long uid, String name, String mobile, String province, String city, String district, String address, int status, long createtime, long updatetime) {
         this.id = id;
