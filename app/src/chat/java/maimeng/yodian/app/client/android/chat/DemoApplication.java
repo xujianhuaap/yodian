@@ -22,6 +22,7 @@ import com.easemob.applib.controller.HXSDKHelper;
 import java.util.Map;
 
 import maimeng.yodian.app.client.android.chat.domain.User;
+import maimeng.yodian.app.client.android.model.Address;
 
 public abstract class DemoApplication extends Application implements HXSDKHelper.onInitCallback {
     public static Context applicationContext;
@@ -44,6 +45,15 @@ public abstract class DemoApplication extends Application implements HXSDKHelper
     }
 
     private User currentUser;
+    private Address acceptAddres;//收货地址
+
+    public Address getAcceptAddres() {
+        return acceptAddres;
+    }
+
+    public void setAcceptAddres(Address acceptAddres) {
+        this.acceptAddres = acceptAddres;
+    }
 
     @Override
     public void onCreate() {

@@ -26,6 +26,7 @@ import maimeng.yodian.app.client.android.databinding.AcitivityRemainderMainBindi
 import maimeng.yodian.app.client.android.model.Address;
 import maimeng.yodian.app.client.android.model.remainder.Remainder;
 import maimeng.yodian.app.client.android.model.user.CertifyInfo;
+import maimeng.yodian.app.client.android.model.user.User;
 import maimeng.yodian.app.client.android.network.ErrorUtils;
 import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.AddressRespoonse;
@@ -34,6 +35,7 @@ import maimeng.yodian.app.client.android.network.response.RemainderResponse;
 import maimeng.yodian.app.client.android.network.service.AuthService;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
 import maimeng.yodian.app.client.android.network.service.UserService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.common.AbstractActivity;
 import maimeng.yodian.app.client.android.view.common.AcceptAddressActivity;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
@@ -64,36 +66,56 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
         service = Network.getService(MoneyService.class);
         service.remanider(this);
         userService=Network.getService(UserService.class);
-        userService.getAddress(new Callback<AddressRespoonse>() {
-            @Override
-            public void start() {
+        boolean isStandartAddress=true;
+        address=Address.readAcceptAddress(this);
+        if(address!=null){
+            if (TextUtils.isEmpty(address.getProvince())){
+                isStandartAddress=false;
+            }
+            if (TextUtils.isEmpty(address.getCity())){
+                isStandartAddress=false;
+            }
+            if (TextUtils.isEmpty(address.getDistrict())){
+                isStandartAddress=false;
+            }
+        }
+        LogUtil.d(AccountMainActivity.class.getName(),"province: %1$s city: %2$s address: %3$s ",address.getProvince(),address.getCity(),address.getAddress());
 
-                if (waitDialog == null) {
-                    waitDialog = WaitDialog.show(AccountMainActivity.this);
+
+        if(address==null||!isStandartAddress){
+            userService.getAddress(new Callback<AddressRespoonse>() {
+                @Override
+                public void start() {
+
+                    if (waitDialog == null) {
+                        waitDialog = WaitDialog.show(AccountMainActivity.this);
+                    }
                 }
-            }
 
-            @Override
-            public void success(AddressRespoonse addressRespoonse, Response response) {
-                if (addressRespoonse.isSuccess()) {
-                    address = addressRespoonse.getData().getAddress();
-                } else {
-                    Toast.makeText(AccountMainActivity.this, addressRespoonse.getMsg(), Toast.LENGTH_SHORT).show();
+                @Override
+                public void success(AddressRespoonse addressRespoonse, Response response) {
+                    if (addressRespoonse.isSuccess()) {
+                        address = addressRespoonse.getData().getAddress();
+
+                    } else {
+                        Toast.makeText(AccountMainActivity.this, addressRespoonse.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void failure(HNetError hNetError) {
-                ErrorUtils.checkError(AccountMainActivity.this, hNetError);
-            }
-
-            @Override
-            public void end() {
-                if (waitDialog != null) {
-                    waitDialog.dismiss();
+                @Override
+                public void failure(HNetError hNetError) {
+                    ErrorUtils.checkError(AccountMainActivity.this, hNetError);
                 }
-            }
-        });
+
+                @Override
+                public void end() {
+                    if (waitDialog != null) {
+                        waitDialog.dismiss();
+                    }
+                }
+            });
+        }
+
         binding.btnRemainder.setOnClickListener(this);
         binding.btnRemaindered.setOnClickListener(this);
         binding.btnConfirmInfo.setOnClickListener(this);
