@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -41,6 +42,7 @@ import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import maimeng.yodian.app.client.android.R;
+import maimeng.yodian.app.client.android.YApplication;
 import maimeng.yodian.app.client.android.databinding.ActivitySettingUserInfoBinding;
 import maimeng.yodian.app.client.android.model.City;
 import maimeng.yodian.app.client.android.model.user.Sex;
@@ -74,12 +76,15 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
     private Adapter cityAdapter;
     private Adapter districtAdapter;
     private PopupWindow bankList;
+    private User oldUser;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            if(!checkChange()) {
 //            ActivityCompat.finishAfterTransition(SettingUserInfo.this);
-            finish();
+                finish();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -138,6 +143,9 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             }
         });
         user = User.read(this);
+        YApplication.getInstance().setAuthUser(null);
+        oldUser = User.read(this);
+        YApplication.getInstance().setAuthUser(user);
         binding.btnSubmit.setOnClickListener(this);
         ((View) binding.userAvatar.getParent()).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -380,6 +388,70 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
         } else {
             dialogAlert.show();
         }
+    }
+    private boolean checkChange(){
+        boolean changed=false;
+        User.Info oi = oldUser.getInfo();
+        User.Info info = user.getInfo();
+        if(!oldUser.getNickname().equals(user.getNickname())){
+            changed=true;
+        } else if(oi.getSex()!=info.getSex()){
+            changed=true;
+        } else if(!oi.getCity().equals(info.getCity())){
+            changed=true;
+        } else if(!oi.getDistrict().equals(info.getDistrict())){
+            changed=true;
+        } else if(!oi.getProvince().equals(info.getProvince())){
+            changed=true;
+        } else if(!oi.getJob().equals(info.getJob())){
+            changed=true;
+        } else if(!oi.getSignature().equals(info.getSignature())){
+            changed=true;
+        } else if(!oi.getWechat().equals(info.getWechat())){
+            changed=true;
+        } else if(!oi.getQq().equals(info.getQq())){
+            changed=true;
+        } else if(!oi.getContact().equals(info.getContact())){
+            changed=true;
+        }
+        if(updateAvatar || changed){
+            maimeng.yodian.app.client.android.view.dialog.AlertDialog confim = maimeng.yodian.app.client.android.view.dialog.AlertDialog.newInstance("提示", "你已修改资料是否保存");
+            confim.setCancelable(false);
+            confim.setNegativeListener(new maimeng.yodian.app.client.android.view.dialog.AlertDialog.NegativeListener() {
+                @Override
+                public void onNegativeClick(DialogInterface dialog) {
+                    dialog.dismiss();
+                    onClick(null);
+                }
+
+                @Override
+                public String negativeText() {
+                    return "是";
+                }
+            });
+            confim.setPositiveListener(new maimeng.yodian.app.client.android.view.dialog.AlertDialog.PositiveListener() {
+                @Override
+                public void onPositiveClick(DialogInterface dialog) {
+                    dialog.dismiss();
+                    finish();
+                }
+
+                @Override
+                public String positiveText() {
+                    return "否";
+                }
+            });
+            confim.show(getFragmentManager(),"confim");
+            return true;
+        }
+        return changed;
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK && checkChange()){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
