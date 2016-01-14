@@ -235,7 +235,9 @@ public class User extends UserBaseColum {
         editor.apply();
         // 登陆成功，保存用户名密码
         DemoApplication.getInstance().setUserName("");
+        DemoApplication.getInstance().setAcceptAddres(null);
         YApplication.getInstance().setAuthUser(null);
+
         return true;
     }
 

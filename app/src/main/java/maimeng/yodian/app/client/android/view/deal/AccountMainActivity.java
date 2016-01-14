@@ -96,6 +96,7 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
                 public void success(AddressRespoonse addressRespoonse, Response response) {
                     if (addressRespoonse.isSuccess()) {
                         address = addressRespoonse.getData().getAddress();
+                        address.writeAcceptAddress(AccountMainActivity.this);
 
                     } else {
                         Toast.makeText(AccountMainActivity.this, addressRespoonse.getMsg(), Toast.LENGTH_SHORT).show();

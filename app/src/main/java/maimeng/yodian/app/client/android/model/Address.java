@@ -2,6 +2,7 @@ package maimeng.yodian.app.client.android.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import org.parceler.Parcel;
 
@@ -144,6 +145,7 @@ public class Address {
     public void writeAcceptAddress(Context context){
         SharedPreferences sharedPreferences=context.getSharedPreferences(ACCEPT_ADDRESS_SHARE_PREFERENCE_NAME, Context.MODE_PRIVATE);
         write(sharedPreferences);
+        DemoApplication.getInstance().setAcceptAddres(this);
     }
     private synchronized boolean write(SharedPreferences sharedPreferences){
         synchronized (Address.class){
@@ -168,7 +170,7 @@ public class Address {
 
     public static Address readAcceptAddress(Context context){
         Address acceptAddres=DemoApplication.getInstance().getAcceptAddres();
-        if(acceptAddres!=null){
+        if(acceptAddres!=null&& !TextUtils.isEmpty(acceptAddres.getProvince())){
             return acceptAddres;
         }
         SharedPreferences sharedPreferences=context.getSharedPreferences(ACCEPT_ADDRESS_SHARE_PREFERENCE_NAME, Context.MODE_PRIVATE);

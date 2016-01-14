@@ -45,6 +45,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.AddressRespoonse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.UserService;
+import maimeng.yodian.app.client.android.utils.RegUtils;
 import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 
 /**
@@ -377,6 +378,10 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
             }
 
 
+            if(!RegUtils.isMobile(AcceptAddressActivity.this,address.getMobile())){
+                Toast.makeText(AcceptAddressActivity.this,"手机格式不正确",Toast.LENGTH_SHORT).show();
+                return;
+            }
             userService.setAddress(address.getProvince(), address.getCity(), address.getDistrict(), address.getAddress(), address.getName(), address.getMobile(), new Callback<ToastResponse>() {
                 @Override
                 public void start() {
