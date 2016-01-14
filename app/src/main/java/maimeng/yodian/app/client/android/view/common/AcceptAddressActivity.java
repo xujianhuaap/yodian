@@ -387,10 +387,14 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
 
                 @Override
                 public void success(ToastResponse toastResponse, Response response) {
+
                     Toast.makeText(AcceptAddressActivity.this, toastResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                    address.writeAcceptAddress(AcceptAddressActivity.this);
-                    setResult(RESULT_OK, getIntent().putExtra("address", Parcels.wrap(address)));
-                    finish();
+                    if(toastResponse.isSuccess()){
+                        address.writeAcceptAddress(AcceptAddressActivity.this);
+                        setResult(RESULT_OK, getIntent().putExtra("address", Parcels.wrap(address)));
+                        finish();
+                    }
+
                 }
 
                 @Override
