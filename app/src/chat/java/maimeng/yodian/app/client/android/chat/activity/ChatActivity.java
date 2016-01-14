@@ -123,6 +123,7 @@ import maimeng.yodian.app.client.android.chat.utils.SmileUtils;
 import maimeng.yodian.app.client.android.chat.widget.ExpandGridView;
 import maimeng.yodian.app.client.android.chat.widget.PasteEditText;
 import maimeng.yodian.app.client.android.common.UEvent;
+import maimeng.yodian.app.client.android.model.Address;
 import maimeng.yodian.app.client.android.model.OrderInfo;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
 import maimeng.yodian.app.client.android.model.skill.Skill;
@@ -130,6 +131,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.service.CommonService;
 import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.chat.ContactPathActivity;
+import maimeng.yodian.app.client.android.view.common.AcceptAddressActivity;
 import maimeng.yodian.app.client.android.view.skill.SkillDetailsActivity;
 import maimeng.yodian.app.client.android.view.user.SettingUserInfo;
 import maimeng.yodian.app.client.android.widget.YDView;
@@ -189,6 +191,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     public static final String COPY_IMAGE = "EASEMOBIMG";
     private static final String LOG_TAG = ChatActivity.TAG;
+    private static final int REQUEST_CODE_INPUT_ADDRESS = 8;
     private View recordingContainer;
     private ImageView micImage;
     private TextView recordingHint;
@@ -751,6 +754,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE_INPUT_ADDRESS && resultCode==RESULT_OK){
+            sendAddress();
+        }
         if (resultCode == RESULT_CODE_EXIT_GROUP) {
             setResult(RESULT_OK);
             finish();
@@ -881,6 +887,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private boolean showWechatVcard = true;
     private boolean showVideo = false;
     private boolean showFile = false;
+    private boolean showAddress = true;
 
     private void initEntryData(List<ViewEntry> entries) {
         if (entries == null) {
@@ -913,6 +920,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 }
             }));//微信名片
         }
+        if (showAddress) {
+            entries.add(new ViewEntry(getResources().getDrawable(R.drawable.address_selector), "地址", new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //MobclickAgent.onEvent(v.getContext(), UEvent.CONVERSATION_SEND_CARD);
+                    sendAddress();
+                }
+            }));//收货地址
+        }
         if (showVideo)
             entries.add(new ViewEntry(getResources().getDrawable(R.drawable.chat_video_selector), getResources().getString(R.string.attach_video), new Intent(ChatActivity.this, ImageGridActivity.class), REQUEST_CODE_SELECT_VIDEO));// 点击摄像图标
         if (showFile)
@@ -924,7 +940,21 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             }));
         ((BaseAdapter) btnContainer.getAdapter()).notifyDataSetChanged();
     }
-
+    private void sendAddress(){
+        Address address = Address.readAcceptAddress(this);
+        if(TextUtils.isEmpty(address.getAddress())){
+            AcceptAddressActivity.show(ChatActivity.this,REQUEST_CODE_INPUT_ADDRESS,null);
+        }else {
+            StringBuffer sb = new StringBuffer();
+            sb.append(address.getProvince()).append(" ")
+                    .append(address.getCity()).append(" ")
+                    .append(address.getDistrict()).append("\n")
+                    .append(address.getAddress()).append("\n\n")
+                    .append(address.getName()).append("\n")
+                    .append(address.getMobile()).append("");
+            sendText(sb.toString(), true);
+        }
+    }
     /**
      * 消息图标点击事件
      *
