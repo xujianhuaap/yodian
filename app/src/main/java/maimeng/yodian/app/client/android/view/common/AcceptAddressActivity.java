@@ -141,8 +141,11 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
             address.setMobile(info.getMobile());
         }
         binding.setAddress(address);
-        initWheelViewIndex(address, datas);
+        if(!TextUtils.isEmpty(address.getProvince())){
+            initWheelViewIndex(address, datas);
+        }
         setWheelViewIndex(indexP, indexC, indexD);
+
 
     }
 
@@ -242,9 +245,18 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
      */
     private void initWheelViewIndex(Address address, ArrayList<City> datas) {
         if (address != null) {
-            String p = address.getProvince().replace("省","").trim();
-            String d = address.getDistrict();
-            String c = address.getCity().replace("市","").trim();
+            String provinceStr=address.getProvince();
+            String cityStr=address.getCity();
+            String districtStr=address.getDistrict();
+            if(TextUtils.isEmpty(provinceStr)){
+                return;
+            }
+            if(TextUtils.isEmpty(cityStr)){
+                return;
+            }
+            String p = provinceStr.replace("省","").trim();
+            String d = districtStr;
+            String c = cityStr.replace("市","").trim();
             for (int i = 0; i < datas.size(); i++) {
                 City province = datas.get(i);
                 if (province.getName().equals(p)) {
