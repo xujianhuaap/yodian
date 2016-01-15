@@ -17,6 +17,7 @@ import android.view.View;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.umeng.analytics.MobclickAgent;
 
+import org.abego.treelayout.internal.util.java.lang.string.StringUtil;
 import org.henjue.library.hnet.Callback;
 import org.henjue.library.hnet.Response;
 import org.henjue.library.hnet.exception.HNetError;
@@ -52,6 +53,7 @@ import maimeng.yodian.app.client.android.network.common.ToastCallback;
 import maimeng.yodian.app.client.android.network.response.SkillResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.SkillService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 import maimeng.yodian.app.client.android.view.MainTab2Activity;
 import maimeng.yodian.app.client.android.view.common.BaseFragment;
 import maimeng.yodian.app.client.android.view.common.WebViewActivity;
@@ -358,7 +360,13 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
         } else if (banner.getType() == 1) {
             Pair<View, String> back = Pair.create((View) ((MainTab2Activity) getActivity()).getFloatButton(), "back");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), back);
-            ActivityCompat.startActivity(getActivity(), WebViewActivity.newIntent(getActivity(), banner.getValue()), options.toBundle());
+            User user=User.read(getActivity());
+            if(user!=null){
+                banner.setValue(banner.getValue().concat("&amp;uid="+user.getUid()));
+                LogUtil.d(SkillFragment.class.getName(), "banner url: %s", banner.getValue());
+                ActivityCompat.startActivity(getActivity(), WebViewActivity.newIntent(getActivity(), banner.getValue()), options.toBundle());
+            }
+
 
         }
     }
