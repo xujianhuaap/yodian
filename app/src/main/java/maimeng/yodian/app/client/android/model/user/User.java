@@ -213,15 +213,19 @@ public class User extends UserBaseColum {
 
 
     public synchronized boolean writeInfo(Context context) {
-        synchronized (User.class) {
-            YApplication.getInstance().setAuthUser(this);
-            SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putInt(KEY_TYPE, loginType);
-            if (info != null) info.write(editor);
-            editor.apply();
-            return true;
+        if(context!=null){
+            synchronized (User.class) {
+                YApplication.getInstance().setAuthUser(this);
+                SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt(KEY_TYPE, loginType);
+                if (info != null) info.write(editor);
+                editor.apply();
+                return true;
+            }
         }
+        return false;
+
     }
 
 
