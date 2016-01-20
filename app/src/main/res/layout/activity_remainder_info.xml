@@ -41,9 +41,9 @@
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/freeze"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/normal_padding"
                     android:visibility="gone"
                     android:textSize="@dimen/text_size_small"
                     />
@@ -52,6 +52,7 @@
                     android:id="@+id/btn_during"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/normal_padding"
                     android:background="@mipmap/btn_oval_bg_blue"
                     android:gravity="center"
