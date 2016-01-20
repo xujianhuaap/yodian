@@ -41,6 +41,7 @@
     <dimen name="star_margin_top">40dp</dimen>
     <dimen name="skill_template_width">20dp</dimen>
     <dimen name="skill_no_view_height">320dp</dimen>
+    <dimen name="skill_name_max_width">200dp</dimen>
 
     <eat-comment/>
     <dimen name="share_dialog_content_marginTop">30dp</dimen>
@@ -148,6 +149,7 @@
     <dimen name="share_nick_name_width">160dp</dimen>
     <integer name="share_nick_name_length">7</integer>
     <integer name="share_skill_name_length">10</integer>
+    <integer name="detail_skill_name_length">18</integer>
     <dimen name="share_content_title_width">160dp</dimen>
     <dimen name="qrode_width">80dp</dimen>
 
