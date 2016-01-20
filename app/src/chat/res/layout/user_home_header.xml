@@ -186,7 +186,7 @@
             android:maxHeight="@dimen/skill_no_view_height"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
-            android:visibility="visible"
+            android:visibility="gone"
             android:src="@mipmap/ic_no_skill"/>
     </LinearLayout>
 

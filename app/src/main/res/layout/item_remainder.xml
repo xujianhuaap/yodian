@@ -28,12 +28,13 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_normal"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="@color/colorPrimaryGrey2" />
                 <maimeng.yodian.app.client.android.widget.YDView
                     android:layout_marginTop="9dp"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
-                    app:overlayImage="@mipmap/ic_dot_black"
+                    app:overlayImage="@drawable/btn_dot_grey"
+                    app:backgroundImage="@drawable/btn_dot_grey"
                     app:actualImageScaleType="centerInside"
                     app:roundAsCircle="true"
                     android:layout_marginLeft="@dimen/margin_small" />
