@@ -64,7 +64,6 @@ public class SkillTemplateActivity extends AbstractActivity implements Callback<
         service = Network.getService(SkillService.class);
         setContentView(R.layout.activity_skill_template, false);
         View floatbutton = findViewById(R.id.btn_back);
-        ViewCompat.setTransitionName(floatbutton, "floatbutton");
         floatbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

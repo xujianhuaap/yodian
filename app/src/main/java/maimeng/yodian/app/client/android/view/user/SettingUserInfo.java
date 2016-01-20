@@ -169,54 +169,57 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
             @Override
             public void onClick(View v) {
                 City province = provinceAdapter.getDatas().get(provinceList.getCurrentItem());
-                City city = cityAdapter.getDatas().get(cityList.getCurrentItem());
-                City district;
-                if (cityList.getCurrentItem() > 0) {
-                    ArrayList<City> districts = districtAdapter.getDatas();
-                    if (districts.size() > 0) {
-                        district = districts.get(districtList.getCurrentItem());
+                int currentItem = cityList.getCurrentItem();
+                ArrayList<City> datas = cityAdapter.getDatas();
+                if(currentItem<datas.size()) {
+                    City city = datas.get(currentItem);
+                    City district;
+                    if (currentItem > 0) {
+                        ArrayList<City> districts = districtAdapter.getDatas();
+                        if (districts.size() > 0) {
+                            district = districts.get(districtList.getCurrentItem());
+                        } else {
+                            district = new City();
+                        }
+
                     } else {
                         district = new City();
+                        district.setName("请选择");
+                    }
+                    final String p;
+                    final String c;
+                    final String d;
+                    if ("请选择".equals(province.getName())) {
+                        p = "";
+                    } else {
+                        p = province.getName();
+                    }
+                    if ("请选择".equals(city.getName())) {
+                        c = "";
+                    } else {
+                        c = city.getName();
+                    }
+                    if ("请选择".equals(district.getName())) {
+                        d = "";
+                    } else {
+                        d = district.getName();
+
+                    }
+                    int type = province.getType();
+                    if (type == 0) {
+                        //直辖市
+                        user.getInfo().setProvince("");
+                        user.getInfo().setCity(p);
+                        user.getInfo().setDistrict(c);
+                        binding.cities.setText(p + c);
+                    } else {
+                        user.getInfo().setProvince(p);
+                        user.getInfo().setCity(c);
+                        user.getInfo().setDistrict(d);
+                        binding.cities.setText(p + c + d);
                     }
 
-                } else {
-                    district = new City();
-                    district.setName("请选择");
                 }
-                final String p;
-                final String c;
-                final String d;
-                if ("请选择".equals(province.getName())) {
-                    p = "";
-                } else {
-                    p = province.getName();
-                }
-                if ("请选择".equals(city.getName())) {
-                    c = "";
-                } else {
-                    c = city.getName();
-                }
-                if ("请选择".equals(district.getName())) {
-                    d = "";
-                } else {
-                    d = district.getName();
-
-                }
-                int type = province.getType();
-                if (type == 0) {
-                    //直辖市
-                    user.getInfo().setProvince("");
-                    user.getInfo().setCity(p);
-                    user.getInfo().setDistrict(c);
-                    binding.cities.setText(p + c);
-                } else {
-                    user.getInfo().setProvince(p);
-                    user.getInfo().setCity(c);
-                    user.getInfo().setDistrict(d);
-                    binding.cities.setText(p + c + d);
-                }
-
-
                 hideBankList();
             }
         });
