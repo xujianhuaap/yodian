@@ -595,9 +595,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     private void sendOrderToAdmin() {
         StringBuffer sb=new StringBuffer();
         maimeng.yodian.app.client.android.model.user.User user = maimeng.yodian.app.client.android.model.user.User.read(this);
-        sb.append("订单编号:\n")
-                .append(order.getId()).append("\n")
-                .append("用户名:").append(user.getNickname()).append("\n")
+        sb.append("优点名:").append(user.getNickname()).append("\n")
+            .append("订单编号:").append(order.getId()).append("\n")
                 .append("订单状态:").append(bannerText.getText().toString());
         sendText(sb.toString());
     }
