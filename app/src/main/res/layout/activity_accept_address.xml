@@ -135,6 +135,7 @@
                 android:minHeight="@dimen/normal_cell_row_mini_height"
                 android:padding="@dimen/padding_large"
                 android:hint="@string/content_not_null"
+                android:maxLength="@integer/address_accepter_name_length"
                 android:background="@null"
                 android:text="@{address.name}"
                 android:textColor="@color/colorPrimaryDark"
@@ -171,6 +172,7 @@
                 android:padding="@dimen/padding_large"
                 android:hint="@string/content_not_null"
                 android:background="@null"
+                android:maxLength="@integer/address_accepter_phone_length"
                 android:text="@{address.mobile}"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/btn_text_size" />

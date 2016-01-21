@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/address_detail_height"
         android:gravity="top"
+        android:maxLength="@integer/address_length"
         android:background="@color/chat_textColor"/>
     <TextView
         android:id="@+id/text_num"
