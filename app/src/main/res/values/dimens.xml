@@ -155,6 +155,7 @@
 
     <!-- address-->
     <dimen name="address_detail_height">140dp</dimen>
+    <dimen name="address_detail_max_width">300dp</dimen>
     <!-- accept address-->
     <integer name="address_accepter_name_length">12</integer>
     <integer name="address_accepter_phone_length">13</integer>

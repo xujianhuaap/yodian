@@ -8,6 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/address_detail_height"
         android:gravity="top"
+        android:hint="输入详细地址"
+        android:paddingTop="@dimen/padding_normal"
         android:maxLength="@integer/address_length"
         android:background="@color/chat_textColor"/>
     <TextView

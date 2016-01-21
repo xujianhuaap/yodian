@@ -85,6 +85,9 @@
                 android:paddingRight="@dimen/padding_large"
                 android:paddingBottom="@dimen/padding_normal"
                 android:paddingTop="@dimen/padding_normal"
+                android:singleLine="true"
+                android:maxWidth="@dimen/address_detail_max_width"
+                android:ellipsize="end"
                 android:background="@null"
                 android:text="@{address.address}"
                 android:hint="@string/content_not_null"
@@ -135,6 +138,7 @@
                 android:minHeight="@dimen/normal_cell_row_mini_height"
                 android:padding="@dimen/padding_large"
                 android:hint="@string/content_not_null"
+                android:singleLine="true"
                 android:maxLength="@integer/address_accepter_name_length"
                 android:background="@null"
                 android:text="@{address.name}"
@@ -169,6 +173,7 @@
                 android:drawablePadding="@dimen/padding_large"
                 android:gravity="center_vertical"
                 android:minHeight="@dimen/normal_cell_row_mini_height"
+                android:singleLine="true"
                 android:padding="@dimen/padding_large"
                 android:hint="@string/content_not_null"
                 android:background="@null"
@@ -196,7 +201,7 @@
             android:text="@string/address_submit"
             android:padding="@dimen/padding_normal"
             android:textColor="@color/colorPrimary"
-            android:background="@drawable/btn_oval_black"
+            android:background="@drawable/btn_oval_dark_black"
             android:textSize="@dimen/text_size_large" />
 
 
