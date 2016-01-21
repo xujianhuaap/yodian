@@ -66,22 +66,9 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
         service = Network.getService(MoneyService.class);
         service.remanider(this);
         userService=Network.getService(UserService.class);
-        boolean isStandartAddress=true;
+        boolean isStandartAddress=false;
         address=Address.readAcceptAddress(this);
-        if(address!=null){
-            if (TextUtils.isEmpty(address.getProvince())){
-                isStandartAddress=false;
-            }
-            if (TextUtils.isEmpty(address.getCity())){
-                isStandartAddress=false;
-            }
-            if (TextUtils.isEmpty(address.getDistrict())){
-                isStandartAddress=false;
-            }
-        }
-        LogUtil.d(AccountMainActivity.class.getName(),"province: %1$s city: %2$s address: %3$s ",address.getProvince(),address.getCity(),address.getAddress());
-
-
+        isStandartAddress = isStandartAddress(address);
         if(address==null||!isStandartAddress){
             userService.getAddress(new Callback<AddressRespoonse>() {
                 @Override
@@ -162,6 +149,24 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
 
     }
 
+    private boolean isStandartAddress(Address address) {
+        if(address!=null){
+            boolean isStandartAddress=true;
+            if (TextUtils.isEmpty(address.getProvince())){
+                isStandartAddress=false;
+            }
+            if (TextUtils.isEmpty(address.getCity())){
+                isStandartAddress=false;
+            }
+            if (TextUtils.isEmpty(address.getDistrict())){
+                isStandartAddress=false;
+            }
+
+            return isStandartAddress;
+        }
+        return false;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -222,7 +227,6 @@ public class AccountMainActivity extends AbstractActivity implements Callback<Re
             DrawMoneyInfoConfirmActivity.show(this, binding.getRemainder().getDraw_account());
         }else if(binding.btnAddressAccept==v){
             AcceptAddressActivity.show(this,REQUEST_ADDRESS_SETTING,address);
-
         }
     }
 

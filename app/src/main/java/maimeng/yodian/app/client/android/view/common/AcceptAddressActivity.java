@@ -138,7 +138,7 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
             address.setCity(info.getCity());
             address.setDistrict(info.getDistrict());
             address.setName(user.getNickname());
-            address.setMobile(info.getMobile());
+            address.setMobile(info.getContact());
         }
         binding.setAddress(address);
         if(!TextUtils.isEmpty(address.getProvince())){
