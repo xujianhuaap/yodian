@@ -31,6 +31,7 @@ import maimeng.yodian.app.client.android.network.Network;
 import maimeng.yodian.app.client.android.network.response.BalanceResponse;
 import maimeng.yodian.app.client.android.network.response.ToastResponse;
 import maimeng.yodian.app.client.android.network.service.MoneyService;
+import maimeng.yodian.app.client.android.view.dialog.WaitDialog;
 import maimeng.yodian.app.client.android.widget.EndlessRecyclerOnScrollListener;
 import maimeng.yodian.app.client.android.widget.ListLayoutManager;
 
@@ -52,6 +53,7 @@ public class RemainderDetailFragment extends Fragment implements PtrHandler,Abst
     private TextView noBalance;
     private MoneyService service;
     private int remainderType;
+    private WaitDialog waitDialog;
 
 
     public static RemainderDetailFragment newInstance(int type){
@@ -149,11 +151,14 @@ public class RemainderDetailFragment extends Fragment implements PtrHandler,Abst
         @Override
         public void end() {
             frameLayout.refreshComplete();
+            if(waitDialog!=null){
+                waitDialog.dismiss();
+            }
         }
 
         @Override
         public void start() {
-
+            waitDialog = WaitDialog.show(getActivity());
         }
 
         @Override
