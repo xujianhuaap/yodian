@@ -1302,7 +1302,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                         StringBuffer sb=new StringBuffer();
                         sb.append("微信:").append(message.getStringAttribute("weChat")).append("\n");
                         sb.append("QQ:").append(message.getStringAttribute("qq")).append("\n");
-                        sb.append("电话:").append(message.getStringAttribute("mobile"));
+                        sb.append("手机:").append(message.getStringAttribute("mobile"));
 
                         content=sb.toString();
                     } catch (EaseMobException e) {
