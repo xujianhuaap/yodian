@@ -19,6 +19,32 @@
             android:layout_height="match_parent"
             >
             <TextView
+                android:id="@+id/title_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_small"
+                android:textSize="@dimen/text_size_normal"
+                android:text="@string/remainder_title_total"/>
+
+            <TextView
+                android:id="@+id/divinder_total"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_line"
+                android:background="@color/colorPrimaryDark"
+                android:layout_marginLeft="@dimen/margin_Xlarge"
+                android:layout_marginRight="@dimen/margin_Xlarge"
+                android:visibility="visible" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            >
+            <TextView
                 android:id="@+id/title_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,6 +60,7 @@
                 android:layout_marginLeft="@dimen/margin_Xlarge"
                 android:layout_marginRight="@dimen/margin_Xlarge"
                 android:background="@color/colorPrimaryDark"
+                android:visibility="visible"
                 />
 
         </LinearLayout>
@@ -60,35 +87,10 @@
                 android:background="@color/colorPrimaryDark"
                 android:layout_marginLeft="@dimen/margin_Xlarge"
                 android:layout_marginRight="@dimen/margin_Xlarge"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
         </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            >
-            <TextView
-                android:id="@+id/title_total"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="@dimen/padding_small"
-                android:textSize="@dimen/text_size_normal"
-                android:text="@string/remainder_title_total"/>
 
-            <TextView
-                android:id="@+id/divinder_total"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_line"
-                android:background="@color/colorPrimaryDark"
-                android:layout_marginLeft="@dimen/margin_Xlarge"
-                android:layout_marginRight="@dimen/margin_Xlarge"
-                android:visibility="visible" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <android.support.v4.view.ViewPager

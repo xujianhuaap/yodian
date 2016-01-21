@@ -43,11 +43,12 @@ public class RemainderDetailFragment extends Fragment implements PtrHandler,Abst
     private static final int REMAINDER_TYPE_INCOME=0;//收入列表
 
 
-    private RecyclerView recyclerView;
+    private maimeng.yodian.app.client.android.widget.PagerRecyclerView recyclerView;
     private PtrFrameLayout frameLayout;
     private RemainderDetailAdapter adapter;
+    private View timeAxis;
     private int page=1;
-    private boolean isAppend;
+    private boolean isAppend=false;
     private TextView noBalance;
     private MoneyService service;
     private int remainderType;
@@ -76,7 +77,8 @@ public class RemainderDetailFragment extends Fragment implements PtrHandler,Abst
         remainderType = bundle.getInt("remaindertype");
         service = Network.getService(MoneyService.class);
         refreshData();
-        recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+        timeAxis=view.findViewById(R.id.time_axis);
+        recyclerView=(maimeng.yodian.app.client.android.widget.PagerRecyclerView)view.findViewById(R.id.recyclerView);
         frameLayout=(PtrFrameLayout)view.findViewById(R.id.refresh_layout);
         noBalance=(TextView)view.findViewById(R.id.no_remainder);
         if(remainderType ==0){
@@ -91,6 +93,7 @@ public class RemainderDetailFragment extends Fragment implements PtrHandler,Abst
         frameLayout.addPtrUIHandler(header);
         frameLayout.setHeaderView(header);
         ListLayoutManager layoutManager=new ListLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         EndlessRecyclerOnScrollListener recyclerOnScrollListener=new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore() {
@@ -100,7 +103,6 @@ public class RemainderDetailFragment extends Fragment implements PtrHandler,Abst
             }
         };
         adapter = new RemainderDetailAdapter(getActivity(),this);
-        recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(recyclerOnScrollListener);
         recyclerView.setAdapter(adapter);
 
@@ -159,16 +161,16 @@ public class RemainderDetailFragment extends Fragment implements PtrHandler,Abst
             if(balanceResponse.isSuccess()){
                 List<BalanceInfo>lists=balanceResponse.getData().getList();
                 if(lists!=null){
-                    if(lists.size()>0){
-                        adapter.reload(balanceResponse.getData().getList(),isAppend);
-                        adapter.notifyDataSetChanged();
-
-                    }else{
-                        if(page==1){
+                    if(page==1){
+                        if(lists.size()<1){
                             noBalance.setVisibility(View.VISIBLE);
+                            timeAxis.setVisibility(View.INVISIBLE);
                             frameLayout.setVisibility(View.GONE);
                         }
-                    }
+                       recyclerView.scrollToPosition(0);
+                     }
+                    adapter.reload(balanceResponse.getData().getList(),isAppend);
+                    adapter.notifyDataSetChanged();
                 }
             }else{
                 Toast.makeText(getActivity(),balanceResponse.getMsg(),Toast.LENGTH_SHORT).show();

@@ -28,7 +28,7 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_normal"
-                    android:background="@color/colorPrimaryGrey2" />
+                    android:background="@color/colorPrimaryGrey1" />
                 <maimeng.yodian.app.client.android.widget.YDView
                     android:layout_marginTop="9dp"
                     android:layout_width="10dp"
@@ -54,6 +54,7 @@
                     android:layout_weight="1"
                     android:gravity="left|bottom"
                     android:paddingLeft="@dimen/padding_normal"
+                    android:textColor="@color/colorPrimaryGrey1"
                     android:textSize="@dimen/text_size_normal_16" />
 
                 <TextView
@@ -67,6 +68,7 @@
                     android:text="@{orderinfo.name}"
                     android:gravity="top"
                     android:textSize="@dimen/text_size_large"
+                    android:textColor="@color/colorPrimaryGrey1"
                     android:paddingLeft="@dimen/padding_normal" />
 
             </LinearLayout>
@@ -96,6 +98,7 @@
                     android:layout_weight="1"
                     android:gravity="right|top"
                     android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/colorPrimaryGrey1"
                     android:text="@{orderinfo.ostatus}"
                     android:paddingRight="@dimen/padding_normal" />
 

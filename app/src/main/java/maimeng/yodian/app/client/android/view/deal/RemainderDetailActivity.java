@@ -50,7 +50,6 @@ public class RemainderDetailActivity extends AbstractActivity{
     private RemainderDetailFragment incomeFragment;
     private RemainderDetailFragment feeFragment;
     private RemainderDetailFragment totalFragment;
-
     private ViewPager viewPager;
     private List<RemainderDetailFragment>fragments;
     private FragmentrAdapter fragmentrAdapter;
@@ -120,28 +119,28 @@ public class RemainderDetailActivity extends AbstractActivity{
         income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshTitle(0);
-                viewPager.setCurrentItem(0);
+                refreshTitle(1);
+                viewPager.setCurrentItem(1);
             }
         });
 
         fee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshTitle(1);
-                viewPager.setCurrentItem(1);
+                refreshTitle(2);
+                viewPager.setCurrentItem(2);
             }
         });
 
        total.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               refreshTitle(2);
-               viewPager.setCurrentItem(2);
+               refreshTitle(0);
+               viewPager.setCurrentItem(0);
            }
        });
 
-        income.callOnClick();
+        total.callOnClick();
 
 
 
@@ -157,9 +156,10 @@ public class RemainderDetailActivity extends AbstractActivity{
         incomeFragment = RemainderDetailFragment.newInstance(1);
         feeFragment = RemainderDetailFragment.newInstance(2);
         totalFragment = RemainderDetailFragment.newInstance(0);
+        fragments.add(totalFragment);
         fragments.add(incomeFragment);
         fragments.add(feeFragment);
-        fragments.add(totalFragment);
+
     }
 
     /***
@@ -167,21 +167,21 @@ public class RemainderDetailActivity extends AbstractActivity{
      * @param position
      */
     private void refreshTitle(int position){
-       if(position==0){
+       if(position==1){
            income.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
            incomeDivinder.setVisibility(View.VISIBLE);
        }else{
            income.setTextColor(getResources().getColor(R.color.colorPrimaryGrey2));
            incomeDivinder.setVisibility(View.INVISIBLE);
        }
-        if(position==1){
+        if(position==2){
             fee.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             feeDivinder.setVisibility(View.VISIBLE);
         }else{
             fee.setTextColor(getResources().getColor(R.color.colorPrimaryGrey2));
             feeDivinder.setVisibility(View.INVISIBLE);
         }
-        if(position==2){
+        if(position==0){
             total.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             totalDivinder.setVisibility(View.VISIBLE);
         }else{
