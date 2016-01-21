@@ -254,6 +254,7 @@
     <string name="no_balance_total">无收支记录,快去逛逛优点吧!</string>
 
     <!-- address accept-->
+    <string name="address_accept_title">收货地址信息</string>
     <string name="address_accept">详细地址</string>
     <string name="address_city">城市</string>
     <string name="address_accept_name">姓名</string>

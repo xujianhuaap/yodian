@@ -22,8 +22,9 @@ public class DetailAddressActivity extends AbstractActivity{
 
     private EditText address;
     private TextView textNum;
-    public static void show(Activity activity,int requestCode){
+    public static void show(Activity activity,String address,int requestCode){
         Intent intent=new Intent(activity,DetailAddressActivity.class);
+        intent.putExtra("address",address);
         activity.startActivityForResult(intent,requestCode);
 
     }
@@ -56,6 +57,7 @@ public class DetailAddressActivity extends AbstractActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_address);
+        String addressStr=getIntent().getStringExtra("address");
         address=(EditText)findViewById(R.id.address);
         textNum=(TextView)findViewById(R.id.text_num);
         address.addTextChangedListener(new TextWatcher() {
@@ -81,6 +83,7 @@ public class DetailAddressActivity extends AbstractActivity{
 
             }
         });
+        address.setText(addressStr);
 
     }
 }

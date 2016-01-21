@@ -429,7 +429,7 @@ public class AcceptAddressActivity extends AbstractActivity implements View.OnCl
         }else if(v==binding.city){
             showaddressWindow();
         }else if(v==binding.address){
-            DetailAddressActivity.show(AcceptAddressActivity.this,REQUEST_DETAIL_ADDRESS);
+            DetailAddressActivity.show(AcceptAddressActivity.this,address.getAddress(),REQUEST_DETAIL_ADDRESS);
         }
 
 
