@@ -952,7 +952,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     .append(address.getAddress()).append("\n\n")
                     .append(address.getName()).append("\n")
                     .append(address.getMobile()).append("");
-            sendText(sb.toString(), false);
+            mEditTextContent.getText().append(sb.toString());
         }
     }
     /**
