@@ -1299,9 +1299,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 if("hx_admin".equals(chatUser.getChatName())){
                     try {
                         StringBuffer sb=new StringBuffer();
-                        sb.append("微信:").append(message.getStringAttribute("weChat")).append("\n");
-                        sb.append("QQ:").append(message.getStringAttribute("qq")).append("\n");
-                        sb.append("手机:").append(message.getStringAttribute("mobile"));
+                        String weChat = message.getStringAttribute("weChat");
+                        String qq = message.getStringAttribute("qq");
+                        String mobile = message.getStringAttribute("mobile");
+                        sb.append("微信:").append(weChat).append("\n");
+                        sb.append("QQ:").append(qq).append("\n");
+                        sb.append("手机:").append(mobile);
 
                         content=sb.toString();
                     } catch (EaseMobException e) {
@@ -1357,12 +1360,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             String contact = currentUser.getInfo().getContact();
             String qq = currentUser.getInfo().getQq();
             String wechat = currentUser.getInfo().getWechat();
-            contact = TextUtils.isEmpty(contact) ? "暂无" : contact;
-            qq = TextUtils.isEmpty(qq) ? "暂无" : qq;
-            wechat = TextUtils.isEmpty(wechat) ? "暂无" : wechat;
-            message.setAttribute("mobile", contact);
-            message.setAttribute("qq", qq);
-            message.setAttribute("weChat", wechat);
+            contact = TextUtils.isEmpty(contact) ? "" : contact;
+            qq = TextUtils.isEmpty(qq) ? "" : qq;
+            wechat = TextUtils.isEmpty(wechat) ? "" : wechat;
+            if(!TextUtils.isEmpty(contact)) message.setAttribute("mobile", contact);
+            if(!TextUtils.isEmpty(qq)) message.setAttribute("qq", qq);
+            if(!TextUtils.isEmpty(wechat)) message.setAttribute("weChat", wechat);
         }
         if("hx_admin".equals(chatUser.getChatName())){
             HashMap<String,String> data=new HashMap<>();
