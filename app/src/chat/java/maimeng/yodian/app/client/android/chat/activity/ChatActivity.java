@@ -1300,9 +1300,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 if("hx_admin".equals(chatUser.getChatName())){
                     try {
                         StringBuffer sb=new StringBuffer();
+                        sb.append("微信:").append(message.getStringAttribute("weChat")).append("\n");
                         sb.append("QQ:").append(message.getStringAttribute("qq")).append("\n");
-                        sb.append("电话:").append(message.getStringAttribute("mobile")).append("\n");
-                        sb.append("微信:").append(message.getStringAttribute("weChat"));
+                        sb.append("电话:").append(message.getStringAttribute("mobile"));
+
                         content=sb.toString();
                     } catch (EaseMobException e) {
                         e.printStackTrace();
