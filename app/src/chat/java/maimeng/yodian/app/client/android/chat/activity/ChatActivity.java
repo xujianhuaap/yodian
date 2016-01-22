@@ -1297,19 +1297,31 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             if (sendVcard) {
                 setExtAttribute(message, MESSAGE_NAME_CARD);
                 if("hx_admin".equals(chatUser.getChatName())){
+                    String weChat="";
+                    String qq="";
+                    String mobile="";
                     try {
-                        StringBuffer sb=new StringBuffer();
-                        String weChat = message.getStringAttribute("weChat");
-                        String qq = message.getStringAttribute("qq");
-                        String mobile = message.getStringAttribute("mobile");
-                        sb.append("微信:").append(weChat).append("\n");
-                        sb.append("QQ:").append(qq).append("\n");
-                        sb.append("手机:").append(mobile);
-
-                        content=sb.toString();
+                        weChat = message.getStringAttribute("weChat");
                     } catch (EaseMobException e) {
                         e.printStackTrace();
                     }
+                    try {
+                        qq = message.getStringAttribute("qq");
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        mobile = message.getStringAttribute("mobile");
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    }
+
+                    StringBuffer sb=new StringBuffer();
+
+                    if(!"".equals(weChat))sb.append("微信:").append(weChat).append("\n");
+                    if(!"".equals(qq))sb.append("QQ:").append(qq).append("\n");
+                    if(!"".equals(mobile))sb.append("手机:").append(mobile);
+                    content=sb.toString();
                 }
             } else {
                 setExtAttribute(message, MESSAGE_TEXT);
