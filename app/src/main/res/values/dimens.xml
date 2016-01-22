@@ -162,6 +162,8 @@
     <integer name="address_length">80</integer>
     <!-- remainder item-->
     <dimen name="skill_name_width">240dp</dimen>
+    <!-- icon size-->
+    <dimen name="icon_standard_width">32dp</dimen>
 
 
 </resources>

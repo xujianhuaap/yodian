@@ -45,7 +45,7 @@
 
         <GridLayout
             android:id="@+id/content"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="@dimen/share_dialog_content_marginTop"
@@ -107,7 +107,7 @@
                 android:drawableTop="@mipmap/ic_report"
                 android:gravity="center"
                 android:padding="11dp"
-                android:text="举报  "
+                android:text="举报"
                 android:textColor="#fff"
                 android:textSize="16sp" />
 
