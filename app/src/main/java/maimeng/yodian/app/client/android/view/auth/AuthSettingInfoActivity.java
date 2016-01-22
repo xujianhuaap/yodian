@@ -60,12 +60,17 @@ public class AuthSettingInfoActivity extends AbstractActivity implements View.On
         super.onCreate(savedInstanceState);
         user = User.read(this);
         service = Network.getService(UserService.class);
-        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_auth_setting_info, null, false);
-        setContentView(binding.getRoot(),false);
+        binding = bindView(R.layout.activity_auth_setting_info, false);
         binding.imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggle();
+            }
+        });
+        binding.btnGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
         binding.btnSubmit.setOnClickListener(this);

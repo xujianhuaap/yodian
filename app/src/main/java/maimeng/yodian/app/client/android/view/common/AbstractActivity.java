@@ -252,11 +252,18 @@ public abstract class AbstractActivity extends AppCompatActivity implements EMCo
     protected void onRetry() {
 
     }
+    protected <T extends ViewDataBinding> T bindView(int layoutId,boolean showTitle) {
+        final T view = DataBindingUtil.inflate(getLayoutInflater(), layoutId, null, false);
+        if(showTitle) {
+            setContentView(view.getRoot());
+        }else{
+            setContentView(view.getRoot(),false);
+        }
+        return view;
+    }
 
     protected <T extends ViewDataBinding> T bindView(int layoutId) {
-        final T view = DataBindingUtil.inflate(getLayoutInflater(), layoutId, null, false);
-        setContentView(view.getRoot());
-        return view;
+        return bindView(layoutId,true);
     }
 
     protected void checkError(HNetError error) {
