@@ -208,15 +208,15 @@ public class SettingUserInfo extends AbstractActivity implements View.OnClickLis
                     int type = province.getType();
                     if (type == 0) {
                         //直辖市
-                        user.getInfo().setProvince("");
+                        user.getInfo().setProvince(p);
                         user.getInfo().setCity(p);
                         user.getInfo().setDistrict(c);
-                        binding.cities.setText(p + c);
+                        binding.cities.setText(String.format("%1$s\t\t%2$s市\t\t%3$s",p,p,c));
                     } else {
                         user.getInfo().setProvince(p);
                         user.getInfo().setCity(c);
                         user.getInfo().setDistrict(d);
-                        binding.cities.setText(p + c + d);
+                        binding.cities.setText(String.format("%1$s省\t\t%2$s市\t\t%3$s",p,c,d));
                     }
 
                 }
