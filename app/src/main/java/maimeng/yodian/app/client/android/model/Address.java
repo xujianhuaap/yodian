@@ -2,6 +2,8 @@ package maimeng.yodian.app.client.android.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.databinding.BaseObservable;
+import android.databinding.Observable;
 import android.text.TextUtils;
 
 import org.parceler.Parcel;
@@ -12,7 +14,7 @@ import maimeng.yodian.app.client.android.chat.DemoApplication;
  * Created by xujianhua on 06/01/16.
  */
 @Parcel(value = Parcel.Serialization.BEAN)
-public class Address {
+public class Address extends BaseObservable{
 
     /**
      * id : 1

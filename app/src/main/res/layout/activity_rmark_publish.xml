@@ -126,7 +126,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_large"
                     android:layout_marginTop="@dimen/margin_Xlarge"
-                    android:background="@drawable/btn_oval_black"
+                    android:background="@drawable/btn_oval_dark_black"
                     />
 
             </LinearLayout>

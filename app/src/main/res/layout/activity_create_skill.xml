@@ -231,7 +231,7 @@
                     android:layout_marginLeft="@dimen/margin_large"
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:background="@drawable/btn_oval_black"
+                    android:background="@drawable/btn_oval_dark_black"
                     android:gravity="center"
                     android:paddingBottom="@dimen/margin_small"
                     android:paddingLeft="@dimen/margin_XXXlarge"

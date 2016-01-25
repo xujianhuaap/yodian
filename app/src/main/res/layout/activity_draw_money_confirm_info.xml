@@ -101,7 +101,7 @@
         android:layout_marginLeft="@dimen/apply_edit_margin"
         android:layout_marginRight="@dimen/apply_edit_margin"
         android:layout_marginTop="@dimen/margin_Xlarge"
-        android:background="@drawable/btn_oval_black"
+        android:background="@drawable/btn_oval_dark_black"
         android:text="@string/apply_button_submit"
         android:textColor="@android:color/white"
         android:textColorHint="@color/hint_color"
