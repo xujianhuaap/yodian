@@ -1,6 +1,7 @@
 package maimeng.yodian.app.client.android.view.skill;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
@@ -31,6 +33,9 @@ import org.henjue.library.hnet.Response;
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.common.UEvent;
@@ -237,18 +242,34 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
             Uri uri = null;
             if (requestCode == REQUEST_CODE_ALBUM) {
                 uri = data.getData();
+                ContentResolver contentResovler=getContentResolver();
+                InputStream is= null;
+                try {
+                    is = contentResovler.openInputStream(uri);
+                    Bitmap bitmap=BitmapFactory.decodeStream(is);
+                    mBitmap=compressBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }finally {
+                    if(is!=null){
+                        try {
+                            is.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
             } else {
                 uri = mTempUri;
+                mBitmap = getScaledBitmap(uri);
             }
 
             mBinding.cheSelectPhoto.setChecked(false);
-
-
-            mBitmap = getScaledBitmap(uri);
             mBinding.skillPic.setImageBitmap(mBitmap);
             mBinding.ivPic.setImageBitmap(mBitmap);
             if(mBitmap!=null){
-                LogUtil.d(LOG_TAG ,"mBitmap bytecount: %d,width: %d,rowByte: %d",mBitmap.getByteCount(),mBitmap.getWidth(),mBitmap.getRowBytes());
+                LogUtil.d(LOG_TAG, "mBitmap bytecount: %d,width: %d,rowByte: %d", mBitmap.getByteCount(), mBitmap.getWidth(), mBitmap.getRowBytes());
             }
 
 
@@ -259,9 +280,17 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
         BitmapFactory.Options options=new BitmapFactory.Options();
         options.inJustDecodeBounds=true;
         options.inSampleSize=1;
-        BitmapFactory.decodeFile(uri.getPath(),options);
+        BitmapFactory.decodeFile(uri.getPath(), options);
         int height=options.outHeight;
         int width=options.outWidth;
+        Bitmap bmp = compressBitmap(uri, height, width);
+        if (bmp != null) return bmp;
+        return null;
+
+    }
+
+    @Nullable
+    private Bitmap compressBitmap(Uri uri, int height, int width) {
         int temWidth=width;
         int temHeight=0;
         while (true){
@@ -273,14 +302,35 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
             }
             temWidth-=1;
         }
-        Bitmap bitmap=BitmapFactory.decodeFile(uri.getPath());
+        Bitmap bitmap= BitmapFactory.decodeFile(uri.getPath());
         if(bitmap!=null){
             Bitmap bmp=Bitmap.createScaledBitmap(bitmap, width, height, false);
             LogUtil.d(LOG_TAG, "Bitmap bytecount: %d,width: %d,rowByte: %d", bitmap.getByteCount(), bitmap.getWidth(), bitmap.getRowBytes());
             return bmp;
         }
         return null;
-
+    }
+    @Nullable
+    private Bitmap compressBitmap(Bitmap bitmap) {
+        int width=bitmap.getWidth();
+        int height=bitmap.getHeight();
+        int temWidth=bitmap.getWidth();
+        int temHeight=0;
+        while (true){
+            temHeight=temWidth*height/width;
+            if(temWidth*temHeight*4<2.5*1024*1024){
+                width=temWidth;
+                height=temHeight;
+                break;
+            }
+            temWidth-=1;
+        }
+        if(bitmap!=null){
+            Bitmap bmp=Bitmap.createScaledBitmap(bitmap, width, height, false);
+            LogUtil.d(LOG_TAG, "Bitmap bytecount: %d,width: %d,rowByte: %d", bitmap.getByteCount(), bitmap.getWidth(), bitmap.getRowBytes());
+            return bmp;
+        }
+        return null;
     }
 
     /**
