@@ -1322,6 +1322,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     if(!"".equals(qq))sb.append("QQ:").append(qq).append("\n");
                     if(!"".equals(mobile))sb.append("手机:").append(mobile);
                     content=sb.toString();
+                    if(content.endsWith("\n")){
+                        content=content.substring(0,content.length()-2);
+                    }
                 }
             } else {
                 setExtAttribute(message, MESSAGE_TEXT);
