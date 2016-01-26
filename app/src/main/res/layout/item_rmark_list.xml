@@ -84,6 +84,7 @@
             android:layout_below="@id/rmark_header"
             android:layout_centerHorizontal="true"
             app:actualImageScaleType="centerCrop"
+            app:imgUrl="@{rmark.pic}"
             app:placeholderImage="@mipmap/default_image" />
 
         <TextView

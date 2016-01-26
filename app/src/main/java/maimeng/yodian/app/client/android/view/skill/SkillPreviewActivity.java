@@ -164,7 +164,9 @@ public class SkillPreviewActivity extends AbstractActivity implements
         public void success(RmarkListResponse rmarkListResponse, Response response) {
             if (rmarkListResponse.isSuccess()) {
                 List<Rmark> rmarks = rmarkListResponse.getData().getList();
-                if (rmarks.size() == 0 && isEnd && toast == null) {
+                mAdapter.reload(rmarks, append);
+                mAdapter.notifyDataSetChanged();
+                if (rmarks.size() == 0 && isEnd && toast == null&&append) {
                     toast = Toast.makeText(SkillPreviewActivity.this, "已经到底部", Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -174,8 +176,6 @@ public class SkillPreviewActivity extends AbstractActivity implements
                         toast = null;
                     }
                 }, 2000);
-                mAdapter.reload(rmarks, append);
-                mAdapter.notifyDataSetChanged();
             }
         }
     }
