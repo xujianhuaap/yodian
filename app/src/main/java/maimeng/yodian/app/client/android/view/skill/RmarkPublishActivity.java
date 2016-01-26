@@ -246,8 +246,14 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
                 InputStream is= null;
                 try {
                     is = contentResovler.openInputStream(uri);
-                    Bitmap bitmap=BitmapFactory.decodeStream(is);
-                    mBitmap=compressBitmap(bitmap);
+                    if(is!=null){
+                        Bitmap bitmap=BitmapFactory.decodeStream(is);
+                        if(bitmap!=null){
+                            int width=bitmap.getWidth();
+                            int height=bitmap.getHeight();
+                            mBitmap=compressBitmap(bitmap,height,width);
+                        }
+                    }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }finally {
@@ -268,11 +274,9 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
             mBinding.cheSelectPhoto.setChecked(false);
             mBinding.skillPic.setImageBitmap(mBitmap);
             mBinding.ivPic.setImageBitmap(mBitmap);
-            if(mBitmap!=null){
+            if(mBitmap!=null) {
                 LogUtil.d(LOG_TAG, "mBitmap bytecount: %d,width: %d,rowByte: %d", mBitmap.getByteCount(), mBitmap.getWidth(), mBitmap.getRowBytes());
             }
-
-
         }
     }
 
@@ -283,37 +287,15 @@ public class RmarkPublishActivity extends AbstractActivity implements View.OnCli
         BitmapFactory.decodeFile(uri.getPath(), options);
         int height=options.outHeight;
         int width=options.outWidth;
-        Bitmap bmp = compressBitmap(uri, height, width);
+        Bitmap bitmap= BitmapFactory.decodeFile(uri.getPath());
+        Bitmap bmp = compressBitmap(bitmap, height, width);
         if (bmp != null) return bmp;
         return null;
 
     }
 
     @Nullable
-    private Bitmap compressBitmap(Uri uri, int height, int width) {
-        int temWidth=width;
-        int temHeight=0;
-        while (true){
-            temHeight=temWidth*height/width;
-            if(temWidth*temHeight*4<2.5*1024*1024){
-                width=temWidth;
-                height=temHeight;
-                break;
-            }
-            temWidth-=1;
-        }
-        Bitmap bitmap= BitmapFactory.decodeFile(uri.getPath());
-        if(bitmap!=null){
-            Bitmap bmp=Bitmap.createScaledBitmap(bitmap, width, height, false);
-            LogUtil.d(LOG_TAG, "Bitmap bytecount: %d,width: %d,rowByte: %d", bitmap.getByteCount(), bitmap.getWidth(), bitmap.getRowBytes());
-            return bmp;
-        }
-        return null;
-    }
-    @Nullable
-    private Bitmap compressBitmap(Bitmap bitmap) {
-        int width=bitmap.getWidth();
-        int height=bitmap.getHeight();
+    private Bitmap compressBitmap(Bitmap bitmap,int height, int width) {
         int temWidth=bitmap.getWidth();
         int temHeight=0;
         while (true){
