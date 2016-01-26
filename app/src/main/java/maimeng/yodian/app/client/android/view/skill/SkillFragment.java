@@ -362,7 +362,13 @@ public class SkillFragment extends BaseFragment implements PtrHandler, AbstractA
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), back);
             User user=User.read(getActivity());
             if(user!=null){
-                banner.setValue(banner.getValue().concat("&amp;uid="+user.getUid()));
+                String url=banner.getValue();
+                if(url.contains("?")){
+                    banner.setValue(url.concat("&amp;uid=" + user.getUid()));
+                }else {
+                    banner.setValue(url.concat("?uid="+user.getUid()));
+                }
+
                 LogUtil.d(SkillFragment.class.getName(), "banner url: %s", banner.getValue());
                 ActivityCompat.startActivity(getActivity(), WebViewActivity.newIntent(getActivity(), banner.getValue()), options.toBundle());
             }
