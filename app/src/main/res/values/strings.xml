@@ -181,11 +181,11 @@
     <string name="order_buyer_name"><![CDATA[<font color="#000000">买家名称: %1$s<font>]]></string>
     <string name="order_seller_name"><![CDATA[<font color="#000000">卖家名称: %1$s<font>]]></string>
 
-    <string name="order_pay_time"><![CDATA[<font color="#1e90ff">已支付<br/>%1$s</font>]]></string>
+    <string name="order_pay_time"><![CDATA[<font color="#17ace7">已支付<br/>%1$s</font>]]></string>
     <string name="order_pay_time_on_cancel"><![CDATA[<font color="#55000000">已支付<br/>%1$s</font>]]></string>
-    <string name="order_accept_time"><![CDATA[<font color="#1e90ff">已接单<br/>%1$s</font>]]></string>
+    <string name="order_accept_time"><![CDATA[<font color="#17ace7">已接单<br/>%1$s</font>]]></string>
     <string name="order_accept_time_on_cancel"><![CDATA[<font color="#55000000">已接单<br/>%1$s</font>]]></string>
-    <string name="order_confirm_time"><![CDATA[<font color="#1e90ff">已完成<br/>%1$s</font>]]></string>
+    <string name="order_confirm_time"><![CDATA[<font color="#17ace7">已完成<br/>%1$s</font>]]></string>
     <string name="order_confirm_time_on_cancel"><![CDATA[<font color="#55000000">已完成<br/>%1$s</font>]]></string>
 
     <string name="order_unpay_time"><![CDATA[<font color="#000000">已支付 <br>&nbsp;</font>]]></string>
