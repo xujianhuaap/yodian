@@ -114,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:paddingBottom="1dp"
                 android:paddingTop="5dp">
 
                 <maimeng.yodian.app.client.android.widget.YDView
@@ -122,6 +123,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="3dp"
                     android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:scaleType="centerInside"
                     android:src="@{skill.avatar}"
                     app:roundAsCircle="true"
