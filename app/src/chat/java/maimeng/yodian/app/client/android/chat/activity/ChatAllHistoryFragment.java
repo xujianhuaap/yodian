@@ -29,6 +29,10 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 
+import org.henjue.library.hnet.Callback;
+import org.henjue.library.hnet.Response;
+import org.henjue.library.hnet.exception.HNetError;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -49,6 +53,9 @@ import maimeng.yodian.app.client.android.chat.domain.RobotUser;
 import maimeng.yodian.app.client.android.chat.domain.User;
 import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.model.chat.ChatUser;
+import maimeng.yodian.app.client.android.network.Network;
+import maimeng.yodian.app.client.android.network.service.ChatService;
+import maimeng.yodian.app.client.android.utils.LogUtil;
 
 /**
  * 显示所有会话记录，比较简单的实现，更好的可能是把陌生人存入本地，这样取到的聊天记录是可控的
@@ -280,6 +287,20 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         EMConversation hx_admin = conversations.get("hx_admin");
         if (hx_admin != null) {
             list.add(0, hx_admin);
+        }else{
+            Network.getService(ChatService.class).sendService(new Callback.SimpleCallBack<maimeng.yodian.app.client.android.network.response.Response>() {
+                @Override
+                public void success(maimeng.yodian.app.client.android.network.response.Response res, Response response) {
+                    if (response.getStatus() == 200) {
+                        LogUtil.i(ChatAllHistoryFragment.class.getName(), "Send Admin Msg Success url:%s", response.getUrl());
+                    }
+                }
+
+                @Override
+                public void failure(HNetError hNetError) {
+                    hNetError.printStackTrace();
+                }
+            });
         }
         return list;
     }
@@ -291,13 +312,20 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {
             @Override
             public int compare(final Pair<Long, EMConversation> con1, final Pair<Long, EMConversation> con2) {
-
-                if (con1.first == con2.first) {
-                    return 0;
-                } else if (con2.first > con1.first) {
-                    return 1;
-                } else {
-                    return -1;
+                if(con1.second.getLastMessage().isUnread() == con2.second.getLastMessage().isUnread()) {
+                    if (con1.first == con2.first) {
+                        return 0;
+                    } else if (con2.first > con1.first) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }else{
+                    if(con1.second.getLastMessage().isUnread() && !con2.second.getLastMessage().isUnread()){
+                        return -1;
+                    }else{
+                        return 1;
+                    }
                 }
             }
 
