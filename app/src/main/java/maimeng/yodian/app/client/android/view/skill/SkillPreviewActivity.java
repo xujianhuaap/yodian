@@ -24,9 +24,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import maimeng.yodian.app.client.android.R;
 import maimeng.yodian.app.client.android.adapter.AbstractHeaderAdapter;
 import maimeng.yodian.app.client.android.adapter.RmarkReviewListAdapter;
+import maimeng.yodian.app.client.android.common.PullHeadView;
 import maimeng.yodian.app.client.android.common.UEvent;
 import maimeng.yodian.app.client.android.databinding.ActivitySkillPreviewBinding;
 import maimeng.yodian.app.client.android.model.Rmark;
@@ -45,7 +50,7 @@ import maimeng.yodian.app.client.android.widget.ListLayoutManager;
  * Created by android on 15-8-6.
  */
 public class SkillPreviewActivity extends AbstractActivity implements
-        SwipeRefreshLayout.OnRefreshListener {
+        PtrHandler {
 
     private static final String LOG_TAG = SkillPreviewActivity.class.getName();
     private static final int REQUEST_AUTH = 0x231;
@@ -94,7 +99,20 @@ public class SkillPreviewActivity extends AbstractActivity implements
         mCallBackProxy = new CallBackProxy();
         mSkillService = Network.getService(SkillService.class);
 
+
+        ViewHolderClickListenerProxy viewHolderClickListenerProxy = new ViewHolderClickListenerProxy();
+        mAdapter = new RmarkReviewListAdapter(this, mSkill, viewHolderClickListenerProxy);
+
+        mBinding = bindView(R.layout.activity_skill_preview);
+        mBinding.setSkill(mSkill);
+
+        mBinding.swipeLayout.setPtrHandler(this);
+        StoreHouseHeader header = PullHeadView.create(this);
+        header.setTextColor(0x000000);
+        mBinding.swipeLayout.addPtrUIHandler(header);
+        mBinding.swipeLayout.setHeaderView(header);
         ListLayoutManager linearLayoutManager = new ListLayoutManager(this);
+        mBinding.recDiary.setLayoutManager(linearLayoutManager);
         EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener = new
                 EndlessRecyclerOnScrollListener(linearLayoutManager) {
                     @Override
@@ -105,30 +123,13 @@ public class SkillPreviewActivity extends AbstractActivity implements
                         refresh(mSkill);
                     }
                 };
-
-        ViewHolderClickListenerProxy viewHolderClickListenerProxy = new ViewHolderClickListenerProxy();
-        mAdapter = new RmarkReviewListAdapter(this, mSkill, viewHolderClickListenerProxy);
-
-        mBinding = bindView(R.layout.activity_skill_preview);
-        mBinding.setSkill(mSkill);
-        mBinding.recDiary.setLayoutManager(linearLayoutManager);
-        mBinding.recDiary.setHasFixedSize(true);
         mBinding.recDiary.addOnScrollListener(endlessRecyclerOnScrollListener);
         mBinding.recDiary.setAdapter(mAdapter);
-        mBinding.swipeLayout.setOnRefreshListener(this);
-
 
         refresh(mSkill);
     }
 
 
-    @Override
-    public void onRefresh() {
-        page = 1;
-        append = false;
-        mBinding.swipeLayout.setRefreshing(true);
-        refresh(mSkill);
-    }
 
     private void refresh(Skill skill) {
 
@@ -146,12 +147,11 @@ public class SkillPreviewActivity extends AbstractActivity implements
         @Override
         public void end() {
             isEnd = false;
-            mBinding.swipeLayout.setRefreshing(false);
+            mBinding.swipeLayout.refreshComplete();
         }
 
         @Override
         public void failure(HNetError hNetError) {
-            mBinding.swipeLayout.setRefreshing(false);
             ErrorUtils.checkError(SkillPreviewActivity.this, hNetError);
         }
 
@@ -166,16 +166,10 @@ public class SkillPreviewActivity extends AbstractActivity implements
                 List<Rmark> rmarks = rmarkListResponse.getData().getList();
                 mAdapter.reload(rmarks, append);
                 mAdapter.notifyDataSetChanged();
-                if (rmarks.size() == 0 && isEnd && toast == null&&append) {
+                if (rmarks.size() == 0 && isEnd&&append) {
                     toast = Toast.makeText(SkillPreviewActivity.this, "已经到底部", Toast.LENGTH_SHORT);
                     toast.show();
                 }
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        toast = null;
-                    }
-                }, 2000);
             }
         }
     }
@@ -246,5 +240,18 @@ public class SkillPreviewActivity extends AbstractActivity implements
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+        return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+    }
+
+    @Override
+    public void onRefreshBegin(PtrFrameLayout frame) {
+        page=1;
+        append=false;
+        refresh(mSkill);
     }
 }
