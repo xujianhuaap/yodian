@@ -291,13 +291,20 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {
             @Override
             public int compare(final Pair<Long, EMConversation> con1, final Pair<Long, EMConversation> con2) {
-
-                if (con1.first == con2.first) {
-                    return 0;
-                } else if (con2.first > con1.first) {
-                    return 1;
-                } else {
-                    return -1;
+                if(con1.second.getLastMessage().isUnread() == con2.second.getLastMessage().isUnread()) {
+                    if (con1.first == con2.first) {
+                        return 0;
+                    } else if (con2.first > con1.first) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }else{
+                    if(con1.second.getLastMessage().isUnread() && !con2.second.getLastMessage().isUnread()){
+                        return -1;
+                    }else{
+                        return 1;
+                    }
                 }
             }
 
