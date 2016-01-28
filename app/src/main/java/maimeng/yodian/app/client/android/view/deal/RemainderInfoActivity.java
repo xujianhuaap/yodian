@@ -142,7 +142,7 @@ public class RemainderInfoActivity extends AbstractActivity implements View.OnCl
      * 显示提现对话框
      */
     private void showDuringDialog() {
-        if (binding.getRemainder().getMoney() < 50) {
+        if (binding.getRemainder().getMoney() < 0) {
             AlertDialog.newInstance("提示", "余额少于50元不能提现").setNegativeListener(new AlertDialog.NegativeListener() {
                 @Override
                 public void onNegativeClick(DialogInterface dialog) {

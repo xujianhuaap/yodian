@@ -71,7 +71,7 @@ public class DuringDialog extends DialogFragment implements View.OnClickListener
             return;
         }
         final double during = Double.parseDouble(money);
-        if (during < 50) {
+        if (during < 0) {
             binding.title.setText(Html.fromHtml(getString(R.string.during_dialog_title_error)));
         } else {
             binding.title.setText(R.string.during_dialog_title);
