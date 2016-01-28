@@ -134,9 +134,16 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             if (isMe) {
                 setUIWhenIsMe();
             } else {
-                headBinding.btnContact.setVisibility(View.VISIBLE);
-                headBinding.divinder.setVisibility(View.VISIBLE);
-                headBinding.btnBuySkill.setVisibility(View.VISIBLE);
+                if(skill.getAllow_sell()==1){
+                    headBinding.btnContact.setVisibility(View.VISIBLE);
+                    headBinding.divinder.setVisibility(View.VISIBLE);
+                    headBinding.btnBuySkill.setVisibility(View.VISIBLE);
+
+                }else{
+                    headBinding.btnContact.setVisibility(View.VISIBLE);
+                    headBinding.divinder.setVisibility(View.GONE);
+                    headBinding.btnBuySkill.setVisibility(View.GONE);
+                }
             }
             binding.refreshLayout.autoRefresh();
         } else {
@@ -218,9 +225,16 @@ public class SkillDetailsActivity extends AbstractActivity implements PtrHandler
             if (isMe) {
                 setUIWhenIsMe();
             } else {
-                headBinding.btnContact.setVisibility(View.VISIBLE);
-                headBinding.divinder.setVisibility(View.VISIBLE);
-                headBinding.btnBuySkill.setVisibility(View.VISIBLE);
+                if(skill.getAllow_sell()==1){
+                    headBinding.btnContact.setVisibility(View.VISIBLE);
+                    headBinding.divinder.setVisibility(View.VISIBLE);
+                    headBinding.btnBuySkill.setVisibility(View.VISIBLE);
+
+                }else{
+                    headBinding.btnContact.setVisibility(View.VISIBLE);
+                    headBinding.divinder.setVisibility(View.GONE);
+                    headBinding.btnBuySkill.setVisibility(View.GONE);
+                }
             }
             if (skill.getAllow_sell() != 1) {
                 headBinding.skillAllowSell.setVisibility(View.GONE);
